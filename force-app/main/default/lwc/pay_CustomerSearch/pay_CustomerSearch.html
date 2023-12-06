@@ -1,0 +1,42 @@
+<template>
+    <div class="slds-card">
+        <div class="slds-grid slds-m-top_small">
+            <div class="slds-m-left_small slds-m-right_small">
+                <lightning-radio-group 
+                    name="searchSelector"
+                    label="Search By"
+                    options={options}
+                    value={searchOption}
+                    required
+                    type="radio"
+                    class="customRadioCls"
+                    onchange = {changeHandler}
+                ></lightning-radio-group>
+            </div>
+            <div class="slds-m-left_small slds-m-right_small slds-m-top_small">
+                <lightning-input
+                    name="search-input"
+                    type="search"
+                    variant = "label-hidden"
+                    value = {searchterm}
+                    onchange = {changeHandler}
+                ></lightning-input>
+            </div>
+            <div class="slds-m-left_small slds-m-right_small slds-m-top_small">
+            <lightning-button 
+                label="Search" 
+                onclick={initiateExternalSearch} 
+            ></lightning-button>
+            </div>
+        </div>
+        <div class="slds-var-m-around_small">
+            <lightning-datatable
+                    key-field="id"
+                    data={searchResult}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column="true">
+            </lightning-datatable>
+        </div>
+    </div>
+</template>

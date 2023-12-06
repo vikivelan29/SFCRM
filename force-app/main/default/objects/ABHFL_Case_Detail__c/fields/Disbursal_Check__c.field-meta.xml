@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disbursal_Check__c</fullName>
+    <externalId>false</externalId>
+    <formula>Case__r.Asset.Last_Disbursement_Date__c &gt;=  $CustomMetadata.Calendar_Year__mdt.FY_2023.Current_Calendar_Year__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Disbursal Check</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

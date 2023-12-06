@@ -1,0 +1,7 @@
+<template>
+    <div class="slds-p-around_small">
+        <template for:each={integrationResponse} for:item="transaction">
+            <div key={transaction.transactionNo}>{transaction.transactionNo}</div>
+        </template>
+    </div>
+</template>

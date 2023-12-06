@@ -1,0 +1,17 @@
+<template>
+    <lightning-quick-action-panel header="Reopen Case" class="slds-is-relative">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+            </template>
+            <lightning-record-edit-form object-api-name="Case" record-id={recordId} onsubmit={handleSubmit}>
+                <lightning-input-field field-name={reopenReason} required="true">
+                </lightning-input-field>
+                <div class="footerPanel slds-m-vertical_small">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+                    <lightning-button variant="brand" label="Confirm" class="slds-m-left_x-small"
+                        type="submit">
+                    </lightning-button>
+                </div>
+            </lightning-record-edit-form>
+    </lightning-quick-action-panel>
+</template>

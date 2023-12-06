@@ -1,0 +1,15 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+Dear Customer,<br />
+We have checked the status of your SR No. {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. As per our records the transaction is failed and the amount was refunded to your bank account. You can check your bank account statement for the refund confirmation. In case the refund is not reflecting in your account, please reach out to your bank's customer care with the Txn ref number, Date of transaction and the amount.<br />
+click for the list of banks customer care nos -&nbsp;http://bit.ly/3QF5cc6<br />
+Regards,<br />
+ABCD Customer Support Team</body>
+</html>

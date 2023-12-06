@@ -1,0 +1,13 @@
+Case Closed !!
+Case No : {!Case.CaseNumber}
+Assignment Date & time : {!Case.CreatedDate}
+Expected Resolution Time : {!Case.Overall_Case_Closure_SLA__c}
+SR Nature: {!Case.Nature__c}
+SR Type :{!Case.Type_Text__c}
+Created Date/Time: {!Case.CreatedDate}
+Created By: {!Case.CreatedBy}
+=============================================================================
+Customer Details
+=============================================================================
+Client Code : {!Case.Client_Code__c}
+Customer Name: {!Case.Account}

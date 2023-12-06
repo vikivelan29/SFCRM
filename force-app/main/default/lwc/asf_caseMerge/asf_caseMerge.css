@@ -1,0 +1,10 @@
+header {
+    display: block;
+    font-size: medium;
+    font-weight: 600;
+  }
+  .recordHeader {
+    display: block;
+    font-size: medium;
+    font-weight: 400;
+  }

@@ -1,0 +1,85 @@
+.slds-icon-standard-approval {
+    background-color: #dcd861;
+  }
+  
+  .lookup-form {
+    padding-bottom: 100px;
+  }
+  .button {
+    width: 140px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    }
+    
+    .button.cancel-btn:hover {
+    background-color: #ef2b11;
+    box-shadow: 0px 15px 20px rgba(243, 42, 11, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  .buttonCancelActive {
+    background-color: #F3270B;
+    box-shadow: 0px 15px 20px rgba(243, 42, 11, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  .buttonQueueActive {
+    background-color: #036;
+    box-shadow: 0px 15px 20px rgba(11, 113, 243, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  
+  .button.accept-btn:hover {
+    background-color: #036;
+    box-shadow: 0px 15px 20px rgba(11, 113, 243, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  .button.accept-btn.accept-selected {
+    background-color: #036;
+    box-shadow: 0px 15px 20px rgba(11, 113, 243, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  .button.accept-btn:focus {
+    background-color: #036;
+    box-shadow: 0px 15px 20px rgba(11, 113, 243, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  .hide{
+    display: none;
+  }
+  
+  .show{
+    display: block!important;
+  }
+  
+  .ta-r{
+    text-align: right;
+  }
+  
+  .ta-c{
+    text-align: center;
+  }
+  
+  .padT150{
+    padding-top: 150px;
+  }
+  
+  .padB150{
+    padding-bottom:150px;
+  }

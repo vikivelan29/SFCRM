@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Case Owner&apos;s Manager/Email when the SLA is breached</name>
+    <style>none</style>
+    <subject>TAT Breach for case {!Case.CaseNumber}</subject>
+    <textOnly>TAT Breached !! Escalated to  on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this SR as quickly as possible.
+SR Details
+=============================================================================
+SR No.: {!Case.CaseNumber}
+SR nature: {!Case.Nature__c}
+SR type : {!Case.Type_Text__c}
+Created Date/Time: {!Case.CreatedDate}
+Created By: {!Case.CreatedBy}
+=============================================================================
+SR Assignment Details
+=============================================================================
+Assigned Date/Time: {!Case.LastModifiedDate}
+Assigned to Dept.: {!Case.OwnerFullName}
+Assigned to Sub-Dept.:
+=============================================================================
+Customer Details
+=============================================================================
+CRN:{!Case.Account_CRN__c}
+Customer Name: {!Case.Customer_name_formula__c}
+Home Branch: {!Case.Home_branch_formula__c}
+Segment: {!Case.Customer_Segment__c}
+Classification: {!Case.Classification_formula__c}
+Category: {!Case.Customer_category__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,657 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-07-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <div class="slds-box">
+        <template lwc:if={loadReady}>
+            <lightning-card variant="Narrow" class="">
+                <template if:true={loading}>
+                    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                        class="slds-modal slds-fade-in-open slds-modal_large">
+                        <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+                    </section>
+                    <div class="slds-backdrop" role="presentation"></div>
+
+                </template>
+                <!-- <template if:false={showSpinner}> -->
+                <template if:false={tempHide}>
+                    <div class="page-section page-header slds-var-m-around_medium" align="center">
+                        <template if:true={stagesData}>
+                            <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                                <template for:each={stagesData} for:item="stage">
+                                    <lightning-progress-step label={stage.Stage_Name__c} value={stage.Stage_Name__c}
+                                        key={stage.Id}></lightning-progress-step>
+                                </template>
+                            </lightning-progress-indicator>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={toggleUIView}>
+
+                    <!--tst-->
+                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} data-id="caseROForm">
+                        <div class="slds-p-left_none">
+                            <div class="slds-grid slds-wrap slds-m-around_medium slds-gutters">
+                                <template if:true={caseFieldsMetadata}>
+                                    <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                        <template if:true={ccfield.isCase}>
+                                            <template if:true={isCurrentUserOwner}>
+                                                <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                                    <lightning-output-field class="strong-text"
+                                                        field-class="slds-form-element_stacked slds-form-element_readonly"
+                                                        field-name={ccfield.FieldAPINAme}>
+                                                    </lightning-output-field>
+                                                </div>
+                                            </template>
+                                            <template if:false={isCurrentUserOwner}>
+                                                <template if:false={ccfield.isSensitive}>
+                                                    <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                                        <lightning-output-field class="strong-text"
+                                                            field-class="slds-form-element_stacked slds-form-element_readonly"
+                                                            field-name={ccfield.FieldAPINAme}></lightning-output-field>
+                                                    </div>
+                                                </template>
+                                                <template if:true={ccfield.isSensitive}>
+                                                    <div key={ccfield.Id}
+                                                        class="slds-col slds-size_1-of-2 strong-text slds-form-element slds-form-element_readonly slds-form-element_horizontal">
+                                                        <span
+                                                            class="slds-form-element__label">{ccfield.FieldLabelName}</span>
+                                                        <div class="slds-form-element__control">
+                                                            <lightning-formatted-text value="XXXXXXX"
+                                                                class="slds-form-element__static">XXXXXXX</lightning-formatted-text>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                    <!--tst-->
+
+                    <template if:true={caseExtensionRecordId}>
+                        <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
+                            data-id="caseRelObjROForm">
+                            <div class="slds-p-left_x-large">
+                                <div class="slds-form" role="list">
+                                    <div class="slds-form__row">
+                                        <template if:true={caseFieldsMetadata}>
+                                            <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                                <template if:false={ccfield.isCase}>
+                                                    <template if:true={isCurrentUserOwner}>
+                                                        <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                                            <div class="slds-form__item" role="listitem">
+                                                                <div
+                                                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                                                    <lightning-output-field class="strong-text"
+                                                                        field-name={ccfield.FieldAPINAme}></lightning-output-field>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={isCurrentUserOwner}>
+                                                        <template if:false={ccfield.isSensitive}>
+                                                            <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                                                <lightning-output-field class="strong-text"
+                                                                    field-name={ccfield.FieldAPINAme}></lightning-output-field>
+
+                                                            </div>
+                                                        </template>
+                                                        <template if:true={ccfield.isSensitive}>
+                                                            <div key={ccfield.Id}
+                                                                class="slds-col slds-size_1-of-2 strong-text slds-form-element slds-form-element_readonly slds-form-element_horizontal">
+                                                                <span
+                                                                    class="slds-form-element__label">{ccfield.FieldLabelName}</span>
+                                                                <div class="slds-form-element__control">
+                                                                    <lightning-formatted-text value="XXXXXXX"
+                                                                        class="slds-form-element__static">XXXXXXX
+                                                                    </lightning-formatted-text>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </template>
+                                                </template>
+                                            </template>
+                                        </template>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </lightning-record-edit-form>
+                    </template>
+                </template>
+
+
+
+                <template if:true={toggleUIView}>
+                    <!--tst-->
+                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} onsuccess={handleSuccess}
+                        onerror={handleError} data-id="caseEditForm" onload={handleCaseRecordLoad}>
+                        <!-- Virendra : 6th March 2023 : Added onload event for handling rendering of all the field correctly.-->
+                        <lightning-messages data-id="message">
+                        </lightning-messages>
+                        <div class="slds-grid slds-wrap">
+                            <template if:true={caseFieldsMetadata}>
+                                <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                    <template if:true={ccfield.isCase}>
+                                        <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                value={ccfield.value} onchange={handleChange} class="validate">
+                                                <!-- disabled={ccfield.ReadOnly} required={ccfield.Required} -->
+                                            </lightning-input-field>
+                                        </div>
+                                    </template>
+                                </template>
+                            </template>
+                        </div>
+                        <template if:false={caseExtensionRecordId}>
+                            <template if:true={showPreviousStages}>
+                                <lightning-card class="slds-m-around_medium">
+                                    <div class="slds-border_top slds-m-around_medium slds-border_bottom">
+                                        <lightning-combobox name="stage" label="Stage" value={selectedStage}
+                                            placeholder="Select Previous Stage" options={caseStages}
+                                            onchange={handleStageChange} required></lightning-combobox>
+                                        <div class="slds-align_absolute-center">
+                                            <lightning-button class="slds-m-around_small" label="Save"
+                                                onclick={saveBackCaseStage}
+                                                disabled={isMoveToPrevStageButtonDisabled}></lightning-button>
+                                            <lightning-button class="slds-m-around_small" label="Cancel"
+                                                onclick={cancelBackCaseStage}></lightning-button>
+                                        </div>
+                                    </div>
+                                </lightning-card>
+                            </template>
+                            <div class="slds-align_absolute-center">
+                                <template if:false={isRejection}>
+                                    <template if:true={showPrimaryButtons}>
+                                        <template if:true={backButtonVisibility}>
+                                            <!--Virendra : 6th March 2023 : Commented below line and added above.-->
+                                            <!--<template if:true={showBackButton}>-->
+                                            <lightning-button label="Back" icon-name="utility:back"
+                                                class="slds-m-around_xxx-small"
+                                                onclick={handleBackButtonClick}></lightning-button>
+                                        </template>
+
+
+                                        <template if:true={submitNextButtonVisibility}>
+                                            <!-- Adding Save button - Santanu 31 Oct 2023 -->
+                                            <lightning-button label="Save" icon-name="utility:save"
+                                                class="slds-m-around_xxx-small" onclick={saveCaseAndExtn}
+                                                variant="brand"></lightning-button>
+                                            <!-- Virendra : 6th March 2023 : Commented below line and added above.-->
+                                            <!--<template if:true={showSubmitButtons}>-->
+                                            <lightning-button variant="brand" type="submit" name="save"
+                                                label="Move To Next Stage" class="submitBtn">
+                                            </lightning-button>
+                                        </template>
+                                        <!-- ADO-118986 Add Save And Reassign for Ovrride RPC-->
+                                        <template if:true={boolSaveReassignButton}>
+                                            <lightning-button type="submit" name="savereassign" label="Save & Reassign"
+                                                onclick={handleSaveReassign}>
+                                            </lightning-button>
+                                        </template>
+                                        <lightning-button label="Cancel" title="Non-primary action2"
+                                            onclick={handleClick2} class="slds-m-left_x-small"></lightning-button>
+                                        <template if:true={rejectButtonVisibility}>
+                                            <!--Virendra: 6th March 2023: Commented below line and added above.-->
+                                            <!--<template if:true={showRejectButton}>-->
+                                            <template if:false={isComplaintNature}>
+                                                <lightning-button label="Reject" icon-name="utility:close"
+                                                    class="slds-m-left_x-small"
+                                                    onclick={handleReject}></lightning-button>
+                                            </template>
+                                            <!--Added for Complain Rejection-->
+                                            <template if:true={isComplaintNature}>
+                                                <template if:false={isRejection}>
+                                                    <lightning-button label="Reject" icon-name="utility:close"
+                                                        class="slds-m-around_xxx-small"
+                                                        onclick={handleRejectOnComplain}></lightning-button>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </lightning-record-edit-form>
+                    <!--tst-->
+                    <template if:true={caseExtensionRecordId}>
+                        <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
+                            onsubmit={handleSubmitRelatedObject} onsuccess={handleSuccess}
+                            onerror={handleErrorRelatedObject} data-id="caseRelObjEditForm" onload={handleRecordLoad}>
+                            <lightning-messages data-id="message">
+                            </lightning-messages>
+                            <div class="slds-grid slds-wrap">
+                                <template if:true={caseFieldsMetadata}>
+                                    <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                        <template if:false={ccfield.isCase}>
+                                            <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                                <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
+                                                <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                    value={ccfield.value}
+                                                    onchange={handleChange}><!--disabled={ccfield.ReadOnly} required={ccfield.Required} -->
+                                                </lightning-input-field>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                            <template if:true={showPreviousStages}>
+                                <lightning-card class="slds-m-around_medium">
+                                    <div class="slds-border_top slds-m-around_medium slds-border_bottom">
+                                        <lightning-combobox name="stage" label="Stage" value={selectedStage}
+                                            placeholder="Select Previous Stage" options={caseStages}
+                                            onchange={handleStageChange} required></lightning-combobox>
+                                        <div class="slds-align_absolute-center">
+                                            <lightning-button class="slds-m-around_small" label="Save"
+                                                onclick={saveBackCaseStage}
+                                                disabled={isMoveToPrevStageButtonDisabled}></lightning-button>
+                                            <lightning-button class="slds-m-around_small" label="Cancel"
+                                                onclick={cancelBackCaseStage}></lightning-button>
+                                        </div>
+                                    </div>
+                                </lightning-card>
+                            </template>
+                            
+                            <div class="slds-align_absolute-center custom-footer">
+                                <lightning-button-group>
+                                    <template if:false={isRejection}>
+                                        <template if:true={showPrimaryButtons}>
+                                            <template if:true={backButtonVisibility}>
+                                                <!--Virendra : 6th March 2023 : Commented below line and added above.-->
+                                                <!--<template if:true={showBackButton}>-->
+                                                <lightning-button label="Back" icon-name="utility:back"
+                                                    class="slds-m-around_xxx-small" onclick={handleBackButtonClick}
+                                                    disabled={backButtonDisabled}></lightning-button>
+                                            </template>
+
+                                            <!-- Adding Save button - Santanu 31 Oct 2023 -->
+                                            <lightning-button label="Save" icon-name="utility:save"
+                                                class="slds-m-around_xxx-small" onclick={saveCaseAndExtn}
+                                                variant="brand"
+                                                disabled={isMoveToNextStageButtonDisabled}></lightning-button>
+                                            <template if:true={submitNextButtonVisibility}>
+                                                <!--Virendra : 6th March 2023: Commented below line and aded above.-->
+                                                <!--<template if:true={showSubmitButtons}>-->
+                                                <!-- Adding Save button - Santanu 31 Oct 2023 - added dummy class submitBtn-->
+                                                <lightning-button variant="brand" type="submit" name="save"
+                                                    class="slds-m-around_xxx-small submitBtn" label="Move to Next Stage"
+                                                    disabled={isMoveToNextStageButtonDisabled}>
+                                                </lightning-button>
+                                                <!-- ADO-118986 Add Save And Reassign for Ovrride RPC-->
+                                                <template if:true={boolSaveReassignButton}>
+                                                    <lightning-button type="submit" name="savereassign"
+                                                        label="Save & Reassign" onclick={handleSaveReassign}>
+                                                    </lightning-button>
+                                                </template>
+                                            </template>
+                                            <!-- <template if:true={showSaveAndCloseButton}>
+                                            <lightning-button label="Save & Close" class="slds-m-around_xxx-small"
+                                                onclick={handleSaveAndCloseButtonClick}></lightning-button>
+                                        </template> -->
+                                            <lightning-button label="Cancel" title="Non-primary action2"
+                                                class="slds-m-around_xxx-small"
+                                                onclick={handleClick2}></lightning-button>
+                                            <template if:true={rejectButtonVisibility}>
+                                                <!--Virendra: 6th March 2023: Commented below line and added above-->
+                                                <!--<template if:true={showRejectButton}>-->
+                                                
+                                                    <lightning-button label="Close Unresolved" icon-name="utility:close"
+                                                        class="slds-m-around_xxx-small" onclick={handleReject}
+                                                        disabled={rejectButtonDisabled}></lightning-button>
+                                                
+                                                
+                                            </template>
+                                        </template>
+                                    </template>
+                                </lightning-button-group>
+                            </div>
+                            
+                            <!--tst Always visible Manual Stages option-->
+                            <template if:false={isPendingClarification}>
+                                <template if:true={showManualStagesDropdown}>
+                                    <template if:true={caseManualStages}>
+                                        <template if:true={ShowcaseManualStages}>
+                                            <!-- Virendra : 6th March 2023 : Commented below code and added above, display is based on if the Approval Stage logic is satisfied show based on that, else show based on old logic.-->
+                                            <!--<template if:true={caseManualStages}>-->
+                                            <!-- <template if:true={showAlwaysManualStages}> -->
+                                            <lightning-card class="slds-m-around_medium">
+                                                <div class="slds-border_top slds-m-around_medium slds-border_bottom">
+                                                    <lightning-combobox name="manualstage" label="Manual Stages"
+                                                        value={selectedManualStage} placeholder="Select a Manual Stage"
+                                                        options={caseManualStages}
+                                                        onchange={handleManualStageChange}></lightning-combobox>
+                                                    <!--MOdal to Select Queue and User When there is Assignment rule or Default Queue defined-->
+                                                    <!-- <template if:true={showAssigneeType}>
+
+                                                <div class="slds-grid slds-wrap">
+                                                    <div
+                                                        class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label"
+                                                                for="combobox-id-1">Search
+                                                                Owners</label>
+                                                            <div class="slds-form-element__control">
+                                                                <div class="">
+                                                                    <div class="slds-combobox_object-switcher slds-combobox-addon_start"
+                                                                        style="display: flex;
+                                                        align-items: flex-start;
+                                                        flex-direction: column;">
+                                                                        <div class="slds-form-element" style="width:100%;">
+                                                                            <label
+                                                                                class="slds-form-element__label slds-assistive-text"
+                                                                                for="combobox-id-1"
+                                                                                id="combobox-label-id-125">Filter
+                                                                                Search by:</label>
+                                                                            <div class="slds-form-element__control">
+                                                                                <div class="slds-combobox_container">
+                                                                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click change-owner"
+                                                                                        aria-controls="primary-combobox-id-1"
+                                                                                        style="display: flex;align-items: center;flex-direction: row;">
+                                                                                        <button type="button"
+                                                                                            style="display:flex;align-items:center;"
+                                                                                            class="slds-combobox__input-value"
+                                                                                            aria-labelledby="combobox-label-id-125 combobox-id-1-selected-value"
+                                                                                            id="combobox-id-1-selected-value"
+                                                                                            aria-controls="objectswitcher-listbox-id-01"
+                                                                                            aria-expanded="false"
+                                                                                            aria-haspopup="listbox"
+                                                                                            onclick={handleUserSelection}>
+                                                                                            <template
+                                                                                                if:true={userSelected}>
+                                                                                                <lightning-icon
+                                                                                                    icon-name="standard:user"
+                                                                                                    size="small"></lightning-icon>
+
+                                                                                            </template>
+                                                                                            <template
+                                                                                                if:false={userSelected}>
+                                                                                                <lightning-icon
+                                                                                                    icon-name="standard:queue"
+                                                                                                    size="small"></lightning-icon>
+
+                                                                                            </template>
+                                                                                            <span
+                                                                                                class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                                                                                <lightning-icon
+                                                                                                    icon-name="utility:down"
+                                                                                                    size="xx-small"></lightning-icon>
+                                                                                            </span>
+                                                                                        </button>
+                                                                                        <span style="width:100%;">
+                                                                                            <lightning-input
+                                                                                                name="enter-search"
+                                                                                                variant="label-hidden"
+                                                                                                label="Search when user hits the 'enter' key"
+                                                                                                type="search"
+                                                                                                value={selectedValue}
+                                                                                                onchange={handleChangeInput}>
+                                                                                            </lightning-input>
+                                                                                            <div
+                                                                                                class="slds-combobox_container slds-combobox-addon_end">
+                                                                                                <div class={showResult}
+                                                                                                    id="primary-combobox-id-1">
+                                                                                                    <div id="listbox-id-1"
+                                                                                                        class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                                                                                                        role="listbox">
+                                                                                                        <ul class="slds-listbox slds-listbox_vertical"
+                                                                                                            role="presentation">
+                                                                                                            
+                                                                                                            <template
+                                                                                                                for:each={searchResult}
+                                                                                                                for:item="item">
+                                                                                                                <li role="presentation"
+                                                                                                                    class="slds-listbox__item"
+                                                                                                                    key={item.Id}
+                                                                                                                    data-id={item.Id}
+                                                                                                                    data-value={item.Name}
+                                                                                                                    onclick={handleSearchSelection}>
+                                                                                                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                                                                        role="option">
+                                                                                                                        <span
+                                                                                                                            class="slds-media__body">
+                                                                                                                            <span
+                                                                                                                                class="slds-listbox__option-text slds-listbox__option-text_entity">{item.Name}</span>
+                                                                                                                            
+                                                                                                                        </span>
+                                                                                                                    </div>
+                                                                                                                </li>
+                                                                                                            </template>
+
+
+                                                                                                        </ul>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </span>
+
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+
+                                                                        <div id="objectswitcher-listbox-id-01"
+                                                                            class="slds-card  slds-m-top_xx-small"
+                                                                            role="listbox" style={display}>
+                                                                            <ul class="slds-listbox slds-listbox_vertical"
+                                                                                role="group" aria-label="Suggested for you">
+                                                                                <li role="presentation"
+                                                                                    class="slds-listbox__item"
+                                                                                    onclick={handleQueueSelection}>
+                                                                                    <template if:true={userSelected}>
+                                                                                        <div aria-checked="true"
+                                                                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                                                            role="option">
+                                                                                            <span
+                                                                                                class="slds-media__figure slds-listbox__option-icon">
+
+                                                                                                <lightning-icon
+                                                                                                    icon-name="standard:queue"
+                                                                                                    size="small"></lightning-icon>
+
+                                                                                            </span>
+                                                                                            <span class="slds-media__body">
+                                                                                                <span class="slds-truncate"
+                                                                                                    title="Accounts">Queue</span>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </template>
+
+                                                                                    <template if:false={userSelected}>
+                                                                                        <div aria-checked="true"
+                                                                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected"
+                                                                                            role="option">
+                                                                                            <span
+                                                                                                class="slds-media__figure slds-listbox__option-icon">
+                                                                                                <lightning-icon
+                                                                                                    icon-name="standard:user"
+                                                                                                    onclick={handleQueueSelection}
+                                                                                                    size="small"></lightning-icon>
+                                                                                            </span>
+                                                                                            <span class="slds-media__body">
+                                                                                                <span class="slds-truncate"
+                                                                                                    title="Accounts">Users</span>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </template>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template> -->
+                                                    <!--MOdal to Select Queue and User When there is Assignment rule or Default Queue defined-->
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning-button class="slds-m-around_small"
+                                                            label="Move to Stage" disabled={isMoveToStageButtonDisabled}
+                                                            onclick={saveManualCaseStage}></lightning-button>
+                                                    </div>
+                                                </div>
+                                            </lightning-card>
+                                            <!-- </template> -->
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                            <!--tst end-->
+
+                            <!-- Virendra : 6th March 2023: Show information to User why Form is Read only.style="padding:0.5rem;background:#16325c"-->
+
+                            <div class="slds-m-around_medium" if:true={showWhyRecordReadOnlyInfo}><lightning-icon
+                                    icon-name="utility:info" size="small" variant="warning"></lightning-icon><span>
+                                    Edits to
+                                    record at this stage is prohibited as Approval Request is either submitted or
+                                    already
+                                    approved.</span></div>
+
+
+                        </lightning-record-edit-form>
+                    </template>
+                    <!-- Added By Mayank M : 24 Mar 2023 -->
+                    <template if:true={showRejetedReason}>
+                        <lightning-card class="slds-m-around_medium">
+                            <div class="slds-border_top slds-m-around_medium slds-border_bottom">
+                                <lightning-textarea name="rejectedReason" class="validate" required
+                                    label="Close Unresolved Details" variant="label-stacked" value={rejectedReason}
+                                    onchange={setRejectedReason} placeholder="type here..."></lightning-textarea>
+                                <lightning-combobox class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                    value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
+                                    placeholder='Close Unresolved Reason' onchange={handleRejReasonChange} required>
+                                </lightning-combobox>
+                                <div class="slds-align_absolute-center">
+                                    <lightning-button class="slds-m-around_small" label="Save"
+                                        onclick={saveRejection1}></lightning-button>
+                                    <lightning-button class="slds-m-around_small" label="Cancel"
+                                        onclick={cancelReject}></lightning-button>
+                                </div>
+                            </div>
+                        </lightning-card>
+                    </template>
+
+                </template>
+                <template if:false={isRejection}>
+                    <template if:false={toggleUIView}>
+                        <template if:true={isCurrentUserOwner}>
+                            <template if:false={toggleUIView}>
+                                <template if:true={showEditDetailsButton}>
+                                    <div class="slds-m-around_medium">
+                                        <lightning-button label="Edit Details" title="Non-primary action"
+                                            onclick={handleClick}
+                                            class="slds-m-left_x-small slds-align_absolute-center custom-footer"></lightning-button>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </template>
+            </lightning-card>
+        </template>
+    </div>
+    <!--Start: Complain SR Rejection Create Modal-->
+    <template if:true={showRejModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_small">New SR Rejection: {complainLevel} Complaint</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideRejModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2"
+                    style="position: relative;">
+                    <div class="slds-p-left_large"><b>Note:</b> {RejMsg}</div>
+                    <template if:true={showLoading}>
+                        <lightning-spinner alternative-text="Loading" size="medium"
+                            class="spinnerClass"></lightning-spinner>
+                    </template>
+                    <lightning-card>
+                        <lightning-record-edit-form object-api-name={objectApiName} data-id="rejectionEditForm"
+                            onsuccess={handleSuccessRejection} onsubmit={onRejSubmit} onerror={showHideSpinner}
+                            record-type-id={rejectionRTId}>
+                            <lightning-messages></lightning-messages>
+                            <div class="slds-m-around_medium">
+                                <lightning-input-field field-name="Service_Request__c" value={ServiceRequestId}
+                                    style="display:none"></lightning-input-field>
+                                <lightning-input-field field-name="Active__c" value={isActive}
+                                    style="display:none"></lightning-input-field>
+                                <lightning-input-field field-name="Is_WBG__c" value={isWbg}
+                                    style="display:none"></lightning-input-field>
+                                <lightning-input-field field-name="Stage__c" value={draftStage}
+                                    style="display:none"></lightning-input-field>
+                                <lightning-input-field style="margin-bottom: -5px;" class="RejectionInput" required
+                                    field-name="Manager__c" value={ManagerId}></lightning-input-field>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_1-of-3 custom-Padding-Label">
+                                        <span><label lightning-combobox_combobox="" class="slds-form-element__label"
+                                                for="combobox-button-649">
+                                                <abbr lightning-combobox_combobox="" class="slds-required"
+                                                    title="required">*</abbr>
+                                                Rejection Reason
+                                            </label>
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-3 custom-Padding-Input">
+                                        <span><lightning-combobox class="RejectionInput" variant="label-hidden"
+                                                value={selectedReason} options={reasonLOV} placeholder=''
+                                                onchange={handleRejReasonChange} required>
+                                            </lightning-combobox></span>
+                                    </div>
+                                </div>
+                                <!--lightning-input-field class="slds-hidden" required field-name="Rejection_Reason__c"></lightning-input-field-->
+                                <lightning-input-field class="RejectionInput" required
+                                    field-name="Rejection_Details__c"></lightning-input-field>
+                                <lightning-input-field class="RejectionInput" required
+                                    field-name="Rejection_Type__c"></lightning-input-field>
+
+                                <!--div class="slds-m-top_medium">
+                           
+                        </div-->
+                                <div class="slds-align_absolute-center custom-footer">
+                                    <lightning-button label="Cancel" title="Non-primary action2"
+                                        class="slds-m-around_xxx-small" onclick={hideRejModal}></lightning-button>
+                                    <lightning-button variant="brand" type="submit" name="save" label="Save"
+                                        onclick={showHideSpinner}></lightning-button>
+                                </div>
+                            </div>
+                        </lightning-record-edit-form>
+                    </lightning-card>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--End: Complain SR Rejection Create Modal-->
+
+    <!-- Start Hidden Integration Panel -->
+    <!--<lightning-button variant="brand" name="test" label="Test" onclick={invokeIntegrations}></lightning-button>-->
+    <!--<c-asf_-integrations-prepopulate case-id={recordId} onprepopulate={prepopulateResponseReceived}></c-asf_-integrations-prepopulate>-->
+    <!-- <c-test-child-comp ></c-test-child-comp> -->
+    <!-- End Hidden Integration Panel -->
+</template>

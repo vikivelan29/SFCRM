@@ -1,0 +1,16 @@
+{
+    "merchant_info": {
+    "merchant_id": "MRC0001",
+    "dba": "payment",
+    "merchant_name": "ABCDL",
+    "first_name": "ABCD",
+    "last_name": "Ltd",
+    "mobile": "1234567890",
+    "email": "abcdl@abc.com"
+    },
+    "customer_info": {
+    "abc_cust_id": "ABC12345",
+    "mobile_number": "1234567890",
+    "first_name": "Muhil"
+    }
+    }

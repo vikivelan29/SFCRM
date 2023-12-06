@@ -1,0 +1,29 @@
+<template>
+    <template lwc:if={showtable}>
+        <lightning-card variant="Narrow">
+            <h3 slot="title">
+                <lightning-icon icon-name="utility:case" class="slds-p-right_x-small" size="medium"
+                    title="Displaying duplicate SRs based on same subject and same supplied email"></lightning-icon>
+                Duplicate SRs
+            </h3>
+            <div class="slds-scrollable_y">
+                <div class="slds-box slds-p-around_x-small">
+                    <lightning-datatable class="slds-table " data={caseList} columns={caseColumns} key-field="Id"
+                        max-row-selection="2">
+                    </lightning-datatable>
+                </div>
+            </div>
+            <div slot="footer">
+                <div class="slds-grid slds-wrap slds-p-around_medium">
+                    <lightning-button variant="brand" label="Complete Merge" onclick={completeMerge}
+                        class="slds-align_absolute-center slds-p-around_x-small"></lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+    <template lwc:else>
+        <div class="slds-p-around_medium lgc-bg">          
+                {noRecFound}
+        </div>
+    </template>
+</template>

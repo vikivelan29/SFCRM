@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <externalId>false</externalId>
+    <label>Product</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bond</fullName>
+                <default>false</default>
+                <label>Bond</label>
+            </value>
+            <value>
+                <fullName>Digital Gold</fullName>
+                <default>false</default>
+                <label>Digital Gold</label>
+            </value>
+            <value>
+                <fullName>EQUITY</fullName>
+                <default>false</default>
+                <label>EQUITY</label>
+            </value>
+            <value>
+                <fullName>FD-Bond</fullName>
+                <default>false</default>
+                <label>FD-Bond</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Lending products</fullName>
+                <default>false</default>
+                <label>Lending products</label>
+            </value>
+            <value>
+                <fullName>Mutual Fund</fullName>
+                <default>false</default>
+                <label>Mutual Fund</label>
+            </value>
+            <value>
+                <fullName>Not Product specific</fullName>
+                <default>false</default>
+                <label>Not Product specific</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>PMS/AIF</fullName>
+                <default>false</default>
+                <label>PMS/AIF</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

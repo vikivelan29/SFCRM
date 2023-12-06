@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShowApprover_3__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Approver_01__c  = Approver_03__c  , false, true)</formula>
+    <label>ShowApprover 3</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

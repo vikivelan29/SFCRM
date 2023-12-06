@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Approver_when_the_case_is_recalled</fullName>
+        <description>Approver when the case is recalled</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Approver_01__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Approver_02__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Approver_03__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>unfiled$public/Approver_when_the_case_is_recalled</template>
+    </alerts>
+    <alerts>
+        <fullName>Case_Owner_when_the_Case_is_approved</fullName>
+        <description>Case Owner when the Case is approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Communication_templates/Case_Owner_when_the_Case_is_approved</template>
+    </alerts>
+    <alerts>
+        <fullName>Case_Owner_when_the_Case_is_rejected</fullName>
+        <description>Case Owner when the Case is rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>Communication_templates/Case_Owner_when_the_Case_is_rejected</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Recalled_Field_Update</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Recalled</literalValue>
+        <name>Recalled Field Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Rejected_Status</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Rejected  Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Success_Update</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Success Update</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

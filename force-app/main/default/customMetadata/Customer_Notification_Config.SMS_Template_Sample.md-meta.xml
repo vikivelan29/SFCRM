@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SMS Template Sample</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>CC_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Template_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Primary_Object__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SMS_Merge_Fields_CSV__c</field>
+        <value xsi:type="xsd:string">Sub_Type_Text__c,Overall_Case_Closure_SLA__c,CaseNumber</value>
+    </values>
+    <values>
+        <field>SMS_Template_Name__c</field>
+        <value xsi:type="xsd:string">Open_No_TAT</value>
+    </values>
+    <values>
+        <field>To_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Template_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>external_templateID__c</field>
+        <value xsi:type="xsd:string">ASHISH_0101</value>
+    </values>
+</CustomMetadata>

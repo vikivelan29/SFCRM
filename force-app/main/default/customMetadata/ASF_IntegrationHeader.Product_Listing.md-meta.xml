@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Sample Product_Listing</label>
+    <protected>false</protected>
+    <values>
+        <field>ASF_HeaderGroup__c</field>
+        <value xsi:type="xsd:string">Product_Listing</value>
+    </values>
+    <values>
+        <field>ASF_HeaderValue__c</field>
+        <value xsi:type="xsd:string">Loans;CreditCard;DebitCard;CurrentAccount;</value>
+    </values>
+    <values>
+        <field>ASF_Headerkey__c</field>
+        <value xsi:type="xsd:string">CurrentProducts</value>
+    </values>
+    <values>
+        <field>ASF_IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

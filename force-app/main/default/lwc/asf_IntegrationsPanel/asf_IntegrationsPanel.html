@@ -1,0 +1,80 @@
+<template>
+    <template if:true={areActionsPresent}>
+        <c-asf_-refresh-handler></c-asf_-refresh-handler>
+        <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-p-around_small intPanel">
+            <div class="slds-col slds-grid slds-wrap">
+                <template for:each={allActions} for:item="action">
+                    <div class="slds-col slds-m-right_small" key={action.id}>
+                        <lightning-button 
+                            label={action.label} 
+                            title={action.label} 
+                            icon-name={action.icon} 
+                            class={action.class} 
+                            variant="neutral" 
+                            data-id={action.id}
+                            onclick={actionSelected}></lightning-button>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-col">
+                <lightning-icon 
+                    icon-name="action:refresh" 
+                    slot="actions" 
+                    alternative-text="Refresh" 
+                    title="Refresh"
+                    size="xx-small"
+                    onclick={refresh}>
+                </lightning-icon>
+            </div>
+        </div>
+        <template if:true={isModalOpen}>
+            <!-- Modal/Popup Box LWC starts here -->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box LWC header here -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h3 id="modal-heading-01" class="slds-text-heading_small slds-hyphenate">Integration Panel - {selectedAction.intExtId} - {selectedAction.label}</h3>
+                    </header>
+                    <!-- Modal/Popup Box body starts here -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <template if:true={selectedAction.isSuccess}>
+                            <p>This Integration was run, and was Success. Are you sure you want to run this Again ? If yes, please click Submit. Please note the previous results will be overridden</p>
+                            <lightning-record-view-form
+                                object-api-name="ASF_Case_Integration__c"
+                                record-id={selectedAction.caseIntId}>
+                                <lightning-output-field field-name="Response__c"> </lightning-output-field>
+                            </lightning-record-view-form>
+                        </template>
+                        <template if:true={selectedAction.isFailure}>
+                            <p>This Integration was run, and was Failed. If you want to re run, please click Submit.</p>
+                            <lightning-record-view-form
+                                object-api-name="ASF_Case_Integration__c"
+                                record-id={selectedAction.caseIntId}>
+                                <lightning-output-field field-name="Response__c"> </lightning-output-field>
+                            </lightning-record-view-form>
+                        </template>
+                        <template if:true={selectedAction.isPending}>
+                            <p>This Integration was run, but results were not received, and is Pending. If you want to re-run, please click Submit. Please note the previous results will be overridden</p>
+                        </template>
+                        <template if:true={selectedAction.isNotStarted}>
+                            <p>This Integration was never run, If you want to run, please click Submit.</p>
+                        </template>
+                    </div>
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-grid slds-modal__footer slds-grid_align-center">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={submit} title="Submit">Submit</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+</template>

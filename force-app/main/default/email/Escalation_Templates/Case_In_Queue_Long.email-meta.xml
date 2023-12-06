@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Case is in queue for long time</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Case_In_Queue_Long</name>
+    <style>none</style>
+    <subject>Unassigned cases beyond TAT in Queue - &lt;Queue name&gt;</subject>
+    <textOnly>Hi,
+The below cases are unassigned in the queue -  for more than the stipulated TAT. Please assign them immediately.
+List of Cases
+ListofcasestoBeReplaced</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

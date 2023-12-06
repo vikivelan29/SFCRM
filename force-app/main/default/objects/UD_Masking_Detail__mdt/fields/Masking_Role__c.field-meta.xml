@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Masking_Role__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Masking Role</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Branch banking</fullName>
+                <default>true</default>
+                <label>Branch banking</label>
+            </value>
+            <value>
+                <fullName>RL Priority/Corp Sal</fullName>
+                <default>false</default>
+                <label>RL Priority/Corp Sal</label>
+            </value>
+            <value>
+                <fullName>CEC</fullName>
+                <default>false</default>
+                <label>CEC</label>
+            </value>
+            <value>
+                <fullName>Wealth</fullName>
+                <default>false</default>
+                <label>Wealth</label>
+            </value>
+            <value>
+                <fullName>Service Head</fullName>
+                <default>false</default>
+                <label>Service Head</label>
+            </value>
+            <value>
+                <fullName>RPC</fullName>
+                <default>false</default>
+                <label>RPC</label>
+            </value>
+            <value>
+                <fullName>Back Office</fullName>
+                <default>false</default>
+                <label>Back Office</label>
+            </value>
+            <value>
+                <fullName>KLT</fullName>
+                <default>false</default>
+                <label>KLT</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

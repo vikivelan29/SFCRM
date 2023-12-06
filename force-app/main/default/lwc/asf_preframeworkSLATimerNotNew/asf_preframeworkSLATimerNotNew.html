@@ -1,0 +1,36 @@
+<template>
+    <lightning-card >
+    <div class="c-container">
+    <lightning-layout>
+        
+        <lightning-layout-item padding="around-small">
+            <div class="header-column">
+                <strong>
+                    <p class="field-title" title="Stage Case SLA">Stage Case SLA &nbsp;
+                        <!-- <lightning-icon icon-name="standard:stage" size="xx-small" title="Timer"></lightning-icon> -->
+                    </p>
+            </strong> <strong>
+                {slaTimer} </strong>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+            <div class="header-column"> 
+                <div class="slds-text-heading_medium">
+                    <strong>
+                        <p class="field-title" title="Case No">Stage Turn Around Time (TAT) &nbsp;
+                            <!-- <lightning-icon icon-name="standard:case" size="xx-small" title="Timer"></lightning-icon> -->
+                        </p>
+                    </strong>
+                </div> <strong>
+                <template if:true={stageWithin}>
+                    <p>Within TAT</p> 
+                </template>
+                <template if:true={stageOutside}>
+                    <p>Outside TAT</p> 
+                </template> </strong>
+            </div>
+        </lightning-layout-item>       
+    </lightning-layout>
+</div>
+</lightning-card>
+</template>

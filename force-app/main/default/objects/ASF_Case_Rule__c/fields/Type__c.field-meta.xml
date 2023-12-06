@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approval</fullName>
+                <default>false</default>
+                <label>Approval</label>
+            </value>
+            <value>
+                <fullName>Assignment</fullName>
+                <default>false</default>
+                <label>Assignment</label>
+            </value>
+            <value>
+                <fullName>Checklists</fullName>
+                <default>false</default>
+                <label>Checklists</label>
+            </value>
+            <value>
+                <fullName>SLA Override</fullName>
+                <default>false</default>
+                <label>SLA Override</label>
+            </value>
+            <value>
+                <fullName>Stage Movement</fullName>
+                <default>false</default>
+                <label>Stage Movement</label>
+            </value>
+            <value>
+                <fullName>Validation</fullName>
+                <default>false</default>
+                <label>Validation</label>
+            </value>
+            <value>
+                <fullName>Work</fullName>
+                <default>false</default>
+                <label>Work</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

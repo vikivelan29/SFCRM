@@ -1,0 +1,21 @@
+TAT Breached !!
+Escalated to <Level > on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this SR as quickly as possible. <br/>
+SR Details<br/>
+=============================================================================<br/>
+SR No.: {!Case.CaseNumber}<br/>
+SR Nature: {!Case.Nature__c}<br/>
+SR Type : {!Case.Type_Text__c}<br/>
+Created Date/Time: {!Case.CreatedDate}<br/>
+Created By: {!Case.CreatedBy}<br/>
+=============================================================================<br/>
+SR Assignment Details<br/>
+=============================================================================<br/>
+Assigned Date/Time: {!Case.LastModifiedDate}<br/>
+
+Assigned to Dept.: {!Case.OwnerFullName}<br/>
+
+=============================================================================<br/>
+Customer Details<br/>
+=============================================================================<br/>
+Client Code : {!Case.Client_Code__c}<br/>
+Customer Name : {!Case.Customer_name_formula__c}<br/>

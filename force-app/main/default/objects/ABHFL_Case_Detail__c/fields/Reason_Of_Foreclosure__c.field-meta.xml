@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_Of_Foreclosure__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason Of Foreclosure</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TOP UP Raised</fullName>
+                <default>false</default>
+                <label>TOP UP Raised</label>
+            </value>
+            <value>
+                <fullName>Non contactable</fullName>
+                <default>false</default>
+                <label>Non contactable</label>
+            </value>
+            <value>
+                <fullName>Top up reject</fullName>
+                <default>false</default>
+                <label>Top up reject</label>
+            </value>
+            <value>
+                <fullName>Loan Cancellation</fullName>
+                <default>false</default>
+                <label>Loan Cancellation</label>
+            </value>
+            <value>
+                <fullName>Stressed Account</fullName>
+                <default>false</default>
+                <label>Stressed Account</label>
+            </value>
+            <value>
+                <fullName>Internal – Seller BT</fullName>
+                <default>false</default>
+                <label>Internal – Seller BT</label>
+            </value>
+            <value>
+                <fullName>BT</fullName>
+                <default>false</default>
+                <label>BT</label>
+            </value>
+            <value>
+                <fullName>Sale of Property</fullName>
+                <default>false</default>
+                <label>Sale of Property</label>
+            </value>
+            <value>
+                <fullName>Internal BT</fullName>
+                <default>false</default>
+                <label>Internal BT</label>
+            </value>
+            <value>
+                <fullName>NPA</fullName>
+                <default>false</default>
+                <label>NPA</label>
+            </value>
+            <value>
+                <fullName>Own source</fullName>
+                <default>false</default>
+                <label>Own source</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,18 @@
+New Case assigned to you !!
+Case No : {!Case.CaseNumber}
+Assignment Date & Time :  {!Case.CreatedDate}
+Expected Resolution Time : {!Case.Overall_Case_Closure_SLA__c}
+SR Nature: {!Case.Nature__c}
+SR Type :{!Case.Type_Text__c}
+Created Date/Time: {!Case.CreatedDate}
+Created By: {!Case.CreatedBy}
+
+Please click on the link below to view the record.
+{!Case.Link}
+
+
+=============================================================================
+Customer Details
+=============================================================================
+Client Code : {!Case.Client_Code__c}
+Customer Name : {!Case.Account}

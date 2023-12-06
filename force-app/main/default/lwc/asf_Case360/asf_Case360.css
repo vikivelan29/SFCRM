@@ -1,0 +1,28 @@
+.strong-text {
+    font-weight: bold;
+}
+.slds-icon-utility-info {
+    background-color: white;
+  }
+  .custom-footer{
+    display: flex;
+    padding: 0.5rem;
+    bottom: 1;
+    left: 0;
+    width: 100%;
+    background: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackground,rgb(243, 243, 243)));
+    /*box-shadow: var(--lwc-shadowDocked,0 -2px 2px 0 rgba(0, 0, 0, 0.16));*/
+    /*z-index: var(--lwc-zIndexOverlay,8000);*/
+}
+.custom-Padding-Label{
+  margin-left: 4px;
+  padding-right: 0px;
+  margin-top: 15px;
+}
+
+.custom-Padding-Input{
+  padding: 0px;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}

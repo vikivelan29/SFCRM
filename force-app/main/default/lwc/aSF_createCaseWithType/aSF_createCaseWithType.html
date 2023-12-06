@@ -1,0 +1,222 @@
+<template>
+    <lightning-card title="">
+        <div class="slds-p-bottom_x-small slds-align_absolute-center">
+            <lightning-button class="slds-m-right_x-small" label={withFALabel} variant="brand" onclick={showModal}>
+            </lightning-button>&nbsp;
+
+            <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel} variant="brand"
+                onclick={showModalWitoutFA}>
+            </lightning-button>
+
+            <lightning-button class="slds-m-left_x-small" label="Close without CRN" variant="brand"
+                onclick={showModalCloseWitoutCRN}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+    <template if:true={showSRModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <!--header class="slds-modal__header"-->
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={hideModal}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <!--h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Case Type Search</h2-->
+                <!--/header-->
+
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <!-- <template if:true={showFAmsg}>
+                            <div class="slds-align_absolute-center">Note: {faValidMsg}</div>
+                        </template>-->
+                    <template if:false={contactSelected}>
+                        <h2 class="slds-m-around_medium slds-text-heading_small">Select a Contact to continue:</h2>
+                        <div class="slds-m-around_medium">
+                            <template if:true={options}>
+                                <lightning-combobox name="contactoptions" value={value} placeholder="Select Contact"
+                                    options={options} onchange={handleContactChange}>
+                                </lightning-combobox>
+                            </template>
+                        </div>
+                        <div class="slds-m-around_medium slds-align_absolute-center">
+                            <lightning-button label="Next" icon-name="utility:forward" onclick={gotoMainScreen}
+                                disabled={isNextButtonDisabled}></lightning-button>
+                        </div>
+                    </template>
+                    <template if:true={contactSelected}>
+                        <div if:true={contactName}>
+                            <h2 class="slds-text-heading_small">Contact Selected: <lightning-badge
+                                    label={contactName}></lightning-badge></h2>
+                        </div>
+                        <lightning-card title="SR Type Search">
+                            <template if:true={loaded}>
+                                <lightning-layout multiple-rows="true" vertical-align="end">
+                                    <lightning-layout-item size="8" padding="around-small">
+                                        <!--Input text to Search Account-->
+                                        <lightning-input type="search" label="" value={searchKey}
+                                            onchange={handelSearchKey}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="4" padding="around-small">
+                                        <!--Search Button-->
+                                        <lightning-button label="Search" variant="brand" onclick={SearchAccountHandler}>
+
+                                        </lightning-button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" padding="around-small">
+                                        <!--List Of Account Using data Tabel-->
+                                        <lightning-datatable key-field="id" data={accounts} columns={cols}
+                                            max-row-selection="1" onrowselection={getSelectedName}
+                                            class="slds-max-medium-table_stacked">
+                                        </lightning-datatable>
+                                        <br>
+                                        <template if:true={createCaseWithAll}>
+                                            <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark"
+                                                role="status">
+                                                <div class="slds-media__figure">
+                                                    <span class="slds-icon_container slds-icon-utility-info"
+                                                        title="information">
+                                                        <lightning-icon icon-name="utility:info"
+                                                            alternative-text="Update SR" title="Update SR" size="small"
+                                                            variant="inverse"></lightning-icon>
+                                                        <span class="slds-assistive-text">information</span>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <p>Please select the following values to create a SR</p>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <lightning-record-edit-form object-api-name="Case">
+                                                <lightning-messages></lightning-messages>
+                                                <template if:true={isAllNature}>
+                                                    <lightning-input-field field-name="Nature__c" data-id="natureField"
+                                                        required=true onchange={handleNatureVal} value={natureVal}>
+                                                    </lightning-input-field>
+                                                </template>
+                                                <template if:true={isAllProduct}>
+                                                    <lightning-input-field field-name="Product__c"
+                                                        data-id="productField" required=true onchange={handleProductVal}
+                                                        value={productVal}> </lightning-input-field>
+                                                </template>
+                                                <!--<template if:true={isAllSource}>
+                                                <lightning-input-field field-name="Source__c" data-id="sourceField" required=true onchange={handleSourceVal} value={sourceVal}></lightning-input-field>
+                                            </template>-->
+                                            </lightning-record-edit-form>
+                                            <!--- <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_6-of-12"> -->
+                                            <template if:true={isRequestAndQuery}>
+                                                <lightning-combobox value="" label="Nature" options={natureValues}
+                                                    onchange={handleChangeNature} required>
+                                                </lightning-combobox>
+                                            </template>
+
+                                        </template>
+                                        <template if:true={complaintLevelVisible}>
+                                            <lightning-record-edit-form object-api-name="Case">
+                                                <lightning-input-field class="slds-hide" variant="label-stacked"
+                                                    field-name="Complaint_Level__c" value={caseComplaintLevel}
+                                                    data-id="Source">
+                                                </lightning-input-field>
+
+                                                <lightning-input-field style="margin-left:-3px" variant="label-stacked"
+                                                    field-name="Sub_source__c" data-id="SubSource" required=true
+                                                    onchange={handleSubSource} value="">
+                                                </lightning-input-field>
+
+                                            </lightning-record-edit-form>
+
+                                            <lightning-input type="text" disabled value={selectedSRCategory}
+                                                label="SR Category"></lightning-input>
+
+                                        </template>
+                                    </lightning-layout-item>
+
+                                    <template if:true={showRejetedReason}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-layout-item padding="around-small" size="6">
+                                                <lightning-textarea name="rejectedDetails" required
+                                                    label="Close Unresolved Details" variant="label-stacked"
+                                                    value={rejectedDetails} onchange={setRejectedDetails}
+                                                    placeholder="type here..."></lightning-textarea>
+
+                                                <lightning-combobox class="slds-m-left_xx-small slds-m-right_xx-small"
+                                                    value={selectedReason} label="Rejection Reason" options={reasonLOV}
+                                                    placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
+                                                    required>
+                                                </lightning-combobox>
+                                                <div class="slds-align_absolute-center">
+                                                    <lightning-button class="slds-m-around_small" label="Save"
+                                                        onclick={saveRejection}></lightning-button>
+                                                    <lightning-button class="slds-m-around_small" label="Cancel"
+                                                        onclick={cancelReject}></lightning-button>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout-item>
+                                    </template>
+
+                                    <template if:true={showSRDescription}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-layout-item padding="around-small" size="6">
+                                                <lightning-textarea name="reqDescription" required
+                                                    label="Service Request Description" variant="label-stacked"
+                                                    value={caseDescriptionFTR} onchange={setSRDescription}
+                                                    placeholder="type here..."></lightning-textarea>
+
+                                                <!-- <div class="slds-align_absolute-center"> 
+                                                        <lightning-button class="slds-m-around_small" label="Save"
+                                                            onclick={saveRejection}></lightning-button>
+                                                        <lightning-button class="slds-m-around_small" label="Cancel"
+                                                            onclick={cancelReject}></lightning-button>
+                                                    </div> -->
+                                            </lightning-layout-item>
+                                        </lightning-layout-item>
+                                    </template>
+
+                                    <template if:true={isTransactionRelated}>
+                                        <lightning-layout-item padding="around-small" size="12">
+                                            <lightning-layout-item padding="around-small" size="6">
+                                                <lightning-input type="text" label="Transaction Number"
+                                                    value={transactionNumber} onchange={handleTransactionChange}
+                                                    required class="validate"></lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout-item>
+                                    </template>
+
+
+                                    <lightning-layout-item padding="around-small">
+                                        <lightning-button label="Save & Next" variant="brand"
+                                            disabled={saveBtnVisibility} onclick={handleSaveNext}></lightning-button>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item padding="around-small">
+                                        <lightning-button label="Save & Resolve" variant="brand"
+                                            disabled={saveAndCloseBtnVisibility}
+                                            onclick={handleCloseBtn}></lightning-button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        <lightning-button label="Close Unresolved" variant="brand" onclick={handleRejectBtn}
+                                            disabled={isNotSelectedReject}></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+
+                            </template>
+                            <template if:false={loaded}>
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </template>
+                        </lightning-card>
+                    </template>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+</template>

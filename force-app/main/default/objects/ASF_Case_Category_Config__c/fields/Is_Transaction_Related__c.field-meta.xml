@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Transaction_Related__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used for Payment LOB.
+TRUE - Consider Customer Id + Case Type + Case Sub Type + Case Category + Transaction ID + Status to do dedupe
+FALSE - Consider Customer Id + Case Type + Case Sub Type + Case Category + Status to do dedupe</description>
+    <externalId>false</externalId>
+    <label>Is Transaction Related</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,70 @@
+<template>
+    <lightning-card>
+        <div class="slds-path">
+            <div class="slds-grid slds-path__track slds-has-overflow">
+                <div class="slds-grid slds-path__scroller-container">
+                    <div class="slds-path__scroller">
+                        <div class="slds-path__scroller_inner">
+                            <div class="slds-path__scroll-controls">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                                    title="Scroll left" tabindex="-1" onclick={handleScrollLeft}>
+                                    <lightning-icon size="small" icon-name="utility:left"></lightning-icon>
+                                    <span class="slds-assistive-text">Scroll left</span>
+                                </button>
+                            </div>
+                            <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                                <!-- loop through and put the case Stages -->
+                                <template for:each={stages} for:item="stage">
+                                    <li title={stage.HelpText} data-name={stage.stageName} key={stage.Order} class={stage.className} role="presentation" onmouseover={handleMouseOver} onmouseleave={handleMouseLeave}>
+                                        <a aria-selected="false" class="slds-path__link" role="option"
+                                            tabindex="-1">
+                                            <span class="slds-path__stage">
+                                                <lightning-icon icon-name="utility:check" variant="inverse" size="small">
+                                                </lightning-icon>
+                                                <span class="slds-assistive-text">Stage Complete</span>
+                                            </span>
+                                            <span class="slds-path__title">{stage.stageName}</span>
+                                            <template if:true={stage.isOptional}>
+                                                <lightning-icon icon-name="utility:routing_offline" variant="inverse" size="small"></lightning-icon>
+                                            </template>
+                                        </a>
+                                    </li>
+                                </template>
+                                
+                            </ul>
+                            <div class="slds-path__scroll-controls">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                                    title="Scroll right" tabindex="-1" onclick={handleScrollRight}>
+                                    <lightning-icon size="small" icon-name="utility:right"></lightning-icon>
+                                    <span class="slds-assistive-text">Scroll right</span>
+                                </button>
+                            </div>
+                            <!-- <div class="slds-path__scroll-controls">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                                    title="Scroll left" tabindex="-1" onclick={handleScrollLeft}>
+                                    <lightning-icon icon-name="utility:left"></lightning-icon>
+                                    <span class="slds-assistive-text">Scroll left</span>
+                                </button>
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                                    title="Scroll right" tabindex="-1" onclick={handleScrollRight}>
+                                    <lightning-icon icon-name="utility:right"></lightning-icon>
+                                    <span class="slds-assistive-text">Scroll right</span>
+                                </button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="slds-grid slds-path__action">
+                    <span class="slds-path__stage-name">Stage: Unqualified</span>
+                    <button class="slds-button slds-button_brand slds-path__mark-complete">
+                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                        </svg>Mark Status as Complete</button>
+                </div> -->
+            </div>
+        </div>
+        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" style={hoverStyle}>
+            <div class="slds-popover__body">{hoverStageName}</div>
+          </div>
+    </lightning-card>
+</template>

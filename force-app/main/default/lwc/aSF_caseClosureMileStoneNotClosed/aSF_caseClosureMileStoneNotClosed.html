@@ -1,0 +1,52 @@
+<template>
+    <lightning-card >
+    <div class="c-container">
+    <lightning-layout>
+        <lightning-layout-item padding="around-small">
+            <div class="header-column">
+                <strong>
+                    <p class="field-title" title="Case Closure SLA">SR Closure SLA &nbsp;
+                        <!-- <lightning-icon icon-name="standard:today" size="xx-small" title="Timer"></lightning-icon> -->
+                    </p>
+                </strong>
+                <p>{timer}</p>
+            </div>
+        </lightning-layout-item> 
+        <lightning-layout-item padding="around-small">
+            <div class="header-column"> 
+                <div class="slds-text-heading_medium">
+                    <strong>
+                        <p class="field-title" title="Case No">SR Turn Around Time (TAT) &nbsp;
+                            <!-- <lightning-icon icon-name="standard:case" size="xx-small" title="Timer"></lightning-icon> -->
+                        </p>
+                    </strong>
+                </div><strong>
+                    <p></p> </strong>
+            </div>
+        </lightning-layout-item>        
+        <lightning-layout-item padding="around-small">
+            <div class="header-column">
+                <strong>
+                    <p class="field-title" title="Stage Case SLA">Stage SR SLA &nbsp;
+                        <!-- <lightning-icon icon-name="standard:stage" size="xx-small" title="Timer"></lightning-icon> -->
+                    </p>
+            </strong>
+                {slaTimer}
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+            <div class="header-column"> 
+                <div class="slds-text-heading_medium">
+                    <strong>
+                        <p class="field-title" title="Case No">Stage Turn Around Time (TAT) &nbsp;
+                            <!-- <lightning-icon icon-name="standard:case" size="xx-small" title="Timer"></lightning-icon> -->
+                        </p>
+                    </strong>
+                </div>   <strong>             
+                    <p></p> </strong>
+            </div>
+        </lightning-layout-item>       
+    </lightning-layout>
+</div>
+</lightning-card>
+</template>

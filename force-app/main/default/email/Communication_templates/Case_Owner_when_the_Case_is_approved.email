@@ -1,0 +1,20 @@
+Case Approved by Approver !!
+Case no : {!ASF_Case_Approv__c.Case_Number__c}
+Assignment date & time : {!ASF_Case_Approv__c.CreatedDate}
+Approval to: {!ASF_ApprovalRequest.Process_Step_Name}
+Approval for: {!ASF_Case_Approv__c.ApprovalType__c}
+Approved on {!ASF_ApprovalRequest.Response_Date}
+SR nature: {!ASF_Case_Approv__c.nature__c}
+SR type :{!ASF_Case_Approv__c.SR_type__c}
+Created Date/Time: {!ASF_Case_Approv__c.CreatedDate}
+Created By: {!ASF_Case_Approv__c.CreatedBy}
+=============================================================================
+Customer Details
+=============================================================================
+CRN: {!ASF_Case_Approv__c.Case_CRN__c}
+Account no : {!ASF_Case_Approv__c.Account_no__c}
+Customer Name: {!ASF_Case_Approv__c.Customer_Name__c}
+Home Branch: {!ASF_Case_Approv__c.Home_Branch__c}
+Segment: {!ASF_Case_Approv__c.Segment__c}
+Classification: {!ASF_Case_Approv__c.Classification__c}
+Category: {!ASF_Case_Approv__c.Customer_Category__c}

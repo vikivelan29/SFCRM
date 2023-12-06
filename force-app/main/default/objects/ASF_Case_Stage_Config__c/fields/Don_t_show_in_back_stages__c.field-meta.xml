@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Don_t_show_in_back_stages__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <label>Don&apos;t show in back stages</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

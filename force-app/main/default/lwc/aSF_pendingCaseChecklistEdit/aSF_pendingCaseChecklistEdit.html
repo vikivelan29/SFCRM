@@ -1,0 +1,93 @@
+<!--
+@description       :
+@author            : Salesforce
+@group             :
+-->
+<template>
+    <template if:true={hasRecord}>
+      <lightning-card  title="Checklists" icon-name="standard:lead_list">
+          <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+              <thead>
+                 <tr class="slds-text-title_caps">
+                  <th scope="col">
+                    <div class="slds-truncate" title="Description"></div>
+                </th>
+                  <th scope="col">
+                     <div class="slds-truncate" title="Label">Label</div>
+                 </th>
+                  
+                  <th scope="col">
+                     <div class="slds-truncate" title="Status">Status</div>
+                 </th>
+                  <th scope="col">
+                     <div class="slds-truncate" title="Comments">Comments</div>
+                 </th>
+            </tr>
+             </thead>
+              <tbody >
+                 <template for:each={accData} for:item="accItem">
+                     <tr key={accItem.Id}>
+                         <!--- <td class="Checkbox" >
+                              <div title="Checkbox" >
+                                  <lightning-input type="checkbox"  accesskey={index} data-id="checkbox"
+                                      id={accItem.Id} checked={accItem.Mandatory__c} disabled></lightning-input>
+                              </div>
+                          </td> -->
+                          <td>
+                            <lightning-helptext content={accItem.Description__c} ></lightning-helptext> 
+                          </td>
+                          <td data-label="Label">
+                            <div class="slds-cell-wrap" style = "width:180px" title={accItem.Label__c}>{accItem.Label__c}</div>
+                            </td>
+                           
+                          <!---
+                          <td data-label="Stage Name">
+                          <div class="slds-truncate"  title="">{accItem.Stage_Name__c}</div>
+                          </td> -->
+                          <td data-label="Status">
+                              <template if:true={accItem.Stage_Matched__c}>
+                                <template if:true={areDetailsVisible}>
+                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                        data-field="Status__c" onchange={handleChange}>
+                                    </lightning-combobox>
+                                </template>
+                                <template if:false={areDetailsVisible}>
+                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                        data-field="Status__c" onchange={handleChange} read-only="true">
+                                    </lightning-combobox>
+                                </template>
+                              </template>
+                              <template if:false={accItem.Stage_Matched__c}>
+                              <div class="slds-truncate"  title="">{accItem.Status__c}</div>
+                              </template>
+                          </td>
+                          <td data-label="Comments" >
+                              <template if:true={accItem.Stage_Matched__c}>
+                                    <template if:false={areDetailsVisible}>
+                                        <lightning-output-field type="text" data-id={accItem.Id} value={accItem.Comments__c}>
+                                        </lightning-output-field>
+                                    </template>
+                                    <template if:true={areDetailsVisible}>
+                                        <lightning-input type="text" data-id={accItem.Id} onchange={handleInputChange} value={accItem.Comments__c}>
+                                        </lightning-input>
+                                    </template>
+                              </template>
+                              <template if:false={accItem.Stage_Matched__c}>
+                                  <div class="slds-truncate"  title="">{accItem.Comments__c}</div>
+                                  </template>
+                          </td>
+                     </tr>
+                 </template>
+              </tbody>
+          </table>
+         
+          <div if:true={areDetailsVisible} slot="footer">
+              <template if:false={isClosed}>
+                            <div class="slds-align_absolute-center">
+                                <lightning-button label="Save" variant="brand" type="submit" onclick={handleSave} disabled={isDisabled}></lightning-button>
+                            </div>
+              </template>
+          </div>          
+      </lightning-card>
+      </template>
+</template>

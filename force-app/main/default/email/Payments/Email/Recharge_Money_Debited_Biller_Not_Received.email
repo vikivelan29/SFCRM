@@ -1,0 +1,169 @@
+<html>
+ <head>
+  <meta />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" name="viewport" />
+  <meta content="telephone=no" name="format-detection" />
+  <title>Aditya Birla Capital</title>
+  <style type="text/css">body {
+	background: #ffffff;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+	-webkit-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+}
+table {
+	
+	border-radius:1px;
+	border-radius:1px;
+	border-spacing: 0;
+}
+td {
+	border-collapse: collapse;
+}
+ @media only screen and (max-width: 699px) {
+body, table, td, p, a, li, blockquote {
+	-webkit-text-size-adjust: none !important;
+}
+table {
+	margin-bottom: 0px!important;
+}
+.marginone {
+	margin: 0 !important;
+}
+.marginbot {
+	margin-bottom: 15px !important;
+}
+.marginmiddle {
+	margin-middle: 15px !important;
+}
+.table {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 100% !important;
+	clear: both !important;
+}
+.responsive-image img {
+	height: auto !important;
+	max-width: 100% !important;
+	width: 100% !important;
+}
+.hide {
+	display: none !important;
+	width: 100% !important;
+}
+.inpadding-bottom {
+	padding: 0 0 10px;
+}
+.marginmiddle {
+	padding-middle: 5px !important;
+}
+.cell-no a {
+	color: #ffffff !important;
+	text-decoration: none !important;
+}
+.imgpd {
+	padding: 10px 10px 0 10px;
+}
+.mbg {
+	padding-bottom: 50px !important;
+}
+.left {
+	text-align: left !important;
+}
+.center {
+	text-align: center !important;
+}
+.center img {
+	margin:auto !important;
+}
+.padnone {
+	padding: 0 !important;
+}
+.pdmiddleno {
+	padding-middle: 0 !important;
+}
+.pdleftno {
+	padding-left: 0 !important;
+}
+.pdbotno {
+	padding-bottom: 0 !important;
+}
+.pdlr {
+	padding-left: 15px!important;
+	padding-right: 15px!important;
+}
+.padtb15 {
+	padding-middle: 15px!important;
+	padding-bottom: 15px!important;
+}
+.padmiddle10 {
+	padding-middle: 10px!important;
+}
+.padmiddle15 {
+	padding-middle: 15px!important;
+}
+.padbot10 {
+	padding-bottom: 10px!important;
+}
+.td-block {
+	display: block !important;
+	min-width: 100% !important;
+	max-width: 100% !important;
+	width: 100% !important;
+	clear: both !important;
+}
+.padrno {
+	padding-right: 0!important;
+}
+.pdmiddleno {
+	border-middle: none !important;
+}
+.valign{vertical-align:middle !important;}
+.bnone{border:none !important;}
+}
+	</style>
+ </head>
+ <body style="margin: 0px; padding: 0px; height: auto; min-height: auto;">
+  <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table marginone" width="100%">
+   <tbody>
+    <tr>
+     <td align="center" style="padding:0; font-size: 1px; background:#ffffff;" valign="middle">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" class="table marginone" style="background:#ffffff; border:1px solid #cccccc; border-radius:1px;" width="600">
+       <tbody>
+        <tr>
+         <td align="center" bgcolor="#ffffff" class="responsive-image" style="padding:0; font-size:1px;" valign="bottom">&nbsp;</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+         <td align="left" bgcolor="#ffffff" class="responsive-td pdlr" style="color:#7a7a7c; padding:0px 0px 0px 0px; font-size:14px; line-height:22px; font-family:Calibri, Tahoma, Verdana, Arial, 'Times New Roman', sans-serif;" valign="middle">
+          <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+           <tbody>
+            <tr>
+             <td align="left" bgcolor="#ffffff" class="responsive-td pdlr" style="color:#7a7a7c; font-size:14px; line-height:22px; font-family:Calibri, Tahoma, Verdana, Arial, 'Times New Roman', sans-serif;" valign="middle"><img alt="ABSLI_Sep_1" src="{[devName:ABSLI_Sep_1]}" style="max-width: 1123.768359375px" title="ABSLI_Sep_1" /><br /> &nbsp; 
+              <div style="margin-left: 40px;"><span style="color:#000000;">Dear Customer,<br /> <br /> Thank you for reaching out to us regarding your SR No. {{{Case.CaseNumber}}}.&nbsp;</span>
+              </div> &nbsp; 
+              <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+               <tbody>
+                <tr>
+                 <td class="padding_auto" style="font-family: Arial, &quot;Times New Roman&quot;, sans-serif; font-size: 16px; color: rgb(51, 51, 51); line-height: 24px; padding: 5px 0px 0px; letter-spacing: 0.4px;" valign="middle">
+                  <div style="margin-left: 40px;"><span style="font-size:16px;">Yours sincerely,<br /> Aditya Birla Capital Digital</span>
+                  </div></td>
+                </tr>
+               </tbody>
+              </table></td>
+            </tr>
+           </tbody>
+          </table></td>
+        </tr>
+        <tr>
+         <td align="center" bgcolor="#C72229" height="8" style="">&nbsp;</td>
+        </tr>
+       </tbody>
+      </table></td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>

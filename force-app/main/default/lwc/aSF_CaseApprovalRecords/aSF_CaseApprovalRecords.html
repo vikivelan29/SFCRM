@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Approvals" icon-name="standard:approval">
+        <template for:each={dataEditing} for:item="approval">
+            <div key={approval.id} class="slds-m-around_xx-small slds-box">
+                <h4>
+                    <lightning-button variant="base" label="Approve" title="Click to view below record"
+                        onclick={handleClick} data-id={approval.id} class="slds-text-heading_medium"></lightning-button>
+                </h4>
+                <div class="slds-grid slds-wrap">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:50%">
+                                Approval Type:
+                            </td>
+                            <td style="width:50%">
+                                {approval.approvalType}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%">
+                                SR stage at the time of request:
+                            </td>
+                            <td style="width:50%">
+                                {approval.stg}
+                            </td>
+                        </tr>
+
+
+                        <template for:each={approval.steps} for:item="step">
+                            <tr key={step.id}>
+                                <td style="width:50%">
+                                    Approver Name:
+                                </td>
+                                <td style="width:50%">
+                                    {step.actorname}
+                                </td>
+
+                            </tr>
+                            <tr key={step.id}>
+                                <td style="width:50%">
+                                    Status:
+                                </td>
+                                <td style="width:50%">
+                                    {step.name}
+                                </td>
+                            </tr>
+                        </template>
+                    </table>
+
+                </div>
+
+            </div>
+        </template>
+    </lightning-card>
+
+
+</template>

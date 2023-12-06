@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manual_Backward_Stage__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>is this Stage Allowed to be moved to, in a backward manual movement</description>
+    <externalId>false</externalId>
+    <label>Manual Backward Stage</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

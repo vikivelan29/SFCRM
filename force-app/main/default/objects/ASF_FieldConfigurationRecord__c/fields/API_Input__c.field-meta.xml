@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_Input__c</fullName>
+    <externalId>false</externalId>
+    <label>API Input</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FA_Number__c</fullName>
+                <default>false</default>
+                <label>FA_Number__c</label>
+            </value>
+            <value>
+                <fullName>Account_CRN__c</fullName>
+                <default>false</default>
+                <label>Account_CRN__c</label>
+            </value>
+            <value>
+                <fullName>AssetId</fullName>
+                <default>false</default>
+                <label>AssetId</label>
+            </value>
+            <value>
+                <fullName>AccountId</fullName>
+                <default>false</default>
+                <label>AccountId</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

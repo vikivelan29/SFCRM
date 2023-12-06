@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Department_Dependency__c</fullName>
+    <externalId>false</externalId>
+    <label>Department Dependency</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Optimum</fullName>
+                <default>false</default>
+                <label>Optimum</label>
+            </value>
+            <value>
+                <fullName>Client Portal</fullName>
+                <default>false</default>
+                <label>Client Portal</label>
+            </value>
+            <value>
+                <fullName>Registrar and Transfer Agent(RTA)</fullName>
+                <default>false</default>
+                <label>Registrar and Transfer Agent(RTA)</label>
+            </value>
+            <value>
+                <fullName>Asset Management company (AMC) / Manufacturer</fullName>
+                <default>false</default>
+                <label>Asset Management company (AMC) / Manufacturer</label>
+            </value>
+            <value>
+                <fullName>NSE</fullName>
+                <default>false</default>
+                <label>NSE</label>
+            </value>
+            <value>
+                <fullName>MMTC</fullName>
+                <default>false</default>
+                <label>MMTC</label>
+            </value>
+            <value>
+                <fullName>Product Team</fullName>
+                <default>false</default>
+                <label>Product Team</label>
+            </value>
+            <value>
+                <fullName>Business Team</fullName>
+                <default>false</default>
+                <label>Business Team</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
