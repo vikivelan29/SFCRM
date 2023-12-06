@@ -1,0 +1,31 @@
+name: Manual Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - sit1-sandbox
+        default: 'sit1-sandbox'
+        required: true
+      validateOnly:
+        description: 'Run the deployment as validation only'
+        type: boolean
+        default: false
+
+jobs:
+  
+  deploy-sit1-sandbox:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == 'sit1-sandbox' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to sit1 sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_1 }}
+          environmentName: ${{ github.event.inputs.environment }}
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+  
