@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>ASF_Asset_Metadata__mdt</members>
+        <members>ASF_Case_Integration__c</members>
+		<name>CustomObject</name>
+	</types>
+    <types>
+        <members>ASF_Case_Integration__c.Type__c</members>
+        <members>Asset.Branch_Code__c </members>
+        <members>Asset.Approved_Limit__c </members>
+        <members>Asset.Approved_Date__c </members>
+        <members>Asset.Application_Number__c </members>
+        <members>Asset.Aggrement_Date__c </members>
+        <members>Asset.Scheme__c </members>
+        <members>Asset.Loan_Amount__c </members>
+        <members>Asset.LOB__c </members>
+		<name>CustomField</name>
+	</types>
+    <version>58.0</version>
+</Package>
