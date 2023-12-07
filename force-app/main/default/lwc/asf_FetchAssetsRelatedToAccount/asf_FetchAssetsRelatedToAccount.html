@@ -1,0 +1,11 @@
+<template>
+        <template if:true={isRenderDatatable}>
+            <lightning-card>
+                <div class="lightningDatatableCss">
+                    <lightning-datatable key-field="id" data={assetRecords} columns={columns} onrowselection={onSelectedRow} min-column-width="155">
+                    </lightning-datatable>
+                </div>
+            </lightning-card>
+        </template>
+        <c-asf_-current-holdings field-to-be-stamped-on-case={fieldToBeStampedOnCase} account-id={recordId}></c-asf_-current-holdings>
+</template>
