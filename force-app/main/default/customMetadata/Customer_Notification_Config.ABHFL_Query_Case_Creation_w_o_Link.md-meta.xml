@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABHFL Query Case Creation w/o Link</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>CC_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Template_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Primary_Object__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>SMS_Merge_Fields_CSV__c</field>
+        <value xsi:type="xsd:string">Masked_LAN__c,Overall_Case_Closure_SLA__c</value>
+    </values>
+    <values>
+        <field>SMS_Template_Name__c</field>
+        <value xsi:type="xsd:string">Query_Case_Creation_without_Tracking_Link_1701076808879</value>
+    </values>
+    <values>
+        <field>To_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Template_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>external_templateID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>
