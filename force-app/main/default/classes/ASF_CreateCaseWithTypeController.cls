@@ -17,8 +17,9 @@ public with sharing class ASF_CreateCaseWithTypeController {
 *****************************************************************************************************************/
     
     public static CaseDetailsWrapper getUserDetails(){
-        User objUser = [SELECT Id, LOB__c,Business_Unit__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
-        String strBusUnit = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
+        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+        String userSourceCode = objUser.Source_Code__c;
+        String strLOB = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
         LOBMappingDetails__mdt choosenOneMTD;  
         
         // Return from Method if no CC or LOB mappping is present
@@ -30,10 +31,12 @@ public with sharing class ASF_CreateCaseWithTypeController {
         List<LOBMappingDetails__mdt> lstLOBMapping = new List<LOBMappingDetails__mdt>();
         
         // Priority 1: Checking both CC and LOB
+
+        // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
                           Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c
                           FROM LOBMappingDetails__mdt WHERE 
-                          LOB__c =:strBusUnit AND
+                          LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
                           LIMIT 1];
         
