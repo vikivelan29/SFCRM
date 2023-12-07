@@ -941,11 +941,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_SLA_History__c.OldTypeSubType__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_Case_SLA_History__c.Overdue_Time_in_Hrs__c</field>
         <readable>true</readable>
     </fieldPermissions>
