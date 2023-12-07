@@ -32,9 +32,16 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     populateLwcDatatableData() {
         
         let generatedDataWithLink = this.assetRecords.map(assetRec => {
-            assetRec.Name = '/' + assetRec.Id;
-            assetRec.LAN__c = '/' + assetRec.Id;
-            return assetRec;
+            let tempAssetRec = Object.assign({}, assetRec);
+            let assetRecordLink   = '/' + assetRec.Id; 
+            if(tempAssetRec.hasOwnProperty('Name')) {
+                tempAssetRec.assetNameRecLink   = assetRecordLink;
+                
+            }
+            if(tempAssetRec.hasOwnProperty('LAN__c')){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            }
+            return tempAssetRec;
         });
 
         this.assetRecords = generatedDataWithLink;

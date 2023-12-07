@@ -59,10 +59,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                 CellAttributes cellAttrbtObj = new CellAttributes();
                 TypeAttributesLabel typeAttrLabelObj = new TypeAttributesLabel();
 
-                String label = fld.split(':')[0];
+                String fldLabel = fld.split(':')[0];
                 String fieldApiName = fld.split(':')[1];
                 String fieldType = fld.split(':').size() > 2 ? fld.split(':')[2] : '';
-                colNameObj.label = label;
+                colNameObj.label = fldLabel;
                 colNameObj.fieldName = fieldApiName;
                 
                 if(String.isNotBlank(fieldType)) {
@@ -77,6 +77,12 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     typeAttrbtObj.year  = 'numeric';
                 }
                 else if(fieldType == 'url') {
+                    if(fieldApiName == 'Name') {
+                        colNameObj.fieldName = 'assetNameRecLink';
+                    }
+                    else if(fieldApiName == 'LAN__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                    }
                     typeAttrLabelObj.fieldName = fieldApiName;
                     typeAttrbtObj.label  = typeAttrLabelObj;
                     typeAttrbtObj.target = '_self';
