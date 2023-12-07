@@ -1,6 +1,6 @@
 public class ASF_CaseStageSLATimeBasedAction {
    
-    @InvocableMethod(label='Send Email Stage SLA Broke')
+    @InvocableMethod(label='Send Stage 1 SLA Broken Email Reminders')
     public static void sendEmailSLABroke(List<String> casesList) {
         List<string> caseEmailList = new List<string>();   
         List<Case> casesNewList = new List<Case>(); 

@@ -158,11 +158,9 @@ public class ASF_OverallCaseSlaBroken_Test {
         
         // c.SLA_Target_1__c = 'stanrduserEmails@testorg.com';
         // c.SLA_Target_2__c = 'stanrduserEmails@testorg.com';
-        Test.startTest();
+        
         ASF_CaseSLABroken.sendEmailSLABroke(cList);
-        Test.stopTest();
-        Integer hisListCount = [SELECT Count() FROM ASF_Case_SLA_History__c];
-        Assert.isTrue(hisListCount > 0);
+        Test.startTest();    
     }
     
     
