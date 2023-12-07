@@ -30,7 +30,7 @@ public without sharing class ASF_OverallCaseSlaBroken {
             casesToBeUpdated.add(c);
         }
 
-        ASF_CaseTriggerHandler.TriggerDisabled = true;
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
         update casesToBeUpdated;
 
     }
