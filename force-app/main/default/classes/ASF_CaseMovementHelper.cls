@@ -78,7 +78,7 @@ public class ASF_CaseMovementHelper {
             else{
                 //Find the next stage
                 StageConfigWrapper nextStage = ASF_CaseMovementHelper.findNextStageForward(currentCaseRec);
-                
+                System.debug('***nextStage:'+nextStage);
                 //Create Approvals, checklists, tasks and run Integrations
                 if(nextStage.status != 'Error'){
                     
@@ -134,6 +134,8 @@ public class ASF_CaseMovementHelper {
                 } 
             }
         }
+        system.debug('EEEEEEEEE');
+        system.debug(resultWrapper);
         return resultWrapper;
     }
     
@@ -190,7 +192,6 @@ public class ASF_CaseMovementHelper {
         dataWrapper = getCaseAdditionalDataForNextStage(currentCaseRec, requestedStage);
         
 
-        
         //Update assignment, and other case fields
         Case updatedCase = new Case(Id = currentCaseRec.Id);
         updatedCase.Stage__c = requestedStage;
@@ -214,7 +215,25 @@ public class ASF_CaseMovementHelper {
             }
         }
 
+        // Fetch Owner Assignment for Stage
+        if(nextStageConfig != null){
+
+            if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCaseRec, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
+                
+                //resultWrapper.isPreviousStage = true;
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
+            }
+            if(resultWrapper.ownerId == null){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseMovementHelper.getAssignmentForStage(currentCaseRec, nextStageConfig.StageName__c);
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
+            }
+        }
+
         resultWrapper.caseToBeUpdated = updatedCase;
+        resultWrapper.nextStageConfig = nextStageConfig;
         resultWrapper.data = dataWrapper;
         resultWrapper.status = 'Success';
         return resultWrapper;
@@ -254,6 +273,14 @@ public class ASF_CaseMovementHelper {
         ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo assignmentInfo = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCaseRec, requestedStage);
         resultWrapper.ownerId = assignmentInfo.defaultOwnerId;
         resultWrapper.errorOwnerId = assignmentInfo.defaultErrorOwnerId;
+        
+        // If Owner Id not found, find by regular method
+        if(resultWrapper.ownerId == null){
+            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo rulesAssignmentInfo = ASF_CaseMovementHelper.getAssignmentForStage(currentCaseRec, requestedStage);
+            resultWrapper.ownerId = rulesAssignmentInfo.defaultOwnerId;
+            resultWrapper.errorOwnerId = rulesAssignmentInfo.defaultErrorOwnerId;
+        }
+        
         Case updatedCase = new Case(Id = currentCaseRec.Id);
         updatedCase.Stage__c = requestedStage;
         updatedCase.Status = nextStageConfig.Status_Mapping__c;
@@ -299,6 +326,7 @@ public class ASF_CaseMovementHelper {
         // Validate Validations
         if(currentStageConfig != null){
             String areValidationsOk = ASF_CaseFrameworkValidator.validateValidations(currentCase, currentStageConfig);
+            System.debug('***are'+areValidationsOk);
             if(areValidationsOk != 'Success'){
                 result.status  = 'Error';
                 result.errorMessage = areValidationsOk;
@@ -315,6 +343,7 @@ public class ASF_CaseMovementHelper {
         }
 
         // Run After Stage Apex Class, if present
+        System.debug('CURRENT STAGE CONFIG' + ' ' + currentStageConfig);
         if(currentStageConfig != null && currentStageConfig.AfterStageApexClass__c != null){
             Type customType = Type.forName(currentStageConfig.AfterStageApexClass__c);
             ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
@@ -365,6 +394,7 @@ public class ASF_CaseMovementHelper {
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.StageName__c == currentCase.Stage__c){
                 currentStageConfig = config;
+                break;
             }
         }
         
@@ -396,7 +426,8 @@ public class ASF_CaseMovementHelper {
         ASF_Case_Stage_Config__c nextStageConfig;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
-                
+                System.debug('***1'+currentStageConfig);
+                System.debug('***2'+config);
                 // See if Applicable. 
                 // If Not Optional, Allot to Next Stage and Break
                 if(config.Optional_Stage__c){
@@ -409,9 +440,12 @@ public class ASF_CaseMovementHelper {
                         }
                     }
                     
-                    Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(currentCase, caseRulesForStage);
+                    Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(queriedCaseRecord, caseRulesForStage);
+                    System.debug('***isStageMovementValid'+isStageMovementValid);
                     if(isStageMovementValid){
                         nextStageConfig = config;
+                        System.debug('***nextStageConfig:'+nextStageConfig);
+                        break;
                     }
                     else{
                         continue;
@@ -427,29 +461,33 @@ public class ASF_CaseMovementHelper {
         // Once Next Stage is found, run Assignment Rules to get the Owner Information
         if(nextStageConfig != null){
             
-            
-            List<ASF_Case_Rule__c> caseRulesForNextStage = new List<ASF_Case_Rule__c>();
-            for(ASF_Case_Rule__c caseRule : allCaseRules){
-                if(caseRule.Case_Stage_Config__c == nextStageConfig.Id){
-                    caseRulesForNextStage.add(caseRule);
-                }
+            System.debug('***nextStageConfig:2'+nextStageConfig);
+
+            if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCase, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
+                
+                resultWrapper.isPreviousStage = true;
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
             }
-            
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecord, caseRulesForNextStage);
-            resultWrapper.ownerId = info.defaultOwnerId;
             if(resultWrapper.ownerId == null){
-                resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
-            }
-            resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
-            if(resultWrapper.errorOwnerId == null){
-                resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseMovementHelper.getAssignmentForStage(currentCase, nextStageConfig.StageName__c);
+                System.debug('***Ritika:2'+info);
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
             }
             resultWrapper.stageConfig = nextStageConfig;
             resultWrapper.status = 'Success';
         }
+        System.debug('***nextStageConfig:1'+resultWrapper.stageConfig);
         return resultWrapper;
     }
 
+    /**
+     * One Method to find the rightr assignment for a certain stage
+     * This takes into account he following
+     * 
+     */
     public static ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo getAssignmentForStage(Case currentCase, String stageName){
 
         ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrapper = new ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo();
@@ -459,6 +497,7 @@ public class ASF_CaseMovementHelper {
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.StageName__c == stageName){
                 currentStageConfig = config;
+                break;
             }
         }
 
@@ -468,6 +507,7 @@ public class ASF_CaseMovementHelper {
         
         List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
         for(ASF_Case_Rule__c caseRule : allCaseRules){
+            system.debug(caseRule.Type__c + ' ' + caseRule.Case_Stage_Config__c + ' ' + caseRule.Assigned_Queue_Id__c);
             if(caseRule.Case_Stage_Config__c == currentStageConfig.Id){
                 caseRulesForStage.add(caseRule);
             }
@@ -521,9 +561,6 @@ public class ASF_CaseMovementHelper {
             }
         }
         
-        // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
-        List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(new Set<String>{currentCase.CCC_External_Id__c});
-        
         ASF_Case_Stage_Config__c nextStageConfig;
         Boolean isPreviousStage = false;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
@@ -545,37 +582,27 @@ public class ASF_CaseMovementHelper {
         if(nextStageConfig != null){
             
             // If Previously Assigned Stage, Find Previously Assigned Owner
-            if(isPreviousStage){
+            // If the Stage Config dictates to assign to an owner who 
+            // was the last actioned user of another stage, then find that
+            resultWrapper.stageConfig = nextStageConfig;
+            resultWrapper.status = 'Success';
+            if(isPreviousStage || nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
                 
-                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCase, nextStageConfig.StageName__c);
+                String stageName = nextStageConfig.StageName__c;
+                if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
+                    stageName = nextStageConfig.Assign_To_Last_Actioned_Stage__c;
+                }
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCase, stageName);
                 
-                resultWrapper.stageConfig = nextStageConfig;
-                resultWrapper.status = 'Success';
                 resultWrapper.isPreviousStage = true;
                 resultWrapper.ownerId = info.defaultOwnerId;
                 resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
             }
-            // If Gateway Stage, Find Assignment Based Assigned Owner
-            else{
-                
-                List<ASF_Case_Rule__c> caseRulesForNextStage = new List<ASF_Case_Rule__c>();
-                for(ASF_Case_Rule__c caseRule : allCaseRules){
-                    if(caseRule.Case_Stage_Config__c == nextStageConfig.Id){
-                        caseRulesForNextStage.add(caseRule);
-                    }
-                }
-                
-                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.runAssignmentRules(currentCase, caseRulesForNextStage);
+
+            if(resultWrapper.ownerId == null){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseMovementHelper.getAssignmentForStage(currentCase, nextStageConfig.StageName__c);
                 resultWrapper.ownerId = info.defaultOwnerId;
-                if(resultWrapper.ownerId == null){
-                    resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
-                }
                 resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
-                if(resultWrapper.errorOwnerId == null){
-                    resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
-                }
-                resultWrapper.stageConfig = nextStageConfig;
-                resultWrapper.status = 'Success';
                 resultWrapper.isPreviousStage = false;
             }
         }
@@ -613,6 +640,7 @@ public class ASF_CaseMovementHelper {
         additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(currentCase, caseRulesForStage);
         additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(currentCase, caseRulesForStage);
         additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(currentCase, caseRulesForStage);
+         additionalData.slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(currentCase, caseRulesForStage);  
         if(nextStageConfig != null){
             additionalData.allIntegrations = nextStageConfig.ASF_Integrations__r;
         }
@@ -650,6 +678,7 @@ public class ASF_CaseMovementHelper {
         public List<ASF_Checklist__c> checklistToInsert;
         public List<Task> tasksToInsert;
         public List<ASF_Integration__c> allIntegrations;
+        public map<String,long> slaCaseAndStageOverrideValues;
         
     }
     

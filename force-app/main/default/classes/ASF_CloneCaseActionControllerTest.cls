@@ -36,6 +36,12 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Asset ast = new Asset(Name='AccountFinacial',AccountId=acc.Id, LOB_Code__c = lob.Id,Price=100
         //,Financial_Account_Number__c = '0123456789123'
         );
+        ast.Name = 'aas';
+        ast.Aggrement_Date__c = Date.newInstance(2023, 06, 09);
+        ast.Application_Number__c = '12345';
+        ast.Approved_Date__c = Date.newInstance(2023, 06, 10);
+        ast.Approved_Limit__c = 200;
+        ast.Branch_Code__c = 'AST';
         insert ast;
         ASF_Case_Category_Config__c  ccc = new ASF_Case_Category_Config__c (CCC_External_Id__c ='CCC-CC-RC-01',Nature__c = 'Query',Product__c= 'CEC',Type__c= 'Testing',
                                                                 Business_Unit__c = 'ABHFL',Sub_Type__c = 'CreditCard',Source__c='CEC', 
@@ -46,9 +52,6 @@ public with sharing class ASF_CloneCaseActionControllerTest {
                                                                 );
         insert ccc;
 
-        Group testGroup = [Select Id from Group where DeveloperName ='Payment_Service_Desk' LIMIT 1];
-        Group testGroupError = [Select Id from Group where DeveloperName ='DefaultErrorQueue' LIMIT 1];
-        
         ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
         stage1.Case_Category_Config__c = ccc.Id;
         stage1.Order__c = 1;
@@ -59,8 +62,6 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         stage1.SLA_Target_1_Type__c = 'Manager';
         stage1.Query_Fields__c = 'Id,Stage__c';
         stage1.Manual_Stage__c = false;
-        stage1.Default_Queue__c = testGroup.Id;
-        stage1.Default_Error_Queue__c = testGroupError.Id;
         
         insert stage1;
         List<ASF_Case_Field_Config__c> fieldConfigs = new List<ASF_Case_Field_Config__c>();
@@ -88,14 +89,43 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Case cs = new Case();
         cs.AccountId = acc.Id;
         cs.CCC_External_Id__c = 'CCC-CC-RC-01';
-        cs.Technical_Source__c = 'API';
+        cs.Technical_Source__c = 'LWC';
         cs.Status = 'New';
         cs.Stage__c='New';
         cs.ASF_Is_Cloneable__c = ccc.ASF_Is_Cloneable__c;
-        cs.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
         cs.PAY_Payment_Detail__c = payRec.Id;
         insert cs;
         
+        /*Case caseRec = new Case();
+        caseRec.PAY_Payment_Detail__c = payRec.Id;
+        caseRec.Origin = 'Phone';
+        caseRec.Subject = 'SR : '+ccc.Type__c;
+        caseRec.AssetId = ast.Id;
+        caseRec.CCC_External_Id__c = 'CCC-CC-RC-01';
+        caseRec.Stage__c = 'New';
+        caseRec.Status = 'New';
+        //caseRec.Type__c = ccc.Type__c;
+        caseRec.Type_Text__c = ccc.Type__c;
+        //caseRec.Sub_Type__c = ccc.Sub_Type__c;
+        caseRec.Sub_Type_Text__c = ccc.Sub_Type__c;
+        //caseRec.Origin__c = 'RL';
+        caseRec.Nature__c = 'Query';
+        //caseRec.Reopen_Days__c = ccc.Reopen_Days__c;
+        caseRec.ASF_Is_Cloneable__c = ccc.ASF_Is_Cloneable__c; //Functionality Clone SR - Santanu Oct27,2023
+        
+        caseRec.AccountId = acc.Id;
+        //caseRec.Branch_Master__c = acc.Home_Branch__c;
+        //caseRec.FA_Number__c = 'NA';
+        
+        caseRec.Source__c = ccc.Source__c;
+        //caseRec.Customer_Friendly_Verbiage__c = ccc.Customer_Friendly_Name__c;
+        caseRec.Channel__c = '';
+        
+        caseRec.Technical_Source__c = 'LWC';
+        caseRec.Business_Unit__c = 'ABHFL'; 
+        //caseRec.Complaint_Level__c = 'L1';
+        insert caseRec;*/
+
     }
 
     @isTest
@@ -151,7 +181,7 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Test.startTest();
         ASF_CloneCaseActionController.FieldListWrapper wrap = ASF_CloneCaseActionController.fetchCCCSpecificFieldsToCopy(caseRec.Id);
         Test.stopTest();
-        Assert.isNotNull( wrap.fieldList, 'Expected fieldList to be populated');
+        Assert.isNotNull(wrap.fieldList, 'Expected fieldList to be populated');
     }
 
     @isTest
@@ -251,16 +281,15 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         ASF_CloneCaseActionController.CaseDetailWrapper result = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, caseRec.Id);
         caseRec.CCC_External_Id__c = 'Invalid';
         update caseRec;
-        
-        Test.startTest();
-        try {
+        try{
+            Test.startTest();
             Case cloneCaseRecord = result.caseRecord.clone(false, true, false, false);
             SObject cloneExtnRecord = result.extnRecords.get('PAY_Payment_Detail__c').clone(false, true, false, false);
             ASF_CloneCaseActionController.CaseDetailWrapper cloneresult = ASF_CloneCaseActionController.createCloneCase(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, caseRec.Id);
+            Test.stopTest();
         }
-        catch(Exception e) {
-            
+        catch(Exception e){
+            Assert.areEqual('List index out of bounds: 0', e.getMessage(), 'Expected List index out of bounds');
         }
-        Test.stopTest();
     }
 }
