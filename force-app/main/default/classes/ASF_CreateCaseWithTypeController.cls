@@ -23,10 +23,10 @@ public with sharing class ASF_CreateCaseWithTypeController {
         LOBMappingDetails__mdt choosenOneMTD;  
         
         // Return from Method if no CC or LOB mappping is present
-        if(String.isBlank(strBusUnit))
+        if(String.isBlank(strLOB))
             return objCaseDetailsWrapper;
         
-        objCaseDetailsWrapper.userBu = strBusUnit;
+        objCaseDetailsWrapper.userBu = strLOB;
         
         List<LOBMappingDetails__mdt> lstLOBMapping = new List<LOBMappingDetails__mdt>();
         
