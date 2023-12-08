@@ -703,11 +703,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Vertical__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -739,11 +734,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Father_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.FirstName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
