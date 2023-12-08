@@ -7,7 +7,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <valueSetDefinition>
+      <valueSetDefinition>
             <sorted>false</sorted>
             <value>
                 <fullName>Digital</fullName>
