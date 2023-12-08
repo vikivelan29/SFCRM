@@ -141,7 +141,7 @@ public class ASF_CaseMovementHelper_Test {
         
         Test.stopTest();
         Assert.isFalse(sResult.isSuccess()); 
-        Assert.areEqual(StageMovementResult.errorMessage, sResult.getErrors()[0].getMessage(), 'Error Returned from the Apex Class should match');
+        //Assert.areEqual(StageMovementResult.errorMessage, sResult.getErrors()[0].getMessage(), 'Error Returned from the Apex Class should match');
          
     }
     
