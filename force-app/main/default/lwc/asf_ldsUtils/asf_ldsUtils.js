@@ -70,6 +70,9 @@ export function reduceErrors(errors) {
                 else if (typeof error.message === 'string') {
                     return error.message;
                 }
+                else if (typeof error === 'string') {
+                    return error;
+                }
                 // Unknown error shape so try HTTP status text
                 return error.statusText;
             })

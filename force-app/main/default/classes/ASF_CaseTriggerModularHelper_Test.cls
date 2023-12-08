@@ -19,7 +19,7 @@ public class ASF_CaseTriggerModularHelper_Test {
                            alias = 'uqusr', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
                            languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true,ManagerId=manager1.Id);
         insert objUser;
-
+        
         insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
         Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
         Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
@@ -168,7 +168,21 @@ public class ASF_CaseTriggerModularHelper_Test {
         update casesList;
         Test.stopTest();
         Case caseRec = [Select Id, Stage__c from Case LIMIT 1];
-        Assert.areEqual('Unresolved', caseRec.Stage__c, 'Stage should be Rejected');
+        Assert.areEqual(ASF_Constants.REJECTIONSTATUS, caseRec.Stage__c, 'Stage should be Rejected');
+    }
+    @IsTest
+    static void test_rejectFrameworkCaseBeforeUpdate2(){
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        Test.startTest();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+        casesList[0].Technical_Source__c = 'API';
+        insert casesList;
+        casesList[0].Is_Duplicate__c = true;
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+        update casesList;
+        Test.stopTest();
+        Case caseRec = [Select Id, Stage__c from Case LIMIT 1];
+        Assert.areEqual(ASF_Constants.DUPLICATESTAGE, caseRec.Stage__c, 'Stage should be Rejected');
     }
 
     @IsTest
@@ -196,19 +210,56 @@ public class ASF_CaseTriggerModularHelper_Test {
 
     @IsTest
     static void test_caseOwnerChangeValidation(){
-        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        User objUser = [select id from user where email = 'test0@salesforce.com'];
+        insert new PermissionSetAssignment(AssigneeId=objUser.Id,
+                                   PermissionSetId=[Select Id from PermissionSet where Name = 'Admin_User' LIMIT 1].Id);
+        
         
         Test.startTest();
-        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
-        casesList[0].Technical_Source__c = 'API';
-        insert casesList;
+        System.runAs(objUser){
+            ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+            List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+            casesList[0].Technical_Source__c = 'API';
+            insert casesList;
 
-        casesList[0].OwnerId = UserInfo.getUserId();
+            casesList[0].OwnerId = UserInfo.getUserId();
+            ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+            try{
+                update casesList;
+            }catch(DMLException e){
+                Assert.isTrue(e.getDmlMessage(0) == Label.Owner_Change_Validation_Message, 'Should encounter error');
+            }
+        }
+        Test.stopTest();
+        
+    } 
+    @IsTest
+    static void test_caseOwnerChangeAccessValidation(){
+        ASF_TestDataFactory.createCaseRecords(1);
+        
+        Test.startTest();
+        List<Case> casesList = [select id, ownerId from case LIMIT 1];
+        User objUser = [select Id, managerGroupId__c,managerId,manager.Id,manager.manager.Id,
+                                                   manager.manager.manager.id,manager.manager.manager.manager.id,
+                                                   manager.manager.manager.manager.manager.id 
+                                                   from user where id !=: casesList[0].ownerId LIMIT 1];
+        User objUser1 = new User(profileId = SYSTEMADMIN_PROFILE.Id, email = 'test0@salesforce.com',
+                           Username = 'Test1'+String.valueOf(Integer.valueof((Math.random() * 10)))+'@mock.com',
+                           alias = 'uquss', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
+                           languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
+        insert objUser1;
+        
+        casesList[0].ownerId = objUser.Id;
+
         ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         try{
-            update casesList;
+            System.runAs(objUser1){
+                update casesList;
+                Map<Id, Case> oldMap = new Map<Id, Case>([select id, ownerId from case]);
+                ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(casesList, oldMap);
+            }
         }catch(DMLException e){
-            //Assert.isTrue(e.getDmlMessage(0) == Label.Owner_Change_Validation_Message, 'Should encounter error');
+            Assert.isTrue(e.getDmlMessage(0) == Label.ASF_Owner_Change_Access_Val_Msg, 'Should encounter error');
         }
         Test.stopTest();
         
