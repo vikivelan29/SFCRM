@@ -3,9 +3,17 @@
     <fullName>Maritual_Status__c</fullName>
     <externalId>false</externalId>
     <label>Maritual Status</label>
-    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>....</fullName>
+                <default>false</default>
+                <label>....</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
