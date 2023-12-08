@@ -17,23 +17,6 @@ public with sharing class ASF_Case360Controller {
             caseQuery += ' from Case where Id = :caseId';
             Case cRec = Database.query(caseQuery);
             wrap.caseRec = cRec;
-
-
-            String extnObjName = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(cRec.CCC_External_Id__c);
-            if(extnObjName != null && cRec.get(extnObjName) != null){
-                Id extnId = (Id)cRec.get(extnObjName);
-                String caseExtnQuery = 'Select ';
-                Schema.DescribeSObjectResult rExtn = extnId.getSObjectType().getDescribe();
-                Map<String, Schema.SObjectField> mapOfFieldsExtn = rExtn.fields.getMap();
-                for(String fieldName : mapOfFieldsExtn.keySet()) 
-                {
-                    Schema.DescribeFieldResult fieldRes = mapOfFieldsExtn.get(fieldName).getDescribe();
-                    caseExtnQuery += fieldRes.getName()+', '; 
-                }
-                caseExtnQuery = caseExtnQuery.removeEnd(', ');
-                caseExtnQuery += ' from '+extnObjName+' where Id = :extnId';
-                wrap.caseExtnRec = Database.query(caseExtnQuery);
-            }
             wrap.isSuccess = true;
             return wrap;
         } catch (Exception e) {
@@ -47,19 +30,11 @@ public with sharing class ASF_Case360Controller {
      * 
      */
     @AuraEnabled
-    public static void updateCaseWithCaseExtn(SObject caseRec, SObject caseExtn){
+    public static void updateCaseWithCaseExtn(Case caseRec, SObject caseExtn){
         try {
-            List<SObject> recordsToUpdate = new List<SObject>();
-            if(caseExtn != null){
-                recordsToUpdate.add(caseExtn);
-            }
-            recordsToUpdate.add(caseRec);
-            update recordsToUpdate;
-        } catch(DmlException dmlE){
-            AuraHandledException ex = new AuraHandledException(dmlE.getDMLMessage(0));
-            ex.setMessage(dmlE.getDMLMessage(0));
-            throw ex;
-        }catch (Exception e) {
+            update caseExtn;
+            update caseRec;
+        } catch (Exception e) {
             AuraHandledException ex = new AuraHandledException(e.getMessage());
             ex.setMessage(e.getMessage());
             throw ex;
@@ -101,7 +76,6 @@ public with sharing class ASF_Case360Controller {
     public class UserAndCaseWrapper{
         @AuraEnabled public User userRec{get;set;}
         @AuraEnabled public Case caseRec{get;set;}
-        @AuraEnabled public SObject caseExtnRec{get;set;}
         @AuraEnabled public Boolean isSuccess{get;set;}
         @AuraEnabled public String errorMsgIfAny{get;set;}
     }

@@ -61,10 +61,9 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
     }
     @wire(CurrentPageReference) pageRef;
 
-    handlePublishedMessage(payload) {
-        console.log('handlePublishedMessage of casepath');
-        if (subscribeBrowserEvent.trim().toUpperCase() == "TRUE") {
-            if (payload.source != 'casepath' && this.recordId == payload.recordId) {
+    handlePublishedMessage(recordId) {
+        if (subscribeBrowserEvent.trim().toUpperCase() != "TRUE") {
+            if (this.recordId == recordId) {
                 this.getCasePathInfo();
             }
         }

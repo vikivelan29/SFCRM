@@ -210,7 +210,7 @@ public with sharing class ASF_CloneCaseActionController {
                                                     ASF_Is_Cloneable__c, Type__c, Sub_Type__c  
                                                     FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
             
-            cloneCaseRecord.Cloned_From__c = originalCaseId;
+            cloneCaseRecord.ParentId = originalCaseId;
             //cloneCaseRecord.ASF_Is_Cloneable__c = cccRecs[0].ASF_Is_Cloneable__c; - Moved to case trigger
             //cloneCaseRecord.Stage__c = cccRecs[0].First_Stage__c; - Moved to case trigger
             /** Commented the below lines as the fields are not present in ABCL Dev org */

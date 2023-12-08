@@ -1,5 +1,5 @@
 /*********************************************************
-*Name           :   ASF_Constants
+*Name           :   ksc_Constants
 *Author         :   Megha Sahu
 *Since          :   1st Nov 2022   
 *Description    :   Constant class to store all the resable variables at one place
@@ -102,11 +102,8 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
-    
     public static final String REJECTIONSTATUS = 'Unresolved';
-    public static final String DUPLICATESTATUS = 'Closed Duplicate';
-    public static final String DUPLICATESTAGE = 'Duplicate';
-    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
+    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected'};
         public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
 
 }

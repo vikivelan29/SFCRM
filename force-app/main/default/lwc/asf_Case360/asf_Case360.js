@@ -4,7 +4,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { getRequiredFieldExpr } from './asf_CaseConfigExpr';
 
-import { updateRecord, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
+import { updateRecord } from 'lightning/uiRecordApi';
 
 import CASE_ID from '@salesforce/schema/Case.Id';
 import CASE_TECH_SOURCE from '@salesforce/schema/Case.Technical_Source__c';
@@ -28,7 +28,7 @@ import { publish, MessageContext } from 'lightning/messageService';
 
 import getLatestCaseApprovalDetails from '@salesforce/apex/ASF_GetCaseRelatedDetails.getLatestCaseApprovalRecord';
 //import ksc_ReloadRequiredFlag from '@salesforce/label/c.ksc_ReloadRequiredFlag';
-import { fireEvent, fireEventNoPageRef, registerListener } from 'c/asf_pubsub'; // Virendra - Instead of LMS moving to pubsub
+import { fireEvent } from 'c/asf_pubsub'; // Virendra - Instead of LMS moving to pubsub
 import executeValidation from '@salesforce/apex/ASF_Case360ParaTamperingHelper.executeValidation';
 
 //Added for Complain Rejection
@@ -53,7 +53,7 @@ import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE,
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
-    caseFieldsMetadata = [];
+    @track caseFieldsMetadata = [];
     currentStep = '';
     stagesData = [];
     caseCategoryConfig = [];
@@ -97,7 +97,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     showBackButton = false;
     showPrimaryButtons = true;
     isValid = false;
-    openClosurePopUp = false;
+    showRejetedReason = false;
     showWBGRejetedReason = false;
     rejectedReason = '';
     showPNOReccomendation = false;
@@ -110,6 +110,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     showManualStagesButton = false
     showManualStagesComp = false;
     isClosedOrRejected = false;
+    showEditDetailsButton = true;
     showSubmitButtons = true;
     fileValidation;
     //tst end
@@ -200,6 +201,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     accessState;
     isReadOnly = false;
     selectedReason = '';
+    reasonLOV = [];
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
 
@@ -217,110 +219,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     //Optimization variables
     loadReady = false;
-    userClickedEditDetails = false;
+
     processApexReturnValue;
-    caseExtensionRecord;
-    showForwardStages = false;
-    closureTypeSelected = 'resolved';
-    get closureTypeOptions(){
-        return [
-            {label: 'Close Resolved',value: 'resolved'}, 
-            {label: 'Close Unresolved',value: 'unresolved'}
-        ];
-    }
-    get showRejectPanel(){
-        return this.closureTypeSelected == 'unresolved';
-    }
-    get hasApprovalRecord(){
-        return this.caseApprovalRecord != undefined && this.caseApprovalRecord != null;
-    }
-    get isPendingForApproval(){
-        let stgData;
-        let caseStage = this.currentStatus;
-        if(this.hasApprovalRecord){
-            for (let i in this.stagesData) {
-                if (caseStage.trim().toLowerCase() == this.stagesData[i].Stage_Name__c.trim().toLowerCase()) {
-                    stgData = this.stagesData[i];
-                    break;
-                }
-            }
-            if (stgData.Is_Approval_Stage__c) {
-                let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
-                if (latestCaseApprovalStatus.trim().toLowerCase() == 'pending') {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    get isCaseAtFirstStage(){
-        let currentStageConfig = this.stagesData.filter((item, index)=>{
-            return item.StageName__c == this.caseObj.Stage__c;
-        });
-        if(currentStageConfig == undefined){
-            return false;
-        }
-        return currentStageConfig.Order__c == '1';
-    }
-
-    //Button Visibility getters
-    get showEditDetailsButton(){
-        // * Page is rendered in read-only mode - toggleUIView = false
-        // * Case is not rejected - isRejection = false
-        // * Current user is owner - isCurrentUserOwner = true
-        // * Case is not in Closed state
-        // * Edit mode is not open
-        // * Case is not pending for approval
-        console.log('In showEditDetailsButton', this.loadReady, this.userClickedEditDetails, this.caseObj.IsClosed, this.isCurrentUserOwner, this.isPendingForApproval);
-        return this.loadReady && !this.userClickedEditDetails && !this.caseObj.IsClosed 
-                && this.isCurrentUserOwner && !this.isPendingForApproval;
-    }
-
-    get openEditMode(){
-        // * Case is not rejected - isRejection = false
-        // * Current user is owner - isCurrentUserOwner = true
-        // * Case is not in Closed state
-        // * User clicked on Edit Details button
-        // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
-    }
-
-    get displayBackButton(){
-        // * Case is not rejected - isRejection = false
-        // * Current user is owner - isCurrentUserOwner = true
-        // * Case is not in Closed state
-        // * User clicked on Edit Details button
-        // * Case is not pending for approval
-        // * Case is not at first stage
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage;
-    }
-
-    get showSaveButton(){
-        // * Case is not rejected - isRejection = false
-        // * Current user is owner - isCurrentUserOwner = true
-        // * Case is not in Closed state
-        // * User clicked on Edit Details button
-        // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
-    }
-
-    get showCancelButton(){
-        // * User clicked on Edit Details button
-        return this.loadReady && this.userClickedEditDetails;
-    }
-
-    get displayCloseButton(){
-        // * Case is not rejected - isRejection = false
-        // * Current user is owner - isCurrentUserOwner = true
-        // * Case is not in Closed state
-        // * User clicked on Edit Details button
-        // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
-    }
 
     //utility method
     showError(variant, title, error) {
@@ -332,28 +232,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         });
         this.dispatchEvent(event);
     }
-    showSuccessMessage(variant, title, message) {
-        const event = new ShowToastEvent({
-            variant: variant,
-            title: title,
-            message: message
-        });
-        this.dispatchEvent(event);
-    }
-
-    @wire(CurrentPageReference) pageRef;
-    @wire(MessageContext) messageContext;
-    //tst start
-    @wire(CurrentPageReference)
-    getStateParameters(currentPageReference) {
-        var mode;
-        if (currentPageReference) {
-            mode = currentPageReference.state?.mode;
-            if (mode == 'edit') {
-                this.currentPageMode = 'edit';
-            }
-        }
-    }
     /**
      * This wire function is rewritten consolidating 4 wire methods which were fetching data on the similar lines.
      * Consolidating the methods also omits the possibility of concurrency issues.
@@ -361,7 +239,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @wire(fetchUserAndCaseDetails, {
         "caseId": '$recordId'
     })
-    async processResult(result){
+    processResult(result){
+    //processResult({ error, data }) {
+
         this.processApexReturnValue = result;
         
         if (result.data) {
@@ -376,7 +256,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             this.caseType = this.caseObj.Type_Text__c;
             this.caseSubType = this.caseObj.Sub_Type_Text__c;
             this.caseNature = this.caseObj.Nature__c;
-            this.caseExtensionRecord = result.data.caseExtnRec;
             if (this.caseNature == 'Query') {
                 this.showSaveAndCloseButton = true;
             }
@@ -385,12 +264,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             }
             this.currentStep = this.currentStatus = this.caseObj.Stage__c;
             console.log(this.cccExternalId + ' : ' + this.currentStatus);
-            this.showPreviousStages = false;
-            this.showForwardStages = false;
-            this.userClickedEditDetails = false;
+            if ((this.currentStep != 'Pending with Initiator' && this.currentStep != 'In Progress with SESO') && !this.isPendingClarification) {
+                this.showBackButton = true;
+            }
+            else if (this.currentStep == 'Pending with Initiator' || this.currentStep == 'In Progress with SESO') {
+                this.showBackButton = false;
+            }
+
             if (this.currentOwnerId == this.currentUserId) {
                 this.isCurrentUserOwner = true;
-                if (this.currentPageMode == 'edit') {
+                if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
                     this.toggleUIView = true;
                 }
             } else {
@@ -406,6 +289,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             if (bEndStatus || this.isReadOnly) {
                 this.toggleUIView = false;
                 this.isClosedOrRejected = true;
+                this.showEditDetailsButton = false;
             } else {
                 this.isClosedOrRejected = false;
             }
@@ -415,175 +299,35 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.showRejectButton = true;
             }
 
-            //this.adjustFieldsOnStageChange();
+            this.adjustFieldsOnStageChange();
 
             this.fetchPreviousStages();
             console.log('fetchPreviousStages done');
             this.fetchAllManualStages();
             console.log('fetchAllManualStages done');
-
-            //FROM renderedCallback
-            if (this.cccExternalId == undefined || this.cccExternalId == null) {
-                return;
-            }
-            if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
-                let caseCatConfig = await getCaseCategoryConfig({ cccExtId: this.cccExternalId }).catch((error)=>{
-                    this.showError('error', 'Unable to fetch Case Category Config', error);
-                    return;
-                });
-                if (caseCatConfig != undefined && caseCatConfig[0] != undefined) {
-                    console.log('getCaseCategoryConfig', JSON.stringify(caseCatConfig));
-                    this.caseCategoryConfig = caseCatConfig;
-                    this.caseCategoryConfigId = this.caseCategoryConfig[0].Id;
-                    this.cccBU = this.caseCategoryConfig[0].Business_Unit__c;
-                    this.getStages(this.caseCategoryConfigId);
-                }
-            }
-
-            if (this.cccExternalId != null && this.cccExternalId != undefined) {
-                console.log('cccExternalId found');
-                getCaseFieldsConfig({ cccId: this.cccExternalId, status: this.currentStatus, caseId: this.recordId })
-                    .then(result => {
-                        this.iCounter++;
-                        this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
-                        console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
-                        let caseFieldsCount = 0,extnFieldsCount = 0;
-                        for(let item of this.caseFieldsMetadata){
-                            if(item.isCase == true){
-                                caseFieldsCount++;
-                            }else{
-                                extnFieldsCount++;
-                            }
-                        }
-                        console.log(caseFieldsCount, extnFieldsCount);
-                        
-                        let isOdd = (caseFieldsCount%2 == 1);
-                        let isOddExtn = (extnFieldsCount%2 == 1);
-                        console.log('isOdd', isOdd, isOddExtn);
-                        this.caseFieldsMetadata = this.caseFieldsMetadata.map((item, index)=>{
-                            if(item.isCase == true){
-                                caseFieldsCount--;
-                                if(isOdd && caseFieldsCount == 0){
-                                    //last item
-                                    item['layoutItemSize'] = 12;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
-                                }else{
-                                    item['layoutItemSize'] = 6;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal'
-                                }
-                            }else{
-                                extnFieldsCount--;
-                                if(isOddExtn && item.isCase == undefined && extnFieldsCount == 0){
-                                    //last item
-                                    item['layoutItemSize'] = 12;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
-                                }else{
-                                    item['layoutItemSize'] = 6;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal'
-                                }
-                            }
-                            return item;
-                        });
-
-                        console.log('&&& After manipulation this.caseFieldsMetadata'+JSON.stringify(this.caseFieldsMetadata));
-                        getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
-                        if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
-                            for (var fieldConfig in this.caseFieldsMetadata) {
-                                if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
-                                    if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
-                                        if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
-                                            this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        }
-                                        else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
-                                            this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                            this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-                                            this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        }
-                                    }
-                                    else {
-                                        this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-                                        this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                    }
-                                }
-                            }
-                            console.log('******this.caseFieldsMetadata'+JSON.stringify(this.caseFieldsMetadata));
-                            if (this.defaultFieldValuesMap.size > 0) {
-                                getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
-                                    .then(result => {
-                                        this.caseDefaultValuesObj = result;
-                                        var revisedList = [];
-                                        for (var field in this.defaultFieldValues) {
-                                            revisedList.push(this.defaultFieldValues[field].replace('case.', ''));
-                                        }
-
-                                        for (var count in revisedList) {
-                                            var prop, props = revisedList[count].split('.');
-                                            for (var i = 0, iLen = props.length - 1; i < iLen; i++) {
-
-                                                if (i == 0) {
-                                                    prop = props[i];
-                                                    this.defaultValues.push(this.caseDefaultValuesObj[prop][props[++i]]);
-
-                                                }
-
-                                            }
-                                        }
-                                        this.assignDefaultValues();
-                                        //this.adjustFieldsOnStageChange();
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                        this.showError('error', 'Oops! Error occured', error);
-                                    })
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.showError('error', 'Oops! Error occured', error);
-                    });
-                //}
-                if (this.caseObj != undefined && this.caseObj != null) {
-                    if (this.caseObj.is_Manual_Approval__c == true) {
-                        this.getlatestCaseApprovalRecordStatus(this.caseObj.Stage__c);
-                    }
-                }
-
-                if (this.caseRelObjName == null || this.caseRelObjName == undefined) {
-                    this.getCaseRelatedObjName(this.cccExternalId);
-                }
-            }
-
-            let renderedLightningInputCount = this.template.querySelectorAll('lightning-input-field').length;
-            if (renderedLightningInputCount > 1) {
-                if (!this.hasPostRenderingDomManupulationDone) {
-                    this.adjustFieldsOnStageChange();
-                    this.hasPostRenderingDomManupulationDone = true;
-                }
-
-            }
-            
             this.loading = false;
             this.loadReady = true;
-            
-            //Notify record edit forms about change in data
-            let changeArray = [{recordId: this.recordId}];
-            if(this.caseExtensionRecord){
-                changeArray = [...changeArray, {recordId : this.caseExtensionRecord.Id}];
-            }
-            await notifyRecordUpdateAvailable(changeArray);
         } else if (result.error) {
             this.showError('error', 'Error while loading the case', result.error);
             this.loading = false;
         }
     }
 
-    /** OPTIMIZATION METHODS START */
+    @wire(MessageContext)
+    messageContext;
+
+    //tst start
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+        var mode;
+        if (currentPageReference) {
+            mode = currentPageReference.state?.mode;
+            if (mode == 'edit') {
+                this.currentPageMode = 'edit';
+            }
+        }
+    }
+
     /**
      * This method
      */
@@ -592,409 +336,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         updateCaseWithCaseExtn({caseRec : caseRec, caseExtn : caseExtnRec})
         .then((result)=>{
             console.log('saveCaseWithExtension success');
-            let toastMsg = this.skipMoveToNextStage?'Case updated':'Case updated and moved to next stage';
-            this.showSuccessMessage('success', toastMsg, '');
-            this.handlePublishEvent();
             this.loading = false;
-            this.skipMoveToNextStage == false;
-            this.loadReady = false;
-            refreshApex(this.processApexReturnValue);
         })
         .catch((error)=>{
             console.error(error);
-            this.showError('error', 'Oops! Error occured', error);
-            this.loading = false;
         });
     }
-
-    saveCase(caseRec){
-        console.log('in saveCase');
-        updateCaseWithCaseExtn({caseRec : caseRec, caseExtn : null})
-        .then((result)=>{
-            console.log('saveCase success');
-            let toastMsg = this.skipMoveToNextStage?'Case updated':'Case updated and moved to next stage';
-            this.showSuccessMessage('success', toastMsg, '');
-            this.handlePublishEvent();
-            this.loading = false;
-            this.skipMoveToNextStage == false;
-            this.loadReady = false;
-            refreshApex(this.processApexReturnValue);
-        })
-        .catch((error)=>{
-            console.error(error);
-            this.showError('error', 'Oops! Error occured', error);
-            this.loading = false;
-        });
-    }
-
-    closeTheCase(event) {
-        if(this.closureTypeSelected == 'unresolved'){
-            //Checking if Rejection Reason is empty
-            const allValid = [
-                ...this.template.querySelectorAll('.ReasonInput'),
-            ].reduce((validSoFar, inputCmp) => {
-                inputCmp.reportValidity();
-                return validSoFar && inputCmp.checkValidity();
-            }, true);
-            if (allValid) {
-                this.loading = true;
-                const fields = {};
-                fields[CASE_ID.fieldApiName] = this.caseObj.Id;
-                fields[CASE_REJECTFLAG.fieldApiName] = true;
-                fields[CASE_REJECTEDREASON.fieldApiName] = this.rejectedReason;
-                fields[CASE_REJECTIONREASON.fieldApiName] = this.selectedReason;
-                if(this.caseObj.Technical_Source__c == 'API'){
-                    fields[CASE_TECH_SOURCE.fieldApiName] = 'LWC';
-                }
-                const recordInput = { fields };
-                updateRecord(recordInput)
-                .then(result => {
-                    console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
-                    this.showSuccessMessage('success', "Success", "SR is Rejected");
-                    this.handlePublishEvent();
-                    this.openClosurePopUp = false;
-                    this.loading = false;
-                    this.loadReady = false;
-                    refreshApex(this.processApexReturnValue);
-                })
-                .catch(error => {
-                    this.showError('error', 'Oops! Error occured', error);
-                    this.loading = false;
-                });
-            }
-        }else if(this.closureTypeSelected == 'resolved'){
-            let isFormValidated = this.validateFields();
-            if (!isFormValidated) {
-                this.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
-                return;
-            }
-            this.selectedManualStage = 'Resolved';
-            this.saveManualCaseStage();
-        }else{
-            this.showError('error', 'Please select a closure type to proceed', '');
-        }
-    }
-
-    saveBackCaseStage(event) {
-        this.loading = true;
-        let caseRecord;
-        caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-        caseRecord['Stage__c'] = this.selectedStage;
-        caseRecord['Pending_Clarification__c'] = true;
-        caseRecord['moved_back__c'] = true;
-        caseRecord['Is_Manual_Moved__c'] = false;
-        if(this.caseObj.Technical_Source__c == 'API'){
-            caseRecord['Technical_Source__c'] = 'LWC';
-        }
-        this.saveCase(caseRecord);
-    }
-
-    saveManualCaseStage(event) {
-        let isFormValidated = this.validateFields();
-        if (isFormValidated) {
-            this.manualStageCalled = true;
-            this.loading = true;
-            this.skipMoveToNextStage = true;
-
-            //get case record as object from lightning-record-edit-form
-            let caseRecord;
-            let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-            if(caseElement){
-                let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
-                let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-                caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-                caseRecord['Stage__c'] = this.selectedManualStage;
-                caseRecord['Pending_Clarification__c'] = false;
-                caseRecord['moved_back__c'] = false;
-                caseRecord['Is_Manual_Moved__c'] = true;
-                if(this.caseObj.Technical_Source__c == 'API'){
-                    caseRecord['Technical_Source__c'] = 'LWC';
-                }
-            }
-
-            //get case extn record as object from lightning-record-edit-form
-            let caseExtnRecord;
-            let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-            if(caseExtnElement){
-                let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
-                let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-                caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
-                caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
-            }
-            this.saveCaseWithExtension(caseRecord, caseExtnRecord);
-        }
-    }
-
-    getStages(ccConfigId) {
-        getStageConfig({ 
-            cccId: ccConfigId 
-        })
-        .then(result => {
-            this.stagesData = result;
-            console.log('tst' + JSON.stringify(this.stagesData));
-
-            if (this.stagesData != null && this.stagesData != undefined) {
-                for (let i in this.stagesData) {
-                    if (this.currentStep == this.stagesData[i].StageName__c) {
-                        if (this.stagesData[i].hasOwnProperty('Enable_Reassign_Owner__c')
-                            && this.stagesData[i].Enable_Reassign_Owner__c == true) {
-                            this.boolSaveReassignButton = true;
-                        }
-                        else {
-                            this.boolSaveReassignButton = false;
-                        }
-                    }
-                }
-            }
-        })
-        .catch(error => {
-            console.log(error);
-            this.showError('error', 'Oops! Error occured', error);
-        });
-
-    }
-    cancelClose() {
-        this.openClosurePopUp = false;
-        this.rejectedReason = '';
-        this.selectedReason = '';
-        this.closureTypeSelected = 'resolved';
-    }
-    handleClose(event) {
-        this.fetchRejectionReason();
-        this.openClosurePopUp = true;
-        // Virendra : 3 Apr 2023 : Performance Fixes.
-        this.hasPostRenderingDomManupulationDone = false;
-    }
-    setRejectedReason(event) {
-        this.rejectedReason = event.target.value;
-    }
-    handleRejReasonChange(event) {
-        this.selectedReason = event.target.value;
-    }
-    handleClosureTypeChange(event) {
-        this.closureTypeSelected = event.target.value;
-    }
-    handleEditCancel() {
-        this.userClickedEditDetails = false;
-    }
-    handleForwardStageMove(){
-        let isFormValidated = this.validateFields();
-        if(isFormValidated){
-            this.showForwardStages = true;
-        }
-    }
-    handleSubmit2(event){
-        event.preventDefault();
-        this.loading = true;
-        this.hasError = this.validateFields();
-        if (this.hasError) {
-            //get case record as object from lightning-record-edit-form
-            let caseRecord;
-            let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-            if(caseElement){
-                let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
-                let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-                caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-                if(this.skipMoveToNextStage == false){
-                    //move to next stage is clicked
-                    caseRecord['MoveToNext__c'] = true;
-                }
-                if(this.caseObj.Technical_Source__c == 'API'){
-                    caseRecord['Technical_Source__c'] = 'LWC';
-                }
-                console.log('caseRecord', JSON.stringify(caseRecord));
-            }
-
-            //call server method to save the record
-            this.saveCase(caseRecord);
-        }else {
-            this.loading = false;
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Required Fields Missing',
-                    message: 'Please fill all the required fields',
-                    variant: 'error',
-                }),
-            );
-        }
-    }
-
-    handleSubmitRelatedObject2(event) {
-        event.preventDefault();
-        this.loading = true;
-        this.caseExtensionObj = event.detail.fields;
-        let isFormValidated = this.validateFields();
-
-        if (isFormValidated) {
-            let caseExtnRec = event.detail.fields;
-            //get case extension record as object from lightning-record-edit-form
-            if (this.caseExtensionRecordId) {
-                caseExtnRec["id"] = this.caseExtensionRecordId;
-                console.log('caseExtnRec', JSON.stringify(caseExtnRec));
-                let aprManualStg = this.caseObj.is_Manual_Approval__c;
-                executeValidation({ 
-                    cccId: this.cccExternalId, 
-                    status: this.currentStep, 
-                    caseId: this.recordId, 
-                    record: caseExtnRec, 
-                    fieldNames: this.defaultFieldNames, 
-                    fieldValues: this.defaultValues, 
-                    extensionObjId: this.caseExtensionRecordId, 
-                    isManualApprovalStg: aprManualStg 
-                })
-                .then(result => {
-                    //validation successful
-                    let element = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-                    caseExtnRec["sobjectType"] = element.objectApiName;
-                    delete caseExtnRec["id"];
-                    caseExtnRec["Id"] = this.caseExtensionRecordId;
-                    console.log('caseExtnRec', JSON.stringify(caseExtnRec));
-
-                    //get case record as object from lightning-record-edit-form
-                    let caseRecord;
-                    let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-                    if(caseElement){
-                        let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
-                        let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-                        caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-                        if(this.skipMoveToNextStage == false){
-                            //move to next stage is clicked
-                            caseRecord['MoveToNext__c'] = true;
-                        }
-                        if(this.caseObj.Technical_Source__c == 'API'){
-                            caseRecord['Technical_Source__c'] = 'LWC';
-                        }
-                        console.log('caseRecord', JSON.stringify(caseRecord));
-                    }
-
-                    //call server method to save the records
-                    this.saveCaseWithExtension(caseRecord, caseExtnRec);
-                })
-                .catch(error => {
-                    console.error(error);
-                    this.loading = false;
-                    this.showError('error', 'Trying to update Readonly fields', error);
-                    this.isMoveToNextStageButtonDisabled = false;
-                    return;
-                })
-            }
-        } else {
-            this.loading = false;
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Required Fields Missing',
-                    message: 'Please fill all the required fields',
-                    variant: 'error',
-                }),
-            );
-        }
-    }
-    /**
-     * Adding Save button - Santanu 31 Oct 2023
-     * @param {*} event 
-     * Sets skipMoveToNextStage=true which skips the next stage progression on form submit
-     */
-    saveCaseAndExtn(event) {
-        this.skipMoveToNextStage = true;
-        this.template.querySelector('.hiddenSubmitBtn').click();
-        console.log('submit btn clicked');
-    }
-    handleMoveToNext(event){
-        this.skipMoveToNextStage = false;
-        this.template.querySelector('.hiddenSubmitBtn').click();
-    }
-    cancelBackCaseStage() {
-        this.showPreviousStages = false;
-        this.selectedStage = undefined;
-    }
-    cancelForwardCaseStage() {
-        this.showForwardStages = false;
-        this.selectedManualStage = undefined;
-    }
-    handlePublishedMessage(payload) {
-        console.log('in handlePublishedMessage!!!!!');
-        if (payload.source != 'case360' && this.recordId == payload.recordId) {
-            console.log('Refreshing now');
-            this.loadReady = false;
-            refreshApex(this.processApexReturnValue);
-        }
-    }
-    handlePublishEvent() {
-        let payload = {'source':'case360', 'recordId':this.recordId};
-        fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
-    }
-    handleCaseRecordLoad(event) {
-        try{
-            let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-            let fields = formEl.querySelectorAll('lightning-input-field');
-            console.log('fields', fields);
-            for(let field of fields){
-                field.value = this.caseObj[field.fieldName];
-            }
-            console.log('fields extension', fields);
-
-            this.caseRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.recordId].fields));
-            console.log(this.caseRecordDetails);
-
-            this.isCaseRecordLoaded = true;
-        }
-        catch(error){
-            console.error(error);
-        }
-    }
-    handleRecordLoad(event) {
-        try{
-            let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-            let fields = formEl.querySelectorAll('lightning-input-field');
-            console.log('fields', fields);
-            for(let field of fields){
-                field.value = this.caseExtensionRecord[field.fieldName];
-            }
-            console.log('fields extension', fields);
-            this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecord['Id']].fields));
-            console.log(this.caseExtensionRecordDetails);
-        }
-        catch(error){
-            console.error(error);
-        }
-    }
-    handleCaseRecordLoadReadOnly(event) {
-        try{
-            let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseROForm"]');
-            let fields = formEl.querySelectorAll('lightning-output-field');
-            console.log('fields', fields);
-            for(let field of fields){
-                field.value = this.caseObj[field.fieldName];
-            }
-            console.log('fields extension', fields);
-
-            this.caseRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.recordId].fields));
-            console.log(this.caseRecordDetails);
-
-            this.isCaseRecordLoaded = true;
-        }catch(error){
-            console.error(error);
-        }
-    }
-    handleRecordLoadReadOnly(event) {
-        try{
-            let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjROForm"]');
-            let fields = formEl.querySelectorAll('lightning-output-field');
-            console.log('fields', fields);
-            for(let field of fields){
-                field.value = this.caseExtensionRecord[field.fieldName];
-            }
-            console.log('fields extension', fields);
-            this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecord['Id']].fields));
-            console.log(this.caseExtensionRecordDetails);
-        }
-        catch(error){
-            console.error(error);
-        }
-        //this.adjustFieldsOnStageChange();
-
-    }
-    /** OPTIMIZATION METHODS END */
 
     fetchManualStages() {
         fetchNextManualStages({ externalID: this.cccExternalId, currentStage: this.caseObj.Stage__c })
@@ -1014,12 +361,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     connectedCallback() {
         console.log('Extension Id =>' + this.caseExtensionRecordId);
         this.loading = true;
-        registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
-        //this.handlePublishEvent();
-        //console.log('starting registerRefresh');
+        this.handlePublishEvent();
+        console.log('starting registerRefresh');
         //this.refreshContainerID = registerRefreshContainer(this, this.refreshContainer);
-        //this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
-        //console.log('finished registerRefresh');
+        this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
+        console.log('finished registerRefresh');
         if (asf_CaseEndStatus != null && asf_CaseEndStatus != undefined) {
             this.arr_CaseStatuses = asf_CaseEndStatus.split(',');
         }
@@ -1047,119 +393,119 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
     }
 
-    // async renderedCallback() {
-    //     console.log('rendered callback - this.loadReady', this.loadReady);
-    //     if (this.loadReady) {
-    //         console.log('this.cccExternalId', this.cccExternalId, this.caseCategoryConfig);
-    //         if (this.cccExternalId == undefined || this.cccExternalId == null) {
-    //             return;
-    //         }
-    //         if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
-    //             getCaseCategoryConfig({ cccExtId: this.cccExternalId })
-    //                 .then(result => {
-    //                     if (result[0] != undefined) {
-    //                         console.log('getCaseCategoryConfig', JSON.stringify(result));
-    //                         this.caseCategoryConfig = result;
-    //                         this.caseCategoryConfigId = this.caseCategoryConfig[0].Id;
-    //                         this.cccBU = this.caseCategoryConfig[0].Business_Unit__c;
-    //                         this.getStages(this.caseCategoryConfigId);
-    //                     }
-    //                 })
-    //                 .catch(error => {
-    //                     console.log(error);
-    //                     this.showError('error', 'Unable to fetch Case Category Config', error);
-    //                     return;
-    //                 });
-    //         }
+    async renderedCallback() {
+        console.log('rendered callback - this.loadReady', this.loadReady);
+        if (this.loadReady) {
+            console.log('this.cccExternalId', this.cccExternalId, this.caseCategoryConfig);
+            if (this.cccExternalId == undefined || this.cccExternalId == null) {
+                return;
+            }
+            if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
+                getCaseCategoryConfig({ cccExtId: this.cccExternalId })
+                    .then(result => {
+                        if (result[0] != undefined) {
+                            console.log('getCaseCategoryConfig', JSON.stringify(result));
+                            this.caseCategoryConfig = result;
+                            this.caseCategoryConfigId = this.caseCategoryConfig[0].Id;
+                            this.cccBU = this.caseCategoryConfig[0].Business_Unit__c;
+                            this.getStages(this.caseCategoryConfigId);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.showError('error', 'Unable to fetch Case Category Config', error);
+                        return;
+                    });
+            }
 
 
-    //         if (this.cccExternalId != null && this.cccExternalId != undefined) {
-    //             //if (!this.hasRendered) {
-    //             //    this.hasRendered = true;
-    //                 console.log('cccExternalId found');
-    //                 await getCaseFieldsConfig({ cccId: this.cccExternalId, status: this.currentStatus, caseId: this.recordId })
-    //                     .then(result => {
-    //                         this.iCounter++;
-    //                         this.caseFieldsMetadata = result;
-    //                         console.log('getCaseFieldsConfig results received');
-    //                         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
-    //                         if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
-    //                             for (var fieldConfig in this.caseFieldsMetadata) {
-    //                                 if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
-    //                                     if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
-    //                                         if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
-    //                                             this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-    //                                         }
-    //                                         else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
-    //                                             this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-    //                                             this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-    //                                             this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
-    //                                         }
-    //                                     }
-    //                                     else {
-    //                                         this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-    //                                         this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-    //                                         this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
-    //                                     }
-    //                                 }
-    //                             }
-    //                             if (this.defaultFieldValuesMap.size > 0) {
-    //                                 getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
-    //                                     .then(result => {
-    //                                         this.caseDefaultValuesObj = result;
-    //                                         var revisedList = [];
-    //                                         for (var field in this.defaultFieldValues) {
-    //                                             revisedList.push(this.defaultFieldValues[field].replace('case.', ''));
-    //                                         }
+            if (this.cccExternalId != null && this.cccExternalId != undefined) {
+                if (!this.hasRendered) {
+                    this.hasRendered = true;
+                    console.log('cccExternalId found');
+                    await getCaseFieldsConfig({ cccId: this.cccExternalId, status: this.currentStatus, caseId: this.recordId })
+                        .then(result => {
+                            this.iCounter++;
+                            this.caseFieldsMetadata = result;
+                            console.log('getCaseFieldsConfig results received');
+                            getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+                            if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
+                                for (var fieldConfig in this.caseFieldsMetadata) {
+                                    if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
+                                        if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
+                                            if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
+                                                this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                            }
+                                            else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
+                                                this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                                this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
+                                                this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                            }
+                                        }
+                                        else {
+                                            this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                            this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
+                                            this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                        }
+                                    }
+                                }
+                                if (this.defaultFieldValuesMap.size > 0) {
+                                    getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
+                                        .then(result => {
+                                            this.caseDefaultValuesObj = result;
+                                            var revisedList = [];
+                                            for (var field in this.defaultFieldValues) {
+                                                revisedList.push(this.defaultFieldValues[field].replace('case.', ''));
+                                            }
 
-    //                                         for (var count in revisedList) {
-    //                                             var prop, props = revisedList[count].split('.');
-    //                                             for (var i = 0, iLen = props.length - 1; i < iLen; i++) {
+                                            for (var count in revisedList) {
+                                                var prop, props = revisedList[count].split('.');
+                                                for (var i = 0, iLen = props.length - 1; i < iLen; i++) {
 
-    //                                                 if (i == 0) {
-    //                                                     prop = props[i];
-    //                                                     this.defaultValues.push(this.caseDefaultValuesObj[prop][props[++i]]);
+                                                    if (i == 0) {
+                                                        prop = props[i];
+                                                        this.defaultValues.push(this.caseDefaultValuesObj[prop][props[++i]]);
 
-    //                                                 }
+                                                    }
 
-    //                                             }
-    //                                         }
-    //                                         this.assignDefaultValues();
-    //                                         this.adjustFieldsOnStageChange();
-    //                                     })
-    //                                     .catch(error => {
-    //                                         console.log(error);
-    //                                         this.showError('error', 'Oops! Error occured', error);
-    //                                     })
-    //                             }
-    //                         }
-    //                     })
-    //                     .catch(error => {
-    //                         console.log(error);
-    //                         this.showError('error', 'Oops! Error occured', error);
-    //                     });
-    //             //}
-    //             if (this.caseObj != undefined && this.caseObj != null) {
-    //                 if (this.caseObj.is_Manual_Approval__c == true) {
-    //                     this.getlatestCaseApprovalRecordStatus(this.caseObj.Stage__c);
-    //                 }
-    //             }
+                                                }
+                                            }
+                                            this.assignDefaultValues();
+                                            this.adjustFieldsOnStageChange();
+                                        })
+                                        .catch(error => {
+                                            console.log(error);
+                                            this.showError('error', 'Oops! Error occured', error);
+                                        })
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            this.showError('error', 'Oops! Error occured', error);
+                        });
+                }
+                if (this.caseObj != undefined && this.caseObj != null) {
+                    if (this.caseObj.is_Manual_Approval__c == true) {
+                        this.getlatestCaseApprovalRecordStatus(this.caseObj.Stage__c);
+                    }
+                }
 
-    //             if (this.caseRelObjName == null || this.caseRelObjName == undefined) {
-    //                 this.getCaseRelatedObjName(this.cccExternalId);
-    //             }
-    //         }
+                if (this.caseRelObjName == null || this.caseRelObjName == undefined) {
+                    this.getCaseRelatedObjName(this.cccExternalId);
+                }
+            }
 
-    //         let renderedLightningInputCount = this.template.querySelectorAll('lightning-input-field').length;
-    //         if (renderedLightningInputCount > 1) {
-    //             if (!this.hasPostRenderingDomManupulationDone) {
-    //                 this.adjustFieldsOnStageChange();
-    //                 this.hasPostRenderingDomManupulationDone = true;
-    //             }
+            let renderedLightningInputCount = this.template.querySelectorAll('lightning-input-field').length;
+            if (renderedLightningInputCount > 1) {
+                if (!this.hasPostRenderingDomManupulationDone) {
+                    this.adjustFieldsOnStageChange();
+                    this.hasPostRenderingDomManupulationDone = true;
+                }
 
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
 
     fetchAllManualStages() {
         fetchAllManualStagesWithCase({ caseId: this.recordId })
@@ -1272,7 +618,41 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
 
-    
+    getStages(ccConfigId) {
+        //console.log('CC Config Record Id: ' + ccConfigId);
+
+        getStageConfig({ cccId: ccConfigId })
+            .then(result => {
+
+                this.stagesData = result;
+                console.log('tst' + JSON.stringify(this.stagesData));
+
+                //ADO-118986
+                if (this.stagesData != null && this.stagesData != undefined) {
+                    for (let i in this.stagesData) {
+                        if (this.currentStep == this.stagesData[i].StageName__c) {
+                            if (this.stagesData[i].hasOwnProperty('Enable_Reassign_Owner__c')
+                                && this.stagesData[i].Enable_Reassign_Owner__c == true) {
+                                this.boolSaveReassignButton = true;
+                            }
+                            else {
+                                this.boolSaveReassignButton = false;
+                            }
+
+                            if (this.stagesData[i].Order__c == 1 || this.stagesData[i].Order__c == "1'") {
+                                this.showBackButton = false;
+                            }
+                        }
+
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                this.showError('error', 'Oops! Error occured', error);
+            });
+
+    }
 
     handleSuccess(event) {
 
@@ -1467,6 +847,64 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         })
     }
 
+    handleSubmitRelatedObject2(event) {
+        event.preventDefault();
+
+        this.loading = true;
+        this.caseExtensionObj = event.detail.fields;
+        this.fetchManualStages(); //purpose????
+        let isFormValidated = this.validateFields();
+
+        if (isFormValidated) {
+            this.isMoveToNextStageButtonDisabled = true;
+            let caseExtnRec = event.detail.fields;
+            //get case extension record as object from lightning-record-edit-form
+            if (this.caseExtensionRecordId) {
+                caseExtnRec["id"] = this.caseExtensionRecordId;
+                console.log('caseExtnRec', JSON.stringify(caseExtnRec));
+                let aprManualStg = this.caseObj.is_Manual_Approval__c;
+                executeValidation({ cccId: this.cccExternalId, status: this.currentStep, caseId: this.recordId, record: caseExtnRec, fieldNames: this.defaultFieldNames, fieldValues: this.defaultValues, extensionObjId: this.caseExtensionRecordId, isManualApprovalStg: aprManualStg })
+                    .then(result => {
+                        //validation successful
+                        let element = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
+                        caseExtnRec["sobjectType"] = element.objectApiName;
+                        delete caseExtnRec["id"];
+                        caseExtnRec["Id"] = this.caseExtensionRecordId;
+                        console.log('caseExtnRec', JSON.stringify(caseExtnRec));
+
+                        //get case record as object from lightning-record-edit-form
+                        let caseRecord;
+                        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+                        if(caseElement){
+                            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+                            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+                            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+                            console.log('caseRecord', JSON.stringify(caseRecord));
+                        }
+
+                        //call server method to save the records
+                        this.saveCaseWithExtension(caseRecord, caseExtnRec);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        this.loading = false;
+                        this.showError('error', 'Trying to update Readonly fields', error);
+                        this.isMoveToNextStageButtonDisabled = false;
+                        return;
+                    })
+            }
+        } else {
+            this.loading = false;
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Required Fields Missing',
+                    message: 'Please fill all the required fields',
+                    variant: 'error',
+                }),
+            );
+            this.isMoveToNextStageButtonDisabled = false;
+        }
+    }
     handleSubmitRelatedObject(event) {
         event.preventDefault();
         this.loading = true;
@@ -1614,12 +1052,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                         if (this.arr_CaseStatuses.includes(stageName)) {
                                             bEndStatus = true;
                                         }
-                                        console.log('this.stagesData'+JSON.stringify(this.stagesData));
-                                        console.log('currentStage'+currentStage);
+
                                         //if (this.currentStep == this.stagesData[currentStage].Stage_Name__c && this.currentStep != 'Closed' && this.currentStep != 'Rejected') {
                                             if (stageName == this.stagesData[currentStage].StageName__c && !bEndStatus) {
-                                                console.log('stageName'+stageName);
-                                                stageName = this.stagesData[parseInt(currentStage) + 1].StageName__c;
+                                                stageName = this.stagesData[currentStage + 1].StageName__c;
                                                 break;
                                             }
                                     }
@@ -1634,6 +1070,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     if (bEndStatus) {
                                         this.toggleUIView = false;
                                         this.isClosedOrRejected = true;
+                                        this.showEditDetailsButton = false;
                                     }
                                     else {
                                         this.showBackButton = true;
@@ -1666,6 +1103,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         if (bEndStatus) {
                             this.toggleUIView = false;
                             this.isClosedOrRejected = true;
+                            this.showEditDetailsButton = false;
                         }
                         else {
                             this.showBackButton = true;
@@ -1750,7 +1188,30 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }, true);
     }
 
-    
+    saveManualCaseStage(event) {
+        this.hasError = this.validateFields();
+        if (!this.hasError) {
+            return;
+        }
+
+        this.manualStageCalled = true;
+
+        this.isMoveToStageButtonDisabled = true;
+        this.loading = true;
+        this.skipMoveToNextStage = true;
+        try {
+            const fields = event.detail.fields;
+            this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]').submit(fields);
+        }
+        catch (error) {
+            this.showError('error', 'Oops! Error occured', error);
+            console.log(error);
+            this.manualStageCalled = false;
+            this.isMoveToStageButtonDisabled = false;
+            this.loading = false;
+        }
+
+    }
     updateCaseStatus() {
 
         const fields = {};
@@ -1889,11 +1350,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.hasRendered = false;
         this.fetchAllManualStages();
         this.hasPostRenderingDomManupulationDone = false;
-        this.userClickedEditDetails = true;
     }
 
 
-    
+    handleClick2() {
+        this.cancelClicked = true;
+        this.toggleUIView = false;
+        // Virendra : 1 Apr 2023 : Performance fixes.
+        this.hasPostRenderingDomManupulationDone = false;
+    }
 
     assignDefaultValues() {
         //Assign Default values
@@ -1903,9 +1368,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.template.querySelectorAll('lightning-input-field').forEach((field) => {
                     for (var count in this.defaultFieldNames) {
                         if (this.defaultFieldNames[count] == field.fieldName) {
-                            console.log('tst223225' + this.defaultFieldNames[count]);
+                            //console.log('tst223225' + this.defaultFieldNames[count]);
                             if (this.defaultValues[count]) {
-                                console.log('tst2232256' + this.defaultValues[count]);
+                                //console.log('tst2232256' + this.defaultValues[count]);
                                 field.value = this.defaultValues[count];
                             }
                         }
@@ -1936,7 +1401,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     handleBackButtonClick() {
+
         this.showPreviousStages = true;
+        this.showPrimaryButtons = false;
+        this.showManualStagesDropdown = false;
         // Virendra : 3 Apr 2023 : Performance Fixes.
         this.hasPostRenderingDomManupulationDone = false;
     }
@@ -1965,9 +1433,319 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
     }
 
+    saveBackCaseStage(event) {
+        this.hasError = this.validateFields();
+        if (!this.hasError) {
+            return;
+        }
+        this.backStageCalled = true;
+        this.loading = true;
+
+        if (this.caseFieldsMetadata.length > 0) {
+
+            try {
+                const fields = event.detail.fields;
+                this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]').submit(fields);
+                // Virendra : 7 Apr 2023 : Added below code to fix Back Stage movement refresh.
+                this.currentStatus = this.selectedStage;
+            }
+            catch (error) {
+                console.log('BackStage Error:' + error);
+                this.backStageCalled = false;
+                this.loading = false;
+            }
+        }
+        else {
+            this.updateCaseOnBackStageSelection();
+        }
+    }
+
+    updateCaseOnBackStageSelection() {
+
+        //manualStageAssignment({ recordId: this.recordId, requestedStage: this.selectedStage, stageDirection: 'Back', caseOwnerId: null })
+        moveToRequestedStage({
+            recordId: this.recordId,
+            requestedStage: this.selectedStage,
+            isForward : false})
+            .then((result) => {
+
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Success",
+                        message: "Manually updated stage to " + this.selectedStage,
+                        variant: "success"
+                    })
+                );
+
+
+                if (this.currentOwnerId == this.currentUserId) {
+                    this.isCurrentUserOwner = true;
+                    if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
+                        this.toggleUIView = true;
+                    }
+
+                } else {
+                    this.isCurrentUserOwner = false;
+                    this.toggleUIView = false;
+                }
+                const payload = { recordId: this.recordId };
+
+                this.handlePublishEvent();
+
+                setTimeout(() => {
+                    eval("$A.get('e.force:refreshView').fire();")
+                }, 1000)
+
+                this.showPreviousStages = false;
+                //this.showBackButton = false;
+
+
+
+                this.showPrimaryButtons = true;
+                //console.log('tst22557788'+this.currentStep);
+                this.toggleUIView = false;
+                this.cancelClicked = true;
+
+                const selectedEvent = new CustomEvent('linked', { detail: this.recordId });
+                // Dispatches the event.
+                this.dispatchEvent(selectedEvent);
+
+                this.adjustFieldsOnStageChange();
+
+                this.fetchAllManualStages();
+
+
+                this.currentStatus = this.selectedStage;
+                this.getlatestCaseApprovalRecordStatus(this.currentStatus);
+
+                for (let i in this.stagesData) {
+                    if (this.selectedStage == this.stagesData[i].StageName__c) {
+                        if (this.stagesData[i].Order__c == 1 || this.stagesData[i].Order__c == "1'") {
+                            this.showBackButton = false;
+                        }
+                    }
+
+                }
+
+                this.backStageCalled = false;
+                this.loading = false;
+
+            })
+            .catch((error) => {
+                this.showError('error', 'Oops! Error occured', error);
+                this.backStageCalled = false;
+                this.loading = false;
+                console.log("Error" + JSON.stringify(error));
+                if (error.body.message.includes('FIELD_CUSTOM_VALIDATION_EXCEPTION')) {
+                    console.log('FIELD_CUSTOM_VALIDATION_EXCEPTION');
+                    this.errorMessage = error.body.message.substring(82 + ('FIELD_CUSTOM_VALIDATION_EXCEPTION').length);
+                    var word = this.errorMessage.replace(': []', '');
+                    console.log('FIELD_CUSTOM_VALIDATION_EXCEPTIONss', this.errorMessage);
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Error updating record',
+                            message: word,
+                            variant: 'error',
+                        }),
+                    );
+                }
+                else {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Error updating record',
+                            message: error.body.message,
+                            variant: 'error',
+                        }),
+                    );
+                }
+            });
+    }
+
+    cancelBackCaseStage() {
+        this.showPreviousStages = false;
+        this.showPrimaryButtons = true;
+        //this.showManualStagesDropdown = true;
+
+        //Bug: 113039, Added by Mayank M
+        if (this.caseManualStages) {
+            if (this.caseManualStages.length == 2) {
+                if (this.caseManualStages[1].value == this.currentStep) {
+                    this.showManualStagesDropdown = false;
+                }
+                else {
+                    this.showManualStagesDropdown = true;
+                }
+            }
+            else if (this.caseManualStages.length < 2) {
+                this.showManualStagesDropdown = false;
+            }
+            else {
+                this.showManualStagesDropdown = true;
+            }
+        }
+        else {
+            this.showManualStagesDropdown = false;
+        }
+    }
+
     cancelManualCaseStage() {
         this.showManualStages = false;
         this.showPrimaryButtons = true;
+    }
+
+    handleReject() {
+        this.showPrimaryButtons = false;
+        this.fetchRejectionReason();
+        this.showRejetedReason = true;
+        this.showManualStagesDropdown = false;
+        // Virendra : 3 Apr 2023 : Performance Fixes.
+        this.hasPostRenderingDomManupulationDone = false;
+    }
+
+    cancelReject() {
+        this.showRejetedReason = false;
+        this.showPrimaryButtons = true;
+        //this.showManualStagesDropdown = true;
+
+        //Bug: 113039, Added by Mayank M
+        if (this.caseManualStages) {
+            if (this.caseManualStages.length == 2) {
+                if (this.caseManualStages[1].value == this.currentStep) {
+                    this.showManualStagesDropdown = false;
+                }
+                else {
+                    this.showManualStagesDropdown = true;
+                }
+            }
+            else if (this.caseManualStages.length < 2) {
+                this.showManualStagesDropdown = false;
+            }
+            else {
+                this.showManualStagesDropdown = true;
+            }
+        }
+        else {
+            this.showManualStagesDropdown = false;
+        }
+    }
+
+    setRejectedReason(event) {
+        this.rejectedReason = event.target.value;
+    }
+
+    saveRejection(event) {
+        /* this.isInputValid();
+        if (!this.isValid) {
+            return;
+        }*/
+
+    }
+
+    saveRejection1(event) {
+
+        this.hasError = this.validateFields();
+        if (!this.hasError) {
+            return;
+        }
+
+        //Checking if Rejection Reason is empty
+        const allValid = [
+            ...this.template.querySelectorAll('lightning-textarea, .ReasonInput'),
+        ].reduce((validSoFar, inputCmp) => {
+            inputCmp.reportValidity();
+            return validSoFar && inputCmp.checkValidity();
+        }, true);
+        if (allValid) {
+            this.rejectCaseCalled = true;
+            this.loading = true;
+            if (this.caseFieldsMetadata.length > 0) {
+                try {
+                    const fields = event.detail.fields;
+                    this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]').submit(fields);
+                }
+                catch (error) {
+                    console.log('Reject Case Error:' + error);
+                    this.rejectCaseCalled = false;
+                    this.loading = false;
+                }
+            }
+            else {
+                this.updateCaseOnRejection();
+            }
+
+
+        }
+    }
+
+    updateCaseOnRejection() {
+
+        if (this.isOnComplaintReject == true) {
+            return;
+        }
+
+        const fields = {};
+        fields[CASE_ID.fieldApiName] = this.caseObj.Id;
+
+        fields[CASE_REJECTFLAG.fieldApiName] = true;
+        fields[CASE_REJECTEDREASON.fieldApiName] = this.rejectedReason;
+        fields[CASE_REJECTIONREASON.fieldApiName] = this.selectedReason;
+
+        const recordInput = { fields };
+        updateRecord(recordInput)
+            .then(result => {
+                console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Success",
+                        message: "SR is Rejected",
+                        variant: "success"
+                    })
+                );
+                getRecordNotifyChange([{ recordId: this.recordId }]);
+                const payload = { recordId: this.recordId };
+                this.handlePublishEvent();
+                this.showRejetedReason = false;
+                this.showPrimaryButtons = true;
+
+                this.toggleUIView = false;
+                this.isClosedOrRejected = true;
+                this.showEditDetailsButton = false;
+
+                this.rejectCaseCalled = false;
+                this.loading = false;
+
+            })
+            .catch(error => {
+                this.showError('error', 'Oops! Error occured', error);
+                this.loading = false;
+                this.rejectCaseCalled = false;
+                if (error != undefined) {
+                    if (error.body.message.includes('FIELD_CUSTOM_VALIDATION_EXCEPTION')) {
+                        console.log('FIELD_CUSTOM_VALIDATION_EXCEPTION');
+                        this.errorMessage = error.body.message.substring(82 + ('FIELD_CUSTOM_VALIDATION_EXCEPTION').length);
+                        var word = this.errorMessage.replace(': []', '');
+                        console.log('FIELD_CUSTOM_VALIDATION_EXCEPTIONss', this.errorMessage);
+                        this.dispatchEvent(
+                            new ShowToastEvent({
+                                title: 'Error updating record',
+                                message: word,
+                                variant: 'error',
+                            }),
+                        );
+                    }
+
+                }
+
+                else {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: "Error updating record",
+                            message: error.body.message,
+                            variant: "error"
+                        })
+                    );
+                }
+            })
     }
 
     handleSaveAndCloseButtonClick() {
@@ -2086,6 +1864,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.queueSelected = event.detail.value;
         this.selectedOwner = event.detail.value;
         console.log('selectedOwner' + this.selectedOwner);
+    }
+    handleClose(event) {
+        this.showAssigneeType = false;
     }
 
     /**************************
@@ -2455,7 +2236,33 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return this.caseManualStages;
         }
     }
-    
+    handleCaseRecordLoad(event) {
+        this.caseRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.recordId].fields));
+        console.log(this.caseRecordDetails);
+        this.isCaseRecordLoaded = true;
+        //this.adjustFieldsOnStageChange();
+    }
+    handleRecordLoad(event) {
+        this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecordId].fields));
+        this.adjustFieldsOnStageChange();
+
+    }
+    //Virendra - Fixes for Refresh Issue - 
+    @wire(CurrentPageReference) pageRef;
+
+    handlePublishEvent() {
+        fireEvent(this.pageRef, "refreshpagepubsub", this.recordId);
+        const selectedEvent = new CustomEvent('refreshCurrentPg', { detail: this.recordId });
+        document.dispatchEvent(selectedEvent);
+
+        setTimeout(() => {
+            eval("$A.get('e.force:refreshView').fire();");
+        }, 1000);
+
+
+
+    }
+
 
     //Start: Added for Complain Rejection
     handleRejectOnComplain(event) {
@@ -2535,6 +2342,25 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             }
         });
     }
+    //To get Rejection Reason:
+    fetchRejectionReason() {
+        getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            result.forEach(reason => {
+                const optionVal = {
+                    label: reason,
+                    value: reason
+                };
+                this.reasonLOV.push(optionVal);
+            });
+            this.showRejetedReason = true;
+        }).catch(error => {
+            console.log('Error: ' + JSON.stringify(error));
+        });
+    }
+
+    handleRejReasonChange(event) {
+        this.selectedReason = event.target.value;
+    }
 
     // ADO-118988 Method to Handle Save and Reassign
     handleSaveReassign() {
@@ -2576,13 +2402,25 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 };
                 this.reasonLOV.push(optionVal);
             });
+            this.showRejetedReason = true;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
     }
 
-    
+    handleRejReasonChange(event) {
+        this.selectedReason = event.target.value;
+    }
     //End: Added for Complain Rejection
 
-    
+    /**
+     * Adding Save button - Santanu 31 Oct 2023
+     * @param {*} event 
+     * Sets skipMoveToNextStage=true which skips the next stage progression on form submit
+     */
+    saveCaseAndExtn(event) {
+        this.skipMoveToNextStage = true;
+        this.template.querySelector('.submitBtn').click();
+        console.log('submit btn clicked');
+    }
 }

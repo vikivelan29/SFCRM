@@ -6,12 +6,9 @@ import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
 import CASE_CLOSE_SLA from '@salesforce/schema/Case.Overall_Case_Closure_SLA__c';
 import CASE_STAGE_SLA_1 from '@salesforce/schema/Case.Stage_SLA_1__c';
 import fetchCase from '@salesforce/schema/Case.CaseNumber';
-import { registerListener, unregisterAllListeners } from 'c/asf_pubsub';
-import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
-import { refreshApex } from '@salesforce/apex';
 const fields = [CASE_STAGE,CASE_CLOSE_SLA,CASE_STAGE_SLA_1,fetchCase];
 
-export default class ASF_caseClosureandMilestonePath extends NavigationMixin(LightningElement) {
+export default class ASF_caseClosureandMilestonePath extends LightningElement {
     @api recordId;
     timer;
     wiredData;
@@ -170,18 +167,6 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
             }
             
         }, 1000);
-    }
-    connectedCallback(){
-        registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
-    }
-    @wire(CurrentPageReference) pageRef;
-
-    handlePublishedMessage(payload) {
-        console.log('handlePublishedMessage of case SLA');
-        if (this.recordId == recordId) {
-            refreshApex(this.caseObj);
-        }
-
     }
     disconnectedCallback(){
         clearInterval(this.timerId1);

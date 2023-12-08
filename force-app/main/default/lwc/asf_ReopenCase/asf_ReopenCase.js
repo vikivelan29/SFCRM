@@ -16,7 +16,6 @@ import ID_FIELD from "@salesforce/schema/Case.Id";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from "lightning/navigation";
 import { reduceErrors } from 'c/asf_ldsUtils';
-import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
 
 export default class Asf_ReopenCase extends NavigationMixin(LightningElement) {
 
@@ -50,17 +49,14 @@ export default class Asf_ReopenCase extends NavigationMixin(LightningElement) {
                 title: 'Case Reopened Successfully',
                 message: 'Case is successfully reopened!'
             });
-            // this[NavigationMixin.Navigate]({
-            //     type: "standard__recordPage",
-            //     attributes: {
-            //         objectApiName: "Case",
-            //         actionName: "view",
-            //         recordId: this.recordId
-            //     }
-            // });
-            console.log('Firing pubsub from Reopen!!!!!!');
-            let payload = {'source':'reopencase', 'recordId':this.recordId};
-            fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
+            this[NavigationMixin.Navigate]({
+                type: "standard__recordPage",
+                attributes: {
+                    objectApiName: "Case",
+                    actionName: "view",
+                    recordId: this.recordId
+                }
+            });
             this.closeAction();
 
         })

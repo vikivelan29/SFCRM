@@ -161,7 +161,7 @@ result.add(tempWrapper);
                 
                 //Adding logic for Reject stage for Request/Query Nature
                 if((ASF_Constants.REJECTIONSTATUSES.contains(currentCase.Stage__c)) && (csc.StageName__c=='Closed' || csc.StageName__c=='Resolved')){
-                    tempWrapper.stageName = currentCase.Stage__c; 
+                    tempWrapper.stageName = ASF_Constants.REJECTIONSTATUS; 
                     tempWrapper.Order = Integer.valueOf(csc.Order__c);
                     tempWrapper.className = '';
                     activeOrder = Integer.valueOf(csc.Order__c);
