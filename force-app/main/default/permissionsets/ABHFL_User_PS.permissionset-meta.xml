@@ -242,6 +242,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Active_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -272,7 +277,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Customer_Networth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Customer_Risk_Rating__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Customer_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Finnone_Customer_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -327,6 +347,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Risk_Expiry_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Source_Networth__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -353,6 +378,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.VIP_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Verticals__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -537,6 +567,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Disbursed_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.ECS_Mandate_Registration_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -602,6 +637,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.LOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -658,6 +698,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Loan_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Loan_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -957,7 +1002,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.FirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.GenderIdentity</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.LastName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1012,6 +1072,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.PersonBirthdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Ration_Card_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1023,6 +1088,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Res_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Salutation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1067,6 +1137,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>LAN_Mapping__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>LAN_Mapping__c.LOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1098,6 +1173,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ProductCode</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ProductCode__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
