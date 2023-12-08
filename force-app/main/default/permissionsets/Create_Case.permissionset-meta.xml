@@ -555,11 +555,6 @@
     <description>Create and Update Case record</description>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_6__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
         <readable>true</readable>
     </fieldPermissions>
