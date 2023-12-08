@@ -397,9 +397,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     }
     async createCaseHandler() {
-        
+        this.isNotSelected = true;
         if(!this.isInputValid()) {
             // Stay on same page if lightning-text field is required and is not populated with any value.
+            this.isNotSelected = false;
             return;
         }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
@@ -407,6 +408,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         var dupeResult = await this.checkDuplicateCase(selected);
 
         if(!dupeResult){
+            this.isNotSelected = false;
             return;
         }
 
