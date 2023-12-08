@@ -143,7 +143,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.Veritcals__c</field>
+        <field>Account.Verticals__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
