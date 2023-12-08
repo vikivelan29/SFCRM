@@ -72,8 +72,9 @@ Today it does not have SLA override rules. But logic needs to be added here.
             //     closeSlaSec = BusinessHours.add(c.BusinessHoursId,c.Case_Stage_Change_Date__c,Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c)* slaIdentifier );
             // }
         }
-        else {
-            map<String,long> slaValues = ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues;
+        else { 
+            map<String,long> slaValues = ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null ? 
+                                         ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues : null;
             
             if(slaValues != null){
                 //case SLA override
