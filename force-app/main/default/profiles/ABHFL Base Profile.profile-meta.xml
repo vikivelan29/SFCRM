@@ -4252,7 +4252,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Payment_Customer_Search</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>STG_Customer__c</tab>
