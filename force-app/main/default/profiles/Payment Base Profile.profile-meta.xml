@@ -720,16 +720,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_6__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Due_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>

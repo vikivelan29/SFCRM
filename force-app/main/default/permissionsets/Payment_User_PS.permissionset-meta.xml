@@ -2,11 +2,6 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ASF_Case_Field_Config__c.ASF_Is_Cloneable__c</field>
         <readable>true</readable>
     </fieldPermissions>
