@@ -87,6 +87,7 @@ public class ABCL_CaseDeDupeCheckLWC_Test {
             c.Stage__c='New';
             c.Business_Unit__c = 'Payments';
             c.Technical_Source__c = 'API';
+            c.Client_Code_Text__c = 'ABC1234';
             insert c;
             ABCL_CaseDeDupeCheckLWC.getDuplicateCases(new List<Case>{c},'Payments','1011010220');
         }
