@@ -514,7 +514,8 @@ Few fields needs to be reset. One dedicated method to populate values on Caes.
 Business hrs is not pre populated here. Its lot more complex. That you will see in next methods
 */
     private void resetSLAFields(Case newCase, Case oldCase){
-        if(newCase.Stage__c == 'Closed' || newCase.Stage__c == 'Rejected'){
+        //if(newCase.Stage__c == 'Closed' || newCase.Stage__c == 'Rejected'){
+        if(ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(newCase.Stage__c)){
             newCase.Stage_SLA_1__c = null;
             newCase.Stage_SLA_2__c = null;
             newCase.Stage_SLA_3__c = null;
