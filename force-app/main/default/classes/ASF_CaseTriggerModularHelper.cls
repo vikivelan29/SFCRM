@@ -468,8 +468,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         for(case caseRec : newList){
             if(caseRec.OnCreateCloseSR__c){
-                caseRec.Status = 'Closed';
-                caseRec.Stage__c = 'Resolved';
+                caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
+                caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
             }
         }
     }

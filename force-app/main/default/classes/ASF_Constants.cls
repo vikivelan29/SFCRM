@@ -108,5 +108,7 @@ public with sharing class ASF_Constants {
     public static final String DUPLICATESTAGE = 'Duplicate';
     public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
         public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final String ONCREATECLOSESTAGE = 'Resolved';
+    public static final String ONCREATECLOSESTATUS = 'Resolved';
 
 }
