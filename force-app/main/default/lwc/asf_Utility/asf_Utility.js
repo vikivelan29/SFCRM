@@ -89,10 +89,11 @@ export class asf_Utility {
         if(source != 'Email'){
            fields[SUBJECT_FIELD.fieldApiName] = 'SR : '+selected.Type__c;
         }
+       }
            fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
            fields[TYPETXT_FIELD.fieldApiName] = selected.Type__c;
            fields[SUBTYPETXT_FIELD.fieldApiName] = selected.Sub_Type__c;
-       }
+       
        fields[NATURE_FIELD.fieldApiName] = parentJS.natureVal;
        //fields[PRODUCT_FIELD.fieldApiName] = parentJS.productVal;
        fields[SOURCE_FIELD.fieldApiName] = source;
