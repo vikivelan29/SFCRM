@@ -1035,6 +1035,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 .then((status) => {
                     if (status === REFRESH_COMPLETE) {
                         console.log("Done!");
+                        // Virendra - Refresh the UI when User is changed from Change Owner Button from Detail Page.
+                        refreshApex(this.processApexReturnValue);
                     } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
                         console.warn("Done, with issues refreshing some components");
                     } else if (status === REFRESH_ERROR) {
