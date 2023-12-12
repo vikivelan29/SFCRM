@@ -2,7 +2,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
     public static ASF_CaseMovementHelper.CaseAdditionalData addlDataFromStageMovementMethods;
-    public static Boolean triggerEncounteredError = false;
+        public static Boolean triggerEncounteredError = false;
+    private static Map<Id, Case> singleCaseDMLMap;
 
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
@@ -397,7 +398,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //stores them in static variable for after context trigger to insert them
     //Runs the integrations and updates the owner in case of errors.
     //Runs on new case creation and recategorisation
-    public static void checkAndStorePeripheralRecordsInBeforeContext(List<Case> newList, Map<Id, Case> oldMap) {
+    public static void checkAndStorePeripheralRecordsInAfterContext(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
         Boolean isUpdate = oldMap!=null?true:false;
 
@@ -411,6 +412,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
         if(!eligibleRecords.isEmpty()){
+            Case caseToUpdate;
             ASF_CaseMovementHelper.CaseAdditionalData dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords[0], eligibleRecords[0].Stage__c);
             addlDataFromStageMovementMethods = new ASF_CaseMovementHelper.CaseAdditionalData();
             addlDataFromStageMovementMethods.approvalsToInsert = dataWrapper.approvalsToInsert;
@@ -423,7 +425,15 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && eligibleRecords[0].Technical_Source__c == 'API'){
                 ASF_IntegrationsController.IntegrationWrapper intWrap = ASF_CaseFrameworkHelper.runIntegrations(eligibleRecords[0], addlDataFromStageMovementMethods.allIntegrations);
                 if(intWrap.status == 'Error' && intWrap.assignToId != null){
-                    eligibleRecords[0].OwnerId = intWrap.assignToId;
+                    //eligibleRecords[0].OwnerId = intWrap.assignToId;
+                    caseToUpdate = new Case(Id=eligibleRecords[0].Id, OwnerId = intWrap.assignToId);
+                    if(singleCaseDMLMap == null){
+                        singleCaseDMLMap = new Map<Id, Case>();
+                        singleCaseDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }
+                    // ASF_TriggerSkipperUtility.markTriggerRun('Case');
+                    // update caseToUpdate;
+                    // ASF_TriggerSkipperUtility.resetTriggerRun('Case');
                 }
             }
         }
@@ -460,6 +470,33 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }else{
                 newList[0].addError(e.getMessage());
             }
+        }
+    }
+
+    public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
+        //SLA calculation method - from JT's class
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
+        if(oldMap != null){
+            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
+            casesToUpdate = caseSLA.calculateSLAOnCaseUpdate(newCaseMap,oldMap);
+        }else{
+            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
+            casesToUpdate = caseSLA.calculateSLAOnCaseInsert(newCaseMap.values());
+        }
+        if(!casesToUpdate.isEmpty()){
+            if(singleCaseDMLMap == null){
+                singleCaseDMLMap = new Map<Id, Case>(casesToUpdate);
+            }else{
+                singleCaseDMLMap.putAll(new Map<Id, Case>(casesToUpdate));
+            }
+            
+        }
+
+        if(singleCaseDMLMap != null){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            update singleCaseDMLMap.values();
+            ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+            singleCaseDMLMap = null;
         }
     }
 
