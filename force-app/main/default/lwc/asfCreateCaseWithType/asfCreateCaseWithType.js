@@ -437,6 +437,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
 
+        
         if (this.isasset == false) {
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.asset.fields.AccountId.value;
             fields[LAN_NUMBER.fieldApiName] = this.asset.fields.ASF_Card_or_Account_Number__c.value;
