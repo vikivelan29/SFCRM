@@ -130,7 +130,9 @@
                             <template if:true={caseFieldsMetadata}>
                                 <template for:each={caseFieldsMetadata} for:item="ccfield">
                                     <template if:true={ccfield.isCase}>
-                                        <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                        <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                                padding="around-small" class="slds-form__item slds-no-space">-->
+                                        <div key={ccfield.Id} class={ccfield.divEditClass}>
                                             <template if:true={ccfield.bSearchablePicklist}>
                                                 <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
                                                 <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
@@ -165,16 +167,14 @@
                                                 </template>
                                             </template>
                                         </div>
-                                        <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
-                                            padding="around-small" class="slds-form__item slds-no-space">-->
-                                            
+
 
                                         <!--</lightning-layout-item>-->
                                     </template>
                                 </template>
                             </template>
                         </div>
-                        
+
                         <!--</lightning-layout>-->
                     </lightning-record-edit-form>
 
@@ -184,58 +184,56 @@
                             onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad}
                             data-id="caseRelObjEditForm">
                             <!--<lightning-layout horizontal-align="space" multiple-rows>-->
-                                <div class="slds-grid slds-wrap">
-                                    <template if:true={caseFieldsMetadata}>
-                                        <template for:each={caseFieldsMetadata} for:item="ccfield">
-                                            <template if:false={ccfield.isCase}>
-                                                <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
-                                                    padding="around-small" class="slds-form__item slds-no-space"> -->
-                                                    <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
-
-                                                    
-                                                    <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
-                                                    <template if:true={ccfield.bSearchablePicklist}>
-                                                        <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
-                                                        <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
-                                                        <lightning-input-field id={ccfield.FieldAPINAme}
-                                                            field-name={ccfield.FieldAPINAme} class="slds-hide"
-                                                            onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
+                            <div class="slds-grid slds-wrap">
+                                <template if:true={caseFieldsMetadata}>
+                                    <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                        <template if:false={ccfield.isCase}>
+                                            <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                                    padding="around-small" class="slds-form__item slds-no-space">-->
+                                            <div key={ccfield.Id} class={ccfield.divEditClass}>
+                                                <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
+                                                <template if:true={ccfield.bSearchablePicklist}>
+                                                    <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
+                                                    <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                    <lightning-input-field id={ccfield.FieldAPINAme}
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                        onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
+                                                    </lightning-input-field>
+                                                    <c-asf_searchable-picklist multiselect=false
+                                                        objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
+                                                        fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
+                                                        onsetfieldvalueevt={handleSetFieldValue}>
+                                                    </c-asf_searchable-picklist>
+                                                </template>
+                                                <template if:true={ccfield.bMultiSelectSearchablePicklist}>
+                                                    <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
+                                                    <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                    <lightning-input-field id={ccfield.FieldAPINAme}
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                        onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
+                                                    </lightning-input-field>
+                                                    <c-asf_searchable-picklist multiselect=true
+                                                        objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
+                                                        fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
+                                                        onsetfieldvalueevt={handleSetFieldValue}
+                                                        required="false"></c-asf_searchable-picklist>
+                                                </template>
+                                                <template if:false={ccfield.bSearchablePicklist}>
+                                                    <template if:false={ccfield.bMultiSelectSearchablePicklist}>
+                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                            value={ccfield.value} class={ccfield.editClassString}
+                                                            onchange={handleChange} disabled={ccfield.ReadOnly}
+                                                            required={ccfield.Required}>
                                                         </lightning-input-field>
-                                                        <c-asf_searchable-picklist multiselect=false objectname={caseRelObjName}
-                                                            fieldname={ccfield.FieldAPINAme}
-                                                            fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
-                                                            onsetfieldvalueevt={handleSetFieldValue}>
-                                                        </c-asf_searchable-picklist>
                                                     </template>
-                                                    <template if:true={ccfield.bMultiSelectSearchablePicklist}>
-                                                        <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
-                                                        <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
-                                                        <lightning-input-field id={ccfield.FieldAPINAme}
-                                                            field-name={ccfield.FieldAPINAme} class="slds-hide"
-                                                            onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
-                                                        </lightning-input-field>
-                                                        <c-asf_searchable-picklist multiselect=true objectname={caseRelObjName}
-                                                            fieldname={ccfield.FieldAPINAme}
-                                                            fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
-                                                            onsetfieldvalueevt={handleSetFieldValue}
-                                                            required="false"></c-asf_searchable-picklist>
-                                                    </template>
-                                                    <template if:false={ccfield.bSearchablePicklist}>
-                                                        <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                                value={ccfield.value} class={ccfield.editClassString}
-                                                                onchange={handleChange} disabled={ccfield.ReadOnly}
-                                                                required={ccfield.Required}>
-                                                            </lightning-input-field>
-                                                        </template>
-                                                    </template>
-                                                </div>
-                                                <!--</lightning-layout-item>-->
-                                            </template>
+                                                </template>
+                                            </div>
+                                            <!--</lightning-layout-item>-->
                                         </template>
                                     </template>
-                                </div>
-                                
+                                </template>
+                            </div>
+
                             <!--</lightning-layout>-->
 
                             <!-- HIDDEN BUTTON TO SUBMIT THE FORM FROM BUTTON PANEL-->
