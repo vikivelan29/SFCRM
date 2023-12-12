@@ -526,6 +526,13 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 inputField.reportValidity();
                 isValid = false;
             }
+            else if(inputField.value != null && inputField.value != undefined){
+                if(inputField.value.trim() == ''){
+                    inputField.value = '';
+                    inputField.reportValidity();
+                    isValid = false;
+                }
+            }
         });
         return isValid;
     }
