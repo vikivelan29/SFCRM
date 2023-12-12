@@ -16,7 +16,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-
+            //ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases.get(frameworkRTId));
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
             ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
             
@@ -35,16 +35,14 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
                 PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI(mRecordTypeVsCases.get(frameworkRTId));
             }
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInBeforeContext(mRecordTypeVsCases.get(frameworkRTId), null);
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            caseSLA.calculateSLAOnCaseInsert(mRecordTypeVsCases.get(frameworkRTId));
+            
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             ASF_CasePreFrameworkTriggerHelper caseHelper = new ASF_CasePreFrameworkTriggerHelper();
             
             ASF_CaseE2CHelper.blockOOOCases(mRecordTypeVsCases.get(interactionRTId));
             caseHelper.populatePreFrameworkFields(mRecordTypeVsCases.get(interactionRTId));
-            caseHelper.populateStageFields(mRecordTypeVsCases.get(interactionRTId)); 
+            caseHelper.populateStageFields(mRecordTypeVsCases.get(interactionRTId));
         }
         
     }
@@ -84,17 +82,14 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndProcessManualStageMovement(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
-            //SLA calculation method - from JT's class
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            caseSLA.calculateSLAOnCaseUpdate(newCaseMap,(map<Id,Case>)oldItems);
             
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInBeforeContext((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
             ASF_CasePreFrameworkTriggerHelper caseHelper = new ASF_CasePreFrameworkTriggerHelper();
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            caseSLA.calculateSLAOnCaseUpdate(newCaseMap,(map<Id,Case>)oldItems);
+            // ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
+            // caseSLA.calculateSLAOnCaseUpdate(newCaseMap,(map<Id,Case>)oldItems);
             caseHelper.populateStageFields(mRecordTypeVsCases.get(interactionRTId));
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
@@ -115,6 +110,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
@@ -127,6 +124,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
+            ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
             caseSLA.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap);
         }
         
@@ -143,6 +141,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
+            ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
             
