@@ -49,6 +49,11 @@ import { refreshApex } from '@salesforce/apex';
 
 import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE, REFRESH_COMPLETE_WITH_ERRORS, REFRESH_ERROR } from 'lightning/refresh'
 
+//Virendra : Start Here : created separate js and exported functions and using here for searchable Picklist and Multi-select Searchable Picklist.
+import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistOnStageAdjustment, hideReadOnlyFields } from './searchPicklistController';
+//Virendra : Ends Here.
+
+
 
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
@@ -491,6 +496,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
                         console.log('&&& After manipulation this.caseFieldsMetadata'+JSON.stringify(this.caseFieldsMetadata));
                         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+
+                        //Virendra : Starts Here : Searchable Picklist/ Multi-Select Searchable Picklist.
+                        this.handleSearchPicklistRendering();
+                        //Virendra : Ends Here.
+
                         if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
                             for (var fieldConfig in this.caseFieldsMetadata) {
                                 if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
@@ -1775,6 +1785,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
         this.assignDefaultValues();
         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+        this.handleSearchPicklistRendering();// Virendra - Searchable Picklist Code
 
         for (var item in this.caseFieldsMetadata) {
             //console.log(this.caseFieldsMetadata[item]);
@@ -1890,8 +1901,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.toggleUIView = true;
         this.hasRendered = false;
         this.fetchAllManualStages();
+        this.handleSearchPicklistRendering();
         this.hasPostRenderingDomManupulationDone = false;
         this.userClickedEditDetails = true;
+        
     }
 
 
@@ -2585,6 +2598,63 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     
     //End: Added for Complain Rejection
+
+
+    /* Virendra - Code Specific to Searchable Picklist - Start Here */
+
+    handleSearchPicklistRendering() {
+        //on rerendered UI
+        if (this.caseFieldsMetadata.length > 0) {
+            renderingPicklistOnStageAdjustment(this.template, this.caseFieldsMetadata, this.currentStep, this.caseExtensionRecordDetails, this.caseRecordDetails);
+        }
+
+    }
+    handleHiddenFieldChange(event) {
+        //this.handleVisibility();
+        getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+        this.handleSearchPicklistRendering();
+
+    }
+    handleChangeForSearchPicklist(event) {
+        //Called everytime a field value (Non-Searchable Picklist is changed. This is to cater when Controlling field is change and controlling field is non-searchable picklist field.)
+        conditionalRenderingPicklist(event, this.template, this.caseFieldsMetadata, this.currentStep);
+
+    }
+    handleHideShowFields(ele) {
+        //hideReadOnlyFields(this.template);
+        if (ele.disabled == true) {
+            if (!ele.className.includes('slds-hide')) {
+                ele.classList.add('slds-hide');
+            }
+        }
+        else {
+            if (ele.dataset.hiddenpicklist != true && ele.dataset.hiddenpicklist != "true") {
+                if (ele.className.includes('slds-hide')) {
+                    ele.classList.remove('slds-hide');
+                }
+            }
+
+        }
+
+
+    }
+    handleSetFieldValue(event) {
+        // This handler listens to event from child on picklist value change, and set the record-edit-forms "hidden" field value to correct value.
+        setPicklistFieldValue(event, this.template);
+        // Evaluate conditional element rendering whenever picklist field seletion changes.
+        getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+        
+    }
+
+    validateCustomPicklist(){
+        var isCustPickError = true;
+        this.template.querySelectorAll('c-searchable-picklist').forEach(field => {
+            isCustPickError = (isCustPickError && field.validateCustomPicklistField());
+        });
+        return isCustPickError;
+    }
+
+    /* Virendra - Code Specific to Searchable Picklist - Ends Here */
 
     
 }
