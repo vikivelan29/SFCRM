@@ -110,5 +110,8 @@ public with sharing class ASF_Constants {
         public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
     public static final String ONCREATECLOSESTAGE = 'Resolved';
     public static final String ONCREATECLOSESTATUS = 'Resolved';
+    public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
+    public static final String ABFL_BU = 'ABFL';
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC'};
 
 }
