@@ -473,10 +473,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     item['layoutItemSize'] = 12;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
+                                    item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
                                 }else{
                                     item['layoutItemSize'] = 6;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal'
+                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
+                                    item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal'
                                 }
                             }else{
                                 extnFieldsCount--;
@@ -485,10 +487,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     item['layoutItemSize'] = 12;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
+                                    item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
                                 }else{
                                     item['layoutItemSize'] = 6;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal'
+                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
+                                    item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal';
                                 }
                             }
                             return item;
@@ -1901,7 +1905,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.toggleUIView = true;
         this.hasRendered = false;
         this.fetchAllManualStages();
-        this.handleSearchPicklistRendering();
+        setTimeout(() => { this.handleSearchPicklistRendering(); }, 100);
+        
         this.hasPostRenderingDomManupulationDone = false;
         this.userClickedEditDetails = true;
         

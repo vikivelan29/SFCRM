@@ -17,7 +17,7 @@ const conditionalRenderingPicklist = (event, templ, caseFieldsMetadata, currentS
 
                     if (event.detail.value == caseFieldsMetadata[fieldmdt].ControllingExpression) {
 
-                        templ.querySelectorAll('c-searchable-picklist').forEach((field) => {
+                        templ.querySelectorAll('c-asf_searchable-picklist').forEach((field) => {
                             if (field.fieldName == caseFieldsMetadata[fieldmdt].FieldAPINAme && !caseFieldsMetadata[fieldmdt].useControllingFormula) {
                                 field.callSetAsDisabledField(false);
                                 //field.required = true;
@@ -40,7 +40,7 @@ const conditionalRenderingPicklist = (event, templ, caseFieldsMetadata, currentS
 
                     }
                     else {
-                        templ.querySelectorAll('c-searchable-picklist').forEach((field) => {
+                        templ.querySelectorAll('c-asf_searchable-picklist').forEach((field) => {
                             if (field.fieldName == caseFieldsMetadata[fieldmdt].FieldAPINAme && !caseFieldsMetadata[fieldmdt].useControllingFormula) {
                                 field.callSetAsDisabledField(true);
                                 field.callSetAsRequiredField(false);
@@ -84,7 +84,7 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
 
         for (var item in caseFieldsMetadata) {
             if (caseFieldsMetadata[item].bSearchablePicklist || caseFieldsMetadata[item].bMultiSelectSearchablePicklist) {
-                templ.querySelectorAll('c-searchable-picklist').forEach(field => {
+                templ.querySelectorAll('c-asf_searchable-picklist').forEach(field => {
                     if (field.fieldname == caseFieldsMetadata[item].FieldAPINAme) {
                         if (caseFieldsMetadata[item].UpdateAt) {
                             if (caseFieldsMetadata[item].UpdateAt.includes(currentStep)) {
