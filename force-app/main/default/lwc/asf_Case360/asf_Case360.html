@@ -17,7 +17,7 @@
         </template>
         <template lwc:if={loadReady}>
             <lightning-card variant="Narrow" class="">
-                
+
                 <!-- <template if:false={showSpinner}> -->
                 <template if:false={tempHide}>
                     <div class="page-section page-header slds-var-m-around_medium" align="center">
@@ -34,15 +34,17 @@
 
                 <!-- READ ONLY CORE FORMS -->
                 <template if:false={openEditMode}>
-                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} 
-                        data-id="caseROForm" onload={handleCaseRecordLoadReadOnly}>
+                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} data-id="caseROForm"
+                        onload={handleCaseRecordLoadReadOnly}>
                         <lightning-layout horizontal-align="space" multiple-rows>
                             <template if:true={caseFieldsMetadata}>
                                 <template for:each={caseFieldsMetadata} for:item="ccfield">
                                     <template if:true={ccfield.isCase}>
-                                        <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize} padding="around-small">
+                                        <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                            padding="around-small">
                                             <template if:true={isCurrentUserOwner}>
-                                                <lightning-output-field field-name={ccfield.FieldAPINAme} class={ccfield.classString}>
+                                                <lightning-output-field field-name={ccfield.FieldAPINAme}
+                                                    class={ccfield.classString}>
                                                 </lightning-output-field>
                                             </template>
                                             <template if:false={isCurrentUserOwner}>
@@ -52,7 +54,8 @@
                                                 </template>
                                                 <template if:true={ccfield.isSensitive}>
                                                     <div class={ccfield.classString}>
-                                                        <span class="slds-form-element__label">{ccfield.FieldLabelName}</span>
+                                                        <span
+                                                            class="slds-form-element__label">{ccfield.FieldLabelName}</span>
                                                         <div class="slds-form-element__control">
                                                             <lightning-formatted-text value="XXXXXXX"
                                                                 class="slds-form-element__static">XXXXXXX</lightning-formatted-text>
@@ -66,7 +69,7 @@
                             </template>
                         </lightning-layout>
                     </lightning-record-edit-form>
-                    
+
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
                             data-id="caseRelObjROForm" onload={handleRecordLoadReadOnly}>
@@ -74,7 +77,8 @@
                                 <template if:true={caseFieldsMetadata}>
                                     <template for:each={caseFieldsMetadata} for:item="ccfield">
                                         <template if:false={ccfield.isCase}>
-                                            <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize} padding="around-small" class="slds-form__item slds-no-space">
+                                            <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                                padding="around-small" class="slds-form__item slds-no-space">
                                                 <template if:true={isCurrentUserOwner}>
                                                     <lightning-output-field class={ccfield.classString}
                                                         field-name={ccfield.FieldAPINAme}></lightning-output-field>
@@ -107,64 +111,139 @@
                     <!-- EDIT DETAILS BUTTON-->
                     <template if:true={showEditDetailsButton}>
                         <div class="slds-m-around_medium">
-                            <lightning-button label="Edit Details" title="Non-primary action"
-                                onclick={handleClick}
+                            <lightning-button label="Edit Details" title="Non-primary action" onclick={handleClick}
                                 class="slds-m-left_x-small slds-align_absolute-center custom-footer"></lightning-button>
                         </div>
                     </template>
                 </template>
 
-                
+
 
                 <!-- EDITABLE CORE FORMS -->
                 <template if:true={openEditMode}>
                     <!-- CASE CORE FORM -->
-                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} onsubmit={handleSubmit2} 
+                    <lightning-record-edit-form object-api-name="Case" record-id={recordId} onsubmit={handleSubmit2}
                         data-id="caseEditForm" onload={handleCaseRecordLoad}>
                         <!-- Virendra : 6th March 2023 : Added onload event for handling rendering of all the field correctly.-->
-                        <lightning-layout horizontal-align="space" multiple-rows>
+                        <!--<lightning-layout horizontal-align="space" multiple-rows>-->
+                        <div class="slds-grid slds-wrap">
                             <template if:true={caseFieldsMetadata}>
                                 <template for:each={caseFieldsMetadata} for:item="ccfield">
                                     <template if:true={ccfield.isCase}>
-                                        <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize} padding="around-small" class="slds-form__item slds-no-space">
-                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                value={ccfield.value} onchange={handleChange} class={ccfield.editClassString}
-                                                disabled={ccfield.ReadOnly} required={ccfield.Required}>
-                                            </lightning-input-field>
-                                        </lightning-layout-item>
+                                        <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+                                            <template if:true={ccfield.bSearchablePicklist}>
+                                                <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
+                                                <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                <lightning-input-field id={ccfield.FieldAPINAme}
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                    onchange={handleHiddenFieldChange}> </lightning-input-field>
+                                                <c-asf_searchable-picklist multiselect=false objectname="Case"
+                                                    fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
+                                                    object-record-id={recordId}
+                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                </c-asf_searchable-picklist>
+                                            </template>
+                                            <template if:true={ccfield.bMultiSelectSearchablePicklist}>
+                                                <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
+                                                <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                <lightning-input-field id={ccfield.FieldAPINAme}
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                    onchange={handleHiddenFieldChange}> </lightning-input-field>
+                                                <c-asf_searchable-picklist multiselect=true objectname="Case"
+                                                    fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
+                                                    object-record-id={recordId}
+                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                </c-asf_searchable-picklist>
+                                            </template>
+                                            <template if:false={ccfield.bSearchablePicklist}>
+                                                <template if:false={ccfield.bMultiSelectSearchablePicklist}>
+                                                    <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                        value={ccfield.value} onchange={handleChange}
+                                                        class={ccfield.editClassString} disabled={ccfield.ReadOnly}
+                                                        required={ccfield.Required}>
+                                                    </lightning-input-field>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                            padding="around-small" class="slds-form__item slds-no-space">-->
+                                            
+
+                                        <!--</lightning-layout-item>-->
                                     </template>
                                 </template>
                             </template>
-                        </lightning-layout>
+                        </div>
+                        
+                        <!--</lightning-layout>-->
                     </lightning-record-edit-form>
 
                     <!--CASE EXTN CORE FORM-->
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
-                            onsubmit={handleSubmitRelatedObject2}  onload={handleRecordLoad}
+                            onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad}
                             data-id="caseRelObjEditForm">
-                            <lightning-layout horizontal-align="space" multiple-rows>
-                                <template if:true={caseFieldsMetadata}>
-                                    <template for:each={caseFieldsMetadata} for:item="ccfield">
-                                        <template if:false={ccfield.isCase}>
-                                            <lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize} padding="around-small" class="slds-form__item slds-no-space">
-                                                <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
-                                                <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                    value={ccfield.value} class={ccfield.editClassString}
-                                                    onchange={handleChange} disabled={ccfield.ReadOnly} required={ccfield.Required}>
-                                                </lightning-input-field>
-                                            </lightning-layout-item>
+                            <!--<lightning-layout horizontal-align="space" multiple-rows>-->
+                                <div class="slds-grid slds-wrap">
+                                    <template if:true={caseFieldsMetadata}>
+                                        <template for:each={caseFieldsMetadata} for:item="ccfield">
+                                            <template if:false={ccfield.isCase}>
+                                                <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
+                                                    padding="around-small" class="slds-form__item slds-no-space"> -->
+                                                    <div key={ccfield.Id} class="slds-col slds-size_1-of-2">
+
+                                                    
+                                                    <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
+                                                    <template if:true={ccfield.bSearchablePicklist}>
+                                                        <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
+                                                        <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                        <lightning-input-field id={ccfield.FieldAPINAme}
+                                                            field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                            onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
+                                                        </lightning-input-field>
+                                                        <c-asf_searchable-picklist multiselect=false objectname={caseRelObjName}
+                                                            fieldname={ccfield.FieldAPINAme}
+                                                            fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
+                                                            onsetfieldvalueevt={handleSetFieldValue}>
+                                                        </c-asf_searchable-picklist>
+                                                    </template>
+                                                    <template if:true={ccfield.bMultiSelectSearchablePicklist}>
+                                                        <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
+                                                        <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
+                                                        <lightning-input-field id={ccfield.FieldAPINAme}
+                                                            field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                            onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
+                                                        </lightning-input-field>
+                                                        <c-asf_searchable-picklist multiselect=true objectname={caseRelObjName}
+                                                            fieldname={ccfield.FieldAPINAme}
+                                                            fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
+                                                            onsetfieldvalueevt={handleSetFieldValue}
+                                                            required="false"></c-asf_searchable-picklist>
+                                                    </template>
+                                                    <template if:false={ccfield.bSearchablePicklist}>
+                                                        <template if:false={ccfield.bMultiSelectSearchablePicklist}>
+                                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                value={ccfield.value} class={ccfield.editClassString}
+                                                                onchange={handleChange} disabled={ccfield.ReadOnly}
+                                                                required={ccfield.Required}>
+                                                            </lightning-input-field>
+                                                        </template>
+                                                    </template>
+                                                </div>
+                                                <!--</lightning-layout-item>-->
+                                            </template>
                                         </template>
                                     </template>
-                                </template>
-                            </lightning-layout>
-                            
+                                </div>
+                                
+                            <!--</lightning-layout>-->
+
                             <!-- HIDDEN BUTTON TO SUBMIT THE FORM FROM BUTTON PANEL-->
                             <!-- Damn! Stupid record-edit-form doesnt let you submit form and auto invoke onsubmit method from outside the form buttons. -->
                             <lightning-button variant="brand" type="submit"
                                 class="slds-m-around_xxx-small hiddenSubmitBtn" label="Hidden">
                             </lightning-button>
-                            
+
                             <!-- Virendra : 6th March 2023: Show information to User why Form is Read only.style="padding:0.5rem;background:#16325c"-->
                             <div class="slds-m-around_medium" if:true={showWhyRecordReadOnlyInfo}><lightning-icon
                                     icon-name="utility:info" size="small" variant="warning"></lightning-icon><span>
@@ -178,31 +257,35 @@
 
                     <!-- Case Closure POP UP -->
                     <template lwc:if={openClosurePopUp}>
-                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open">
                             <div class="slds-modal__container">
-                              <div class="slds-modal__header">
-                                <h1 class="slds-modal__title slds-hyphenate">Case Closure</h1>
-                              </div>
-                              <div class="slds-modal__content slds-p-around_medium">
-                                <lightning-radio-group name="closureType"
-                                    label="Closure Type" options={closureTypeOptions} value={closureTypeSelected}
-                                    type="button" onchange={handleClosureTypeChange}></lightning-radio-group>
-                                <template lwc:if={showRejectPanel}>
-                                    <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
-                                        label="Close Unresolved Details" variant="label-stacked" value={rejectedReason}
-                                        onchange={setRejectedReason} placeholder="type here..."></lightning-textarea>
-                                    <lightning-combobox class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
-                                        value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
-                                        placeholder='Close Unresolved Reason' onchange={handleRejReasonChange} required>
-                                    </lightning-combobox>
-                                </template>
-                              </div>
-                              <div class="slds-modal__footer">
-                                <lightning-button class="slds-m-around_small" label="Cancel"
+                                <div class="slds-modal__header">
+                                    <h1 class="slds-modal__title slds-hyphenate">Case Closure</h1>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                    <lightning-radio-group name="closureType" label="Closure Type"
+                                        options={closureTypeOptions} value={closureTypeSelected} type="button"
+                                        onchange={handleClosureTypeChange}></lightning-radio-group>
+                                    <template lwc:if={showRejectPanel}>
+                                        <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
+                                            label="Close Unresolved Details" variant="label-stacked"
+                                            value={rejectedReason} onchange={setRejectedReason}
+                                            placeholder="type here..."></lightning-textarea>
+                                        <lightning-combobox
+                                            class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                            value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
+                                            placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
+                                            required>
+                                        </lightning-combobox>
+                                    </template>
+                                </div>
+                                <div class="slds-modal__footer">
+                                    <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelClose}></lightning-button>
-                                <lightning-button class="slds-m-around_small" label="Save"
+                                    <lightning-button class="slds-m-around_small" label="Save"
                                         onclick={closeTheCase}></lightning-button>
-                              </div>
+                                </div>
                             </div>
                         </section>
                         <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
@@ -210,20 +293,21 @@
 
                     <!-- MOVE BACK STAGE POP UP-->
                     <template if:true={showPreviousStages}>
-                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open">
                             <div class="slds-modal__container">
                                 <div class="slds-modal__header">
-                                <h1 class="slds-modal__title slds-hyphenate">Move to Back Stage</h1>
+                                    <h1 class="slds-modal__title slds-hyphenate">Move to Back Stage</h1>
                                 </div>
                                 <div class="slds-modal__content slds-p-around_medium">
-                                <lightning-combobox name="stage" label="Stage" value={selectedStage}
-                                    placeholder="Select Previous Stage" options={caseStages}
-                                    onchange={handleStageChange} required></lightning-combobox>
+                                    <lightning-combobox name="stage" label="Stage" value={selectedStage}
+                                        placeholder="Select Previous Stage" options={caseStages}
+                                        onchange={handleStageChange} required></lightning-combobox>
                                 </div>
                                 <div class="slds-modal__footer">
-                                <lightning-button class="slds-m-around_small" label="Cancel"
+                                    <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelBackCaseStage}></lightning-button>
-                                <lightning-button class="slds-m-around_small" label="Save"
+                                    <lightning-button class="slds-m-around_small" label="Save"
                                         onclick={saveBackCaseStage}></lightning-button>
                                 </div>
                             </div>
@@ -233,7 +317,8 @@
 
                     <!-- MOVE FORWARD STAGE POP UP-->
                     <template if:true={showForwardStages}>
-                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+                        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                            class="slds-modal slds-fade-in-open">
                             <div class="slds-modal__container">
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">Move to Forward Stage</h1>
@@ -246,9 +331,9 @@
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
-                                            onclick={cancelForwardCaseStage}></lightning-button>
+                                        onclick={cancelForwardCaseStage}></lightning-button>
                                     <lightning-button class="slds-m-around_small" label="Save"
-                                            onclick={saveManualCaseStage}></lightning-button>
+                                        onclick={saveManualCaseStage}></lightning-button>
                                 </div>
                             </div>
                         </section>
@@ -262,15 +347,13 @@
                         <lightning-button-group>
                             <template lwc:if={displayBackButton}>
                                 <!--Virendra : 6th March 2023 : Commented below line and added above.-->
-                                <lightning-button label="Back" icon-name="utility:back"
-                                    class="slds-m-around_xxx-small" onclick={handleBackButtonClick}
-                                    disabled={backButtonDisabled}></lightning-button>
+                                <lightning-button label="Back" icon-name="utility:back" class="slds-m-around_xxx-small"
+                                    onclick={handleBackButtonClick} disabled={backButtonDisabled}></lightning-button>
                             </template>
                             <template lwc:if={showSaveButton}>
                                 <!-- Adding Save button - Santanu 31 Oct 2023 -->
-                                <lightning-button label="Save" icon-name="utility:save"
-                                class="slds-m-around_xxx-small" onclick={saveCaseAndExtn}
-                                variant="brand"></lightning-button>
+                                <lightning-button label="Save" icon-name="utility:save" class="slds-m-around_xxx-small"
+                                    onclick={saveCaseAndExtn} variant="brand"></lightning-button>
                             </template>
                             <template lwc:if={showSaveButton}>
                                 <lightning-button variant="brand" icon-name="utility:breadcrumbs"
@@ -285,8 +368,8 @@
                                 </lightning-button>
                             </template>
                             <template if:true={boolSaveReassignButton}>
-                                <lightning-button type="submit" name="savereassign"
-                                    label="Save & Reassign" onclick={handleSaveReassign}>
+                                <lightning-button type="submit" name="savereassign" label="Save & Reassign"
+                                    onclick={handleSaveReassign}>
                                 </lightning-button>
                             </template>
                             <template if:true={displayCloseButton}>
