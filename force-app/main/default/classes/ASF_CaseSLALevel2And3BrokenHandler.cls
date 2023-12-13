@@ -1,6 +1,7 @@
 global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedulable,Database.Batchable<sObject> {
 
     global Database.QueryLocator start(Database.BatchableContext bc){
+        DateTime currentTime = System.now();
         String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name  FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false';
         return Database.getQueryLocator(query);
     }
