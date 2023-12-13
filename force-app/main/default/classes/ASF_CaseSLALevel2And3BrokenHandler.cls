@@ -1,7 +1,6 @@
 global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedulable,Database.Batchable<sObject> {
 
     global Database.QueryLocator start(Database.BatchableContext bc){
-        DateTime currentTime = System.now();
         String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name  FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false';
         return Database.getQueryLocator(query);
     }
@@ -81,7 +80,7 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
                 slaHistory.Status__c = 'Violated';
             }
 
-            system.debug(slaHistory.Stage_Violation_Start_Date__c + slaHistory.Level__c + ' ' + slaHistory.Case__r.Stage_SLA_2__c + ' ' + currentTime);
+
             if(slaHistory.Stage_Violation_Start_Date__c != null && slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&(slaHistory.Case__r.Stage_SLA_3__c < currentTime)){
                 if(slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
                     slaHistory.Level__c = '3';
@@ -107,7 +106,6 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
 
         }
 
-        System.debug('CASE SLA CHECK' + casesList[0].Stage_SLA_2__c + ' ' + currentTime + (casesList[0].Stage_SLA_2__c < currentTime));
         for(Case caseObj : casesList){
             if(caseInBusinessHour.containsKey(caseObj.Id) && caseInBusinessHour.get(caseObj.Id) && caseObj.Is_Approval_Stage__c == false){
                 if(caseObj.Stage_SLA_3__c != null && (caseObj.Stage_SLA_3__c < currentTime)){
@@ -177,7 +175,6 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
         }
 
         if(!slaHistoryList.isEmpty()){ 
-            system.debug(slaHistoryList);
             UPDATE slaHistoryList;
         }
         if(!emailList.isEmpty()){

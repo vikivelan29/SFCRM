@@ -75,7 +75,8 @@ public with sharing class ASF_IntegrationsController {
             result = instance.run(integ, caseRec);
             return result;
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            //throw new AuraHandledException(e.getMessage());    
+            throw e;	
         }
     }
 
@@ -119,8 +120,7 @@ public with sharing class ASF_IntegrationsController {
         }
         update aciPending;
     }
-    
-    
+      
     public class IntegrationWrapper{
         
         @AuraEnabled

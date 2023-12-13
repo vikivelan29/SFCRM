@@ -496,7 +496,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             update singleCaseDMLMap.values();
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
-            singleCaseDMLMap = null;
         }
     }
 
@@ -694,7 +693,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             String oldOwnerId = oldMap.get(c.Id).OwnerId;
             String newOwnerId = c.OwnerId; 
             if(oldOwnerId != newOwnerId){
-				caseOwnerIdSet.add(oldOwnerId);                
+                caseOwnerIdSet.add(oldOwnerId);                
             }
             //ADO-131839 Making the Queue Checked Disabled for Queue to Queue Assignment
             if(c.OwnerId != oldOwnerId && oldOwnerId.startsWith('00G')

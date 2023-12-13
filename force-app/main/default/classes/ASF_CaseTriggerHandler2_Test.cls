@@ -27,6 +27,7 @@ public class ASF_CaseTriggerHandler2_Test {
         ASF_TestDataFactory.createCaseCategoryConfig();
         Test.startTest();
         ASF_TestDataFactory.createCaseRecords(0);
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         ASF_TestDataFactory.createInteractionCaseRecords();
         Test.stopTest();
         List<Case> frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework'];
@@ -42,7 +43,9 @@ public class ASF_CaseTriggerHandler2_Test {
         Case frameworkCase = [Select Id from Case where RecordType.Name = 'Framework' LIMIT 1];
         Case interactionCase = [Select Id from Case where RecordType.Name = 'Interaction' LIMIT 1];
         frameworkCase.Subject = 'Updated subject';
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         update frameworkCase;
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         update interactionCase;
         Test.stopTest();
         Case frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework' LIMIT 1];
