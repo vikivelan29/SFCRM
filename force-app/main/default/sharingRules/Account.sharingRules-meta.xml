@@ -2,10 +2,10 @@
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
         <fullName>All_ABHFL_Customer_To_ABHFL_User</fullName>
-        <accessLevel>Edit</accessLevel>
+        <accessLevel>Read</accessLevel>
         <accountSettings>
-            <caseAccessLevel>Edit</caseAccessLevel>
-            <contactAccessLevel>Edit</contactAccessLevel>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
             <opportunityAccessLevel>None</opportunityAccessLevel>
         </accountSettings>
         <description>ABHFL role</description>
@@ -14,7 +14,7 @@
             <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
-            <field>Line_of_Business__c</field>
+            <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABHFL</value>
         </criteriaItems>
@@ -33,7 +33,7 @@
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
-            <field>Line_of_Business__c</field>
+            <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Payments</value>
         </criteriaItems>
