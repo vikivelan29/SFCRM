@@ -24,6 +24,8 @@ import LAN_NUMBER from '@salesforce/schema/Case.LAN__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
@@ -40,6 +42,8 @@ import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDupli
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
+import USER_ID from '@salesforce/user/Id';
+import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -124,9 +128,18 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         });
         this.dispatchEvent(event);
     }
+    @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
+    user;
+    
+    get businessUnit() {
+        return getFieldValue(this.user.data, BUSINESS_UNIT);
+    }
+
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
         this.getAccountRecord();
+        console.log('business ---> ' + this.businessUnit);
+
     }
 
     renderedCallback() {
@@ -225,6 +238,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
         }
+        if ((selected) && (this.businessUnit == 'ABFL')) {
+            this.boolAllChannelVisible = false;
+            this.boolAllSourceVisible = true;
+        }
         if (selected && selected.hasOwnProperty("Is_Bulk_Creatable__c") && selected.Is_Bulk_Creatable__c == true && !this.isNotSelected) {
             getUserPermissionSet({})
                 .then(result => {
@@ -243,7 +260,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolShowDownloadCSV = false;
         }
         if (selected) {
-            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
+            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))&& (this.businessUnit != 'ABFL')) {
                 console.log('tst2245' + JSON.stringify(selected));
                 this.boolAllChannelVisible = true;
                 this.boolAllSourceVisible = true;
