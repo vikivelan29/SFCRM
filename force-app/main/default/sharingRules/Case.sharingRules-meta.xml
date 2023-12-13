@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>Share_ABFL_Cases_to_ABFL_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share ABFL Cases to ABFL Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share ABHFL Cases to ABHFL Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
         <accessLevel>Edit</accessLevel>
         <label>Share Payment Cases to Payment Users</label>
