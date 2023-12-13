@@ -368,7 +368,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.dispatchEvent(new CloseActionScreenEvent());
             this.dispatchEvent(new RefreshEvent());  
             setTimeout(() => {
-                eval("$A.get('e.force:refreshView').fire();");
+                //eval("$A.get('e.force:refreshView').fire();");
+                getRecordNotifyChange([{ recordId: this.recordId }]);
            }, 1000); 
 
            /* this[NavigationMixin.Navigate]({

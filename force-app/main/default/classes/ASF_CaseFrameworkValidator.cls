@@ -88,6 +88,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 when 'string' {
                     switch on cre.Operator__c {
                         when '=' {
+                            caseRecordValue = caseRecordValue==null?'':caseRecordValue;
                             comparisonResult = caseRecordValue == comparsonValue;
                         }
                         when '!=' {
