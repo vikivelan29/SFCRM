@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Log</label>
             </value>
+            <value>
+                <fullName>BRE</fullName>
+                <default>false</default>
+                <label>BRE</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
