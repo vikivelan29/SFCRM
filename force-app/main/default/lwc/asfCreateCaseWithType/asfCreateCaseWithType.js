@@ -145,7 +145,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     renderedCallback() {
 
         let getSourceFldCombobox = this.template.querySelector("[data-id='Source Field']");
-        if(getSourceFldCombobox) {
+        if(getSourceFldCombobox && this.sourceFldOptions) {
             if(this.sourceFldOptions.length == 1) {
                 getSourceFldCombobox.readOnly = true;
             }
