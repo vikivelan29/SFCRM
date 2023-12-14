@@ -134,7 +134,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     get businessUnit() {
         return getFieldValue(this.user.data, BUSINESS_UNIT);
     }
-
+   
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
         this.getAccountRecord();
