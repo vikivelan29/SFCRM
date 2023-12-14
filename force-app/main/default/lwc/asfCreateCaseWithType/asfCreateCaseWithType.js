@@ -53,7 +53,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     @api fieldToBeStampedOnCase;
     loaded = true;
     caseRelObjName;
-    caseExtensionRecordId;
+    caseExtensionRecordId; 
     caseRecordId;
 
     //tst strt
