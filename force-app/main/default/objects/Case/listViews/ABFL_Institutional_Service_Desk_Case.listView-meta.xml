@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Institutional_Service_Desk_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL Institutional Service Desk</label>
+    <queue>ABFL_Institutional_Service_Desk</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

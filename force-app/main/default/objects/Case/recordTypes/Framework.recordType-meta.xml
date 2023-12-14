@@ -51,9 +51,24 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>No_Auto_Communication__c</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Origin</picklist>
         <values>
             <fullName>ABFL Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHFL Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -175,7 +190,35 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>In Progress with CS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with Ops</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with Repayment Ops</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with Retention</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with TDS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with TDS Ops</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resolved</fullName>
             <default>false</default>
         </values>
     </picklistValues>

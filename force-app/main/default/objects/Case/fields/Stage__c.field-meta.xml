@@ -21,6 +21,46 @@
                 <default>false</default>
                 <label>Closed</label>
             </value>
+            <value>
+                <fullName>In Progress with Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with CS</fullName>
+                <default>false</default>
+                <label>In Progress with CS</label>
+            </value>
+            <value>
+                <fullName>Resolved</fullName>
+                <default>false</default>
+                <label>Resolved</label>
+            </value>
+            <value>
+                <fullName>In Progress with Repayment Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Repayment Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Retention</label>
+            </value>
+            <value>
+                <fullName>In Progress with TDS</fullName>
+                <default>false</default>
+                <label>In Progress with TDS</label>
+            </value>
+            <value>
+                <fullName>In Progress with TDS Ops</fullName>
+                <default>false</default>
+                <label>In Progress with TDS Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

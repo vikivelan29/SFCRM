@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Mortgage_Central_Sales_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL Mortgage Central Sales</label>
+    <queue>ABFL_Mortgage_Central_Sales</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

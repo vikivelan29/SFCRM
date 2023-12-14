@@ -36,6 +36,16 @@
                 <default>false</default>
                 <label>Walk-In</label>
             </value>
+            <value>
+                <fullName>IVR-no email</fullName>
+                <default>false</default>
+                <label>IVR-no email</label>
+            </value>
+            <value>
+                <fullName>RM-no email</fullName>
+                <default>false</default>
+                <label>RM-no email</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

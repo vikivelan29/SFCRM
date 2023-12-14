@@ -5,8 +5,9 @@
     <fields>CaseNumber</fields>
     <fields>Type_Text__c</fields>
     <fields>Sub_Type_Text__c</fields>
+    <fields>CreatedById</fields>
     <fields>CreatedDate</fields>
     <fields>ClosedDate</fields>
-    <fields>Source__c</fields>
+    <fields>OwnerId</fields>
     <label>ASF_Case_Compact_Layout</label>
 </CompactLayout>

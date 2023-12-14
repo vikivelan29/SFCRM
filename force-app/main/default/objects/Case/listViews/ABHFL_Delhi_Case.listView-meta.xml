@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHFL_Delhi_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABHFL Delhi Branch</label>
+    <queue>ABHFL_Delhi</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

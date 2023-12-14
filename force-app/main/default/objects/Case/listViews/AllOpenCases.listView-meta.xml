@@ -7,17 +7,13 @@
     <columns>CASES.PRIORITY</columns>
     <columns>CASES.ORIGIN</columns>
     <columns>CORE.USERS.ALIAS</columns>
-    <columns>SR_TAT_elapsed__c</columns>
+    <columns>CASES.TYPE</columns>
+    <columns>CASES.CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CASES.STATUS</field>
-        <operation>notEqual</operation>
-        <value>Closed</value>
-    </filters>
-    <filters>
-        <field>CORE.USERS.ALIAS</field>
         <operation>equals</operation>
-        <value>ymish</value>
+        <value>In Progress</value>
     </filters>
-    <label>All Cases</label>
+    <label>All Open Cases</label>
 </ListView>

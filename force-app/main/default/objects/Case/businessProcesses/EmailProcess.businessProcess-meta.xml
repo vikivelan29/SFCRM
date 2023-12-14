@@ -7,6 +7,10 @@
         <default>false</default>
     </values>
     <values>
+        <fullName>Closed Duplicate</fullName>
+        <default>false</default>
+    </values>
+    <values>
         <fullName>Merged</fullName>
         <default>false</default>
     </values>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_TDS_Ops_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL TDS Ops</label>
+    <queue>ABFL_TDS_Ops</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>
