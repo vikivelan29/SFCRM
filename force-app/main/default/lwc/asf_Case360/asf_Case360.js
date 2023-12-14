@@ -933,7 +933,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             refreshApex(this.processApexReturnValue);
         }
     }
-    handlePublishEvent() {
+    async handlePublishEvent() {
+        //Notify record edit forms about change in data
+        let changeArray = [{recordId: this.recordId}];
+        if(this.caseExtensionRecord){
+            changeArray = [...changeArray, {recordId : this.caseExtensionRecord.Id}];
+        }
+        await notifyRecordUpdateAvailable(changeArray);
         let payload = {'source':'case360', 'recordId':this.recordId};
         fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
     }
