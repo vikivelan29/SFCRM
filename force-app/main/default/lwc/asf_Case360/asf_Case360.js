@@ -262,10 +262,28 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         let currentStageConfig = this.stagesData.filter((item, index)=>{
             return item.StageName__c == this.caseObj.Stage__c;
         });
-        if(currentStageConfig == undefined){
+        if(currentStageConfig == undefined || currentStageConfig.length ==0){
             return false;
         }
-        return currentStageConfig.Order__c == '1';
+        currentStageConfig = currentStageConfig[0];
+        return currentStageConfig.Order__c == 1;
+    }
+    get hasManualStagesForward(){
+        let currentStageConfig = this.stagesData.filter((item, index)=>{
+            return item.StageName__c == this.caseObj.Stage__c;
+        });
+        if(currentStageConfig == undefined || currentStageConfig.length ==0){
+            return false;
+        }
+        currentStageConfig = currentStageConfig[0];
+        let manualStages = this.stagesData.filter((item, index)=>{
+            return item.Order__c > currentStageConfig.Order__c && item.Manual_Stage__c == true;
+        });
+        console.log('manualStages', manualStages);
+        if(manualStages == undefined || manualStages.length ==0){
+            return false;
+        }
+        return manualStages.length > 0;
     }
 
     //Button Visibility getters
@@ -310,6 +328,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
                         && this.isCurrentUserOwner && !this.isPendingForApproval;
+    }
+
+    get showForwardToStageButton(){
+        // * Case is not rejected - isRejection = false
+        // * Current user is owner - isCurrentUserOwner = true
+        // * Case is not in Closed state
+        // * User clicked on Edit Details button
+        // * Case is not pending for approval
+        // * Manual stages present
+        return this.showSaveButton && this.hasManualStagesForward;
     }
 
     get showCancelButton(){
@@ -934,12 +962,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
     }
     async handlePublishEvent() {
-        //Notify record edit forms about change in data
-        let changeArray = [{recordId: this.recordId}];
-        if(this.caseExtensionRecord){
-            changeArray = [...changeArray, {recordId : this.caseExtensionRecord.Id}];
-        }
-        await notifyRecordUpdateAvailable(changeArray);
+        eval("$A.get('e.force:refreshView').fire();");
         let payload = {'source':'case360', 'recordId':this.recordId};
         fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
     }
