@@ -189,13 +189,6 @@
             <componentInstance>
                 <componentName>aSF_pendingCaseChecklistEdit</componentName>
                 <identifier>c_aSF_pendingCaseChecklistEdit</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.has_CheckLists__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-5da13f5c-be3d-4cca-bff7-a65600190b93</name>
