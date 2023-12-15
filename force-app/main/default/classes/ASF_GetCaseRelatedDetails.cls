@@ -67,7 +67,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         List<CaseFieldConfigWrapper> fieldsConfiglst = new List<CaseFieldConfigWrapper>(); 
         Map<Id, CaseFieldConfigWrapper> fieldConfigMap = new Map<Id, CaseFieldConfigWrapper>();
         
-        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, Controlling_field__c, Controlling_Experssion__c, Default_Value__c,Default_Type__c, Case_Category_Config__c,Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Controlling_Formula__c  FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
+        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, Controlling_field__c, Controlling_Experssion__c, Default_Value__c,Default_Type__c, Case_Category_Config__c,Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Controlling_Formula__c,Searchable_Picklist__c  FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
         system.debug('orderfieldConfigRecords '+fieldConfigRecords);        
         for(ASF_Case_Field_Config__c config : fieldConfigRecords){
             
@@ -82,8 +82,16 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.UpdateAt = config.Update__c;
             item.controllingFormula = config.Controlling_Formula__c;
             item.useControllingFormula = config.Use_Controlling_Formula__c;
+            item.bSearchablePicklist = false;
+            item.bMultiSelectSearchablePicklist = false;
             
-            
+            if(config.Field_Type__c == 'LOV' && config.Searchable_Picklist__c == true){
+                item.bSearchablePicklist = true;
+            }
+            else if(config.Field_Type__c == 'Multi-Select LOV' && config.Searchable_Picklist__c == true){
+                item.bMultiSelectSearchablePicklist = true;
+            }
+
             if (config.update__c != null)
                 item.UpdateAtList = config.update__c.split(',');
             else
