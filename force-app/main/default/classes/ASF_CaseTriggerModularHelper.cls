@@ -113,7 +113,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
                 caseRec.Is_STP__c = appliedCCC.Is_STP__c;
-
+                caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
                 //from interaction to framework RT. So run assignment rule for first stage of framework
                 //Update 1: This assignment rules should run for recategoriasation too.
@@ -497,6 +497,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             update singleCaseDMLMap.values();
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
+        singleCaseDMLMap = null;
     }
 
     public static void onCreateCloseServiceRequest(List<Case> newList){

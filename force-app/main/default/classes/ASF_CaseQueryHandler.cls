@@ -213,7 +213,7 @@ public with sharing class ASF_CaseQueryHandler {
             caseCategoryConfigs = [SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, 
                                     Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, 
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
-                                    Reopen_Days__c, Reopen_Style__c, Is_STP__c,
+                                    Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
