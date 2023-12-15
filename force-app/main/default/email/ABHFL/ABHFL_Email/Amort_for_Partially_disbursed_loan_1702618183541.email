@@ -146,17 +146,25 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
+												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+												</style>
+												Dear Customer,<br />
 												<br />
-												Thank you for reaching out to us.<br />
+												Greetings from Aditya Birla Housing Finance Limited.<br />
 												<br />
-												Your request for&nbsp;{{{Case.Masked_LAN__c}}} has been received and registered under reference number {{{Case.CaseNumber}}}.<br />
+												We would like to thank you for your continued support and the confidence you have placed in Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We anticipate resolving this matter by {{{Case.Overall_Case_Closure_SLA__c}}}.&nbsp;We appreciate your patience during this time. Kindly note that this is an auto acknowledgement.<br />
+												We write to you with reference to your Ammortisation/ Repayment schedule request dated &nbsp;{{{Case.CreatedDate}}}. Please be informed that we do not issue Ammortisation/ Repayment schedule for Partially disbursed cases.<br />
 												<br />
-												Assuring you of our best services always.<br />
+												We recommend that you refer to your Statement of Account to understand the current status of your loan account.<br />
 												<br />
-												Sincerely,<br />
+												In case of any queries, please feel free to contact us through any of our customer service channels mentioned below. You may also access your loan documents at a click of the button through our digital channels. We are pleased to inform you that we are now on WhatsApp. Send a “Hi” to 8828800032 and get instant access to a host of services on your Home Loan Account.<br />
+												<br />
+												Alternatively, you can also login to your One ID by clicking here to instantly access a host of services on your Home Loan account.<br />
+												<br />
+												Warm Regards,<br />
+												Customer Service Team<br />
 												Aditya Birla Housing Finance Limited</div>
 												</td>
 											</tr>
