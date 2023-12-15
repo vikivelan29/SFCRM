@@ -107,7 +107,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
