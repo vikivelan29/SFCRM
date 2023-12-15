@@ -962,7 +962,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
     }
     async handlePublishEvent() {
-        eval("$A.get('e.force:refreshView').fire();");
+        //eval("$A.get('e.force:refreshView').fire();");
+        let changeArray = [{recordId: this.recordId}];
+        await notifyRecordUpdateAvailable(changeArray);
         let payload = {'source':'case360', 'recordId':this.recordId};
         fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
     }
