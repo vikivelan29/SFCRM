@@ -57,10 +57,10 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     
     /****************************************************************************************************************
-* @Description - Populates the KSC_OptionsWrapper with the Channel List .   
-* @param lstChannel -  List of String containting the Channel List.
-* @return -  List<KSC_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
-*****************************************************************************************************************/
+    * @Description - Populates the ASF_OptionsWrapper with the Channel List .   
+    * @param lstChannel -  List of String containting the Channel List.
+    * @return -  List<ASF_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
+    *****************************************************************************************************************/
     
     public static List<ASF_OptionsWrapper> populateOptionWrapper( List<String> lstChannel){
         List<ASF_OptionsWrapper> lstOptionWrapper = new List<ASF_OptionsWrapper>();
@@ -85,7 +85,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType) {
-        objCaseDetailsWrapper = getUserDetails(); 
+        objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
         string searchKeyword = '%' + keyword + '%';
         if(asssetProductType == '' || asssetProductType ==null )
@@ -113,8 +113,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
             dynamicQuery += ' Custom_Segment__c  = \''+accRecordType+'\' AND';
         }
-        
-        if(isasset == 'true'){
+
+       if(isasset == 'true'){
             dynamicQuery += ' Only_CRN_Mandatory__c = true AND ('+
                 'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
             
@@ -128,9 +128,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 //ccc_product_Type__c field is not available in ABCL Dev
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
-            
-            
-        } 
+        }
+
         system.debug('dynamicQuery'+dynamicQuery);
         
         searchResults =
