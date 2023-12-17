@@ -627,7 +627,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     /** OPTIMIZATION METHODS START */
     /**
-     * This method
+     * This method 
      */
     saveCaseWithExtension(caseRec, caseExtnRec){
         console.log('in saveCaseWithExtension');
@@ -640,6 +640,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             this.loading = false;
             this.skipMoveToNextStage == false;
             this.loadReady = false;
+            getRecordNotifyChange([{ recordId: this.recordId }]);
             refreshApex(this.processApexReturnValue);
         })
         .catch((error)=>{
@@ -1063,7 +1064,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         //this.handlePublishEvent();
         //console.log('starting registerRefresh');
         //this.refreshContainerID = registerRefreshContainer(this, this.refreshContainer);
-        //this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
+        this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
         //console.log('finished registerRefresh');
         if (asf_CaseEndStatus != null && asf_CaseEndStatus != undefined) {
             this.arr_CaseStatuses = asf_CaseEndStatus.split(',');
