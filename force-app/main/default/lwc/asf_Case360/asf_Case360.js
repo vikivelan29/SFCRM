@@ -1666,7 +1666,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                         //if (this.currentStep == this.stagesData[currentStage].Stage_Name__c && this.currentStep != 'Closed' && this.currentStep != 'Rejected') {
                                             if (stageName == this.stagesData[currentStage].StageName__c && !bEndStatus) {
                                                 console.log('stageName'+stageName);
-                                                stageName = this.stagesData[parseInt(currentStage) + 1].StageName__c;
+                                                stageName = this.stagesData[parseInt(currentStage)].StageName__c;
                                                 break;
                                             }
                                     }
