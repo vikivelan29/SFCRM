@@ -3,7 +3,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     /** STATIC VARIABLES to pass data between Before and After events*/
     public static ASF_CaseMovementHelper.CaseAdditionalData addlDataFromStageMovementMethods;
         public static Boolean triggerEncounteredError = false;
-    private static Map<Id, Case> singleCaseDMLMap;
+    private static Map<Id, Case> caseFinalDMLMap;
 
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
@@ -286,6 +286,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRec.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                         }
                     }else{
+                        //After Insert call
                         resultWrap.caseToBeUpdated.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : resultWrap.caseToBeUpdated.OwnerId);
                         //For STP cases, running integrations for stage2
                         //This will save additional DML on case
@@ -407,8 +408,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null
                 && (!isUpdate 
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
+                (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null))){
                 eligibleRecords.add(caseRec);
+            }
+            else if (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c ){
+                eligibleRecords.add(caseRec); 
             }
         }
         if(!eligibleRecords.isEmpty()){
@@ -426,14 +432,15 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 ASF_IntegrationsController.IntegrationWrapper intWrap = ASF_CaseFrameworkHelper.runIntegrations(eligibleRecords[0], addlDataFromStageMovementMethods.allIntegrations);
                 if(intWrap.status == 'Error' && intWrap.assignToId != null){
                     //eligibleRecords[0].OwnerId = intWrap.assignToId;
-                    caseToUpdate = new Case(Id=eligibleRecords[0].Id, OwnerId = intWrap.assignToId);
-                    if(singleCaseDMLMap == null){
-                        singleCaseDMLMap = new Map<Id, Case>();
-                        singleCaseDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(eligibleRecords[0].Id)){
+                        caseToUpdate = new Case(Id=eligibleRecords[0].Id, OwnerId = intWrap.assignToId);
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }else{
+                        caseToUpdate = caseFinalDMLMap.get(eligibleRecords[0].Id);
+                        caseToUpdate.OwnerId = intWrap.assignToId;
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
                     }
-                    // ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                    // update caseToUpdate;
-                    // ASF_TriggerSkipperUtility.resetTriggerRun('Case');
                 }
             }
         }
@@ -477,27 +484,38 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //SLA calculation method - from JT's class
         Map<Id, Case> casesToUpdate = new Map<Id, Case>();
         if(oldMap != null){
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            casesToUpdate = caseSLA.calculateSLAOnCaseUpdate(newCaseMap,oldMap);
+            casesToUpdate = ASF_CaseSLAHandlerV1.calculateSLAOnCaseUpdate(newCaseMap,oldMap);
         }else{
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            casesToUpdate = caseSLA.calculateSLAOnCaseInsert(newCaseMap.values());
+            casesToUpdate = ASF_CaseSLAHandlerV1.calculateSLAOnCaseInsert(newCaseMap.values());
         }
         if(!casesToUpdate.isEmpty()){
-            if(singleCaseDMLMap == null){
-                singleCaseDMLMap = new Map<Id, Case>(casesToUpdate);
-            }else{
-                singleCaseDMLMap.putAll(new Map<Id, Case>(casesToUpdate));
-            }
-            
+            caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+            for(Case caseRecFromSLA : casesToUpdate.values()){
+                if(!caseFinalDMLMap.containsKey(caseRecFromSLA.Id)){
+                    caseFinalDMLMap.put(caseRecFromSLA.Id, caseRecFromSLA);
+                }else{
+                    Case caseRecFromMap = caseFinalDMLMap.get(caseRecFromSLA.Id);
+                    //populating SLA fields on the case to be passed to DML
+                    Map<String, Object> populatedFieldMap = caseRecFromSLA.getPopulatedFieldsAsMap();
+                    for(String fieldName : populatedFieldMap.keySet()){
+                        caseRecFromMap.put(fieldName, caseRecFromSLA.get(fieldName));
+                    }
+                    caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                }
+            }   
         }
+    }
 
-        if(singleCaseDMLMap != null){
+    public static void updateCasesFinally() {
+        //This method invokes a DML on the caseFinalDMLMap map, 
+        //which is accumulation of all field updates on current from After trigger
+        //*** IMP: Doesnt run Case trigger***
+        if(caseFinalDMLMap != null){
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
-            update singleCaseDMLMap.values();
+            update caseFinalDMLMap.values();
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
-        singleCaseDMLMap = null;
+        caseFinalDMLMap = null;
     }
 
     public static void onCreateCloseServiceRequest(List<Case> newList){
@@ -825,6 +843,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         return mCaseIsPendingApprovalRequest;
     }
 
+    //Validates whether Create Case request is invoked without CCC_External_Id__c parameter
     public static void validateIfCCCInAPIRequest(List<Case> newList, Map<Id, Case> oldMap){
             for(Case caseRec : newList){
                 if((caseRec.CCC_External_Id__c == null || caseRec.CCC_External_Id__c == '') && caseRec.Technical_Source__c == 'API'){
@@ -839,8 +858,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         hence mark typeSubtypeInvalid = true.
         If this flag is enable , then users cannot edit case except API and Email user
         User will now be forced to go recategorize. 
-
-        Users also can also stamp account. 
     */
     public static void validateCCCOnUpdate(List<Case> newList, Map<Id, Case> oldMap){  
         list<Case> modifiedCases= new List<Case>();

@@ -3,8 +3,9 @@ import getCasePath1 from "@salesforce/apex/ASF_CasePathController.getCasePath1";
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { registerListener, unregisterAllListeners } from 'c/asf_pubsub';
 import subscribeBrowserEvent from '@salesforce/label/c.ASF_CaseBrowserSubscriber';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
+import { RefreshEvent } from 'lightning/refresh';
 const CASE_FIELDS = [CASE_STAGE];
 
 export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
@@ -63,12 +64,12 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
 
     handlePublishedMessage(payload) {
         console.log('handlePublishedMessage of casepath');
+        this.dispatchEvent(new RefreshEvent());  
         if (subscribeBrowserEvent.trim().toUpperCase() == "TRUE") {
             if (payload.source != 'casepath' && this.recordId == payload.recordId) {
                 this.getCasePathInfo();
             }
         }
-
     }
     constructor() {
         super();
@@ -94,8 +95,10 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
     getCasePathInfo() {
         getCasePath1({ recordId: this.recordId })
             .then(result => {
-                console.log(result)
-                this.stages = result;
+                console.log(result);
+                this.stages = result.stageList;
+                this.typeSubTypeMismatch = result.typeSubTypeMismatch;
+                this.typeSubTypeMismatchReason = result.typeSubTypeMismatchReason;
             })
             .catch(error => {
                 console.log(error);
