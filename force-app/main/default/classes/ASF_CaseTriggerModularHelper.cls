@@ -409,12 +409,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && (!isUpdate 
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
-                (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null))){
+                (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c))){
                 eligibleRecords.add(caseRec);
-            }
-            else if (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c ){
-                eligibleRecords.add(caseRec); 
             }
         }
         if(!eligibleRecords.isEmpty()){
