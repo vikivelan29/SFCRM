@@ -108,9 +108,7 @@ public class ASF_CasePathController_Test {
 		wrapper.isManual =false;        
         // Call the method being tested
         List<ASF_CasePathController.StageWrapper> result = ASF_CasePathController.getCasePath(testCaseLst[0].Id);
-        
-        
-        List<ASF_CasePathController.StageWrapper> result3 = ASF_CasePathController.getCasePath1(testCaseLst[0].Id);
+        ASF_CasePathController.getCasePath1(testCaseLst[0].Id);
 
     }
     @isTest
@@ -128,12 +126,8 @@ public class ASF_CasePathController_Test {
 		wrapper.isManual =false;        
         // Call the method being tested
         List<ASF_CasePathController.StageWrapper> result = ASF_CasePathController.getCasePath(testCaseLst[0].Id);
-        
-        
-        List<ASF_CasePathController.StageWrapper> result3 = ASF_CasePathController.getCasePath1(testCaseLst[0].Id);
+        ASF_CasePathController.getCasePath1(testCaseLst[0].Id);
 
     }
-    
-    
     
 }

@@ -79,9 +79,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(slaValues.get('caseOverride') != null){
                     closeSlaSec =  slaValues.get('caseOverride') * slaIdentifier;  
                 }
-                else { 
-                    if (externalIdStageNameCaseStageConfigMap != null) 
-                    	closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
+                else if (externalIdStageNameCaseStageConfigMap != null) {
+                    closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
                 }
                 //Stage SLA 1 overirde
                 if(slaValues.get('stageSLA1Override') != null){
