@@ -651,6 +651,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         var btnActive = false;
         if (this.sourceVal && this.sourceVal != '') {
             btnActive = true;
+            this.isPhoneInbound = false;
             if (this.isRequestAndQuery) {
                 //console.log('sassd'+this.natureVal);
                 if (this.natureVal && this.natureVal != '') {
