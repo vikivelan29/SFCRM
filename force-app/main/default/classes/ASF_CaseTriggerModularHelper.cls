@@ -357,6 +357,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRec.put(fieldName, wrapToReturn.caseToBeUpdated.get(fieldName));
                         }
                         caseRec.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
+                    }else{
+                        //Error scenario
+                        caseRec.addError(wrapToReturn.errorMessage);
                     }
                 }else{
                     wrapToReturn = ASF_CaseMovementHelper.moveToBackwardStage(caseRec.Id, caseRec.Stage__c);
@@ -370,6 +373,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRec.put(fieldName, wrapToReturn.caseToBeUpdated.get(fieldName));
                         }
                         caseRec.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
+                    }else{
+                        //Error scenario
+                        caseRec.addError(wrapToReturn.errorMessage);
                     }
                 }
             }
@@ -563,7 +569,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         ];
         for (ASF_Checklist__c c : checklists) {
             c.Status__c = 'Rejected';
-            c.Rejected_Reason__c = newMap.get(c.Id).Rejected_Reason__c;
+            c.Rejected_Reason__c = newMap.get(c.Case__c).Rejected_Reason__c;
         }
         
         list<Task> tasks = [
