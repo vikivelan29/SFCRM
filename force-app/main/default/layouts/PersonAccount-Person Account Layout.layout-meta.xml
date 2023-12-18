@@ -54,7 +54,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PersonBirthdate__pc</field>
+                <field>PersonBirthdate</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
