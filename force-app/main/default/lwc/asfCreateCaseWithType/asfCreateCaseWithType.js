@@ -158,22 +158,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
     }
     
-    //To get No Auto Communication pickilst values
-    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
-    objectInfo;
-
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.noAutoCommOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    }
-    
+  
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
