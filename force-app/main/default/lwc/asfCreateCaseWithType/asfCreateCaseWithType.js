@@ -24,6 +24,7 @@ import LAN_NUMBER from '@salesforce/schema/Case.LAN__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
+import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -66,6 +67,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     isRequestAndQuery = false;
     isRequestAndQuerySource = false;
     isOnlySource = false;
+    isPhoneInbound = false;
     natureVal;
     productVal;
     sourceVal;
@@ -111,6 +113,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     cccproduct_type = '';
     sourceFldOptions;
     sourceFldValue;
+    trackId = '';
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
@@ -155,6 +158,21 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
     }
     
+    //To get No Auto Communication pickilst values
+    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
+    objectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
     
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
@@ -453,8 +471,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-
-        
+        fields[TRACK_ID.fieldApiName] = this.trackId;
         if (this.isasset == false) {
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
             //fields[LAN_NUMBER.fieldApiName] = this.asset.fields.ASF_Card_or_Account_Number__c.value;
@@ -657,6 +674,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     btnActive = false;
                 }
             }
+            if(this.sourceFldValue == 'Phone-Inbound'){
+                btnActive = false;
+                this.isPhoneInbound = true;
+            }
         } else {
             btnActive = false;
         }
@@ -858,7 +879,16 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     handleTransactionChange(event){
         this.transactionNumber = event.target.value;
     }
+    handleTrackId(event){
+        this.trackId = event.target.value;
+        if(this.trackId.length != 0){
+            this.isNotSelected = false;
+        }
+        else {
+            this.isNotSelected = true;
+        }
 
+    }
     async handleConfirmClick(msg) {
         const result = await LightningConfirm.open({
             message: msg,
