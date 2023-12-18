@@ -499,16 +499,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>ASF_Editable_Fields</value>
-                </componentInstanceProperties>
-                <componentName>asf_CaseEditPage</componentName>
-                <identifier>c_asf_CaseEditPage</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
                 </componentInstanceProperties>
