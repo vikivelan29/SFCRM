@@ -1,5 +1,5 @@
 /****************************************************************************************************************
-  * Author           - Salesforce
+  * Author           - Anirudh Raturi
   * Date             - 28-November-2023
   *****************************************************************************************************************/
 
@@ -32,6 +32,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         findAssetObj.columnNameList = colmnNameList;
         findAssetObj.assetRecords   = assetRecLst;
         findAssetObj.fieldMappingForCase = fieldMapping;
+        findAssetObj.accBusinessUnit = accLOB;
         return findAssetObj;
 
     }
@@ -107,6 +108,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         @AuraEnabled public List<Asset> assetRecords;
         @AuraEnabled public List<String> fieldApiNameLst;
         @AuraEnabled public String fieldMappingForCase;
+        @AuraEnabled public String accBusinessUnit;
     }
 
     public class ColumnName {

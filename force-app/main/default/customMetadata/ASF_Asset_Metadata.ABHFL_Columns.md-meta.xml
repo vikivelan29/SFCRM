@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Asset Name:Name:url,Deal #:Deal_No__c,Loan #:LAN__c:url,Product Code:ProductCode,Scheme:Scheme__c,Sub scheme:Sub_scheme__c,Branch Code:Branch_Code__c,Loan Disb Status:Loan_Disbursement_Status__c,Last Disb Date:Last_Disbursement_Date__c:date,VAN:VAN__c,Loan Amount:Loan_Amount__c:currency</value>
+        <value xsi:type="xsd:string">Loan #:LAN__c:url,Deal #:Deal_No__c,Product Code:ProductCode,Scheme:Scheme__c,Sub scheme:Sub_scheme__c,Branch Code:Branch_Code__c,Loan Disb Status:Loan_Disbursement_Status__c,Last Disb Date:Last_Disbursement_Date__c:date,VAN:VAN__c,Loan Amount:Loan_Amount__c:currency</value>
     </values>
     <values>
         <field>Line_Of_Business__c</field>

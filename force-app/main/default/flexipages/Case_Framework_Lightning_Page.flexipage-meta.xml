@@ -79,6 +79,16 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
+                            <value>Case.Relate_Duplicate</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.ReCategorize</value>
                         </valueListItems>
                     </valueList>
@@ -123,6 +133,22 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>asf_IntegrationsPanel</componentName>
+                <identifier>c_asf_IntegrationsPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>asf_Case360</componentName>
+                <identifier>c_asf_Case360</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
@@ -142,46 +168,94 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Case.Change_Priority</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Close_the_Case</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Framework_Snapshot</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.NewChildCase</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.SR_Snapshot_Preframework</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>ASF_Case_Integrations__r</value>
+                    <value>Cases</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>GRID</value>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>CASES.CASE_NUMBER</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Stage__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Duplicate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CLOSED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Source__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Sub_Type_Text__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Child Cases</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>asf_IntegrationsPanel</componentName>
-                <identifier>c_asf_IntegrationsPanel</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>asf_Case360</componentName>
-                <identifier>c_asf_Case360</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -260,20 +334,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -282,6 +342,24 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.relatedLists</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
