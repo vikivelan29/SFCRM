@@ -425,6 +425,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.isCurrentUserOwner = true;
                 if (this.currentPageMode == 'edit') {
                     this.toggleUIView = true;
+                    // Virendra - Added to open Form in Edit Form when Logged in User is the case Owner.
+                    this.userClickedEditDetails = true;
                 }
             } else {
                 this.isCurrentUserOwner = false;
@@ -627,7 +629,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     /** OPTIMIZATION METHODS START */
     /**
-     * This method 
+     * This method
      */
     saveCaseWithExtension(caseRec, caseExtnRec){
         console.log('in saveCaseWithExtension');
