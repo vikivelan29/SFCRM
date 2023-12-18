@@ -512,16 +512,10 @@
                             <value>Case.Framework_Snapshot</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Is_FTR</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Test_Update</value>
                         </valueListItems>
                         <valueListItems>
                             <value>MassChangeOwner</value>
