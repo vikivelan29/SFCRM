@@ -149,19 +149,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Multiple_Child_Details__c}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Payments</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
