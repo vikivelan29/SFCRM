@@ -36,6 +36,11 @@ public class ASF_CasePreFrameworkTriggerHelper {
                 
                 if(cs.Origin == 'Payments Email')
                     cs.Business_Unit__c = 'Payments';
+                //Added logic to populate business unit on case records for ABHFL cases created through E2C
+                if(cs.Origin == 'ABHFL Email') {
+                    cs.Business_Unit__c = 'ABHFL';
+                }
+                //End
                 
                 if(String.isNotBlank(cs.suppliedEmail)){
                     domainNames.add(cs.suppliedEmail.split('@')[1]);
