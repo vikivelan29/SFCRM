@@ -112,23 +112,20 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.updateCasesFinally();
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
-            caseSLA.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
+            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
 
             // Virendra - to Reject the Checklist and Task on Case Rejection.
-            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);
-            
+            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);  
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
-            caseSLA.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap);
+            ASF_CaseTriggerModularHelper.updateCasesFinally();
+            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap);
         }
-        
-        
     }
     
     public override void afterInsert(Map<Id, SObject> newItemsCase) {
@@ -143,12 +140,12 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
+            ASF_CaseTriggerModularHelper.updateCasesFinally();
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
             
             //SLA 
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            caseSLA.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
+            ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation(newItemsCase.values());
 
             
@@ -162,8 +159,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
             ASF_CaseRelatedDetailsUpdate relatedDetails = new ASF_CaseRelatedDetailsUpdate();
             relatedDetails.updateRelatedObjectDetailsBulk(newCaseMap.values());
-            ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            caseSLA.insertSLAHistory(null,newCaseMap);
+            ASF_CaseSLAHandlerV1.insertSLAHistory(null,newCaseMap);
         }
         
         

@@ -71,7 +71,6 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
                 this.getCasePathInfo();
             }
         }
-
     }
     constructor() {
         super();
@@ -97,8 +96,10 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
     getCasePathInfo() {
         getCasePath1({ recordId: this.recordId })
             .then(result => {
-                console.log(result)
-                this.stages = result;
+                console.log(result);
+                this.stages = result.stageList;
+                this.typeSubTypeMismatch = result.typeSubTypeMismatch;
+                this.typeSubTypeMismatchReason = result.typeSubTypeMismatchReason;
             })
             .catch(error => {
                 console.log(error);
