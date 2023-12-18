@@ -27,6 +27,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     @api isCurrent = false;
     @api withoutAsset = false;
     @api accountRecId;
+    @api infoObject;
     value = 'Accounts';
     assetType= 'CASA';
     menuItems;
@@ -116,6 +117,17 @@ export default class Asf_CurrentHoldings extends LightningElement {
     showModalForCreateCaseWithOutAsset(event){	
         this.withoutAsset = true;
         this.showCreateCaseModal = true;
+
+        // Add changes for Product listing LWC i.e asf_FetchAssetsRelatedToAccount
+        if(this.infoObject.hasOwnProperty("isAsset")) {
+            let isAsset = this.infoObject.isAsset;
+            if(isAsset == "false") {
+                this.withoutAsset = true;
+            }
+            else if(isAsset == "true") {
+                this.withoutAsset = false;
+            }
+        }
     }
 
     resetBox(event){
