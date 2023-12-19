@@ -11,6 +11,8 @@ Name                Date                  Change Description
 
 public with sharing class ASF_Constants {
 
+    public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
+
     public static final String STRING_BLANK ='';
     public static final String STRING_SPACE = ' ';
     public static final String STRING_HYPHEN = '-';
