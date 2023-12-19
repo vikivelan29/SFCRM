@@ -19,7 +19,7 @@ public class ASF_CaseMovementHelper {
         resultWrapper.status = 'Error';
         resultWrapper.errorMessage = 'Unknown Error';
         
-        CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
+        //CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
         
         // Query Case from Query Handler
         List<Case> currentCases = ASF_CaseQueryHandler.getCases(new Set<Id>{recordId}); 
@@ -58,7 +58,7 @@ public class ASF_CaseMovementHelper {
                 resultWrapper.caseToBeUpdated = updatedCase;
                 resultWrapper.status = 'Success';
                 resultWrapper.nextStageConfig = nextStage.stageConfig;
-                resultWrapper.data = dataWrapper;
+                //resultWrapper.data = dataWrapper;
             }
             else{
                 resultWrapper.errorMessage = nextStage.errorMessage;
@@ -91,9 +91,7 @@ public class ASF_CaseMovementHelper {
                     }
                     
                     String nextStageName = nextStage.stageConfig.StageName__c;
-                    dataWrapper = getCaseAdditionalDataForNextStage(currentCaseRec, nextStageName);
-
-
+                    //dataWrapper = getCaseAdditionalDataForNextStage(currentCaseRec, nextStageName);
                     //Update assignment, and other case fields
                     Case updatedCase = new Case(Id = currentCaseRec.Id);
                     updatedCase.Stage__c = nextStageName;
@@ -123,7 +121,7 @@ public class ASF_CaseMovementHelper {
                     resultWrapper.caseToBeUpdated = updatedCase;
                     resultWrapper.status = 'Success';
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
-                    resultWrapper.data = dataWrapper;
+                    //resultWrapper.data = dataWrapper;
                     //currentCaseRec.Status = tempCase.Status;
                     //currentCaseRec.is_Manual_Approval__c = tempCase.is_Manual_Approval__c;
                     
@@ -149,7 +147,7 @@ public class ASF_CaseMovementHelper {
     @AuraEnabled
     public static StageWrapper moveToForwardStage(string recordId, string requestedStage){
         StageWrapper resultWrapper = new StageWrapper();
-        CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
+        //CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
         
 
         List<Case> currentCases = ASF_CaseQueryHandler.getCases(new Set<Id>{recordId}); 
@@ -189,7 +187,7 @@ public class ASF_CaseMovementHelper {
             return resultWrapper;
         }
 
-        dataWrapper = getCaseAdditionalDataForNextStage(currentCaseRec, requestedStage);
+        //dataWrapper = getCaseAdditionalDataForNextStage(currentCaseRec, requestedStage);
         
 
         //Update assignment, and other case fields
@@ -234,7 +232,7 @@ public class ASF_CaseMovementHelper {
 
         resultWrapper.caseToBeUpdated = updatedCase;
         resultWrapper.nextStageConfig = nextStageConfig;
-        resultWrapper.data = dataWrapper;
+        //resultWrapper.data = dataWrapper;
         resultWrapper.status = 'Success';
         return resultWrapper;
     }
@@ -247,7 +245,7 @@ public class ASF_CaseMovementHelper {
     @AuraEnabled
     public static StageWrapper moveToBackwardStage(string recordId, string requestedStage){
         StageWrapper resultWrapper = new StageWrapper();
-        CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
+        //CaseAdditionalData dataWrapper = new CaseAdditionalData(); //To be populated based on UI req
         
 
         List<Case> currentCases = ASF_CaseQueryHandler.getCases(new Set<Id>{recordId}); 
@@ -288,7 +286,7 @@ public class ASF_CaseMovementHelper {
         // currentCaseRec.FTR__c = false; //need clarity on this field usage
         resultWrapper.caseToBeUpdated = updatedCase;
         resultWrapper.status = 'Success';
-        resultWrapper.data = dataWrapper;
+        //resultWrapper.data = dataWrapper;
         
         return resultWrapper;
     }
@@ -321,6 +319,14 @@ public class ASF_CaseMovementHelper {
         if(!areTasksComplete){
             result.status  = 'Error';
             result.errorMessage = System.Label.Incomplete_Tasks_Error_Message;
+        }
+
+        // Validate Approvals
+        Boolean areApprovalsCompleted = ASF_CaseFrameworkValidator.validateApprovals(currentCase);
+        if(!areTasksComplete){
+            result.status  = 'Error';
+            // TODO - Create Labels
+            result.errorMessage = 'Approvals are Pending';
         }
 
         // Validate Validations
@@ -450,6 +456,10 @@ public class ASF_CaseMovementHelper {
                     else{
                         continue;
                     }
+                }
+                // If Manual, Continue ahead
+                else if(config.Manual_Stage__c){
+                    continue;
                 }
                 else {
                     nextStageConfig = config;
@@ -663,7 +673,9 @@ public class ASF_CaseMovementHelper {
         public Case caseToBeUpdated;
         public Id ownerId;
         public Id errorOwnerId;
-        public CaseAdditionalData data;
+        // Removing Case Additional Data from Overall Result Wrapper
+        // Trigger to Call that directly as needed
+        //public CaseAdditionalData data;
         public ASF_Case_Stage_Config__c nextStageConfig;
         
     }

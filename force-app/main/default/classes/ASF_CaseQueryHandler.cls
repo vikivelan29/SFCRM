@@ -10,6 +10,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     private static List<Case> cases = null;
     private static List<ASF_Checklist__c> caseIncompleteChecklists = null;
+    private static List<ASF_Case_Approv__c> caseApprovals = null;
     private static List<Task> caseIncompleteTasks = null;
     private static List<ASF_Integration__c> cccIntegrations = null;
     private static List<ASF_Case_Integration__c> caseIntegrations = null;
@@ -47,6 +48,19 @@ public with sharing class ASF_CaseQueryHandler {
                                         AND Stage_Name__c = :caseStages];
         }
         return caseIncompleteChecklists;
+    }
+
+    public static List<ASF_Case_Approv__c> getCaseApprovals(Set<Id> caseIds, Set<String> caseStages){
+        if(caseApprovals == null || refreshRecords){
+            caseApprovals = [
+                                SELECT Id, Approval_Status__c, SR__c, CreatedDate
+                                FROM ASF_Case_Approv__c
+                                WHERE SR__c = :caseIds
+                                AND Case_Stage_At_Creation__c = :caseStages
+                                ORDER BY CreatedDate desc
+                            ];
+        }
+        return caseApprovals;
     }
     
     public static List<Task> getIncompleteCaseTasks(Set<Id> caseIds, Set<String> caseStages){
