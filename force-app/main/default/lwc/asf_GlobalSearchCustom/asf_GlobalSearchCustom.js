@@ -86,4 +86,7 @@ export default class Asf_GlobalSearchCustom extends LightningElement {
     handleCaseWithProspect(event){
         this.showModal=true;
     }
+    hideModalCreateCase(event){
+        this.showModal=false;
+    }
 }
