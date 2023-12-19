@@ -1,0 +1,134 @@
+<template>
+    <lightning-card>
+    <div class="slds-form custom-header">
+        <div class="slds-form-element__control">
+            <div class="slds-combobox-group">
+                <div class="slds-combobox_object-switcher slds-combobox-addon_start">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-controls="primary-search-combobox-id-1">
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                        role="none">
+                                        <div role="combobox" tabindex="0"
+                                            class="slds-input_faux slds-combobox__input slds-combobox__input-value"
+                                            aria-labelledby="combobox-label-id-14 objectswitcher-combobox-id-2-selected-value"
+                                            id="objectswitcher-combobox-id-2-selected-value"
+                                            aria-controls="objectswitcher-listbox-id-2"
+                                            aria-expanded="false" aria-haspopup="listbox"
+                                            style="width:15rem;">
+                                            <span class="slds-truncate" id="combobox-value-id-14">Search
+                                                Customer/ Prospect</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-combobox_container slds-combobox-addon_end">
+                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                        id="primary-search-combobox-id-1">
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left slds-global-search__form-element"
+                            role="none">
+                            <input type="text" class="slds-input slds-combobox__input"
+                                placeholder="Search..." oninput={handleInputChange} style="width: 50%;"/>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </lightning-card>
+
+    <template if:false={showWelcomeMat}>
+        <template if:false={bAtleastOneRecord}>
+            <lightning-card>
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                    <lightning-layout>
+                        <lightning-layout-item flexibility="auto" padding="around-small">
+                            <p>No existing Customer or Prospect found with the search key. Do you want to create case
+                                with Prospect?</p>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small">
+                            <lightning-button variant="brand" label="Create Case with new Prospect"
+                                title="Create Case with new Prospect" onclick={handleCaseWithProspect}
+                                class="slds-m-left_x-small"></lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+
+
+            </lightning-card>
+        </template>
+        <template for:each={data} for:item="rec">
+            <div key={rec.objectName} class="slds-m-top_small">
+                <lightning-card title={rec.objectName}>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <lightning-datatable key-field="Id" data={rec.objRecords} columns={rec.cols}
+                                max-row-selection="1" onrowselection={getSelectedName}>
+                            </lightning-datatable>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-card>
+            </div>
+
+        </template>
+
+    </template>
+
+
+
+    <template if:true={showWelcomeMat}>
+        <div class="slds-welcome-mat slds-welcome-mat_splash">
+            <div class="slds-welcome-mat__content slds-grid">
+                <div class="slds-welcome-mat__info slds-size_1-of-1" tabindex="0" role="region">
+                    <div class="slds-welcome-mat__info-content">
+                        <h2 class="slds-welcome-mat__info-title" id="welcome-mat-101-label">{headerString}</h2>
+                        <div class="slds-welcome-mat__info-description slds-text-longform">
+                            <p><b>Welcome to Customer and Prospect Search, the modern, beautiful user experience from
+                                    Salesforce. By typing search string in global search, Customer and Prospect related
+                                    to search string available in Salesforce CRM will be visible..</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    {showModal}
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalCreateCase}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Create Case with Prospect
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <c-asf_-create-case-with-prospect></c-asf_-create-case-with-prospect>
+                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+    </template>
+
+
+
+
+</template>
