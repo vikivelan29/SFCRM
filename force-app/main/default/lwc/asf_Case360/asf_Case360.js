@@ -1,6 +1,8 @@
 /* eslint-disable no-eval */
 /* eslint-disable dot-notation */
 import { LightningElement, api, wire, track } from 'lwc';
+import {loadStyle} from 'lightning/platformResourceLoader';
+import overrideCSSFile from '@salesforce/resourceUrl/asf_case360StyleOverride';
 import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { getRequiredFieldExpr } from './asf_CaseConfigExpr';
 
@@ -502,7 +504,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     //last item
                                     item['layoutItemSize'] = 12;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
+                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col fix-error';
                                     item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
                                 }else{
                                     item['layoutItemSize'] = 6;
@@ -1041,6 +1043,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
         //this.adjustFieldsOnStageChange();
 
+    }
+
+    renderedCallback(){
+        Promise.all([
+            loadStyle(this, overrideCSSFile)
+        ]);
     }
     /** OPTIMIZATION METHODS END */
 
