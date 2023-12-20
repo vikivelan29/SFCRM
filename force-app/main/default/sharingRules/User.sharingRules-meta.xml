@@ -14,7 +14,6 @@
     <sharingOwnerRules>
         <fullName>Payment_Users_Sharing_Rule</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Sharing Payment user with each other</description>
         <label>Payment Users Sharing Rule</label>
         <sharedTo>
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
