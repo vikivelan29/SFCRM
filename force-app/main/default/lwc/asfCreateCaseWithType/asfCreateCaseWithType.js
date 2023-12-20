@@ -24,6 +24,7 @@ import LAN_NUMBER from '@salesforce/schema/Case.LAN__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
@@ -96,6 +97,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     classificationValue;
     strSource = '';
     strChannelValue = '';
+    noAutoCommOptions = [];
+    noAutoCommValue = [];
     strDefaultChannel = '';
     boolChannelVisible = false;
     boolShowNoData = false;
@@ -158,7 +161,22 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
     }
     
-  
+    //To get No Auto Communication pickilst values
+    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
+    objectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
+    
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
@@ -417,9 +435,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     }
     async createCaseHandler() {
-        
+        this.isNotSelected = true;
         if(!this.isInputValid()) {
             // Stay on same page if lightning-text field is required and is not populated with any value.
+            this.isNotSelected = false;
             return;
         }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
@@ -427,6 +446,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         var dupeResult = await this.checkDuplicateCase(selected);
 
         if(!dupeResult){
+            this.isNotSelected = false;
             return;
         }
 
@@ -456,8 +476,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
+        fields[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         fields[TRACK_ID.fieldApiName] = this.trackId;
         if (this.isasset == false) {
+            console.log('--asset--',this.asset);
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
             //fields[LAN_NUMBER.fieldApiName] = this.asset.fields.ASF_Card_or_Account_Number__c.value;
 
@@ -670,6 +692,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
 
         this.isNotSelected = !btnActive;
+    }
+    handleAutoCommChange(event){
+        this.noAutoCommValue = event.detail.value;
     }
 
     async getCaseRelatedObjName(cccExtId) {
