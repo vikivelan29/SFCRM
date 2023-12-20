@@ -12,10 +12,10 @@
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
-        <fullName>Share_Payment_User_with_Payment_Users</fullName>
+        <fullName>Payment_Users_Sharing_Rule</fullName>
         <accessLevel>Read</accessLevel>
         <description>Sharing Payment user with each other</description>
-        <label>Share Payment User with Payment Users</label>
+        <label>Payment Users Sharing Rule</label>
         <sharedTo>
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
