@@ -10,7 +10,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         if(ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c)){
             if(caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == null || caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == ''){
                 retCls.status = 'Error';
-                retCls.errorMessage = 'Resolution Comments is required when changing Stage to Resoved.';
+                retCls.errorMessage = 'Resolution Comments is required when changing Stage to Resolved.';
             }
         }
         return retCls;
