@@ -12,15 +12,18 @@ public class ASF_CaseApprovalTriggerHelper {
         
         for(ASF_Case_Approv__c v:newStageList){
             //if (v.TypeOfApproval__c == 'Auto'){
-            submitForApprovalList.add(v);
-            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();          
-            req.setComments(v.Requestor_Comments__c);        
-            req.setObjectId(v.id);
-            requestLIst.add(req);
-            
-            if(!mCaseApprovToCaseId.containsKey(v.Id)){
-                mCaseApprovToCaseId.put(v.Id,v.SR__c);
+            if(v.Approval_Type__c != null){
+                submitForApprovalList.add(v);
+                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();          
+                req.setComments(v.Requestor_Comments__c);        
+                req.setObjectId(v.id);
+                requestLIst.add(req);
+                
+                if(!mCaseApprovToCaseId.containsKey(v.Id)){
+                    mCaseApprovToCaseId.put(v.Id,v.SR__c);
+                }  
             }
+            
             
             
             // }
@@ -92,9 +95,9 @@ public class ASF_CaseApprovalTriggerHelper {
                         ASF_TriggerSkipperUtility.markTriggerRun('Case');
                         update s;
                     } 
-
+                    
                     Case cas = new Case(Id =newRecord.SR__c);
-
+                    
                     ASF_TriggerSkipperUtility.markTriggerRun('Case');
                     update cas;
                     
@@ -138,7 +141,7 @@ public class ASF_CaseApprovalTriggerHelper {
             if(newApproveMap.get(c.Id).Approval_Status__c != oldApproveMap.get(c.Id).Approval_Status__c && newApproveMap.get(c.Id).Approval_Status__c=='Approved'){
                 case caseRecord = new Case();
                 caseRecord.Id = c.SR__c;
-
+                
                 if(c.SuccessStageMovement__c != null){
                     caseRecord.Stage__c = c.SuccessStageMovement__c;
                 }
@@ -152,11 +155,11 @@ public class ASF_CaseApprovalTriggerHelper {
             if(newApproveMap.get(c.Id).Approval_Status__c != oldApproveMap.get(c.Id).Approval_Status__c && newApproveMap.get(c.Id).Approval_Status__c=='Rejected'){
                 case caseRecord = new Case();
                 caseRecord.Id = c.SR__c;
-
+                
                 if(c.Case_RejectedStageMovement__c != null){
                     caseRecord.Stage__c = c.Case_RejectedStageMovement__c;
                 }
-
+                
                 if(IsApprovalPendingToUpdate.contains(c.SR__c)){
                     caseRecord.Is_Approval_Pending__c = false;
                 }

@@ -607,7 +607,7 @@ This should recaluclate SLA . Time remaining SLA should be calculated.
         
         for(Id i: newCases.keyset()){
             //Stage Change Loop
-            if(oldCases.containsKey(i) && newCases.get(i).Stage__c != oldCases.get(i).Stage__c){
+            if((oldCases.containsKey(i) && newCases.get(i).Stage__c != oldCases.get(i).Stage__c) || (oldCases.containsKey(i) && newCases.get(i).OwnerId != oldCases.get(i).OwnerId)){
                 resetSLAFields(newCases.get(i),oldCases.get(i));
                 
                 if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved')){
@@ -695,7 +695,9 @@ owner change can be to user or queue. and then business hrs changes
                            else {
                                businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
                            }
-                           
+                           if(businessHrsusedForcalcuation == null){
+                                businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
+                           }
                            String timeSpent = '0';
                            long timeSpentInLong = 0;
                            long overallTimeSpent = 0;

@@ -6,6 +6,7 @@ public without sharing class PAY_CustomerCreationListener {
         List<Contact> contactsToInsert = new List<Contact>();
         Set<String> clientCodes = new Set<String>();
         List<merchantContact> contactDataList = new List<merchantContact>();
+        List<User> systemUser = [SELECT ID FROM User WHERE Name Like '%ABCL AWS API User%'];
         
         Map<String,List<Contact>> clientCodeVsContacts = new Map<String,List<Contact>>();
         for (PAY_Staging_Customer_to_Account__e event : newEvents) {
@@ -33,6 +34,9 @@ public without sharing class PAY_CustomerCreationListener {
             Account newAccount = new Account();
             newAccount.Line_Of_Business__c = event.Line_of_Business__c;
             newAccount.Business_Unit__c = event.Line_of_Business__c;
+            if(systemUser.size()>0){
+                newAccount.OwnerId = systemUser[0].Id;
+            }
             
             if (event.Customer_Type__c == 'Individual') {
                 newAccount.RecordTypeId = getRecordTypeId('Individual');
@@ -61,6 +65,9 @@ public without sharing class PAY_CustomerCreationListener {
                 newContact.Line_of_Business__c = event.Line_of_Business__c;
                 newContact.FirstName = contactData.FirstName;
                 newContact.LastName = contactData.LastName;
+                if(systemUser.size()>0){
+                    newContact.OwnerId = systemUser[0].Id;
+                }
                 
                 if(clientCodeVsContacts.containsKey(event.Merchant_Id__c)){
                     // Check if the Customer Contact is already present in System.
@@ -137,7 +144,7 @@ public without sharing class PAY_CustomerCreationListener {
     private static STG_Customer__c getSTGRecordFormatted(PAY_Staging_Customer_to_Account__e evt,String status,String errorMessage){
         if(evt.STG_Customer_Id__c != null){
             STG_Customer__c stgCustomer = getSTGRecordFormatted(evt,status);
-			stgCustomer.Error_Details__c = errorMessage;
+            stgCustomer.Error_Details__c = errorMessage;
             return stgCustomer;
         }
         return null;

@@ -18,11 +18,10 @@
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>Case_SLA_1_Broken</members>
-        <members>Case_SLA_Broken</members>
         <members>Communication_Log_Flow_Email</members>
         <members>Pre_framework_Communication_flow</members> 
         <members>Escalate_Case</members> 
+        <members>Case_Stage_SLA_and_Over_all_SLA_Broken_Reminders</members>
         <name>Flow</name>
     </types>
     
@@ -132,6 +131,7 @@
         <members>Contact.Customer_Since__c</members>
         <members>Contact.Line_of_Business__c</members>
         <members>Contact.Primary__c</members>
+        <members>Contact.Mobile__c</members>
        
         <members>Case.AmIOwner__c</members>
         <members>Case.AmIOwner__c</members>
@@ -238,6 +238,7 @@
         <members>User.Business_Hour_Id__c</members>
         <members>User.managerGroupId__c</members>
         <members>User.Business_Unit__c</members>
+        <members>User.Source_Code__c</members>
         <members>Activity.Case_Stage__c</members>
         <members>Activity.Due_Date_Time__c</members>
         <members>Activity.Manual_Tasks__c</members>
@@ -309,11 +310,13 @@
         <members>By_Pass_Flow</members>
         <members>Manage_Case_Config</members>
         <members>Manage_Case_Ownership</members>
+        <members>Payments_LOB_Admin</members>
         <name>PermissionSet</name>
     </types>
     <types>
 		<members>Payment_User</members>
 		<members>Super_Admin</members>
+        <members>Payment_LOB_Admin</members>
 		<name>PermissionSetGroup</name>
 	</types>
     <types>
@@ -330,7 +333,10 @@
         <name>Role</name>
     </types>
     <types>
-        <members>Case.ASF_Case_Compact_Layout</members>
+        <members>Account.Account_Compact_Layout</members>
+		<members>Case.ASF_Case_Compact_Layout</members>
+		<members>Contact.Contact_Compact_Layout</members>
+		<members>PersonAccount.Individual_Compact_Layout</members>
         <name>CompactLayout</name>
     </types>
     <types>

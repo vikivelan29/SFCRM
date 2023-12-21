@@ -28,8 +28,8 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>PersonMobilePhone</field>
+                <behavior>Readonly</behavior>
+                <field>Mobile__pc</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -181,7 +181,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBl000000B6Bl</masterLabel>
+        <masterLabel>00hBl000000BReP</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

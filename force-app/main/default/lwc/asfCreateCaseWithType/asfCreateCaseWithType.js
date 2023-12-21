@@ -444,9 +444,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     }
     async createCaseHandler() {
-        
+        this.isNotSelected = true;
         if(!this.isInputValid()) {
             // Stay on same page if lightning-text field is required and is not populated with any value.
+            this.isNotSelected = false;
             return;
         }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
@@ -454,6 +455,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         var dupeResult = await this.checkDuplicateCase(selected);
 
         if(!dupeResult){
+            this.isNotSelected = false;
             return;
         }
 
@@ -526,6 +528,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
+                this.disableCaseBtn = false;
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
@@ -539,6 +542,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.loaded = true;
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
+                this.disableCaseBtn = false;
             })
     }
 
@@ -887,6 +891,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             if(!inputField.checkValidity()) {
                 inputField.reportValidity();
                 isValid = false;
+            }
+            else if(inputField.value != null && inputField.value != undefined){
+                if(inputField.value.trim() == ''){
+                    inputField.value = '';
+                    inputField.reportValidity();
+                    isValid = false;
+                }
             }
         });
         return isValid;

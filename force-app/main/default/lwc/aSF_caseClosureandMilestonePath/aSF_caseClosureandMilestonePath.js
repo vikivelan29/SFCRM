@@ -1,11 +1,12 @@
 import { LightningElement, wire, track, api } from 'lwc';
-import {  getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import {  getRecord, getFieldValue, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import getDataOnLoad from '@salesforce/apex/ASF_ClosedMilestoneTimeController.getDataOnLoad';
 import getDataOnLoadSLA from '@salesforce/apex/ASF_StageBasedMilestoneTimerController.getDataOnLoad';
 import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
 import CASE_CLOSE_SLA from '@salesforce/schema/Case.Overall_Case_Closure_SLA__c';
 import CASE_STAGE_SLA_1 from '@salesforce/schema/Case.Stage_SLA_1__c';
 import fetchCase from '@salesforce/schema/Case.CaseNumber';
+import { refreshApex } from '@salesforce/apex';
 const fields = [CASE_STAGE,CASE_CLOSE_SLA,CASE_STAGE_SLA_1,fetchCase];
 
 export default class ASF_caseClosureandMilestonePath extends LightningElement {
@@ -41,8 +42,9 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
         return getFieldValue(this.caseObj.data, fetchCase);
     }
      @wire(getDataOnLoad, {caseId: '$recordId',caseStage:'$caseStage'}) 
-    wiredData(result){
+    wiredDataFunc(result){
         this.wiredData = result;
+
         if(result.data){
             var data = result.data;
             console.log('data==',data);
@@ -109,7 +111,7 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
         console.log('entered');
         this.wiredData1 = result;
         if(result.data){
-            console.log('entered?');
+            console.log('entered?', result.data);
             var data = result.data;
            
             if( data.leftTotalSec && data.leftTotalSec > 0){
@@ -168,7 +170,18 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
             
         }, 1000);
     }
+    connectedCallback(){
+        console.log('in connected callback');
+        setTimeout(()=>{
+            console.log('refresh apex invokinng');
+            refreshApex(this.wiredData);
+            console.log('refresh apex done');
+        }, 1000);
+        //registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
+    }
+    
     disconnectedCallback(){
+        console.log('in disconnected callback');
         clearInterval(this.timerId1);
     }
     msToTime(s) {

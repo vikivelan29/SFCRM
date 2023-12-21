@@ -13,7 +13,7 @@
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
-            <field>Line_of_Business__c</field>
+            <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Payments</value>
         </criteriaItems>

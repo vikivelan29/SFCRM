@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
-        <locationX>1716</locationX>
+        <locationX>1793</locationX>
         <locationY>755</locationY>
         <actionName>Case.Case_creator_when_the_case_is_closed</actionName>
         <actionType>emailAlert</actionType>
@@ -23,7 +23,7 @@
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
         <label>Case owner when the case is assigned</label>
-        <locationX>1672</locationX>
+        <locationX>1749</locationX>
         <locationY>1139</locationY>
         <actionName>Case.Case_owner_when_the_case_is_assigned</actionName>
         <actionType>emailAlert</actionType>
@@ -134,7 +134,7 @@
     <decisions>
         <name>By_Pass_Flow</name>
         <label>By Pass Flow</label>
-        <locationX>389</locationX>
+        <locationX>408</locationX>
         <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Check_if_case_is_from_email</targetReference>
@@ -156,7 +156,7 @@
     <decisions>
         <name>Check_case_category_config</name>
         <label>Check case category config</label>
-        <locationX>1535</locationX>
+        <locationX>1601</locationX>
         <locationY>1547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -178,7 +178,7 @@
     <decisions>
         <name>Check_case_creator_if_case_closed</name>
         <label>Check case creator if case closed</label>
-        <locationX>1804</locationX>
+        <locationX>1881</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Check_Case_Owner_is_changed</targetReference>
@@ -231,7 +231,7 @@
     <decisions>
         <name>Check_Case_Owner_is_changed</name>
         <label>Check Case Owner is changed</label>
-        <locationX>1804</locationX>
+        <locationX>1881</locationX>
         <locationY>1031</locationY>
         <defaultConnector>
             <targetReference>Check_Case_status</targetReference>
@@ -277,7 +277,7 @@
     <decisions>
         <name>Check_Case_status</name>
         <label>Check Case status</label>
-        <locationX>1804</locationX>
+        <locationX>1881</locationX>
         <locationY>1331</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -420,7 +420,7 @@
     <decisions>
         <name>Check_if_case_is_from_email</name>
         <label>Check if case is from email</label>
-        <locationX>993</locationX>
+        <locationX>1031</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Check_case_creator_if_case_closed</targetReference>
@@ -445,7 +445,7 @@
     <decisions>
         <name>Check_if_the_Origin_is_Email</name>
         <label>Check if the Origin is Email</label>
-        <locationX>1628</locationX>
+        <locationX>1705</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Case_creator_when_the_case_is_closed</targetReference>
@@ -477,7 +477,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1260</locationX>
+        <locationX>1304</locationX>
         <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -515,9 +515,6 @@
         <label>Custom metadata names</label>
         <locationX>974</locationX>
         <locationY>1763</locationY>
-        <defaultConnector>
-            <targetReference>Check_for_contact_or_account</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
@@ -737,7 +734,7 @@
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1535</locationX>
+        <locationX>1601</locationX>
         <locationY>1439</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -756,7 +753,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>263</locationX>
+        <locationX>282</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>By_Pass_Flow</targetReference>
