@@ -687,6 +687,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
 
     //Validation Method added for restricting non queue member to change owner from list view
     public static void caseOwnerChangeValidation(list<Case> newList,Map<Id, Case> oldMap){
+        
+        List<Id> bypassProfileId = new List<Id>();
+        for(Profile profRec : [select Id, Name from profile where Name IN ('System Administrator','Salesforce API Only System Integrations')]){
+            bypassProfileId.add(profRec.Id);
+        }
+        //Bypass owner validations for the sys admin and Integration Profiles
+        if(bypassProfileId.contains(UserInfo.getProfileId())){
+            return;
+        }
+            
         Set<String> queueIds = new Set<String>();
         Map<String,String> GrpVsQueIds = new Map<String,String>();
         Map<String,List<String>> queVsmembersIds = new Map<String,List<String>>();
@@ -694,12 +704,20 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //check if the running user has custom permission access
         Boolean hasPermission = FeatureManagement.checkPermission('Case_Ownership_Management');
       
-        Set<Id> caseOwnerIdSet = new Set<Id>(); 
+        Set<Id> caseOwnerIdSet = new Set<Id>();
+        Set<Id> oldCaseOwnerQueueIdset = new Set<Id>();
+        Set<Id> newCaseOwnerQueueIdset = new Set<Id>();
         for(Case c : newList){
             String oldOwnerId = oldMap.get(c.Id).OwnerId;
             String newOwnerId = c.OwnerId; 
             if(oldOwnerId != newOwnerId){
                 caseOwnerIdSet.add(oldOwnerId);                
+            }
+            if(oldOwnerId != newOwnerId && oldOwnerId.startsWith('00G')){
+                oldCaseOwnerQueueIdset.add(oldOwnerId);
+            }
+            if(oldOwnerId != newOwnerId && newOwnerId.startsWith('00G')){
+                newCaseOwnerQueueIdset.add(newOwnerId);
             }
             //ADO-131839 Making the Queue Checked Disabled for Queue to Queue Assignment
             if(c.OwnerId != oldOwnerId && oldOwnerId.startsWith('00G')
@@ -710,24 +728,38 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         //validate change owner access
         if(!caseOwnerIdSet.isEmpty()){ 
+            
             Map<Id,User> ownerMap = new Map<Id, User>([select Id, managerGroupId__c,managerId,manager.Id,manager.manager.Id,
                                                        manager.manager.manager.id,manager.manager.manager.manager.id,
                                                        manager.manager.manager.manager.manager.id 
                                                        from user where id IN: caseOwnerIdSet]);
             Map<Id, Id> caseOwnerGroupIdMap = new Map<Id, Id>();
             Set<Id> currentUserGroupSet = new Set<Id>();
+            Map<Id, String> queueIdNameMap = new Map<Id, String>();
+            Map<Id, String> newOwnerQueueIdNameMap = new Map<Id, String>();
+            String currentUserBU = '';
+            
+            currentUserBU = [SELECT Id, Business_Unit__c FROM User WHERE Id = :userInfo.getUserId()].Business_Unit__c;  
             
             for(User userRec : ownerMap.values()){
                 caseOwnerGroupIdMap.put(userRec.Id,userRec.managerGroupId__c);
             }
-            
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where groupId IN :caseOwnerGroupIdMap.values() and userOrGroupId =: userInfo.getUserId()]){
                 currentUserGroupSet.add(gmember.groupId);
+            }
+            for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and (Id IN: oldCaseOwnerQueueIdset OR Id IN :newCaseOwnerQueueIdset)]){
+                if(oldCaseOwnerQueueIdset.contains(queueRec.Id)){
+                    queueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
+                }
+                if(newCaseOwnerQueueIdset.contains(queueRec.Id)){
+                    newOwnerQueueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
+                }
             }
             
             for(Case c : newList){
                 String oldOwnerId = oldMap.get(c.Id).OwnerId; 
-                if(oldOwnerId.startsWith('00G') && !hasPermission){
+                String newOwnerId = c.OwnerId;
+                if(oldOwnerId.startsWith('00G') && (!hasPermission || !queueIdNameMap.get(oldOwnerId).startsWith(currentUserBU))){
                     c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                     
                 }else if(!oldOwnerId.startsWith('00G') && !hasPermission && oldOwnerId != userInfo.getUserId() && 
@@ -740,6 +772,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         ){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
+                 else if(newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(currentUserBU)){
+                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                 }
             }
         }
                 
@@ -772,7 +807,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(c.OwnerId != oldOwnerId && oldOwnerId.startsWith('00G')){
                     List<String> memberList = queVsmembersIds.get(oldOwnerId);
                     //ADO-131839 Making the Queue Checked Disabled for Bulk Upload
-                    if(!memberList.isEmpty() && !memberList.contains(c.OwnerId)){
+                    if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId)){
                         c.addError(System.Label.Owner_Change_Validation_Message);
                     }
                 }

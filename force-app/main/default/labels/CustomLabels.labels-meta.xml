@@ -44,6 +44,13 @@
         <value>No Records found for the selected search.</value>
     </labels>
     <labels>
+        <fullName>ASF_Case_Owner_Queue_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Case Owner Queue Val Msg</shortDescription>
+        <value>You cannot assign to a Queue that is not of your BU</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -343,12 +350,5 @@
         <protected>false</protected>
         <shortDescription>STP Flows</shortDescription>
         <value>Interest Schedule,Provisional Interest Certificate</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Business_Unit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_Business_Unit</shortDescription>
-        <value>ABHFL,ABFL,Payments</value>
     </labels>
 </CustomLabels>
