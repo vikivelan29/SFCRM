@@ -1,5 +1,8 @@
 <template>
-    <lightning-card title="SR Type ReCategorize">
+    <lightning-quick-action-panel header="SR Type Recategorize" class="slds-is-relative">
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+        </template>
         <template if:true={recategorizeEnabled}>
             <template if:true={loaded}>
                 <lightning-layout multiple-rows="true" vertical-align="end">
@@ -13,11 +16,19 @@
                         </lightning-button>
                     </lightning-layout-item>
 
+                    <template if:true={showBotFeedback}>
+                        <lightning-layout-item size="8" padding="around-small">
+                            <lightning-input type="checkbox" label="Send Bot Feedback" value={sendBotFeedback}
+                                onchange={handelBotFeedback}>
+                            </lightning-input>
+                        </lightning-layout-item>
+                    </template>
+
                     <lightning-layout-item size="12" padding="around-small">
                         <template if:true={boolShowNoData}>
                             <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
                         </template>
-                    
+
                         <template if:false={boolShowNoData}>
                             <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
                                 onrowselection={getSelectedName} class="slds-max-medium-table_stacked">
@@ -26,10 +37,12 @@
 
                         <br>
                         <template if:true={createCaseWithAll}>
-                            <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark" role="status">
+                            <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark"
+                                role="status">
                                 <div class="slds-media__figure">
                                     <span class="slds-icon_container slds-icon-utility-info" title="information">
-                                        <lightning-icon icon-name="utility:info" alternative-text="Update SR" title="Update SR" size="small" variant="inverse"></lightning-icon>
+                                        <lightning-icon icon-name="utility:info" alternative-text="Update SR"
+                                            title="Update SR" size="small" variant="inverse"></lightning-icon>
                                         <span class="slds-assistive-text">information</span>
                                     </span>
                                 </div>
@@ -40,83 +53,71 @@
 
                             <br>
 
-                        <!-- When there is ALL values , user needs to select Source .
-                                if there is default value , then just ignore. This will not come 
-                            -->
+                            <!-- When there is ALL values , user needs to select Source .
+                            if there is default value , then just ignore. This will not come 
+                        -->
                             <lightning-record-edit-form object-api-name="Case">
                                 <lightning-messages></lightning-messages>
-                                <lightning-input-field field-name="Recategorisation_Reason__c" data-id="rejectReason" required=true  value={rejectionReasonVal}> </lightning-input-field>
+                                <lightning-input-field field-name="Recategorisation_Reason__c"
+                                    data-id="rejectReason" required=true value={rejectionReasonVal}>
+                                </lightning-input-field>
                                 <template if:true={isAllNature}>
-                                    <lightning-input-field field-name="Nature__c" data-id="natureField" required=true onchange={handleNatureVal} value={natureVal}> </lightning-input-field>
+                                    <lightning-input-field field-name="Nature__c" data-id="natureField"
+                                        required=true onchange={handleNatureVal} value={natureVal}>
+                                    </lightning-input-field>
                                 </template>
                                 <template if:true={isAllProduct}>
-                                    <lightning-input-field field-name="Product__c" data-id="productField" required=true onchange={handleProductVal} value={productVal}> </lightning-input-field>
+                                    <lightning-input-field field-name="Product__c" data-id="productField"
+                                        required=true onchange={handleProductVal} value={productVal}>
+                                    </lightning-input-field>
                                 </template>
                             </lightning-record-edit-form>
 
-                        <template if:true={isRequestAndQuery}>
-                                <lightning-combobox
-                                            value={natureVal}
-                                            label="Nature"
-                                            options={natureValues}
-                                            onchange={handleChangeNature}
-                                            required>
-                                </lightning-combobox> 
-                            </template> 
+                            <template if:true={isRequestAndQuery}>
+                                <lightning-combobox value={natureVal} label="Nature" options={natureValues}
+                                    onchange={handleChangeNature} required>
+                                </lightning-combobox>
+                            </template>
 
                             <template if:true={boolAllSourceVisible}>
-                                <lightning-combobox
-                                value=""
-                                            label="Source"
-                                options=""
-                                            onchange={handleSource}
-                                placeholder={strSource}
-                                read-only
-                                            required>
-                                </lightning-combobox> 
+                                <lightning-combobox value="" label="Source" options="" onchange={handleSource}
+                                    placeholder={strSource} read-only required>
+                                </lightning-combobox>
                             </template>
-                    
+
                             <template if:true={boolAllChannelVisible}>
-                                    <lightning-combobox
-                                                value={strChannelValue}
-                                                label="Channel"
-                                                options={lstChannelValues}
-                                                onchange={handleChangeChannel}
-                                                placeholder={strDefaultChannel}
-                                                required>
-                                    </lightning-combobox> 
+                                <lightning-combobox value={strChannelValue} label="Channel"
+                                    options={lstChannelValues} onchange={handleChangeChannel}
+                                    placeholder={strDefaultChannel} required>
+                                </lightning-combobox>
                             </template>
-                        </template>  
-                    
+                        </template>
+
                         <template if:true={complaintLevelVisible}>
                             <lightning-record-edit-form object-api-name="Case">
-                                <lightning-input-field class="slds-hide" variant="label-stacked" field-name="Complaint_Level__c" value={caseComplaintLevel}
-                                    data-id="Source"  > 
+                                <lightning-input-field class="slds-hide" variant="label-stacked"
+                                    field-name="Complaint_Level__c" value={caseComplaintLevel} data-id="Source">
                                 </lightning-input-field>
-                                <lightning-input-field style="margin-left: -3px;" variant="label-stacked" field-name="Sub_source__c" 
-                                    data-id="SubSource" required=true onchange={handleSubSource} value={subsourceSelected}> 
+                                <lightning-input-field style="margin-left: -3px;" variant="label-stacked"
+                                    field-name="Sub_source__c" data-id="SubSource" required=true
+                                    onchange={handleSubSource} value={subsourceSelected}>
                                 </lightning-input-field>
                             </lightning-record-edit-form>
-                            <lightning-input type="text" disabled value={selectedSRCategory} label="SR Category"></lightning-input>
+                            <lightning-input type="text" disabled value={selectedSRCategory}
+                                label="SR Category"></lightning-input>
                         </template>
-                
-                    </lightning-layout-item>
 
-                    <lightning-layout-item padding="around-small">
-                        <lightning-button label="Update SR" variant="brand" disabled={isNotSelected}
-                            onclick={updateCaseHandler}></lightning-button>
                     </lightning-layout-item>
-
                 </lightning-layout>
-            </template>
-            <template if:false={loaded}>
-                <lightning-spinner alternative-text="Loading"></lightning-spinner>
             </template>
         </template>
         <template if:false={recategorizeEnabled}>
-            <div class="slds-media__body">
-                <p>Case is not Eligible for Recategorization</p>
-            </div>
+            Case is not Eligible for Recategorization
         </template>
-    </lightning-card>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+            <lightning-button label="Update SR" variant="brand" disabled={isNotSelected}
+                                onclick={updateCaseHandler}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
 </template>
