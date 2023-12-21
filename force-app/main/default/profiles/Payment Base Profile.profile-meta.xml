@@ -18,6 +18,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_STGCustomerTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -346,6 +350,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_EmailMessageHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_EmailMessageHelperTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_GetCaseRelatedDetails</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -503,6 +515,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_commLogProcessingBatch</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListViewBlockEventCondition</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ListViewBlockEventConditionTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2824,9 +2844,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Case.Client_Code_Text__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3255,6 +3275,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Mobile__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Primary__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3505,6 +3530,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>LOBMappingDetails__mdt.Source_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>LOBMappingDetails__mdt.Source__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3551,6 +3581,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>LOB_Rejection_Reason__mdt.Reason__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>MaskedField_Persona__mdt.FieldsToBeMasked__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4030,6 +4065,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>User.Source_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>User.Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4155,6 +4195,31 @@
     <layoutAssignments>
         <layout>User-User Layout</layout>
     </layoutAssignments>
+    <loginIpRanges>
+        <description>Concentrix IP 3</description>
+        <endAddress>10.140.182.254</endAddress>
+        <startAddress>10.140.182.0</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>ABCD IP 2</description>
+        <endAddress>103.144.216.45</endAddress>
+        <startAddress>103.144.216.45</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>ABCD IP</description>
+        <endAddress>103.144.216.50</endAddress>
+        <startAddress>103.144.216.50</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 1</description>
+        <endAddress>172.16.98.254</endAddress>
+        <startAddress>172.16.98.128</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 2</description>
+        <endAddress>172.25.62.254</endAddress>
+        <startAddress>172.25.62.0</startAddress>
+    </loginIpRanges>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
@@ -4198,15 +4263,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>PAY_Staging_Customer_to_Account__e</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>PE_Logger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
@@ -4323,10 +4379,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>CreateCustomizeFilters</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>CreateCustomizeReports</name>
     </userPermissions>
     <userPermissions>
@@ -4371,6 +4423,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>IsSsoEnabled</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>LightningConsoleAllowedForUser</name>
     </userPermissions>
     <userPermissions>
@@ -4380,10 +4436,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ListEmailSend</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>MassInlineEdit</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

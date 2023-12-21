@@ -11,7 +11,7 @@ public with sharing class PAY_CaseTriggerHelper {
         Map<String,String> accountIdToClientCodeMap = new Map<String,String>();
 
         for(Case individualCase :(List<Case>)newItems){
-            if(individualCase.AccountId == null && String.isNotBlank(individualCase.Customer_Payload__c)){
+            if(individualCase.AccountId == null && String.isNotBlank(individualCase.Customer_Payload__c) && individualCase.Business_Unit__c == 'Payments' && individualCase.Technical_Source__c == 'API'){
                 CustomerWrapper customWrapper = (CustomerWrapper)JSON.deserialize(individualCase.Customer_Payload__c,CustomerWrapper.class);
                 Account customer = new Account();
                 if(String.isNotBlank(customWrapper.ClientCode)){
@@ -20,9 +20,11 @@ public with sharing class PAY_CaseTriggerHelper {
                         customer.PAY_Doing_Business_As__c = customWrapper.DBA;
                         customer.Client_Code__c = customWrapper.ClientCode;
                         customer.Name = customWrapper.CompanyName;
+                        customer.Line_of_Business__c = individualCase.Business_Unit__c;
+                        customer.Business_Unit__c = individualCase.Business_Unit__c;
                         Contact newContact = new Contact();
                         newContact.Account = New Account(Client_Code__c=customWrapper.ClientCode); 
-                        newContact.Line_of_Business__c = customWrapper.LineOfBusiness;
+                        newContact.Line_of_Business__c = individualCase.Business_Unit__c;
                         newContact.FirstName = customWrapper.PrimContactFirstName;
                         newContact.LastName = customWrapper.PrimContactLastName;
                         newContact.MobilePhone = customWrapper.PrimContactPhone;
@@ -41,6 +43,8 @@ public with sharing class PAY_CaseTriggerHelper {
                         
                         customer.FirstName = customWrapper.PersonFirstName;
                         customer.LastName = customWrapper.PersonLastName;
+                        customer.Line_of_Business__c = individualCase.Business_Unit__c;
+                        customer.Business_Unit__c = individualCase.Business_Unit__c;
                     }
                     accountsToInsert.add(customer);      
                 }
@@ -75,7 +79,7 @@ public with sharing class PAY_CaseTriggerHelper {
         Map<String,List<Id>> accClientCodeVsCaseIds = new Map<String,List<Id>>();
         
         for(Case individualCase :(List<Case>)newItems){
-            if(individualCase.Technical_Source__c == 'API' && individualCase.AccountId == null){
+            if(individualCase.Technical_Source__c == 'API' && individualCase.AccountId == null && individualCase.Business_Unit__c =='Payments'){
                 if(individualCase.Client_Code_Text__c != null){
                     List<Id> caseIdList = new List<Id>();
                     if(accClientCodeVsCaseIds.containsKey(individualCase.Client_Code_Text__c)){

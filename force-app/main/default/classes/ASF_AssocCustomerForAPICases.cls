@@ -14,7 +14,7 @@ public without sharing class ASF_AssocCustomerForAPICases {
             }
         }
         if(accountsClientCode.size()>0){
-            for(Account acc : [SELECT ID,Client_Code__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Line_Of_Business__c =: lineOfBusinesses]){
+            for(Account acc : [SELECT ID,Client_Code__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: lineOfBusinesses]){
                 if(!accClientCodeVsAccIds.containsKey(acc.Client_Code__c))
                     accClientCodeVsAccIds.put(acc.Client_Code__c,acc.Id);
             } 

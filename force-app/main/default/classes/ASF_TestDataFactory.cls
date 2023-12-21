@@ -304,7 +304,8 @@ public with sharing class ASF_TestDataFactory {
     //insert g1;
     //QueuesObject q1 = new QueueSObject(QueueID = g1.id, SobjectType = 'Case');
     //insert q1;
-
+	
+    Group defaultQueue = [SELECT ID FROM Group WHERE DeveloperName = 'Payment_Service_Desk' AND Type='Queue' LIMIT 1];
        
     Map<String,List<SObject>> mapOfCaseConfigs = new Map<String,List<SObject>>();   
     List<ASF_Case_Category_Config__c> listCaseCatConfig = new List<ASF_Case_Category_Config__c>();
@@ -656,7 +657,7 @@ public with sharing class ASF_TestDataFactory {
 
 
     ASF_Work_Item__c stage2_Work_WorkItem = new ASF_Work_Item__c();
-    //Assigned_Queue__c = '00GHE0000003Qm42AE'
+    stage2_Work_WorkItem.Assigned_Queue__c = defaultQueue.Id;
     stage2_Work_WorkItem.Task_Title__c = 'Service Request - Clarification from Credit';
     stage2_Work_WorkItem.Task_Description__c = 'Check the accuracy of the Credit report submitted to bureau for Ownership Dispute';
     stage2_Work_WorkItem.Completion_Time__c = 4;

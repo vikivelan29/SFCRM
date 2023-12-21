@@ -3,9 +3,7 @@
     <fullName>MyContacts</fullName>
     <columns>FULL_NAME</columns>
     <columns>ACCOUNT.NAME</columns>
-    <columns>CONTACT.TITLE</columns>
-    <columns>CONTACT.PHONE1</columns>
-    <columns>CONTACT.EMAIL</columns>
+    <columns>Mobile__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Mine</filterScope>
     <label>My Contacts</label>

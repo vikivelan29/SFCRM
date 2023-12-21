@@ -381,6 +381,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 .then((status) => {
                     if (status === REFRESH_COMPLETE) {
                         console.log("Done!");
+                        refreshApex(this.processApexReturnValue);
                     } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
                         console.warn("Done, with issues refreshing some components");
                     } else if (status === REFRESH_ERROR) {
@@ -1054,10 +1055,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                         }
 
                                         //if (this.currentStep == this.stagesData[currentStage].Stage_Name__c && this.currentStep != 'Closed' && this.currentStep != 'Rejected') {
-                                            if (stageName == this.stagesData[currentStage].StageName__c && !bEndStatus) {
-                                                stageName = this.stagesData[currentStage + 1].StageName__c;
+                                            if (stageName == this.stagesData[parseInt(currentStage)].StageName__c && !bEndStatus) {
+                                                stageName = this.stagesData[parseInt(currentStage)].StageName__c;
                                                 break;
                                             }
+                                        
                                     }
 
 
@@ -2251,7 +2253,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference) pageRef;
 
     handlePublishEvent() {
-        fireEvent(this.pageRef, "refreshpagepubsub", this.recordId);
+        let payload = {'source':'case360', 'recordId':this.recordId};
+        fireEvent(this.pageRef, "refreshpagepubsub", payload);
         const selectedEvent = new CustomEvent('refreshCurrentPg', { detail: this.recordId });
         document.dispatchEvent(selectedEvent);
 

@@ -92,7 +92,8 @@ public with sharing class ASF_CaseQueryHandler {
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
-                                WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId];        
+                                WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId
+                                ORDER BY Order__c];        
         }
         return caseStageConfigs;
         

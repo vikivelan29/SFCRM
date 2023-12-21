@@ -10,7 +10,7 @@ public without sharing class ASF_OverallCaseSlaBroken {
      * For Regualr Cases, Regular SLA Broken fields are updated
      * For Reopen Cases, Reopen SLA fields are updated
      */
-    @InvocableMethod(label='Update Case SLA Broken')
+    @InvocableMethod(label='Mark Overall Case SLA Broken')
     public static void ASF_OverallCaseSlaBroken(List<Request> casesList) {
 
         list<Case> casesToBeUpdated = new list<Case>();
