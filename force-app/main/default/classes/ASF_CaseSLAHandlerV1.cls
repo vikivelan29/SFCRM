@@ -528,7 +528,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         else{
             //during insert old Case will be null
-            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c){
+            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
                 updatedCase.Case_Stage_Change_Date__c = system.now();
                 updatedCase.Last_Owner_Change_Date__c = system.now();
             }
