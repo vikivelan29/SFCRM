@@ -11,20 +11,22 @@ import FA_Mandatory from '@salesforce/label/c.FA_Mandatory';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
 
-
 const actions = [
     { label: 'Show details', name: 'show_details' },
 ];
 
 export default class Asf_CurrentHoldings extends LightningElement {
     @api recordId;
+    @api accountId;
     @api selectedRow;
     @api prodName;
     @api accNumber;
+    @api fieldToBeStampedOnCase;
     assetDisplay='';
     @api showTable = false;
     @api isCurrent = false;
     @api withoutAsset = false;
+    @api infoObject;
     value = 'Accounts';
     assetType= 'CASA';
     menuItems;
@@ -45,9 +47,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     assetId;
     withFALabel = WithFA;
     withoutFALabel = WithoutFA;
-    showAssetTableForLob = true;
-
-    
+    showAssetTableForLob = true;     
     
      /****************************************************
      * @Description - Method to the executes on page load.     
@@ -68,17 +68,12 @@ export default class Asf_CurrentHoldings extends LightningElement {
 
         }
    }
-    
-    /********************************************************************
-     * @Description - Method to the executes on hiding of Modal.  
-    *********************************************************************/
 
-    
     hideModalCreateCase(){	
         this.showCreateCaseModal = false;
         this.withoutAsset = false;
-    }	
-    
+        }
+
 
     /********************************************************************
      * @Description - Method to add nebula logger on error
@@ -91,9 +86,18 @@ export default class Asf_CurrentHoldings extends LightningElement {
     showModalForCreateCaseWithOutAsset(event){	
         this.withoutAsset = true;
         this.showCreateCaseModal = true;
-    }
 
-    
+        // Add changes for Product listing LWC i.e asf_FetchAssetsRelatedToAccount
+        if(this.infoObject.hasOwnProperty("isAsset")) {
+            let isAsset = this.infoObject.isAsset;
+            if(isAsset == "false") {
+                this.withoutAsset = true;
+            }
+            else if(isAsset == "true") {
+                this.withoutAsset = false;
+            }
+        }
+    }
 
     resetBox(event){
         console.log('inside ccccc')

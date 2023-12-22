@@ -29,10 +29,13 @@
                     </h2>
                 </header>
 
-
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
-                    <c-asf-create-case-with-type onresetbox={resetBox} isasset={withoutAsset} account-id={recordId}
-                        record-id={selectedAssetId}></c-asf-create-case-with-type>
+                <!--* @Date        -   30-Nov-2023
+                    * @Description - Commented below code as selectedAssetId prop is not setting in js file -->
+                 <!--   <c-asf-create-case-with-type onresetbox={resetBox} isasset={withoutAsset} account-id={accountId} field-to-be-stamped-on-case={fieldToBeStampedOnCase}
+                        record-id={selectedAssetId}></c-asf-create-case-with-type>  -->
+                    <c-asf-create-case-with-type onresetbox={resetBox} isasset={withoutAsset} account-id={accountId} field-to-be-stamped-on-case={fieldToBeStampedOnCase}>
+                    </c-asf-create-case-with-type>
                 </div>
 
 
