@@ -62,6 +62,7 @@ public with sharing class ASF_CaseFrameworkValidator {
             }
             else{
                 caseRecordValue = String.valueOf(caseRecord.get(cre.Field_Api_Name__c));
+                caseRecordValue = caseRecordValue==null?'':caseRecordValue;
             }
             
             cre.Data_Type__c = cre.Data_Type__c.toLowerCase();
@@ -88,7 +89,6 @@ public with sharing class ASF_CaseFrameworkValidator {
                 when 'string' {
                     switch on cre.Operator__c {
                         when '=' {
-                            caseRecordValue = caseRecordValue==null?'':caseRecordValue;
                             comparisonResult = caseRecordValue == comparsonValue;
                         }
                         when '!=' {
