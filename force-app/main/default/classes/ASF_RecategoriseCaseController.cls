@@ -46,13 +46,15 @@ public with sharing class ASF_RecategoriseCaseController {
         Set<String> uniqueStages = new Set<String>();
         if(currentRecord.isClosed){
             resultMap.put('recategorizeEnabled',false);
+        }else{
+            resultMap.put('recategorizeEnabled',true);
         }
-        else {
-            for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
-                uniqueStages.add(g.stage__c);
-            }
-            resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
-        }
+        // else {
+        //     for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
+        //         uniqueStages.add(g.stage__c);
+        //     }
+        //     resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
+        // }
        
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
