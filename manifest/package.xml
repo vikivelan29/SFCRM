@@ -1,14 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-<types>
-<members>Asf_FetchAssetRelatedToAccountController</members>
-<members>ASF_CreateCaseWithTypeController</members>
-<name>ApexClass</name>
-</types>
-<types>
-<members>asf_FetchAssetsRelatedToAccount</members>
-<members>asf_CurrentHoldings</members>
-<members>asfCreateCaseWithType</members>
-<name>LightningComponentBundle</name>
-</types>
-<version>57.0</version>
+	<types>
+		<members>Asf_FetchAssetRelatedToAccountCntrl_Test</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+        <members>ASF_Asset_Metadata.ABFL_Columns</members>
+		<members>ASF_Asset_Metadata.ABHFL_Columns</members>
+		<members>LOBMappingDetails.ABFL_00</members>
+		<members>LOBMappingDetails.ABFL_001</members>
+		<members>LOBMappingDetails.ABHFL_01</members>
+		<members>LOBMappingDetails.ABHFL_02</members>
+		<members>LOBMappingDetails.ABHFL_03</members>
+		<members>LOBMappingDetails.ABHFL_04</members>
+		<members>LOBMappingDetails.ABHFL_05</members>
+		<members>LOBMappingDetails.ABHFL_06</members>
+		<members>LOBMappingDetails.ABHFL_07</members>
+		<members>LOBMappingDetails.ABHFL_08</members>
+		<members>LOBMappingDetails.ABHFL_09</members>
+		<members>LOBMappingDetails.ABHFL_10</members>
+		<members>LOBMappingDetails.Payments_00</members>
+		<name>CustomMetadata</name>
+	</types>
+    <types>
+		<members>ASF_Asset_Metadata__mdt</members>
+		<members>LOBMappingDetails__mdt</members>
+		<name>CustomObject</name>
+	</types>
+
+    <types>
+        <members>ABCL_Business_Unit</members>
+        <name>CustomLabel</name>
+    </types>
+    
+	<version>58.0</version>
 </Package>
