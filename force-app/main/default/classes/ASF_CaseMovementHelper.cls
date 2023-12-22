@@ -409,7 +409,7 @@ public class ASF_CaseMovementHelper {
         
         
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>();
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -421,6 +421,8 @@ public class ASF_CaseMovementHelper {
             return resultWrapper;
         }
         
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+        /*
         Case queriedCaseRecord = (Case) Database.query(
             'SELECT ' +
             String.join(allFields, ',') +
@@ -428,7 +430,7 @@ public class ASF_CaseMovementHelper {
             currentCase.Id +
             '\''
         );
-        
+        */
         ASF_Case_Stage_Config__c nextStageConfig;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
@@ -524,6 +526,20 @@ public class ASF_CaseMovementHelper {
         }
 
         if(caseRulesForStage.size() > 0){
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
+                if(config.Query_Fields__c != null){
+                    allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+                }
+            }
+            // if(allFields.size() == 0){
+            //     resultWrapper.errorMessage = 'Query Fields not Found on Stage Config';
+            //     resultWrapper.status = 'Error';
+            //     return resultWrapper;
+            // }
+            Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+            
+            /*
             Case queriedCaseRecord = (Case) Database.query(
                 'SELECT ' +
                 currentStageConfig.Query_Fields__c +
@@ -531,6 +547,7 @@ public class ASF_CaseMovementHelper {
                 currentCase.Id +
                 '\''
             );
+            */
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecord, caseRulesForStage);
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
@@ -543,6 +560,7 @@ public class ASF_CaseMovementHelper {
         if(resultWrapper.defaultErrorOwnerId == null){
             resultWrapper.defaultErrorOwnerId = currentStageConfig.Default_Error_Queue__c;
         }
+        resultWrapper.status = 'Success';
         return resultWrapper;
 
     }
@@ -646,16 +664,32 @@ public class ASF_CaseMovementHelper {
                 } 
             }
         }
+
         
-        additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(currentCase, caseRulesForStage);
-        additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(currentCase, caseRulesForStage);
-        additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(currentCase, caseRulesForStage);
-         additionalData.slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(currentCase, caseRulesForStage);  
+        // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+        //Initiating with these 2 fields as these are required in ASF_CaseFrameworkHelper class
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.Query_Fields__c != null){
+                allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            }
+        }
+        // if(allFields.size() == 0){
+        //     additionalData.errorMessage = 'Query Fields not Found on Stage Config';
+        //     additionalData.status = 'Error';
+        //     return additionalData;
+        // }
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+
+        additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecord, caseRulesForStage);
+        additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(queriedCaseRecord, caseRulesForStage);
+        additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(queriedCaseRecord, caseRulesForStage);
+         additionalData.slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(queriedCaseRecord, caseRulesForStage);  
         if(nextStageConfig != null){
             additionalData.allIntegrations = nextStageConfig.ASF_Integrations__r;
         }
         
-        
+        additionalData.status = 'Success';
         return additionalData;
     }
     
@@ -691,7 +725,8 @@ public class ASF_CaseMovementHelper {
         public List<Task> tasksToInsert;
         public List<ASF_Integration__c> allIntegrations;
         public map<String,long> slaCaseAndStageOverrideValues;
-        
+        public string status; 
+        public string errorMessage;
     }
     
     /**

@@ -21,7 +21,7 @@ public with sharing class ASF_CaseQueryHandler {
     private static List<ASF_Case_Category_Config__c> caseCategoryConfigs = null;
     private static List<Asset> caseRelatedAssets = null;
     private static Map<String, Boolean> caseStatusMap = null;
-    
+    private static Case caseWithConfigQueryFields = null;
     public static boolean refreshRecords = false;
     
     
@@ -241,6 +241,20 @@ public with sharing class ASF_CaseQueryHandler {
             caseRelatedAssets = [SELECT Id, LAN__c FROM Asset WHERE ID IN :assetIds];
         }
         return caseRelatedAssets;
+    }
+
+    public static Case getCaseRecordWithQueryFields(Set<String> queryFields, Id caseId) {
+        if(caseWithConfigQueryFields == null || refreshRecords){
+            caseWithConfigQueryFields = (Case) Database.query(
+                'SELECT ' +
+                String.join(queryFields, ',') +
+                ' FROM Case Where Id=\'' +
+                caseId +
+                '\''
+            );
+
+        }
+        return caseWithConfigQueryFields;
     }
     
 }

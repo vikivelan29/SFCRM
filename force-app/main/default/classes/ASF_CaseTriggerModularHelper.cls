@@ -554,7 +554,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         ];
         for (ASF_Checklist__c c : checklists) {
             c.Status__c = 'Rejected';
-            c.Rejected_Reason__c = newMap.get(c.Id).Rejected_Reason__c;
+            c.Rejected_Reason__c = newMap.containsKey(c.Id)? newMap.get(c.Id).Rejected_Reason__c : 'Rejected';
         }
         
         list<Task> tasks = [
