@@ -38,9 +38,10 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
                     }   
                     else if(String.isBlank(integrationCase.CCC_External_Id__c) && integrationCase.Source__c == 'Email' && integrationCase.Business_Unit__c == 'ABFL'){
-                        ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
+                        //Commenting changes for Deployment
+                        /*ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         system.debug('ebotResponseABFL '+ebotResponse);
-                        ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
+                        ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);*/
                         
                     }  
                 }
