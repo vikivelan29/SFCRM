@@ -34,7 +34,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c
+                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -49,6 +49,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
             objCaseDetailsWrapper.strSource = choosenOneMTD.Source__c;
+            objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
@@ -57,9 +58,9 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     
     /****************************************************************************************************************
-    * @Description - Populates the ASF_OptionsWrapper with the Channel List .   
+    * @Description - Populates the KSC_OptionsWrapper with the Channel List .   
     * @param lstChannel -  List of String containting the Channel List.
-    * @return -  List<ASF_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
+    * @return -  List<KSC_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
     *****************************************************************************************************************/
     
     public static List<ASF_OptionsWrapper> populateOptionWrapper( List<String> lstChannel){
@@ -83,6 +84,25 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper getAccountData(String keyword ,string asssetProductType,string isasset) {
         return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,''); 
     }
+
+    /* when agent wants to recategrize , there is existing CCC id.
+    So agent should not see current CCC id. But other ids to change,
+    Hence this method 
+    */
+    @AuraEnabled(Cacheable = true)
+    public static CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId) {
+        CaseDetailsWrapper originalList = getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType);
+        List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
+        for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
+            if (ccc.CCC_External_Id__c != currentCCCId ){
+                filteredCCCList.add(ccc);
+            }
+
+        }
+        originalList.lstCCCrecords = filteredCCCList;
+        return originalList;
+    }    
+    
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType) {
         objCaseDetailsWrapper = getUserDetails();
@@ -121,11 +141,14 @@ public with sharing class ASF_CreateCaseWithTypeController {
         }else if(isasset == 'closeCRN'){
             dynamicQuery += '  ('+
                 'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
-        }else{
+        }else if(isasset == 'Prospect'){
+            // For Prospect Search cases.
+            dynamicQuery += ' Is_Prospect_Related__c = true AND '+
+                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+        }
+        else{
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
-                //'(ccc_product_Type__c = \''  +asssetProductType+'\' OR  ccc_product_Type__c LIKE \'' + searchProdType+'\' OR ccc_product_Type__c LIKE \''+ searchCommaSeperatedProdType+ ' \' OR ccc_product_Type__c LIKE \''+ searchCommaProdType+'\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceProdType+ '\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceAssetProdType+'\')'
-                //+  'AND'+
-                //ccc_product_Type__c field is not available in ABCL Dev
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
         }
@@ -170,6 +193,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public class CaseDetailsWrapper{
         @AuraEnabled public List<ASF_Case_Category_Config__c> lstCCCrecords;
         @AuraEnabled public String strSource;
+        @AuraEnabled public String complaintType;
         @AuraEnabled public List<ASF_OptionsWrapper> lstChannel;
         @AuraEnabled public Boolean boolNoData;
         @AuraEnabled public String strErrorMessage;
@@ -207,6 +231,135 @@ return boolShowDownloadButton;
     
     @AuraEnabled(Cacheable = true)
     public static Account getAccountRec( String recId){
-        return [select id,Line_of_Business__c,Business_Unit__c,RecordType.Name  from account where id=:recId];
+        return [select id,Line_of_Business__c,RecordType.Name,Business_Unit__c  from account where id=:recId];
+    }
+
+    @AuraEnabled(Cacheable = true)
+    public static Map<String,Object> getCaseRecordDetails( String recId){
+        map<String,object> resultMap = new map<String,object>();
+
+        Case currentRecord =  [SELECT id,
+                                        RecordType.Name,
+                                        CCC_External_Id__c,
+                                        Stage__c,
+                                        account.Business_Unit__c,
+                                        account.recordtype.name,
+                                        accountId,
+                                        assetId,
+                                        Nature__c,
+                                        Source__c,
+                                        Channel__c,
+                                        isClosed,
+                                        (SELECT Stage__c,
+                                                Stage_End_Date__c,
+                                                is_Running_Record__c    
+                                        FROM SR_SLA_Histories__r)  
+                                    FROM Case 
+                                WHERE id=:recId];
+        String extensionObjecAPIname = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(currentRecord.CCC_External_Id__c);
+        Set<String> uniqueStages = new Set<String>();
+        if(currentRecord.isClosed){
+            resultMap.put('recategorizeEnabled',false);
+        }
+        else {
+            for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
+                uniqueStages.add(g.stage__c);
+            }
+            resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
+        }
+       
+        resultMap.put('currentExtensionName',extensionObjecAPIname);
+        resultMap.put('caseDetails',JSON.serialize(currentRecord));
+        /*
+         if there is more than one stage in SR history , then case is moved beyond first stage.
+         hence block from recategorize.
+        */
+       
+        return resultMap;
+
+    }
+
+    /*
+        Old external Id is passed along with Case object which will have Nature , Product , Channel and New external Id.
+        When external id is changed , there is possibility that extension object might change or new fields might be needed.
+        So old external id might have diffrrent fields and now new field wil have different fields.
+        If we start showing new fields , then old fields will be there , but no UI. 
+        Hence its important to persist losing fields in  oldCCCIdFields__c which will have al fields in JSON
+    */
+    @AuraEnabled
+    public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson){
+        /*
+        newCaseJson looks like below
+        '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
+        */
+
+        List<ASF_Checklist__c> openCheckLists = [SELECT ID 
+                                                FROM ASF_Checklist__c 
+                                                WHERE Case__c = :recId 
+                                                AND Systeminitiated__c = true];
+        if(openCheckLists != null){                                        
+            for(ASF_Checklist__c r : openCheckLists ){
+                r.Status__c = 'Rejected';
+            }
+            update openCheckLists;
+        }
+
+        List<Task> openTasks = [SELECT ID
+                                 FROM Task 
+                                 WHERE WhatId = :recId 
+                                 AND Systeminitiated__c = true];
+        if(openTasks != null){                                                                 
+            for(Task r : openTasks ){
+                r.Status = 'Rejected';
+            }
+            update openTasks;
+        }
+
+        Map<String,Object> rawObj = (Map<String,Object>) JSON.deserializeUntyped(newCaseJson);
+        Map<String,Object> caseObject =  (Map<String,Object>) rawObj.get('fields');
+        Case toUpdateCase = new Case(Id=recId);
+        toUpdateCase.CCC_External_Id__c = (String)caseObject.get('CCC_External_Id__c');
+        toUpdateCase.Nature__c = (String)caseObject.get('Nature__c');
+        toUpdateCase.Source__c = (String)caseObject.get('Source__c');
+        toUpdateCase.Channel__c = (String)caseObject.get('Channel__c'); 
+        toUpdateCase.Case_Stage_Change_Date__c = system.now();
+        toUpdateCase.Recategorisation_Date__c = system.now();
+        toUpdateCase.typeSubTypeMismatch__c = false;
+        toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
+        ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :toUpdateCase.CCC_External_Id__c Limit 1];
+        String currentstageOfCase = cccRecord.First_Stage__c;
+
+       /*
+       null check is at done at app level and not at DB level. this is because 
+       when we do null check at db , indexinf will go for TOSS
+       SLA history is LDV and this will become long running query.
+       */
+        List<ASF_Case_SLA_History__c> slaHistoryList = [SELECT id,
+                                                                oldExternalId__c 
+                                                        FROM ASF_Case_SLA_History__c 
+                                                        WHERE Case__c = :recId];
+        List<ASF_Case_SLA_History__c> slaHistoryToUpdate = new List<ASF_Case_SLA_History__c>();
+        for(ASF_Case_SLA_History__c r : slaHistoryList ){
+            if(r.oldExternalId__c == null){
+                r.oldExternalId__c	 = oldCCCId;
+                r.OldTypeSubType__c = cccRecord.type__c + ' - ' + cccRecord.Sub_Type__c;
+                slaHistoryToUpdate.add(r);
+            }
+        }
+
+        update slaHistoryToUpdate;
+        toUpdateCase.stage__c = currentstageOfCase;
+        
+        /*
+        Use case 1: From stage and To Stage are same. but no owner change. SLA cnange
+        Use case 2: From stage and To Stage are different. but no owner change. SLA cnange.
+        From Stage may not exist in new stage. 
+
+        TBD Integrations and Approvals will remain 
+        
+        1. change of account and asset
+        */
+        update toUpdateCase; 
+
     }
 }
