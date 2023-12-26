@@ -522,16 +522,10 @@
                             <value>Case.Framework_Snapshot</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Is_FTR</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Test_Update</value>
                         </valueListItems>
                         <valueListItems>
                             <value>MassChangeOwner</value>
@@ -625,16 +619,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>type</name>
-                    <value>Button</value>
-                </componentInstanceProperties>
-                <componentName>abfl_retailPanel</componentName>
-                <identifier>c_abfl_retailPanel</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
