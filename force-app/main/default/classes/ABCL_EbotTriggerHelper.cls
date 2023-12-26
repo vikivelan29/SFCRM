@@ -20,20 +20,19 @@ public with sharing class ABCL_EbotTriggerHelper {
     }
 
     public static void extEbotEvent(EBOT_Internal_Event__e request){
-            
+        
             EmailMessage emailMsg = [Select Contentdocumentids,HasAttachment,CCAddress,FromAddress,ToAddress,BCCAddress,ParentId,Parent.Description,
                                      Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c 
-                                     from EmailMessage where id =: request.Email_Message_ID__c WITH SECURITY_ENFORCED Limit 1 ];
-        
+                                     from EmailMessage where id =: request.Email_Message_ID__c Limit 1 ];
             List<String> fileNamesList = new List<String>();
             if(emailMsg.HasAttachment){
                 List<ContentDocument> conDoc = [Select Title,FileExtension from ContentDocument
-                                                where id in: emailMsg.ContentDocumentids WITH SECURITY_ENFORCED];
+                                                where id in: emailMsg.ContentDocumentids];
                 for(ContentDocument doc : conDoc){
                     fileNamesList.add(doc.Title+'.'+doc.FileExtension);
                 }   
             }
-            
+
             String fileNames = String.join(fileNamesList,',');
             ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
             caseInt.Case__c = emailMsg.ParentId;
@@ -43,8 +42,8 @@ public with sharing class ABCL_EbotTriggerHelper {
                 insert caseInt;
             }
             
-            caseInt = [Select Id,Name from ASF_Case_Integration__c where id =:caseInt.Id WITH SECURITY_ENFORCED];
-            
+            caseInt = [Select Id,Name from ASF_Case_Integration__c where id =:caseInt.Id ];
+
             String additionalEmails='';
             if(String.isNotBlank(emailMsg.CCAddress)){
                 additionalEmails += emailMsg.CCAddress.replace(';',',');
