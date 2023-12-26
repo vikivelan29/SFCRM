@@ -333,7 +333,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -381,6 +381,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Recategorisation_Date__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
