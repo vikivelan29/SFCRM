@@ -10,6 +10,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     private static List<Case> cases = null;
     private static List<ASF_Checklist__c> caseIncompleteChecklists = null;
+    private static List<ASF_Case_Approv__c> caseApprovals = null;
     private static List<Task> caseIncompleteTasks = null;
     private static List<ASF_Integration__c> cccIntegrations = null;
     private static List<ASF_Case_Integration__c> caseIntegrations = null;
@@ -20,7 +21,7 @@ public with sharing class ASF_CaseQueryHandler {
     private static List<ASF_Case_Category_Config__c> caseCategoryConfigs = null;
     private static List<Asset> caseRelatedAssets = null;
     private static Map<String, Boolean> caseStatusMap = null;
-    
+    private static Case caseWithConfigQueryFields = null;
     public static boolean refreshRecords = false;
     
     
@@ -47,6 +48,19 @@ public with sharing class ASF_CaseQueryHandler {
                                         AND Stage_Name__c = :caseStages];
         }
         return caseIncompleteChecklists;
+    }
+
+    public static List<ASF_Case_Approv__c> getCaseApprovals(Set<Id> caseIds, Set<String> caseStages){
+        if(caseApprovals == null || refreshRecords){
+            caseApprovals = [
+                                SELECT Id, Approval_Status__c, SR__c, CreatedDate
+                                FROM ASF_Case_Approv__c
+                                WHERE SR__c = :caseIds
+                                AND Case_Stage_At_Creation__c = :caseStages
+                                ORDER BY CreatedDate desc
+                            ];
+        }
+        return caseApprovals;
     }
     
     public static List<Task> getIncompleteCaseTasks(Set<Id> caseIds, Set<String> caseStages){
@@ -227,6 +241,20 @@ public with sharing class ASF_CaseQueryHandler {
             caseRelatedAssets = [SELECT Id, LAN__c FROM Asset WHERE ID IN :assetIds];
         }
         return caseRelatedAssets;
+    }
+
+    public static Case getCaseRecordWithQueryFields(Set<String> queryFields, Id caseId) {
+        if(caseWithConfigQueryFields == null || refreshRecords){
+            caseWithConfigQueryFields = (Case) Database.query(
+                'SELECT ' +
+                String.join(queryFields, ',') +
+                ' FROM Case Where Id=\'' +
+                caseId +
+                '\''
+            );
+
+        }
+        return caseWithConfigQueryFields;
     }
     
 }

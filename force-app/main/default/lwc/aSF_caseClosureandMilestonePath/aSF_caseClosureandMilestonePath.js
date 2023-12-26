@@ -172,16 +172,19 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
         }, 1000);
     }
     connectedCallback(){
-        registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
+        //Currently refreshing through the casePath1 component using refreshView
+        //registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
     }
     @wire(CurrentPageReference) pageRef;
 
     handlePublishedMessage(payload) {
         console.log('handlePublishedMessage of case SLA');
-        if (this.recordId == recordId) {
-            refreshApex(this.caseObj);
+        if (this.recordId == payload.recordId) {
+            setTimeout(()=>{
+                console.log('calling refresh apex twice now in sla');
+                refreshApex(this.caseObj);
+            }, 1000);
         }
-
     }
     disconnectedCallback(){
         clearInterval(this.timerId1);

@@ -528,7 +528,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         else{
             //during insert old Case will be null
-            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c){
+            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
                 updatedCase.Case_Stage_Change_Date__c = system.now();
                 updatedCase.Last_Owner_Change_Date__c = system.now();
             }
@@ -775,18 +775,18 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                 overallTimeSpent = caseStageSummarizedViewMap.get('overallTimeSpent').totalTimeSpent;
                            }
                            if(closeSlaSec != null){
-                                updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,newCases.get(i).Case_Stage_Change_Date__c, closeSlaSec);
-                                percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,newCases.get(i).Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
+                                updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec);
+                                percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                            }
                            if(sla1Sec != null){
-                                updatedCase.Stage_SLA_1__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
-                                percntCls.setStagePercSLAFields(sla1Sec,businessHrsusedForcalcuation,newCases.get(i).Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
+                                updatedCase.Stage_SLA_1__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
+                                percntCls.setStagePercSLAFields(sla1Sec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
                            } 
                            if(sla2Sec != null){
-                                updatedCase.Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
+                                updatedCase.Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
                            }
                            if(sla3Sec != null){
-                                updatedCase.Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
+                                updatedCase.Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
                            }      
                        }
                    }

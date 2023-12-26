@@ -109,17 +109,15 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
 
         for(Case caseObj : casesList){
             if(caseInBusinessHour.containsKey(caseObj.Id) && caseInBusinessHour.get(caseObj.Id) && caseObj.Is_Approval_Stage__c == false){
-                if(caseObj.Stage_SLA_3__c != null && (caseObj.Stage_SLA_3__c < currentTime)){
+                if(caseObj.Stage_SLA_2__c != null && caseObj.Stage_SLA_2__c < currentTime
+                && caseIdSLAHistoryMap.containsKey(caseObj.Id) && caseIdSLAHistoryMap.get(caseObj.Id).Level__c == '2'){
                     caseMap.put(caseObj.Id, caseObj);
-                    if(caseIdSLAHistoryMap.containsKey(caseObj.Id)){
-                        caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 3');
-                    }
+                    caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 2');
                 }
-                else if(caseObj.Stage_SLA_2__c != null && (caseObj.Stage_SLA_2__c < currentTime)){
+                else if(caseObj.Stage_SLA_3__c != null && caseObj.Stage_SLA_3__c < currentTime
+                && caseIdSLAHistoryMap.containsKey(caseObj.Id) && caseIdSLAHistoryMap.get(caseObj.Id).Level__c == '3'){
                     caseMap.put(caseObj.Id, caseObj);
-                    if(caseIdSLAHistoryMap.containsKey(caseObj.Id)){
-                        caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 2');
-                    }
+                    caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 3');
                 }
             }
         }

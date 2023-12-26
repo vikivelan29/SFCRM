@@ -289,6 +289,8 @@ public with sharing class ASF_CaseFrameworkHelper {
     public class CaseRuleAssignmentInfo{
         public Id defaultOwnerId;
         public Id defaultErrorOwnerId;
+        public string status; 
+        public string errorMessage;
     }
 
 }

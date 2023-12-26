@@ -46,13 +46,15 @@ public with sharing class ASF_RecategoriseCaseController {
         Set<String> uniqueStages = new Set<String>();
         if(currentRecord.isClosed){
             resultMap.put('recategorizeEnabled',false);
+        }else{
+            resultMap.put('recategorizeEnabled',true);
         }
-        else {
-            for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
-                uniqueStages.add(g.stage__c);
-            }
-            resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
-        }
+        // else {
+        //     for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
+        //         uniqueStages.add(g.stage__c);
+        //     }
+        //     resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
+        // }
        
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
@@ -112,6 +114,7 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Recategorisation_Date__c = system.now();
         toUpdateCase.typeSubTypeMismatch__c = false;
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
+        toUpdateCase.oldCCCIdFields__c = oldCCCId;
         ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :toUpdateCase.CCC_External_Id__c Limit 1];
         String currentstageOfCase = cccRecord.First_Stage__c;
 
