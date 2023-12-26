@@ -24,6 +24,8 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     @track dupeLead=[];
     @track showDupeList=false;
     @track selectedProspectId;
+    @track headerName = 'Create Case with Prospect';
+    @track isInternalCase = false;
     error;
 
 
@@ -102,17 +104,21 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     }
     handleCaseWithProspect(event) {
         this.showModal = true;
+        this.headerName = 'Create Case with Prospect';
+        this.isInternalCase = false;
     }
     hideModalCreateCase(event) {
         this.showModal = false;
         this.showSalesProspect = false;
         this.dupeLead = null;
         this.showDupeList = false;
+        this.isInternalCase = false;
     }
 
 
     /* Sales Prospect Code Starts Here */
     async handleSalesProspet(event) {
+        this.isInternalCase = false;
         await getForm({ recordId: null, objectName: "Lead", fieldSetName: null })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
@@ -211,6 +217,12 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         if (selected) {
             this.selectedProspectId = selected.Id;
         }
+    }
+
+    handleInternalCaseCreation(event){
+        this.showModal = true;
+        this.headerName = 'Create Internal Case';
+        this.isInternalCase = true;
     }
 
 }
