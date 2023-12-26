@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Details_Requested__c</fullName>
+    <externalId>false</externalId>
+    <label>Details Requested</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Borrower / Co-Borrower Details</fullName>
+                <default>false</default>
+                <label>Borrower / Co-Borrower Details</label>
+            </value>
+            <value>
+                <fullName>Current EMI Date</fullName>
+                <default>false</default>
+                <label>Current EMI Date</label>
+            </value>
+            <value>
+                <fullName>Current EMI / PEMI</fullName>
+                <default>false</default>
+                <label>Current EMI / PEMI</label>
+            </value>
+            <value>
+                <fullName>Current Overdue Amount Details</fullName>
+                <default>false</default>
+                <label>Current Overdue Amount Details</label>
+            </value>
+            <value>
+                <fullName>Current ROI</fullName>
+                <default>false</default>
+                <label>Current ROI</label>
+            </value>
+            <value>
+                <fullName>Disbursement Details</fullName>
+                <default>false</default>
+                <label>Disbursement Details</label>
+            </value>
+            <value>
+                <fullName>Installments Pending / Balance Tenor</fullName>
+                <default>false</default>
+                <label>Installments Pending / Balance Tenor</label>
+            </value>
+            <value>
+                <fullName>Principal Outstanding</fullName>
+                <default>false</default>
+                <label>Principal Outstanding</label>
+            </value>
+            <value>
+                <fullName>Repayment Details</fullName>
+                <default>false</default>
+                <label>Repayment Details</label>
+            </value>
+            <value>
+                <fullName>RM Details</fullName>
+                <default>false</default>
+                <label>RM Details</label>
+            </value>
+            <value>
+                <fullName>Virtual Account</fullName>
+                <default>false</default>
+                <label>Virtual Account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

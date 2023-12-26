@@ -12,7 +12,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>00</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>00</label>
             </value>
             <value>
@@ -29,6 +29,11 @@
                 <fullName>03</fullName>
                 <default>false</default>
                 <label>03</label>
+            </value>
+            <value>
+                <fullName>001</fullName>
+                <default>false</default>
+                <label>001</label>
             </value>
         </valueSetDefinition>
     </valueSet>
