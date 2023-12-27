@@ -29,8 +29,8 @@ public with sharing class ASF_CaseQueryHandler {
         if(cases == null || refreshRecords){
             cases = [SELECT Id,BusinessHoursId,Status,OwnerId,CCC_External_Id__c,Stage__c,pending_clarification__c,CreatedById,
                      Previous_Stage__c,ClosedDate, PAY_Payment_Detail__c, SLA_Target_1__c, CSAT__c, DB_Hours__c,
-                     has_CheckLists__c, Has_Open_Tasks__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,Technical_Source__c,
-                     ABFL_Case_Detail__r.Resolution_Comments__c
+                     has_CheckLists__c, Has_Open_Tasks__c,/*ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,*/Technical_Source__c
+                     /*ABFL_Case_Detail__r.Resolution_Comments__c*/
                      FROM Case
                      WHERE Id = :recordIds];
         }
