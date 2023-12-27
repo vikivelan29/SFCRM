@@ -57,6 +57,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                         checklistRecord.Description__c = chklistMaster.Description__c;
                         checklistRecord.Type__c = chklistMaster.Type__c;
                         checklistRecord.Status__c = 'Pending';
+                        checklistRecord.Systeminitiated__c = true;
                         checklistRecord.Case__c = currentCase.Id;
                         checklistRecord.Stage_Name__c = currentCase.Stage__c;
                         checklistList.add(checklistRecord);
@@ -67,6 +68,33 @@ public with sharing class ASF_CaseFrameworkHelper {
         }
         return checklistList;
     }
+    
+     /*
+    SLA overide rules. only for few case types , SLA override rules will be enabled
+    */
+
+    public static  map<string,long> addSLA(Case currentCase, List<ASF_Case_Rule__c> allCaseRules){
+
+        map<string,long> slaMap = new map<string,long>();
+        
+        for (ASF_Case_Rule__c caseRule : allCaseRules) {
+
+            if(caseRule.Type__c == 'SLA Override' && caseRule.Case_Stage_Config__r.SLA_Override_Enabled__c){
+                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                    caseRule.Logical_Condition__c,
+                    caseRule.Case_Rule_Entries__r,
+                    currentCase);
+                if (result == true){
+                    slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c.longValue());
+                    slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c.longValue());
+                    slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c.longValue());
+                    slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c.longValue());    
+                    break;
+                }
+            }
+        }
+        return slaMap;
+    }   
 
     /**
      * If Work Rules are present, Add new Task Records from Master
@@ -91,6 +119,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                         newTask.Description = workItem.Task_Description__c;
                         newTask.WhatId = currentCase.Id;
                         newTask.Case_Stage__c = currentCase.Stage__c;
+                        newTask.Systeminitiated__c = true;
                         newTask.Task_Type__c ='Automatic';
                         newTask.ActivityDate = Date.valueOf(
                             BusinessHours.add(
@@ -131,7 +160,8 @@ public with sharing class ASF_CaseFrameworkHelper {
                     caseRule.Logical_Condition__c,
                     caseRule.Case_Rule_Entries__r,
                     currentCase);
-				
+                
+                system.debug('Ritika Case Rule' + ' ' + result);
                 if (result == true) {
                     resultInfo.defaultOwnerId = caseRule.Assigned_Queue_Id__c;
                     resultInfo.defaultErrorOwnerId = caseRule.Assigned_Error_Queue_Id__c;
@@ -176,48 +206,6 @@ public with sharing class ASF_CaseFrameworkHelper {
                 resultInfo.defaultOwnerId = lastActionedUserId;
             }
         }
-        
-        // An Active Last Actioned User Could not be found
-        if(resultInfo.defaultOwnerId == null){
-
-            ASF_Case_Stage_Config__c stageConfig;
-            List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{caseRec.CCC_External_Id__c});
-            for(ASF_Case_Stage_Config__c config: allStageConfigs){
-                if(config.StageName__c == stageName){
-                    stageConfig = config;
-                }
-            }
-
-            // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
-            List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(new Set<String>{caseRec.CCC_External_Id__c});
-            
-            List<ASF_Case_Rule__c> caseRulesForNextStage = new List<ASF_Case_Rule__c>();
-            for(ASF_Case_Rule__c caseRule : allCaseRules){
-                if(caseRule.Case_Stage_Config__c == stageConfig.Id){
-                    caseRulesForNextStage.add(caseRule);
-                }
-            }
-
-            if(caseRulesForNextStage.size() > 0){
-                // Query Case for Running the Rules
-                Case queriedCaseRecord = (Case) Database.query(
-                    'SELECT ' +
-                    stageConfig.Query_Fields__c +
-                    ' FROM Case Where Id=\'' +
-                    caseRec.Id +
-                    '\''
-                );
-
-                resultInfo = runAssignmentRules(queriedCaseRecord, caseRulesForNextStage);
-            }
-
-            if(resultInfo.defaultOwnerId == null){
-                resultInfo.defaultOwnerId = stageConfig.Default_Queue__c; 
-            }
-            if(resultInfo.defaultOwnerId == null){
-                resultInfo.defaultErrorOwnerId = stageConfig.Default_Error_Queue__c;
-            }
-        }
 
         return resultInfo;
 
@@ -231,7 +219,7 @@ public with sharing class ASF_CaseFrameworkHelper {
         Boolean result = false;
        
         for (ASF_Case_Rule__c caseRule : allCaseRules) {
-			System.debug('@@Logic'+caseRule.Logical_Condition__c);
+            System.debug('@@Logic'+caseRule.Logical_Condition__c);
             if(caseRule.Type__c == 'Stage Movement'){
 
                 result = ASF_CaseFrameworkValidator.evaluateCaseRule(
@@ -249,15 +237,28 @@ public with sharing class ASF_CaseFrameworkHelper {
 
     /**
      * Run All Integrations defined on the Case Stage Config 
-     * of Type Pre Populate or Process
+     * of Type Auto Run on Load
      */
-    public static void runIntegrations(Case currentCase, List<ASF_Integration__c> allIntegrations){
+    public static ASF_IntegrationsController.IntegrationWrapper runIntegrations(Case currentCase, List<ASF_Integration__c> allIntegrations){
 
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        result.status = 'Success';
+        List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
         for(ASF_Integration__c integ : allIntegrations){
             if(integ.Auto_Run_on_Load__c){
-                ASF_IntegrationsController.runIntegration(integ, currentCase);
+                ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, currentCase);
+                intResults.add(intResult);
             }
         }
+
+        for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
+            if(wrap.status == 'Error'){
+                result =  wrap;
+                break;
+            }
+        }
+
+        return result;
     }
 
 
@@ -275,7 +276,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                     caseRule.Logical_Condition__c,
                     caseRule.Case_Rule_Entries__r,
                     currentCase);
-				
+                System.debug('***result:'+ result);
                 if (result == false) {
                     returnResult = caseRule.Validation_Message__c;
                     break;
@@ -288,6 +289,8 @@ public with sharing class ASF_CaseFrameworkHelper {
     public class CaseRuleAssignmentInfo{
         public Id defaultOwnerId;
         public Id defaultErrorOwnerId;
+        public string status; 
+        public string errorMessage;
     }
 
 }

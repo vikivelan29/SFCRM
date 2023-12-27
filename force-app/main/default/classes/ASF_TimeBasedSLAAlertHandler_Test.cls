@@ -17,9 +17,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         insert q;
         
         
-        
-        
-        
         Profile p = [SELECT Id FROM Profile WHERE Name='Payment Base Profile'];
         PermissionSetGroup  ps = [SELECT Id, Status FROM PermissionSetGroup WHERE DeveloperName ='Super_Admin'];
         UserRole ur = [SELECT ID FROM UserRole WHERE DeveloperName='Payments_Service_Agent' LIMIT 1];
@@ -58,21 +55,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         
         
         system.runAs(userRecord1){
-            SLA_Threshold_Warning__c thresholds = new SLA_Threshold_Warning__c();
-            thresholds.Case_SLA_Threshold_1_Label__c = '50%';
-            thresholds.Stage_SLA_Threshold_1_Label__c = '50%';
-            thresholds.Case_SLA_Threshold_2_Label__c = '75%';
-            thresholds.Stage_SLA_Threshold_2_Label__c = '75%';
-            thresholds.Case_SLA_Threshold_3_Label__c = '100%';
-            thresholds.Stage_SLA_Threshold_3_Label__c = '100%';
-            thresholds.Case_SLA_Threshold_1__c = 0.5;
-            thresholds.Stage_SLA_Threshold_1__c = 0.5;
-            thresholds.Case_SLA_Threshold_2__c = 0.75;
-            thresholds.Stage_SLA_Threshold_2__c = 0.75;
-            thresholds.Case_SLA_Threshold_3__c = 1.0;
-            thresholds.Stage_SLA_Threshold_3__c = 1.0;
-            insert thresholds;
-            
             Account acc= new Account(
                 FirstName='Test FName',
                 LastName='Test LName',
@@ -215,7 +197,7 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         Test.startTest();
         
         User u = [Select Id from User where LastName ='Testing' LIMIT 1];
-        BusinessHours bh = [SELECT ID FROM BusinessHours WHERE isDefault = true];
+        
         List<Case> caseList = ASF_TestDataFactory.createCaseRecords(1);
         Case c = CaseList.get(0);
         //c.status = 'Closed';
@@ -224,8 +206,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         c.Stage_SLA_1__c = cv.addHours(-3);
         c.Stage_SLA_2__c = cv.addHours(2);
         c.Stage_SLA_3__c = cv.addHours(1);
-        c.Case_Stage_Change_Date__c = System.now();
-        c.BusinessHoursId = bh.Id;
         update c; 
         List<Id> cList = new List<Id>();
         cList.add(c.Id);
@@ -245,6 +225,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         Test.stopTest();
         
         List<Case> caseLists = [SELECT Id,Stage_SLA_3__c FROM Case];
-        //Assert.areEqual(caseLists[0].Stage_SLA_1__c, cv.addHours(-3));
+        Assert.areEqual(caseLists[0].Stage_SLA_3__c, cv.addHours(1));
     }
 }

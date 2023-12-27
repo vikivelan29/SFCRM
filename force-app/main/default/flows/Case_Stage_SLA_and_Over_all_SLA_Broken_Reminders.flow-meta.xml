@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Mark_Overall_Case_SLA_Broken</name>
         <label>Mark Overall Case SLA Broken</label>
-        <locationX>440</locationX>
+        <locationX>314</locationX>
         <locationY>276</locationY>
         <actionName>ASF_OverallCaseSlaBroken</actionName>
         <actionType>apex</actionType>
@@ -26,7 +26,7 @@
     <actionCalls>
         <name>Send_Stage_1_SLA_Broken_Email</name>
         <label>Send Stage 1 SLA Broken Email</label>
-        <locationX>176</locationX>
+        <locationX>50</locationX>
         <locationY>276</locationY>
         <actionName>ASF_CaseStageSLATimeBasedAction</actionName>
         <actionType>apex</actionType>
@@ -41,9 +41,67 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
+    <decisions>
+        <name>Check_if_CCC_Is_Not_Null</name>
+        <label>Check if CCC Is Not Null</label>
+        <locationX>908</locationX>
+        <locationY>384</locationY>
+        <defaultConnectorLabel>Yes</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Query_Case_Category_Config</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Holding_Response</targetReference>
+            </connector>
+            <label>No</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Send_Holding_Response</name>
+        <label>Send Holding Response</label>
+        <locationX>710</locationX>
+        <locationY>492</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes_01</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>Query_Case_Category_Config.Send_Holding_Response__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Query_Case_Category_Config.Holding_Response_Email_Template__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Query_Case_Category_Config.Holding_Response_SMS_Metadata__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_PE_Logger</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <description>When case SLA is broken or Stage SLA is broken , this is executed</description>
     <environments>Default</environments>
-    <interviewLabel>Case Over all SLA Broken Reminders {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Case Stage SLA and Over all SLA Broken Reminders {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case Over all SLA Broken Reminders</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -64,8 +122,138 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_PE_Logger</name>
+        <label>Create PE Logger</label>
+        <locationX>578</locationX>
+        <locationY>600</locationY>
+        <connector>
+            <targetReference>Invoke_Platform_Event_for_Communication</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId__c</field>
+            <value>
+                <elementReference>$Record.AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CCCExternalId__c</field>
+            <value>
+                <elementReference>$Record.CCC_External_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Case__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CustomMetadataName__c</field>
+            <value>
+                <elementReference>Query_Case_Category_Config.Holding_Response_SMS_Metadata__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email_Template_Name__c</field>
+            <value>
+                <elementReference>Query_Case_Category_Config.Holding_Response_Email_Template__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LOB__c</field>
+            <value>
+                <elementReference>Query_Case_Category_Config.Business_Unit__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Retry_PE__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Pending</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Unique_Id__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>PE_Logger__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Invoke_Platform_Event_for_Communication</name>
+        <label>Invoke Platform Event for Communication</label>
+        <locationX>578</locationX>
+        <locationY>708</locationY>
+        <inputAssignments>
+            <field>CCCExternalId__c</field>
+            <value>
+                <elementReference>Query_Case_Category_Config.CCC_External_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CustomMetadataName__c</field>
+            <value>
+                <elementReference>Query_Case_Category_Config.Holding_Response_SMS_Metadata__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PELoggerId__c</field>
+            <value>
+                <elementReference>Create_PE_Logger</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Unique_Id__c</field>
+            <value>
+                <elementReference>Create_PE_Logger</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ASF_CommnunicationLog__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Query_Case_Category_Config</name>
+        <label>Query Case Category Config</label>
+        <locationX>908</locationX>
+        <locationY>276</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_if_CCC_Is_Not_Null</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CCC_External_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.CCC_External_Id__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ASF_Case_Category_Config__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <start>
-        <locationX>50</locationX>
+        <locationX>221</locationX>
         <locationY>0</locationY>
         <filterLogic>1 AND ((2 AND 3) OR (4 AND 5))</filterLogic>
         <filters>
@@ -106,7 +294,7 @@
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>
-            <name>Stage_SLA_Broken</name>
+            <name>SLA_Broken</name>
             <connector>
                 <targetReference>Send_Stage_1_SLA_Broken_Email</targetReference>
             </connector>
@@ -124,6 +312,17 @@
             <label>CASE overall SLA</label>
             <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
+            <recordField>Overall_Case_Closure_SLA__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>SLA_Breach_Customer_Notification</name>
+            <connector>
+                <targetReference>Query_Case_Category_Config</targetReference>
+            </connector>
+            <label>SLA Breach Customer Notification</label>
+            <offsetNumber>-1</offsetNumber>
+            <offsetUnit>Hours</offsetUnit>
             <recordField>Overall_Case_Closure_SLA__c</recordField>
             <timeSource>RecordField</timeSource>
         </scheduledPaths>

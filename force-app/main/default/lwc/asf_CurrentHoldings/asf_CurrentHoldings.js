@@ -26,6 +26,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     @api showTable = false;
     @api isCurrent = false;
     @api withoutAsset = false;
+    @api accountRecId;
     @api infoObject;
     value = 'Accounts';
     assetType= 'CASA';
@@ -40,14 +41,28 @@ export default class Asf_CurrentHoldings extends LightningElement {
     showSpinner = false;
     isDesktop = true;
     strErrorMsg = 'An unexpected error occured. Please connect with your System Administrator.';
-    
+    boolLaunchFlow = false;
+    data = [];
+    columns;
+    mdtName='';
+    isAccount;
+    isLoan;
+    isDeposit;
+    isCreditCard;
+    idDebitCard;
+    isInsurance;
+    isInvestment;
+    isCorporateLoans;
+    isForexCard;
+    isFixedWidth=true;
+    boolShowFlowButton=true;
     FA_Mandatory = FA_Mandatory;
     @track selectedAssetId;
     showCreateCaseModal = false;
     assetId;
     withFALabel = WithFA;
     withoutFALabel = WithoutFA;
-    showAssetTableForLob = true;     
+    showAssetTableForLob = true;
     
      /****************************************************
      * @Description - Method to the executes on page load.     
@@ -72,7 +87,23 @@ export default class Asf_CurrentHoldings extends LightningElement {
     hideModalCreateCase(){	
         this.showCreateCaseModal = false;
         this.withoutAsset = false;
-        }
+    }	
+    showModalForCreateCase(event){	
+        this.assetId = event.detail.assetId;	
+        this.showCreateCaseModal = true;	
+    }
+
+    /********************************************************************
+     * @Description - Method to throw toast
+    *********************************************************************/
+    showNotification(toast_title,toast_message,toast_variant) {
+        const toast_evt = new ShowToastEvent({
+            title: toast_title,
+            message: toast_message,
+            variant: toast_variant,
+        });
+        this.dispatchEvent(toast_evt);
+    }
 
 
     /********************************************************************

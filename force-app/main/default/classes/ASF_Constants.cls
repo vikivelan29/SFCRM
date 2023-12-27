@@ -1,5 +1,5 @@
 /*********************************************************
-*Name           :   ksc_Constants
+*Name           :   ASF_Constants
 *Author         :   Megha Sahu
 *Since          :   1st Nov 2022   
 *Description    :   Constant class to store all the resable variables at one place
@@ -10,6 +10,8 @@ Name                Date                  Change Description
 *********************************************************/
 
 public with sharing class ASF_Constants {
+
+    public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
 
     public static final String STRING_BLANK ='';
     public static final String STRING_SPACE = ' ';
@@ -102,8 +104,16 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
+    
     public static final String REJECTIONSTATUS = 'Unresolved';
-    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected'};
+    public static final String DUPLICATESTATUS = 'Closed Duplicate';
+    public static final String DUPLICATESTAGE = 'Duplicate';
+    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
         public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final String ONCREATECLOSESTAGE = 'Resolved';
+    public static final String ONCREATECLOSESTATUS = 'Resolved';
+    public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
+    public static final String ABFL_BU = 'ABFL';
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC'};
 
 }

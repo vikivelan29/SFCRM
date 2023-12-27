@@ -78,9 +78,13 @@
                                             required>
                                 </lightning-combobox> 
                         </template>
+
                     </template>  
 
-                    
+                    <template if:true={isPhoneInbound}>
+                        <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                    </template>
+
                     <template if:true={isTransactionRelated}>
                         <lightning-input type="text" label="Transaction Number" value={transactionNumber} onchange={handleTransactionChange} required class="validate"></lightning-input>
                     </template>

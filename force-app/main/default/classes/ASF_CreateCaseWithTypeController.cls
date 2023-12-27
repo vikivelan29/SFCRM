@@ -34,7 +34,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
+                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -49,7 +49,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
             objCaseDetailsWrapper.strSource = choosenOneMTD.Source__c;
-            objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
@@ -58,9 +57,9 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     
     /****************************************************************************************************************
-    * @Description - Populates the KSC_OptionsWrapper with the Channel List .   
+    * @Description - Populates the ASF_OptionsWrapper with the Channel List .   
     * @param lstChannel -  List of String containting the Channel List.
-    * @return -  List<KSC_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
+    * @return -  List<ASF_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
     *****************************************************************************************************************/
     
     public static List<ASF_OptionsWrapper> populateOptionWrapper( List<String> lstChannel){
@@ -108,7 +107,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
@@ -129,7 +128,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 //ccc_product_Type__c field is not available in ABCL Dev
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
-        } 
+        }
+
         system.debug('dynamicQuery'+dynamicQuery);
         
         searchResults =
@@ -170,7 +170,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public class CaseDetailsWrapper{
         @AuraEnabled public List<ASF_Case_Category_Config__c> lstCCCrecords;
         @AuraEnabled public String strSource;
-        @AuraEnabled public String complaintType;
         @AuraEnabled public List<ASF_OptionsWrapper> lstChannel;
         @AuraEnabled public Boolean boolNoData;
         @AuraEnabled public String strErrorMessage;

@@ -298,15 +298,7 @@ public with sharing class ASF_TestDataFactory {
      * return - Map of Case Configs       
     *****************************************************/
     public static void createCaseCategoryConfig() {
-        
-    
-    //Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
-    //insert g1;
-    //QueuesObject q1 = new QueueSObject(QueueID = g1.id, SobjectType = 'Case');
-    //insert q1;
-	
-    Group defaultQueue = [SELECT ID FROM Group WHERE DeveloperName = 'Payment_Service_Desk' AND Type='Queue' LIMIT 1];
-       
+         
     Map<String,List<SObject>> mapOfCaseConfigs = new Map<String,List<SObject>>();   
     List<ASF_Case_Category_Config__c> listCaseCatConfig = new List<ASF_Case_Category_Config__c>();
     List<ASF_Case_Rule__c> caseRuleList = new List<ASF_Case_Rule__c>();
@@ -362,7 +354,7 @@ public with sharing class ASF_TestDataFactory {
     stage2.SLA_Target_3_Type__c = 'Manager';
     stage2.StageName__c  = 'In Progress with Recovery';
     stage2.Status_Mapping__c = 'In Progress';
-    stage2.Query_Fields__c = 'Id,Stage__c';
+    stage2.Query_Fields__c = 'Id,Stage__c,CSAT__c';
     stageConfigList.add(stage2);
 
     ASF_Case_Stage_Config__c stage3 = new ASF_Case_Stage_Config__c();
@@ -535,10 +527,10 @@ public with sharing class ASF_TestDataFactory {
     ASF_Case_Rule_Entry__c stage2_Validation_RuleEntry = new ASF_Case_Rule_Entry__c();
     stage2_Validation_RuleEntry.Number__c = 1;
     stage2_Validation_RuleEntry.Case_Rule__c = stage2_Validation_Rule.Id;
-    stage2_Validation_RuleEntry.Field_Api_Name__c = 'CSAT__c';
-    stage2_Validation_RuleEntry.Operator__c = '<';
-    stage2_Validation_RuleEntry.Data_Type__c = 'DECIMAL';
-    stage2_Validation_RuleEntry.Value__c = '100';
+    stage2_Validation_RuleEntry.Field_Api_Name__c = 'Stage__c';
+    stage2_Validation_RuleEntry.Operator__c = '=';
+    stage2_Validation_RuleEntry.Data_Type__c = 'STRING';
+    stage2_Validation_RuleEntry.Value__c = 'Pending with Initiator';
     stage2_Validation_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-900';
     caseRuleEntryList.add(stage2_Validation_RuleEntry);
     
@@ -657,7 +649,7 @@ public with sharing class ASF_TestDataFactory {
 
 
     ASF_Work_Item__c stage2_Work_WorkItem = new ASF_Work_Item__c();
-    stage2_Work_WorkItem.Assigned_Queue__c = defaultQueue.Id;
+    //Assigned_Queue__c = '00GHE0000003Qm42AE'
     stage2_Work_WorkItem.Task_Title__c = 'Service Request - Clarification from Credit';
     stage2_Work_WorkItem.Task_Description__c = 'Check the accuracy of the Credit report submitted to bureau for Ownership Dispute';
     stage2_Work_WorkItem.Completion_Time__c = 4;
@@ -676,11 +668,6 @@ public with sharing class ASF_TestDataFactory {
     checklistRecord.Type__c = '	Manual';
     
     insert checklistRecord;
-
-
-   
-    
-   
    
     ///-----------------------------///
 
@@ -1087,11 +1074,9 @@ public with sharing class ASF_TestDataFactory {
         // }
         return objAccount;
     }
-    /****************************************************
-     * @Description - Create Case Configs 
-     * return - Map of Case Configs       
-    *****************************************************/
-    public static void createC3WithPrePopulateIntegrations() {
+
+
+    public static void createC3WithPrePopulateIntegrations(){
         Map<String,List<SObject>> mapOfCaseConfigs = new Map<String,List<SObject>>();   
         List<ASF_Case_Category_Config__c> listCaseCatConfig = new List<ASF_Case_Category_Config__c>();
         ASF_Case_Category_Config__c caseCatConfig = new ASF_Case_Category_Config__c();
@@ -1105,6 +1090,124 @@ public with sharing class ASF_TestDataFactory {
         caseCatConfig.Nature__c = 'Request';
         caseCatConfig.Source__c = 'CEC';
         caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+        
+        insert caseCatConfig;
+        
+        listCaseCatConfig.add(caseCatConfig);
+        mapOfCaseConfigs.put('categoryConfig', listCaseCatConfig);
+
+
+        List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
+	
+        ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
+        stage1.Case_Category_Config__c = caseCatConfig.Id;
+        stage1.Order__c = 1;
+        stage1.StageName__c  = 'Pending with Initiator';
+        stage1.Stage_SLA_1__c = 1;
+        stage1.Status_Mapping__c = 'New';
+        // stage1.Stage_SLA_2__c = 2;
+        // stage1.Stage_SLA_3__c = 3;
+        stage1.SLA_Target_1_Type__c = 'Manager';
+        stage1.Query_Fields__c = 'Id,Stage__c';
+        stage1.Manual_Stage__c = false;
+
+        stageConfigList.add(stage1);
+        
+        ASF_Case_Stage_Config__c stage2 = new ASF_Case_Stage_Config__c();
+        stage2.Case_Category_Config__c = caseCatConfig.Id;
+        stage2.Order__c = 2;
+        stage2.Stage_SLA_1__c = 1;
+        stage2.Stage_SLA_2__c = 2;
+        stage2.Stage_SLA_3__c = 3;
+        stage2.SLA_Target_1_Type__c = 'Manager';
+        stage2.SLA_Target_2_Type__c = 'Manager';
+        stage2.SLA_Target_3_Type__c = 'Manager';
+        stage2.StageName__c  = 'In Progress with Recovery';
+        stage2.Status_Mapping__c = 'In Progress';
+        stage2.Query_Fields__c = 'Id,Stage__c';
+        stageConfigList.add(stage2);
+
+
+        ASF_Case_Stage_Config__c stage3 = new ASF_Case_Stage_Config__c();
+        stage3.Case_Category_Config__c = caseCatConfig.Id;
+        stage3.Order__c = 2;
+        stage3.Stage_SLA_1__c = 1;
+        stage3.Stage_SLA_2__c = 2;
+        stage3.Stage_SLA_3__c = 3;
+        stage3.SLA_Target_1_Type__c = 'Manager';
+        stage3.SLA_Target_2_Type__c = 'Manager';
+        stage3.SLA_Target_3_Type__c = 'Manager';
+        stage3.StageName__c  = 'Closed';
+        stage3.Status_Mapping__c = 'Closed';
+        stage3.Query_Fields__c = 'Id,Stage__c';
+        stageConfigList.add(stage3);
+
+
+        insert stageConfigList;
+
+        List<ASF_Integration__c> intConfigList = new List<ASF_Integration__c>();
+
+        ASF_Integration__c prePopInt1 = new ASF_Integration__c();
+        prePopInt1.External_Id__c = 'ASF_INT_01';
+        prePopInt1.Case_Stage_Config__c = stageConfigList[0].Id;
+        prePopInt1.Type__c = 'Pre Populate';
+        prePopInt1.When_to_Appear__c = 'Stage Entry';
+        prePopInt1.Visibility_Class__c = 'ASF_IntegrationInvocableTest';
+        prePopInt1.Processing_Class__c = 'ASF_IntegrationInvocableTest';
+        prePopInt1.Display_Name__c = 'Fetch Field';
+
+        intConfigList.add(prePopInt1);
+
+
+        ASF_Integration__c processInt2 = new ASF_Integration__c();
+        processInt2.External_Id__c = 'ASF_INT_02';
+        processInt2.Case_Stage_Config__c = stageConfigList[0].Id;
+        processInt2.Type__c = 'Process';
+        processInt2.Auto_Run_on_Load__c = true;
+        processInt2.Mandatory_At_Stage_Movement__c= true;
+        processInt2.When_to_Appear__c = 'Stage Entry';
+        processInt2.Visibility_Class__c = 'ASF_IntegrationInvocableTest1';
+        processInt2.Processing_Class__c = 'ASF_IntegrationInvocableTest1';
+        processInt2.Display_Name__c = 'Update CBS';
+
+        intConfigList.add(processInt2);
+
+        ASF_Integration__c uiInt3 = new ASF_Integration__c();
+        uiInt3.External_Id__c = 'ASF_INT_03';
+        uiInt3.Mandatory_At_Stage_Movement__c= false;
+        uiInt3.Case_Stage_Config__c = stageConfigList[0].Id;
+        uiInt3.Type__c = 'UI Card';
+        uiInt3.When_to_Appear__c = 'Stage Entry';
+        uiInt3.UI_Component__c = 'c/sometestcomponent';
+        uiInt3.Visibility_Class__c = 'ASF_IntegrationInvocableTest';
+        uiInt3.Processing_Class__c = 'ASF_IntegrationInvocableTest';
+        uiInt3.Display_Name__c = 'View Transactions';
+
+        intConfigList.add(uiInt3);
+
+        insert intConfigList;
+
+    }
+
+    /****************************************************
+     * @Description - Create Case Configs 
+     * return - Map of Case Configs       
+    *****************************************************/
+    public static void createC3IntegrationsAndCase() {
+        Map<String,List<SObject>> mapOfCaseConfigs = new Map<String,List<SObject>>();   
+        List<ASF_Case_Category_Config__c> listCaseCatConfig = new List<ASF_Case_Category_Config__c>();
+        ASF_Case_Category_Config__c caseCatConfig = new ASF_Case_Category_Config__c();
+
+        caseCatConfig.CCC_External_Id__c = 'CCC-CC-CCLTD-05';
+        caseCatConfig.Overall_Case_Closure_SLA__c = 10;
+        caseCatConfig.First_Stage__c = 'Pending with Initiator';
+        caseCatConfig.Type__c = 'Bureau Related';
+        caseCatConfig.Sub_Type__c = 'CIBIL Related Details - Ownership Related';
+        caseCatConfig.Overall_Case_Closure_SLA__c = 56;
+        caseCatConfig.Nature__c = 'Request';
+        caseCatConfig.Source__c = 'CEC';
+        caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+        caseCatConfig.New_Case_Email_Template__c = 'Generic_SR_Created';
         
         insert caseCatConfig;
 
@@ -1203,6 +1306,18 @@ public with sharing class ASF_TestDataFactory {
 
         insert intConfigList;
 
+        Case newCase = new Case(Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator',
+                                SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
+            newCase.Stage_SLA_1__c = System.now();
+            newCase.Stage_SLA_2__c = System.now()+1;
+            newCase.Stage_SLA_3__c = System.now()+2;
+            newCase.CCC_External_Id__c = 'CCC-CC-CCLTD-05';
+            newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+            //newCase.pending_clarification__c = true;
+            
+        insert newCase;
+
+
     }
     /****************************************************
      * @Description - Create Case 
@@ -1287,7 +1402,9 @@ public with sharing class ASF_TestDataFactory {
         caseCatConfig.Nature__c = 'Request';
         caseCatConfig.Source__c = 'CEC';  // Branch
         caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
-        
+        caseCatConfig.Process__c='Case';
+        caseCatConfig.is_FA_Mandatory__c = true;
+        caseCatConfig.Business_Unit__c = 'ABHFL';
         insert caseCatConfig;
     
         PAY_Payment_Detail__c paymentRecord = new PAY_Payment_Detail__c (Payment_mode__c = 'Online', Status_of_Transaction__c = 'Success');
@@ -1295,7 +1412,21 @@ public with sharing class ASF_TestDataFactory {
     
         listCaseCatConfig.add(caseCatConfig);
         mapOfCaseConfigs.put('categoryConfig', listCaseCatConfig);
-            
+        
+        List<ASF_Case_Field_Config__c> fieldConfigs = new List<ASF_Case_Field_Config__c>();
+        ASF_Case_Field_Config__c field1 = new ASF_Case_Field_Config__c();
+        field1.Case_Main_Config__c = caseCatConfig.Id;
+        field1.ObjectAPIName__c = 'Case';
+        field1.FieldAPIName__c = 'Description';
+        field1.Display_Order__c = 1;
+        fieldConfigs.add(field1);
+        ASF_Case_Field_Config__c field2 = new ASF_Case_Field_Config__c();
+        field2.Case_Main_Config__c = caseCatConfig.Id;
+        field2.ObjectAPIName__c = 'PAY_Payment_Detail__c';
+        field2.FieldAPIName__c = 'Payment_mode__c';
+        field2.Display_Order__c = 2;
+        fieldConfigs.add(field2);
+        insert fieldConfigs;
     
         Group testGroup = [Select Id from Group where DeveloperName ='Payment_Service_Desk' LIMIT 1];
         Group testGroupError = [Select Id from Group where DeveloperName ='DefaultErrorQueue' LIMIT 1];
