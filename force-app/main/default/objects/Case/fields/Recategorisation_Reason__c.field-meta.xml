@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Recategorisation_Reason__c</fullName>
     <externalId>false</externalId>
-    <label>Recategorization Reason</label>
+    <label>Recategorisation Reason</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
