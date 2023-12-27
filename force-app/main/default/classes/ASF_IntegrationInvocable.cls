@@ -12,7 +12,7 @@ public interface ASF_IntegrationInvocable {
      * Returns if the integration needs to be fired (for prepopulate)
      * or the visibility of a UI component
      */
-    boolean evaluate(Case caseRec);
+    ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec);
 
     /**
      * run method to be implemented by the class
@@ -20,7 +20,7 @@ public interface ASF_IntegrationInvocable {
      * Needs to invoke the actual integration and return the response back
      * This method also decides how to run - Sync or Async
      */
-    Object run(ASF_Integration__c integ, Case caseRec);
+    ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec);
 
 
     /**

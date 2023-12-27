@@ -1,15 +1,17 @@
 import { LightningElement, wire, track, api } from 'lwc';
-import {  getRecord, getFieldValue, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
+import {  getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getDataOnLoad from '@salesforce/apex/ASF_ClosedMilestoneTimeController.getDataOnLoad';
 import getDataOnLoadSLA from '@salesforce/apex/ASF_StageBasedMilestoneTimerController.getDataOnLoad';
 import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
 import CASE_CLOSE_SLA from '@salesforce/schema/Case.Overall_Case_Closure_SLA__c';
 import CASE_STAGE_SLA_1 from '@salesforce/schema/Case.Stage_SLA_1__c';
 import fetchCase from '@salesforce/schema/Case.CaseNumber';
+import { registerListener, unregisterAllListeners } from 'c/asf_pubsub';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { refreshApex } from '@salesforce/apex';
 const fields = [CASE_STAGE,CASE_CLOSE_SLA,CASE_STAGE_SLA_1,fetchCase];
 
-export default class ASF_caseClosureandMilestonePath extends LightningElement {
+export default class ASF_caseClosureandMilestonePath extends NavigationMixin(LightningElement) {
     @api recordId;
     timer;
     wiredData;
@@ -42,9 +44,8 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
         return getFieldValue(this.caseObj.data, fetchCase);
     }
      @wire(getDataOnLoad, {caseId: '$recordId',caseStage:'$caseStage'}) 
-    wiredDataFunc(result){
+    wiredData(result){
         this.wiredData = result;
-
         if(result.data){
             var data = result.data;
             console.log('data==',data);
@@ -111,7 +112,7 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
         console.log('entered');
         this.wiredData1 = result;
         if(result.data){
-            console.log('entered?', result.data);
+            console.log('entered?');
             var data = result.data;
            
             if( data.leftTotalSec && data.leftTotalSec > 0){
@@ -171,17 +172,21 @@ export default class ASF_caseClosureandMilestonePath extends LightningElement {
         }, 1000);
     }
     connectedCallback(){
-        console.log('in connected callback');
-        setTimeout(()=>{
-            console.log('refresh apex invokinng');
-            refreshApex(this.wiredData);
-            console.log('refresh apex done');
-        }, 1000);
+        //Currently refreshing through the casePath1 component using refreshView
         //registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
     }
-    
+    @wire(CurrentPageReference) pageRef;
+
+    handlePublishedMessage(payload) {
+        console.log('handlePublishedMessage of case SLA');
+        if (this.recordId == payload.recordId) {
+            setTimeout(()=>{
+                console.log('calling refresh apex twice now in sla');
+                refreshApex(this.caseObj);
+            }, 1000);
+        }
+    }
     disconnectedCallback(){
-        console.log('in disconnected callback');
         clearInterval(this.timerId1);
     }
     msToTime(s) {

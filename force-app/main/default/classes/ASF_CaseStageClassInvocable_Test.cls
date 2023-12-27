@@ -16,6 +16,7 @@ public with sharing class ASF_CaseStageClassInvocable_Test implements ASF_CaseSt
     public ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         wrap.status = 'Error';
+        wrap.errorMessage = 'Test Error Message';
         return wrap;
     }
 
