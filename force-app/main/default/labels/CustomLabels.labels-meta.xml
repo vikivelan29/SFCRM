@@ -44,6 +44,13 @@
         <value>No Records found for the selected search.</value>
     </labels>
     <labels>
+        <fullName>ASF_Case_Owner_Queue_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Case Owner Queue Val Msg</shortDescription>
+        <value>You cannot assign to a Queue that is not of your BU</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -142,6 +149,13 @@
         <value>No template available on this record. Please contact the administrator.</value>
     </labels>
     <labels>
+        <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Owner_Change_Access_Val_Msg</shortDescription>
+        <value>You do not have access to change the Owner for this case</value>
+    </labels>
+    <labels>
         <fullName>ASF_Preframework_sla_timer</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -216,7 +230,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
+        <value>No Reply Address</value>
     </labels>
     <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
@@ -289,11 +303,25 @@
         <value>Tasks not complete for the SR.</value>
     </labels>
     <labels>
+        <fullName>LOB_for_masked_fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LOB for masked fields</shortDescription>
+        <value>ABHFL</value>
+    </labels>
+    <labels>
         <fullName>Maker_Owner_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
         <value>This user cannot be assigned as the user has worked on the SR in the Maker stage.</value>
+    </labels>
+    <labels>
+        <fullName>Masked_Subject_Email_Template_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Masked Subject Email Template Ids</shortDescription>
+        <value>00X9I000000A8VlUAK</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -315,5 +343,12 @@
         <protected>false</protected>
         <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
         <value>false</value>
+    </labels>
+    <labels>
+        <fullName>STP_Flows</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Flows</shortDescription>
+        <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
 </CustomLabels>
