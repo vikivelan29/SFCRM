@@ -7,9 +7,7 @@
 </style>
 Dear Customer,<br />
 <br />
-Your request for Loan account no. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been received and registered under Request. We expect to resolve this by {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} and appreciate your patience during this time.&nbsp;<br />
-Address : {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}<br />
-<br />
+Your request for Loan account no. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been received and registered under Request. We expect to resolve this by {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} and appreciate your patience during this time.<br />
 <br />
 Regards,<br />
 -Aditya Birla Housing Finance Limited</body>
