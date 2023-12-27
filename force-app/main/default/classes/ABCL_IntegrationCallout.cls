@@ -137,7 +137,7 @@ public with sharing class ABCL_IntegrationCallout {
     }
 
     public static void storeResponseAttachment(ABCL_Integrations__mdt  integrationMdt,IntegrationResponseWrapper integrationResponse, string integrationLogId){
-        if(integrationMdt.StoreAsAttachment__c){
+        if(integrationMdt.StoreAsAttachment__c && String.isNotBlank(integrationResponse.responseBody)){
             ContentVersion content = new ContentVersion();
             content.PathOnClient = 'Response.txt';
             content.Title = 'Response';
