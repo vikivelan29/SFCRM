@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Unit__c</fullName>
+    <fullName>Queue_Id__c</fullName>
+    <caseSensitive>true</caseSensitive>
     <externalId>false</externalId>
-    <label>Business Unit</label>
+    <label>Queue Id</label>
+    <length>20</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
-    <valueSet>
-        <restricted>true</restricted>
-        <valueSetName>Business_Unit</valueSetName>
-    </valueSet>
+    <type>Text</type>
+    <unique>true</unique>
 </CustomField>
