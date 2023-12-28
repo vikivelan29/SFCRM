@@ -21,7 +21,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.ERROR;
-        result.response = System.Label.ABHFL_NDC_STP_EvaluationFailed;   
+        result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c;   
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.EMAIL){
             if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
             	result.status = ABHFL_Constants.SUCCESS;
