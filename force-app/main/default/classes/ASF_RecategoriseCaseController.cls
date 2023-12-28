@@ -163,8 +163,9 @@ public with sharing class ASF_RecategoriseCaseController {
     //Fetches required fields from CCC and Account and Asset to validate the new CCC before Save
     @AuraEnabled(cacheable=true)
     public static ASF_Case_Category_Config__c fetchCCCDetails(String cccExtId) {
-        ASF_Case_Category_Config__c cccRec = [SELECT Id, Only_CRN_Mandatory__c, is_FA_Mandatory__c, 
-                                            Priority__c, Custom_Segment__c, CCC_External_Id__c
+        ASF_Case_Category_Config__c cccRec = [SELECT Id, Only_CRN_Mandatory__c, is_FA_Mandatory__c,
+                                            Priority__c, Custom_Segment__c, CCC_External_Id__c,
+                                            Is_Prospect_Related__c
                                             FROM ASF_Case_Category_Config__c 
                                             WHERE CCC_External_Id__c = :cccExtId LIMIT 1];
         return cccRec;

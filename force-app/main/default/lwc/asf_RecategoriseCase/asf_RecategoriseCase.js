@@ -57,6 +57,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     assetId;
     isasset;
     accountId;
+    leadId; // Virendra - Added for Prospect Related ReCategorisation.
     
     //asset;
 
@@ -408,12 +409,33 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
         if(configuredCurrentCCC){
             let errorMsg;
-            if(this.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
+            if(this.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true && configuredCurrentCCC.Is_Prospect_Related__c == false){
                 errorMsg = 'Account is not there. But type sub type is selected which require Customer';
             } 
-            else if(this.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true ){
+            else if(this.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && configuredCurrentCCC.Is_Prospect_Related__c == false){
                 errorMsg = 'Asset is not there. But type sub type is selected which required Asset';
-            }  
+            }
+            /* CHECK IF SELECTED CCC IS PROSPECT RELATED.
+            /* Scenario 1 - CRN MANDATORY AS WELL AS IS PROSPECT RELATED IS TRUE. MEANING THE CTST IS ELIGIBLE FOR 
+            /*              SELECTION AGAINST CUSTOMER AND LEAD BOTH. HENCE FIRST CHECK IF CUSTOMER PRESENT, IF NOT
+            /*              CHECK IF LEAD PRESENT, IF BOTH OF THEM ARE NOT PRESENT SHOW ERROR MESSAGE.
+            /* Scenario 2 - ASSET MANDATORY AS WELL AS IS PROSPECT RELATED IS TRUE. MEANING THE CTST IS ELIGIBLE FOR
+            /*              SELECTION AGAINST ASSET AND LEAD BOTH. HENCE FIRST CHECK IF ASSET PRESENT, IF NOT CHECK
+            /*              IF LEAD PRESENT, IF BOTH OF THEM ARE NOT PRESENT SHOW ERROR MESSAGE.
+            /* Scenario 3 - ONLY IS PROSPECT RELATED IS TRUE THEN CHECK IF THE LEAD IS PRESENT, IF NOT THEN SHOW ERROR MESSAGE.
+            /* Author - Virendra
+            */
+            if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId == null && this.leadId == null){
+            errorMsg = 'Neither Account nor Prospect is there. But type sub type is selected which require Customer or Prospect.'
+            }
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null){
+            errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
+            }
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null){
+            errorMsg = 'Prospect is not there. But type sub type is selected which require Prospect.'
+            }
+            /* PROSPECT RECATEGORISATION ENDS HERE */
+              
             else if(configuredCurrentCCC.Priority__c != null && this.currentPriority != configuredCurrentCCC.Priority__c ){
                 errorMsg = 'Case Category Configured priority and case priority is mismatch';
             } 
@@ -593,6 +615,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             /* ACCOUNT IS COMING AS NULL.
             /* Author - Virendra
             */
+            this.leadId = caseparsedObject.Lead__c;
+
             if(caseparsedObject.Account != null && caseparsedObject.Account != undefined){
                 this.accountRecordType = caseparsedObject.Account.RecordType.Name;
                 this.primaryLOBValue = caseparsedObject.Account.Business_Unit__c;
