@@ -431,7 +431,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null){
             errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
             }
-            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null){
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == false && configuredCurrentCCC.is_FA_Mandatory__c == false){
             errorMsg = 'Prospect is not there. But type sub type is selected which require Prospect.'
             }
             /* PROSPECT RECATEGORISATION ENDS HERE */
