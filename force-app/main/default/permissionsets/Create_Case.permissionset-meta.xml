@@ -16,7 +16,6 @@
         <apexClass>ASF_customPicklistUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    
     <classAccesses>
         <apexClass>ABCL_STGCustomerTriggerHandler</apexClass>
         <enabled>true</enabled>
@@ -562,6 +561,16 @@
         <name>Customer_Notification_Config__mdt</name>
     </customMetadataTypeAccesses>
     <description>Create and Update Case record</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.isSTP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.is_Attachment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Approv__c.Approval_Status__c</field>

@@ -32,18 +32,13 @@ public with sharing class ABHFL_Constants {
     public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
-    
+   
     
     //Constants for Welcome Kit STP Flow
     public static final String WK_EVALUATION_FAILED_ERROR = 'Evaluation Failed, cannot retrieve Welcome Kit.';
     public static final String WK_EVALUATION_SUCCESS_RESPONSE = 'Evaluation Success, Submit to get the Welcome Kit.';
     public static final String WK_EVALUATION_FAILED_DIGITAL_ERROR = 'Evaluation failed. Disbursal date is > 6 months.';
     public static final String WK_EVALUATION_FAILED_OFFLINE_ERROR = 'Disbursal date is > 6 months. Please inform the customer that Welcome Kit cannot be provided.'; 
-    
-    // Constants for Statement Of Account STP Flow
-    public static final String SOA_EVALUATION_FAILED_DATE_ERROR = 'Evaluation Failed, From_Date or To_Date cannot be blank.';
-    public static final String SOA_EVALUATION_SUCCESS_RESPONSE = 'Evaluation Success, Submit to get statement Of Account.';
-    public static final String SOA_RUN_SUCCESS = 'Run Success, Submitted to get the Statement Of Account.';
     
     public static final String ACCOUNT_STATUS_CLOSED = 'Closed';
     public static final String NDC_STP_NAME = 'NDC';

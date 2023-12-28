@@ -5,5 +5,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>ABHFL Service Agent</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>CEO</parentRole>
+    <parentRole>ABHFL_Leads</parentRole>
 </Role>

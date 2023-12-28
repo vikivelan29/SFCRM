@@ -7,23 +7,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>ABFL</fullName>
-                <default>false</default>
-                <label>ABFL</label>
-            </value>
-            <value>
-                <fullName>ABHFL</fullName>
-                <default>false</default>
-                <label>ABHFL</label>
-            </value>
-            <value>
-                <fullName>PAYMENTS</fullName>
-                <default>false</default>
-                <label>PAYMENTS</label>
-            </value>
-        </valueSetDefinition>
+        <restricted>true</restricted>
+        <valueSetName>Business_Unit</valueSetName>
     </valueSet>
 </CustomField>

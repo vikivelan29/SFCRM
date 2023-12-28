@@ -69,8 +69,11 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                 else if(iRelLevel ==2){
                     fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]);
                 }
-                else{
+                else if(iRelLevel ==3){
                     fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]);
+                }
+                else{
+                    fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
                 }
                     System.debug('fieldValue --> '+fieldValue);
                 //fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
