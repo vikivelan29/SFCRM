@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Loan_Disbursement_Status__c</fullName>
+    <fullName>Permanent_Addr_Flag__c</fullName>
     <externalId>false</externalId>
-    <label>Loan Disbursement Status</label>
+    <label>Permanent Addr Flag</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Partially</fullName>
+                <fullName>OFFICE</fullName>
                 <default>false</default>
-                <label>Partially</label>
+                <label>OFFICE</label>
             </value>
             <value>
-                <fullName>Complete</fullName>
+                <fullName>PERMANENT</fullName>
                 <default>false</default>
-                <label>Complete</label>
+                <label>PERMANENT</label>
+            </value>
+            <value>
+                <fullName>RESIDENTIAL</fullName>
+                <default>false</default>
+                <label>RESIDENTIAL</label>
             </value>
         </valueSetDefinition>
     </valueSet>

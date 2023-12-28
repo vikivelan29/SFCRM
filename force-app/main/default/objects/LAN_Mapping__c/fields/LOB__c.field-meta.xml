@@ -7,38 +7,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Digital</fullName>
-                <default>false</default>
-                <label>Digital</label>
-            </value>
-            <value>
-                <fullName>Retail - Secured</fullName>
-                <default>false</default>
-                <label>Retail - Secured</label>
-            </value>
-            <value>
-                <fullName>Retail - Unsecured</fullName>
-                <default>false</default>
-                <label>Retail - Unsecured</label>
-            </value>
-            <value>
-                <fullName>Corporate</fullName>
-                <default>false</default>
-                <label>Corporate</label>
-            </value>
-            <value>
-                <fullName>Wealth</fullName>
-                <default>false</default>
-                <label>Wealth</label>
-            </value>
-            <value>
-                <fullName>Not classified</fullName>
-                <default>false</default>
-                <label>Not classified</label>
-            </value>
-        </valueSetDefinition>
+        <restricted>true</restricted>
+        <valueSetName>LOB</valueSetName>
     </valueSet>
 </CustomField>
