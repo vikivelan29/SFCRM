@@ -60,7 +60,7 @@ public class ABHFL_ComplaintCTSTHelper {
                         	   ABHFL_Case_Detail__r.Gap_People__c, 
               				   ABHFL_Case_Detail__r.Gap_Process__c,
                                ABHFL_Case_Detail__r.Gap_Product__c,
-                               ABHFL_Case_Detail__r.Regulator_Initiated__c FROM Case WHERE Id = :caseId WITH SECURITY_ENFORCED];
+                               ABHFL_Case_Detail__r.Regulator_Initiated__c FROM Case WHERE Id = :caseId];
         if(!caseR.ABHFL_Case_Detail__r.Gap_IT__c && 
            !caseR.ABHFL_Case_Detail__r.Gap_People__c && 
            !caseR.ABHFL_Case_Detail__r.Gap_Process__c && 
