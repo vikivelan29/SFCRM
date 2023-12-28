@@ -4,9 +4,19 @@
         <enabled>true</enabled>
         <name>Case_Ownership_Management</name>
     </customPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.As_On_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.isSTP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.is_Attachment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

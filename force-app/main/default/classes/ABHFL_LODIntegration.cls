@@ -5,7 +5,7 @@
 *@Last Modified:  12/13/2023
 *@description  :  Class for LOD STP integration. 
 *********************************************************/
-public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvocable{
+public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvocable{
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
@@ -16,8 +16,8 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
     
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        result.status = 'Error';
-        result.response = 'Evaluation Failed, cannot retrieve List of Documents';
+        result.status = ABHFL_Constants.ERROR;
+        result.response = Custom_Messages__mdt.getInstance('LOD_EvaluateFailure').Message__c;
         
         
         Case caseRecord = [
@@ -32,19 +32,19 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             //Check for Disbursement Date > Current Calendar Year
             if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= cY.Current_Calendar_Year__c){
-                  result.status = 'Success';
-                  result.response = 'Evaluation Success, Submit to get the List of Documents.';
+                  result.status = ABHFL_Constants.SUCCESS;
+                  result.response = Custom_Messages__mdt.getInstance('LOD_EvaluateSuccess').Message__c;
             }
             else{
-                 result.response = 'Disbursed before current year, cannot fetch List of Documents.'; 
+                 result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBefore').Message__c; 
             }
             
         }
         Boolean isUserinQueue = isUserInQueue(caseRecord.OwnerId,caseRecord.Asset.Branch__r.Branch_Queue_Id__c);
        
         //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
-        if (result.status == 'Error'&& caseRecord.Asset.Branch__c != null) {
-            if(!isUserinQueue && caseRecord.Source__c != 'Branch'){
+        if (result.status == ABHFL_Constants.ERROR && caseRecord.Asset.Branch__c != null) {
+            if(!isUserinQueue && caseRecord.Source__c != ABHFL_Constants.BRANCH){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                 //ASF_TriggerSkipperUtility.markTriggerRun('Case');
                 if(Schema.sObjectType.Case.isUpdateable()){
@@ -52,7 +52,7 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
                 }
     		 	
             	//Error Message when evaluation is failed.
-            	result.response ='Disbursed before current year, cannot fetch List of Documents. Assigning the case to Branch';
+            	result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBeforeBranchAssignment').Message__c;
             }
 		}
         
@@ -74,8 +74,8 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
                                                                AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-                if(caseInt.Status__c == 'Pending'){
-                   caseInt.Status__c = 'Canceled';  
+                if(caseInt.Status__c == ABHFL_Constants.PENDING){
+                   caseInt.Status__c = ABHFL_Constants.CANCELED;  
                 }
             }
             if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
@@ -84,11 +84,11 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
         }
 
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
-        response.status = 'Success';
+        response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
-        caseInteg.Status__c='Pending';
+        caseInteg.Status__c = ABHFL_Constants.PENDING;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInteg;    
         }
@@ -103,9 +103,9 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
         caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
-            response.status = 'Success';
+            response.status = ABHFL_Constants.SUCCESS;
         }else{
-            response.status = 'Error';
+            response.status = ABHFL_Constants.ERROR;
         }
        
         return response;
@@ -125,7 +125,7 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
             	FROM Case
             	WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
         	];
-        if(caseInteg.Status__c=='Success' && caseRec!=null){
+        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
             integrationFailure = false;
         	Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 			if(isTransferred){
@@ -146,7 +146,7 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
                             	update caseRec;    
                             }			
                             
-                    		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'List of Documents', 'STP Document Retrieval Failure');
+                    		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
                   }
             
         }
@@ -158,7 +158,7 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
                     	update caseRec;    
                     }
                     
-            		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'LOD', 'STP Document Retrieval Failure');
+            		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
         	}
         }
     }
@@ -187,13 +187,13 @@ public without sharing  class ABHFL_LODIntegration implements ASF_IntegrationInv
         public string reportName;
         public string documentType;
         
-        LODRequestWrapper(string caseNumber,string lanNo){
+        public LODRequestWrapper(string caseNumber,string lanNo){
             this.caseId = caseNumber;
-            this.souce = 'CRM';
-            this.requestType = 'Email';
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
-            this.reportName = 'LODReport';
-            this.documentType = 'BinaryData';
+            this.reportName = ABHFL_Constants.LOD_REPORT;
+            this.documentType = ABHFL_Constants.BINARY_DATA;
         }
     }
 
