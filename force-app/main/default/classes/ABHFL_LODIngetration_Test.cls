@@ -6,7 +6,7 @@ public class ABHFL_LODIngetration_Test {
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
-        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and Name LIKE '%abhfl%' LIMIT 1].Id;
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
