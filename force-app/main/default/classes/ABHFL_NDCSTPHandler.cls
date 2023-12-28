@@ -20,19 +20,19 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
         //Check for mandatory API conditions
-        result.status = 'Error';
-        result.response = 'Evaluation Failed, cannot retrieve the NDC.';   
-        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
-            if(caseRecord.Asset.Account_Status__c == 'Closed'){
-            	result.status = 'Success';
-                result.response = 'Evaluation Successful, Please click on Submit to retrieve NDC.';
+        result.status = ABHFL_Constants.ERROR;
+        result.response = System.Label.ABHFL_NDC_STP_EvaluationFailed;   
+        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.EMAIL){
+            if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
+            	result.status = ABHFL_Constants.SUCCESS;
+                result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationSuccess').Message__c;
             } else {
-                if(caseRecord.Source__c == 'Branch'){
+                if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
                     caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                     if(Schema.sObjectType.Case.isUpdateable()){
                         update caseRecord;
                     }
-                    result.response ='NDC cannot be retrieved until the Loan is Closed. Assigning the case to Branch';                                                                                                                               
+                    result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedBranchAssignment').Message__c;                                                                                                                               
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
                     List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
@@ -44,9 +44,9 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
                     update caseRecord;
-                    result.response = 'NDC cannot be retrieved until the Loan is Closed. Case will be closed';
+                    result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedCaseClosed').Message__c;  
                 } else {
-                    result.response = 'Evaluation Failed, You cannot retrieve the NDC.'; 
+                    result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                 }
             }
         }
@@ -68,7 +68,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                                                                AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-                caseInt.Status__c = 'Canceled';
+                caseInt.Status__c = ABHFL_Constants.CANCELED;
             }
             if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                 update existingCaseIntRecords;        
@@ -79,7 +79,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
-        caseInteg.Status__c='Pending';
+        caseInteg.Status__c= ABHFL_Constants.PENDING;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
@@ -93,7 +93,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new NDCRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
-        response.status = 'Success';
+        response.status = ABHFL_Constants.SUCCESS;
         return response;
     }    
 
@@ -105,13 +105,12 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){
-        system.debug('Inside process response welcome kit');
         Boolean integrationFailure = true;
         Boolean previousStatus;
         Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,OwnerId,CreatedById,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,ABHFL_Case_Detail__r.STP_Failure__c
                            FROM Case WHERE Id =: caseInt.Case__c];
-        if(caseInt.Status__c=='Success'){
+        if(caseInt.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInt);
             if(caseRecord!=null){
                 if(isTransferred){
@@ -140,14 +139,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     } 
 
     private static void handleFailure(Case caseRecord){
-        if(caseRecord.Source__c == 'Branch'){
+        if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
             if(caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                 update caseRecord;
-                ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,'NDC',null);
+                ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,ABHFL_Constants.NDC_STP_NAME,null);
             }
         } else {
-            Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED Limit 1];
+            Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
             caseRecord.OwnerId = csQueue.Id;
             update caseRecord;                
         }  
@@ -163,11 +162,11 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         
         public NDCRequestWrapper(string caseNumber,string lanNo){
             this.caseId = caseNumber;
-            this.souce = 'CRM';
-            this.requestType = 'Email';
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
-            this.reportName = 'NDCReport';
-            this.documentType = 'BinaryData';
+            this.reportName = ABHFL_Constants.NDC_REPORT;
+            this.documentType = ABHFL_Constants.BINARY_DATA;
         }
         
     }
