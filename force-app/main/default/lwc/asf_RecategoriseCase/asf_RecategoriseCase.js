@@ -90,6 +90,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     cccproduct_type = '';
 
     accountRecordType = '';
+    leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
@@ -113,7 +114,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     connectedCallback() {
         //api record id was not working
-        //console.log(this.pageRef);
+        console.log('this.recordId',this.recordId);
         this.recordId = this.pageRef.state.recordId;
         this.getCurrentCaseRecordDetails();
     }
@@ -587,8 +588,21 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.assetId = caseparsedObject.AssetId;
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
-            this.accountRecordType = caseparsedObject.Account.RecordType.Name;
-            this.primaryLOBValue = caseparsedObject.Account.Business_Unit__c;
+           
+            /* CHECK IF THE CASE IS RETURNING ACCOUNT OR NOT. IN CASE OF PROSPECT RELATED CASES
+            /* ACCOUNT IS COMING AS NULL.
+            /* Author - Virendra
+            */
+            if(caseparsedObject.Account != null && caseparsedObject.Account != undefined){
+                this.accountRecordType = caseparsedObject.Account.RecordType.Name;
+                this.primaryLOBValue = caseparsedObject.Account.Business_Unit__c;
+            }
+            else if(caseparsedObject.Lead__c != null && caseparsedObject.Lead__c != undefined){
+                this.leadRecordType = caseparsedObject.Lead__r.RecordType.Name;
+                this.primaryLOBValue = caseparsedObject.Lead__r.Business_Unit__c;
+            }
+            
+            
             //this is without asset parameter. default is false
             //this means , if case is not having asset , then
             //this will be true. 
@@ -597,6 +611,14 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 //this.assetId = caseparsedObject.AssetId; 
                 //once case is associated to asset, reset this
                 this.isasset = 'false';
+            }
+            else if(caseparsedObject.Lead__c != null && caseparsedObject.Lead__c != undefined){
+                /* IN CASE OF SERVICE REQUEST CREATED WITH LEAD, FIRST CHECK IF IT IS FIRST ASSOCIATED WITH ASSET, IF YES
+                *  EXECUTE FIRST IF BLOCK OTHERWISE, CHECK SET isasset FLAG TO PROSPECT
+                *  THIS MEANS RETURN ONLY CTST's THOSE ARE SPECIFIC TO PROSPECT ONLY. THAT IS, ON ASF_CASE_CATEGORY_CONFIG WHERE Is_Prospect_Related__c IS TRUE.
+                *  Author - VIRENDRA
+                */
+                this.isasset = 'Prospect';
             }
             this.loaded = true;
         }
