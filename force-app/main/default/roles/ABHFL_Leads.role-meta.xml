@@ -3,7 +3,7 @@
     <caseAccessLevel>Edit</caseAccessLevel>
     <contactAccessLevel>Edit</contactAccessLevel>
     <mayForecastManagerShare>false</mayForecastManagerShare>
-    <name>ABHFL Service Agent</name>
+    <name>ABHFL Leads</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>ABHFL_Leads</parentRole>
+    <parentRole>CEO</parentRole>
 </Role>

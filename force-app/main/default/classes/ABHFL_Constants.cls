@@ -32,6 +32,10 @@ public with sharing class ABHFL_Constants {
     public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
+
+    public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
+    public static final String WAITING_API_RESPONSE = 'Waiting for API response';
+
     
     
    //Constants for Balance Confirmation Letter STP Flow
@@ -60,7 +64,9 @@ public with sharing class ABHFL_Constants {
     public static final String ACCOUNT_STATUS_CLOSED = 'Closed';
     public static final String NDC_STP_NAME = 'NDC';
     public static final String NDC_REPORT = 'NDCReport';
+
     public static final String LOD_REPORT = 'LODReport';
+
     public static final String ACCOUNT_RECORDTYPE_INDIVIDUAL = 'Individual';
     public static final String ACCOUNT_RECORDTYPE_NON_INDIVIDUAL = 'Non-Individual';
     public static final String PAYMENTLINK_INTEGRATION_METADATA = 'Payment_Link';
