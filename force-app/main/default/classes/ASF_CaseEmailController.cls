@@ -1,17 +1,43 @@
-global without Sharing class ASF_CaseEmailController {
-    global Case caseObject {get;set;}
-    global string caseId{get;set;}
+/*********************************************************
+* @Class        :  ASF_CaseEmailController
+* @Author       : 
+* @Created Date :  
+* @Last Modified:  
+* @description  :  Class for Email Templates
+*********************************************************/
+
+public class ASF_CaseEmailController {
+    /*********************************************************
+    * @description - Use for Store case record.    
+    *********************************************************/
+    public Case caseObject {get;set;} 
+   /*********************************************************
+    * @description -Use for get case Id from VF Template.
+    *********************************************************/
+    public string caseId{get;set;}
+   /*********************************************************
+    * @description - Use for get Lightning Emial Template Body..
+    *********************************************************/
     public String emailTemplateName{get;set;}
+   /*********************************************************
+    * @description - Use for return output/displaying text in email.
+    *********************************************************/
     public String outputBody;
     
-    global String getOutputBody(){
-        CaseObject = [Select id, Subject from Case where Id =:caseId];
-        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName];  
+   /****************************************************************************************************************
+    * @Function - getOutputBody
+    * @return - String.
+    * @description - Invoked from VF Template.
+    *****************************************************************************************************************/
+    
+    public String getOutputBody(){
+        CaseObject = [Select id, Subject from Case where Id =:caseId ];
+        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName WITH SECURITY_ENFORCED];  
         Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), caseId);
         String htmlBody = mail.getHtmlBody();
         if(test.isRunningTest()){
             //htmlBody='$$WM_Details__r.Prefrred_Date_Time__c$$';
-            htmlBody='$$ABHFL_Case_Detail__r.As_On_Date__c$$';
+            htmlBody='$$ABHFL_Case_Detail__r.As_On_Date__c$$ -- $$Asset.Last_Disbursement_Date__c$$.';
         }
 
         String regExp = '\\$\\$(.*?)\\$\\$';
@@ -19,8 +45,17 @@ global without Sharing class ASF_CaseEmailController {
         return htmlBody;      
     }
 
-    //String inputText = 'This is some $$text$$ between $$symbols$$ that we want to $$capture$$.';
-    global String generateString(String inputText, String regExp, Id CaseObjectId){
+
+    /****************************************************************************************************************
+    * @Function - generateString
+    * @return - String.
+    * @param inputText - HTML Body.
+    * @param regExp - regex pattern.
+    * @param caseObjectId - Case record idk.
+    * @description - return String inputText = 'This is some $$text$$ between $$symbols$$ that we want to $$capture$$.';
+    *****************************************************************************************************************/
+    
+    public String generateString(String inputText, String regExp, Id caseObjectId){
         Pattern regex = Pattern.compile(regExp);
         Matcher matcher = regex.matcher(inputText);
         
@@ -30,12 +65,8 @@ global without Sharing class ASF_CaseEmailController {
         
         while (matcher.find()) {
             String capturedString = matcher.group(1);
-            system.debug('capturedString'+capturedString);
             if (!dynamicFieldsToReplace.contains(capturedString)){
-                
                 if(capturedString.contains('__r')){
-                    system.debug(capturedString);
-                    system.debug(capturedString.split('\\.'));
                     string objectName=capturedString.split('\\.')[0].replace('__r','__c');
                     objectschemas.add(objectName);
                 }
@@ -43,26 +74,25 @@ global without Sharing class ASF_CaseEmailController {
             }
         }
 
-        for(String str : dynamicFieldsToReplace){
-
-        }
         if (dynamicFieldsToReplace != null && dynamicFieldsToReplace.size() > 0){
-            System.debug('Dynamic fields  ----   '+dynamicFieldsToReplace);
-            resultMap = getDynamicFields(dynamicFieldsToReplace,CaseObjectId,objectschemas);
+            resultMap = getDynamicFields(dynamicFieldsToReplace,caseObjectId,objectschemas);
         }
         if (resultMap != null){
-            for(String s : resultMap.keyset()){
-                System.debug(s+' ------ >>>>  '+resultMap.get(s));
-                if(resultMap.get(s) != null){
-                    inputText =inputText.replace('$$' + s + '$$',resultMap.get(s));
-                }
-                else{
-                    inputText =inputText.replace('$$' + s + '$$','');
-                }
+            for (String s : resultMap.keySet()) {
+                inputText = inputText.replace('$$' + s + '$$', resultMap.get(s) != null ? resultMap.get(s) : '');
             }
         }
         return inputText; 
     } 
+
+     /****************************************************************************************************************
+    * @Function - getDynamicFields
+    * @return - Map<String,String>.
+    * @param fieldsToQuery - fields for geting field value.
+    * @param recordId - Case record Id.
+    * @param objectNames - relationship object names which fields are used in HTML body.
+    * @description - Use for getting dynamic fields value;
+    *****************************************************************************************************************/
 
     public static Map<String,String> getDynamicFields(List<String> fieldsToQuery, String recordId,set<String> objectNames) {
         Map<String,String> resultMap = new Map<String,String>();
@@ -76,59 +106,78 @@ global without Sharing class ASF_CaseEmailController {
         String sobjectType = recordId1.getSObjectType().getDescribe().getName();
         String dynamicSOQL ;
         
-        dynamicSOQL = 'Select Id, ' + String.join(fieldsToQuerUiqueList,',') + ' From ' + sobjectType +' Where Id =:recordId1';
-        system.debug(dynamicSOQL);
-        List<sObject> documentGenerationList = Database.query(dynamicSOQL);
+        dynamicSOQL = buildDynamicSOQL(sobjectType, fieldsToQuerUiqueList, recordId1);
+
+        List<sObject> documentGenerationList = Database.query(dynamicSOQL);        
         sObject documentGenObject = documentGenerationList.get(0);
-        system.debug(JSON.serialize(documentGenObject));
-        map<string,Map<String,Schema.SObjectField>> objectSchemas =getObjectSchemas(objectNames);
+        map<string,Map<String,Schema.SObjectField>> objectSchemas = getObjectSchemas(objectNames);
         for(String s : fieldsToQuerUiqueList){
             //documentGenObject.getSObject('Primary_Borrower__r').get('Full_Name__c')
             //relationship queries need second level. 
             if (s.contains('__r')){
-                system.debug(s);
-                List<String> relationShipfield = s.split('\\.');
-                System.debug('  documentGenObject.getSObject(relationShipfield.get(0))  --  '+documentGenObject.getSObject(relationShipfield.get(0)));
-                object fieldValue = ' --- ';
-                if(documentGenObject.getSObject(relationShipfield.get(0)) != null){                   
-                    fieldValue = (documentGenObject.getSObject(relationShipfield.get(0)).get(relationShipfield.get(1)) != null)?documentGenObject.getSObject(relationShipfield.get(0)).get(relationShipfield.get(1)):fieldValue;              
-                }
-                resultMap.put(s, String.valueOF(fieldValue));
-                if( fieldValue!=null){
-           		String objectName=relationShipfield.get(0).replace('__r','__c');
-                if(objectSchemas.get(objectName)!=null){
-                    Map<String,Schema.SObjectField> fields= objectSchemas.get(objectName);
-                    if(fields.containsKey(relationShipfield.get(1))){
-                        String dataType=string.valueOf(fields.get(relationShipfield.get(1)).getDescribe().getType());
-                        if(dataType.equals('DATETIME')){
-                            datetime datetimeValue = (datetime)fieldValue;
-                            system.debug(datetimeValue);
-                            system.debug(string.valueOF(datetimeValue.format('MM-dd-yyyy HH:mm:ss', 'IST')));
-                            resultMap.put(s,string.valueOf( datetimeValue.format('MM-dd-yyyy HH:mm:ss', 'IST')));
-                        }
-                    }
-                }
-                }
+                processRelationshipField(resultMap, s, documentGenObject, objectSchemas);
             }
             else if(s.contains('.')) {
-                String objectName = s.substring(0,s.indexOf('.'));
-                String fieldName = s.substring(s.indexOf('.') + 1);
-                String fieldValue = ' --- ';
-                if(documentGenObject.getSObject(objectName) != null){
-                    fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?String.valueOf(documentGenObject.getSObject(objectName).get(fieldName)):fieldValue;
-                }
-                resultMap.put(s, fieldValue);
+                processNestedField(resultMap, s, documentGenObject);
             }
             else {
-                String fieldValue = (String.valueOF(documentGenObject.get(s)) != null)?String.valueOF(documentGenObject.get(s)):' --- ';
-                resultMap.put(s, fieldValue);
+                processStandardField(resultMap, s, documentGenObject);
             } 
-        }
-        for(String str : resultMap.keySet()){
-            System.debug(str+ '   ->>>   '+ resultMap.get(str));
         }
         return resultMap;
     } 
+
+    private static String buildDynamicSOQL(String sObjectType, List<String> fieldsToQuerUiqueList, Id recordId) {
+        return 'Select Id, ' + String.join(fieldsToQuerUiqueList,',') + ' From ' + sobjectType +' Where Id =:recordId1';
+    }
+
+    private static void processNestedField(Map<String, String> resultMap, String field, sObject documentGenObject){
+        String objectName = field.substring(0,field.indexOf('.'));
+        String fieldName = field.substring(field.indexOf('.') + 1);
+        String fieldValue = ' --- ';
+        if(documentGenObject.getSObject(objectName) != null){
+            fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?String.valueOf(documentGenObject.getSObject(objectName).get(fieldName)):fieldValue;
+        }
+        resultMap.put(field, fieldValue);
+    }
+
+    private static void processStandardField(Map<String, String> resultMap, String field, sObject documentGenObject){
+        String fieldValue = (String.valueOF(documentGenObject.get(field)) != null)?String.valueOF(documentGenObject.get(field)):' --- ';
+        resultMap.put(field, fieldValue);
+    }
+
+    private static void processRelationshipField(Map<String, String> resultMap, String field, sObject documentGenObject, Map<String, Map<String, Schema.SObjectField>> objectSchemas){
+        List<String> relationShipfield = field.split('\\.');
+        object fieldValue = ' --- ';
+        if(documentGenObject.getSObject(relationShipfield.get(0)) != null){                   
+            fieldValue = (documentGenObject.getSObject(relationShipfield.get(0)).get(relationShipfield.get(1)) != null)?documentGenObject.getSObject(relationShipfield.get(0)).get(relationShipfield.get(1)):fieldValue;              
+        }
+        resultMap.put(field, String.valueOF(fieldValue));
+        if( fieldValue!=null){
+            String objectName=relationShipfield.get(0).replace('__r','__c');
+            if(objectSchemas.get(objectName)!=null){
+                Map<String,Schema.SObjectField> objectFields= objectSchemas.get(objectName);
+                setDateTimeField(field, objectFields, relationShipfield, fieldValue, resultMap);
+            }
+        }
+    }
+
+    private static void setDateTimeField(String field, Map<String,Schema.SObjectField> objectFields, List<String> relationShipfield, object fieldValue, Map<String, String> resultMap){
+        if(objectFields.containsKey(relationShipfield.get(1))){
+            String dataType=string.valueOf(objectFields.get(relationShipfield.get(1)).getDescribe().getType());
+            if(dataType.equals('DATETIME')){
+                datetime datetimeValue = (datetime)fieldValue;
+                resultMap.put(field,string.valueOf( datetimeValue.format('MM-dd-yyyy HH:mm:ss', 'IST')));
+            }
+        }
+    }
+
+    /****************************************************************************************************************
+    * @Function - getObjectSchemas
+    * @return - map<string,Map<String,Schema.SObjectField>>.
+    * @param objectNames - Objects name for getting their fields.
+    * @description - Use for getting objeect fields;
+    *****************************************************************************************************************/
     
     public static map<string,Map<String,Schema.SObjectField>> getObjectSchemas(set<String> objectNames){
        map<string,Map<String,Schema.SObjectField>> returnMap= new map<string,Map<String,Schema.SObjectField>>();
