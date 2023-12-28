@@ -10,7 +10,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - transferAttachments
-    * @param oldItems - Set of cases integration records
+    * @param caseIntegration - case integration record
     * @return - Boolean .
     * @description - Transfers Attachments from ASF_Case_Integration__c to Case
 	*****************************************************************************************************************/       
@@ -63,6 +63,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     * @param caseRec - Case record.
     * @param rejectionEmailTemplate - Rejection email template from Case Category Config record.
     * @param rejectionSmsMetadata - Rejection SMS metadata from Case Category Config record.
+    * @param isTransferred
     * @return - Database.SaveResult.
     * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email and SMS communication.
     *****************************************************************************************************************/
@@ -116,6 +117,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     * @Function - branchAssignmentNotification
     * @param caseRec - Case record.
     * @param stpName - STP flow name.
+    * @param title
     * @description - Creates a Custom Notification to Case Creator on Assignment of Branch
     *****************************************************************************************************************/
     public static void branchAssignmentNotification(Case caseRec,String stpName,String title){
