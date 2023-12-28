@@ -204,7 +204,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         public string reportName;
         public string documentType;
 
-        WelcomeKitRequestWrapper(string caseNumber,string lanNo){
+        public WelcomeKitRequestWrapper(string caseNumber,string lanNo){
             this.caseId = caseNumber;
             this.source = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
