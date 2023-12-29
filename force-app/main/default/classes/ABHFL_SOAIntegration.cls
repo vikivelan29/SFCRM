@@ -66,7 +66,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             insert caseInt;
         }
 
-        Case caseRecord = [SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
 
         String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
