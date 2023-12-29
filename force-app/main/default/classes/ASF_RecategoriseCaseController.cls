@@ -7,13 +7,18 @@ public with sharing class ASF_RecategoriseCaseController {
     */
     @AuraEnabled(Cacheable = true)
     public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId) {
-        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType);
+        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,'');
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
             if (ccc.CCC_External_Id__c != currentCCCId ){
                 filteredCCCList.add(ccc);
             }
 
+        }
+        /* IF Filtered List is not having any record, show the ErrorMessage e.g. No Records found for the selected search.
+         */
+        if(filteredCCCList.size()<=0){
+            originalList.strErrorMessage = System.Label.ASF_Case_NoRecordMessage;
         }
         originalList.lstCCCrecords = filteredCCCList;
         return originalList;
@@ -31,6 +36,9 @@ public with sharing class ASF_RecategoriseCaseController {
                                         account.recordtype.name,
                                         accountId,
                                         assetId,
+                               			Lead__c,
+                               			Lead__r.Business_Unit__c,
+                               			Lead__r.recordType.name,
                                         Nature__c,
                                         Source__c,
                                         Channel__c,
@@ -155,8 +163,9 @@ public with sharing class ASF_RecategoriseCaseController {
     //Fetches required fields from CCC and Account and Asset to validate the new CCC before Save
     @AuraEnabled(cacheable=true)
     public static ASF_Case_Category_Config__c fetchCCCDetails(String cccExtId) {
-        ASF_Case_Category_Config__c cccRec = [SELECT Id, Only_CRN_Mandatory__c, is_FA_Mandatory__c, 
-                                            Priority__c, Custom_Segment__c, CCC_External_Id__c
+        ASF_Case_Category_Config__c cccRec = [SELECT Id, Only_CRN_Mandatory__c, is_FA_Mandatory__c,
+                                            Priority__c, Custom_Segment__c, CCC_External_Id__c,
+                                            Is_Prospect_Related__c
                                             FROM ASF_Case_Category_Config__c 
                                             WHERE CCC_External_Id__c = :cccExtId LIMIT 1];
         return cccRec;

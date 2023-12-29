@@ -30,7 +30,7 @@ import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c'
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
 import Business_Unit from '@salesforce/schema/Asset.LOB_Code__r.BusinessUnit__c';
-import Business_Unit_LOB from '@salesforce/schema/Asset.LOB_Code__c';
+import Business_Unit_LOB from '@salesforce/schema/Asset.LOB__c';
 
 import ACCOUNTTYPE_FIELD from '@salesforce/schema/Asset.Account.IsPersonAccount';
 import ACCOUNT_RECORDTYPE from '@salesforce/schema/Asset.Account.RecordType.DeveloperName';
@@ -139,11 +139,20 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
+        const unique = JSON.stringify(this.fieldToBeStampedOnCase);
+        if(unique != null && unique != undefined){
+            this.assetRecId = JSON.parse(unique).AssetId;
+        }
         this.getAccountRecord();
         console.log('business ---> ' + this.businessUnit);
 
     }
-
+    @wire(getRecord, { recordId: '$assetRecId', fields: [Business_Unit_LOB] })
+    asset;
+    
+    get lobAsset() {
+        return getFieldValue(this.asset.data, Business_Unit_LOB);
+    }
     renderedCallback() {
 
         let getSourceFldCombobox = this.template.querySelector("[data-id='Source Field']");
@@ -177,7 +186,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
-        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType })
+        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
