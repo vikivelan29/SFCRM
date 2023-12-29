@@ -92,7 +92,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
     @IsTest
     static void testRun() {
         ABHFL_SOAIntegration soa = new ABHFL_SOAIntegration();
-        ASF_Integration__c integ = [SELECT Id, External_Id__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Display_Name__c, External_Id__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
         Case caseRec = [SELECT Id FROM Case LIMIT 1];
         ASF_IntegrationsController.IntegrationWrapper result = soa.run(integ, caseRec);
         System.assertEquals('Success', result.status);
