@@ -162,29 +162,29 @@
           //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
           //System.runAs(uList[0]){
               ASF_IntegrationsController.IntegrationWrapper result1 = icAndPicObj.evaluate(case1);
-                System.assertEquals('Success', result1.status);
-                System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.response);
+                System.assertEquals('Success', result1.status,'Done');
+                System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.response,'Done');
                 
                 /* Description - Calling evaluate Method for 
                                  if condition when Both Loan Account Number and Financial Year is Blank
                 */
                 ASF_IntegrationsController.IntegrationWrapper result2 = icAndPicObj.evaluate(case2);
-                System.assertEquals('Error', result2.status);
-                System.assertEquals('Please fill the Financial Year and Loan Account Number', result2.response);
+                System.assertEquals('Error', result2.status,'Done');
+                System.assertEquals('Please fill the Financial Year and Loan Account Number', result2.response,'Done');
                 
                 /* Description - Calling evaluate Method for 
                                  if condition when Financial Year is Blank.
                 */
                 ASF_IntegrationsController.IntegrationWrapper result3 = icAndPicObj.evaluate(case3);
-                System.assertEquals('Error', result3.status);
-                System.assertEquals('Please fill the Financial Year', result3.response);
+                System.assertEquals('Error', result3.status,'Done');
+                System.assertEquals('Please fill the Financial Year', result3.response,'Done');
                 
                 /* Description - Calling evaluate Method for 
                                  if condition when Loan Account Number is Blank.
                 */
                 ASF_IntegrationsController.IntegrationWrapper result4 = icAndPicObj.evaluate(case4);
-                System.assertEquals('Error', result4.status);
-                System.assertEquals('Please fill the LAN', result4.response);
+                System.assertEquals('Error', result4.status,'Done');
+                System.assertEquals('Please fill the LAN', result4.response,'Done');
           //}
         	
         Test.stopTest();
@@ -213,7 +213,7 @@
           //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
           //System.runAs(uList[0]){
           	ASF_IntegrationsController.IntegrationWrapper res = icAndPicObj.run(integ, case1);
-		  	System.assertEquals('Success', res.status);              
+		  	System.assertEquals('Success', res.status,'Done');              
           //}
         Test.stopTest();
       }
@@ -232,7 +232,7 @@
               //System.runAs(uList[0]){
                   icAndPicObj.processResponse(caseIntegLst[0]);  //  when there is no files attached to Case Integration Record
                   icAndPicObj.processResponse(caseIntegLst[1]);	 //  when there is files attached to Case Integration Record
-                  System.assertEquals(2, caseIntegLst.size());
+                  System.assertEquals(2, caseIntegLst.size(),'Done');
               //}
               
           Test.stopTest();
