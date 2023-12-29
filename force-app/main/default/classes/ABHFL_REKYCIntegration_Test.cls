@@ -97,7 +97,7 @@ public class ABHFL_REKYCIntegration_Test {
     @IsTest
     static void testRun() {
         ABHFL_REKYCIntegration rk = new ABHFL_REKYCIntegration();
-        ASF_Integration__c integ = [SELECT Id, External_Id__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, External_Id__c, Display_Name__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
         Case caseRec = [SELECT Id FROM Case LIMIT 1];
         ASF_IntegrationsController.IntegrationWrapper result = rk.run(integ, caseRec);
         System.debug('result  -----   >    '+ result);
