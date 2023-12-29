@@ -121,11 +121,14 @@ public with sharing class ASF_CreateCaseWithTypeController {
         }else if(isasset == 'closeCRN'){
             dynamicQuery += '  ('+
                 'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
-        }else{
+        }else if(isasset == 'Prospect'){
+            // For Prospect Search cases.
+            dynamicQuery += ' Is_Prospect_Related__c = true AND '+
+                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+        }
+        else{
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
-                //'(ccc_product_Type__c = \''  +asssetProductType+'\' OR  ccc_product_Type__c LIKE \'' + searchProdType+'\' OR ccc_product_Type__c LIKE \''+ searchCommaSeperatedProdType+ ' \' OR ccc_product_Type__c LIKE \''+ searchCommaProdType+'\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceProdType+ '\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceAssetProdType+'\')'
-                //+  'AND'+
-                //ccc_product_Type__c field is not available in ABCL Dev
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
         }
