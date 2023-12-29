@@ -3,7 +3,7 @@
 *Author       :  Aditya Mehrotra
 *Created Date :  12/04/2023
 *Last Modified:  12/05/2023
-*@description  :  Class for Welcome Kit Integration
+*@description :  Class for Welcome Kit Integration
 *********************************************************/
 public with sharing class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
     
@@ -20,7 +20,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
-        result.response = ABHFL_Constants.WK_EVALUATION_FAILED_ERROR;
+        result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failure').Message__c;
 
         Case caseRecord = [
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
@@ -37,7 +37,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             if(disbursalDate >= sixMonthsAgo)
             {
                 result.status = ABHFL_Constants.SUCCESS;
-                result.response = ABHFL_Constants.WK_EVALUATION_SUCCESS_RESPONSE;
+                result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Success').Message__c;
             }
             else
             {
@@ -71,11 +71,13 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             {
                	update caseRecord;
             }
-            result.response = ABHFL_Constants.WK_EVALUATION_FAILED_DIGITAL_ERROR;
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Digital').Message__c;
        	}
         else
-       	{
-           	result.response = ABHFL_Constants.WK_EVALUATION_FAILED_OFFLINE_ERROR;
+       	{	
+            result.status = ABHFL_Constants.ERROR;
+           	result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Offline').Message__c;
         }
         return result;
         
