@@ -74,7 +74,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         }
 
         Case caseRecord = [
-            SELECT Id , Account.Client_Code__c, Account.LOB__pc, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
+            SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
              Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
@@ -87,7 +87,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Id;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Account.LOB__pc, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
                                             caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
                                              caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c
                                             ));
