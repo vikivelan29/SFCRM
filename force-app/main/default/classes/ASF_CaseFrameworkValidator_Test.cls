@@ -233,6 +233,16 @@ public class ASF_CaseFrameworkValidator_Test {
         Assert.areEqual(evaluationResult, true);   
     }
 
+    @isTest
+    private static void validateApprovals(){
+        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];
+        
+        Test.startTest();
+            Boolean evaluationResult = ASF_CaseFrameworkValidator.validateApprovals(caseRecord);
+        Test.stopTest();
+        Assert.areEqual(evaluationResult, true);   
+    }
+
     
     @isTest
     private static void validateIntegrationsTest() {
