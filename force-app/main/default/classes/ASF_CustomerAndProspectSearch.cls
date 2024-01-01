@@ -14,6 +14,7 @@ public with sharing class ASF_CustomerAndProspectSearch {
         cls.add(new returnVal('Lead', new List<Account>()));
         
         searchString = '*'+String.escapeSingleQuotes(searchString)+'*';
+        System.debug(searchString);
         List<List<SObject>> searchList = [FIND :searchString IN ALL FIELDS 
                                           RETURNING 
                                           Account (Id, Name,Business_Unit__c,Client_Code__c), 
@@ -21,6 +22,7 @@ public with sharing class ASF_CustomerAndProspectSearch {
                                           Lead (Id,Name)
                                           LIMIT 100];
         for(List<sObject> searchObject : searchList){
+            System.debug(searchList);
             if(searchObject.size()>0){
                 String objName = String.ValueOf(searchObject[0].Id.getSObjectType());
                 for(returnVal r : cls){
@@ -57,10 +59,14 @@ public with sharing class ASF_CustomerAndProspectSearch {
                                                                    sObject caseExtnRecord, 
                                                                    Lead prospectRecord)
     {
+        Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
+        Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        
         Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
         
         User loggedInUser = [SELECT ID FROM User WHERE Id =: UserInfo.getUserId()];
         if(prospectRecord != null){
+            // In case of Prospect Case, create Prospect first.
             Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates(new List<Lead>{prospectRecord});
             for (Datacloud.FindDuplicatesResult findDupeResult : results) {
                 for (Datacloud.DuplicateResult dupeResult : findDupeResult.getDuplicateResults()) {
@@ -73,7 +79,10 @@ public with sharing class ASF_CustomerAndProspectSearch {
                     }
                 }
             }
-            
+            prospectRecord.RecordTypeId = serviceProspectRTId;
+            if(prospectRecord.Sales_Prospect__c == true){
+                prospectRecord.RecordTypeId = salesProspectRTId;
+            }
             
             insert prospectRecord;
             mObjectVsRecId.put('Lead',prospectRecord);
@@ -84,10 +93,18 @@ public with sharing class ASF_CustomerAndProspectSearch {
             mObjectVsRecId.put('CaseExt',caseExtnRecord);
         }
         if(caseToInsert != null){
-            String sObjectName = String.ValueOf(caseExtnRecord.Id.getsObjectType());
-            caseToInsert.put(sObjectName,caseExtnRecord.Id);
+            String sObjectName = '';
+            if(caseExtnRecord != null){
+                sObjectName=String.ValueOf(caseExtnRecord.Id.getsObjectType());
+                caseToInsert.put(sObjectName,caseExtnRecord.Id);
+            }
+            
             if(caseToInsert.Lead__c == null){
-                caseToInsert.put('Lead__c',prospectRecord.Id);
+                if(prospectRecord != null){
+                    // In case of Internal Case - No need to create prospect.
+                    caseToInsert.put('Lead__c',prospectRecord.Id);
+                }
+                
             }
             
             insert caseToInsert;
@@ -95,8 +112,6 @@ public with sharing class ASF_CustomerAndProspectSearch {
         }
         
         return mObjectVsRecId;
-        
-        
     }
     
 }

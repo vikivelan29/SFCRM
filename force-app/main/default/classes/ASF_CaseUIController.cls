@@ -44,7 +44,7 @@ public without sharing class  ASF_CaseUIController {
     
     @AuraEnabled(Cacheable = true)
     public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType) {
-        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType).lstCCCrecords;
+        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType,'').lstCCCrecords;
     }
     
     @AuraEnabled(cacheable=true)
@@ -95,7 +95,7 @@ public without sharing class  ASF_CaseUIController {
         
         Case recForOtherFields = [select id,accountId,assetId,ContactId  from case where Id =: cs.Id];
         System.debug('cs.Status -->'+cs.Status);
-        if(cs.Status =='Rejected' || cs.Reject_Case__c == true ){
+        if(cs.Status ==ASF_Constants.REJECTIONSTATUS || cs.Reject_Case__c == true ){
             update cs;
             return cs;
         }

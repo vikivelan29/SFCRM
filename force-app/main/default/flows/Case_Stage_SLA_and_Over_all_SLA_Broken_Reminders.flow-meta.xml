@@ -167,6 +167,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>$Record.Lead__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>RecordID__c</field>
             <value>
                 <elementReference>$Record.Id</elementReference>
