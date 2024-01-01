@@ -4,21 +4,21 @@
     <externalId>false</externalId>
     <formula>IF(
 	AND(
-		ISPICKVAL(Account.LOB__pc, &apos;Digital&apos;),
+		LOB__c==&apos;Digital&apos;,
 		ISPICKVAL(Source__c, &apos;IVR-no email&apos;)
 	),
 	&apos;a3s_rm&apos;,
 	IF(
 		AND(
-			ISPICKVAL(Account.LOB__pc, &apos;Digital&apos;),
+			LOB__c==&apos;Digital&apos;,
 			TEXT(Source__c) &lt;&gt; &apos;IVR-no email&apos;
 		),
 		&apos;a3s&apos;, 
 		IF(
 			AND(
 				OR(
-					ISPICKVAL(Account.LOB__pc, &apos;Retail - Secured&apos;),
-					ISPICKVAL(Account.LOB__pc, &apos;Retail - Unsecured&apos;)
+					LOB__c==&apos;Retail - Secured&apos;,
+					LOB__c==&apos;Retail - Unsecured&apos;
 				),
 				ISPICKVAL(Source__c, &apos;IVR-no email&apos;)
 			),
@@ -26,21 +26,21 @@
 			IF(
 				AND(
 					OR(
-						ISPICKVAL(Account.LOB__pc, &apos;Retail - Secured&apos;),
-						ISPICKVAL(Account.LOB__pc, &apos;Retail - Unsecured&apos;)
+						LOB__c==&apos;Retail - Secured&apos;,
+						LOB__c==&apos;Retail - Unsecured&apos;
 					),
 					TEXT(Source__c) &lt;&gt; &apos;IVR-no email&apos;
 				),
 				&apos;finnone&apos;, 
 				IF(
 					AND(
-						ISPICKVAL(Account.LOB__pc, &apos;Corporate&apos;),
+						LOB__c==&apos;Corporate&apos;,
 						ISPICKVAL(Source__c, &apos;RM-no email&apos;)
 					),
 					&apos;corporate_rm&apos;, 
 					IF(
 						AND(
-							ISPICKVAL(Account.LOB__pc, &apos;Corporate&apos;),
+							LOB__c==&apos;Corporate&apos;,
 							TEXT(Source__c) &lt;&gt; &apos;RM-no email&apos;
 						), 
 						&apos;corporate&apos;, 
