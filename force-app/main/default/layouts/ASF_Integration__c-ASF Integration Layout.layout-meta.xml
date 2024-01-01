@@ -62,6 +62,10 @@
                 <behavior>Edit</behavior>
                 <field>STP_Processing_Class__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>STP_API_Identifier__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
