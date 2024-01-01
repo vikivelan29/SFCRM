@@ -17,7 +17,7 @@ public class ASF_CaseTriggerModularHelper_Test {
         User objUser = new User(profileId = SYSTEMADMIN_PROFILE.Id, email = 'test0@salesforce.com',
                            Username = 'Test'+String.valueOf(Integer.valueof((Math.random() * 10)))+'@mock.com',
                            alias = 'uqusr', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
-                           languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true,ManagerId=manager1.Id);
+                           languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true,ManagerId=manager1.Id,Business_Unit__c='ABHFL');
         insert objUser;
         
         insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
@@ -261,6 +261,21 @@ public class ASF_CaseTriggerModularHelper_Test {
         }catch(DMLException e){
             Assert.isTrue(e.getDmlMessage(0) == Label.ASF_Owner_Change_Access_Val_Msg, 'Should encounter error');
         }
+        Test.stopTest();
+        
+    }
+
+    @IsTest
+    static void test_validateCCCOnUpdate(){
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsert();
+        casesList[0].Technical_Source__c = 'LWC';
+        insert casesList;
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        Test.startTest();
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+        casesList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02-STP';
+        update casesList;
         Test.stopTest();
         
     }
