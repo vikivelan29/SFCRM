@@ -268,10 +268,6 @@
                 <behavior>Edit</behavior>
                 <field>EBOT_Template__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Resolved_Email_Sent__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
