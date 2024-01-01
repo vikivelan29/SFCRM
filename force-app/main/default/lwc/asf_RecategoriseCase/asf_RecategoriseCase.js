@@ -27,7 +27,7 @@ import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.ge
 import getCaseRecordDetails from '@salesforce/apex/ASF_RecategoriseCaseController.getCaseRecordDetails';
 import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.updateCaseWithNewCCCId';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
-import callEbotFeedbackApi from '@salesforce/apex/EBotFeedback.callEbotFeedbackApi';
+//import callEbotFeedbackApi from '@salesforce/apex/EBotFeedback.callEbotFeedbackApi';
 
 export default class asf_RecategoriseCase extends NavigationMixin(LightningElement) {
     searchKey;
@@ -421,16 +421,16 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.loaded = true; 
         });
     }
-    notifyEbot(){
-        console.log('inside notifyebot');
-        callEbotFeedbackApi({ caseId: this.recordId})
-            .then(result => {
-               console.log('ebot call success');
-            })
-            .catch(error => {
-                this.showError('error', 'Oops! Error occured', error);
-            });
-    }
+    // notifyEbot(){
+    //     console.log('inside notifyebot');
+    //     callEbotFeedbackApi({ caseId: this.recordId})
+    //         .then(result => {
+    //            console.log('ebot call success');
+    //         })
+    //         .catch(error => {
+    //             this.showError('error', 'Oops! Error occured', error);
+    //         });
+    // }
 
     async validateNewCCC(newCCCExtId){
         let configuredCurrentCCC = await fetchCCCDetails({
