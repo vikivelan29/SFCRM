@@ -11,6 +11,10 @@ import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import RECATEGORISATION_REASON_FIELD from '@salesforce/schema/Case.Recategorisation_Reason__c';
+import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
+import CASESOURCE_FIELD from '@salesforce/schema/Case.Source__c';
+
+import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import LightningConfirm from 'lightning/confirm';
@@ -23,6 +27,7 @@ import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.ge
 import getCaseRecordDetails from '@salesforce/apex/ASF_RecategoriseCaseController.getCaseRecordDetails';
 import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.updateCaseWithNewCCCId';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
+import callEbotFeedbackApi from '@salesforce/apex/EBotFeedback.callEbotFeedbackApi';
 
 export default class asf_RecategoriseCase extends NavigationMixin(LightningElement) {
     searchKey;
@@ -96,7 +101,21 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     oldCaseDetails ;
     currentCCCId;
     recategorizeEnabled;
+    sendBotFeedback = false;
+    showBotFeedback = false;
      
+    @wire(getRecord, { recordId: '$recordId', fields: [CASESOURCE_FIELD, CASE_BU_FIELD] })
+    wiredRecord({ error, data }) {
+        if (data) {
+            //Show Bot Feedback checkbox if Case source is Email and for specific BU
+            const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
+            if(getFieldValue(data, CASESOURCE_FIELD) === 'Email' && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
+                this.showBotFeedback = true;
+            }
+        } else if (error) {
+            console.error('Error loading record', error);
+        }
+    }
 
     renderedCallback(){
         Promise.all([
@@ -130,6 +149,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.searchTypeSubtypeHandler();
             }
         }, this.doneTypingInterval);
+    }
+
+    //This function gets the value from the Send Bit Feedback Checkbox
+    handleBotFeedback(event){
+        this.sendBotFeedback = event.target.checked;
+        console.log('bot value--'+this.sendBotFeedback);
     }
 
     //This function will fetch the CCC Name on basis of searchkey
@@ -385,7 +410,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             let changeArray = [{recordId: this.recordId}];
             notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
-            this.createCaseWithAll = false;  
+            this.createCaseWithAll = false; 
+            if(this.sendBotFeedback){
+                this.notifyEbot();
+            }
         })
         .catch(error => {
             console.log(error);
@@ -393,9 +421,17 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.loaded = true; 
         });
     }
-    closeAction(){
-        this.dispatchEvent(new CloseActionScreenEvent());
+    notifyEbot(){
+        console.log('inside notifyebot');
+        callEbotFeedbackApi({ caseId: this.recordId})
+            .then(result => {
+               console.log('ebot call success');
+            })
+            .catch(error => {
+                this.showError('error', 'Oops! Error occured', error);
+            });
     }
+
     async validateNewCCC(newCCCExtId){
         let configuredCurrentCCC = await fetchCCCDetails({
             cccExtId : newCCCExtId
@@ -496,7 +532,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
         this.isNotSelected = !btnActive;
     }
-
+    closeAction(event){
+        this.dispatchEvent(new CloseActionScreenEvent());
+    }
     handleProductVal(event) {
         this.productVal = event.target.value;
         var btnActive = false;

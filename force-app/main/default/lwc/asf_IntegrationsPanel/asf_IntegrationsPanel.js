@@ -4,6 +4,8 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable no-empty */
 import { LightningElement, api, wire } from 'lwc';
+import { reduceErrors } from 'c/asf_ldsUtils';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getAllIntegrations from "@salesforce/apex/ASF_IntegrationsController.getAllIntegrations";
 import getAllCaseIntegrations from '@salesforce/apex/ASF_IntegrationsController.getAllCaseIntegrations';
 import runIntegration from "@salesforce/apex/ASF_IntegrationsController.runIntegration";
@@ -141,6 +143,17 @@ export default class Asf_IntegrationsPanel extends LightningElement {
         this.dispatchEvent(new RefreshEvent());                 
     }
 
+    //utility method
+    showMessage(variant, title, message) {
+      let errMsg = reduceErrors(message);
+      const event = new ShowToastEvent({
+          variant: variant,
+          title: title,
+          message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+      });
+      this.dispatchEvent(event);
+  }
+
     submit(){
       // Find Int Record
       let selectedInt = this.allIntegrations.find((el) => el.Id == this.selectedAction.id);
@@ -148,6 +161,10 @@ export default class Asf_IntegrationsPanel extends LightningElement {
       if(selectedInt){
         runIntegration({integ:selectedInt, caseRec:this.caseRecord})
         .then((result) =>{
+          if(result.status != 'Success'){
+            this.showMessage('error', 'Error while running Integration', result.response);
+          }
+          
           console.log("SUCCESSFUL RUN - INT PANEL")
           this.sendRefreshEvent();
           refreshApex(this._wiredCaseIntegrations);
