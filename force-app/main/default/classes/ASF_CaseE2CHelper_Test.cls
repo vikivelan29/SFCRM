@@ -13,6 +13,10 @@ public class ASF_CaseE2CHelper_Test {
         testConfigs.add(new Configuration__c(ExclusionSubjectKeyword__c = 'Test1', Active__c = true,RecordTypeId=Blockerid));
         insert testConfigs;
         String errorMessage = 'Email having subject keyword';
+
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                           Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                           Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
         
         try{
         List<Case> testCases = new List<Case>();
@@ -41,6 +45,10 @@ public class ASF_CaseE2CHelper_Test {
         Id Blockerid = Schema.SObjectType.Configuration__c.getRecordTypeInfosByName().get('Exclusion Subject').getRecordTypeId();
         testConfigs.add(new Configuration__c(ExclusionSubjectKeyword__c = 'Test1', Active__c = true,RecordTypeId=Blockerid));
         insert testConfigs;
+
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                           Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                           Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
         
         try{
         Test.startTest();

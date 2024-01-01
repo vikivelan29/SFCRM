@@ -53,12 +53,13 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     selectedCTSTRecord;
     disbleNextBtn = true;
     @track disableBackBtn= true;
-    disableCreateBtn = false;
+    disableCreateBtn = true;
     @track dupeLead=[];
     @track showDupeList=false;
     @api recordId;
     @track showFromGlobalSearch = true;
     selectedCTSTFromProspect;
+    @api isInternalCase = false;
 
 
 
@@ -86,7 +87,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }, this.doneTypingInterval);
     }
     SearchAccountHandler() {
-        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "false", accRecordType: null })
+        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -131,6 +132,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
             this.selectedCTSTFromProspect = selected;
+            if(this.showFromGlobalSearch == false){
+                this.disableCreateBtn = false;
+            }
         }
         if ((selected) && (this.businessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
@@ -321,7 +325,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
-                this.disableCreateBtn = false;
+                this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
                 this.boolShowNoData = true;
                 this.searchKey = undefined;
@@ -344,7 +348,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
     connectedCallback(){
         let leadId = this.recordId;
-        if(leadId != null && leadId != undefined){
+        if((leadId != null && leadId != undefined) || (this.isInternalCase == true)){
             this.showFromGlobalSearch = false;
         }
     }

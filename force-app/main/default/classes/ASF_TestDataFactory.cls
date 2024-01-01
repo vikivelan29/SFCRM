@@ -1795,6 +1795,27 @@ public with sharing class ASF_TestDataFactory {
     
     
     }
+    
+    public static Lead createServiceProspectRecord(){
+        Lead ld = new Lead();
+        ld.FirstName = 'Prospect 1';
+        ld.LastName = 'Prospect 2';
+        ld.RecordTypeId = Schema.SObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        ld.Company = 'Salesforce';
+        ld.Email = 'invalid.invalid@invalid.com.net';
+        ld.MobilePhone = '98INVALIDNUM';
+        return ld;
+    }
+    public static Lead createSalesProspectRecord(){
+        Lead ld = new Lead();
+        ld.FirstName = 'Prospect 1';
+        ld.LastName = 'Prospect 2';
+        ld.Sales_Prospect__c = true;
+        ld.Company = 'Salesforce';
+        ld.Email = 'invalid.invalid@invalid.com.net';
+        ld.MobilePhone = '98INVALIDNUM';
+        return ld;
+    }
 
 
 }

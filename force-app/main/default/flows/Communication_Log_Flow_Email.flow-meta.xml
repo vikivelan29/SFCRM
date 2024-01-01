@@ -333,7 +333,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND 10)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -390,6 +390,20 @@
                     <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.CCC_External_Id__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.CCC_External_Id__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFL</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_case_config</targetReference>
             </connector>
@@ -404,7 +418,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Con_Acc_exists</name>
-            <conditionLogic>(1 OR 2) AND (3 OR 4) AND 5</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 6) AND (3 OR 4) AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.AccountId</leftValueReference>
                 <operator>IsNull</operator>
@@ -440,6 +454,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Lead__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_PE_Logger_Record</targetReference>
             </connector>
@@ -454,7 +475,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Case_status</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND  4 AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -474,6 +495,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Rejected</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Technical_Source__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFL</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -673,6 +708,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <description>added condition to send an email for ABFL when case is categorized .</description>
     <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
@@ -748,6 +784,18 @@
             <field>LOB__c</field>
             <value>
                 <elementReference>$Record.Business_Unit__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>$Record.Lead__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>No_Auto_Communication__c</field>
+            <value>
+                <elementReference>$Record.No_Auto_Communication__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
