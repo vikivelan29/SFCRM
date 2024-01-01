@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Case Detail" icon-name="custom:custom14">
+        <lightning-record-edit-form
+        object-api-name="Case"
+        record-id={recordId}
+        onsubmit={handleSubmit}
+        onsuccess={handleSuccess}
+        onerror={handleError}>
+        
+        <template for:each={fieldValues} for:item="field">
+            <div key={field.fieldPath}>
+                <template if:false={field.ismultiPicklist}>
+                    <lightning-input-field field-name={field.fieldPath} name={field.fieldPath} onchange={handleInputChange}></lightning-input-field>
+                </template>
+
+                <template if:true={field.ismultiPicklist}>
+                    <lightning-checkbox-group field-name={field.fieldPath} name={field.fieldPath} class="slds-p-top_small slds-p-left_xx-small"
+                                            label={field.fieldLabel}
+                                            options={field.picklistVal}
+                                            value={field.value}
+                                            onchange={handleInputChange}>
+                    </lightning-checkbox-group>
+                </template>
+            </div>
+        </template>
+
+        <div class="slds-m-around_medium">
+            <lightning-button type="submit" label="Save" variant="brand" disabled={disableSave}></lightning-button>
+        </div>
+    </lightning-record-edit-form>
+    </lightning-card>
+</template>
