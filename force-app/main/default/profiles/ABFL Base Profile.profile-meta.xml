@@ -5,10 +5,7 @@
         <default>true</default>
         <visible>true</visible>
     </applicationVisibilities>
-    <classAccesses>
-        <apexClass>ABCL_CRMToEBOTEventTriggerHelper</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
+    
     <classAccesses>
         <apexClass>ABFL_CreateCaseProspectHelper</apexClass>
         <enabled>false</enabled>
