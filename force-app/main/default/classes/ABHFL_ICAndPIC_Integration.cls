@@ -105,6 +105,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
         caseInt.Status__c = 'Pending';
         caseInt.Response__c = 'Waiting for API response';
+        caseInt.Request__c = jsonBody;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInt;    
         }
