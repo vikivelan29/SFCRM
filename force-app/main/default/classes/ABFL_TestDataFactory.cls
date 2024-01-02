@@ -160,8 +160,8 @@ public class ABFL_TestDataFactory {
     public static List<ABFL_Case_Detail__c> createCaseDetail(String Lob, Boolean isCreate) {
         List<ABFL_Case_Detail__c> caseDetailList = new List<ABFL_Case_Detail__c>();
         ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c(ISREKYC__c= true,
-                                                                 CallbackDate__c= 'CallbackDate',
-                                                                 CallBackTimeSlot__c= 'CallBackTimeSlot',
+                                                                 CallbackDate__c= Date.today(),
+                                                                 CallBackTimeSlot__c= Time.newInstance(18, 30, 2, 20),
                                                                  //LOB__c= Lob,//'Corporate',
                                                                  Resolution_Comments__c= 'COMMENTS',
                                                                  URL__c= 'URL',
