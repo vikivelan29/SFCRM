@@ -579,12 +579,14 @@
                 <identifier>forceChatter_recordFeedContainer2</identifier>
             </componentInstance>
         </itemInstances>
+        <!--
         <itemInstances>
             <componentInstance>
                 <componentName>abhfl_MultiplePayments</componentName>
                 <identifier>c_abhfl_MultiplePayments2</identifier>
             </componentInstance>
         </itemInstances>
+        -->
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
