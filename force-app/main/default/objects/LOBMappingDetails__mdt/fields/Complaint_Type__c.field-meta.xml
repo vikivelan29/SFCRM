@@ -15,6 +15,11 @@
                 <default>true</default>
                 <label>Branch Walkin</label>
             </value>
+            <value>
+                <fullName>Phone Inbound</fullName>
+                <default>false</default>
+                <label>Phone Inbound</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
