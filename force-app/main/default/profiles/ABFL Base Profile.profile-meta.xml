@@ -249,6 +249,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Prospect_Payload__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Track_Id__c</field>
         <readable>false</readable>
     </fieldPermissions>
