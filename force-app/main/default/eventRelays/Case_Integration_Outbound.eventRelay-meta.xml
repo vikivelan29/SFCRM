@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EventRelayConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <destinationResourceName>callout:AWS_Case_Integrations</destinationResourceName>
+    <eventChannel>Case_Integration_Outbound__chn</eventChannel>
+    <label>Case_Integration_Outbound</label>
+    <relayOption>{&quot;ReplayRecovery&quot;:&quot;LATEST&quot;}</relayOption>
+    <state>RUN</state>
+</EventRelayConfig>
