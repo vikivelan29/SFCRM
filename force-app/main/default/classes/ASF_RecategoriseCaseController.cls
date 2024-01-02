@@ -8,7 +8,6 @@ public with sharing class ASF_RecategoriseCaseController {
     @AuraEnabled(Cacheable = true)
     public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId) {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,'');
-        System.debug('originalList --> '+originalList);
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
             if (ccc.CCC_External_Id__c != currentCCCId ){
@@ -45,6 +44,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                         Channel__c,
                                         isClosed,
                                         Priority,
+                                        Is_Recategorise_Allowed__c,
                                         (SELECT Stage__c,
                                                 Stage_End_Date__c,
                                                 is_Running_Record__c    
@@ -53,27 +53,23 @@ public with sharing class ASF_RecategoriseCaseController {
                                 WHERE id=:recId];
         String extensionObjecAPIname = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(currentRecord.CCC_External_Id__c);
         Set<String> uniqueStages = new Set<String>();
-        if(currentRecord.isClosed){
-            resultMap.put('recategorizeEnabled',false);
-        }else{
-            resultMap.put('recategorizeEnabled',true);
+        resultMap.put('recategorizeEnabled',false);
+        if(!currentRecord.isClosed && currentRecord.Is_Recategorise_Allowed__c == true){
+           resultMap.put('recategorizeEnabled',true);
         }
+        /*
+         if there is more than one stage in SR history , then case is moved beyond first stage.
+         hence block from recategorize.
+        */
         // else {
         //     for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
         //         uniqueStages.add(g.stage__c);
         //     }
         //     resultMap.put('recategorizeEnabled',uniqueStages.size() <= 1);
         // }
-       
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
-        /*
-         if there is more than one stage in SR history , then case is moved beyond first stage.
-         hence block from recategorize.
-        */
-       
         return resultMap;
-
     }
 
     /*
@@ -139,7 +135,7 @@ public with sharing class ASF_RecategoriseCaseController {
         List<ASF_Case_SLA_History__c> slaHistoryToUpdate = new List<ASF_Case_SLA_History__c>();
         for(ASF_Case_SLA_History__c r : slaHistoryList ){
             if(r.oldExternalId__c == null){
-                r.oldExternalId__c	 = oldCCCId;
+                r.oldExternalId__c   = oldCCCId;
                 r.OldTypeSubType__c = cccRecord.type__c + ' - ' + cccRecord.Sub_Type__c;
                 slaHistoryToUpdate.add(r);
             }

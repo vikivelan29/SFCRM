@@ -30,7 +30,7 @@ public with sharing class ASF_CaseQueryHandler {
             cases = [SELECT Id,BusinessHoursId,Status,OwnerId,CCC_External_Id__c,Stage__c,pending_clarification__c,CreatedById,
                      Previous_Stage__c,ClosedDate, PAY_Payment_Detail__c, SLA_Target_1__c, CSAT__c, DB_Hours__c,
                      has_CheckLists__c, Has_Open_Tasks__c,/*ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,*/Technical_Source__c
-                     /*ABFL_Case_Detail__r.Resolution_Comments__c*/
+                     //,ABFL_Case_Detail__r.Resolution_Comments__c
                      FROM Case
                      WHERE Id = :recordIds];
         }
@@ -204,7 +204,7 @@ public with sharing class ASF_CaseQueryHandler {
                                                           Stage_Start_Date__c, Stage_Violation_Start_Date__c, 
                                                           Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c 
                                                           FROM ASF_Case_SLA_History__c
-                                                          WHERE Case__c =: caseIds order by createddate DESC
+                                                          WHERE Case__c =: caseIds
                                                          ];
         }
         return caseSLAHistories;
@@ -228,7 +228,8 @@ public with sharing class ASF_CaseQueryHandler {
                                     Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, 
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
-                                    Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c
+                                    Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
+                                    Is_Recategorise_Allowed__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
                                     

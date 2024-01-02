@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
 /* eslint-disable dot-notation */
 import { LightningElement, api, wire, track } from 'lwc';
-import {loadStyle} from 'lightning/platformResourceLoader';
+import { loadStyle } from 'lightning/platformResourceLoader';
 import overrideCSSFile from '@salesforce/resourceUrl/asf_case360StyleOverride';
 import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import { getRequiredFieldExpr } from './asf_CaseConfigExpr';
@@ -222,6 +222,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     refreshContainerID;
 
+    resolutionReasonPopUpFld = ''; //VIRENDRA - ADDED FOR RESOLUTION COMMENT ON POPUP.
+
     //Optimization variables
     loadReady = false;
     userClickedEditDetails = false;
@@ -229,22 +231,22 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     caseExtensionRecord;
     showForwardStages = false;
     closureTypeSelected = 'resolved';
-    get closureTypeOptions(){
+    get closureTypeOptions() {
         return [
-            {label: 'Close Resolved',value: 'resolved'}, 
-            {label: 'Close Unresolved',value: 'unresolved'}
+            { label: 'Close Resolved', value: 'resolved' },
+            { label: 'Close Unresolved', value: 'unresolved' }
         ];
     }
-    get showRejectPanel(){
+    get showRejectPanel() {
         return this.closureTypeSelected == 'unresolved';
     }
-    get hasApprovalRecord(){
+    get hasApprovalRecord() {
         return this.caseApprovalRecord != undefined && this.caseApprovalRecord != null;
     }
-    get isPendingForApproval(){
+    get isPendingForApproval() {
         let stgData;
         let caseStage = this.currentStatus;
-        if(this.hasApprovalRecord){
+        if (this.hasApprovalRecord) {
             for (let i in this.stagesData) {
                 if (caseStage.trim().toLowerCase() == this.stagesData[i].Stage_Name__c.trim().toLowerCase()) {
                     stgData = this.stagesData[i];
@@ -260,36 +262,36 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
         return false;
     }
-    get isCaseAtFirstStage(){
-        let currentStageConfig = this.stagesData.filter((item, index)=>{
+    get isCaseAtFirstStage() {
+        let currentStageConfig = this.stagesData.filter((item, index) => {
             return item.StageName__c == this.caseObj.Stage__c;
         });
-        if(currentStageConfig == undefined || currentStageConfig.length ==0){
+        if (currentStageConfig == undefined || currentStageConfig.length == 0) {
             return false;
         }
         currentStageConfig = currentStageConfig[0];
         return currentStageConfig.Order__c == 1;
     }
-    get hasManualStagesForward(){
-        let currentStageConfig = this.stagesData.filter((item, index)=>{
+    get hasManualStagesForward() {
+        let currentStageConfig = this.stagesData.filter((item, index) => {
             return item.StageName__c == this.caseObj.Stage__c;
         });
-        if(currentStageConfig == undefined || currentStageConfig.length ==0){
+        if (currentStageConfig == undefined || currentStageConfig.length == 0) {
             return false;
         }
         currentStageConfig = currentStageConfig[0];
-        let manualStages = this.stagesData.filter((item, index)=>{
+        let manualStages = this.stagesData.filter((item, index) => {
             return item.Order__c > currentStageConfig.Order__c && item.Manual_Stage__c == true;
         });
         console.log('manualStages', manualStages);
-        if(manualStages == undefined || manualStages.length ==0){
+        if (manualStages == undefined || manualStages.length == 0) {
             return false;
         }
         return manualStages.length > 0;
     }
 
     //Button Visibility getters
-    get showEditDetailsButton(){
+    get showEditDetailsButton() {
         // * Page is rendered in read-only mode - toggleUIView = false
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
@@ -297,42 +299,42 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Edit mode is not open
         // * Case is not pending for approval
         console.log('In showEditDetailsButton', this.loadReady, this.userClickedEditDetails, this.caseObj.IsClosed, this.isCurrentUserOwner, this.isPendingForApproval);
-        return this.loadReady && !this.userClickedEditDetails && !this.caseObj.IsClosed 
-                && this.isCurrentUserOwner && !this.isPendingForApproval;
+        return this.loadReady && !this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval;
     }
 
-    get openEditMode(){
+    get openEditMode() {
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
         // * Case is not in Closed state
         // * User clicked on Edit Details button
         // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval;
     }
 
-    get displayBackButton(){
+    get displayBackButton() {
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
         // * Case is not in Closed state
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         // * Case is not at first stage
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage;
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage;
     }
 
-    get showSaveButton(){
+    get showSaveButton() {
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
         // * Case is not in Closed state
         // * User clicked on Edit Details button
         // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval;
     }
 
-    get showForwardToStageButton(){
+    get showForwardToStageButton() {
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
         // * Case is not in Closed state
@@ -342,19 +344,19 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         return this.showSaveButton && this.hasManualStagesForward;
     }
 
-    get showCancelButton(){
+    get showCancelButton() {
         // * User clicked on Edit Details button
         return this.loadReady && this.userClickedEditDetails;
     }
 
-    get displayCloseButton(){
+    get displayCloseButton() {
         // * Case is not rejected - isRejection = false
         // * Current user is owner - isCurrentUserOwner = true
         // * Case is not in Closed state
         // * User clicked on Edit Details button
         // * Case is not pending for approval
-        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed 
-                        && this.isCurrentUserOwner && !this.isPendingForApproval;
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval;
     }
 
     //utility method
@@ -394,11 +396,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      * Consolidating the methods also omits the possibility of concurrency issues.
      */
     @wire(fetchUserAndCaseDetails, {
-        "caseId": '$recordId'
+        "caseId": "$recordId"
     })
-    async processResult(result){
+    async processResult(result) {
         this.processApexReturnValue = result;
-        
+
         if (result.data) {
             this.caseObj = result.data.caseRec;
             this.userManagerIdVal = result.data.userRec.ManagerId;
@@ -427,7 +429,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.isCurrentUserOwner = true;
                 if (this.currentPageMode == 'edit') {
                     this.toggleUIView = true;
-                    // Virendra - Added to open Form in Edit Form when Logged in User is the case Owner.
+                    // Virendra - For opening form in Edit Mode.
                     this.userClickedEditDetails = true;
                 }
             } else {
@@ -464,7 +466,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 return;
             }
             if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
-                let caseCatConfig = await getCaseCategoryConfig({ cccExtId: this.cccExternalId }).catch((error)=>{
+                let caseCatConfig = await getCaseCategoryConfig({ cccExtId: this.cccExternalId }).catch((error) => {
                     this.showError('error', 'Unable to fetch Case Category Config', error);
                     return;
                 });
@@ -484,43 +486,43 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         this.iCounter++;
                         this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
                         console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
-                        let caseFieldsCount = 0,extnFieldsCount = 0;
-                        for(let item of this.caseFieldsMetadata){
-                            if(item.isCase == true){
+                        let caseFieldsCount = 0, extnFieldsCount = 0;
+                        for (let item of this.caseFieldsMetadata) {
+                            if (item.isCase == true) {
                                 caseFieldsCount++;
-                            }else{
+                            } else {
                                 extnFieldsCount++;
                             }
                         }
                         console.log(caseFieldsCount, extnFieldsCount);
-                        
-                        let isOdd = (caseFieldsCount%2 == 1);
-                        let isOddExtn = (extnFieldsCount%2 == 1);
+
+                        let isOdd = (caseFieldsCount % 2 == 1);
+                        let isOddExtn = (extnFieldsCount % 2 == 1);
                         console.log('isOdd', isOdd, isOddExtn);
-                        this.caseFieldsMetadata = this.caseFieldsMetadata.map((item, index)=>{
-                            if(item.isCase == true){
+                        this.caseFieldsMetadata = this.caseFieldsMetadata.map((item, index) => {
+                            if (item.isCase == true) {
                                 caseFieldsCount--;
-                                if(isOdd && caseFieldsCount == 0){
+                                if (isOdd && caseFieldsCount == 0) {
                                     //last item
                                     item['layoutItemSize'] = 12;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col fix-error';
                                     item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
-                                }else{
+                                } else {
                                     item['layoutItemSize'] = 6;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
                                     item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal'
                                 }
-                            }else{
+                            } else {
                                 extnFieldsCount--;
-                                if(isOddExtn && item.isCase == undefined && extnFieldsCount == 0){
+                                if (isOddExtn && item.isCase == undefined && extnFieldsCount == 0) {
                                     //last item
                                     item['layoutItemSize'] = 12;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
                                     item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
-                                }else{
+                                } else {
                                     item['layoutItemSize'] = 6;
                                     item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
                                     item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
@@ -530,7 +532,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             return item;
                         });
 
-                        console.log('&&& After manipulation this.caseFieldsMetadata'+JSON.stringify(this.caseFieldsMetadata));
+                        console.log('&&& After manipulation this.caseFieldsMetadata' + JSON.stringify(this.caseFieldsMetadata));
                         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
 
                         //Virendra : Starts Here : Searchable Picklist/ Multi-Select Searchable Picklist.
@@ -557,7 +559,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     }
                                 }
                             }
-                            console.log('******this.caseFieldsMetadata'+JSON.stringify(this.caseFieldsMetadata));
+                            console.log('******this.caseFieldsMetadata' + JSON.stringify(this.caseFieldsMetadata));
                             if (this.defaultFieldValuesMap.size > 0) {
                                 getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
                                     .then(result => {
@@ -613,14 +615,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 }
 
             }
-            
+
             this.loading = false;
             this.loadReady = true;
-            
+
             //Notify record edit forms about change in data
-            let changeArray = [{recordId: this.recordId}];
-            if(this.caseExtensionRecord){
-                changeArray = [...changeArray, {recordId : this.caseExtensionRecord.Id}];
+            let changeArray = [{ recordId: this.recordId }];
+            if (this.caseExtensionRecord) {
+                changeArray = [...changeArray, { recordId: this.caseExtensionRecord.Id }];
             }
             await notifyRecordUpdateAvailable(changeArray);
         } else if (result.error) {
@@ -633,49 +635,49 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     /**
      * This method
      */
-    saveCaseWithExtension(caseRec, caseExtnRec){
+    saveCaseWithExtension(caseRec, caseExtnRec) {
         console.log('in saveCaseWithExtension');
-        updateCaseWithCaseExtn({caseRec : caseRec, caseExtn : caseExtnRec})
-        .then((result)=>{
-            console.log('saveCaseWithExtension success');
-            let toastMsg = this.skipMoveToNextStage?'Case updated':'Case updated and moved to next stage';
-            this.showSuccessMessage('success', toastMsg, '');
-            this.handlePublishEvent();
-            this.loading = false;
-            this.skipMoveToNextStage == false;
-            this.loadReady = false;
-            getRecordNotifyChange([{ recordId: this.recordId }]);
-            refreshApex(this.processApexReturnValue);
-        })
-        .catch((error)=>{
-            console.error(error);
-            this.showError('error', 'Oops! Error occured', error);
-            this.loading = false;
-        });
+        updateCaseWithCaseExtn({ caseRec: caseRec, caseExtn: caseExtnRec })
+            .then((result) => {
+                console.log('saveCaseWithExtension success');
+                let toastMsg = this.skipMoveToNextStage ? 'Case updated' : 'Case updated and moved to next stage';
+                this.showSuccessMessage('success', toastMsg, '');
+                this.handlePublishEvent();
+                this.loading = false;
+                this.skipMoveToNextStage == false;
+                this.loadReady = false;
+                getRecordNotifyChange([{ recordId: this.recordId }]);
+                refreshApex(this.processApexReturnValue);
+            })
+            .catch((error) => {
+                console.error(error);
+                this.showError('error', 'Oops! Error occured', error);
+                this.loading = false;
+            });
     }
 
-    saveCase(caseRec){
+    saveCase(caseRec) {
         console.log('in saveCase');
-        updateCaseWithCaseExtn({caseRec : caseRec, caseExtn : null})
-        .then((result)=>{
-            console.log('saveCase success');
-            let toastMsg = this.skipMoveToNextStage?'Case updated':'Case updated and moved to next stage';
-            this.showSuccessMessage('success', toastMsg, '');
-            this.handlePublishEvent();
-            this.loading = false;
-            this.skipMoveToNextStage == false;
-            this.loadReady = false;
-            refreshApex(this.processApexReturnValue);
-        })
-        .catch((error)=>{
-            console.error(error);
-            this.showError('error', 'Oops! Error occured', error);
-            this.loading = false;
-        });
+        updateCaseWithCaseExtn({ caseRec: caseRec, caseExtn: null })
+            .then((result) => {
+                console.log('saveCase success');
+                let toastMsg = this.skipMoveToNextStage ? 'Case updated' : 'Case updated and moved to next stage';
+                this.showSuccessMessage('success', toastMsg, '');
+                this.handlePublishEvent();
+                this.loading = false;
+                this.skipMoveToNextStage == false;
+                this.loadReady = false;
+                refreshApex(this.processApexReturnValue);
+            })
+            .catch((error) => {
+                console.error(error);
+                this.showError('error', 'Oops! Error occured', error);
+                this.loading = false;
+            });
     }
 
     closeTheCase(event) {
-        if(this.closureTypeSelected == 'unresolved'){
+        if (this.closureTypeSelected == 'unresolved') {
             //Checking if Rejection Reason is empty
             const allValid = [
                 ...this.template.querySelectorAll('.ReasonInput'),
@@ -690,34 +692,48 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 fields[CASE_REJECTFLAG.fieldApiName] = true;
                 fields[CASE_REJECTEDREASON.fieldApiName] = this.rejectedReason;
                 fields[CASE_REJECTIONREASON.fieldApiName] = this.selectedReason;
-                if(this.caseObj.Technical_Source__c == 'API'){
+                if (this.caseObj.Technical_Source__c == 'API') {
                     fields[CASE_TECH_SOURCE.fieldApiName] = 'LWC';
                 }
                 const recordInput = { fields };
                 updateRecord(recordInput)
-                .then(result => {
-                    console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
-                    this.showSuccessMessage('success', "Success", "SR is Rejected");
-                    this.handlePublishEvent();
-                    this.openClosurePopUp = false;
-                    this.loading = false;
-                    this.loadReady = false;
-                    refreshApex(this.processApexReturnValue);
-                })
-                .catch(error => {
-                    this.showError('error', 'Oops! Error occured', error);
-                    this.loading = false;
-                });
+                    .then(result => {
+                        console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
+                        this.showSuccessMessage('success', "Success", "SR is Rejected");
+                        this.handlePublishEvent();
+                        this.openClosurePopUp = false;
+                        this.loading = false;
+                        this.loadReady = false;
+                        refreshApex(this.processApexReturnValue);
+                    })
+                    .catch(error => {
+                        this.showError('error', 'Oops! Error occured', error);
+                        this.loading = false;
+                    });
             }
-        }else if(this.closureTypeSelected == 'resolved'){
-            let isFormValidated = this.validateFields();
-            if (!isFormValidated) {
-                this.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
-                return;
+        } else if (this.closureTypeSelected == 'resolved') {
+            /* VIRENDRA - ADDED BELOW CHECK TO VALIDATE IF THE RESOLUTION COMMENT IS POPULATED OR NOT */
+            const allValid = [
+                ...this.template.querySelectorAll('.ReasonInput'),
+            ].reduce((validSoFar, inputCmp) => {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            }, true);
+            if (allValid) {
+                /* IF POPUP LEVEL VALIDATION SUCCESSFUL - CHECK FORM LEVEL VALIDATION AND EXECUTE CASE CLOSURE */
+                let isFormValidated = this.validateFields();
+                if (!isFormValidated) {
+                    this.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
+                    return;
+                }
+                this.selectedManualStage = 'Resolved';
+                this.saveManualCaseStage();
+
             }
-            this.selectedManualStage = 'Resolved';
-            this.saveManualCaseStage();
-        }else{
+            /* VALIDATION FOR RESOLUTION COMMENT FIELD ON POPUP DONE ABOVE */
+
+
+        } else {
             this.showError('error', 'Please select a closure type to proceed', '');
         }
     }
@@ -730,7 +746,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         caseRecord['Pending_Clarification__c'] = true;
         caseRecord['moved_back__c'] = true;
         caseRecord['Is_Manual_Moved__c'] = false;
-        if(this.caseObj.Technical_Source__c == 'API'){
+        if (this.caseObj.Technical_Source__c == 'API') {
             caseRecord['Technical_Source__c'] = 'LWC';
         }
         this.saveCase(caseRecord);
@@ -746,7 +762,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             //get case record as object from lightning-record-edit-form
             let caseRecord;
             let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-            if(caseElement){
+            if (caseElement) {
                 let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
                 let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
                 caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
@@ -754,7 +770,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 caseRecord['Pending_Clarification__c'] = false;
                 caseRecord['moved_back__c'] = false;
                 caseRecord['Is_Manual_Moved__c'] = true;
-                if(this.caseObj.Technical_Source__c == 'API'){
+                if (this.caseObj.Technical_Source__c == 'API') {
                     caseRecord['Technical_Source__c'] = 'LWC';
                 }
             }
@@ -762,7 +778,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             //get case extn record as object from lightning-record-edit-form
             let caseExtnRecord;
             let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-            if(caseExtnElement){
+            if (caseExtnElement) {
                 let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
                 let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
                 caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
@@ -773,31 +789,31 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     getStages(ccConfigId) {
-        getStageConfig({ 
-            cccId: ccConfigId 
+        getStageConfig({
+            cccId: ccConfigId
         })
-        .then(result => {
-            this.stagesData = result;
-            console.log('tst' + JSON.stringify(this.stagesData));
+            .then(result => {
+                this.stagesData = result;
+                console.log('tst' + JSON.stringify(this.stagesData));
 
-            if (this.stagesData != null && this.stagesData != undefined) {
-                for (let i in this.stagesData) {
-                    if (this.currentStep == this.stagesData[i].StageName__c) {
-                        if (this.stagesData[i].hasOwnProperty('Enable_Reassign_Owner__c')
-                            && this.stagesData[i].Enable_Reassign_Owner__c == true) {
-                            this.boolSaveReassignButton = true;
-                        }
-                        else {
-                            this.boolSaveReassignButton = false;
+                if (this.stagesData != null && this.stagesData != undefined) {
+                    for (let i in this.stagesData) {
+                        if (this.currentStep == this.stagesData[i].StageName__c) {
+                            if (this.stagesData[i].hasOwnProperty('Enable_Reassign_Owner__c')
+                                && this.stagesData[i].Enable_Reassign_Owner__c == true) {
+                                this.boolSaveReassignButton = true;
+                            }
+                            else {
+                                this.boolSaveReassignButton = false;
+                            }
                         }
                     }
                 }
-            }
-        })
-        .catch(error => {
-            console.log(error);
-            this.showError('error', 'Oops! Error occured', error);
-        });
+            })
+            .catch(error => {
+                console.log(error);
+                this.showError('error', 'Oops! Error occured', error);
+            });
 
     }
     cancelClose() {
@@ -805,9 +821,21 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.rejectedReason = '';
         this.selectedReason = '';
         this.closureTypeSelected = 'resolved';
+        /* VIRENDRA - ADDED TO RESET RESOLUTION COMMENT VARIABLE TO BLANK ON CANCEL */
+        this.resolutionReasonPopUpFld = '';
+
     }
     handleClose(event) {
         this.fetchRejectionReason();
+
+        /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+                this.resolutionReasonPopUpFld = ele.value;
+            }
+        })
+        /* ENDS HERE */
+
         this.openClosurePopUp = true;
         // Virendra : 3 Apr 2023 : Performance Fixes.
         this.hasPostRenderingDomManupulationDone = false;
@@ -824,13 +852,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     handleEditCancel() {
         this.userClickedEditDetails = false;
     }
-    handleForwardStageMove(){
+    handleForwardStageMove() {
         let isFormValidated = this.validateFields();
-        if(isFormValidated){
+        if (isFormValidated) {
             this.showForwardStages = true;
         }
     }
-    handleSubmit2(event){
+    handleSubmit2(event) {
         event.preventDefault();
         this.loading = true;
         this.hasError = this.validateFields();
@@ -838,15 +866,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             //get case record as object from lightning-record-edit-form
             let caseRecord;
             let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-            if(caseElement){
+            if (caseElement) {
                 let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
                 let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
                 caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-                if(this.skipMoveToNextStage == false){
+                if (this.skipMoveToNextStage == false) {
                     //move to next stage is clicked
                     caseRecord['MoveToNext__c'] = true;
                 }
-                if(this.caseObj.Technical_Source__c == 'API'){
+                if (this.caseObj.Technical_Source__c == 'API') {
                     caseRecord['Technical_Source__c'] = 'LWC';
                 }
                 console.log('caseRecord', JSON.stringify(caseRecord));
@@ -854,7 +882,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
             //call server method to save the record
             this.saveCase(caseRecord);
-        }else {
+        } else {
             this.loading = false;
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -879,51 +907,51 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 caseExtnRec["id"] = this.caseExtensionRecordId;
                 console.log('caseExtnRec', JSON.stringify(caseExtnRec));
                 let aprManualStg = this.caseObj.is_Manual_Approval__c;
-                executeValidation({ 
-                    cccId: this.cccExternalId, 
-                    status: this.currentStep, 
-                    caseId: this.recordId, 
-                    record: caseExtnRec, 
-                    fieldNames: this.defaultFieldNames, 
-                    fieldValues: this.defaultValues, 
-                    extensionObjId: this.caseExtensionRecordId, 
-                    isManualApprovalStg: aprManualStg 
+                executeValidation({
+                    cccId: this.cccExternalId,
+                    status: this.currentStep,
+                    caseId: this.recordId,
+                    record: caseExtnRec,
+                    fieldNames: this.defaultFieldNames,
+                    fieldValues: this.defaultValues,
+                    extensionObjId: this.caseExtensionRecordId,
+                    isManualApprovalStg: aprManualStg
                 })
-                .then(result => {
-                    //validation successful
-                    let element = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-                    caseExtnRec["sobjectType"] = element.objectApiName;
-                    delete caseExtnRec["id"];
-                    caseExtnRec["Id"] = this.caseExtensionRecordId;
-                    console.log('caseExtnRec', JSON.stringify(caseExtnRec));
+                    .then(result => {
+                        //validation successful
+                        let element = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
+                        caseExtnRec["sobjectType"] = element.objectApiName;
+                        delete caseExtnRec["id"];
+                        caseExtnRec["Id"] = this.caseExtensionRecordId;
+                        console.log('caseExtnRec', JSON.stringify(caseExtnRec));
 
-                    //get case record as object from lightning-record-edit-form
-                    let caseRecord;
-                    let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-                    if(caseElement){
-                        let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
-                        let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-                        caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-                        if(this.skipMoveToNextStage == false){
-                            //move to next stage is clicked
-                            caseRecord['MoveToNext__c'] = true;
+                        //get case record as object from lightning-record-edit-form
+                        let caseRecord;
+                        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+                        if (caseElement) {
+                            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+                            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+                            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+                            if (this.skipMoveToNextStage == false) {
+                                //move to next stage is clicked
+                                caseRecord['MoveToNext__c'] = true;
+                            }
+                            if (this.caseObj.Technical_Source__c == 'API') {
+                                caseRecord['Technical_Source__c'] = 'LWC';
+                            }
+                            console.log('caseRecord', JSON.stringify(caseRecord));
                         }
-                        if(this.caseObj.Technical_Source__c == 'API'){
-                            caseRecord['Technical_Source__c'] = 'LWC';
-                        }
-                        console.log('caseRecord', JSON.stringify(caseRecord));
-                    }
 
-                    //call server method to save the records
-                    this.saveCaseWithExtension(caseRecord, caseExtnRec);
-                })
-                .catch(error => {
-                    console.error(error);
-                    this.loading = false;
-                    this.showError('error', 'Trying to update Readonly fields', error);
-                    this.isMoveToNextStageButtonDisabled = false;
-                    return;
-                })
+                        //call server method to save the records
+                        this.saveCaseWithExtension(caseRecord, caseExtnRec);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        this.loading = false;
+                        this.showError('error', 'Trying to update Readonly fields', error);
+                        this.isMoveToNextStageButtonDisabled = false;
+                        return;
+                    })
             }
         } else {
             this.loading = false;
@@ -946,7 +974,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.template.querySelector('.hiddenSubmitBtn').click();
         console.log('submit btn clicked');
     }
-    handleMoveToNext(event){
+    handleMoveToNext(event) {
         this.skipMoveToNextStage = false;
         this.template.querySelector('.hiddenSubmitBtn').click();
     }
@@ -968,17 +996,17 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     async handlePublishEvent() {
         //eval("$A.get('e.force:refreshView').fire();");
-        let changeArray = [{recordId: this.recordId}];
+        let changeArray = [{ recordId: this.recordId }];
         await notifyRecordUpdateAvailable(changeArray);
-        let payload = {'source':'case360', 'recordId':this.recordId};
+        let payload = { 'source': 'case360', 'recordId': this.recordId };
         fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
     }
     handleCaseRecordLoad(event) {
-        try{
+        try {
             let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
             let fields = formEl.querySelectorAll('lightning-input-field');
             console.log('fields', fields);
-            for(let field of fields){
+            for (let field of fields) {
                 field.value = this.caseObj[field.fieldName];
             }
             console.log('fields extension', fields);
@@ -988,32 +1016,32 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
             this.isCaseRecordLoaded = true;
         }
-        catch(error){
+        catch (error) {
             console.error(error);
         }
     }
     handleRecordLoad(event) {
-        try{
+        try {
             let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
             let fields = formEl.querySelectorAll('lightning-input-field');
             console.log('fields', fields);
-            for(let field of fields){
+            for (let field of fields) {
                 field.value = this.caseExtensionRecord[field.fieldName];
             }
             console.log('fields extension', fields);
             this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecord['Id']].fields));
             console.log(this.caseExtensionRecordDetails);
         }
-        catch(error){
+        catch (error) {
             console.error(error);
         }
     }
     handleCaseRecordLoadReadOnly(event) {
-        try{
+        try {
             let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseROForm"]');
             let fields = formEl.querySelectorAll('lightning-output-field');
             console.log('fields', fields);
-            for(let field of fields){
+            for (let field of fields) {
                 field.value = this.caseObj[field.fieldName];
             }
             console.log('fields extension', fields);
@@ -1022,30 +1050,30 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             console.log(this.caseRecordDetails);
 
             this.isCaseRecordLoaded = true;
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
     handleRecordLoadReadOnly(event) {
-        try{
+        try {
             let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjROForm"]');
             let fields = formEl.querySelectorAll('lightning-output-field');
             console.log('fields', fields);
-            for(let field of fields){
+            for (let field of fields) {
                 field.value = this.caseExtensionRecord[field.fieldName];
             }
             console.log('fields extension', fields);
             this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecord['Id']].fields));
             console.log(this.caseExtensionRecordDetails);
         }
-        catch(error){
+        catch (error) {
             console.error(error);
         }
         //this.adjustFieldsOnStageChange();
 
     }
 
-    renderedCallback(){
+    renderedCallback() {
         Promise.all([
             loadStyle(this, overrideCSSFile)
         ]);
@@ -1330,7 +1358,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
 
-    
+
 
     handleSuccess(event) {
 
@@ -1365,10 +1393,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             }
 
                             //if (this.currentStep == this.stagesData[currentStage].Stage_Name__c && this.currentStep != 'Closed' && this.currentStep != 'Rejected') {
-                                if (this.currentStep == this.stagesData[currentStage].StageName__c && !bEndStatus) {
-                                    this.currentStep = this.stagesData[currentStage + 1].StageName__c;
-                                    break;
-                                }
+                            if (this.currentStep == this.stagesData[currentStage].StageName__c && !bEndStatus) {
+                                this.currentStep = this.stagesData[currentStage + 1].StageName__c;
+                                break;
+                            }
                         }
 
 
@@ -1436,7 +1464,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         moveToRequestedStage({
             recordId: this.recordId,
             requestedStage: this.selectedManualStage,
-            isForward : true
+            isForward: true
         }).then((result) => {
             if (this.currentOwnerId == this.currentUserId) {
                 this.isCurrentUserOwner = true;
@@ -1601,69 +1629,69 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     moveToNextStage({
                         recordId: this.caseObj.Id
                     })
-                    .then(result => {
-                        let stageName = result;
-                        this.caseRelatedUpdated = false;
-                        this.fetchPreviousStages(stageName);
+                        .then(result => {
+                            let stageName = result;
+                            this.caseRelatedUpdated = false;
+                            this.fetchPreviousStages(stageName);
 
-                        console.log('tst updateresult: ' + JSON.stringify(stageName));
+                            console.log('tst updateresult: ' + JSON.stringify(stageName));
 
-                        this.currentStatus = stageName;
-                        console.log('checking UsersIds; ' + this.currentUserId, this.currentOwnerId);
-                        if (this.currentOwnerId == this.currentUserId) {
-                            this.isCurrentUserOwner = true;
-                            if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
-                                this.toggleUIView = true;
+                            this.currentStatus = stageName;
+                            console.log('checking UsersIds; ' + this.currentUserId, this.currentOwnerId);
+                            if (this.currentOwnerId == this.currentUserId) {
+                                this.isCurrentUserOwner = true;
+                                if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
+                                    this.toggleUIView = true;
+                                }
+                                // this.toggleUIView = true;
+                            } else {
+                                this.isCurrentUserOwner = false;
+                                this.toggleUIView = false;
                             }
-                            // this.toggleUIView = true;
-                        } else {
-                            this.isCurrentUserOwner = false;
-                            this.toggleUIView = false;
-                        }
-                        this.fetchAllManualStages();
-                        const selectedEvent = new CustomEvent('linked', { detail: this.recordId });
-                        // Dispatches the event.
-                        this.dispatchEvent(selectedEvent);
+                            this.fetchAllManualStages();
+                            const selectedEvent = new CustomEvent('linked', { detail: this.recordId });
+                            // Dispatches the event.
+                            this.dispatchEvent(selectedEvent);
 
-                        setTimeout(() => {
-                            eval("$A.get('e.force:refreshView').fire();");
-                        }, 1000);
+                            setTimeout(() => {
+                                eval("$A.get('e.force:refreshView').fire();");
+                            }, 1000);
 
-                        const payload = { recordId: this.recordId };
+                            const payload = { recordId: this.recordId };
 
-                        this.handlePublishEvent();
+                            this.handlePublishEvent();
 
 
-                        this.adjustFieldsOnStageChange();
+                            this.adjustFieldsOnStageChange();
 
-                        fetchNextManualStages({ externalID: this.cccExternalId, currentStage: stageName })
-                            .then(stageData => {
-                                console.log('Manual stages', stageData)
-                                let stages = [];
-                                stages = [...stageData];
+                            fetchNextManualStages({ externalID: this.cccExternalId, currentStage: stageName })
+                                .then(stageData => {
+                                    console.log('Manual stages', stageData)
+                                    let stages = [];
+                                    stages = [...stageData];
 
-                                if (stages.length > 0) {
-                                    this.caseManualStages = stages;
-                                } else {
-                                    this.caseManualStages = false;
-                                }
-                                // if (ksc_ReloadRequiredFlag.toUpperCase() == 'TRUE') {
-                                //     window.location.reload();
-                                // }
-
-
-
-                                if (this.currentOwnerId == this.currentUserId) {
-                                    this.isCurrentUserOwner = true;
-                                    if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
-                                        this.toggleUIView = true;
+                                    if (stages.length > 0) {
+                                        this.caseManualStages = stages;
+                                    } else {
+                                        this.caseManualStages = false;
                                     }
-                                    // this.toggleUIView = true;
-                                } else {
-                                    this.isCurrentUserOwner = false;
-                                    this.toggleUIView = false;
-                                }
-                                this.isMoveToNextStageButtonDisabled = false;
+                                    // if (ksc_ReloadRequiredFlag.toUpperCase() == 'TRUE') {
+                                    //     window.location.reload();
+                                    // }
+
+
+
+                                    if (this.currentOwnerId == this.currentUserId) {
+                                        this.isCurrentUserOwner = true;
+                                        if (this.currentPageMode == 'edit' && !this.cancelClicked && !this.isReadOnly) {
+                                            this.toggleUIView = true;
+                                        }
+                                        // this.toggleUIView = true;
+                                    } else {
+                                        this.isCurrentUserOwner = false;
+                                        this.toggleUIView = false;
+                                    }
+                                    this.isMoveToNextStageButtonDisabled = false;
 
 
                                     for (var currentStage in this.stagesData) {
@@ -1672,14 +1700,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                         if (this.arr_CaseStatuses.includes(stageName)) {
                                             bEndStatus = true;
                                         }
-                                        console.log('this.stagesData'+JSON.stringify(this.stagesData));
-                                        console.log('currentStage'+currentStage);
+                                        console.log('this.stagesData' + JSON.stringify(this.stagesData));
+                                        console.log('currentStage' + currentStage);
                                         //if (this.currentStep == this.stagesData[currentStage].Stage_Name__c && this.currentStep != 'Closed' && this.currentStep != 'Rejected') {
-                                            if (stageName == this.stagesData[currentStage].StageName__c && !bEndStatus) {
-                                                console.log('stageName'+stageName);
-                                                stageName = this.stagesData[parseInt(currentStage)].StageName__c;
-                                                break;
-                                            }
+                                        if (stageName == this.stagesData[currentStage].StageName__c && !bEndStatus) {
+                                            console.log('stageName' + stageName);
+                                            stageName = this.stagesData[parseInt(currentStage)].StageName__c;
+                                            break;
+                                        }
                                     }
 
 
@@ -1700,92 +1728,92 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                     // Virendra - Refresh Issue for ABCL
                                     //this.dispatchEvent(new RefreshEvent());
                                     getRecordNotifyChange([{ recordId: this.recordId }]);
-                                    
+
                                     refreshApex(this.processApexReturnValue);
 
-                                setTimeout(() => { this.loading = false; }, 1000);
+                                    setTimeout(() => { this.loading = false; }, 1000);
 
 
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                this.showError('error', 'Oops! Error occured', error);
-                                this.isMoveToNextStageButtonDisabled = false;
-                                setTimeout(() => { this.loading = false; }, 1000);
-                            });
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    this.showError('error', 'Oops! Error occured', error);
+                                    this.isMoveToNextStageButtonDisabled = false;
+                                    setTimeout(() => { this.loading = false; }, 1000);
+                                });
 
 
-                        let bEndStatus = false;
-                        if (this.arr_CaseStatuses.includes(stageName)) {
-                            bEndStatus = true;
-                        }
+                            let bEndStatus = false;
+                            if (this.arr_CaseStatuses.includes(stageName)) {
+                                bEndStatus = true;
+                            }
 
-                        //if (result.stageName == "Closed" || result.stageName == "Rejected") {
-                        if (bEndStatus) {
-                            this.toggleUIView = false;
-                            this.isClosedOrRejected = true;
-                        }
-                        else {
-                            this.showBackButton = true;
-                        }
-
-
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        this.showError('error', 'Oops! Error occured', error);
-                        this.errorMessage = error;
-                        isError = true;
-                        this.loading = false;
+                            //if (result.stageName == "Closed" || result.stageName == "Rejected") {
+                            if (bEndStatus) {
+                                this.toggleUIView = false;
+                                this.isClosedOrRejected = true;
+                            }
+                            else {
+                                this.showBackButton = true;
+                            }
 
 
-                        this.isMoveToNextStageButtonDisabled = false;
-                        this.isMoveToStageButtonDisabled = true;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            this.showError('error', 'Oops! Error occured', error);
+                            this.errorMessage = error;
+                            isError = true;
+                            this.loading = false;
 
-                        /*
-                        if (error.body.message.includes('Reversal Amount')) {
-                            this.dispatchEvent(
-                                new ShowToastEvent({
-                                    title: 'Error updating record',
-                                    message: 'Reversal amount should be less than transaction amount',
-                                    variant: 'error',
-                                }),
-                            );
-                        }
-                        else if (error.body.message.includes('Closing Reason is mandatory when moving to Closed stage')) {
-                            this.dispatchEvent(
-                                new ShowToastEvent({
-                                    title: 'Error updating record',
-                                    message: 'Closing Reason is mandatory when moving to Closed stage',
-                                    variant: 'error',
-                                }),
-                            );
-                        }
-                        else if (error.body.message.includes('FIELD_CUSTOM_VALIDATION_EXCEPTION')) {
-                            console.log('FIELD_CUSTOM_VALIDATION_EXCEPTION');
-                            this.errorMessage = error.body.message.substring(82 + ('FIELD_CUSTOM_VALIDATION_EXCEPTION').length);
-                            var word = this.errorMessage.replace(': []', '');
-                            console.log('FIELD_CUSTOM_VALIDATION_EXCEPTIONss', this.errorMessage);
-                            this.dispatchEvent(
-                                new ShowToastEvent({
-                                    title: 'Error updating record',
-                                    message: word,
-                                    variant: 'error',
-                                }),
-                            );
-                        }
 
-                        else if (!(error.body.message.includes('Case Record is in Approval process'))) {
-                            this.dispatchEvent(
-                                new ShowToastEvent({
-                                    title: 'Error updating record',
-                                    message: error.body.message,
-                                    variant: 'error',
-                                }),
-                            );
-                        }
-                        */
-                    });
+                            this.isMoveToNextStageButtonDisabled = false;
+                            this.isMoveToStageButtonDisabled = true;
+
+                            /*
+                            if (error.body.message.includes('Reversal Amount')) {
+                                this.dispatchEvent(
+                                    new ShowToastEvent({
+                                        title: 'Error updating record',
+                                        message: 'Reversal amount should be less than transaction amount',
+                                        variant: 'error',
+                                    }),
+                                );
+                            }
+                            else if (error.body.message.includes('Closing Reason is mandatory when moving to Closed stage')) {
+                                this.dispatchEvent(
+                                    new ShowToastEvent({
+                                        title: 'Error updating record',
+                                        message: 'Closing Reason is mandatory when moving to Closed stage',
+                                        variant: 'error',
+                                    }),
+                                );
+                            }
+                            else if (error.body.message.includes('FIELD_CUSTOM_VALIDATION_EXCEPTION')) {
+                                console.log('FIELD_CUSTOM_VALIDATION_EXCEPTION');
+                                this.errorMessage = error.body.message.substring(82 + ('FIELD_CUSTOM_VALIDATION_EXCEPTION').length);
+                                var word = this.errorMessage.replace(': []', '');
+                                console.log('FIELD_CUSTOM_VALIDATION_EXCEPTIONss', this.errorMessage);
+                                this.dispatchEvent(
+                                    new ShowToastEvent({
+                                        title: 'Error updating record',
+                                        message: word,
+                                        variant: 'error',
+                                    }),
+                                );
+                            }
+    
+                            else if (!(error.body.message.includes('Case Record is in Approval process'))) {
+                                this.dispatchEvent(
+                                    new ShowToastEvent({
+                                        title: 'Error updating record',
+                                        message: error.body.message,
+                                        variant: 'error',
+                                    }),
+                                );
+                            }
+                            */
+                        });
                 }
                 else {
                     //Adding Save button - Santanu 31 Oct 2023
@@ -1808,7 +1836,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }, true);
     }
 
-    
+
     updateCaseStatus() {
 
         const fields = {};
@@ -1948,14 +1976,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.hasRendered = false;
         this.fetchAllManualStages();
         setTimeout(() => { this.handleSearchPicklistRendering(); }, 100);
-        
+
         this.hasPostRenderingDomManupulationDone = false;
         this.userClickedEditDetails = true;
-        
+
     }
 
 
-    
+
 
     assignDefaultValues() {
         //Assign Default values
@@ -2517,7 +2545,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return this.caseManualStages;
         }
     }
-    
+
 
     //Start: Added for Complain Rejection
     handleRejectOnComplain(event) {
@@ -2643,7 +2671,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         });
     }
 
-    
+
     //End: Added for Complain Rejection
 
 
@@ -2690,10 +2718,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         setPicklistFieldValue(event, this.template);
         // Evaluate conditional element rendering whenever picklist field seletion changes.
         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
-        
+
     }
 
-    validateCustomPicklist(){
+    validateCustomPicklist() {
         var isCustPickError = true;
         this.template.querySelectorAll('c-searchable-picklist').forEach(field => {
             isCustPickError = (isCustPickError && field.validateCustomPicklistField());
@@ -2703,5 +2731,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     /* Virendra - Code Specific to Searchable Picklist - Ends Here */
 
-    
+    /* VIRENDRA - RESOLUTION REASON ON POPUP */
+    handleResolnCommntChng(event) {
+        this.resolutionReasonPopUpFld = event.target.value;
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+                ele.value = this.resolutionReasonPopUpFld;
+            }
+        })
+    }
+
+
+
 }
