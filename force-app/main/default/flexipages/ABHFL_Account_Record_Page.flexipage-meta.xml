@@ -132,8 +132,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PersonBirthdate__pc</fieldItem>
-                <identifier>RecordPersonBirthdate_pcField</identifier>
+                <fieldItem>Record.PersonBirthdate</fieldItem>
+                <identifier>RecordPersonBirthdateField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -202,8 +202,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.GenderIdentity__pc</fieldItem>
-                <identifier>RecordGenderIdentity_pcField</identifier>
+                <fieldItem>Record.PersonGenderIdentity</fieldItem>
+                <identifier>RecordPersonGenderIdentityField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3c81af5a-886a-4a6d-9be3-5ce639413876</name>

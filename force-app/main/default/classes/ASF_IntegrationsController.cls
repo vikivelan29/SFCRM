@@ -16,7 +16,7 @@ public with sharing class ASF_IntegrationsController {
         if(c3ExtId != null && stageName != null){
             returnList = [
                 SELECT Id, Processing_Class__c, STP_Processing_Class__c,
-                    External_Id__c, Type__c, Display_Name__c
+                    External_Id__c, Type__c, Display_Name__c,STP_API_Identifier__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
@@ -39,7 +39,7 @@ public with sharing class ASF_IntegrationsController {
             returnList = [
                 SELECT Id, Processing_Class__c, STP_Processing_Class__c, 
                     External_Id__c, Type__c, Display_Name__c, 
-                    UI_Component__c, Auto_Run_on_Load__c
+                    UI_Component__c, Auto_Run_on_Load__c, STP_API_Identifier__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName

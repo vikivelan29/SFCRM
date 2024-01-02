@@ -34,7 +34,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c
+                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -49,6 +49,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
             objCaseDetailsWrapper.strSource = choosenOneMTD.Source__c;
+            objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
@@ -81,10 +82,10 @@ public with sharing class ASF_CreateCaseWithTypeController {
 *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountData(String keyword ,string asssetProductType,string isasset) {
-        return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,''); 
+        return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,'',''); 
     }
     @AuraEnabled(Cacheable = true)
-    public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType) {
+    public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
         string searchKeyword = '%' + keyword + '%';
@@ -121,11 +122,20 @@ public with sharing class ASF_CreateCaseWithTypeController {
         }else if(isasset == 'closeCRN'){
             dynamicQuery += '  ('+
                 'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
-        }else{
+        }else if(isasset == 'Prospect'){
+            // For Prospect Search cases.
+            dynamicQuery += ' Is_Prospect_Related__c = true AND '+
+                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+        }
+          else if(isasset == 'false' && userBu == 'ABFL' && assetLob !=null && assetLob != 'Not classified' ){
+            system.debug('abflbusinessunit');
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
-                //'(ccc_product_Type__c = \''  +asssetProductType+'\' OR  ccc_product_Type__c LIKE \'' + searchProdType+'\' OR ccc_product_Type__c LIKE \''+ searchCommaSeperatedProdType+ ' \' OR ccc_product_Type__c LIKE \''+ searchCommaProdType+'\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceProdType+ '\' OR ccc_product_Type__c LIKE \''+searchCommaSpaceAssetProdType+'\')'
-                //+  'AND'+
-                //ccc_product_Type__c field is not available in ABCL Dev
+                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')'+' AND LOB__c =\''+ assetLob+'\'';
+        }
+        else{
+            dynamicQuery += ' is_FA_Mandatory__c = true AND '+
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
         }
@@ -170,6 +180,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public class CaseDetailsWrapper{
         @AuraEnabled public List<ASF_Case_Category_Config__c> lstCCCrecords;
         @AuraEnabled public String strSource;
+        @AuraEnabled public String complaintType;
         @AuraEnabled public List<ASF_OptionsWrapper> lstChannel;
         @AuraEnabled public Boolean boolNoData;
         @AuraEnabled public String strErrorMessage;
