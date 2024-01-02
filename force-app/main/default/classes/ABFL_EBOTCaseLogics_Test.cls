@@ -80,6 +80,7 @@ public class ABFL_EBOTCaseLogics_Test {
     }   
        @isTest
     static void eBotHandler_TestSmtYes(){
+         Test.startTest(); 
        Group SLAGroup2 = new Group();        
         SLAGroup2 = new Group(Name='SLAManagerGroup2', DeveloperName='SLAManagerGroup2');
         insert SLAGroup2;
@@ -137,8 +138,8 @@ public class ABFL_EBOTCaseLogics_Test {
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"00003974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"YES","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
             update caseIntUpdate;
-           
-            
+            System.assertEquals('Success', caseIntUpdate.Status__c);          
+             Test.stopTest();            
             }
         }
     } 
@@ -150,6 +151,10 @@ public class ABFL_EBOTCaseLogics_Test {
        // List<ASF_Case_Category_Config__c> objCaseCateg = [Select Id,Sub_Type__c,EBOT_Auto_Response__c From ASF_Case_Category_Config__c WHERE CCC_External_Id__c = '12345' LIMIT 1];  
         //objCaseCateg[0].EBOT_Auto_Response__c = TRUE;
         //update objCaseCateg[0];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+ 		system.runAs(usr)
+        {
+        Test.startTest(); 
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
                 caseInt.Case__c =objCase[0].Id;
                 caseInt.Status__c = 'Pending';
@@ -160,7 +165,9 @@ public class ABFL_EBOTCaseLogics_Test {
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"03974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"NO","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
             update caseIntUpdate;  
-           
-     }
+            System.assertEquals('Success', caseIntUpdate.Status__c);          
+        Test.stopTest(); 
+     	}
+    }
         
 }
