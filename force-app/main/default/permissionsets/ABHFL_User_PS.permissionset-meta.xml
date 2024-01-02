@@ -1127,11 +1127,11 @@
         <field>Contact.GenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--<fieldPermissions>
         <editable>false</editable>
         <field>Contact.GenderIdentity__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Line_of_Business__c</field>

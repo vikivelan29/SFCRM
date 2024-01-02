@@ -147,6 +147,7 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <!--
         <itemInstances>
             <componentInstance>
                 <componentName>abhfl_MultiplePayments</componentName>
@@ -160,6 +161,7 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
+        -->
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
