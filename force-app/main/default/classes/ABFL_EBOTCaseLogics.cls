@@ -185,9 +185,16 @@ public with sharing class ABFL_EBOTCaseLogics {
         public static Boolean checkIsSmtAndMultipleLAN(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             system.debug('SuppliedEmail == '+ recCase.SuppliedEmail);
+            Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
            // system.debug('allowed domain '+ !recCase.SuppliedEmail.contains(condition.ExcludedDomains__c));
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == FALSE &&
                objResponseBody.ISMULTIPLELAN == condition.ISMULTIPLELAN__c;            
@@ -200,8 +207,15 @@ public with sharing class ABFL_EBOTCaseLogics {
     	public static Boolean checkPaytmInteractionNotNull(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
            system.debug('allowed domain '+ !allowedDomain.contains(recCase.SuppliedEmail));
+            Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
                recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Paytm__c  &&
@@ -215,9 +229,16 @@ public with sharing class ABFL_EBOTCaseLogics {
     	public static Boolean checkLeadSubtype(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             system.debug('allowed domains '+ !allowedDomain.contains(recCase.SuppliedEmail));
+            Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
                //!condition.ExcludedDomains__c.split(';').contains(recCase.SuppliedEmail) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
                recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Lead__c  ;
@@ -230,8 +251,15 @@ public with sharing class ABFL_EBOTCaseLogics {
      	public static Boolean checkIsRegisteredCustomerNo(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+            Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                 objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                 recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
  				recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
@@ -246,8 +274,15 @@ public with sharing class ABFL_EBOTCaseLogics {
     	public static Boolean checkIsRegisteredCustomerYes(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+            Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
                allowedSubtype.contains(recCase.Sub_Type_Text__c) &&
@@ -263,8 +298,15 @@ public with sharing class ABFL_EBOTCaseLogics {
     	public static Boolean ConfidenceScoreAndSubtypeCheck(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+     		Boolean isExcludedDomain = false;
+            for (String domain : allowedDomain) {
+                if (recCase.SuppliedEmail.contains(domain.trim())) {
+                    isExcludedDomain = true;
+                    break;
+                }
+            }
             return condition.ToAddress__c.split(';').contains(emailMessage.ToAddress) &&
-               !allowedDomain.contains(recCase.SuppliedEmail) &&
+           	   !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
                !allowedSubtype.contains(recCase.Sub_Type_Text__c) &&  
