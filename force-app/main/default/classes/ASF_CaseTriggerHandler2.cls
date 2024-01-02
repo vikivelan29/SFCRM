@@ -16,7 +16,10 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-            //ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases.get(frameworkRTId));
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            buSpecificCls.executeBeforeASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
+            
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
             ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
             
@@ -29,12 +32,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             //ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
             //caseSLA.calculateSLAOnCaseInsert(mRecordTypeVsCases.get(frameworkRTId));
  
-            // Virendra - Check duplicacates for Payment - Need to be changed in phase 2 after moving code to CTST record.
-            ABCL_CaseDuplicateCheck dupeChecker = new ABCL_CaseDuplicateCheck();
-            dupeChecker.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId));
-            if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
-                PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI(mRecordTypeVsCases.get(frameworkRTId));
-            }
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
+            buSpecificCls.executeAfterASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
             
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
@@ -67,6 +66,10 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
+            
             //Validation methods
             ASF_CaseTriggerModularHelper.validateCloseCase(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
@@ -83,6 +86,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
+            buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
             
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
@@ -110,15 +115,22 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            buSpecificCls.executeBeforeASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
+            
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
-            Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
 
             // Virendra - to Reject the Checklist and Task on Case Rejection.
-            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);  
+            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
+            
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
+            buSpecificCls.executeAfterASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
@@ -138,6 +150,12 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            Map<Id,Case> frameworkRTCases = new map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
+            
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            buSpecificCls.executeBeforeASFCodeInAfterInsert(frameworkRTCases);
+            
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
@@ -148,11 +166,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation(newItemsCase.values());
 
-            
-            //LOB Specific Code - Payments.
-            if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
-                PAY_CaseTriggerHelper.fetchCustomerInfoExt(mRecordTypeVsCases.get(frameworkRTId));
-            }
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
+            buSpecificCls.executeAfterASFCodeInAfterInsert(frameworkRTCases);            
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             ASF_CasePreFrameworkTriggerHelper caseHelper = new ASF_CasePreFrameworkTriggerHelper();

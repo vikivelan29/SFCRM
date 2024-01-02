@@ -114,7 +114,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
                 caseRec.Is_STP__c = appliedCCC.Is_STP__c;
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
+                                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
                 //from interaction to framework RT. So run assignment rule for first stage of framework
                 //Update 1: This assignment rules should run for recategoriasation too.
                 if(isUpdate){
@@ -585,7 +585,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 return;
             }
             
-            if (objNewCase.IsClosed == true){
+            if (objNewCase.IsClosed == true && objNewCase.OnCreateCloseSR__c == false){
                 if(String.isNotBlank(objNewCase.Bulk_Action__c)){
                     objNewCase.addError('FIELD_CUSTOM_VALIDATION_EXCEPTION '+ System.label.Case_Closed_Validation_Message);
                 }
@@ -693,7 +693,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId())){
+        if(bypassProfileId.contains(UserInfo.getProfileId()) && !Test.isRunningTest()){
             return;
         }
             
@@ -898,8 +898,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
             }
         }
-        if(!cccIds.isEmpty()){
+        if(!cccIds.isEmpty()){ 
+            ASF_CaseQueryHandler.refreshRecords = true;
             List<ASF_Case_Category_Config__c> categoryList = ASF_CaseQueryHandler.getCaseCategoryConfigs(cccIds);
+            ASF_CaseQueryHandler.refreshRecords = false;
             for(ASF_Case_Category_Config__c r: categoryList){
                 cccExternalIdCategoryMap.put(r.CCC_External_Id__c,r); 
             }
