@@ -1,9 +1,9 @@
 /*********************************************************
-    * @Class        :  ABHFL_ICAndPIC_Integration
-    * @Author       :  Anirudh Raturi
-    * @Created Date :  13/12/2023
-    * @Last Modified:  14/12/2023
-    * @description  :  Helper Class for Interest Certificate And Provisional Interest Certificate Integration
+* @Class        :  ABHFL_ICAndPIC_Integration
+* @Author       :  Anirudh Raturi
+* @Created Date :  13/12/2023
+* @Last Modified:  14/12/2023
+* @description  :  Helper Class for Interest Certificate And Provisional Interest Certificate Integration
 *********************************************************/
 
 public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
@@ -23,13 +23,13 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         String type = typ;
 
         ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = new ABHFL_ICAndPIC_IntegrationRequestWrapper();
-        reqBodyObj.lan       = lan;
-        reqBodyObj.finYear  = finYr;
-        reqBodyObj.type      = type;
+        reqBodyObj.LAN       = lan;
+        reqBodyObj.FIN_YEAR  = finYr;
+        reqBodyObj.TYPE      = type;
 
         return reqBodyObj;
     }
-    
+
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - firePlatformEvtForCallout
@@ -37,7 +37,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
     * @param jsonBody - Value for payload request in JSON Structure of IC and PIC Integration
     * @param caseSubType - Value of Case sub Type
     * @description - Firing Platform Event to make Callout for IC or PIC Integration.
-    *****************************************************************************************************************/
+*****************************************************************************************************************/
     public void firePlatformEvtForCallout(ASF_Case_Integration__c caseInteg, String jsonBody, String caseSubType) {
 
         String integName = String.isNotBlank(getIntegrationName(caseSubType)) ? getIntegrationName(caseSubType) : '';
@@ -58,7 +58,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
     * @param caseSubType - Value of Case sub Type
     * @return - integName
     * @description - Get the name of the Integration on the basis of Case Sub Type.
-    *****************************************************************************************************************/
+*****************************************************************************************************************/
     public String getIntegrationName(String caseSubType) {
 
         String integName = '';
@@ -72,18 +72,17 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         return integName;
     }
 
-
+    
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - getFinancialYr
     * @param caseRecord - Case record from the framework.
     * @return - financialYr
     * @description - Get the Financial Year on the basis of Integration Name.
-    *****************************************************************************************************************/
+*****************************************************************************************************************/
     public String getFinancialYr(Case caseRecord) {
 
-        String financialYr = '';
-        String currentFiscalYear;
+        String financialYr = '', currentFiscalYear;
 
         Period priod = [SELECT FiscalYearSettings.Name FROM Period WHERE Type = 'Year' AND StartDate <= TODAY AND EndDate >= TODAY WITH SECURITY_ENFORCED];
         currentFiscalYear = priod.FiscalYearSettings.Name;
@@ -108,12 +107,12 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
     }
 
 
-    /****************************************************************************************************************
+/****************************************************************************************************************
     * @description - This is a wrapper class for  JSON structure of IC And PIC Integration.
-    *****************************************************************************************************************/
+*****************************************************************************************************************/
     public class ABHFL_ICAndPIC_IntegrationRequestWrapper {
-        public String lan;
-        public String finYear;
-        public String type;
+        public String LAN;
+        public String FIN_YEAR;
+        public String TYPE;
     }
 }
