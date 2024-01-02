@@ -40,9 +40,10 @@ public with sharing class ABCL_CaseIntegrationHelper {
                 system.debug('****integrationCase:'+integrationCase);
                 // used integrationCase.Business_Unit__c == 'Payments' as ABHFL email-to-case is not setup yet.
                 if(String.isBlank(integrationCase.CCC_External_Id__c) && integrationCase.Source__c == 'Email'){
-                    if(integrationCase.Business_Unit__c == 'Payments'){
+                    if(integrationCase.Business_Unit__c == 'ABHFL'){
                         ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABHFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABHFL_EbotWrapper.EbotResponseWrapper.class);
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
+                        Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(recordAfter);
                     }   
                     else if(integrationCase.Business_Unit__c == 'ABFL'){
                         ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
