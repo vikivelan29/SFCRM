@@ -204,7 +204,7 @@ public with sharing class ASF_CaseQueryHandler {
                                                           Stage_Start_Date__c, Stage_Violation_Start_Date__c, 
                                                           Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c 
                                                           FROM ASF_Case_SLA_History__c
-                                                          WHERE Case__c =: caseIds
+                                                          WHERE Case__c =: caseIds order by createddate DESC
                                                          ];
         }
         return caseSLAHistories;
