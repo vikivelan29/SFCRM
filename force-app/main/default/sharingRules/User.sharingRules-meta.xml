@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingOwnerRules>
+        <fullName>Share_ABFL_User_with_ABFL_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>Share ABFL User with Each Other.</description>
+        <label>Share ABFL User with ABFL Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
         <fullName>Share_ABHFL_User_with_ABHFL_Users</fullName>
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL User with ABHFL Users</label>
