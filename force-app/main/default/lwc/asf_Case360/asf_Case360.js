@@ -231,6 +231,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     caseExtensionRecord;
     showForwardStages = false;
     closureTypeSelected = 'resolved';
+    selectedStage;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -739,6 +740,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     saveBackCaseStage(event) {
+        if(this.selectedStage == null || this.selectedStage == undefined){
+            this.showError('error', 'Please select a stage');
+            return;
+        }
         this.loading = true;
         let caseRecord;
         caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
