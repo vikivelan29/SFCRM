@@ -240,6 +240,13 @@
         <value>No Reply Address</value>
     </labels>
     <labels>
+        <fullName>Base_URL_for_bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base URL for bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
