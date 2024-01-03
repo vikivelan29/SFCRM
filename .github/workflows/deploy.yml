@@ -8,6 +8,7 @@ on:
         description: Which environment to deploy to
         options:
           - sit1-sandbox
+          - sit-sandbox
         default: 'sit1-sandbox'
         required: true
       validateOnly:
