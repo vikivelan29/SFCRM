@@ -3517,6 +3517,84 @@
         <field>User.managerGroupId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Bank_Account_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Bank_IFSC_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Bank_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Beneficiary_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.BOT_Response__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Customer_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Department_Dependency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.From_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Narration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Part_Payment_Effect__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Refund_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Resolution_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.To_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Type_of_Descripency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+
+
     <hasActivationRequired>false</hasActivationRequired>
     <label>Admin User</label>
     <objectPermissions>
