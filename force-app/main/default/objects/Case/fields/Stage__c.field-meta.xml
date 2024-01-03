@@ -5,7 +5,7 @@
     <label>Stage</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -20,6 +20,101 @@
                 <fullName>Closed</fullName>
                 <default>false</default>
                 <label>Closed</label>
+            </value>
+            <value>
+                <fullName>In Progress with Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with CS</fullName>
+                <default>false</default>
+                <label>In Progress with CS</label>
+            </value>
+            <value>
+                <fullName>Resolved</fullName>
+                <default>false</default>
+                <label>Resolved</label>
+            </value>
+            <value>
+                <fullName>In Progress with Repayment Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Repayment Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Retention</label>
+            </value>
+            <value>
+                <fullName>In Progress with TDS</fullName>
+                <default>false</default>
+                <label>In Progress with TDS</label>
+            </value>
+            <value>
+                <fullName>In Progress with TDS Ops</fullName>
+                <default>false</default>
+                <label>In Progress with TDS Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>In Progress with ABFL CIBIL</fullName>
+                <default>false</default>
+                <label>In Progress with ABFL CIBIL</label>
+            </value>
+            <value>
+                <fullName>In Progress with Closure Desk</fullName>
+                <default>false</default>
+                <label>In Progress with Closure Desk</label>
+            </value>
+            <value>
+                <fullName>In Progress with Disbursement Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Disbursement Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Outbound</fullName>
+                <default>false</default>
+                <label>In Progress with Outbound</label>
+            </value>
+            <value>
+                <fullName>In Progress with Partner</fullName>
+                <default>false</default>
+                <label>In Progress with Partner</label>
+            </value>
+            <value>
+                <fullName>In Progress with Receipts</fullName>
+                <default>false</default>
+                <label>In Progress with Receipts</label>
+            </value>
+            <value>
+                <fullName>In Progress with Receipt Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Receipt Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Sales</fullName>
+                <default>false</default>
+                <label>In Progress with Sales</label>
+            </value>
+            <value>
+                <fullName>In Progress with Servicing Desk</fullName>
+                <default>false</default>
+                <label>In Progress with Servicing Desk</label>
+            </value>
+            <value>
+                <fullName>In Progress with Servicing Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Servicing Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with SRE Ops</fullName>
+                <default>false</default>
+                <label>In Progress with SRE Ops</label>
             </value>
         </valueSetDefinition>
     </valueSet>
