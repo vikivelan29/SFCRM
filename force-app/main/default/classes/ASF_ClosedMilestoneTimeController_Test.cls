@@ -45,9 +45,9 @@ public class ASF_ClosedMilestoneTimeController_Test {
         system.runAs(usr)
         {
         Test.startTest();          
-        ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecord.Id, caseRecord.Stage__c);
+        ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecord.Id);
        // ASF_ClosedMilestoneTimeController.fetchCustomMetadata();
-        ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecordOver.Id, caseRecordOver.Stage__c);
+        ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecordOver.Id);
         Case cs = [SELECT Id,Subject,Stage__c
                     FROM Case WHERE Stage__c = 'New'
                       LIMIT 1];
