@@ -55,12 +55,12 @@
                                         onchange={handleChangeNature}
                                         required>
                             </lightning-combobox> 
-                            </template> 
+                        </template> 
                         <template if:true={boolAllSourceVisible}>
-                            <lightning-combobox
-                            value=""
+                            <lightning-combobox data-id="Source Field"
+                            value={sourceFldValue}
                                         label="Source"
-                            options=""
+                            options={sourceFldOptions}
                                         onchange={handleSource}
                             placeholder={strSource}
                             read-only
@@ -78,8 +78,12 @@
                                             required>
                                 </lightning-combobox> 
                         </template>
+
                     </template>  
 
+                    <template if:true={isPhoneInbound}>
+                        <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                    </template>
 
                     <template if:true={isTransactionRelated}>
                         <lightning-input type="text" label="Transaction Number" value={transactionNumber} onchange={handleTransactionChange} required class="validate"></lightning-input>

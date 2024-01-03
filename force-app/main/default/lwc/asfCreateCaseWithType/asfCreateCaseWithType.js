@@ -24,11 +24,13 @@ import LAN_NUMBER from '@salesforce/schema/Case.LAN__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
+import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
 import Business_Unit from '@salesforce/schema/Asset.LOB_Code__r.BusinessUnit__c';
-import Business_Unit_LOB from '@salesforce/schema/Asset.LOB_Code__c';
+import Business_Unit_LOB from '@salesforce/schema/Asset.LOB__c';
 
 import ACCOUNTTYPE_FIELD from '@salesforce/schema/Asset.Account.IsPersonAccount';
 import ACCOUNT_RECORDTYPE from '@salesforce/schema/Asset.Account.RecordType.DeveloperName';
@@ -39,13 +41,16 @@ import IS_CLONEABLE from '@salesforce/schema/Case.ASF_Is_Cloneable__c'; //Functi
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import LightningConfirm from 'lightning/confirm';
-
+import { reduceErrors } from 'c/asf_ldsUtils';
+import USER_ID from '@salesforce/user/Id';
+import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
     accounts;
     isNotSelected = true;
     @api recordId;
+    @api fieldToBeStampedOnCase;
     loaded = true;
     caseRelObjName;
     caseExtensionRecordId;
@@ -61,6 +66,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     isRequestAndQuery = false;
     isRequestAndQuerySource = false;
     isOnlySource = false;
+    isPhoneInbound = false;
     natureVal;
     productVal;
     sourceVal;
@@ -89,7 +95,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     classificationValue;
     strSource = '';
     strChannelValue = '';
-    lstChannelValues = [];
     strDefaultChannel = '';
     boolChannelVisible = false;
     boolShowNoData = false;
@@ -105,99 +110,60 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     caseComplaintLevel;
     boolShowDownloadCSV = false;
     cccproduct_type = '';
+    sourceFldOptions;
+    sourceFldValue;
+    trackId = '';
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
     transactionNumber = '';
     accountRecordType = '';
-
-
-    /* get natureValues() {
-         return [
-             { label: 'Request', value: 'Request' },
-             { label: 'Query', value: 'Query' },
-   
-         ];
-     } */
-    /* get sourceValues() {
-         return [
-             { label: 'CEC', value: 'CEC' },
-             { label: 'RL Branch ', value: 'RL Branch' },
-   
-         ];
-     }  */
-
-    //tst end
-
-    //caseFields = [NATURE_FIELD,PRODUCT_FIELD,SOURCE_FIELD,CHANNEL_FIELD];
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
 
+    //utility method
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
+    }
+    @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
+    user;
+    
+    get businessUnit() {
+        return getFieldValue(this.user.data, BUSINESS_UNIT);
+    }
 
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
+        const unique = JSON.stringify(this.fieldToBeStampedOnCase);
+        if(unique != null && unique != undefined){
+            this.assetRecId = JSON.parse(unique).AssetId;
+        }
         this.getAccountRecord();
+        console.log('business ---> ' + this.businessUnit);
+
     }
-
-    @wire(getRecord, { recordId: '$recordId', fields: [ACCOUNT_FIELD, Business_Unit, Business_Unit_LOB, ACCOUNTTYPE_FIELD,ACCOUNT_RECORDTYPE] })
-    wiredRecord({ error, data }) {
-        if (error) {
-            let message = 'Unknown error';
-            if (Array.isArray(error.body)) {
-                message = error.body.map(e => e.message).join(', ');
-            } else if (typeof error.body.message === 'string') {
-                message = error.body.message;
-            }
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error loading Case',
-                    message,
-                    variant: 'error',
-                }),
-            );
-        }
-        else if (data) {
-            this.asset = data;
-            this.flag = this.contactSelected = this.asset.fields.Account.value.fields.IsPersonAccount.value;
-            this.primaryLOBValue = this.asset.fields.Account.value.fields.Primary_LOB__c.value;
-            if (this.asset.fields.LOB_Code__c.value) {
-                this.businessUnitValue = this.asset.fields.LOB_Code__r.value.fields.BusinessUnit__c.value;
-            }
-            /*if(this.asset.fields.ccc_product_Type__c.value){
-                this.cccproduct_type =this.asset.fields.ccc_product_Type__c.value;
-            }*/
-            this.classificationValue = this.asset.fields.Account.value.fields.Classification__c.value;
-            if (!this.contactSelected) {
-                fetchRelatedContacts({ accId: this.asset.fields.AccountId.value })
-                    .then(result => {
-                        let stages = [];
-                        result.forEach((element) => {
-                            stages.push({
-                                label: element.Name,
-                                value: element.Id
-                            });
-                        });
-                        this.options = stages;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.error = error;
-                    });
-            }
-        } else {
-            this.getAccountRecord();
-
-        }
+    @wire(getRecord, { recordId: '$assetRecId', fields: [Business_Unit_LOB] })
+    asset;
+    
+    get lobAsset() {
+        return getFieldValue(this.asset.data, Business_Unit_LOB);
     }
+    renderedCallback() {
 
-
-
-
-    // get assetAccount() {
-    //     return getFieldValue(this.asset.data, ACCOUNT_FIELD);
-    // }
-
-    get isPersonAccount() {
-        return getFieldValue(this.asset.data, ACCOUNTTYPE_FIELD);
+        let getSourceFldCombobox = this.template.querySelector("[data-id='Source Field']");
+        if(getSourceFldCombobox && this.sourceFldOptions) {
+            if(this.sourceFldOptions.length == 1) {
+                getSourceFldCombobox.readOnly = true;
+            }
+            else if(this.sourceFldOptions.length > 1){
+                getSourceFldCombobox.readOnly = false;
+            }
+        }
     }
 
     //This Funcation will get the value from Text Input.
@@ -220,11 +186,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
-        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType })
+        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
                     this.strSource = result.strSource;
+                    if(this.strSource) {
+                        this.populateSourceFld();
+                    }
                     this.boolShowNoData = false;
                     if (result.lstChannel != null && result.lstChannel.length > 0) {
                         //this.createCaseWithAll = true;
@@ -251,6 +220,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     }
 
+    populateSourceFld() {
+        let getAllSourceFldValues = this.strSource.split(',');
+        this.sourceFldValue = getAllSourceFldValues[0];
+        this.sourceFldOptions = getAllSourceFldValues.map(fldVal => ({label : fldVal, value : fldVal}));
+    }
+
     getSelectedName(event) {
         this.createCaseWithAll = false;
         this.isNotSelected = false;
@@ -273,6 +248,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
         }
+        if ((selected) && (this.businessUnit == 'ABFL')) {
+            this.boolAllChannelVisible = false;
+            this.boolAllSourceVisible = true;
+        }
         if (selected && selected.hasOwnProperty("Is_Bulk_Creatable__c") && selected.Is_Bulk_Creatable__c == true && !this.isNotSelected) {
             getUserPermissionSet({})
                 .then(result => {
@@ -291,13 +270,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolShowDownloadCSV = false;
         }
         if (selected) {
-            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
+            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))&& (this.businessUnit != 'ABFL')) {
                 console.log('tst2245' + JSON.stringify(selected));
                 this.boolAllChannelVisible = true;
                 this.boolAllSourceVisible = true;
             }
             this.createCaseWithAll = true;
             this.isNotSelected = true;
+
             if (selected[NATURE_FIELD.fieldApiName] == "All") {
                 this.isAllNature = true;
             }
@@ -461,6 +441,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
         //this.loaded = false;
         const fields = {};
+
+        for(let fldToStamp in this.fieldToBeStampedOnCase) {
+            fields[fldToStamp] = this.fieldToBeStampedOnCase[fldToStamp];
+        }
+        
         if (this.isasset == true) {
             await this.getAccountRecord();
         }
@@ -475,22 +460,22 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
         fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
         fields[ORIGIN_FIELD.fieldApiName] = 'Phone';
-        fields[ASSETID_FIELD.fieldApiName] = this.recordId;
+        //fields[ASSETID_FIELD.fieldApiName] = this.recordId;
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
-        fields[SOURCE_FIELD.fieldApiName] = this.strSource;
+        fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-
+        fields[TRACK_ID.fieldApiName] = this.trackId;
         if (this.isasset == false) {
-            fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.asset.fields.AccountId.value;
-            fields[LAN_NUMBER.fieldApiName] = this.asset.fields.ASF_Card_or_Account_Number__c.value;
+            console.log('--asset--',this.asset);
+            fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
+            //fields[LAN_NUMBER.fieldApiName] = this.asset.fields.ASF_Card_or_Account_Number__c.value;
 
             //fields[PRODUCT_FIELD.fieldApiName] = this.asset.fields.Product_Name__c.value;
             //fields[CASE_BRANCH_FIELD.fieldApiName] = this.asset.fields.Account.value.fields.Home_Branch__c.value;
         } else {
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountData.Id;
             fields[LAN_NUMBER.fieldApiName] = 'NA';
-
             //fields[CASE_BRANCH_FIELD.fieldApiName] = this.accountData.Home_Branch__c;
         }
         if(this.primaryLOBValue != null && this.primaryLOBValue != undefined){
@@ -528,31 +513,55 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
-                this.disableCaseBtn = false;
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error creating record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
+                this.showError('error', 'Oops! Error occured', error);
+                // this.dispatchEvent(
+                //     new ShowToastEvent({
+                //         title: 'Error creating record',
+                //         message: error.body.message,
+                //         variant: 'error',
+                //     }),
+                // );
                 this.loaded = true;
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
-                this.disableCaseBtn = false;
             })
     }
 
+    async createRelObj() {
+        const fields = {};
 
+        if(this.isTransactionRelated){
+            fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
+        }
+
+        const caseRecord = { apiName: this.caseRelObjName, fields: fields };
+
+        await createRecord(caseRecord)
+            .then(result => {
+                this.caseExtensionRecordId = result.id;
+                console.log('tst22557' + this.caseExtensionRecordId);
+            })
+            .catch(error => {
+                this.showError('error', 'Oops! Error occured', error);
+                // this.dispatchEvent(
+                //     new ShowToastEvent({
+                //         title: 'Error creating record',
+                //         message: error.body.message,
+                //         variant: 'error',
+                //     }),
+                // );
+                this.loaded = true;
+            })
+    }
 
     cols = [
         { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
         //{ label: 'Product', fieldName: 'Product__c', type: 'text' },
         //{ label: 'Source', fieldName: 'Source__c', type: 'text' },
-        { label: 'LOB', fieldName: 'Business_Unit__c', type: 'text' },
+        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
         { label: 'Type', fieldName: 'Type__c', type: 'text' },
         { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
     ]
@@ -606,34 +615,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.isNotSelected = !btnActive;
     }
 
-    handleSourceVal(event) {
-        this.sourceVal = event.target.value;
-        var btnActive = false;
-        if (this.sourceVal && this.sourceVal != '') {
-            btnActive = true;
-            if (this.isAllNature) {
-                console.log('tst2245' + this.natureVal);
-                if (this.natureVal && this.natureVal != '') {
-                    btnActive = true;
-                } else {
-                    console.log('tst2255' + this.natureVal);
-                    btnActive = false;
-                }
-            } else if (this.isAllProduct) {
-                console.log('tst2245' + this.productVal);
-                if (this.productVal && this.productVal != '') {
-                    btnActive = true;
-                } else {
-                    btnActive = false;
-                }
-            }
-        } else {
-            btnActive = false;
-        }
-
-        this.isNotSelected = !btnActive;
-    }
-
     // Method to handle the Channel Picklist
     handleChangeChannel(event) {
         this.strChannelValue = event.target.value;
@@ -675,10 +656,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.isNotSelected = !btnActive;
     }
     handleSource(event) {
+        this.sourceFldValue = event.target.value;
         this.sourceVal = event.target.value;
         var btnActive = false;
         if (this.sourceVal && this.sourceVal != '') {
             btnActive = true;
+            this.isPhoneInbound = false;
             if (this.isRequestAndQuery) {
                 //console.log('sassd'+this.natureVal);
                 if (this.natureVal && this.natureVal != '') {
@@ -687,6 +670,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     //console.log('tst2255'+this.natureVal);
                     btnActive = false;
                 }
+            }
+            if(this.sourceFldValue == 'Phone-Inbound'){
+                btnActive = false;
+                this.isPhoneInbound = true;
             }
         } else {
             btnActive = false;
@@ -710,40 +697,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         //tst end
     }
 
-    async createRelObj() {
-        const fields = {};
-
-        if(this.isTransactionRelated){
-            fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
-        }
-
-        const caseRecord = { apiName: this.caseRelObjName, fields: fields };
-
-        await createRecord(caseRecord)
-            .then(result => {
-                this.caseExtensionRecordId = result.id;
-                console.log('tst22557' + this.caseExtensionRecordId);
-            })
-            .catch(error => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error creating record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-                this.loaded = true;
-            })
-    }
-
-    handleContactChange(event) {
-        this.value = event.detail.value;
-        if (this.value) {
-            this.isNextButtonDisabled = false;
-        }
-        this.contactName = event.target.options.find(opt => opt.value === event.detail.value).label;
-    }
-
     async getAccountRecord() {
         console.log('accId' + this.accountId);
         if(this.accountId != null && this.accountId != undefined){
@@ -763,9 +716,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         
     }
 
-    gotoMainScreen() {
-        this.contactSelected = true;
-    }
     resetBox() {
         console.log('in reset box');
         this.dispatchEvent(new CustomEvent('resetbox', {
@@ -774,13 +724,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             }
         }));
     }
-    handleComplaint(event) {
-        this.complaintSelected = event.target.value;
-        if (this.subsourceSelected && this.complaintSelected)
-            this.isNotSelected = false;
-        else
-            this.isNotSelected = true;
-    }
+    
     handleSubSource(event) {
         this.subsourceSelected = event.target.value;
         if (this.subsourceSelected && this.complaintSelected && this.natureVal)
@@ -804,16 +748,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         var fields = {};
 
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        //fr
-
-        var contact;
-        if (!this.flag) {
-            contact = this.value;
-        }
-        //fields[SUBJECT_FIELD.fieldApiName] = 'SR : '+selected.Type__c;
+        
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
-        fields[CASE_BUSINESSUNIT.fieldApiName] = this.primaryLOBValue;
-        fields[SOURCE_FIELD.fieldApiName] = this.strSource;
+        fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[SUBTYPETXT_FIELD.fieldApiName] = selected.Sub_Type__c;
 
@@ -939,7 +876,16 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     handleTransactionChange(event){
         this.transactionNumber = event.target.value;
     }
+    handleTrackId(event){
+        this.trackId = event.target.value;
+        if(this.trackId.length != 0){
+            this.isNotSelected = false;
+        }
+        else {
+            this.isNotSelected = true;
+        }
 
+    }
     async handleConfirmClick(msg) {
         const result = await LightningConfirm.open({
             message: msg,

@@ -62,6 +62,7 @@ public with sharing class ASF_CaseFrameworkValidator {
             }
             else{
                 caseRecordValue = String.valueOf(caseRecord.get(cre.Field_Api_Name__c));
+                caseRecordValue = caseRecordValue==null?'':caseRecordValue;
             }
             
             cre.Data_Type__c = cre.Data_Type__c.toLowerCase();
@@ -243,5 +244,22 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         
         return result;
+    }
+
+    /**
+     * Validates if the Case Approval, if any, is Approved for
+     * the stage movement
+     */
+    public static Boolean validateApprovals(Case currentCase){
+        
+        List<ASF_Case_Approv__c> allCaseApprovals 
+            = ASF_CaseQueryHandler.getCaseApprovals(new Set<Id>{currentCase.Id}, new Set<String>{currentCase.Stage__c});
+        
+        if(allCaseApprovals.size() == 0 || allCaseApprovals[0].Approval_Status__c == 'Approved'){
+            return true;
+        }
+
+        return false;
+        
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ABHFL</fullName>
+        <default>false</default>
+        <label>ABHFL</label>
+    </customValue>
+    <customValue>
+        <fullName>Payments</fullName>
+        <default>false</default>
+        <label>Payments</label>
+    </customValue>
+    <customValue>
+        <fullName>Corporate</fullName>
+        <default>false</default>
+        <label>Corporate</label>
+    </customValue>
+    <customValue>
+        <fullName>Digital</fullName>
+        <default>false</default>
+        <label>Digital</label>
+    </customValue>
+    <customValue>
+        <fullName>Retail - Secured</fullName>
+        <default>false</default>
+        <label>Retail - Secured</label>
+    </customValue>
+    <customValue>
+        <fullName>Retail - Unsecured</fullName>
+        <default>false</default>
+        <label>Retail - Unsecured</label>
+    </customValue>
+    <customValue>
+        <fullName>Wealth</fullName>
+        <default>false</default>
+        <label>Wealth</label>
+    </customValue>
+    <customValue>
+        <fullName>Not classified</fullName>
+        <default>false</default>
+        <label>Not classified</label>
+    </customValue>
+    <masterLabel>LOB</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -36,7 +36,7 @@ public with sharing class ASF_CasemergeController {
                     }
                 }
             }
-            update casesToUpdate;
+            //update casesToUpdate;
             return 'Success';
         } 
         catch (Exception e) {

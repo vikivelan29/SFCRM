@@ -52,11 +52,31 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         for(integer counter = 1; counter<=mergeFields.size(); counter++){
             mergeField = mergeFields[counter-1];
             
-            System.debug('mergeField ----> '+mergeField);
-            
             if(mergeField.contains('.')){
                 String[] arr = mergeField.split('\\.');
-                fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                integer iRelLevel = 0;
+                for(integer i=0;i<arr.size();i++){
+                    if(arr[i].endsWith('__r')){
+                        iRelLevel++;
+                        if(iRelLevel >=3){
+                            break;
+                        }
+                    }
+                }
+                if(iRelLevel == 1){
+                    fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                }
+                else if(iRelLevel ==2){
+                    fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]);
+                }
+                else if(iRelLevel ==3){
+                    fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]);
+                }
+                else{
+                    fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                }
+                    System.debug('fieldValue --> '+fieldValue);
+                //fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
             }else{
                 
                 Schema.DisplayType FldType = casefieldInfo.get(mergeField).getDescribe().getType();
