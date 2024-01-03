@@ -50,66 +50,6 @@
                 <default>false</default>
                 <label>Business Team</label>
             </value>
-            <value>
-                <fullName>Taxation Team</fullName>
-                <default>false</default>
-                <label>Taxation Team</label>
-            </value>
-            <value>
-                <fullName>CPU NACH Team</fullName>
-                <default>false</default>
-                <label>CPU NACH Team</label>
-            </value>
-            <value>
-                <fullName>Policy Team</fullName>
-                <default>false</default>
-                <label>Policy Team</label>
-            </value>
-            <value>
-                <fullName>CAD Team</fullName>
-                <default>false</default>
-                <label>CAD Team</label>
-            </value>
-            <value>
-                <fullName>IT Team</fullName>
-                <default>false</default>
-                <label>IT Team</label>
-            </value>
-            <value>
-                <fullName>Operation Team</fullName>
-                <default>false</default>
-                <label>Operation Team</label>
-            </value>
-            <value>
-                <fullName>Legal Team</fullName>
-                <default>false</default>
-                <label>Legal Team</label>
-            </value>
-            <value>
-                <fullName>Customer Service Team</fullName>
-                <default>false</default>
-                <label>Customer Service Team</label>
-            </value>
-            <value>
-                <fullName>Collection Team</fullName>
-                <default>false</default>
-                <label>Collection Team</label>
-            </value>
-            <value>
-                <fullName>Customer pendency</fullName>
-                <default>false</default>
-                <label>Customer pendency</label>
-            </value>
-            <value>
-                <fullName>TDS Ops Team</fullName>
-                <default>false</default>
-                <label>TDS Ops Team</label>
-            </value>
-            <value>
-                <fullName>Disbursement Ops team</fullName>
-                <default>false</default>
-                <label>Disbursement Ops team</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
