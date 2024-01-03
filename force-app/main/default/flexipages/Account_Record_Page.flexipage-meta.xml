@@ -102,10 +102,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>isCurrent</name>
-                    <value>false</value>
-                </componentInstanceProperties>
                 <componentName>asf_FetchAssetsRelatedToAccount</componentName>
                 <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
             </componentInstance>
