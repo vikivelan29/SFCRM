@@ -807,9 +807,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     handleTransactionChange(event) {
         this.transactionNumber = event.target.value;
-        if(this.transactionNumber != null && this.transactionNumber != undefined){
-            this.transactionNumber  = this.transactionNumber.trim();
-        }
     }
     async handleConfirmClick(msg) {
         const result = await LightningConfirm.open({

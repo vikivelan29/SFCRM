@@ -1,0 +1,157 @@
+<template>
+    <lightning-card>
+        <template if:true={loaded}>
+            <template if:true={ctstSelection}>
+                <h1 slot="title">SR Type Search</h1>
+                <lightning-layout multiple-rows="true" vertical-align="end">
+                    <lightning-layout-item size="8" padding="around-small">
+                        <!--Input text to Search Account-->
+                        <lightning-input type="search" label="" value={searchKey} onchange={handelSearchKey}>
+                        </lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="4" padding="around-small">
+                        <!--Search Button-->
+                        <lightning-button label="Search" variant="brand" onclick={SearchAccountHandler}>
+
+                        </lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small">
+                        <template if:true={boolShowNoData}>
+                            <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
+                        </template>
+                        <!--List Of Account Using data Tabel-->
+                        <template if:false={boolShowNoData}>
+                            <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
+                                onrowselection={getSelectedName} class="slds-max-medium-table_stacked">
+                            </lightning-datatable>
+                        </template>
+                        <br>
+                        <template if:true={createCaseWithAll}>
+                            <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark"
+                                role="status">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-utility-info" title="information">
+                                        <lightning-icon icon-name="utility:info" alternative-text="Create SR"
+                                            title="Create SR" size="small" variant="inverse"></lightning-icon>
+                                        <span class="slds-assistive-text">information</span>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <p>Please select the following values to create a service request</p>
+                                </div>
+                            </div>
+                            <br>
+                            <lightning-record-edit-form object-api-name="Case">
+                                <lightning-messages></lightning-messages>
+                                <template if:true={isAllNature}>
+                                    <lightning-input-field field-name="Nature__c" data-id="natureField" required=true
+                                        onchange={handleNatureVal} value={natureVal}> </lightning-input-field>
+                                </template>
+                                <template if:true={isAllProduct}>
+                                    <lightning-input-field field-name="Product__c" data-id="productField" required=true
+                                        onchange={handleProductVal} value={productVal}> </lightning-input-field>
+                                </template>
+                            </lightning-record-edit-form>
+                            <template if:true={isRequestAndQuery}>
+                                <lightning-combobox value={natureVal} label="Nature" options={natureValues}
+                                    onchange={handleChangeNature} required>
+                                </lightning-combobox>
+                            </template>
+                            <template if:true={boolAllSourceVisible}>
+                                <lightning-combobox data-id="Source Field" value={sourceFldValue} label="Source"
+                                    options={sourceFldOptions} onchange={handleSource} placeholder={strSource} read-only
+                                    required>
+                                </lightning-combobox>
+                            </template>
+                            <!--- </div></div> -->
+                            <template if:true={boolAllChannelVisible}>
+                                <lightning-combobox value={strChannelValue} label="Channel" options={lstChannelValues}
+                                    onchange={handleChangeChannel} placeholder={strDefaultChannel} required>
+                                </lightning-combobox>
+                            </template>
+                        </template>
+
+                        <template if:true={isPhoneInbound}>
+                            <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
+                                required></lightning-input>
+                        </template>
+
+                        <template if:true={isTransactionRelated}>
+                            <lightning-input type="text" label="Transaction Number" value={transactionNumber}
+                                onchange={handleTransactionChange} required class="validate"></lightning-input>
+                        </template>
+
+
+                        <template if:true={complaintLevelVisible}>
+                            <lightning-record-edit-form object-api-name="Case">
+                                <lightning-input-field class="slds-hide" variant="label-stacked"
+                                    field-name="Complaint_Level__c" value={caseComplaintLevel} data-id="Source">
+                                </lightning-input-field>
+                                <lightning-input-field style="margin-left: -3px;" variant="label-stacked"
+                                    field-name="Sub_source__c" data-id="SubSource" required=true
+                                    onchange={handleSubSource} value={subsourceSelected}>
+                                </lightning-input-field>
+                            </lightning-record-edit-form>
+                            <lightning-input type="text" disabled value={selectedSRCategory}
+                                label="SR Category"></lightning-input>
+                        </template>
+
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        <!--<lightning-button label="Create SR" variant="brand" disabled={isNotSelected}
+                            onclick={createCaseHandler}></lightning-button>-->
+
+                    </lightning-layout-item>
+
+                </lightning-layout>
+            </template>
+            <template if:false={ctstSelection}>
+                <h1 slot="title">Prospect Creation Form</h1>
+                <div>
+                    <lightning-record-edit-form object-api-name="Lead" onsuccess={handleSuccess}
+                    data-id="leadCreateForm" onsubmit={handleLeadSubmit}>
+                        <lightning-messages></lightning-messages>
+                        <div class="slds-grid slds-wrap slds-m-around_small">
+                            <template if:true={fields}>
+                                <template for:each={fields} for:item="f">
+                                    <div key={f.Id} class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name={f.FieldName} required={f.required} class="validate">
+                                        </lightning-input-field>
+                                    </div>
+                                </template>
+                            </template>
+                            <div class="slds-m-top_medium">
+                                <template if:true={showDupeList}>
+                                    <div class="slds-box slds-theme_shade">
+                                        <p>Duplicate prospect found with matching information.</p>
+                                    </div>
+                                    <lightning-datatable key-field="id" data={dupeLead} columns={dupeLeadCols}
+                                    hide-checkbox-column class="slds-max-medium-table_stacked">
+                                    </lightning-datatable>
+                                </template>
+
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+
+            </template>
+
+        </template>
+        <template if:false={loaded}>
+            <!--<lightning-spinner alternative-text="Loading"></lightning-spinner>-->
+        </template>
+    </lightning-card>
+    <div class="slds-modal__footer slds-modal__footer_directional">
+        <button class="slds-button slds-button_neutral" onclick={handleBack} disabled={disableBackBtn}>Back</button>
+        <template if:true={ctstSelection}>
+            <button class="slds-button slds-button_brand" onclick={handleNext} disabled={disbleNextBtn}>Next</button>
+        </template>
+        <template if:false={ctstSelection}>
+            <button class="slds-button slds-button_brand" onclick={createCaseHandler} disabled={disableCreateBtn}>Create Prospect and Case</button>
+        </template>
+        
+    </div>
+    <!--- </template> -->
+</template>

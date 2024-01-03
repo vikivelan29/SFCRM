@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <description>This apex class is for checking the BU Specific logic.</description>
+        <name>Additional_Checks_for_Email_Templates</name>
+        <label>Additional Checks for Email Templates</label>
+        <locationX>842</locationX>
+        <locationY>2171</locationY>
+        <actionName>ASF_CustomerEmailInvocable</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Check_for_contact_or_account</targetReference>
+        </connector>
+        <dataTypeMappings>
+            <typeName>T__cccRecord</typeName>
+            <typeValue>ASF_Case_Category_Config__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>caseStatus</name>
+            <value>
+                <elementReference>$Record.Status</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>cccRecord</name>
+            <value>
+                <elementReference>Get_case_config</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateName</name>
+            <value>
+                <elementReference>EmailTempDevName</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
+        <outputParameters>
+            <assignToReference>SuppresssEmail</assignToReference>
+            <name>supressEmail</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <name>templateName</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
         <locationX>1793</locationX>
@@ -50,7 +101,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_case_config.Resolved_Case_SMS_Metadata__c</elementReference>
+                <stringValue>Closed</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -68,7 +119,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_for_contact_or_account</targetReference>
+            <targetReference>Email_Template_Found</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -80,7 +131,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_case_config.New_Case_SMS_Metadata__c</elementReference>
+                <stringValue>Open_TAT_Available</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -98,7 +149,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_for_contact_or_account</targetReference>
+            <targetReference>Email_Template_Found</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -110,7 +161,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_case_config.Rejected_Case_SMS_Metadata__c</elementReference>
+                <stringValue>Rejection_Reason_Available</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -128,12 +179,12 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_for_contact_or_account</targetReference>
+            <targetReference>Email_Template_Found</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>By_Pass_Flow</name>
-        <label>By Pass Flow</label>
+        <name>By_pass_flow</name>
+        <label>By pass flow</label>
         <locationX>408</locationX>
         <locationY>323</locationY>
         <defaultConnector>
@@ -196,7 +247,7 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
-                <operator>IsChanged</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -282,7 +333,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND 10)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -292,7 +343,7 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record__Prior.Status</leftValueReference>
-                <operator>EqualTo</operator>
+                <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Closed</stringValue>
                 </rightValue>
@@ -330,6 +381,27 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Recategorisation_Date__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CCC_External_Id__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.CCC_External_Id__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFL</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -342,11 +414,11 @@
         <name>Check_for_contact_or_account</name>
         <label>Check for contact or account</label>
         <locationX>974</locationX>
-        <locationY>2063</locationY>
+        <locationY>2363</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Con_Acc_exists</name>
-            <conditionLogic>(1 OR 2) AND (3 OR 4)</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 6) AND (3 OR 4) AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.AccountId</leftValueReference>
                 <operator>IsNull</operator>
@@ -375,6 +447,20 @@
                     <stringValue></stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>SuppresssEmail</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Lead__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_PE_Logger_Record</targetReference>
             </connector>
@@ -389,7 +475,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Case_status</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND  4 AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -409,6 +495,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Rejected</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Technical_Source__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFL</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -536,7 +636,7 @@
             <connector>
                 <targetReference>Open_Email_Template</targetReference>
             </connector>
-            <label>Open - Status</label>
+            <label>New - Status</label>
         </rules>
         <rules>
             <name>Closed_Stage</name>
@@ -558,7 +658,7 @@
             <connector>
                 <targetReference>Closed_Email_Template</targetReference>
             </connector>
-            <label>Closed - Status</label>
+            <label>Resolved - Status</label>
         </rules>
         <rules>
             <name>Rejection_Stage</name>
@@ -580,9 +680,35 @@
             <connector>
                 <targetReference>Rejection_Email_Template</targetReference>
             </connector>
-            <label>Unresolved - Status</label>
+            <label>Unresolved - Stage</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Email_Template_Found</name>
+        <label>Email Template Found?</label>
+        <locationX>974</locationX>
+        <locationY>2063</locationY>
+        <defaultConnector>
+            <targetReference>Check_for_contact_or_account</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>EmailTempDevName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Additional_Checks_for_Email_Templates</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>added condition to send an email for ABFL when case is categorized .</description>
     <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
@@ -614,7 +740,7 @@
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
         <locationX>842</locationX>
-        <locationY>2171</locationY>
+        <locationY>2471</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
         </connector>
@@ -661,6 +787,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>$Record.Lead__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>No_Auto_Communication__c</field>
+            <value>
+                <elementReference>$Record.No_Auto_Communication__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>PE_Name__c</field>
             <value>
                 <stringValue>CommnunicationLog</stringValue>
@@ -697,7 +835,7 @@
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
         <locationX>842</locationX>
-        <locationY>2279</locationY>
+        <locationY>2579</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
             <value>
@@ -756,7 +894,7 @@
         <locationX>282</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>By_Pass_Flow</targetReference>
+            <targetReference>By_pass_flow</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
         <filters>
@@ -778,6 +916,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>API</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Technical_Source__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Email</stringValue>
             </value>
         </filters>
         <object>Case</object>
@@ -822,6 +967,13 @@
     <variables>
         <name>SMSCustomMetadataName</name>
         <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SuppresssEmail</name>
+        <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

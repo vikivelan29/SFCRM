@@ -81,7 +81,7 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
                 slaHistory.Status__c = 'Violated';
             }
 
-            system.debug(slaHistory.Stage_Violation_Start_Date__c + slaHistory.Level__c + ' ' + slaHistory.Case__r.Stage_SLA_2__c + ' ' + currentTime);
+
             if(slaHistory.Stage_Violation_Start_Date__c != null && slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&(slaHistory.Case__r.Stage_SLA_3__c < currentTime)){
                 if(slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
                     slaHistory.Level__c = '3';
@@ -107,20 +107,17 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
 
         }
 
-        System.debug('CASE SLA CHECK' + casesList[0].Stage_SLA_2__c + ' ' + currentTime + (casesList[0].Stage_SLA_2__c < currentTime));
         for(Case caseObj : casesList){
             if(caseInBusinessHour.containsKey(caseObj.Id) && caseInBusinessHour.get(caseObj.Id) && caseObj.Is_Approval_Stage__c == false){
-                if(caseObj.Stage_SLA_3__c != null && (caseObj.Stage_SLA_3__c < currentTime)){
+                if(caseObj.Stage_SLA_2__c != null && caseObj.Stage_SLA_2__c < currentTime
+                && caseIdSLAHistoryMap.containsKey(caseObj.Id) && caseIdSLAHistoryMap.get(caseObj.Id).Level__c == '2'){
                     caseMap.put(caseObj.Id, caseObj);
-                    if(caseIdSLAHistoryMap.containsKey(caseObj.Id)){
-                        caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 3');
-                    }
+                    caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 2');
                 }
-                else if(caseObj.Stage_SLA_2__c != null && (caseObj.Stage_SLA_2__c < currentTime)){
+                else if(caseObj.Stage_SLA_3__c != null && caseObj.Stage_SLA_3__c < currentTime
+                && caseIdSLAHistoryMap.containsKey(caseObj.Id) && caseIdSLAHistoryMap.get(caseObj.Id).Level__c == '3'){
                     caseMap.put(caseObj.Id, caseObj);
-                    if(caseIdSLAHistoryMap.containsKey(caseObj.Id)){
-                        caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 2');
-                    }
+                    caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 3');
                 }
             }
         }
@@ -177,7 +174,6 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
         }
 
         if(!slaHistoryList.isEmpty()){ 
-            system.debug(slaHistoryList);
             UPDATE slaHistoryList;
         }
         if(!emailList.isEmpty()){

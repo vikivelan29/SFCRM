@@ -16,7 +16,7 @@ public with sharing class ASF_IntegrationsController {
         if(c3ExtId != null && stageName != null){
             returnList = [
                 SELECT Id, Processing_Class__c, STP_Processing_Class__c,
-                    External_Id__c, Type__c, Display_Name__c
+                    External_Id__c, Type__c, Display_Name__c,STP_API_Identifier__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
@@ -39,7 +39,7 @@ public with sharing class ASF_IntegrationsController {
             returnList = [
                 SELECT Id, Processing_Class__c, STP_Processing_Class__c, 
                     External_Id__c, Type__c, Display_Name__c, 
-                    UI_Component__c, Auto_Run_on_Load__c
+                    UI_Component__c, Auto_Run_on_Load__c, STP_API_Identifier__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
@@ -58,24 +58,25 @@ public with sharing class ASF_IntegrationsController {
      * Returning the response back from the business class
      */
     @AuraEnabled
-    public static Object runIntegration(ASF_Integration__c integ, Case caseRec){
+    public static IntegrationWrapper runIntegration(ASF_Integration__c integ, Case caseRec){
         try {
-            boolean invokeIntegration = true;
-            Object result;
+            IntegrationWrapper result = new IntegrationWrapper();
+            //Object result;
             // First check evaluation
-            system.debug(integ.Processing_Class__c);
             Type customType = Type.forName(integ.Processing_Class__c);
             ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
-            invokeIntegration = instance.evaluate(caseRec);
+            IntegrationWrapper invokeIntegration = instance.evaluate(caseRec);
             
             // Then run the actual integration
-            if(invokeIntegration){
-                result = instance.run(integ, caseRec);
+            if(invokeIntegration.status != 'Success'){
+                return invokeIntegration;
+                
             }
+            result = instance.run(integ, caseRec);
             return result;
         } catch (Exception e) {
-            system.debug(e);
-            throw new AuraHandledException(e.getMessage());
+            //throw new AuraHandledException(e.getMessage());    
+            throw e;	
         }
     }
 
@@ -118,6 +119,16 @@ public with sharing class ASF_IntegrationsController {
             aci.Status__c = 'Canceled';
         }
         update aciPending;
+    }
+      
+    public class IntegrationWrapper{
+        
+        @AuraEnabled
+        public String status;
+        @AuraEnabled
+        public String response;
+        @AuraEnabled
+        public Id assignToId;
     }
 
 }

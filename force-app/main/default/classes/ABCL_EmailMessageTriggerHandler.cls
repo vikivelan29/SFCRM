@@ -10,4 +10,18 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     public override void beforeInsert(List<SObject> newItems){
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
     }
+    
+    
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - AfterInsert
+    * @param newEmails - map of cases from trigger.newMap()
+    * @return - void .
+    * @Description - After Insert Handler for Email Message
+    *****************************************************************************************************************/        
+    public override void AfterInsert(map<Id, sObject> newEmails){
+        ABCL_EmailMessageHelper.ebotHandler(newEmails);
+    }
+    
+    
 }

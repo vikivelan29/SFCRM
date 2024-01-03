@@ -112,8 +112,7 @@ public class ASF_CaseSLAHandlerV1_Test {
         }
         test.startTest();
         	ASF_Case360Controller.moveToRequestedStage(cases[0].Id, 'In Progress', true);
-        	ASF_CaseSLAHandlerV1 handler= new ASF_CaseSLAHandlerV1();
-        	handler.calculateSLAOnCaseInsert(cases);
+        	ASF_CaseSLAHandlerV1.calculateSLAOnCaseInsert(cases);
         test.stopTest();
         List<Case> updatedCases = [SELECT Id, Owner.Name, BusinessHoursId, Status, Stage__c, Bulk_Action__c, CCC_External_Id__c, OwnerId, Reopened__c FROM Case WHERE Id = :cases[0].Id];
         System.assertNotEquals(null, updatedCases[0].Id, 'Case Id should not be null');

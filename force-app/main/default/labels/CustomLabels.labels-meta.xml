@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABCL_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Business_Unit</shortDescription>
+        <value>ABHFL,ABFL,Payments</value>
+    </labels>
+    <labels>
         <fullName>ASF_CRN_Basis_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -35,6 +42,13 @@
         <protected>false</protected>
         <shortDescription>ASF_Case_NoRecordMessage</shortDescription>
         <value>No Records found for the selected search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_Owner_Queue_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Case Owner Queue Val Msg</shortDescription>
+        <value>You cannot assign to a Queue that is not of your BU</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithFA</fullName>
@@ -133,6 +147,13 @@
         <protected>false</protected>
         <shortDescription>ASF_No_SMSemplate_On_CCC</shortDescription>
         <value>No template available on this record. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Owner_Change_Access_Val_Msg</shortDescription>
+        <value>You do not have access to change the Owner for this case</value>
     </labels>
     <labels>
         <fullName>ASF_Preframework_sla_timer</fullName>
@@ -282,11 +303,25 @@
         <value>Tasks not complete for the SR.</value>
     </labels>
     <labels>
+        <fullName>LOB_for_masked_fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LOB for masked fields</shortDescription>
+        <value>ABHFL</value>
+    </labels>
+    <labels>
         <fullName>Maker_Owner_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
         <value>This user cannot be assigned as the user has worked on the SR in the Maker stage.</value>
+    </labels>
+    <labels>
+        <fullName>Masked_Subject_Email_Template_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Masked Subject Email Template Ids</shortDescription>
+        <value>00X9I000000A8VlUAK</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -308,5 +343,370 @@
         <protected>false</protected>
         <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
         <value>false</value>
+    </labels>
+    <labels>
+        <fullName>STP_Flows</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Flows</shortDescription>
+        <value>Interest Schedule,Provisional Interest Certificate</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Business_Unit</shortDescription>
+        <value>ABHFL,ABFL,Payments</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CRN_Basis_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CRN_Basis_Case</shortDescription>
+        <value>Case will be created on Customer Basis</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseBrowserSubscriber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseBrowserSubscriber</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseEndStatuses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseEndStatuses</shortDescription>
+        <value>Closed,Resolved,Rejected</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_In_Queue_Long</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Case_In_Queue_Long</shortDescription>
+        <value>60</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_NoRecordMessage</fullName>
+        <categories>Contains No records message displayed in UI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Case_NoRecordMessage</shortDescription>
+        <value>No Records found for the selected search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_Owner_Queue_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Case Owner Queue Val Msg</shortDescription>
+        <value>You cannot assign to a Queue that is not of your BU</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateSRwithFA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateSRwithFA</shortDescription>
+        <value>Create SR with A/c #</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateSRwithoutFA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
+        <value>Create SR for Customer</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Customer_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Customer_Mandatory</shortDescription>
+        <value>Please select Customer to process SR type search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Email_Bot_Feedback_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Email Bot Feedback BU</shortDescription>
+        <value>ABHFL;ABFL</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMessage</shortDescription>
+        <value>An unexpected error occurred. Please contact system admin.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Error_Case_Merge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Error_Case_Merge</shortDescription>
+        <value>Please try after some time, If you are still getting this error please contact you system administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_FA_Mandatory_preframework</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_FA_Mandatory_preframework</shortDescription>
+        <value>Please select Financial Account first to process SR type search</value>
+    </labels>
+    <labels>
+        <fullName>ASF_FA_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_FA_Validation_Message</shortDescription>
+        <value>Please select Loan Account Number to process SR type search</value>
+    </labels>
+    <labels>
+        <fullName>ASF_HiddenComps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_HiddenComps</shortDescription>
+        <value>NA</value>
+    </labels>
+    <labels>
+        <fullName>ASF_JWTAuthAudience</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_JWTAuthAudience</shortDescription>
+        <value>api.abcl.com</value>
+    </labels>
+    <labels>
+        <fullName>ASF_JWTAuthSubscriber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_JWTAuthSubscriber</shortDescription>
+        <value>mulesoft@abcl.dev</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_DML_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_DML_Access</shortDescription>
+        <value>Looks like, You don&apos;t have access to make changes.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_Merge_Duplicates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_Merge_Duplicates</shortDescription>
+        <value>No duplicate SRs found.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_Record_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_Record_Selected</shortDescription>
+        <value>Please select at least one record to proceed.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_SMSemplate_On_CCC</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_SMSemplate_On_CCC</shortDescription>
+        <value>No template available on this record. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Owner_Change_Access_Val_Msg</shortDescription>
+        <value>You do not have access to change the Owner for this case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Preframework_sla_timer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Preframework sla timer</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SLA_NoReplyAdress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SLA_NoReplyAdress</shortDescription>
+        <value>virendra.patil@salesforce.com</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SMS_Delivered_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SMS_Delivered_Failed</shortDescription>
+        <value>Message couldn&apos;t be delivered. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SMS_Delivered_Sucess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SMS_Delivered_Sucess</shortDescription>
+        <value>Message delivered successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SRButtonName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SRButtonName</shortDescription>
+        <value>Create SR</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SearchAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SearchAPI</shortDescription>
+        <value>[{&quot;id&quot;:&quot;AccountSearch_API&quot;,&quot;value&quot;:&quot;Account Search&quot;,&quot;label&quot;:&quot;Recent Accounts&quot;},{&quot;id&quot;:&quot;CreditCardsSearch_API&quot;,&quot;value&quot;:&quot;Credit Card Search&quot;,&quot;label&quot;:&quot;Recent Credit Cards&quot;},{&quot;id&quot;:&quot;DebitCardsSearch_API&quot;,&quot;value&quot;:&quot;Debit Card Search&quot;,&quot;label&quot;:&quot;Recent Debit Cards&quot;},{&quot;id&quot;:&quot;ForexCardSearch_API&quot;,&quot;value&quot;:&quot;Forex Card Search&quot;,&quot;label&quot;:&quot;Recent Forex Cards&quot;},{&quot;id&quot;:&quot;LoanSearch_API&quot;,&quot;value&quot;:&quot;Loan Search&quot;,&quot;label&quot;:&quot;Recent Loans&quot;}]</value>
+    </labels>
+    <labels>
+        <fullName>ASF_StringBlank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_StringBlank</shortDescription>
+        <value>--</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Success_Case_Merge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Success_Case_Merge</shortDescription>
+        <value>SR has been merged successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Whatsapp_No_Contacts_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Whatsapp_No_Contacts_Available</shortDescription>
+        <value>No contacts are associated with this SR. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_default_no_reply_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_default_no_reply_email</shortDescription>
+        <value>No Reply Address</value>
+    </labels>
+    <labels>
+        <fullName>ASF_default_no_reply_email_address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
+        <value>No Reply Address</value>
+    </labels>
+    <labels>
+        <fullName>Case_Closed_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case Closed Error Message</shortDescription>
+        <value>You are not allowed to edit a Closed SR.</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner V2 User to user vaiidation</shortDescription>
+        <value>! Can not assign Owner, since the selected records are already owned by as user.</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_V2_current_user_not_part_of_queue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner V2 current user not part of queue</shortDescription>
+        <value>You are not part of the Queue</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_v2_different_owners_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner v2 different owners error</shortDescription>
+        <value>Selected records belongs to more than one different owners</value>
+    </labels>
+    <labels>
+        <fullName>Change_owner_v2_no_access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change owner v2 no access</shortDescription>
+        <value>You don&apos;t have access to change the Owner</value>
+    </labels>
+    <labels>
+        <fullName>Change_owner_v2_target_user_not_part_of_queue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change owner v2 target user not part of queue</shortDescription>
+        <value>Selected user is not part of the Queue</value>
+    </labels>
+    <labels>
+        <fullName>EndUserProfiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EndUserProfiles</shortDescription>
+        <value>Base Profile</value>
+    </labels>
+    <labels>
+        <fullName>FA_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FA_Mandatory</shortDescription>
+        <value>Please select Financial Account first to create a case with FA.</value>
+    </labels>
+    <labels>
+        <fullName>Incomplete_Checklist_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incomplete Checklist Error Message</shortDescription>
+        <value>Incomplete Checklists found for the SR.</value>
+    </labels>
+    <labels>
+        <fullName>Incomplete_Tasks_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incomplete Tasks Error Message</shortDescription>
+        <value>Tasks not complete for the SR.</value>
+    </labels>
+    <labels>
+        <fullName>LOB_for_masked_fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LOB for masked fields</shortDescription>
+        <value>ABHFL</value>
+    </labels>
+    <labels>
+        <fullName>Maker_Owner_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Maker_Owner_Error_Message</shortDescription>
+        <value>This user cannot be assigned as the user has worked on the SR in the Maker stage.</value>
+    </labels>
+    <labels>
+        <fullName>Masked_Subject_Email_Template_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Masked Subject Email Template Ids</shortDescription>
+        <value>00X9I000000A8VlUAK</value>
+    </labels>
+    <labels>
+        <fullName>Owner_Change_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Owner Change Validation Message</shortDescription>
+        <value>Selected user is not part of queue.</value>
+    </labels>
+    <labels>
+        <fullName>Ownership_Change_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ownership Change Validation Message</shortDescription>
+        <value>You can not change owner as you are not part of the queue.</value>
+    </labels>
+    <labels>
+        <fullName>PAY_SkipCustomerCreationOnCaseCreationAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
+        <fullName>STP_Flows</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Flows</shortDescription>
+        <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
 </CustomLabels>
