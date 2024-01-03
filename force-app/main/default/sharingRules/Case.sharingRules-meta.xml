@@ -5,7 +5,7 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABFL Cases to ABFL Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
