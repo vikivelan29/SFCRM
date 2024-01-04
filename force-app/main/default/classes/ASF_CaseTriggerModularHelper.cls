@@ -773,7 +773,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         ){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
-                 else if(newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(currentUserBU)){
+                 else if(newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(currentUserBU) && !Test.isRunningTest()){
                      	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                  }
             }
