@@ -6,15 +6,18 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
         retCls.updatedCase = caseRec;
         retCls.isCaseUpdated = false;
 		Boolean isGrievanceUser = ABHFL_ComplaintCTSTHelper.isInGrievanceTeam(caseRec);
+        //Vaidation for Case Resolution - only Grievance team can Resolve the case.
         if(!isGrievanceUser){
              retCls.status = ABHFL_Constants.ERROR;
              retCls.errorMessage = Custom_Messages__mdt.getInstance('ABHFL_Not_allowed_to_resolve_this_case').Message__c;
         }
-        Boolean checkGAPFields = ABHFL_ComplaintCTSTHelper.validateGAPfields(caseRec);
-        if(isGrievanceUser && checkGAPFields){
-            retCls.status = ABHFL_Constants.ERROR;
-            retCls.errorMessage = Custom_Messages__mdt.getInstance('ABHFL_Complaints_GAP_validation_error').Message__c;
-        }
+        ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = ABHFL_ComplaintCTSTHelper.validateRCAfields(caseRec);
+        //Vaidation for RCA Fields
+        if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
+    		retCls.status = ABHFL_Constants.ERROR;
+			retCls.errorMessage = wrapperResult.message;
+		}
+
         return retCls;
         
     }
