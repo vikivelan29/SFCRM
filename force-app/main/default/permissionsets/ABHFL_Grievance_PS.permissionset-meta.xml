@@ -43,6 +43,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ABHFL_Case_Detail__c.Case_Categorization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Correct_Sub_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
