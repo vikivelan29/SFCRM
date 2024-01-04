@@ -13,7 +13,7 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
         }
         ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = ABHFL_ComplaintCTSTHelper.validateRCAfields(caseRec);
         //Vaidation for RCA Fields
-        if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
+        if(isGrievanceUser && wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
     		retCls.status = ABHFL_Constants.ERROR;
 			retCls.errorMessage = wrapperResult.message;
 		}
