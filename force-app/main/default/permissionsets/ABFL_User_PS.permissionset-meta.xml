@@ -9,6 +9,14 @@
         <enabled>true</enabled>
     </classAccesses> 
     <classAccesses>
+        <apexClass>ABCL_IntegrationCommonUtility</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
+    <classAccesses>
         <apexClass>ASF_CaseIntegrationTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2036,6 +2044,61 @@
         <readable>true</readable>
     </fieldPermissions>
     -->
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.AccountId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.CCCExternalId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.ContactId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Content_Version_Ids__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.CustomMetadataName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Email_Template_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Is_Attachment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.PE_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Retry_PE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Unique_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL User PS</label>
     <objectPermissions>
@@ -2117,6 +2180,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product2</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>PE_Logger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
 </PermissionSet>
