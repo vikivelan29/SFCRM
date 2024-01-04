@@ -3,8 +3,9 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>Multiple Lan Template</name>
+    <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Multiple Lan Template</subject>
-    <type>text</type>
-    <uiType>Aloha</uiType>
+    <type>custom</type>
+    <uiType>SFX</uiType>
 </EmailTemplate>

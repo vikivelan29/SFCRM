@@ -2,9 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Unregistered Customer</name>
+    <name>LEAD</name>
+    <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Unregistered Customer</subject>
-    <type>text</type>
-    <uiType>Aloha</uiType>
+    <subject>Thank you for your interest in availing a loan from us</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
 </EmailTemplate>
