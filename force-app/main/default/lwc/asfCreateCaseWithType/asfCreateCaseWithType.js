@@ -495,7 +495,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         fields[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
-        fields[TRACK_ID.fieldApiName] = this.trackId;
+        //Field Checks
+        if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
+            fields[TRACK_ID.fieldApiName] = this.trackId;
+        }
         if (this.isasset == false) {
             console.log('--asset--',this.asset);
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
