@@ -125,10 +125,10 @@ public with sharing class ABFL_EBOTCaseLogics {
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setSubject('Escalation');
         mail.setToAddresses(address);
-        EmailTemplate et=[Select id, htmlValue, Body, subject from EmailTemplate where DeveloperName = 'SMT_Escalation_Template'];                
+        EmailTemplate et=[Select id, htmlValue, Body, subject from EmailTemplate where DeveloperName = 'SMT_Escalation_Template' AND TemplateType = 'custom' AND IsActive = true];                
         String plainBody = et.Body;
         //plainBody = plainBody.replace('{!Financial_Details__c.Applicant__r.Name}', financialDetails.Applicant__r.First_Name__c +' '+financialDetails.Applicant__r.Last_Name__c);
-        mail.setHtmlBody(plainBody);
+        mail.setHtmlBody(et.HtmlValue);
         emailList.add(mail);
         if(!emailList.isEmpty()){
             Messaging.sendEmail(emailList);
