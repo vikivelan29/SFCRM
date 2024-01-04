@@ -465,8 +465,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-        // Field Checks
-        if(this.trackId != null && this.trackId != undefined){
+        // Defensive check for value.
+        if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
             fields[TRACK_ID.fieldApiName] = this.trackId;
         }
         
