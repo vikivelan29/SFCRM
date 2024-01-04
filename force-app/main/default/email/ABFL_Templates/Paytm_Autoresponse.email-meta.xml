@@ -2,10 +2,9 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Registered Customer</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <name>Paytm Autoresponse</name>
     <style>none</style>
-    <subject>Registered Customer</subject>
-    <type>custom</type>
-    <uiType>SFX</uiType>
+    <subject>Paytm Autoresponse</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>

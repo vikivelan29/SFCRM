@@ -3,9 +3,8 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>SMT Escalation Template</name>
-    <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>SMT Escalation Template</subject>
-    <type>custom</type>
-    <uiType>SFX</uiType>
+    <subject>Escalation Template</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>
