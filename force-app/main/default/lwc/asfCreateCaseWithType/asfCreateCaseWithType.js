@@ -465,7 +465,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-        fields[TRACK_ID.fieldApiName] = this.trackId;
+        // Field Checks
+        if(this.trackId != null && this.trackId != undefined){
+            fields[TRACK_ID.fieldApiName] = this.trackId;
+        }
+        
         if (this.isasset == false) {
             console.log('--asset--',this.asset);
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
@@ -671,6 +675,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     btnActive = false;
                 }
             }
+            // SPECIFIC TO ABFL ONLY
+            //if(this.sourceFldValue == 'Phone-Inbound' && this.businessUnit == 'ABFL'){
             if(this.sourceFldValue == 'Phone-Inbound'){
                 btnActive = false;
                 this.isPhoneInbound = true;
