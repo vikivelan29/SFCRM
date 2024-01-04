@@ -2,10 +2,9 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Multiple Lan Template</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <name>Unregistered Customer</name>
     <style>none</style>
-    <subject>Multiple Lan Template</subject>
-    <type>custom</type>
-    <uiType>SFX</uiType>
+    <subject>Unregistered Customer</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>

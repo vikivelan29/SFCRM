@@ -2,10 +2,9 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>CLOSE CASE EMAIL TEMPLATE DIGITAL LENDING</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <name>Lead template</name>
     <style>none</style>
-    <subject>Case Created</subject>
-    <type>custom</type>
-    <uiType>SFX</uiType>
+    <subject>Lead</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>

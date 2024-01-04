@@ -2,10 +2,9 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>PaytmAutorespon</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <name>Multiple Lan Template</name>
     <style>none</style>
-    <subject>Payment link for seamless repayments!</subject>
-    <type>custom</type>
-    <uiType>SFX</uiType>
+    <subject>Multiple Lan Template</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
 </EmailTemplate>
