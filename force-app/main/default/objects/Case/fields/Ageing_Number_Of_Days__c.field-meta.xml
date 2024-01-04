@@ -6,10 +6,10 @@ Open cases - Today() - created date
 Closed case - resolved date - created date&quot;</description>
     <externalId>false</externalId>
     <formula>IF(
-    ISPICKVAL(Status, &quot;Open&quot;),
-    TODAY() - DATEVALUE( CreatedDate ),
+    NOT(ISPICKVAL(Status, &quot;Resolved&quot;)),
+    TODAY() - DATEVALUE(CreatedDate),
     IF(
-        ISPICKVAL(Status, &quot;Closed&quot;),
+        ISPICKVAL(Status, &quot;Resolved&quot;),
         IF(
             NOT(ISBLANK(ClosedDate)),
             DATEVALUE(ClosedDate) - DATEVALUE(CreatedDate),
