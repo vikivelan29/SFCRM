@@ -38,7 +38,7 @@ export class asf_Utility {
         console.log('##1111##'+JSON.stringify(selected));
         if(!parentJS.rejectCase){
             getCaseRelatedObjNameApex({cccId : selected.CCC_External_Id__c})
-            .then(result => {
+            .then(async result => {
                 var caseRelObjName = result;
                 console.log('##a##'+JSON.stringify(caseRelObjName));
                 const fields = {};
