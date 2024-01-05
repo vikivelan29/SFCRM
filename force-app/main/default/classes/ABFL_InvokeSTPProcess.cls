@@ -86,7 +86,7 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
                 caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
                 caseDetailRecord.Closure_Time__c = System.now();
                 caseDetailRecord.Autoclosed__c = true;
-
+                caseDetailRecord.Resolution_Comments__c = 'Resolved';
                 update caseDetailRecord;
                 System.debug('Case detail updated');
 
@@ -98,11 +98,18 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
                                                                    WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
                                                                    WITH SECURITY_ENFORCED];
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Resolved_Case_Email_Template__c, null, isTransferred);
+
+                    ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
+                    caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
+                    caseDetailRecord.Resolution_Comments__c = 'Resolved';
+                    update caseDetailRecord;
+
+                    //close the case
+                    caseRecord.MoveToNext__c = true;
+                    update caseRecord;
                 }
-                //close the case
-                caseRecord.MoveToNext__c = true;
-                update caseRecord;
             }
         }
     }
+
 }

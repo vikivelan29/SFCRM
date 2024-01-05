@@ -18,28 +18,51 @@ public class ABFL_STP_APIImplementation{
         System.debug('caseRec: ' + caseRec);
 
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
+		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear();
+        System.debug('@@@fis'+fi);
 
-        switch  on integRec.STP_API_Identifier__c{
-            when 'GetDemandAdvice_Corp'{
-                fireWithFilterOfNextDueDate(integRec, caseRec);
+        switch  on integRec.STP_API_Identifier__c {
+            when 'GetDemandAdvice_Corp' {
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'NEXT_DUE_DATE' => new Map<String, Object>{ 'lte' => Datetime.now().dateGMT() } };
+                performCallout(integRec, caseRecord, filter);
             }
+            when 'GetInterestResetLetter_Corp' {
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c };
+                performCallout(integRec, caseRecord, filter);
+            }
+            when 'GetRepaymentSchedule_Corp'{
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'DUEDATE' => new Map<String, Object>{ 'lte' => '' } };
+                performCallout(integRec, caseRecord, filter);
+            }
+            when 'GetWelcomeLetter_Corp'{
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c };
+                performCallout(integRec, caseRecord, filter);
+            }
+            when 'InterestDebitNote_Corp'{
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'gte' => fi[0]?.StartDate, 'lte' => fi[0]?.EndDate } };
+                performCallout(integRec, caseRecord, filter);
+            }
+            when 'SOA_Corp'{
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => fi[0]?.StartDate, 'toDate' => fi[0]?.EndDate },
+                    												'TRANSACTIONID' => ''};
+                performCallout(integRec, caseRecord, filter);
+            }
+             
         }
     }
 
     /****************************************************************************************************************
      * @LOB - ABFL
-     * @Function - fireWithFilterOfNextDueDate
+     * @Function - performCallout
      * @param integRec - ASF_Integration__c record from the framework.
      * @param caseRec - Case record from the framework.
      * @return - void
      * @Description - Invoked from the callout method of ABFL_STP_APIImplementation class
      *****************************************************************************************************************/
-    public static void fireWithFilterOfNextDueDate(ASF_Integration__c integRec, Case caseRec){
-        System.debug('In callout:' + caseRec.ID);
+    public static void performCallout(ASF_Integration__c integRec, Case caseRec, Map<String, Object> filter){
+        System.debug('In performCallout:' + caseRec.ID);
 
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRec.Id, '');
-
-        Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRec.LAN__c, 'NEXT_DUE_DATE' => new Map<String, Object>{ 'lte' => Datetime.now().dateGMT() } };
 
         ABFL_STP_Wrapper wrapper = new ABFL_STP_Wrapper(filter, caseRec);
 
@@ -55,16 +78,16 @@ public class ABFL_STP_APIImplementation{
     public class ABFL_STP_Wrapper{
         public Map<String, Object> filter;
         public String reportType;
-        public Boolean passwordProtectPDF;
+        public String passwordProtectPDF;
         public String pdfPassword;
         public String encryption;
 
         public ABFL_STP_Wrapper(Map<String, Object> filter, Case caseRec){
             this.filter = filter;
             this.reportType = 'pdf';
-            this.passwordProtectPDF = false;
+            this.passwordProtectPDF = 'False';
             this.pdfPassword = '';
-            this.encryption = '';
+            this.encryption = 'False';
         }
     }
 }
