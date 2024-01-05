@@ -81,7 +81,7 @@ public class ABFL_BRE_APIImplementation {
         public string source;
         public string email;
         public string mobileNumber;
-        
+        public string threadId;
         /****************************************************************************************************************
         * @LOB - ABFL
         * @Function - constructor
@@ -95,6 +95,7 @@ public class ABFL_BRE_APIImplementation {
             source = caseRec.BRE_Source__c;
             email = caseRec.Origin == 'Email'?caseRec.SuppliedEmail:cont[0]?.Email;
             mobileNumber = cont[0]?.MobilePhone != null?cont[0]?.MobilePhone:cont[0]?.Phone;
+            threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
         }
     }
     // Wrapper with dates
@@ -107,7 +108,7 @@ public class ABFL_BRE_APIImplementation {
         // From and to dates will be dynamically populated by the caller
         public Date fromDate;
         public Date toDate;
-        
+        public string threadId;
         /****************************************************************************************************************
         * @LOB - ABFL
         * @Function - constructor
@@ -123,6 +124,7 @@ public class ABFL_BRE_APIImplementation {
             mobileNumber = cont[0]?.MobilePhone != null?cont[0]?.MobilePhone:cont[0]?.Phone;
             fromDate = fi[0]?.StartDate;
             toDate = fi[0]?.EndDate;
+			threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
         }
     }
 }
