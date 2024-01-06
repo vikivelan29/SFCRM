@@ -649,6 +649,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.loadReady = false;
                 getRecordNotifyChange([{ recordId: this.recordId }]);
                 refreshApex(this.processApexReturnValue);
+                this.handleSearchPicklistRendering();
             })
             .catch((error) => {
                 console.error(error);
@@ -1307,6 +1308,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
         // - Virendra - Added below js to separate the original code. Created a Expression Formula field on Case Field Configuration.
         getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+        this.handleChangeForSearchPicklist(event);// Virendra - Searchable Picklist code.
         for (var fieldmdt in this.caseFieldsMetadata) {
             //console.log(this.caseFieldsMetadata[fieldmdt]);
 
@@ -2685,7 +2687,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     handleSearchPicklistRendering() {
         //on rerendered UI
         if (this.caseFieldsMetadata.length > 0) {
-            renderingPicklistOnStageAdjustment(this.template, this.caseFieldsMetadata, this.currentStep, this.caseExtensionRecordDetails, this.caseRecordDetails);
+            setTimeout(()=>{
+                renderingPicklistOnStageAdjustment(this.template, this.caseFieldsMetadata, this.currentStep, this.caseExtensionRecordDetails, this.caseRecordDetails);
+            },200)
+            
         }
 
     }
