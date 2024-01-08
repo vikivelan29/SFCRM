@@ -201,7 +201,7 @@ public class ASF_CaseApprovalTriggerHelper {
                                   WHERE TargetObjectId =: caseApprId ORDER BY CreatedDate DESC])
         {
             if((pi.Steps[0].comments == null || pi.Steps[0].Comments.trim().length()==0)){
-                newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
+                //newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
             }
         }
     }
