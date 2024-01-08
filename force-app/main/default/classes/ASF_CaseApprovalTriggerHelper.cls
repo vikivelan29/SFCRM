@@ -62,7 +62,13 @@ public class ASF_CaseApprovalTriggerHelper {
             if(String.isBlank(c.Approver_03__c)){
                 c.Approver_03__c = c.Approver_01__c;
             }
-            
+            if(String.isBlank(c.Approver_04__c)){
+                c.Approver_04__c = c.Approver_01__c;
+            }
+            if(String.isBlank(c.Approver_05__c)){
+                c.Approver_05__c = c.Approver_01__c;
+            }
+             
         } 
     }
     
