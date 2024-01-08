@@ -400,10 +400,7 @@
         <apexClass>ASF_OwnerShipChange</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_OwnerShipChangeTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
+    
     <classAccesses>
         <apexClass>ASF_PreFrameworkSLA</apexClass>
         <enabled>true</enabled>
