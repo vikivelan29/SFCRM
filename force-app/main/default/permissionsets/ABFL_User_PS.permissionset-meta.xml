@@ -32,10 +32,6 @@
         <apexClass>ABFL_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
-        <enabled>true</enabled>
-        <name>Restrict_User_Updation</name>
-    </customPermissions>
     <description>Permission set used for ABFL Business Unit</description>
     <fieldPermissions>
         <editable>true</editable>
