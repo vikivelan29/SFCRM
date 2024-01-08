@@ -52,7 +52,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Correct_Type_Sub_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
