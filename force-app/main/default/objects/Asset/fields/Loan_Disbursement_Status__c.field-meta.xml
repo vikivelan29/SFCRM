@@ -15,9 +15,9 @@
                 <label>Partially</label>
             </value>
             <value>
-                <fullName>Complete</fullName>
+                <fullName>Fully</fullName>
                 <default>false</default>
-                <label>Complete</label>
+                <label>Fully</label>
             </value>
         </valueSetDefinition>
     </valueSet>
