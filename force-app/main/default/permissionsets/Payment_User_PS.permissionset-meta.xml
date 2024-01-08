@@ -3,12 +3,7 @@
     <classAccesses>
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </classAccesses> 
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Field_Config__c.ASF_Is_Cloneable__c</field>
