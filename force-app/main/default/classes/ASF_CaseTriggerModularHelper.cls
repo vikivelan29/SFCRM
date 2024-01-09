@@ -760,7 +760,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case c : newList){
                 String oldOwnerId = oldMap.get(c.Id).OwnerId; 
                 String newOwnerId = c.OwnerId;
-                if(oldOwnerId.startsWith('00G') && (!hasPermission || !queueIdNameMap.get(oldOwnerId).startsWith(currentUserBU))){
+                if(oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).startsWith(currentUserBU) && !hasPermission){
                     c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                     
                 }else if(!oldOwnerId.startsWith('00G') && !hasPermission && oldOwnerId != userInfo.getUserId() && 
@@ -808,7 +808,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(c.OwnerId != oldOwnerId && oldOwnerId.startsWith('00G')){
                     List<String> memberList = queVsmembersIds.get(oldOwnerId);
                     //ADO-131839 Making the Queue Checked Disabled for Bulk Upload
-                    if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId)){
+                    if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId) && !hasPermission){
                         c.addError(System.Label.Owner_Change_Validation_Message);
                     }
                 }
