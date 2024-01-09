@@ -3,9 +3,9 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABHFL Delhi Branch</name>
     <queueMembers>
-        <users>
-            <user>achuriwala@salesforce.com.abcl</user>
-        </users>
+        <publicGroups>
+            <publicGroup>ABHFL_Delhi_Branch_G</publicGroup>
+        </publicGroups>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
