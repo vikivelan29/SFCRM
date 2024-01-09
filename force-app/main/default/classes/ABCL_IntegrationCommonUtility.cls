@@ -125,7 +125,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         recepientIds.add(caseRec.CreatedById);
         Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
         CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
-                                                            WHERE DeveloperName = 'Case_Assignment_Change' WITH SECURITY_ENFORCED Limit 1];
+                                                            WHERE DeveloperName = 'Case_Assignment_Change' Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
         }
