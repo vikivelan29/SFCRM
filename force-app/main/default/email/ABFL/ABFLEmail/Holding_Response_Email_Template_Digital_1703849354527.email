@@ -148,19 +148,19 @@
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
-												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance&nbsp;</span></strong><br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance </span></strong><br />
 												&nbsp;<br />
-												This is system-generated response. This message is to inform you that your Case with Case ID {{{Case.CaseNumber}}} has been closed.<br />
+												The reference number for this request is {{{Case.CaseNumber}}}<br />
 												<br />
-												We request you to avail the convenience of instant resolution through any of our channels by clicking on the icons below.<br />
+												While our endeavor would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}},we request you to allow us 7 more days to review your case and provide appropriate response.<br />
 												<br />
-												In case of any further query, please feel free to contact us through any of ours customer service channels mentioned below.<br />
+												We regret any inconvenience caused to you and appreciate your patience.<br />
 												<br />
-												Thank you for reaching out to us.<br />
+												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />
-												Assuring you of our best services always.<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
-												Note - Please DONOT edit the subject line while responding to us on this case.<br />
+												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
 												<br />
 												Warm regards,<br />
 												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
