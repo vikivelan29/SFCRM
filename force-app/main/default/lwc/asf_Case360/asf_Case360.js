@@ -428,7 +428,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             this.userClickedEditDetails = false;
             if (this.currentOwnerId == this.currentUserId) {
                 this.isCurrentUserOwner = true;
-                if (this.currentPageMode == 'edit') {
+                // IN CASE OF PREFRAMEWORK TO FRAMEWORK CONVERSION - CURRENTPAGEMODE IS RETURNING UNDEFINED.
+                if (this.currentPageMode == 'edit' || this.isCurrentUserOwner) {
                     this.toggleUIView = true;
                     // Virendra - For opening form in Edit Mode.
                     this.userClickedEditDetails = true;
