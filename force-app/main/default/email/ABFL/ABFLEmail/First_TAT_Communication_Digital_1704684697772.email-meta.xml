@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABWM CLOSE CASE</name>
+    <name>First TAT Communication - Digital</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Case Closed: {{{Case.CaseNumber}}}</subject>
+    <subject>Case Resolution Timeline for your Service Request No. {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
