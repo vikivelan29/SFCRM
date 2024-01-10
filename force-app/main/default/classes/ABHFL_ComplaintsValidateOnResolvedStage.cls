@@ -11,11 +11,14 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
              retCls.status = ABHFL_Constants.ERROR;
              retCls.errorMessage = Custom_Messages__mdt.getInstance('ABHFL_Not_allowed_to_resolve_this_case').Message__c;
         }
-        ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = ABHFL_ComplaintCTSTHelper.validateRCAfields(caseRec);
         //Vaidation for RCA Fields
-        if(isGrievanceUser && wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
-    		retCls.status = ABHFL_Constants.ERROR;
-			retCls.errorMessage = wrapperResult.message;
+        if(isGrievanceUser){
+            ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = ABHFL_ComplaintCTSTHelper.validateRCAfields(caseRec);
+            if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
+               retCls.status = ABHFL_Constants.ERROR;
+			   retCls.errorMessage = wrapperResult.message; 
+        } 
+    		
 		}
 
         return retCls;
