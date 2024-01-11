@@ -6,6 +6,6 @@
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>SMT Escalation Template</subject>
-    <type>custom</type>
+    <type>custom</type> 
     <uiType>SFX</uiType>
 </EmailTemplate>

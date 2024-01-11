@@ -82,12 +82,12 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void sendEmailAndCaseUpdate(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition'); 
+            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
             if(objResponseBody.ISSMT == 'YES'){
-                sendSmtFlagYes(mdtEbotCase.SMT_Receiver_Address__c ); 
+                sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
             }
             else if (objResponseBody.ISSMT == 'NO'){
                 system.debug('mdtPEFrameworkvalues '+mdtEbotCase);
-                List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
                 system.debug('recCasecase '+recCase[0].SuppliedEmail);
                 List<EmailMessage> emailMessages = [SELECT Id, ToAddress FROM EmailMessage WHERE ParentId =: caseId LIMIT 1];
                 system.debug('emailMessagescase '+emailMessages[0].ToAddress);
@@ -119,20 +119,8 @@ public with sharing class ABFL_EBOTCaseLogics {
     * @return - void .
     * @Description - Sends an email to contact if ISSMT response from ebot comes as YES
     *****************************************************************************************************************/ 
-    public static void sendSmtFlagYes(String emailToAddress){
-        List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        List<String> address = new List<String>{emailToAddress};
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setSubject('Escalation');
-        mail.setToAddresses(address);
-        EmailTemplate et=[Select id, htmlValue, Body, subject from EmailTemplate where DeveloperName = 'SMT_Escalation_Template' AND TemplateType = 'custom' AND IsActive = true];                
-        String plainBody = et.Body;
-        //plainBody = plainBody.replace('{!Financial_Details__c.Applicant__r.Name}', financialDetails.Applicant__r.First_Name__c +' '+financialDetails.Applicant__r.Last_Name__c);
-        mail.setHtmlBody(et.HtmlValue);
-        emailList.add(mail);
-        if(!emailList.isEmpty()){
-            Messaging.sendEmail(emailList);
-        }
+    public static void sendSmtFlagYes(Case recCase,String emailToAddress){
+        createPELogAndinvokeCommPEevent(recCase,'SMT_Escalation_Template',emailToAddress);
     }  
     /****************************************************************************************************************
     * @param  - ASF_Case_Category_Config__c,Case,Boolean, Case ext Id
@@ -361,4 +349,58 @@ public with sharing class ABFL_EBOTCaseLogics {
                objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
                objResponseBody.CONFIDENCESCORE >= condition.CONFIDENCESCORE__c ;
         }
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - createPELogAndinvokeCommPEevent to send an email to specific email 
+    * @return - void
+    * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email communication for specific email address
+    *****************************************************************************************************************/
+    public static void createPELogAndinvokeCommPEevent(Case caseRec, String emailTemplate, String SpecificEmailId){
+        PE_Logger__c peLogger = new PE_Logger__c();
+        peLogger.AccountId__c = caseRec.AccountId;
+        peLogger.CCCExternalId__c = caseRec.CCC_External_Id__c;
+        peLogger.Case__c = caseRec.Id;
+        peLogger.ContactId__c = caseRec.ContactId;
+        peLogger.PE_Name__c = 'CommunicationLog';
+        peLogger.RecordID__c = caseRec.Id;
+        peLogger.Retry_PE__c = true;
+        peLogger.Status__c = 'Pending';
+        peLogger.Send_To_Specific_Emails__c = True;
+        peLogger.Specific_To_Address__c = SpecificEmailId;
+        peLogger.Email_Template_Name__c = emailTemplate;
+        if(Schema.sObjectType.PE_Logger__c.isCreateable())
+        {
+            insert peLogger;    
+        }
+        //Set<Id> peIds = new Set<Id>();
+        //peIds.add(peLogger.Id);
+        //List<PE_Logger__c> peLoggerList = ASF_CommPETriggerQueryHandler.getPELoggerRecords(peIds,'Completed');
+        //ASF_CommPETriggerHelper.executeContructor(peLoggerList);
+        //Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Resolved_Case_Email_Template__c, null, isTransferred);
+        Database.SaveResult eventResult = invokeCommunicationLogPlatformEvent(caseRec, peLogger);        
+
+
+        
+    }
+    
+    /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - invokeCommunicationLogPlatformEvent
+    * @param caseRec - Case record.
+    * @param peLogger - PE_Logger__c record.
+    * @return - Database.SaveResult.
+    * @description - Function to publish ASF_CommnunicationLog__e platform event.
+    *****************************************************************************************************************/
+    private static Database.SaveResult invokeCommunicationLogPlatformEvent(Case caseRec, PE_Logger__c peLogger){
+        ASF_CommnunicationLog__e commEvent = new ASF_CommnunicationLog__e();
+        commEvent.CCCExternalId__c = caseRec.CCC_External_Id__c;
+        system.debug('entered here--');
+        commEvent.PELoggerId__c = peLogger.Id;
+        commEvent.RecordID__c = caseRec.Id;
+        DateTime dt = DateTime.now();
+        commEvent.Unique_Id__c = 'CommunicationLog-'+UserInfo.getUserId()+'-'+System.currentTimeMillis();
+        Database.SaveResult eventResult = EventBus.publish(commEvent);
+        system.debug('eventResult--- '+eventResult );
+        return eventResult;
+    }
 }
