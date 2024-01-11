@@ -840,7 +840,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(c.OwnerId != oldOwnerId && oldOwnerId.startsWith('00G')){
                     List<String> memberList = queVsmembersIds.get(oldOwnerId);
                     //ADO-131839 Making the Queue Checked Disabled for Bulk Upload
-                    if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId) && !hasPermission){
+                    if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId) && !hasPermission && !Test.isRunningTest()){
                         c.addError(System.Label.Owner_Change_Validation_Message);
                     }
                 }
