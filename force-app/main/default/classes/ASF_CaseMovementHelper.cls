@@ -679,8 +679,9 @@ public class ASF_CaseMovementHelper {
         //     additionalData.status = 'Error';
         //     return additionalData;
         // }
+        ASF_CaseQueryHandler.refreshRecords = true;
         Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
-
+        ASF_CaseQueryHandler.refreshRecords = false;
         additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecord, caseRulesForStage);
         additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(queriedCaseRecord, caseRulesForStage);
         additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(queriedCaseRecord, caseRulesForStage);
