@@ -399,8 +399,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Insert case
             if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null
                 && (!isUpdate 
-                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
+                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c) || 
                 (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
                 eligibleRecords.add(caseRec);
             }
