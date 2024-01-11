@@ -43,8 +43,8 @@ public without sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType) {
-        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType,'').lstCCCrecords;
+    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType, String assetLob) {
+        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType,assetLob).lstCCCrecords;
     }
     
     @AuraEnabled(cacheable=true)
@@ -104,6 +104,20 @@ public without sharing class  ASF_CaseUIController {
         else
             throw new AuraHandledException('Please update Customer/Contact');    
         return cs;
+    }
+
+    @AuraEnabled
+    public static Id createCaseExtension(SObject record, SObject cccRec){
+        try{
+            Type customType = Type.forName('FrameworkFunctionalityExtender');
+            ASF_FrameworkFunctionalityExtender extender = (ASF_FrameworkFunctionalityExtender)customType.newInstance();
+            record = extender.populateBUSpecificFields(record, cccRec);
+        }
+        catch(Exception e){
+            system.debug('Error inside createCaseExtension method of ASF_CaseUIController class '+e.getStackTraceString() + ' ' + e.getMessage());
+        }
+        insert record;
+        return record.Id;
     }
 
     
