@@ -4,6 +4,8 @@ import { CloseActionScreenEvent } from "lightning/actions";
 import { getRecordNotifyChange, getRecords, getRecord, getFieldValue } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { refreshApex } from '@salesforce/apex';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
 
 import ISCLOSED_FIELD from '@salesforce/schema/Case.IsClosed';
 import LAN_FIELD from '@salesforce/schema/Case.LAN__c';
@@ -17,6 +19,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     @api objectApiName = 'Case';
     loaded = true;
     @api parentCaseId;
+    @wire(CurrentPageReference) pageRef;
     wiredParentRec;
     wiredCurrentRec;
     @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD];
@@ -112,8 +115,10 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                     this.showToastMessage('Success!', 'Changes Saved Successfully', 'success');
                     this.dispatchEvent(new CloseActionScreenEvent());
                     //eval("$A.get('e.force:refreshView').fire();")
+                    let payload = {'source':'relateDup', 'recordId':this.recordId};
+                    fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload); 
                     getRecordNotifyChange([{ recordId: this.recordId }]);
-
+                
                 }else{
                     this.showToastMessage('Error!', result, 'error');
                 }              
