@@ -649,6 +649,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Information_Provided__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Change_EMI_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
