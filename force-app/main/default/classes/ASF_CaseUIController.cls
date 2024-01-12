@@ -106,20 +106,6 @@ public without sharing class  ASF_CaseUIController {
         return cs;
     }
 
-    @AuraEnabled
-    public static Id createCaseExtension(SObject record, SObject cccRec){
-        try{
-            Type customType = Type.forName('FrameworkFunctionalityExtender');
-            ASF_FrameworkFunctionalityExtender extender = (ASF_FrameworkFunctionalityExtender)customType.newInstance();
-            record = extender.populateBUSpecificFields(record, cccRec);
-        }
-        catch(Exception e){
-            system.debug('Error inside createCaseExtension method of ASF_CaseUIController class '+e.getStackTraceString() + ' ' + e.getMessage());
-        }
-        insert record;
-        return record.Id;
-    }
-
     
     public class resWrapper{
         @AuraEnabled
