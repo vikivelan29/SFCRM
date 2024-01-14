@@ -650,7 +650,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.loadReady = false;
                 getRecordNotifyChange([{ recordId: this.recordId }]);
                 refreshApex(this.processApexReturnValue);
-                this.handleSearchPicklistRendering();
+                //this.handleSearchPicklistRendering();
             })
             .catch((error) => {
                 console.error(error);
@@ -1128,6 +1128,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         console.log("Done!");
                         // Virendra - Refresh the UI when User is changed from Change Owner Button from Detail Page.
                         refreshApex(this.processApexReturnValue);
+
+                        // RENDERING AFTER CHANGE OWNER IS NOT HAPPENING ON WINDOWS MACHINE, MAC WORKING FINE. BELOW CODE TO EXECUTE BASED ON OS.
+                        this.handleOSRenderingIssue();
+
                     } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
                         console.warn("Done, with issues refreshing some components");
                     } else if (status === REFRESH_ERROR) {
@@ -2750,6 +2754,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 ele.value = this.resolutionReasonPopUpFld;
             }
         })
+    }
+
+    handleOSRenderingIssue(){
+        if (navigator.userAgent.indexOf('Mac OS X') != -1) {
+            
+          } else {
+            this.handleSearchPicklistRendering();
+          }
+        
     }
 
 
