@@ -164,7 +164,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                 UPDATE caseRec;
             }
             
-            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.BALANCE_CONFIRMATION_LETTER, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE + caseInteg.Name);
+            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.BALANCE_CONFIRMATION_LETTER, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
         }
      }
     
