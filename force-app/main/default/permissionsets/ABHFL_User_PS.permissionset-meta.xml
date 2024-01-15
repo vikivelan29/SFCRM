@@ -1426,8 +1426,4 @@
         <object>Case_Integration_Outbound__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>TransferAnyCase</name>
-    </userPermissions>
 </PermissionSet>
