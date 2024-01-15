@@ -108,9 +108,6 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean isTransferred = False;
         
-        system.debug('caseInteg=='+caseInteg.Id);
-        system.debug('caseInteg Name=='+caseInteg.Name);
-        
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
         }
