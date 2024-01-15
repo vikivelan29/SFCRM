@@ -196,7 +196,21 @@ public class ASF_CommPETriggerHelper {
                     
                     if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
                         Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
-                        if(mAccountIdContactId.containsKey(cRec.AccountId)){
+                        
+                        // VIRENDRA - ADDED ANOTHER LOGIC TO SEND EMAIL TO SPECIFIC EMAIL ADDRESS - 
+                        if(pLog.Send_To_Specific_Emails__c){
+                            System.debug('I am here --> '+pLog.Send_To_Specific_Emails__c);
+                            if(pLog.Specific_To_Address__c != null){
+                                List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
+                                Messaging.SingleEmailMessage msg = getMessageGenerated(null,cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
+                                msg.setToAddresses(toSpecificAddresses);
+                                emails.add(msg); 
+                                mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                iCounter++;
+                            }
+                        }
+                        
+                        else if(mAccountIdContactId.containsKey(cRec.AccountId)){
                             
                             for(Contact con : mAccountIdContactId.get(cRec.AccountId)){
                                 if(con.Email != null){
@@ -230,6 +244,29 @@ public class ASF_CommPETriggerHelper {
         /// Send email Logic moved to first.
         if(emails.size()>0){
             Messaging.SendEmailResult[] msgResults= Messaging.sendEmail(emails,false);
+            List<Messaging.SingleEmailMessage> retryEmailSend = new List<Messaging.SingleEmailMessage>();
+            
+            for(integer i=0;i<msgResults.size();i++){
+                if(!msgResults[i].IsSuccess()){
+                    retryEmailSend.add(emails[i]);
+                }
+            }
+            if(retryEmailSend.size()>0){
+                
+                Messaging.SendEmailResult[] msgRetryResults= Messaging.sendEmail(retryEmailSend,false);
+                
+                for(integer i=0;i<msgRetryResults.size();i++){
+                    if(!msgRetryResults[i].IsSuccess()){
+                        String errMsg = msgRetryResults[i].getErrors().get(0).getMessage();
+                        System.debug('Check here for retry email error --> '+errMsg);
+                        
+                    }
+                    else{
+                        System.debug('Email sent successfully in retry...');
+                    }
+                }
+            }
+            
             
             for(integer i=0;i<msgResults.size();i++){
                 if(!msgResults[i].IsSuccess()){
@@ -268,7 +305,7 @@ public class ASF_CommPETriggerHelper {
                     }
                     else{
                         if(log.Contact__c != null){ 
-                           log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
+                            log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
                         }
                         else if(log.Lead__c != null){
                             log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Lead__c,log.id, true); 
@@ -353,14 +390,14 @@ public class ASF_CommPETriggerHelper {
                 }
         }
         String query = 'SELECT ID,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin';
-        query += ' FROM CASE WHERE ID IN :caseIds';
+        query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> temp_cIds = caseIds;
             query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.join(temp, ',');
             query = query.removeEnd(',');
-            query += ' FROM CASE WHERE ID IN :temp_cIds';
+            query += ' FROM CASE WHERE ID IN :temp_cIds FOR UPDATE';
         }
         List<Case> cases = (List<case>)Database.query(query);
         mCases = new Map<Id,Case>(cases);

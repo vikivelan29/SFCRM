@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <description>This apex class is for checking the BU Specific logic.</description>
+        <name>Additional_Checks_for_Email_Templates</name>
+        <label>Additional Checks for Email Templates</label>
+        <locationX>578</locationX>
+        <locationY>708</locationY>
+        <actionName>ASF_CustomerEmailInvocable</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Send_Holding_Response</targetReference>
+        </connector>
+        <dataTypeMappings>
+            <typeName>T__cccRecord</typeName>
+            <typeValue>ASF_Case_Category_Config__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>caseStatus</name>
+            <value>
+                <elementReference>$Record.Status</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>cccRecord</name>
+            <value>
+                <elementReference>Query_Case_Category_Config</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateName</name>
+            <value>
+                <elementReference>EmailTempDevName</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
+        <outputParameters>
+            <assignToReference>SuppresssEmail</assignToReference>
+            <name>supressEmail</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <name>templateName</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Mark_Overall_Case_SLA_Broken</name>
         <label>Mark Overall Case SLA Broken</label>
         <locationX>314</locationX>
@@ -41,11 +92,27 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>Holding_Response_Email_Template</name>
+        <label>Holding Response Email Template</label>
+        <locationX>908</locationX>
+        <locationY>384</locationY>
+        <assignmentItems>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Query_Case_Category_Config.Holding_Response_Email_Template__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_if_CCC_Is_Not_Null</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_if_CCC_Is_Not_Null</name>
         <label>Check if CCC Is Not Null</label>
         <locationX>908</locationX>
-        <locationY>384</locationY>
+        <locationY>492</locationY>
         <defaultConnectorLabel>Yes</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -58,20 +125,45 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_Holding_Response</targetReference>
+                <targetReference>Email_Template_Found</targetReference>
             </connector>
             <label>No</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_Template_Found</name>
+        <label>Email Template Found?</label>
+        <locationX>710</locationX>
+        <locationY>600</locationY>
+        <defaultConnector>
+            <targetReference>Send_Holding_Response</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>EmailTempDevName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Additional_Checks_for_Email_Templates</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
         <name>Send_Holding_Response</name>
         <label>Send Holding Response</label>
         <locationX>710</locationX>
-        <locationY>492</locationY>
+        <locationY>900</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_01</name>
-            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3) AND 4</conditionLogic>
             <conditions>
                 <leftValueReference>Query_Case_Category_Config.Send_Holding_Response__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -89,6 +181,13 @@
             <conditions>
                 <leftValueReference>Query_Case_Category_Config.Holding_Response_SMS_Metadata__c</leftValueReference>
                 <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SuppresssEmail</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
@@ -126,7 +225,7 @@
         <name>Create_PE_Logger</name>
         <label>Create PE Logger</label>
         <locationX>578</locationX>
-        <locationY>600</locationY>
+        <locationY>1008</locationY>
         <connector>
             <targetReference>Invoke_Platform_Event_for_Communication</targetReference>
         </connector>
@@ -167,6 +266,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Lead__c</field>
+            <value>
+                <elementReference>$Record.Lead__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>RecordID__c</field>
             <value>
                 <elementReference>$Record.Id</elementReference>
@@ -197,7 +302,7 @@
         <name>Invoke_Platform_Event_for_Communication</name>
         <label>Invoke Platform Event for Communication</label>
         <locationX>578</locationX>
-        <locationY>708</locationY>
+        <locationY>1116</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
             <value>
@@ -238,7 +343,7 @@
         <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_if_CCC_Is_Not_Null</targetReference>
+            <targetReference>Holding_Response_Email_Template</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -329,4 +434,21 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>EmailTempDevName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SuppresssEmail</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
 </Flow>

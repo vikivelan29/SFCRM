@@ -90,8 +90,8 @@ public class ASF_CaseUIController_Test {
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
         
         ASF_CaseUIController.updateCRN(wrapper[0].Id,wrap.asstList[0].Id,cs.Id,'2333423');
-        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry');
-        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry');
+        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','');
+        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','');
         
         ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
         

@@ -20,7 +20,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateFailure').Message__c;
         
         Case caseRecord = [
-            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c
+            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
@@ -38,12 +38,12 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
                     cccRecord[0].Rejected_Case_SMS_Metadata__c,
                     false
               );
-      // Set wrapper response and status if evaluation is failure
+      		// Set wrapper response and status if evaluation is failure
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('AMORT_Evaluate_Disbursed_Partially').Message__c;
             caseRecord.MoveToNext__c = true;
             
-            if(Schema.sObjectType.Case.isUpdateable()){
+            if(Schema.sObjectType.Case.isUpdateable() && caseRecord.Source__c == 'API'){
                 update caseRecord;
             } 
             
@@ -78,12 +78,13 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
             }
                        
         }
-
+		Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
         response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
+        caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c)); 
         caseInteg.Status__c = ABHFL_Constants.PENDING;
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
@@ -91,7 +92,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         }
         
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;

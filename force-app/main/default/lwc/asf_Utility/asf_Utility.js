@@ -1,8 +1,8 @@
 import getCaseRelatedObjNameApex from '@salesforce/apex/ASF_CaseUIController.getCaseRelatedObjName';
-import { createRecord, updateRecord,getRecordNotifyChange } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import updateCase from '@salesforce/apex/ASF_CaseUIController.updateCase';
+import createCaseExtension from '@salesforce/apex/ASF_CaseUIController.createCaseExtension';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
 
 //Fields
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
@@ -38,28 +38,40 @@ export class asf_Utility {
         console.log('##1111##'+JSON.stringify(selected));
         if(!parentJS.rejectCase){
             getCaseRelatedObjNameApex({cccId : selected.CCC_External_Id__c})
-            .then(result => {
+            .then(async result => {
                 var caseRelObjName = result;
                 console.log('##a##'+JSON.stringify(caseRelObjName));
                 const fields = {};
-
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
 
-                const caseRecord = { apiName: caseRelObjName, fields: fields };
-                createRecord(caseRecord)
-                .then(result => {
-                 console.log('##2222##'+JSON.stringify(selected));
-                    var caseExtensionRecordId = result.id;
-                    var retObj = {objName : caseRelObjName, caseExtRecId : caseExtensionRecordId};
-                    console.log('##b##'+JSON.stringify(retObj));
+                let cccRecToPass = {...selected};
+                cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
+
+                const caseExtnRecord = { sobjectType: caseRelObjName, ...fields };
+                let caseExtensionRecordId = await createCaseExtension({
+                    record : caseExtnRecord,
+                    cccRec: cccRecToPass
+                }).catch(error=>{
+                    console.error(error);
+                });
+                
+                let retObj = {objName : caseRelObjName, caseExtRecId : caseExtensionRecordId};
+                this.setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS);
+                
+                // createRecord(caseRecord)
+                // .then(result => {
+                //  console.log('##2222##'+JSON.stringify(selected));
+                //     var caseExtensionRecordId = result.id;
+                //     var retObj = {objName : caseRelObjName, caseExtRecId : caseExtensionRecordId};
+                //     console.log('##b##'+JSON.stringify(retObj));
                     
-                    this.setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS);
-                })
-                .catch(error => {
-                    console.log('Error2: '+JSON.stringify(error));
-                })
+                //     this.setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS);
+                // })
+                // .catch(error => {
+                //     console.log('Error2: '+JSON.stringify(error));
+                // })
             })
             .catch(error =>{
                 console.log('Error1: '+JSON.stringify(error));
@@ -148,8 +160,6 @@ export class asf_Utility {
                    }),
                );
                parentJS.loaded = true;
-
-               getRecordNotifyChange([{ recordId: result.Id }]);
                
                parentJS.navigateToRecordEditPage(result.Id);
                  

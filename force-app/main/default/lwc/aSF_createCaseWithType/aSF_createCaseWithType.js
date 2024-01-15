@@ -21,12 +21,11 @@ import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNTTYPE_FIELD from '@salesforce/schema/Asset.Account.IsPersonAccount';
-import Business_Unit from '@salesforce/schema/Case.Asset.LOB_Code__r.BusinessUnit__c';
 //import ASSET_PRODUCT_FIELD from '@salesforce/schema/Case.Asset.Product_Name__c';
 import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
-
+import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -83,7 +82,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     options;
     flag;
-    businessUnitValue;
     assetProductName;
     value;
     contactName;
@@ -128,6 +126,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     transactionNumber = '';
     accountRecordType = '';
 
+
+    lobAsset ='';
+
     get stageOptions() {
         return [
             { label: 'Pending for Rejection', value: 'Pending for Rejection' },
@@ -157,7 +158,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-    @wire(getRecord, { recordId: '$recordId', fields: [SOURCE_FIELD, CASE_CONTACT_FIELD, ACCOUNT_PRIMARY_LOB, AMIOwner, AccountId, Business_Unit, CASE_ASSET,ACOUNNTRECORDTYPE] })
+    @wire(getRecord, { recordId: '$recordId', fields: [SOURCE_FIELD, CASE_CONTACT_FIELD, ACCOUNT_PRIMARY_LOB, AMIOwner, AccountId, CASE_ASSET,ACOUNNTRECORDTYPE, CASE_ASSET_LOB] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -178,9 +179,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.asset = data;
 
             this.flag = this.contactSelected = this.asset.fields.ContactId;
-            if (this.asset.fields.Asset.value && this.asset.fields.Asset.value.fields.LOB_Code__r.value) {
-                this.businessUnitValue = this.asset.fields.Asset.value.fields.LOB_Code__r.value.fields.BusinessUnit__c.value;
-            }
+            
             if (this.asset.fields.AssetId.value) {
                 this.showFAmsg = false;
             }
@@ -231,11 +230,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         let customerId = this.asset.fields.AccountId.value;
         let assetId = this.asset.fields.Asset.value;
+        if(this.asset.fields.Asset.value != null && this.asset.fields.Asset.value != undefined){
+                if(this.asset.fields.Asset.value.fields.LOB__c != null && this.asset.fields.Asset.value.fields.LOB__c != undefined){
+                    this.lobAsset = this.asset.fields.Asset.value.fields.LOB__c.value;
+                }
+            
+        }
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || this.withoutAsset == 'true' && customerId != '' || this.withoutAsset == 'closeCRN') {
 
-            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType })
+            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset })
                 .then(result => {
                     this.accounts = result;
                     this.isNotSelected = true;
@@ -372,14 +377,14 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
-            attributes: {
-                recordId: id,
-                objectApiName: 'Case',
-                actionName: 'view'
-            },
-            state: {
-                mode: 'edit'
-            }
+                    attributes: {
+                        recordId: id,
+                        //objectApiName: 'Case', // objectApiName is optional
+                        actionName: 'view'
+                    },
+                    state: {
+                        mode: 'edit'
+                    }
         });
 
         notifyRecordUpdateAvailable([{ recordId: this.recordId }]);
@@ -392,7 +397,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     cols = [
         { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'Product', fieldName: 'Product__c', type: 'text' },
+        //{ label: 'Product', fieldName: 'Product__c', type: 'text' },
+        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
         { label: 'Type', fieldName: 'Type__c', type: 'text' },
         { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
     ]

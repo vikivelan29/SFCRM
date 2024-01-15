@@ -65,9 +65,9 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
     }
     connectedCallback() {
-        this.event2 = setInterval(() => {
-            refreshApex(this.wiredAccountsResult);
-        }, 1000);
+        // this.event2 = setInterval(() => {
+        //     refreshApex(this.wiredAccountsResult);
+        // }, 1000);
     }
     disconnectedCallback() {
         clearInterval(this.event2);

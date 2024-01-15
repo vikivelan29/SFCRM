@@ -72,6 +72,13 @@
         <value>Please select Customer to process SR type search.</value>
     </labels>
     <labels>
+        <fullName>ASF_Email_Bot_Feedback_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Email Bot Feedback BU</shortDescription>
+        <value>ABHFL;ABFL</value>
+    </labels>
+    <labels>
         <fullName>ASF_ErrorMessage</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -233,6 +240,13 @@
         <value>No Reply Address</value>
     </labels>
     <labels>
+        <fullName>Base_URL_for_bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base URL for bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -343,6 +357,13 @@
         <protected>false</protected>
         <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
         <value>false</value>
+    </labels>
+    <labels>
+        <fullName>Re_Kyc_Month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Re Kyc Month</shortDescription>
+        <value>3</value>
     </labels>
     <labels>
         <fullName>STP_Flows</fullName>

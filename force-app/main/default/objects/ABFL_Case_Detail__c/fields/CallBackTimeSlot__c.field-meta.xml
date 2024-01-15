@@ -4,9 +4,7 @@
     <description>Mandatory for Issue Type Code hfl079. This holds Time value</description>
     <externalId>false</externalId>
     <label>CallBackTimeSlot</label>
-    <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Time</type>
 </CustomField>

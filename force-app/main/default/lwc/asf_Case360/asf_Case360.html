@@ -277,6 +277,12 @@
                                             required>
                                         </lightning-combobox>
                                     </template>
+                                    <template lwc:else>
+                                        <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
+                                            label="Resolution Comments" variant="label-stacked"
+                                            value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
+                                            placeholder="type here..."></lightning-textarea>
+                                    </template>
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"

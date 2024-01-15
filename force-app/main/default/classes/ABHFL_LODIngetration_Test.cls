@@ -76,8 +76,8 @@ public class ABHFL_LODIngetration_Test {
         astRecord.Last_Disbursement_Date__c = Date.today().addYears(-2);
         update astRecord;
         ASF_IntegrationsController.IntegrationWrapper evaluateFailure = lodStp.evaluate(caseRecord);
-        System.assertEquals('Success',successfulEvaluate.Status);
-        System.assertEquals('Error',evaluateFailure.Status);
+        System.assertEquals('Success',successfulEvaluate.Status,'Done');
+        System.assertEquals('Error',evaluateFailure.Status,'Done');
         
     }
     @IsTest
@@ -87,7 +87,7 @@ public class ABHFL_LODIngetration_Test {
         Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
         ASF_IntegrationsController.IntegrationWrapper integrationResponse = lodStp.run(integRecord,caseRecord);
-        System.assertEquals('Success',integrationResponse.Status);
+        System.assertEquals('Success',integrationResponse.Status,'Done');
     }
     @IsTest
     static void testProcessResponse(){
@@ -97,12 +97,12 @@ public class ABHFL_LODIngetration_Test {
         update integRecord;
         lodStp.processResponse(integRecord);
         Case caseRec = [Select id,Stage__c from Case where id =: integRecord.Case__c ];
-        System.assertEquals('In Progress with Recovery',caseRec.Stage__c);
+        System.assertEquals('In Progress with Recovery',caseRec.Stage__c,'Done');
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: integRecord.Id limit 1];
         delete conDoc;
         lodStp.processResponse(integRecord);
         caseRec = [Select id,Asset.Branch__r.Branch_Queue_Id__c,OwnerId from Case where id =: integRecord.Case__c ];
-        System.assertEquals(caseRec.Asset.Branch__r.Branch_Queue_Id__c,caseRec.OwnerId);
+        System.assertEquals(caseRec.Asset.Branch__r.Branch_Queue_Id__c,caseRec.OwnerId,'Done');
     }
     
 }

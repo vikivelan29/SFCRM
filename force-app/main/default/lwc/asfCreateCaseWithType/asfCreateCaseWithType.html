@@ -78,7 +78,13 @@
                                             required>
                                 </lightning-combobox> 
                         </template>
-
+      
+                        <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                        label="No Auto Communication"
+                                        options={noAutoCommOptions}
+                                        value={noAutoCommValue}
+                                        onchange={handleAutoCommChange}>
+                        </lightning-checkbox-group>
                     </template>  
 
                     <template if:true={isPhoneInbound}>

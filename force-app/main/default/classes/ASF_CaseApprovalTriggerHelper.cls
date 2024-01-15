@@ -62,7 +62,13 @@ public class ASF_CaseApprovalTriggerHelper {
             if(String.isBlank(c.Approver_03__c)){
                 c.Approver_03__c = c.Approver_01__c;
             }
-            
+            if(String.isBlank(c.Approver_04__c)){
+                c.Approver_04__c = c.Approver_01__c;
+            }
+            if(String.isBlank(c.Approver_05__c)){
+                c.Approver_05__c = c.Approver_01__c;
+            }
+             
         } 
     }
     
@@ -195,7 +201,7 @@ public class ASF_CaseApprovalTriggerHelper {
                                   WHERE TargetObjectId =: caseApprId ORDER BY CreatedDate DESC])
         {
             if((pi.Steps[0].comments == null || pi.Steps[0].Comments.trim().length()==0)){
-                newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
+                //newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
             }
         }
     }

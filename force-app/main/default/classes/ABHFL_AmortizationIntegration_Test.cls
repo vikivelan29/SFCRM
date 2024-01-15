@@ -13,7 +13,7 @@ public class ABHFL_AmortizationIntegration_Test {
         astRec.LAN__c = 'Test';
         astRec.Branch__c = branchMstr.Id;
         astRec.Last_Disbursement_Date__c = Date.Today();
-        astRec.Loan_Disbursement_Status__c = 'Complete';
+        astRec.Loan_Disbursement_Status__c = 'Fully';
         update astRec;
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
@@ -78,8 +78,8 @@ public class ABHFL_AmortizationIntegration_Test {
         astRecord.Last_Disbursement_Date__c = Date.today().addYears(-2);
         update astRecord;
         ASF_IntegrationsController.IntegrationWrapper evaluateFailure = amortStp.evaluate(caseRecord);
-        System.assertEquals('Success',successfulEvaluate.Status);
-        System.assertEquals('Error',evaluateFailure.Status);
+        System.assertEquals('Success',successfulEvaluate.Status,'Done');
+        System.assertEquals('Error',evaluateFailure.Status,'Done');
         
     }
     @IsTest
@@ -89,7 +89,7 @@ public class ABHFL_AmortizationIntegration_Test {
         Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
         ASF_IntegrationsController.IntegrationWrapper integrationResponse = amortStp.run(integRecord,caseRecord);
-        System.assertEquals('Success',integrationResponse.Status);
+        System.assertEquals('Success',integrationResponse.Status,'Done');
     }
     @IsTest
     static void testProcessResponse(){
@@ -108,7 +108,7 @@ public class ABHFL_AmortizationIntegration_Test {
         caseRec = [Select id,Asset.Branch__r.Branch_Queue_Id__c,OwnerId from Case where id =: integRecord.Case__c ];
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
         //Assertion when a document isn't recieved
-        System.assertEquals(csQueue.Id,caseRec.OwnerId);
+        System.assertEquals(csQueue.Id,caseRec.OwnerId,'Done');
     }
     
 }
