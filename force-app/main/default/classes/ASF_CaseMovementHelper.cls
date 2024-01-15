@@ -644,6 +644,7 @@ public class ASF_CaseMovementHelper {
     */
     public static CaseAdditionalData getCaseAdditionalDataForNextStage(Case currentCase, String nextStage){
         ASF_Case_Stage_Config__c nextStageConfig;
+        boolean bManualApprovalStage = false;
         CaseAdditionalData additionalData = new CaseAdditionalData();
         List<ASF_Checklist__c> checklistList = new List<ASF_Checklist__c>();
         // Fetch All Case Stage Configs from Query Handler, Find the Correct One for Next Stage
@@ -651,6 +652,7 @@ public class ASF_CaseMovementHelper {
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.StageName__c == nextStage){
                 nextStageConfig = config;
+                bManualApprovalStage = config.Manual_Approval__c;
             }
         }
         // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
@@ -691,6 +693,8 @@ public class ASF_CaseMovementHelper {
         }
         
         additionalData.status = 'Success';
+        // VIRENDRA - 15 JAN 2024 - ADDED MANUAL APPROVAL STAGE FLAG TO SET ON CASE TO ENABLE MANUAL APPROVAL BUTTON.
+        additionalData.manualApprovalStage = bManualApprovalStage;
         return additionalData;
     }
     
@@ -726,6 +730,7 @@ public class ASF_CaseMovementHelper {
         public List<Task> tasksToInsert;
         public List<ASF_Integration__c> allIntegrations;
         public map<String,long> slaCaseAndStageOverrideValues;
+        public boolean manualApprovalStage;
         public string status; 
         public string errorMessage;
     }
