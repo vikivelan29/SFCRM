@@ -430,6 +430,20 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
+            if(addlDataFromStageMovementMethods != null  
+                && (eligibleRecords[0].Technical_Source__c == 'API' || eligibleRecords[0].Technical_Source__c == 'LWC' || 
+                   eligibleRecords[0].Technical_Source__c == 'Email')){
+                    // VIRENDRA - 15 JAN 2024 - ADDED BELOW CODE FOR TECHNICAL SOURCE LWC AND EMAIL.
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(eligibleRecords[0].Id)){
+                        caseToUpdate = new Case(Id=eligibleRecords[0].Id, is_Manual_Approval__c = dataWrapper.manualApprovalStage);
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }else{
+                        caseToUpdate = caseFinalDMLMap.get(eligibleRecords[0].Id);
+                        caseToUpdate.is_Manual_Approval__c = dataWrapper.manualApprovalStage;
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }
+                }
         }
     }
     //Creates Checklist, Tasks, Approvals
