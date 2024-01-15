@@ -108,9 +108,6 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean isTransferred = False;
         
-        system.debug('caseInteg=='+caseInteg.Id);
-        system.debug('caseInteg Name=='+caseInteg.Name);
-        
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
         }
@@ -124,7 +121,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         }else if(caseInteg.Status__c != ABHFL_Constants.CANCELED && caseInteg.Status__c != ABHFL_Constants.PENDING){
             handleUnsuccessfullTransfer(caseRec,caseInteg);
         }
-        
+     
         if(isTransferred == caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
             ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
             caseDetail.STP_Failure__c = !isTransferred;
