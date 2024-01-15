@@ -177,8 +177,4 @@
         <tab>Payment_Customer_Search</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>TransferAnyCase</name>
-    </userPermissions>
 </PermissionSet>
