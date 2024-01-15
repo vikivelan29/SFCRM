@@ -15,6 +15,7 @@ public with sharing class ABHFL_Constants {
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
     public static final String PENDING = 'Pending';
+    public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
     public static final String QUEUE= 'Queue';
@@ -32,7 +33,7 @@ public with sharing class ABHFL_Constants {
     public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
-   
+  
     
     //Constants for Welcome Kit STP Flow
     public static final String WK_EVALUATION_FAILED_ERROR = 'Evaluation Failed, cannot retrieve Welcome Kit.';
@@ -48,6 +49,7 @@ public with sharing class ABHFL_Constants {
     public static final String ACCOUNT_RECORDTYPE_NON_INDIVIDUAL = 'Non-Individual';
     public static final String PAYMENTLINK_INTEGRATION_METADATA = 'Payment_Link';
     public static final String PAYTMLINK_INTEGRATION_METADATA = 'Paytm_Link';
+    public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
 }
