@@ -110,22 +110,23 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,OwnerId,CreatedById,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,ABHFL_Case_Detail__r.STP_Failure__c
                            FROM Case WHERE Id =: caseInt.Case__c];
+        Boolean isTransferred = false;
         if(caseInt.Status__c==ABHFL_Constants.SUCCESS){
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInt);
-            if(caseRecord!=null){
-                if(isTransferred){
-                    integrationFailure = false;
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                            cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            null, 
-                                                                                                                            isTransferred);
-                    caseRecord.MoveToNext__c = true;
-                    update caseRecord;        
-                } else {
-                    handleFailure(caseRecord);
-                }
+            isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInt);
+        }
+        if(caseRecord!=null){
+            if(isTransferred){
+                integrationFailure = false;
+                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
+                                                                WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                                                                        cccRecord[0].Resolved_Case_Email_Template__c, 
+                                                                                                                        null, 
+                                                                                                                        isTransferred);
+                caseRecord.MoveToNext__c = true;
+                update caseRecord;        
+            } else {
+                handleFailure(caseRecord);
             }
         }
         if(integrationFailure != caseRecord.ABHFL_Case_Detail__r.STP_Failure__c){
