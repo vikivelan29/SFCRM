@@ -2,9 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>SMS Closure Template</name>
-    <relatedEntityType>ASF_Communication_Log__c</relatedEntityType>
+    <name>ABFL TO INFORM ABOUT ROI</name>
+    <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Rate on Interest revised on your ABFL Loan Account</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

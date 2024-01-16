@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABWM - Auto Holding Response</name>
+    <name>ABWM CLOSE CASE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>There is a delay in resolving your case!</subject>
+    <subject>Case Closed: {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

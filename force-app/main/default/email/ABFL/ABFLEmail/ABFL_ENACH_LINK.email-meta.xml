@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABWM - Auto Holding Response</name>
+    <name>ABFL ENACH LINK</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>There is a delay in resolving your case!</subject>
+    <subject>Regarding re-registering the payment mode on your loan account!</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
