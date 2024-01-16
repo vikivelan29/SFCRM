@@ -1,3 +1,14 @@
+/*
+*********************************************************
+Apex Class Name    : ASF_RetryIntegrations
+Created Date       : 16 Jan 2024
+@description       : This class is used for retrying the PROCESS type and EBOT related Integrations.
+@author            : Virendra Patil
+Modification Log:
+Ver   Date         Author                               Modification
+1.0   16 Jan 2024   Virendra Patil                      Initial Version
+*********************************************************
+*/
 public without sharing class ASF_RetryIntegrations {
     @InvocableMethod(label='Retry Integrations' description='This Apex is used to invoke the Failed or Pending Integrations')
     public static void retryIntegration(List<ASF_Case_Integration__c> caseIntegrationRecords) {
@@ -8,7 +19,7 @@ public without sharing class ASF_RetryIntegrations {
         List<Case> caseRecords = new List<Case>();
         Map<Id,Case> mCaseRecords = new Map<Id,Case>();
         Map<String, ASF_Integration__c> mIntegrationRecords = new Map<String,ASF_Integration__c>();
-        List<sObject> NonASFIntegrationPlaformEvents = new List<sObject>();
+        List<sObject> nonASFIntegrationPlaformEvents = new List<sObject>();
         List<ASF_Case_Integration__c> caseInteToUpdate = new List<ASF_Case_Integration__c>();
         
         List<ASF_Retry_Matrix__mdt> mdtRetryMatrixs = ASF_Retry_Matrix__mdt.getAll().values();
@@ -40,7 +51,12 @@ public without sharing class ASF_RetryIntegrations {
         Map<Integer,Integer> mhashCaseCaseIntegrationVsAttempt = new Map<Integer,Integer>();
         
         
-        List<ASF_Case_Integration__c> oldCaseInetegrationRecords = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =:caseIds AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
+        List<ASF_Case_Integration__c> oldCaseInetegrationRecords = new List<ASF_Case_Integration__c> ();
+        
+        if(ASF_Case_Integration__c.SObjectType.getDescribe().isAccessible()){
+            oldCaseInetegrationRecords = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =:caseIds AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
+        }
+        
         for(ASF_Case_Integration__c oldInt : oldCaseInetegrationRecords){
             
             String tempKey = oldInt.Case__c+'_'+oldInt.Integration_Ext_Id__c;
@@ -57,13 +73,16 @@ public without sharing class ASF_RetryIntegrations {
         
         System.debug(mhashCaseCaseIntegrationVsAttempt);
         
-        if(intExtIds.size()>0)
+        if(intExtIds.size()>0){
             intergraionMaster = ASF_CaseQueryHandler.getASFIntegrationRecordsForRetry(intExtIds);
+        }
+            
         
         for(ASF_Integration__c integ : intergraionMaster){
             if(integ.External_Id__c != null){
-                if(!mIntegrationRecords.containsKey(integ.External_Id__c))
+                if(!mIntegrationRecords.containsKey(integ.External_Id__c)){
                     mIntegrationRecords.put(integ.External_Id__c,integ);
+                }
             }
         }
         
@@ -102,7 +121,7 @@ public without sharing class ASF_RetryIntegrations {
                     else if(mHashedMdtVsPlatformEvtName.containsKey(iHashUniqueKeyForMdt)){
                         System.debug('I am here...');
                         String platformEventToFire = mHashedMdtVsPlatformEvtName.get(iHashUniqueKeyForMdt);
-                        retryNonASFIntegrationRelatedIntegration(cInt,NonASFIntegrationPlaformEvents,platformEventToFire);
+                        retryNonASFIntegrationRelatedIntegration(cInt,nonASFIntegrationPlaformEvents,platformEventToFire);
                         setNextRetryParametersOnCaseIntegrations(cInt,caseInteToUpdate);
                     }
                 }
@@ -112,8 +131,8 @@ public without sharing class ASF_RetryIntegrations {
         if(casesToUpdate.size()>0){
             Database.SaveResult[] results = Database.update(casesToUpdate,false);
         }
-        if(NonASFIntegrationPlaformEvents.size()>0){
-            Database.SaveResult[] srList = EventBus.publish(NonASFIntegrationPlaformEvents);
+        if(nonASFIntegrationPlaformEvents.size()>0){
+            Database.SaveResult[] srList = EventBus.publish(nonASFIntegrationPlaformEvents);
             System.debug('I am triggering...');
         }
         if(caseInteToUpdate.size()>0){
