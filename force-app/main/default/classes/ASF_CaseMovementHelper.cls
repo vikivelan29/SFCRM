@@ -409,7 +409,7 @@ public class ASF_CaseMovementHelper {
         
         
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>();
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -421,6 +421,8 @@ public class ASF_CaseMovementHelper {
             return resultWrapper;
         }
         
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+        /*
         Case queriedCaseRecord = (Case) Database.query(
             'SELECT ' +
             String.join(allFields, ',') +
@@ -428,7 +430,7 @@ public class ASF_CaseMovementHelper {
             currentCase.Id +
             '\''
         );
-        
+        */
         ASF_Case_Stage_Config__c nextStageConfig;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
@@ -524,6 +526,20 @@ public class ASF_CaseMovementHelper {
         }
 
         if(caseRulesForStage.size() > 0){
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
+                if(config.Query_Fields__c != null){
+                    allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+                }
+            }
+            // if(allFields.size() == 0){
+            //     resultWrapper.errorMessage = 'Query Fields not Found on Stage Config';
+            //     resultWrapper.status = 'Error';
+            //     return resultWrapper;
+            // }
+            Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+            
+            /*
             Case queriedCaseRecord = (Case) Database.query(
                 'SELECT ' +
                 currentStageConfig.Query_Fields__c +
@@ -531,6 +547,7 @@ public class ASF_CaseMovementHelper {
                 currentCase.Id +
                 '\''
             );
+            */
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecord, caseRulesForStage);
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
@@ -543,6 +560,7 @@ public class ASF_CaseMovementHelper {
         if(resultWrapper.defaultErrorOwnerId == null){
             resultWrapper.defaultErrorOwnerId = currentStageConfig.Default_Error_Queue__c;
         }
+        resultWrapper.status = 'Success';
         return resultWrapper;
 
     }
@@ -626,6 +644,7 @@ public class ASF_CaseMovementHelper {
     */
     public static CaseAdditionalData getCaseAdditionalDataForNextStage(Case currentCase, String nextStage){
         ASF_Case_Stage_Config__c nextStageConfig;
+        boolean bManualApprovalStage = false;
         CaseAdditionalData additionalData = new CaseAdditionalData();
         List<ASF_Checklist__c> checklistList = new List<ASF_Checklist__c>();
         // Fetch All Case Stage Configs from Query Handler, Find the Correct One for Next Stage
@@ -633,6 +652,7 @@ public class ASF_CaseMovementHelper {
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.StageName__c == nextStage){
                 nextStageConfig = config;
+                bManualApprovalStage = config.Manual_Approval__c;
             }
         }
         // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
@@ -646,16 +666,35 @@ public class ASF_CaseMovementHelper {
                 } 
             }
         }
+
         
-        additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(currentCase, caseRulesForStage);
-        additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(currentCase, caseRulesForStage);
-        additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(currentCase, caseRulesForStage);
-         additionalData.slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(currentCase, caseRulesForStage);  
+        // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+        //Initiating with these 2 fields as these are required in ASF_CaseFrameworkHelper class
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.Query_Fields__c != null){
+                allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            }
+        }
+        // if(allFields.size() == 0){
+        //     additionalData.errorMessage = 'Query Fields not Found on Stage Config';
+        //     additionalData.status = 'Error';
+        //     return additionalData;
+        // }
+        ASF_CaseQueryHandler.refreshRecords = true;
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCase.Id);
+        ASF_CaseQueryHandler.refreshRecords = false;
+        additionalData.approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecord, caseRulesForStage);
+        additionalData.checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(queriedCaseRecord, caseRulesForStage);
+        additionalData.tasksToInsert = ASF_CaseFrameworkHelper.addTasks(queriedCaseRecord, caseRulesForStage);
+         additionalData.slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(queriedCaseRecord, caseRulesForStage);  
         if(nextStageConfig != null){
             additionalData.allIntegrations = nextStageConfig.ASF_Integrations__r;
         }
         
-        
+        additionalData.status = 'Success';
+        // VIRENDRA - 15 JAN 2024 - ADDED MANUAL APPROVAL STAGE FLAG TO SET ON CASE TO ENABLE MANUAL APPROVAL BUTTON.
+        additionalData.manualApprovalStage = bManualApprovalStage;
         return additionalData;
     }
     
@@ -691,7 +730,9 @@ public class ASF_CaseMovementHelper {
         public List<Task> tasksToInsert;
         public List<ASF_Integration__c> allIntegrations;
         public map<String,long> slaCaseAndStageOverrideValues;
-        
+        public boolean manualApprovalStage;
+        public string status; 
+        public string errorMessage;
     }
     
     /**

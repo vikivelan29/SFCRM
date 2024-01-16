@@ -3,13 +3,15 @@ import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.ge
 import getAccountRec from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountRec';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
-import { createRecord } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import fetchRelatedContacts from '@salesforce/apex/ASF_GetCaseRelatedDetails.fetchRelatedContacts';
 
+import CASE_EXTENSION_ID_FIELD from "@salesforce/schema/ABHFL_Case_Detail__c.Id";
+import COMPLAINT_TYPE_FIELD from "@salesforce/schema/ABHFL_Case_Detail__c.Complaint_Type__c";
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
 import ORIGIN_FIELD from '@salesforce/schema/Case.Origin';
 import ASSETID_FIELD from '@salesforce/schema/Case.AssetId';
@@ -32,7 +34,7 @@ import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c'
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
 import Business_Unit from '@salesforce/schema/Asset.LOB_Code__r.BusinessUnit__c';
-import Business_Unit_LOB from '@salesforce/schema/Asset.LOB_Code__c';
+import Business_Unit_LOB from '@salesforce/schema/Asset.LOB__c';
 
 import ACCOUNTTYPE_FIELD from '@salesforce/schema/Asset.Account.IsPersonAccount';
 import ACCOUNT_RECORDTYPE from '@salesforce/schema/Asset.Account.RecordType.DeveloperName';
@@ -117,6 +119,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     sourceFldOptions;
     sourceFldValue;
     trackId = '';
+    complaintType;
+    uniqueId;
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
@@ -143,11 +147,23 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
+        console.log('assestid ---> ' + (JSON.stringify(this.fieldToBeStampedOnCase)));
+        const unique = JSON.stringify(this.fieldToBeStampedOnCase);
+        if(unique != null && unique != undefined){
+            this.uniqueId = JSON.parse(unique).AssetId;
+        }
+        console.log('assestid ---> ' + this.uniqueId);
         this.getAccountRecord();
         console.log('business ---> ' + this.businessUnit);
+       
 
     }
-
+    @wire(getRecord, { recordId: '$uniqueId', fields: [Business_Unit_LOB] })
+    asset;
+    
+    get lobAsset() {
+        return getFieldValue(this.asset.data, Business_Unit_LOB);
+    }
     renderedCallback() {
 
         let getSourceFldCombobox = this.template.querySelector("[data-id='Source Field']");
@@ -179,6 +195,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
+        console.log('lob ---> ' + this.lobAsset);
         clearTimeout(this.typingTimer);
         this.searchKey = event.target.value;
 
@@ -197,11 +214,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
-        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType })
+        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
                     this.strSource = result.strSource;
+                    this.complaintType = result.complaintType;
                     if(this.strSource) {
                         this.populateSourceFld();
                     }
@@ -477,7 +495,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         fields[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
-        fields[TRACK_ID.fieldApiName] = this.trackId;
+        //Field Checks
+        if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
+            fields[TRACK_ID.fieldApiName] = this.trackId;
+        }
         if (this.isasset == false) {
             console.log('--asset--',this.asset);
             fields[CASE_ACCOUNT_FIELD.fieldApiName] = this.accountId;//this.asset.fields.AccountId.value;
@@ -506,7 +527,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.caseRecordId = result.id;
                 this.resetBox();
                 this.loaded = true;
-
+                if(this.caseExtensionRecordId) {
+                    this.updateCaseExtensionRecord(this.caseExtensionRecordId);
+                }
                 //tst strt
                 this[NavigationMixin.Navigate]({
                     type: 'standard__recordPage',
@@ -540,6 +563,23 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
             })
+    }
+
+    updateCaseExtensionRecord(caseExtensionRecId) {
+        if(this.complaintType) {
+            const fields = {};
+
+            fields[CASE_EXTENSION_ID_FIELD.fieldApiName] = caseExtensionRecId;
+            fields[COMPLAINT_TYPE_FIELD.fieldApiName] = this.complaintType;
+
+            const recordInput = {
+            fields: fields
+            };
+
+            updateRecord(recordInput).then((record) => {
+                console.log('Record--> '+record);
+            });
+        }
     }
 
     async createRelObj() {

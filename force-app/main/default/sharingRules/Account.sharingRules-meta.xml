@@ -19,43 +19,4 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>All_ABHFL_Customer_To_ABHFL_User</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>Read</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <description>ABHFL role</description>
-        <label>All ABHFL Customer To ABHFL User</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>All_Payment_Customer_To_Payment_User</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>Read</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <label>All Payment Customer To Payment User</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
 </SharingRules>

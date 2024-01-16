@@ -196,6 +196,7 @@
                 <identifier>RecordLandline_No_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <!--
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -206,6 +207,7 @@
                 <identifier>RecordGenderIdentity_pcField</identifier>
             </fieldInstance>
         </itemInstances>
+        -->
         <name>Facet-3c81af5a-886a-4a6d-9be3-5ce639413876</name>
         <type>Facet</type>
     </flexiPageRegions>

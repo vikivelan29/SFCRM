@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>EBOT Condition</label>
+    <protected>false</protected>
+    <values>
+        <field>AUTOCLOSURE_IN_RR__c</field>
+        <value xsi:type="xsd:string">NO</value>
+    </values>
+    <values>
+        <field>AUTORESPONSEFLAG__c</field>
+        <value xsi:type="xsd:string">NO</value>
+    </values>
+    <values>
+        <field>CONFIDENCESCORE__c</field>
+        <value xsi:type="xsd:string">0.50</value>
+    </values>
+    <values>
+        <field>ExcludedDomains__c</field>
+        <value xsi:type="xsd:string">transunion.com,experian.com,crifhighmark.com,equifax.com</value>
+    </values>
+    <values>
+        <field>ISATTACHMENTFLAG__c</field>
+        <value xsi:type="xsd:string">NO</value>
+    </values>
+    <values>
+        <field>ISMULTIPLELAN__c</field>
+        <value xsi:type="xsd:string">YES</value>
+    </values>
+    <values>
+        <field>ISREGISTEREDCUSTOMER__c</field>
+        <value xsi:type="xsd:string">NO</value>
+    </values>
+    <values>
+        <field>PAYTMINTERACTIONID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SMT_Receiver_Address__c</field>
+        <value xsi:type="xsd:string">rsinghnagar@salesforce.com</value>
+    </values>
+    <values>
+        <field>Sub_Type_Text_Lead__c</field>
+        <value xsi:type="xsd:string">Lead</value>
+    </values>
+    <values>
+        <field>Sub_Type_Text_Paytm__c</field>
+        <value xsi:type="xsd:string">Paytm</value>
+    </values>
+    <values>
+        <field>Sub_Type_Text__c</field>
+        <value xsi:type="xsd:string">Cibil Related,Change of Address,TDS</value>
+    </values>
+    <values>
+        <field>ToAddress__c</field>
+        <value xsi:type="xsd:string">abflsit@gmail.com,abcl.abfl@gmail.com,care.digitalfinance@adityabirlacapital.com</value>
+    </values>
+</CustomMetadata>

@@ -1,27 +1,33 @@
 import { LightningElement, track, api, wire } from 'lwc';
+import {loadStyle} from 'lightning/platformResourceLoader';
+import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
-import { createRecord } from 'lightning/uiRecordApi';
+import { createRecord, notifyRecordUpdateAvailable, getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { CloseActionScreenEvent } from 'lightning/actions';
-import { NavigationMixin } from 'lightning/navigation';
-
 
 import CCC_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import RECATEGORISATION_REASON_FIELD from '@salesforce/schema/Case.Recategorisation_Reason__c';
+import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
+import CASESOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 
-import { CurrentPageReference } from 'lightning/navigation';
+import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
+
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
+import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
 import { RefreshEvent } from 'lightning/refresh';
 
 import getTypeSubTypeData from '@salesforce/apex/ASF_RecategoriseCaseController.getTypeSubTypeDataByCustomerType';
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import getCaseRecordDetails from '@salesforce/apex/ASF_RecategoriseCaseController.getCaseRecordDetails';
 import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.updateCaseWithNewCCCId';
-
+import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
+import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeedbackApi';
 
 export default class asf_RecategoriseCase extends NavigationMixin(LightningElement) {
     searchKey;
@@ -93,7 +99,27 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     oldCaseDetails ;
     currentCCCId;
     recategorizeEnabled;
+    sendBotFeedback = false;
+    showBotFeedback = false;
+     
+    @wire(getRecord, { recordId: '$recordId', fields: [CASESOURCE_FIELD, CASE_BU_FIELD] })
+    wiredRecord({ error, data }) {
+        if (data) {
+            //Show Bot Feedback checkbox if Case source is Email and for specific BU
+            const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
+            if(getFieldValue(data, CASESOURCE_FIELD) === 'Email' && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
+                this.showBotFeedback = true;
+            }
+        } else if (error) {
+            console.error('Error loading record', error);
+        }
+    }
 
+    renderedCallback(){
+        Promise.all([
+            loadStyle(this, overrideCSSFile)
+        ]);
+    }
     //utility method
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);
@@ -106,7 +132,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     connectedCallback() {
         //api record id was not working
-        //console.log(this.pageRef);
+        console.log('this.recordId',this.recordId);
         this.recordId = this.pageRef.state.recordId;
         this.getCurrentCaseRecordDetails();
     }
@@ -121,6 +147,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.searchTypeSubtypeHandler();
             }
         }, this.doneTypingInterval);
+    }
+
+    //This function gets the value from the Send Bit Feedback Checkbox
+    handleBotFeedback(event){
+        this.sendBotFeedback = event.target.checked;
+        console.log('bot value--'+this.sendBotFeedback);
     }
 
     //This function will fetch the CCC Name on basis of searchkey
@@ -335,6 +367,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             return;
         }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+        
+        if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
+            return;
+        }
         const fields = {};
         for(let fldToStamp in this.fieldToBeStampedOnCase) {
             fields[fldToStamp] = this.fieldToBeStampedOnCase[fldToStamp];
@@ -366,27 +402,16 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         updateCaseRecord({ recId: this.recordId,oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,newCaseJson : JSON.stringify(caseRecord) })
         .then(result => {
             this.dispatchEvent(new CloseActionScreenEvent());
-            this.dispatchEvent(new RefreshEvent());  
-            setTimeout(() => {
-                //eval("$A.get('e.force:refreshView').fire();");
-                getRecordNotifyChange([{ recordId: this.recordId }]);
-           }, 1000); 
-
-           /* this[NavigationMixin.Navigate]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId:  this.recordId,
-                    //objectApiName: 'Case', // objectApiName is optional
-                    actionName: 'view'
-                },
-                state: {
-                    mode: 'edit'
-                }
-            }); */
-            //tst end
-           
+            console.log('Firing pubsub from Recategorize!!!!!!');
+            let payload = {'source':'recat', 'recordId':this.recordId};
+            fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);  
+            let changeArray = [{recordId: this.recordId}];
+            notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
-            this.createCaseWithAll = false;  
+            this.createCaseWithAll = false; 
+            if(this.sendBotFeedback){
+                this.notifyEbot();
+            }
         })
         .catch(error => {
             console.log(error);
@@ -394,7 +419,50 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.loaded = true; 
         });
     }
+    notifyEbot(){
+        callEbotFeedbackApi({ caseId: this.recordId})
+            .then(result => {
+               console.log('ebot call success');
+            })
+            .catch(error => {
+                this.showError('error', 'Oops! Error occured', error);
+            });
+    }
 
+    async validateNewCCC(newCCCExtId){
+        let configuredCurrentCCC = await fetchCCCDetails({
+            cccExtId : newCCCExtId
+        })
+        .catch(error => {
+            console.log(error);
+            this.showError('error', 'Oops! Error occured', error);
+            this.loaded = true;
+            return false; 
+        });
+
+        if(configuredCurrentCCC){
+            let errorMsg;
+            if(this.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
+                errorMsg = 'Account is not there. But type sub type is selected which require Customer';
+            } 
+            else if(this.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true ){
+                errorMsg = 'Asset is not there. But type sub type is selected which required Asset';
+            }  
+            else if(configuredCurrentCCC.Priority__c != null && this.currentPriority != configuredCurrentCCC.Priority__c ){
+                errorMsg = 'Case Category Configured priority and case priority is mismatch';
+            } 
+            else if(configuredCurrentCCC.Custom_Segment__c != null 
+            && this.accountRecordType != configuredCurrentCCC.Custom_Segment__c ){
+                errorMsg = 'Case Category Configured Customer segment and case customer segment is mismatch';
+            }
+            if(errorMsg){
+                console.log('displaying error');
+                this.showError('error', 'Oops! Invalid Selection', errorMsg);
+                return false;
+            } 
+        }
+        return true;
+    }
     async createExtensionObj() {
         const fields = {};
         const caseRecord = { apiName: this.caseRelObjName, fields: fields };
@@ -440,7 +508,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
         this.isNotSelected = !btnActive;
     }
-
+    closeAction(event){
+        this.dispatchEvent(new CloseActionScreenEvent());
+    }
     handleProductVal(event) {
         this.productVal = event.target.value;
         var btnActive = false;
@@ -539,31 +609,34 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     async getCurrentCaseRecordDetails() {
        
         if(this.recordId != null && this.recordId != undefined){
-            await getCaseRecordDetails({ recId: this.recordId })
-            .then(result => {
-                this.oldCaseDetails = result;
-                this.recategorizeEnabled = result.recategorizeEnabled;
-                var caseparsedObject = JSON.parse(this.oldCaseDetails.caseDetails);
-                this.accountId = caseparsedObject.AccountId;
-                this.currentCCCId = caseparsedObject.CCC_External_Id__c;
-                this.accountRecordType = caseparsedObject.Account.RecordType.Name;
-                this.primaryLOBValue = caseparsedObject.Account.Business_Unit__c;
-                //this is without asset parameter. default is false
-                //this means , if case is not having asset , then
-                //this will be true. 
-                this.isasset = 'true';
-                if (caseparsedObject.AssetId != undefined && caseparsedObject.AssetId != null){
-                    //this.assetId = caseparsedObject.AssetId; 
-                    //once case is associated to asset, reset this
-                    this.isasset = 'false';
-                }
-                this.loaded = true; 
+            let result = await getCaseRecordDetails({ 
+                recId: this.recordId 
             })
             .catch(error => {
                 console.log(error);
+                this.showError('error', 'Oops! Error occured while loading the case', error);
             });
+            
+            this.oldCaseDetails = result;
+            this.recategorizeEnabled = result.recategorizeEnabled;
+            var caseparsedObject = JSON.parse(this.oldCaseDetails.caseDetails);
+            this.accountId = caseparsedObject.AccountId;
+            this.assetId = caseparsedObject.AssetId;
+            this.currentPriority = caseparsedObject.Priority;
+            this.currentCCCId = caseparsedObject.CCC_External_Id__c;
+            this.accountRecordType = caseparsedObject.Account.RecordType.Name;
+            this.primaryLOBValue = caseparsedObject.Account.Business_Unit__c;
+            //this is without asset parameter. default is false
+            //this means , if case is not having asset , then
+            //this will be true. 
+            this.isasset = 'true';
+            if (caseparsedObject.AssetId != undefined && caseparsedObject.AssetId != null){
+                //this.assetId = caseparsedObject.AssetId; 
+                //once case is associated to asset, reset this
+                this.isasset = 'false';
+            }
+            this.loaded = true;
         }
-        
     }
 
     resetBox() {

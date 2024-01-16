@@ -68,7 +68,10 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
         this.dispatchEvent(new RefreshEvent());  
         if (subscribeBrowserEvent.trim().toUpperCase() == "TRUE") {
             if (payload.source != 'casepath' && this.recordId == payload.recordId) {
-                this.getCasePathInfo();
+                //this.getCasePathInfo();
+                //Costly refreshView is called here to refresh all custom LWC components on the page,
+                // avoid calling it from any other component for refresh.
+                eval("$A.get('e.force:refreshView').fire();");
             }
         }
     }
