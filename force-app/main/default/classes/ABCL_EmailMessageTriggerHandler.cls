@@ -23,13 +23,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     * @Description - After Insert Handler for Email Message
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
-        // VIRENDRA - CREATED MAP TO TRIGGER EBOT INTEGRATION BASED ON CUSTOM METADATA.
         
-        for(EmailMessage msg : (List<EmailMessage>)newEmails.values()){
-            if(msg.Incoming){
-                ASF_Email2CaseHandler.mEbotTriggerMap.put(msg.MessageIdentifier,true);
-            }
-        }
         
         // VIRENDRA - UPDATEMESSAGEIDENTIFIERONCASE TO AVOID CREATING MULTIPLE CASES WHEN MULTIPLE EMAIL TO CASE ADDRESSES ARE PART OF INCOMING EMAIL.
         ASF_Email2CaseHandler.updateMessageIdentifierOnCase((List<EmailMessage>)newEmails.values());

@@ -9,8 +9,6 @@
 public without sharing class ASF_Email2CaseHandler {
     public class multipleEmail2CaseAddressException extends exception{}
     
-    public static Map<String,Boolean> mEbotTriggerMap = new Map<String,Boolean>();
-    
     /* THIS MEHTOD IS USED TO UPDATE THE MESSAGEIDENTIFIER FIELD ON CASE OBJECT.
 * THIS FIELD BEING MARKED AS UNIQUE, IF SINGLE EMAIL IS SENT TO MULTIPLE E2C EMAIL ADDRESSES,
 * ONLY ONE CASE IS CREATED. CASE CREATED WILL BE SET TO QUEUE ASSIGNED FOR HIGHEST PRIORITY EMAILADDRESS IN EMAIL TO CASE.
@@ -150,7 +148,7 @@ public without sharing class ASF_Email2CaseHandler {
                                     idx = (Integer)mdt.Priority_Index__c;
                                     priorityEmailAddress = mdt.Email2CaseAddress__c;
                                     bSendToEbot = mdt.Send_to_EBOT__c;
-                                    //mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
+                                    
                                 }
                             }
                         }
@@ -162,7 +160,7 @@ public without sharing class ASF_Email2CaseHandler {
                                     idx = (Integer)mdt.Priority_Index__c;
                                     priorityEmailAddress = mdt.Email2CaseAddress__c;
                                     bSendToEbot = mdt.Send_to_EBOT__c;
-                                    //mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
+                                    
                                 }
                             }
                         }
