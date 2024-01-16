@@ -982,11 +982,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      */
     saveCaseAndExtn(event) {
         this.skipMoveToNextStage = true;
+        this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
         console.log('submit btn clicked');
     }
     handleMoveToNext(event) {
         this.skipMoveToNextStage = false;
+        this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
     }
     cancelBackCaseStage() {
