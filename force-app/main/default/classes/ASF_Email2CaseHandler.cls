@@ -132,6 +132,7 @@ public without sharing class ASF_Email2CaseHandler {
                 if(msg.ParentId.getSObjectType() == Case.sObjectType){
                     integer idx = 0;
                     string priorityEmailAddress = '';
+                    boolean bSendToEbot = false;
                     
                     Case c = mCases.get(msg.ParentId);
                     
@@ -148,8 +149,8 @@ public without sharing class ASF_Email2CaseHandler {
                                 if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                     idx = (Integer)mdt.Priority_Index__c;
                                     priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                    
-                                    mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
+                                    bSendToEbot = mdt.Send_to_EBOT__c;
+                                    //mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
                                 }
                             }
                         }
@@ -160,14 +161,15 @@ public without sharing class ASF_Email2CaseHandler {
                                 if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                     idx = (Integer)mdt.Priority_Index__c;
                                     priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                    
-                                    mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
+                                    bSendToEbot = mdt.Send_to_EBOT__c;
+                                    //mEbotTriggerMap.put(msg.MessageIdentifier,mdt.Send_to_EBOT__c);
                                 }
                             }
                         }
                     }
                     if(priorityEmailAddress != null && priorityEmailAddress != ''){
                         msg.Winning_Email__c = priorityEmailAddress;
+                        msg.Send_to_Ebot__c = bSendToEbot;
                     }
                 }
             }
