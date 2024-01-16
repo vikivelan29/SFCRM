@@ -7,8 +7,8 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
-          - sit-sandbox
-        default: 'sit-sandbox'
+          - uat-sandbox
+        default: 'uat-sandbox'
         required: true
       validateOnly:
         description: 'Run the deployment as validation only'
@@ -17,15 +17,15 @@ on:
 
 jobs:
 
-  deploy-sit-sandbox:
+  deploy-uat-sandbox:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'sit-sandbox' }}
+    if: ${{ github.event.inputs.environment == 'uat-sandbox' }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy to sit sandbox
         uses: ./.github/actions/deploy-environment
         with:
-          sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_PS }}
+          sfdx_auth_url: ${{ secrets.SFDX_ABCL_UAT_FS }}
           environmentName: ${{ github.event.inputs.environment }}
           validateOnly: ${{ github.event.inputs.validateOnly }}
   
