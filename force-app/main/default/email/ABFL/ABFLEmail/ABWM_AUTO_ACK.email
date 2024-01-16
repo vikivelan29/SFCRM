@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -150,23 +150,22 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance - Wealth.</span></strong><br />
 												&nbsp;<br />
+												This is automated acknowledgement.<br />
+												<br />
 												The reference number for this request is {{{Case.CaseNumber}}}.<br />
 												<br />
-												While our endeavour would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}}, we request you to extend us 7 more working days to review and provide the confirmation.<br />
+												Your Service Request is in process and our customer service executive will respond to you shortly. You can expect to get resolution by&nbsp;{{{Case.Overall_Case_Closure_SLA__c}}}.<br />
 												<br />
-												We regret any inconvenience caused to you and appreciate your patience.<br />
-												<br />
-												In case of any further queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
+												In case of any further query, please feel free to contact us through any of ours customer service channels mentioned below.<br />
 												<br />
 												Thank you for reaching out to us.<br />
 												<br />
 												Assuring you of our best services always.<br />
 												<br />
-												Note - Please DO NOT edit the subject line while responding to us on this case<br />
+												Note - Please DONOT edit the subject line while responding to us on this case.<br />
 												<br />
 												Warm Regards,<br />
-												<br />
-												<strong><span style="color:#c0392b;">Aditya Birla Finance Limited</span></strong></div>
+												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
 												</td>
 											</tr>
 										
