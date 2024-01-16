@@ -39,17 +39,11 @@ public without sharing class ASF_CustomerEmailInvocable {
         }
 
         Map<Id, EmailOutputWrapper> allOutputs = new Map<Id, EmailOutputWrapper>();
-        //List<ABFL_Case_Detail__c > abflCaseExtension = [SELECT ID,Case__c, Resolved_Email_Sent__c  FROM ABFL_Case_Detail__c WHERE Case__c = :wrap.caseId];
-        Map<ID,ABFL_Case_Detail__c> mapAbflCaseExt = new Map<ID,ABFL_Case_Detail__c>();
         
         if(!abflList.isEmpty()){
             // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
             //allOutputs.putAll(arg0)
-            List<ABFL_Case_Detail__c > abflCaseExtension = [SELECT ID,Case__c, Resolved_Email_Sent__c  FROM ABFL_Case_Detail__c WHERE Case__c = :abflList[0].caseId LIMIT 1];
-            if(!abflCaseExtension.isEmpty()){
-            	mapAbflCaseExt.put(abflCaseExtension[0].Case__c,abflCaseExtension[0]);
-            }
-            system.debug('mapofmapAbflCaseExt '+mapAbflCaseExt.values());
+            ABFL_SuppressEmailHelper.checkSuppressionLogic(cases,allOutputs);
         }
         if(!abhflList.isEmpty()){
             // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
@@ -65,14 +59,6 @@ public without sharing class ASF_CustomerEmailInvocable {
             EmailOutputWrapper resultWrap = new EmailOutputWrapper();
             if(allOutputs.containsKey(wrap.caseId)){
                 resultWrap = allOutputs.get(wrap.caseId);
-            }
-            else if(!mapAbflCaseExt.isEmpty() && mapAbflCaseExt.get(wrap.caseId).Resolved_Email_Sent__c == TRUE){
-                resultWrap.supressEmail = true;
-                resultWrap.templateName = wrap.templateName;
-            }
-              else {
-                resultWrap.supressEmail = false;
-                resultWrap.templateName = wrap.templateName;
             }
 
             result.add(resultWrap);
