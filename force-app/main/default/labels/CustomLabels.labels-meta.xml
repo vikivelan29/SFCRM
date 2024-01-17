@@ -230,7 +230,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email</shortDescription>
-        <value>No Reply Address</value>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email_address</fullName>
