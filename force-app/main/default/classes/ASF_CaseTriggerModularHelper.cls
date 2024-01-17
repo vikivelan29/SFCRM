@@ -162,9 +162,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Set<String> cccExternalIds = new Set<String>();
         Boolean isUpdate = oldMap!=null?true:false;
-
+        Boolean supressErrors = (newList[0].Technical_Source__c == 'API' && oldMap == null)?true:false;
         for(Case caseRec : newList){
-            if(caseRec.Technical_Source__c == 'LWC' 
+            if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API')
                 && (!isUpdate 
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
@@ -189,7 +189,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(currentStageConfig != null){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
                     if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        if(supressErrors){
+                            triggerEncounteredError = true;
+                        }else{
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }
                     }else{
                         if(wrap.isCaseUpdated == true){
                             Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
