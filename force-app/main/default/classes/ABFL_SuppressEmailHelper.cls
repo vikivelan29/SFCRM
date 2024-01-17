@@ -31,7 +31,7 @@ public without sharing class ABFL_SuppressEmailHelper {
         
         // SCENARIO 1 - EBOT - EMAIL ALREADY SENT AS PART OF PROCESS. - ONLY RUN WHEN CASE IS RESOLVED.
         if(caseIdsForEBOTResolution.size()>0)
-            suppressEBOTResolutionEmail(caseIdsForEBOTResolution,inpArg,allOutputs);
+           // suppressEBOTResolutionEmail(caseIdsForEBOTResolution,inpArg,allOutputs);
         
         // SCENARIO 2 - WHEN CASE CREATED WITH SOURCE AS RM-NO EMAIL/ IVR-NO EMAIL/ PHONE-INBOUND AND QUERY.
         suppressRMNoEmail(caseIds,inpArg,allOutputs);
