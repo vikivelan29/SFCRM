@@ -136,7 +136,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     /* Sales Prospect Code Starts Here */
     async handleSalesProspet(event) {
         this.isInternalCase = false;
-        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null })
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null, salesProspect: true })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {
