@@ -139,7 +139,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                         //this.createCaseWithAll = true;
                         this.lstChannelValues = result.lstChannel;
                         this.strDefaultChannel = this.lstChannelValues[0].label;
-                        this.strChannelValue = this.strDefaultChannel;
+                        if(this.loggedInUserBusinessUnit != 'ABFL'){
+                            this.strChannelValue = this.strDefaultChannel;
+                        }
                         this.boolChannelVisible = true;
 
                     }
@@ -175,7 +177,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.disableCreateBtn = false;
             }
         }
-        if ((selected) && (this.businessUnit == 'ABFL')) {
+        if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -419,6 +421,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     
       handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
+    }
+    handleSource(event) {
+        this.sourceFldValue = event.target.value;
     }
       
 }
