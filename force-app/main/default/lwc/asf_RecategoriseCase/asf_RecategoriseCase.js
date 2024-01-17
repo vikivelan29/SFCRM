@@ -1,8 +1,6 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
-import {loadStyle} from 'lightning/platformResourceLoader';
-import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import { createRecord, notifyRecordUpdateAvailable, getRecord, getFieldValue } from 'lightning/uiRecordApi';
