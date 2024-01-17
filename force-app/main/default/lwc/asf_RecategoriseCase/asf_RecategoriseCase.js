@@ -1,6 +1,8 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
+import {loadStyle} from 'lightning/platformResourceLoader';
+import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import { createRecord, notifyRecordUpdateAvailable, getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -62,6 +64,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     assetId;
     isasset;
     accountId;
+    leadId; // Virendra - Added for Prospect Related ReCategorisation.
     
     //asset;
 
@@ -95,6 +98,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     cccproduct_type = '';
 
     accountRecordType = '';
+    leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
