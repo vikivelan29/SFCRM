@@ -2,8 +2,7 @@ public with sharing class ASF_CaseFrameworkHelper {
     
     /**
      * If Approval Rules are present, Add new Approval Records with Approvers set
-     * Return the Approval Records to calling method, to b
-     * e inserted
+     * Return the Approval Records to calling method, to be inserted
      */
     public static List<ASF_Case_Approv__c> addApprovals(Case currentCase, List<ASF_Case_Rule__c> allCaseRules){
 
@@ -244,6 +243,13 @@ public with sharing class ASF_CaseFrameworkHelper {
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Success';
+        ASF_Case_Stage_Config__c currentStageConfig;
+        List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{currentCase.CCC_External_Id__c});
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.StageName__c == currentCase.Stage__c){
+                currentStageConfig = config;
+            }
+        }
         List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
         for(ASF_Integration__c integ : allIntegrations){
             if(integ.Auto_Run_on_Load__c){
@@ -254,6 +260,9 @@ public with sharing class ASF_CaseFrameworkHelper {
 
         for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
             if(wrap.status == 'Error'){
+                if(currentStageConfig != null){
+                    wrap.assignToId = currentStageConfig.Default_Error_Queue__c;
+                }
                 result =  wrap;
                 break;
             }
