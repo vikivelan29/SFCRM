@@ -93,7 +93,13 @@ public class ABFL_BRE_APIImplementation {
             loanAccountNumber = caseRec.LAN__c;
             ticketNo = caseRec.CaseNumber;
             source = caseRec.BRE_Source__c;
-            email = caseRec.Origin == 'Email'?caseRec.SuppliedEmail:cont[0]?.Email;
+            //email = caseRec.Origin == 'Email'?caseRec.SuppliedEmail:cont[0]?.Email;
+            /** 
+			* We are not using Contact records, so ContactEmail can't be used 
+			* If Account exists, then if PersonAccount Use PersonEmail, else use Office_Email__c 
+            * 
+			**/
+            email = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonEmail:caseRec.Account.Office_Email__c):NULL;
             mobileNumber = cont[0]?.MobilePhone != null?cont[0]?.MobilePhone:cont[0]?.Phone;
             threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
         }

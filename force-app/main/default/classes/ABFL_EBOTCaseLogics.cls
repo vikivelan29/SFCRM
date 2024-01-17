@@ -262,6 +262,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Lead__c  ;
         }
       /****************************************************************************************************************
@@ -322,6 +323,8 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
+               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                allowedSubtype.contains(recCase.Sub_Type_Text__c) &&
                objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
                objResponseBody.ISATTACHMENTFLAG == condition.ISATTACHMENTFLAG__c &&
@@ -354,6 +357,8 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+                recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
+                recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                !allowedSubtype.contains(recCase.Sub_Type_Text__c) &&  
                objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
                objResponseBody.CONFIDENCESCORE >= condition.CONFIDENCESCORE__c ;

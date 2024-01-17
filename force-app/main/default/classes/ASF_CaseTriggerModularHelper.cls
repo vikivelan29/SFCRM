@@ -189,11 +189,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(currentStageConfig != null){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
                     if(wrap.status == 'Error'){
-                        if(supressErrors){
-                            triggerEncounteredError = true;
-                        }else{
-                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                        }
+                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
                     }else{
                         if(wrap.isCaseUpdated == true){
                             Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
