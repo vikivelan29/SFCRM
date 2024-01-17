@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountDataByCustomerType';
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import { reduceErrors } from 'c/asf_ldsUtils';
@@ -24,6 +24,12 @@ import CASE_OBJECT from '@salesforce/schema/Case';
 
 import FROMPROSPECTPAGE from "./asf_CreateCaseFromProspect.html";
 import FROMGLOBALSEARCHPAGE from "./asf_CreateCaseWithProspect.html";
+
+import loggedInUserId from '@salesforce/user/Id';
+
+import { getRecord } from 'lightning/uiRecordApi';
+import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -60,6 +66,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @track showFromGlobalSearch = true;
     selectedCTSTFromProspect;
     @api isInternalCase = false;
+    @track loggedInUserBusinessUnit = '';
 
 
 
@@ -74,6 +81,16 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         { label: 'Email', fieldName: 'Email', type: 'text' },
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
+
+
+    @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
+    currentUserInfo({error, data}) {
+        if (data) {
+            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+        } else if (error) {
+            //this.error = error ;
+        }
+    }
 
 
     handelSearchKey(event) {
@@ -224,7 +241,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.disableCreateBtn = false;
         this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
 
-        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null })
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {
@@ -263,6 +280,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         let caseExtnRecord = {};
         let caseRecord = {};
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
+        leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
 
         if(this.showFromGlobalSearch == false){
             selected = this.selectedCTSTFromProspect;
