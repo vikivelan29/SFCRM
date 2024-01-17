@@ -237,7 +237,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>No Reply Address</value>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
         <fullName>Base_URL_for_bitly</fullName>
