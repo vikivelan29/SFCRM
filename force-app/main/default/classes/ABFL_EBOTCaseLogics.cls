@@ -161,7 +161,7 @@ public with sharing class ABFL_EBOTCaseLogics {
            else{
                 ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
                 objUpdateCaseExt.Id = ABFLCaseExtId;
-                objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
+                //objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
                 lstUpdateCaseExt.add(objUpdateCaseExt) ;
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 
