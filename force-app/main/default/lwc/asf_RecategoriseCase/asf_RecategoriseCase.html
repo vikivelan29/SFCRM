@@ -19,7 +19,7 @@
                     <template if:true={showBotFeedback}>
                         <lightning-layout-item size="8" padding="around-small">
                             <lightning-input type="checkbox" label="Send Bot Feedback" value={sendBotFeedback}
-                                onchange={handleBotFeedback}>
+                                onchange={handleBotFeedback} checked>
                             </lightning-input>
                         </lightning-layout-item>
                     </template>
@@ -112,7 +112,7 @@
             </template>
         </template>
         <template if:false={recategorizeEnabled}>
-            Case is not Eligible for Recategorization
+            Case is not eligible for Recategorization
         </template>
         <div slot="footer">
             <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
