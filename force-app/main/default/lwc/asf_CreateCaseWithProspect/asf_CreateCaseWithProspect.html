@@ -72,6 +72,13 @@
                             </template>
                         </template>
 
+                        <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                        label="No Auto Communication"
+                                        options={noAutoCommOptions}
+                                        value={noAutoCommValue}
+                                        onchange={handleAutoCommChange}>
+                        </lightning-checkbox-group>
+
                         <template if:true={isPhoneInbound}>
                             <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
                                 required></lightning-input>

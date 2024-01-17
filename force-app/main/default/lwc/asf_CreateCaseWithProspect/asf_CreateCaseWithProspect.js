@@ -8,6 +8,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 
 
@@ -19,6 +20,7 @@ import CCC_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 
 import CASE_OBJECT from '@salesforce/schema/Case';
 
@@ -67,6 +69,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     selectedCTSTFromProspect;
     @api isInternalCase = false;
     @track loggedInUserBusinessUnit = '';
+    noAutoCommOptions = [];
+    noAutoCommValue = [];
 
 
 
@@ -81,6 +85,24 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         { label: 'Email', fieldName: 'Email', type: 'text' },
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
+
+
+    //To get No Auto Communication pickilst values
+    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
+    objectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            let pickVals = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+            this.noAutoCommOptions.push.apply(this.noAutoCommOptions,pickVals) ;
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
 
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
@@ -259,7 +281,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.disableBackBtn = false;
         this.dupeLead = [];
         this.disableCreateBtn = false;
-        
+
         await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
@@ -328,7 +350,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         caseRecord[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        caseRecord[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         caseRecord["sobjectType"] = "Case";
+        
 
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -392,5 +416,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     render() {
         return this.showFromGlobalSearch ? FROMGLOBALSEARCHPAGE : FROMPROSPECTPAGE;
       }
+    
+      handleAutoCommChange(event){
+        this.noAutoCommValue = event.detail.value;
+    }
       
 }
