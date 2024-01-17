@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retention_Process_Stage__c</fullName>
+    <externalId>false</externalId>
+    <label>Retention Process Stage</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sanction letter Retrieval</fullName>
+                <default>false</default>
+                <label>Sanction letter Retrieval</label>
+            </value>
+            <value>
+                <fullName>Credit wetting for Own Funds proof</fullName>
+                <default>false</default>
+                <label>Credit wetting for Own Funds proof</label>
+            </value>
+            <value>
+                <fullName>Credit wetting for Sale Of Property</fullName>
+                <default>false</default>
+                <label>Credit wetting for Sale Of Property</label>
+            </value>
+            <value>
+                <fullName>Response by BIU &amp; Credit on TOP up &amp; BT Status</fullName>
+                <default>false</default>
+                <label>Response by BIU &amp; Credit on TOP up &amp; BT Status</label>
+            </value>
+            <value>
+                <fullName>NSM/ / BIU team release of FCL&amp; LOD</fullName>
+                <default>false</default>
+                <label>NSM/ / BIU team release of FCL&amp; LOD</label>
+            </value>
+            <value>
+                <fullName>TDS Clearance</fullName>
+                <default>false</default>
+                <label>TDS Clearance</label>
+            </value>
+            <value>
+                <fullName>BH/ / BIU team release of FCL &amp; LOD</fullName>
+                <default>false</default>
+                <label>BH/ / BIU team release of FCL &amp; LOD</label>
+            </value>
+            <value>
+                <fullName>NSM / BIU for ROI Approval</fullName>
+                <default>false</default>
+                <label>NSM / BIU for ROI Approval</label>
+            </value>
+            <value>
+                <fullName>BH / BIU for ROI Approval</fullName>
+                <default>false</default>
+                <label>BH / BIU for ROI Approval</label>
+            </value>
+            <value>
+                <fullName>Release of FCL &amp; LOD</fullName>
+                <default>false</default>
+                <label>Release of FCL &amp; LOD</label>
+            </value>
+            <value>
+                <fullName>Email ECL &amp; LOD</fullName>
+                <default>false</default>
+                <label>Email ECL &amp; LOD</label>
+            </value>
+            <value>
+                <fullName>Retention Communication</fullName>
+                <default>false</default>
+                <label>Retention Communication</label>
+            </value>
+            <value>
+                <fullName>Branch Ops updating New EMI - TAT</fullName>
+                <default>false</default>
+                <label>Branch Ops updating New EMI - TAT</label>
+            </value>
+            <value>
+                <fullName>Res - Foreclosure letter and List of Documents</fullName>
+                <default>false</default>
+                <label>Res - Foreclosure letter and List of Documents</label>
+            </value>
+            <value>
+                <fullName>Res -Sanction letter uploaded in Notes</fullName>
+                <default>false</default>
+                <label>Res -Sanction letter uploaded in Notes</label>
+            </value>
+            <value>
+                <fullName>Res - Revised Rate Approval Received</fullName>
+                <default>false</default>
+                <label>Res - Revised Rate Approval Received</label>
+            </value>
+            <value>
+                <fullName>Res- Top-up disbursed / Rejected</fullName>
+                <default>false</default>
+                <label>Res- Top-up disbursed / Rejected</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

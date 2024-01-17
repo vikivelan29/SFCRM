@@ -8,5 +8,6 @@
     <fields>CreatedDate</fields>
     <fields>ClosedDate</fields>
     <fields>Source__c</fields>
+    <fields>OwnerId</fields>
     <label>ASF_Case_Compact_Layout</label>
 </CompactLayout>

@@ -119,5 +119,10 @@ public with sharing class ASF_Constants {
         
     /* Map to Store Case Origin Vs Business Unit */
     public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL'};
+        
+        
+    /* RETRY MECHANISM RELATED CONSTANTS. */
+    public static final String RETRY_PROCESSTYPEINTEG = 'Process';
+    public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
 
 }

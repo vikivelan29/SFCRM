@@ -1,7 +1,7 @@
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
-        //ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
+        ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
         
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){

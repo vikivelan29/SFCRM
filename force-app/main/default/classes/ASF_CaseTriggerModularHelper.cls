@@ -162,9 +162,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Set<String> cccExternalIds = new Set<String>();
         Boolean isUpdate = oldMap!=null?true:false;
-
+        Boolean supressErrors = (newList[0].Technical_Source__c == 'API' && oldMap == null)?true:false;
         for(Case caseRec : newList){
-            if(caseRec.Technical_Source__c == 'LWC' 
+            if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API')
                 && (!isUpdate 
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
@@ -189,7 +189,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(currentStageConfig != null){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
                     if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        if(supressErrors){
+                            triggerEncounteredError = true;
+                        }else{
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }
                     }else{
                         if(wrap.isCaseUpdated == true){
                             Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
@@ -399,8 +403,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Insert case
             if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null
                 && (!isUpdate 
-                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
+                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c) || 
                 (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
                 eligibleRecords.add(caseRec);
             }
@@ -431,6 +434,20 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
+            if(addlDataFromStageMovementMethods != null  
+                && (eligibleRecords[0].Technical_Source__c == 'API' || eligibleRecords[0].Technical_Source__c == 'LWC' || 
+                   eligibleRecords[0].Technical_Source__c == 'Email')){
+                    // VIRENDRA - 15 JAN 2024 - ADDED BELOW CODE FOR TECHNICAL SOURCE LWC AND EMAIL.
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(eligibleRecords[0].Id)){
+                        caseToUpdate = new Case(Id=eligibleRecords[0].Id, is_Manual_Approval__c = dataWrapper.manualApprovalStage);
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }else{
+                        caseToUpdate = caseFinalDMLMap.get(eligibleRecords[0].Id);
+                        caseToUpdate.is_Manual_Approval__c = dataWrapper.manualApprovalStage;
+                        caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
+                    }
+                }
         }
     }
     //Creates Checklist, Tasks, Approvals

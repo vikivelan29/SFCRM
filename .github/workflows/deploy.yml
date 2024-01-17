@@ -41,4 +41,16 @@ jobs:
           sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_PS }}
           environmentName: ${{ github.event.inputs.environment }}
           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+  deploy-sit-sandbox:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == 'sit-sandbox' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to sit1 sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_PS }}
+          environmentName: ${{ github.event.inputs.environment }}
+          validateOnly: ${{ github.event.inputs.validateOnly }}
   

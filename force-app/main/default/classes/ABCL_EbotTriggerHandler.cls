@@ -14,6 +14,6 @@ public class ABCL_EbotTriggerHandler extends ASF_VTriggerHandler{
     * @Description - After Insert Handler for EBOT Internal Event
     *****************************************************************************************************************/     
     public override void AfterInsert(map<Id, sObject> newEvent){
-        ABCL_EbotTriggerHelper.createExtEbotEvent(newEvent);
+        ABHFL_EbotTriggerHelper.createExtEbotEvent(newEvent);
     }
 }

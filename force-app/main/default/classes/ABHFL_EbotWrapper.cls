@@ -1,10 +1,10 @@
 public class ABHFL_EbotWrapper {
 	
     public class EbotResponseWrapper{
-        public string caseId;
-        public string caseSubtype;
-        public string comment;
-        public string ownerFullName;
-        public string confidenceScore;
+        public string CASEID;
+        public string CASESUBTYPE;
+        public string COMMENT;
+        public string OWNERFULLNAME;
+        public string CONFIDENCESCORE;
     }
 }

@@ -20,7 +20,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     * @Description - After Insert Handler for Email Message
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
-        ABCL_EmailMessageHelper.ebotHandler(newEmails);
+		ABHFL_EmailMessageHelper.ebotHandler(newEmails);
     }
     
     

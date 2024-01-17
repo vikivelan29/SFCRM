@@ -1,0 +1,6 @@
+<apex:component access="global" controller="ASF_CaseEmailController">
+    <apex:attribute name="caseIdValue" type="String" description="This is the Id of the Case" assignTo="{!caseId}" access="global" />
+    <apex:attribute name="templateName" type="String" description="This is the Id of the Name of Email Template" assignTo="{!emailtemplateName}" access="global" />
+     
+     <apex:outputText value="{!outputBody}" escape="false"></apex:outputText>
+</apex:component>

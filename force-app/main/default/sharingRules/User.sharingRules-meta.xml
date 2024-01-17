@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingOwnerRules>
-        <fullName>Share_ABFL_User_with_ABFL_Users</fullName>
+        <fullName>Share_ABFL_User_with_ABFL_Users</fullName> 
         <accessLevel>Read</accessLevel>
         <description>Share ABFL User with Each Other.</description>
         <label>Share ABFL User with ABFL Users</label>
@@ -24,9 +24,10 @@
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
-        <fullName>Payment_Users_Sharing_Rule</fullName>
+        <fullName>Share_Payment_User_with_Payment_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>Payment Users Sharing Rule</label>
+        <description>Sharing Payment user with each other</description>
+        <label>Share Payment User with Payment Users</label>
         <sharedTo>
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
