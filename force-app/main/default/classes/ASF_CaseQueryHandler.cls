@@ -11,7 +11,6 @@ public with sharing class ASF_CaseQueryHandler {
     private static List<Case> cases = null;
     private static List<ASF_Checklist__c> caseIncompleteChecklists = null;
     private static List<ASF_Case_Approv__c> caseApprovals = null;
-    private static List<ASF_Case_Approv__c> caseApprovals = null;
     private static List<Task> caseIncompleteTasks = null;
     private static List<ASF_Integration__c> cccIntegrations = null;
     private static List<ASF_Case_Integration__c> caseIntegrations = null;
