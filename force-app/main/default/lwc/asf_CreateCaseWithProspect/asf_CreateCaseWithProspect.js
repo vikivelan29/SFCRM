@@ -222,6 +222,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
             }
         });
+
+        
         return isValid;
     }
     resetBox() {
@@ -234,13 +236,30 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
 
     async handleNext(event) {
+        event.preventDefault();
+
+        
+        
+        this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+        if (!this.isInputValid()) {
+            // Stay on same page if lightning-text field is required and is not populated with any value.
+            return;
+        }
+        const All_Compobox_Valid = [...this.template.querySelectorAll('lightning-combobox')]
+            .reduce((validSoFar, input_Field_Reference) => {
+                input_Field_Reference.reportValidity();
+                return validSoFar && input_Field_Reference.checkValidity();
+            }, true);
+        if(!All_Compobox_Valid){
+            return;
+        }
+
         this.ctstSelection = false;
         this.showDupeList = false;
         this.disableBackBtn = false;
         this.dupeLead = [];
         this.disableCreateBtn = false;
-        this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-
+        
         await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
