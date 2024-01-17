@@ -25,8 +25,7 @@ public with sharing class ABFL_SOQL_Case {
                 ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
                 BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c
                 FROM Case
-                WHERE Id =: caseid
-                WITH SECURITY_ENFORCED];
+                WHERE Id =: caseid];
     } 
     /********************************************************************************************************
     * @author           Salesforce
@@ -48,7 +47,6 @@ public with sharing class ABFL_SOQL_Case {
     *********************************************************************************************************/
     public static List<Contact> getContact(string accountId) {
         return [SELECT id, Email, Mobile_Phone_2__c,AccountId, Phone, MobilePhone, Account.name FROM 
-                Contact WHERE AccountId = :accountId
-                WITH SECURITY_ENFORCED];
+                Contact WHERE AccountId = :accountId];
     }
 }
