@@ -60,6 +60,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                         checklistRecord.Systeminitiated__c = true;
                         checklistRecord.Case__c = currentCase.Id;
                         checklistRecord.Stage_Name__c = currentCase.Stage__c;
+                        checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
                         checklistList.add(checklistRecord);
                     }
                     break;
@@ -121,6 +122,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                         newTask.Case_Stage__c = currentCase.Stage__c;
                         newTask.Systeminitiated__c = true;
                         newTask.Task_Type__c ='Automatic';
+                        newTask.Work_Item_External_ID__c = workItem.Work_Item_External_ID__c;
                         newTask.ActivityDate = Date.valueOf(
                             BusinessHours.add(
                                 currentCase.BusinessHoursId,

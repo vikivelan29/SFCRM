@@ -100,10 +100,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(appliedCCC != null){
                 //Fill all common fields irrespective of source
-                if(!isUpdate){
-                    // beforeinsert only
-                    caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                }
+                caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
                 caseRec.Stage__c = appliedCCC.First_Stage__c;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
@@ -378,16 +375,19 @@ public without sharing class ASF_CaseTriggerModularHelper {
         for(Case caseRec : newList){
             if(caseRec.Technical_Source__c == 'API'){
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(caseRec, caseRec.Stage__c);
-                Case caseObj = new Case(Id = caseRec.Id);
-                caseObj.OwnerId = ownerInfo.defaultOwnerId;
-                if(triggerEncounteredError){
-                    caseObj.OwnerId = ownerInfo.defaultErrorOwnerId;
+                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                    Case caseObj = new Case(Id = caseRec.Id, OwnerId=caseRec.OwnerId);
+                    caseFinalDMLMap.put(caseRec.Id, caseObj);
+                }else{
+                    Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                    caseRecFromMap.OwnerId = ownerInfo.defaultOwnerId!=null?ownerInfo.defaultOwnerId:caseRecFromMap.OwnerId;
+                    if(triggerEncounteredError){
+                        caseRecFromMap.OwnerId = ownerInfo.defaultErrorOwnerId!=null?ownerInfo.defaultErrorOwnerId:caseRecFromMap.OwnerId;
+                    }
+                    caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
-                casesToUpdate.add(caseObj);
             }
         }
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
-        update casesToUpdate;
         triggerEncounteredError = false;
     }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
@@ -412,9 +412,37 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Case caseToUpdate;
             ASF_CaseMovementHelper.CaseAdditionalData dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords[0], eligibleRecords[0].Stage__c);
             addlDataFromStageMovementMethods = new ASF_CaseMovementHelper.CaseAdditionalData();
+            List<Case> casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(new Set<Id>{eligibleRecords[0].Id});
+            Map<String, Boolean> checklistMap = new Map<String, Boolean>();
+            Map<String, Boolean> taskMap = new Map<String, Boolean>();
+            for(Case caseRec : casesWithPeripheralRecords){
+                for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
+                    checklistMap.put(checkRec.Checklist_External_Id__c, true);
+                }
+                for(Task taskRec : caseRec.Tasks){
+                    taskMap.put(taskRec.Work_Item_External_ID__c, true);
+                }
+            }
             addlDataFromStageMovementMethods.approvalsToInsert = dataWrapper.approvalsToInsert;
-            addlDataFromStageMovementMethods.checklistToInsert = dataWrapper.checklistToInsert;
-            addlDataFromStageMovementMethods.tasksToInsert = dataWrapper.tasksToInsert;
+            for(ASF_Checklist__c checkRec : dataWrapper.checklistToInsert){
+                if(!checklistMap.containsKey(checkRec.Checklist_External_Id__c)){
+                    if(addlDataFromStageMovementMethods.checklistToInsert == null){
+                        addlDataFromStageMovementMethods.checklistToInsert = new List<ASF_Checklist__c>();
+                    }
+                    addlDataFromStageMovementMethods.checklistToInsert.add(checkRec);
+                }
+            }
+            for(Task taskRec : dataWrapper.tasksToInsert){
+                if(!taskMap.containsKey(taskRec.Work_Item_External_ID__c)){
+                    if(addlDataFromStageMovementMethods.tasksToInsert == null){
+                        addlDataFromStageMovementMethods.tasksToInsert = new List<Task>();
+                    }
+                    addlDataFromStageMovementMethods.tasksToInsert.add(taskRec);
+                }
+            }
+
+            //addlDataFromStageMovementMethods.checklistToInsert = dataWrapper.checklistToInsert;
+            //addlDataFromStageMovementMethods.tasksToInsert = dataWrapper.tasksToInsert;
             addlDataFromStageMovementMethods.allIntegrations = dataWrapper.allIntegrations;
             addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues = dataWrapper.slaCaseAndStageOverrideValues;
 
