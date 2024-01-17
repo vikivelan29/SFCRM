@@ -1,9 +1,14 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import getCustomerProspectData from '@salesforce/apex/ASF_CustomerAndProspectSearch.getRecords';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import { NavigationMixin } from 'lightning/navigation';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
 import { reduceErrors } from 'c/asf_ldsUtils';
+
+import loggedInUserId from '@salesforce/user/Id';
+
+import { getRecord } from 'lightning/uiRecordApi';
+import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 
 
@@ -26,6 +31,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     @track selectedProspectId;
     @track headerName = 'Create Case with Prospect';
     @track isInternalCase = false;
+    @track loggedInUserBusinessUnit = '';
     error;
 
 
@@ -48,6 +54,17 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         { label: 'Email', fieldName: 'Email', type: 'text' },
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
+
+
+
+    @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
+    currentUserInfo({error, data}) {
+        if (data) {
+            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+        } else if (error) {
+            //this.error = error ;
+        }
+    }
 
     async handleInputChange(event) {
         console.log(event.target.value);
@@ -139,11 +156,11 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         let isValid = this.isInputValid();
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
-        fieldsVar["Sales_Prospect__c"] = true;
-        fieldsVar["Business_Unit__c"] = 'ABHFL';
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
         leadRecord["Sales_Prospect__c"] = true;
-        leadRecord["Business_Unit__c"] = 'ABHFL';
+        leadRecord["Prospect_Type__c"] = 'Sales';
+        leadRecord["Business_Unit__c"] = this.loggedInUserBusinessUnit;
+        this.dupeLead = [];
 
         createProspectCase({ caseToInsert: null, caseExtnRecord: null, prospectRecord: leadRecord })
             .then(result => {
