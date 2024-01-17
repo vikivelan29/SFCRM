@@ -275,9 +275,9 @@ public class ASF_CaseFrameworkHelper_Test {
                 Assigned_Error_Queue_Id__c,
                 (select Id, Number__c, Field_Api_Name__c, Operator__c, Data_Type__c, 
                  Value__c, External_ID__c from Case_Rule_Entries__r),
-                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c from Case_Checklist_Masters__r),
+                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c, Checklist_External_Id__c from Case_Checklist_Masters__r),
                 (select Id, Task_Title__c, Task_Description__c, Completion_Time__c, Case_Rule__c,
-                 Assigned_Queue__c from Work_Items__r)
+                 Assigned_Queue__c, Work_Item_External_ID__c from Work_Items__r)
                 FROM ASF_Case_Rule__c where Type__c =: TypeVal];
         
         
