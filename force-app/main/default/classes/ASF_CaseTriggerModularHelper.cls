@@ -371,6 +371,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         for(Case caseRec : newList){
             if(caseRec.Technical_Source__c == 'API'){
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(caseRec, caseRec.Stage__c);
+                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                 if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                     Case caseObj = new Case(Id = caseRec.Id, OwnerId=caseRec.OwnerId);
                     caseFinalDMLMap.put(caseRec.Id, caseObj);
