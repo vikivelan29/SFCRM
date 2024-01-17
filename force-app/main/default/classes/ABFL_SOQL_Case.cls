@@ -47,7 +47,7 @@ public with sharing class ABFL_SOQL_Case {
     * @return           Integer
     *********************************************************************************************************/
     public static List<Contact> getContact(string accountId) {
-        return [SELECT id, Email, Mobile_Phone_2__c, Mobile__c,AccountId, Phone, MobilePhone, Account.name FROM 
+        return [SELECT id, Email, Mobile_Phone_2__c,AccountId, Phone, MobilePhone, Account.name FROM 
                 Contact WHERE AccountId = :accountId
                 WITH SECURITY_ENFORCED];
     }
