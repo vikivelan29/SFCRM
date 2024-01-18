@@ -35,6 +35,11 @@
         <default>false</default>
         <label>Wealth</label>
     </customValue>
+    <customValue>
+        <fullName>Not classified</fullName>
+        <default>false</default>
+        <label>Not classified</label>
+    </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
