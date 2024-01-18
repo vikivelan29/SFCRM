@@ -74,6 +74,7 @@ public class ABFL_BRE_APIImplementation_Test {
         caseIntRec.Status__c = 'Success';
         caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
+        
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
         Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
