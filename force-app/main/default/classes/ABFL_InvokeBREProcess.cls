@@ -56,49 +56,35 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integRec, Case caseRec){
         
-        // Perform additional checks as per STP identifier i.e. integration
-        ASF_IntegrationsController.IntegrationWrapper result = doAdditionalChecks(integRec, caseRec);
-
-        if(result.status==NULL){ // i.e. Additional check were successful
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         
-            //Cancel existing records in ASF_Case_Integration__c
-            ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
+        //Cancel existing records in ASF_Case_Integration__c
+        ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
 
-            if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-                insert new ASF_Case_Integration__c(
-                    Case__c  = caseRec.Id,
-                    Integration_Ext_Id__c = integRec.External_Id__c,
-                    Status__c = ABFL_Constants.PENDING,
-                    Type__c = 'BRE', // Identifier needs to be passed to middleware
-                    Response__c = ABFL_Constants.WAITING_API_RESPONSE
-                );
-            }
-            ABFL_BRE_APIImplementation.callout(integRec, caseRec);
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert new ASF_Case_Integration__c(
+                Case__c  = caseRec.Id,
+                Integration_Ext_Id__c = integRec.External_Id__c,
+                Status__c = ABFL_Constants.PENDING,
+                Type__c = 'BRE', // Identifier needs to be passed to middleware
+                Response__c = ABFL_Constants.WAITING_API_RESPONSE
+            );
         }
+        // System.debug('@@@@case'+integRec.ABFL_BRE_CalloutClass__c);
+
+        // Fire Actual Integration---Begins
+
+       // Type customType = Type.forName(integRec.ABFL_BRE_CalloutClass__c);
+       // ABFL_BRECallouts instance = (ABFL_BRECallouts)customType.newInstance();
+        // invoke api - via platform events
+        ABFL_BRE_APIImplementation.callout(integRec, caseRec);
+        
         // Fire Actual Integration---Ends
         
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.WAITING_API_RESPONSE;
         return result;
     }
-
-    private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRec){
-        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        // Get case record for date validations
-        Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
-        switch on integ.STP_API_Identifier__c {
-            when 'BRE_ProInterestCert_Retail','BRE_InterestCert_Retail' {
-                if(caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c==NULL){
-                    //Proceed to manual fulfilment
-                    // Todo: Remove hardcoding
-                    result.status = ABFL_Constants.ERROR;
-                    result.response = 'Please add required date field values.';
-                }
-            }
-        }
-        return result;
-    }
-
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - processResponse
@@ -112,7 +98,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
                 ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+                
                 //Update Case Int from Response
                 // Assume the following response from Integration
                 String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
@@ -150,6 +136,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
                     System.debug('@@@@Inside run STP Flow'+resultWrap);
                     update resultWrap?.caseToBeUpdated;
+               
                 }
                 if(Schema.sObjectType.Case.isUpdateable() && caseDetailListToUpdate.size() > 0){
                     update caseDetailListToUpdate;

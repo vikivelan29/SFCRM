@@ -56,15 +56,6 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
                 update existingCaseIntRecords;     
             }       
         }
-        
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c  = caseRec.Id;
-        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Status__c = ABHFL_Constants.PENDING;
-        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt;
-        }
 
         Case caseRecord = [SELECT Id, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
@@ -72,6 +63,18 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
         String fromDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.From_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).day()).format('dd-MM-YYYY');
 
+        
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Case__c  = caseRec.Id;
+        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+        caseInt.Status__c = ABHFL_Constants.PENDING;
+        caseInt.Request__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate));
+        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInt;
+        }
+
+        
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Id;
@@ -96,24 +99,25 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
     * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
-        Boolean integrationFailure = true;
+        Boolean isTransferred = False;
+
+        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
+            isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+        }
 
         Case caseRec =[SELECT Id, CreatedById, Source__c, OwnerId, status,  AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c, ABHFL_Case_Detail__r.STP_Failure__c   
                            FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
 
-          if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
-            if(isTransferred){  
-                integrationFailure = false;
-                handleSuccessfullTransfer(caseRec);
-            }else {
-                handleUnsuccessfullTransfer(caseRec);
-            }
+        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec != null && isTransferred ){  
+            handleSuccessfullTransfer(caseRec);
+        }else if(caseInteg.Status__c != ABHFL_Constants.CANCELED && caseInteg.Status__c != ABHFL_Constants.PENDING) {
+            handleUnsuccessfullTransfer(caseRec);
         }
-        if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
+        if(isTransferred == caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
             ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
-            caseDetails.STP_Failure__c = integrationFailure;
+            caseDetails.STP_Failure__c = !isTransferred;
             caseDetails.Id = caseRec.ABHFL_Case_Detail__c;
+
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 update caseDetails;   
             }            

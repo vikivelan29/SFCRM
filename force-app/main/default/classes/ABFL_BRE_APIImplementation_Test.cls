@@ -64,10 +64,10 @@ public class ABFL_BRE_APIImplementation_Test {
         stage1_Movement_RuleEntry.External_ID__c = 'CRE-STAGEMV-OD-010';
         CREs.add(stage1_Movement_RuleEntry);
 		insert CREs;
-            Case c = cases.get(0);
-            c.ownerid = userInfo.getuserId();
-            c.AccountId = acc.ID;
-            update c;
+        Case c = cases.get(0);
+        c.ownerid = userInfo.getuserId();
+        c.AccountId = acc.ID;
+        update c;
         }
 
     }

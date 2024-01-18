@@ -27,18 +27,22 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
         //Check for Mandatory Conditions...
-        if(String.isNotBlank(caseRecord.Customer_name_formula__c) && String.isNotBlank(caseRecord.Account.Client_Code__c) 
-                     &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
-            Date dueDate = caseRecord.Account.KYC_Done_Date__c;
-            Date withinMonthDate = dueDate.addMonths(withinMonth);
-            if(Date.today() < withinMonthDate){
-                result.status = ABHFL_Constants.SUCCESS;
-                result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
+        if(caseRecord.Account.IsPersonAccount){
+            if(String.isNotBlank(caseRecord.Customer_name_formula__c) && String.isNotBlank(caseRecord.Account.Client_Code__c) 
+                        &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
+                Date dueDate = caseRecord.Account.KYC_Done_Date__c;
+                Date withinMonthDate = dueDate.addMonths(withinMonth);
+                if(Date.today() < withinMonthDate){
+                    result.status = ABHFL_Constants.SUCCESS;
+                    result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
+                }else{
+                    result.response = Custom_Messages__mdt.getInstance('REKYC_DUE_PERIODE_ENDED').Message__c;
+                }
             }else{
-                result.response = Custom_Messages__mdt.getInstance('REKYC_DUE_PERIODE_ENDED').Message__c;
+                result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATE_FAILED_FIELD_BLANK_ERROR').Message__c;
             }
-        }else{
-            result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATE_FAILED_FIELD_BLANK_ERROR').Message__c;
+        } else{
+            result.response = Custom_Messages__mdt.getInstance('REKYC_FAILED_NOT_PERSON_ACCOUNT').Message__c;
         }
         return result;
     }
@@ -49,7 +53,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
     * @param integ - ASF_Integration record.
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @description - Invoked from the ASF_IntegrationsController class, this method runs the Statment Of Account integration and creates Case Integration record.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the REKYC integration and creates Case Integration record.
     *****************************************************************************************************************/
 
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
@@ -64,15 +68,6 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             update existingCaseIntRecords;            
         }
         
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c  = caseRec.Id;
-        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Status__c = ABHFL_Constants.PENDING;
-        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt; 
-        }
-
         Case caseRecord = [
             SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
              Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c
@@ -83,6 +78,20 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         String kycDoneDate = String.valueOf(caseRecord.Account.KYC_Done_Date__c);
         String birthDate = String.valueOf(caseRecord.Account.PersonBirthdate);
 
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Case__c  = caseRec.Id;
+        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+        caseInt.Status__c = ABHFL_Constants.PENDING;
+        caseInt.Request__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
+                                            caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
+                                             caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c
+                                            ));
+        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInt; 
+        }
+
+       
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Id;
