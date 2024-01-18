@@ -225,6 +225,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     resolutionReasonPopUpFld = ''; //VIRENDRA - ADDED FOR RESOLUTION COMMENT ON POPUP.
 
     //Optimization variables
+    allowRenderedCallback = false;
     loadReady = false;
     userClickedEditDetails = false;
     processApexReturnValue;
@@ -399,13 +400,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @wire(fetchUserAndCaseDetails, {
         "caseId": "$recordId"
     })
-    async processResult(result) {
-        this.processApexReturnValue = result;
+    async processResult(caseResult) {
+        this.processApexReturnValue = caseResult;
 
-        if (result.data) {
-            this.caseObj = result.data.caseRec;
-            this.userManagerIdVal = result.data.userRec.ManagerId;
-            this.currentUserProfileName = result.data.userRec.Profile.Name;
+        if (caseResult.data) {
+            this.caseObj = caseResult.data.caseRec;
+            this.userManagerIdVal = caseResult.data.userRec.ManagerId;
+            this.currentUserProfileName = caseResult.data.userRec.Profile.Name;
 
             //Variable population
             this.cccExternalId = this.caseObj.CCC_External_Id__c;
@@ -414,7 +415,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             this.caseType = this.caseObj.Type_Text__c;
             this.caseSubType = this.caseObj.Sub_Type_Text__c;
             this.caseNature = this.caseObj.Nature__c;
-            this.caseExtensionRecord = result.data.caseExtnRec;
+            this.caseExtensionRecord = caseResult.data.caseExtnRec;
             if (this.caseNature == 'Query') {
                 this.showSaveAndCloseButton = true;
             }
@@ -483,121 +484,124 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
             if (this.cccExternalId != null && this.cccExternalId != undefined) {
                 console.log('cccExternalId found');
-                getCaseFieldsConfig({ cccId: this.cccExternalId, status: this.currentStatus, caseId: this.recordId })
-                    .then(result => {
-                        this.iCounter++;
-                        this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
-                        console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
-                        let caseFieldsCount = 0, extnFieldsCount = 0;
-                        for (let item of this.caseFieldsMetadata) {
-                            if (item.isCase == true) {
-                                caseFieldsCount++;
+                let result = await getCaseFieldsConfig({ cccId: this.cccExternalId, status: this.currentStatus, caseId: this.recordId })
+                .catch(error => {
+                    console.log(error);
+                    this.showError('error', 'Oops! Error occured', error);
+                });
+                if(result){
+                    this.iCounter++;
+                    this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
+                    console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
+                    let caseFieldsCount = 0, extnFieldsCount = 0;
+                    for (let item of this.caseFieldsMetadata) {
+                        if (item.isCase == true) {
+                            caseFieldsCount++;
+                        } else {
+                            extnFieldsCount++;
+                        }
+                    }
+                    console.log(caseFieldsCount, extnFieldsCount);
+                    
+                    let isOdd = (caseFieldsCount % 2 == 1);
+                    let isOddExtn = (extnFieldsCount % 2 == 1);
+                    console.log('isOdd', isOdd, isOddExtn);
+                    this.caseFieldsMetadata = this.caseFieldsMetadata.map((item, index) => {
+                        if (item.isCase == true) {
+                            caseFieldsCount--;
+                            if (isOdd && caseFieldsCount == 0) {
+                                //last item
+                                item['layoutItemSize'] = 12;
+                                item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
+                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col fix-error';
+                                item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
                             } else {
-                                extnFieldsCount++;
+                                item['layoutItemSize'] = 6;
+                                item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
+                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
+                                item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal'
+                            }
+                        } else {
+                            extnFieldsCount--;
+                            if (isOddExtn && item.isCase == undefined && extnFieldsCount == 0) {
+                                //last item
+                                item['layoutItemSize'] = 12;
+                                item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
+                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
+                                item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
+                            } else {
+                                item['layoutItemSize'] = 6;
+                                item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
+                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
+                                item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal';
                             }
                         }
-                        console.log(caseFieldsCount, extnFieldsCount);
+                        return item;
+                    });
 
-                        let isOdd = (caseFieldsCount % 2 == 1);
-                        let isOddExtn = (extnFieldsCount % 2 == 1);
-                        console.log('isOdd', isOdd, isOddExtn);
-                        this.caseFieldsMetadata = this.caseFieldsMetadata.map((item, index) => {
-                            if (item.isCase == true) {
-                                caseFieldsCount--;
-                                if (isOdd && caseFieldsCount == 0) {
-                                    //last item
-                                    item['layoutItemSize'] = 12;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col fix-error';
-                                    item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
-                                } else {
-                                    item['layoutItemSize'] = 6;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
-                                    item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal'
-                                }
-                            } else {
-                                extnFieldsCount--;
-                                if (isOddExtn && item.isCase == undefined && extnFieldsCount == 0) {
-                                    //last item
-                                    item['layoutItemSize'] = 12;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
-                                    item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
-                                } else {
-                                    item['layoutItemSize'] = 6;
-                                    item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly strong-text'
-                                    item['editClassString'] = 'slds-form-element slds-form-element_horizontal';
-                                    item['divEditClass'] = 'slds-col slds-size_1-of-2 slds-form-element slds-form-element_horizontal';
-                                }
-                            }
-                            return item;
-                        });
+                    console.log('&&& After manipulation this.caseFieldsMetadata' + JSON.stringify(this.caseFieldsMetadata));
+                    getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
 
-                        console.log('&&& After manipulation this.caseFieldsMetadata' + JSON.stringify(this.caseFieldsMetadata));
-                        getRequiredFieldExpr(this.template, this.caseFieldsMetadata, this.currentStep, this.currentUserProfileName, this.caseRecordDetails, this.caseExtensionRecordDetails);
+                    //Virendra : Starts Here : Searchable Picklist/ Multi-Select Searchable Picklist.
+                    this.handleSearchPicklistRendering();
+                    //Virendra : Ends Here.
 
-                        //Virendra : Starts Here : Searchable Picklist/ Multi-Select Searchable Picklist.
-                        this.handleSearchPicklistRendering();
-                        //Virendra : Ends Here.
-
-                        if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
-                            for (var fieldConfig in this.caseFieldsMetadata) {
-                                if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
-                                    if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
-                                        if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
-                                            this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        }
-                                        else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
-                                            this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                            this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-                                            this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        }
+                    if (this.defaultFieldValuesMap.size == 0 && this.defaultTextValuesMap.size == 0) {
+                        for (var fieldConfig in this.caseFieldsMetadata) {
+                            if (this.caseFieldsMetadata[fieldConfig].DefaultValue) {
+                                if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
+                                    if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
+                                        this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                     }
-                                    else {
+                                    else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
                                         this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                         this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
                                         this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                     }
                                 }
-                            }
-                            console.log('******this.caseFieldsMetadata' + JSON.stringify(this.caseFieldsMetadata));
-                            if (this.defaultFieldValuesMap.size > 0) {
-                                getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
-                                    .then(result => {
-                                        this.caseDefaultValuesObj = result;
-                                        var revisedList = [];
-                                        for (var field in this.defaultFieldValues) {
-                                            revisedList.push(this.defaultFieldValues[field].replace('case.', ''));
-                                        }
-
-                                        for (var count in revisedList) {
-                                            var prop, props = revisedList[count].split('.');
-                                            for (var i = 0, iLen = props.length - 1; i < iLen; i++) {
-
-                                                if (i == 0) {
-                                                    prop = props[i];
-                                                    this.defaultValues.push(this.caseDefaultValuesObj[prop][props[++i]]);
-
-                                                }
-
-                                            }
-                                        }
-                                        this.assignDefaultValues();
-                                        //this.adjustFieldsOnStageChange();
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                        this.showError('error', 'Oops! Error occured', error);
-                                    })
+                                else {
+                                    this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                    this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
+                                    this.defaultFieldValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                }
                             }
                         }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.showError('error', 'Oops! Error occured', error);
-                    });
-                //}
+                        console.log('******this.defaultTextValuesMap',this.defaultTextValuesMap);
+                        if (this.defaultFieldValuesMap.size > 0) {
+                            let result = await getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
+                            .catch(error => {
+                                console.log(error);
+                                this.showError('error', 'Oops! Error occured', error);
+                            });
+                            if(result){
+                                this.caseDefaultValuesObj = result;
+                                var revisedList = [];
+                                for (var field in this.defaultFieldValues) {
+                                    revisedList.push(this.defaultFieldValues[field].replace('case.', ''));
+                                }
+
+                                for (var count in revisedList) {
+                                    var prop, props = revisedList[count].split('.');
+                                    for (var i = 0, iLen = props.length - 1; i < iLen; i++) {
+                                        if (i == 0) {
+                                            prop = props[i];
+                                            this.defaultValues.push(this.caseDefaultValuesObj[prop][props[++i]]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(caseFieldsCount == 0){
+                            this.isCaseRecordLoaded = true;
+                        }
+                        if(extnFieldsCount == 0){
+                            this.allowRenderedCallback = true;
+                        }
+                        //this.assignDefaultValues();
+                        //moved to renderedCallback
+                    }
+                }
+                
                 if (this.caseObj != undefined && this.caseObj != null) {
                     if (this.caseObj.is_Manual_Approval__c == true) {
                         this.getlatestCaseApprovalRecordStatus(this.caseObj.Stage__c);
@@ -627,8 +631,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 changeArray = [...changeArray, { recordId: this.caseExtensionRecord.Id }];
             }
             await notifyRecordUpdateAvailable(changeArray);
-        } else if (result.error) {
-            this.showError('error', 'Error while loading the case', result.error);
+        } else if (caseResult.error) {
+            this.showError('error', 'Error while loading the case', caseResult.error);
             this.loading = false;
         }
     }
@@ -978,11 +982,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      */
     saveCaseAndExtn(event) {
         this.skipMoveToNextStage = true;
+        this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
         console.log('submit btn clicked');
     }
     handleMoveToNext(event) {
         this.skipMoveToNextStage = false;
+        this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
     }
     cancelBackCaseStage() {
@@ -1022,6 +1028,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             console.log(this.caseRecordDetails);
 
             this.isCaseRecordLoaded = true;
+            this.adjustFieldsOnStageChange();
         }
         catch (error) {
             console.error(error);
@@ -1038,6 +1045,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             console.log('fields extension', fields);
             this.caseExtensionRecordDetails = JSON.parse(JSON.stringify(event.detail.records[this.caseExtensionRecord['Id']].fields));
             console.log(this.caseExtensionRecordDetails);
+            this.allowRenderedCallback = true;
+            this.adjustFieldsOnStageChange();
         }
         catch (error) {
             console.error(error);
@@ -1081,9 +1090,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        Promise.all([
-            loadStyle(this, overrideCSSFile)
-        ]);
+        if(this.allowRenderedCallback && this.isCaseRecordLoaded){
+            this.allowRenderedCallback = false;
+            Promise.all([
+                loadStyle(this, overrideCSSFile)
+            ]);
+            console.log('in renderedCallback');
+            
+        }
     }
     /** OPTIMIZATION METHODS END */
 
@@ -1954,7 +1968,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
                     if (this.caseFieldsMetadata[item].RequiredAt) {
                         if (this.caseFieldsMetadata[item].RequiredAt.includes(this.currentStep)) {
-                            if (this.caseFieldsMetadata[item].ControllingField == null) {
+                            if (!this.caseFieldsMetadata[item].useControllingFormula) {
                                 field.required = true;
                             }
                             else {
@@ -2001,7 +2015,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         //Assign Default values
         if (this.caseCategoryConfig.length > 0) {
             if (this.currentStep == this.caseCategoryConfig[0].First_Stage__c && this.toggleUIView) {
-
                 this.template.querySelectorAll('lightning-input-field').forEach((field) => {
                     for (var count in this.defaultFieldNames) {
                         if (this.defaultFieldNames[count] == field.fieldName) {
@@ -2012,10 +2025,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             }
                         }
                     }
+                    console.log('field.fieldName', field.fieldName);
                     if (this.defaultTextValuesMap.has(field.fieldName)) {
+                        console.log('field.fieldName in loop', field.fieldName, this.defaultTextValuesMap.get(field.fieldName));
                         field.value = this.defaultTextValuesMap.get(field.fieldName);
                     }
-
                 });
 
 

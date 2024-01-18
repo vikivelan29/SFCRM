@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Active__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>CC_recipient_CSV__c</field>
@@ -23,12 +23,20 @@
         <value xsi:type="xsd:string">Case</value>
     </values>
     <values>
+        <field>SMS_Entity_Id__c</field>
+        <value xsi:type="xsd:string">1101637580000010297</value>
+    </values>
+    <values>
         <field>SMS_Merge_Fields_CSV__c</field>
         <value xsi:type="xsd:string">CaseNumber,Overall_Case_Closure_SLA__c</value>
     </values>
     <values>
+        <field>SMS_Sender_Id__c</field>
+        <value xsi:type="xsd:string">FINABC</value>
+    </values>
+    <values>
         <field>SMS_Template_Name__c</field>
-        <value xsi:type="xsd:string">SMS_Creation_Template_1701935086072</value>
+        <value xsi:type="xsd:string">SMS_Creation_Template</value>
     </values>
     <values>
         <field>To_recipient_CSV__c</field>

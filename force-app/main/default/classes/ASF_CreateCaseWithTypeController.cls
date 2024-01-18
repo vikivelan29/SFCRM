@@ -85,6 +85,28 @@ public with sharing class ASF_CreateCaseWithTypeController {
         return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,'',''); 
     }
     @AuraEnabled(Cacheable = true)
+    public static CaseDetailsWrapper getTypeSubTypeByCustomerDetails(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
+        CaseDetailsWrapper returnVal = new CaseDetailsWrapper();
+        returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob); 
+        List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
+        String loggedInUsersBU = returnVal.userBu;
+        if(loggedInUsersBU == 'ABFL'){
+            // BU SPECIFIC LOGIC
+            returnVal.lstCCCrecords = ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(returnVal.lstCCCrecords,inpArg);
+        }
+        else if (loggedInUsersBU == 'ABHFL'){
+            // BU SPECIFIC LOGIC
+        }
+        else if(loggedInUsersBU == 'Payments'){
+            // BU SPECIFIC LOGIC
+        }
+        else{
+            
+        }
+        
+        return returnVal;
+    }
+    @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;

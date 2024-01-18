@@ -19,7 +19,8 @@ public class ASF_FieldSetControllerTest {
                                    TimeZoneSidKey='America/Los_Angeles', UserName='abcdefghijk56@gmail.com',Business_Unit__c = 'ABHFL');
         
         System.runAs(userRecord) {
-        	ASF_FieldSetController.getLOBSpecificForm(null,'Lead','ABHFL_Prospect_FieldSet');
+        	ASF_FieldSetController.getLOBSpecificForm(null,'Lead','ABHFL_Prospect_FieldSet',false);
+            ASF_FieldSetController.getLOBSpecificForm(null,'Lead','ABHFL_Prospect_FieldSet',true);
             
         }
         

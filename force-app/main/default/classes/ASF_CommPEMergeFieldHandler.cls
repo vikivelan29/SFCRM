@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-17-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public without sharing class ASF_CommPEMergeFieldHandler {
     
     public static String[] getMergefieldNames(Channel ChannelType){
@@ -40,6 +50,7 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                                            Map<Id,ASF_Communication_Log__c> mPeLogIdCommunicationLog,
                                            Map<String, Schema.SObjectField> casefieldInfo, Id pLogId)
     {
+        System.debug('***populateMergeFields --> ');
         Object MergeCSVField = comm_config.get(channelFieldNames[0]);
         
         if(MergeCSVField == null)
@@ -111,7 +122,9 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         
         masterlog.put(tempFieldAPIName,comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
         masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
-        
+        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
+        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
+
         mPeLogIdCommunicationLog.put(pLogId, masterlog);
         
         

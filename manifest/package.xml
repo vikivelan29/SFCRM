@@ -3,7 +3,7 @@
     <types>
         <members>Branch_Master__c</members>
         <members>LAN_Mapping__c</members>
-        <name>CustomObject</name>
+        <name>CustomObject</name> 
     </types>
     <types>
         <members>Product2.ProductCode</members>

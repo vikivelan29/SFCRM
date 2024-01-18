@@ -31,7 +31,7 @@ public without sharing class ABFL_SuppressEmailHelper {
         
         // SCENARIO 1 - EBOT - EMAIL ALREADY SENT AS PART OF PROCESS. - ONLY RUN WHEN CASE IS RESOLVED.
         if(caseIdsForEBOTResolution.size()>0)
-            suppressEBOTResolutionEmail(caseIdsForEBOTResolution,inpArg,allOutputs);
+           // suppressEBOTResolutionEmail(caseIdsForEBOTResolution,inpArg,allOutputs);
         
         // SCENARIO 2 - WHEN CASE CREATED WITH SOURCE AS RM-NO EMAIL/ IVR-NO EMAIL/ PHONE-INBOUND AND QUERY.
         suppressRMNoEmail(caseIds,inpArg,allOutputs);
@@ -42,12 +42,12 @@ public without sharing class ABFL_SuppressEmailHelper {
                                                     List<ASF_CustomerEmailInvocable.EmailInputWrapper> inpArg,
                                                     Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
     {
-        List<ABFL_Case_Detail__c > abflCaseExtension = [SELECT ID,Case__c, Resolved_Email_Sent__c  FROM ABFL_Case_Detail__c WHERE Case__c = :caseIds LIMIT 1];
+        List<ABFL_Case_Detail__c > abflCaseExtension = [SELECT ID,Case__c  FROM ABFL_Case_Detail__c WHERE Case__c = :caseIds LIMIT 1];
         Map<Id,boolean> mCaseResolutionEmailSent = new Map<Id,boolean>();
         
         for(ABFL_Case_Detail__c caseExt : abflCaseExtension){
             if(!mCaseResolutionEmailSent.containsKey(caseExt.Case__c)){
-                boolean bResolutionCommunicationSent = caseExt.Resolved_Email_Sent__c ? true : false;
+                boolean bResolutionCommunicationSent = false;
                 mCaseResolutionEmailSent.put(caseExt.Case__c,bResolutionCommunicationSent);
             }
         }

@@ -153,7 +153,7 @@
 												This is with reference to your request dated {{{Case.CreatedDate}}} regarding {{{Case.Sub_Type_Text__c}}} request towards your ABHFL Loan A/C no&nbsp;{{{Case.Masked_LAN__c}}}.<br />
 												<br />
 												<br />
-												Kindly find enclosed your {{{Case.Sub_Type_Text__c}}} for the period of FY $$ABHFL_Case_Detail__r.Financial_Year__c$$&nbsp;<br />
+												Kindly find enclosed your {{{Case.Sub_Type_Text__c}}} for the period of FY $$ABHFL_Case_Detail__r.Current_Financial_Year__c$$&nbsp;<br />
 												<br />
 												In order to maintain confidentiality and protect privacy, your document is password protected. To open the statement your default password is PAN number of the main applicant in upper case.<br />
 												<br />

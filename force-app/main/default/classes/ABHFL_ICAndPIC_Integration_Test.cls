@@ -25,12 +25,6 @@
           
          List<Asset> asstList = new List<Asset>();
          List<Case> caseList = new List<Case>();
-          
-         ASF_Case_Category_Config__c cccRec = new ASF_Case_Category_Config__c();
-         cccRec.Type__c = 'Statement & Documents';
-         cccRec.Sub_Type__c = 'Interest Schedule';
-         cccRec.CCC_External_Id__c = 'CC-CC-01';
-         insert cccRec;
 
          Id recordTypeId =Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
          Account objAccount = new Account();
@@ -92,11 +86,13 @@
          caseRec4.AccountId = objAccount.Id;
          caseRec4.Technical_Source__c = 'Api';
          caseRec4.Type_Text__c = 'Statement & Documents';
-         caseRec4.Sub_Type_Text__c = 'Provisional Interest Certificate';
+         caseRec4.Sub_Type_Text__c = 'Provisional Interest Certificate'; 
          caseList.add(caseRec4);
           
          insert caseList;
-          
+         
+         ASF_TestDataFactory.createCaseCategoryConfig();
+         
          ASF_Case_Integration__c caseInt1 = new ASF_Case_Integration__c();
          caseInt1.Case__c = caseRec1.Id;
          caseInt1.Status__c = 'Success';
@@ -159,34 +155,30 @@
           	/* Description - Calling evaluate Method for 
            				     if condition when Both Loan Account Number and Financial Year is not Blank
 			*/
-          //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-          //System.runAs(uList[0]){
-              ASF_IntegrationsController.IntegrationWrapper result1 = icAndPicObj.evaluate(case1);
-                System.assertEquals('Success', result1.status,'Done');
-                System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.response,'Done');
-                
-                /* Description - Calling evaluate Method for 
-                                 if condition when Both Loan Account Number and Financial Year is Blank
-                */
-                ASF_IntegrationsController.IntegrationWrapper result2 = icAndPicObj.evaluate(case2);
-                System.assertEquals('Error', result2.status,'Done');
-                System.assertEquals('Please fill the Financial Year and Loan Account Number', result2.response,'Done');
-                
-                /* Description - Calling evaluate Method for 
-                                 if condition when Financial Year is Blank.
-                */
-                ASF_IntegrationsController.IntegrationWrapper result3 = icAndPicObj.evaluate(case3);
-                System.assertEquals('Error', result3.status,'Done');
-                System.assertEquals('Please fill the Financial Year', result3.response,'Done');
-                
-                /* Description - Calling evaluate Method for 
-                                 if condition when Loan Account Number is Blank.
-                */
-                ASF_IntegrationsController.IntegrationWrapper result4 = icAndPicObj.evaluate(case4);
-                System.assertEquals('Error', result4.status,'Done');
-                System.assertEquals('Please fill the LAN', result4.response,'Done');
-          //}
-        	
+            ASF_IntegrationsController.IntegrationWrapper result1 = icAndPicObj.evaluate(case1);
+            System.assertEquals('Success', result1.status,'Done');
+            System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Both Loan Account Number and Financial Year is Blank
+            */
+            ASF_IntegrationsController.IntegrationWrapper result2 = icAndPicObj.evaluate(case2);
+            System.assertEquals('Error', result2.status,'Done');
+            System.assertEquals('Please fill the Financial Year and Loan Account Number', result2.response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Financial Year is Blank.
+            */
+            ASF_IntegrationsController.IntegrationWrapper result3 = icAndPicObj.evaluate(case3);
+            System.assertEquals('Error', result3.status,'Done');
+            System.assertEquals('Please fill the Financial Year', result3.response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Loan Account Number is Blank.
+            */
+            ASF_IntegrationsController.IntegrationWrapper result4 = icAndPicObj.evaluate(case4);
+            System.assertEquals('Error', result4.status,'Done');
+            System.assertEquals('Please fill the LAN', result4.response,'Done');
         Test.stopTest();
       }
       
@@ -210,11 +202,8 @@
         }
           
         Test.startTest();
-          //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-          //System.runAs(uList[0]){
           	ASF_IntegrationsController.IntegrationWrapper res = icAndPicObj.run(integ, case1);
-		  	System.assertEquals('Success', res.status,'Done');              
-          //}
+		  	System.assertEquals('Success', res.status,'Done');
         Test.stopTest();
       }
       
@@ -228,13 +217,11 @@
           List<ASF_Case_Integration__c> caseIntegLst = [Select id, Case__c, Status__c from ASF_Case_Integration__c];
           
           Test.startTest();
-          	//List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-              //System.runAs(uList[0]){
-                  icAndPicObj.processResponse(caseIntegLst[0]);  //  when there is no files attached to Case Integration Record
-                  icAndPicObj.processResponse(caseIntegLst[1]);	 //  when there is files attached to Case Integration Record
-                  System.assertEquals(2, caseIntegLst.size(),'Done');
-              //}
-              
+              icAndPicObj.processResponse(caseIntegLst[0]);  //  when there is no files attached to Case Integration Record
+          	  caseIntegLst[0].status__c = 'Failure';
+          	  update caseIntegLst;
+              icAndPicObj.processResponse(caseIntegLst[0]);	 //  when there is files attached to Case Integration Record
+              System.assertEquals(2, caseIntegLst.size());
           Test.stopTest();
       }
   }
