@@ -75,7 +75,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Case caseRecord = [
             SELECT Id, Sub_Type_Text__c, Technical_Source__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 
         if(existingCaseIntRecords.size()>0){
@@ -130,7 +130,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Boolean isTransferred = False;
         Boolean previousStatus;
         Case caseRecord = [SELECT Id,AccountId,ContactId,Source__c,Sub_Type_Text__c,CCC_External_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
-                           FROM Case WHERE Id =: caseInt.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseInt.Case__c];
         
         String caseSubType = caseRecord.Sub_Type_Text__c;
         String integrationName = getIntegrationName(caseSubType);
