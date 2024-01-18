@@ -8,7 +8,7 @@
 * ------------------------------------------------------------------------------------
 * Aditee                     1.0       13/12/2023              #
 */
-public class ABFL_SOQL_Integration {
+public with sharing class ABFL_SOQL_Integration {
 	/********************************************************************************************************
     * @author           Salesforce
     * @date             13/12/2023
@@ -34,6 +34,7 @@ public class ABFL_SOQL_Integration {
         return [SELECT id, STP_API_Identifier__c, STP_Processing_Class__c, 
                 External_Id__c,STP_Config_External_Id__c 
                 FROM ASF_Integration__c 
-                WHERE External_Id__c = :externalId];
+                WHERE External_Id__c = :externalId
+                WITH SECURITY_ENFORCED];
     } 
 }
