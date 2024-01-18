@@ -61,14 +61,15 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         //Cancel existing records in ASF_Case_Integration__c
         ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
 
-        insert new ASF_Case_Integration__c(
-            Case__c  = caseRec.Id,
-            Integration_Ext_Id__c = integRec.External_Id__c,
-            Status__c = ABFL_Constants.PENDING,
-            Type__c = 'BRE', // Identifier needs to be passed to middleware
-            Response__c = ABFL_Constants.WAITING_API_RESPONSE
-        );
-
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert new ASF_Case_Integration__c(
+                Case__c  = caseRec.Id,
+                Integration_Ext_Id__c = integRec.External_Id__c,
+                Status__c = ABFL_Constants.PENDING,
+                Type__c = 'BRE', // Identifier needs to be passed to middleware
+                Response__c = ABFL_Constants.WAITING_API_RESPONSE
+            );
+        }
         // System.debug('@@@@case'+integRec.ABFL_BRE_CalloutClass__c);
 
         // Fire Actual Integration---Begins
@@ -93,66 +94,90 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         System.debug('***processResponse invoked.');
-        if(caseInteg.Status__c == ABFL_Constants.SUCCESS){
-            Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-
-            //Update Case Int from Response
-            // Assume the following response from Integration
-            String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
-           // ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(val, ResponseWrapper.class);
-            ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);
-            System.debug('@@jsonMap'+jsonMap);
-            List<Case> caseListToUpdate = new List<Case>();
-            List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
-            if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
-                if(caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
-                    //Update Document URL on ABFL Case detail, proceed to manual fulfilment
-                    caseDetailListToUpdate.add(
-                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
-                    );
-                    // * Manual fulfillment, will be handled by default queue specified on case stage.
-                }
-                else if(caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
-                    //Update Document URL on ABFL Case detail, proceed to next stage.
-                    caseDetailListToUpdate.add(
-                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
-                                               Resolution_Comments__c = 'Resolved')
-                    );
-                    caseListToUpdate.add(
-                        new Case(Id=caseRecord.Id, MoveToNext__c = true)
-                    );
-                }
-                else {
-                    //Sync the email tagged to Case record US-121
-                    caseListToUpdate.add(
-                        new Case(Id=caseRecord.Id, MoveToNext__c = true)
-                    );
-                    caseDetailListToUpdate.add(
-                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
-                                               Resolution_Comments__c = 'Resolved')
-                    );
-                }
-            }
-            // else {
-            // * Manual fulfillment, will be handled by default queue specified on case stage.
-            //     // ToDo: Assign for manual fullfillment
+        try {
+            if(caseInteg.Status__c == ABFL_Constants.SUCCESS){
+                Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
+                ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
                 
-            // }
+                //Update Case Int from Response
+                // Assume the following response from Integration
+                String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
+                ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);
+                System.debug('@@jsonMap'+jsonMap);
+                List<Case> caseListToUpdate = new List<Case>();
+                List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
+                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+                if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
+                    if(caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
+                        //Update Document URL on ABFL Case detail, proceed to manual fulfilment
+                        caseDetailListToUpdate.add(
+                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
+                        );
+                        // * Manual fulfillment, will be handled by default queue specified on case stage.
+                    }
+                    else if(caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
+                        //Update Document URL on ABFL Case detail, proceed to next stage.
+                        caseDetailListToUpdate.add(
+                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
+                                                Resolution_Comments__c = 'Resolved')
+                        );
+                        resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
+                    }
+                    else {
+                        //Sync the email tagged to Case record US-121
+                        caseDetailListToUpdate.add(
+                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
+                                                Resolution_Comments__c = 'Resolved')
+                        );
+                        resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
+                    }
 
-            System.debug('@@@@Inside run STP Flow'+jsonMap);
-            if(caseDetailListToUpdate.size() > 0){
-                update caseDetailListToUpdate;
+                }
+                // else {
+                // * Manual fulfillment, will be handled by default queue specified on case stage.
+                //     // ToDo: Assign for manual fullfillment
+                    
+                // }
+
+                System.debug('@@@@Inside run STP Flow'+jsonMap);
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && resultWrap != null) {
+                    update resultWrap.caseToBeUpdated;
+                }
+                if(Schema.sObjectType.Case.isUpdateable() && caseDetailListToUpdate.size() > 0){
+                    update caseDetailListToUpdate;
+                }
+                if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == Response.STP_SUCCESS.name())  {
+                        createCase(intg.STP_Config_External_Id__c, caseRecord);
+                }
             }
-            if(caseListToUpdate.size() > 0){
-                update caseListToUpdate;
-            }
-        }    
+        }
+        catch(Exception ex) {
+            System.debug(ex.getMessage());
+        }
+       
     }
-    
+    public void createCase(String externalId, Case caseRec) {
+            List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
+            if(!cccRec.isEmpty()) {
+                //create Case detail
+                ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
+                insert detail;
+
+                //Create Case
+                insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
+                                parentId = caseRec.Id, AssetId = caseRec.AssetId,
+                                Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
+                                Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
+                                ABFL_Case_Detail__c = detail.Id);
+            }
+            
+
+            
+    }
     public class ResponseWrapper {
-        public String TicketNo;
-        public String STPFlag;
-        public String STPDescription;
-        public String DocumentURL;
+        public String ticketNo;
+        public String sTPFlag;
+        public String sTPDescription;
+        public String documentURL;
     }
 }
