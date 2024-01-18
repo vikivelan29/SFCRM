@@ -177,14 +177,18 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             if(!cccRec.isEmpty()) {
                 //create Case detail
                 ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
-                insert detail;
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
+                    insert detail;
+                }    
 
                 //Create Case
-                insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
-                                parentId = caseRec.Id, AssetId = caseRec.AssetId,
-                                Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
-                                Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
-                                ABFL_Case_Detail__c = detail.Id);
+                if(Schema.sObjectType.Case.isCreateable()) {
+                    insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
+                                    parentId = caseRec.Id, AssetId = caseRec.AssetId,
+                                    Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
+                                    Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
+                                    ABFL_Case_Detail__c = detail.Id);
+                }           
             }
             
 
