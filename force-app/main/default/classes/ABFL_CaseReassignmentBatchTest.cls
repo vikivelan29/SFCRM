@@ -1,8 +1,23 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-18-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-18-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 private class ABFL_CaseReassignmentBatchTest {
     @testSetup
     static void setupTestData(){
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
+        User adminUser = new User(Alias = 'standt', Email='standarduser@testorg.com', 
+             EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+             LocaleSidKey='en_US', ProfileId = p.Id, 
+             TimeZoneSidKey='America/Los_Angeles', UserName='adminUserabcl@gmail.com');
+        insert adminUser;
         // Create test data with inactive owner users and cases
         User superManagerUser = new User(
             IsActive = true,
@@ -61,31 +76,38 @@ private class ABFL_CaseReassignmentBatchTest {
     // Check for No Manager
     @isTest
     static void caseReassignmentNoManager(){
-        User au=[select id,IsActive from User where Username=:'inactiveuser2255@test.com'];
-        au.managerId = null;
-        au.IsActive = false;
-        update au;
-        System.debug('***au'+au);
-        // Start the batch job
-        Test.startTest();
-            ABFL_CaseReassignmentBatch batchJob = new ABFL_CaseReassignmentBatch();
-            Database.executeBatch(batchJob);
-        Test.stopTest();
-        System.debug('***check->'+[select id,IsActive,managerId from User where Username=:'inactiveuser2255@test.com'].managerId);
-        // Verify that the case owner has not been reassigned, as owner's manager is blank
-        Case updatedCase = [SELECT Id, OwnerId FROM Case LIMIT 1];
-        Assert.areEqual(au.Id, updatedCase.OwnerId);
+        // Get admin user
+        User admin = [select id from User where username='adminUserabcl@gmail.com'];
+        system.runAs(admin){
+            User au=[select id,IsActive from User where Username=:'inactiveuser2255@test.com'];
+            au.managerId = null;
+            au.IsActive = false;
+            update au;
+            System.debug('***au'+au);
+            // Start the batch job
+            Test.startTest();
+                ABFL_CaseReassignmentBatch batchJob = new ABFL_CaseReassignmentBatch();
+                Database.executeBatch(batchJob);
+            Test.stopTest();
+            System.debug('***check->'+[select id,IsActive,managerId from User where Username=:'inactiveuser2255@test.com'].managerId);
+            // Verify that the case owner has not been reassigned, as owner's manager is blank
+            Case updatedCase = [SELECT Id, OwnerId FROM Case LIMIT 1];
+            Assert.areEqual(au.Id, updatedCase.OwnerId);
+        }
        
     }
 
     // Check for 1 hierarchy
     @isTest
     static void caseReassignmentOneHierarchy(){
-        System.debug('***check'+[SELECT Id, OwnerId,owner.Name FROM Case LIMIT 1].owner.Name);
+        // Get admin user
+        User admin = [select id from User where username='adminUserabcl@gmail.com'];
         User au=[select id,IsActive,managerId from User where Username=:'inactiveuser2255@test.com'];
-        au.IsActive = false;
-        update au;
-        
+        system.runAs(admin){
+            System.debug('***check'+[SELECT Id, OwnerId,owner.Name FROM Case LIMIT 1].owner.Name);            
+            au.IsActive = false;
+            update au;
+        }
         // get user with 'Case Ownership Management' custom permission
         //Id psId = [SELECT id,Name from PermissionSet where name='Admin_User'].Id;
         //insert new PermissionSetAssignment(AssigneeId=UserInfo.getUserId(),PermissionSetId=psId);
@@ -108,6 +130,8 @@ private class ABFL_CaseReassignmentBatchTest {
     // Check for 2 hierarchy
     @isTest
     static void caseReassignmentTwoHierarchy(){
+        // Get admin user
+        User admin = [select id from User where username='adminUserabcl@gmail.com'];
         List<User> ulist = new List<User>();
         User manager = new User();
         for(User au: [select id,IsActive,ManagerId, Username from User where Username=:'inactiveuser2255@test.com' or Username=:'manageruser1155@test.com']){
@@ -116,8 +140,9 @@ private class ABFL_CaseReassignmentBatchTest {
             if(au.username=='manageruser1155@test.com')
                 manager = au; 
         }
-        update ulist;
-        
+        system.runAs(admin){
+            update ulist;
+        }
         // Start the batch job
         Test.startTest();
             ABFL_CaseReassignmentBatch batchJob = new ABFL_CaseReassignmentBatch();
@@ -127,6 +152,7 @@ private class ABFL_CaseReassignmentBatchTest {
         // Verify that the case owner has been reassigned to the active manager
         Case updatedCase = [SELECT Id, OwnerId FROM Case LIMIT 1];
         Assert.areEqual(manager.ManagerId, updatedCase.OwnerId);
+        
        
     }
     
