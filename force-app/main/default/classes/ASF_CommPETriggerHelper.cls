@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-17-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
@@ -89,11 +99,11 @@ public class ASF_CommPETriggerHelper {
         }
         
         if(setTemplates.size()>0){
+            System.debug('***setTemplates>'+setTemplates);
             emailTemplates = ASF_CommPETriggerQueryHandler.getEmailTemplates(setTemplates); 
             getEmailTempDevNameVsId();
         }
         /* SMS And WhatsApp Related Template Information from Custom Metadata Related Operations */
-        
         
         createLogs(peLogs,null);
         sendEmailCommunication(peLogs);
@@ -270,6 +280,7 @@ public class ASF_CommPETriggerHelper {
             
             for(integer i=0;i<msgResults.size();i++){
                 if(!msgResults[i].IsSuccess()){
+                    
                     String errMsg = msgResults[i].getErrors().get(0).getMessage();
                     if(mIdxVsPELoggerId.containsKey(i)){
                         responseWrapper cls = new responseWrapper(mIdxVsPELoggerId.get(i) ,'Error','Error Sending Email ' + errMsg);
@@ -287,15 +298,19 @@ public class ASF_CommPETriggerHelper {
     }
     
     public static void sendCommunications(Boolean skipPE,List<PE_Logger__c> peLogs){
-        
+        System.debug('***sendCommunications:skipPE>'+skipPE);
+        System.debug('***sendCommunications:peLogs>'+peLogs);
+        System.debug('***sendCommunications:logs>'+ logs);
         List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
         
         
         // For SMS and WhatsApp
         for(ASF_Communication_Log__c log : logs){
+            System.debug('***sendCommunications:log.Id>'+ log);
             if(log.Id != null){
                 if(!String.isEmpty(log.SMS_LT_Name__c) && log.Phone__c != null){
                     
+                    System.debug('***sendCommunications:templateIDMap>'+ templateIDMap);
                     String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c);
                     
                     if(smsTemplateId == null){
@@ -304,6 +319,7 @@ public class ASF_CommPETriggerHelper {
                         //throw new commException('SMS template not found for name ' + log.SMS_LT_Name__c);
                     }
                     else{
+                        System.debug('***sendCommunications:log.Id>'+ log.Contact__c);
                         if(log.Contact__c != null){ 
                             log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
                         }
@@ -349,13 +365,17 @@ public class ASF_CommPETriggerHelper {
     }
     
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
+        System.debug('***createOutboundCommunication --> ');
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
-                                                                        Type__c = msgType);
+                                                                        Type__c = msgType,
+                                                                        SMS_Entity_Id__c = log.SMS_Entity_Id__c,
+                                                                        SMS_Sender_Id__c = log.SMS_Sender_Id__c
+                                                                        );
         
         return event;
     }

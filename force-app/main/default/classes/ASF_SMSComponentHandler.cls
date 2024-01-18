@@ -1,3 +1,13 @@
+/**
+* @description       : 
+* @author            : rsinghnagar@salesforce.com
+* @group             : 
+* @last modified on  : 01-17-2024
+* @last modified by  : rsinghnagar@salesforce.com 
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public without sharing class ASF_SMSComponentHandler {
     public enum Channel {SMS, Whatsapp, Email}
     public static List<ASF_Communication_log__c> logs = new List<ASF_Communication_log__c>();
@@ -12,10 +22,18 @@ public without sharing class ASF_SMSComponentHandler {
     public static Map<String,Customer_Notification_Config__mdt> mCommConfigMetaName = new Map<String,Customer_Notification_Config__mdt>();
     public static Map<Id,Boolean> mCaseHasTemplate = new Map<Id,Boolean>();
     public static Map<Id,responseWrapper> caseIdVsSuccessResult = new Map<Id,responseWrapper>();
-
+    
     @AuraEnabled
     public static String getTemplate(Id caseId,String templateMetaData, Boolean isGenerateOnlyTemplate, Id conId,Boolean finalSend){
-        Contact selectedCon = [SELECT Id, Name, Email, AccountId, MobilePhone FROM contact WHERE Id =: conId];
+        Contact selectedCon = null;
+        Lead selectedProspect = null;
+        if(conId.getsObjectType() == Contact.sObjectType){
+            selectedCon = [SELECT Id, Name, Email, AccountId, MobilePhone FROM contact WHERE Id =: conId];
+        }
+        if(conId.getsObjectType() == Lead.sObjectType){
+            selectedProspect = [SELECT ID, Name, Email, MobilePhone FROM Lead WHERE Id =: conId];
+        }
+        
         if(!isGenerateOnlyTemplate && !finalSend){
             //&& !ASF_WhatsappCommunicationParser.checkEnrolmentStatus(conId)){
             AuraHandledException auraEx = new AuraHandledException('');
@@ -25,7 +43,7 @@ public without sharing class ASF_SMSComponentHandler {
         caseIds.add(caseId);
         Map<Id,String> mCaseVsMetadata = new Map<Id,String>();
         mCaseVsMetadata.put(caseId,templateMetaData);
-        Map<Id,responseWrapper> responseMap =  executeContructor(caseIds,mCaseVsMetadata,isGenerateOnlyTemplate, selectedCon);
+        Map<Id,responseWrapper> responseMap =  executeContructor(caseIds,mCaseVsMetadata,isGenerateOnlyTemplate, selectedCon,selectedProspect);
         if(responseMap.values()[0].status.toUpperCase()=='ERROR'){
             AuraHandledException auraEx = new AuraHandledException(responseMap.values()[0].message);
             throw auraEx; 
@@ -47,88 +65,89 @@ public without sharing class ASF_SMSComponentHandler {
         // System.debug('>>>>> WA MSG BODY\n'+responseMap);
         return JSON.serialize(responseMap.values());
     }
-
+    
     public static Map<Id,responseWrapper> executeContructor(Set<Id> caseIds,Map<Id,String> mCaseVsMetadata){
-        return executeContructor(caseIds,mCaseVsMetadata,false,null);
+        return executeContructor(caseIds,mCaseVsMetadata,false,null,null);
     }
-
-    public static Map<Id,responseWrapper> executeContructor(Set<Id> caseIds,Map<Id,String> mCaseVsMetadata, Boolean skipPE, Contact selectedCon){
-
-            
-            casefieldInfo = Schema.SObjectType.Case.fields.getMap();
-            Map<Id,Set<String>> mCaseIdTemplates = new Map<Id,Set<String>>();
-            Set<String> templateName = new Set<String>();
-            mCaseIdMetadataName = mCaseVsMetadata;
-            
-            comm_configs = [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c   
-                            from Customer_Notification_Config__mdt where developerName =: mCaseVsMetadata.values()];
-            for(Customer_Notification_Config__mdt cncmdt : comm_configs){
-                //Build CustomMetadata Developer Name Vs CustomMetadata map.
-                if(!mCommConfigMetaName.containsKey(cncmdt.developerName)){
-                    mCommConfigMetaName.put(cncmdt.developerName,cncmdt);
-                }                
-                
-            }
-            
-            
-            String[] channelFieldNames = getMergefieldNames(Channel.SMS);
-            
-            
-            for(Id caseId : mCaseIdMetadataName.keySet()){
-                //SMS
-                try{
-                    Set<String> setTemplates = new Set<string>();
-                    
-                    String strMetadataName = mCaseIdMetadataName.get(caseId);
-                    Customer_Notification_Config__mdt comm_config = mCommConfigMetaName.get(strMetadataName);
-                    Object SMStemplateName = comm_config.get(channelFieldNames[3]); 
-                    if(SMStemplateName != null)
-                        setTemplates.add(SMStemplateName.tostring());
-                    
-                    channelFieldNames = getMergefieldNames(Channel.Email);
-                    Object emailTemplateName = comm_config.get(channelFieldNames[3]);
-                    if(emailTemplateName != null)
-                        setTemplates.add(emailTemplateName.tostring());
-                    
-                    channelFieldNames = getMergefieldNames(Channel.WhatsApp);
-                    Object waTemplateName = comm_config.get(channelFieldNames[3]);
-                    if(waTemplateName != null)
-                        setTemplates.add(waTemplateName.tostring());
-                    
-                    if(!mCaseIdTemplates.containsKey(caseId)){
-                        if(setTemplates.size()>0){
-                            mCaseIdTemplates.put(caseId,setTemplates);
-                            mCaseHasTemplate.put(caseId,true);
-                        }
-                        else{
-                            mCaseHasTemplate.put(caseId,false);
-                        }
-                        
-                    }
-                    templateName.addAll(setTemplates);
-                }
-                catch(exception e){
-                    responseWrapper cls = new responseWrapper(caseId,'Error','No template found in Customer_Notification_Config__mdt');
-                    caseIdVsSuccessResult.put(caseId,cls);
-                }
-            }
-            
-            for(EmailTemplate template : [SELECT Id,DeveloperName FROM EmailTemplate WHERE DeveloperName IN: templateName ]){
-                // Build Template DeveloperName vs Id map.
-                templateIDMap.put(template.DeveloperName,template.Id);
-            }
-            
-            
-            
-            /// CREATE LOGS START HERE ///
-            createLogs(selectedCon);
-            sendCommunications(skipPE);
-            updateLog();
-            
-            return caseIdVsSuccessResult;
+    
+    public static Map<Id,responseWrapper> executeContructor(Set<Id> caseIds,Map<Id,String> mCaseVsMetadata, Boolean skipPE, Contact selectedCon, Lead selectedProspect){
+        
+        
+        casefieldInfo = Schema.SObjectType.Case.fields.getMap();
+        Map<Id,Set<String>> mCaseIdTemplates = new Map<Id,Set<String>>();
+        Set<String> templateName = new Set<String>();
+        mCaseIdMetadataName = mCaseVsMetadata;
+        
+        comm_configs = [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c,
+                        SMS_Sender_Id__c,SMS_Entity_Id__c
+                        from Customer_Notification_Config__mdt where developerName =: mCaseVsMetadata.values()];
+        for(Customer_Notification_Config__mdt cncmdt : comm_configs){
+            //Build CustomMetadata Developer Name Vs CustomMetadata map.
+            if(!mCommConfigMetaName.containsKey(cncmdt.developerName)){
+                mCommConfigMetaName.put(cncmdt.developerName,cncmdt);
+            }                
             
         }
-    public static void createLogs(Contact selectedCon){
+        
+        
+        String[] channelFieldNames = getMergefieldNames(Channel.SMS);
+        
+        
+        for(Id caseId : mCaseIdMetadataName.keySet()){
+            //SMS
+            try{
+                Set<String> setTemplates = new Set<string>();
+                
+                String strMetadataName = mCaseIdMetadataName.get(caseId);
+                Customer_Notification_Config__mdt comm_config = mCommConfigMetaName.get(strMetadataName);
+                Object SMStemplateName = comm_config.get(channelFieldNames[3]); 
+                if(SMStemplateName != null)
+                    setTemplates.add(SMStemplateName.tostring());
+                
+                channelFieldNames = getMergefieldNames(Channel.Email);
+                Object emailTemplateName = comm_config.get(channelFieldNames[3]);
+                if(emailTemplateName != null)
+                    setTemplates.add(emailTemplateName.tostring());
+                
+                channelFieldNames = getMergefieldNames(Channel.WhatsApp);
+                Object waTemplateName = comm_config.get(channelFieldNames[3]);
+                if(waTemplateName != null)
+                    setTemplates.add(waTemplateName.tostring());
+                
+                if(!mCaseIdTemplates.containsKey(caseId)){
+                    if(setTemplates.size()>0){
+                        mCaseIdTemplates.put(caseId,setTemplates);
+                        mCaseHasTemplate.put(caseId,true);
+                    }
+                    else{
+                        mCaseHasTemplate.put(caseId,false);
+                    }
+                    
+                }
+                templateName.addAll(setTemplates);
+            }
+            catch(exception e){
+                responseWrapper cls = new responseWrapper(caseId,'Error','No template found in Customer_Notification_Config__mdt');
+                caseIdVsSuccessResult.put(caseId,cls);
+            }
+        }
+        
+        for(EmailTemplate template : [SELECT Id,DeveloperName FROM EmailTemplate WHERE DeveloperName IN: templateName ]){
+            // Build Template DeveloperName vs Id map.
+            templateIDMap.put(template.DeveloperName,template.Id);
+        }
+        
+        
+        
+        System.debug('/// CREATE LOGS START HERE ///');
+        createLogs(selectedCon,selectedProspect);
+        sendCommunications(skipPE);
+        updateLog();
+        
+        return caseIdVsSuccessResult;
+        
+    }
+    public static void createLogs(Contact selectedCon, Lead selectedProspect){
         List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
         
         for(Id caseId : mCaseIdMetadataName.keySet()){
@@ -184,21 +203,33 @@ public without sharing class ASF_SMSComponentHandler {
                 ASF_Communication_Log__c log = cLog.clone(false, true,false, false);
                 
                 
-                if(selectedCon!=null ){
-                    log.put('Account__c',selectedCon.AccountId);
-                    log.put('Case__c', cRec.Id);  
-                    log.put('Contact__c',selectedCon.Id);
-                    log.put('Phone__c', selectedCon.MobilePhone);
-                    log.put('Contact_Email__c', selectedCon.email);
-                    log.put('Contact_Name__c',selectedCon.Name);
-                    log.LOB__c = cRec.Business_Unit__c;
-                   
-                    if( selectedCon.MobilePhone != ''){
-                        log.put('Status__c','In Progress');
+                if(selectedCon!=null || selectedProspect != null){
+                    if(selectedProspect != null){
+                        log.put('Lead__c',selectedProspect.Id);
+                        log.put('Phone__c', selectedProspect.MobilePhone);
+                        log.put('Contact_Email__c', selectedProspect.email);
+                        log.put('Contact_Name__c',selectedProspect.Name);
+                        if( selectedProspect.MobilePhone != ''){
+                            log.put('Status__c','In Progress');
+                        }
                     }
+                    else{
+                        log.put('Account__c',selectedCon.AccountId);
+                        log.put('Contact__c',selectedCon.Id);
+                        log.put('Phone__c', selectedCon.MobilePhone);
+                        log.put('Contact_Email__c', selectedCon.email);
+                        log.put('Contact_Name__c',selectedCon.Name);
+                        if( selectedCon.MobilePhone !=''){
+                            log.put('Status__c','In Progress');
+                        }
+                    }
+                    log.put('Case__c', cRec.Id);  
+                    log.LOB__c = cRec.Business_Unit__c;
+                    
+                    
                     logs.add(log);
                 }else{
-                    responseWrapper cls = new responseWrapper(cRec.Id,'Error','Contact is not selected');
+                    responseWrapper cls = new responseWrapper(cRec.Id,'Error','Contact/Prospect is not selected');
                     caseIdVsSuccessResult.put(cRec.Id,cls);
                 }
                 
@@ -270,6 +301,9 @@ public without sharing class ASF_SMSComponentHandler {
         
         masterlog.put(tempFieldAPIName,comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
         masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
+        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
+        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
+        
         
         mCaseIdCommunicationLog.put(caseRecord.Id, masterlog);
         
@@ -304,7 +338,7 @@ public without sharing class ASF_SMSComponentHandler {
         }
         
         return new string[]{mergeFieldCSVName, mergefieldHolderName, templateName,templateFieldName};
-        }
+            }
     public static void sendCommunications(Boolean skipPE){
         
         List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
@@ -321,13 +355,13 @@ public without sharing class ASF_SMSComponentHandler {
                     else{
                         log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true);
                         responseWrapper cls = new responseWrapper(log.Case__c,'Success','',log.id,log.SMS_Msg_Body__c);
-						caseIdVsSuccessResult.put(log.Case__c,cls);
+                        caseIdVsSuccessResult.put(log.Case__c,cls);
                         eventList.add(createOutboundCommunication(log,'SMS'));
                     }
                 }
             }
         }
-
+        
         if(!skipPE){
             List<Database.SaveResult> results = EventBus.publish(eventList);
         }
@@ -344,7 +378,10 @@ public without sharing class ASF_SMSComponentHandler {
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
-                                                                        Type__c = msgType);
+                                                                        Type__c = msgType,
+                                                                        SMS_Entity_Id__c = log.SMS_Entity_Id__c,
+                                                                        SMS_Sender_Id__c = log.SMS_Sender_Id__c
+                                                                       );
         
         return event;
     }
@@ -352,7 +389,7 @@ public without sharing class ASF_SMSComponentHandler {
         List<ASF_Communication_Log__c> updLogs = new List<ASF_Communication_Log__c>();
         for(ASF_Communication_Log__c log : logs){
             if(log.Id != null){
-                    updLogs.add(log);
+                updLogs.add(log);
             }
         }
         
