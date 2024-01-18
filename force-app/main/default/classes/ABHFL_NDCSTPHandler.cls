@@ -18,7 +18,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,No_Auto_Communication__c
-                           FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseRec.Id];
         
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.ERROR;
