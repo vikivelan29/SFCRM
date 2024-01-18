@@ -55,26 +55,27 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void updateCase(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         List<Case>lstCase = new List<Case>();
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
-            LIST<Asset> recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
-            Case objCase = new Case();
+           LIST<Asset> recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
+           Case objCase = new Case();
+           //Case objCase = [SELECT ID FROM CASE WHERE ID =: caseId  LIMIT 1 FOR UPDATE];
             objCase.Id = caseId;
             objCase.ABFL_Case_Detail__c = caseDetailId;
             objCase.CCC_External_Id__c = objResponseBody.CASESUBTYPE;
             objCase.Comments = objResponseBody.COMMENT;
             objCase.Case_Stage_Change_Date__c = system.now();
             objCase.LAN__c =  objResponseBody.LAN != null ? objResponseBody.LAN : '';
-             if(!recAsset.isEmpty()){
+            if(!recAsset.isEmpty()){
             	objCase.AssetId = recAsset[0].Id;
             }
             objCase.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             lstCase.add(objCase);
         }
          if(!lstCase.isEmpty()){
-            Database.SaveResult[] updateResult = Database.update(lstCase,false); 
-            System.debug('updateResultCase'+ updateResult[0].getId());      
-            System.debug('updateResultCaseerrr'+updateResult[0].getErrors()); 
+           Database.SaveResult[] updateResult = Database.update(lstCase,false); 
+            //System.debug('updateResultCase'+ updateResult[0].getId());      
+            //System.debug('updateResultCaseerrr'+updateResult[0].getErrors()); 
              if(updateResult[0].getId() != null){
-                sendEmailAndCaseUpdate(caseId,caseDetailId,objResponseBody);     
+               sendEmailAndCaseUpdate(caseId,caseDetailId,objResponseBody);     
              }
         }
     }
@@ -86,14 +87,14 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void sendEmailAndCaseUpdate(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition'); 
-            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c,No_Auto_Communication__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
+            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c ,No_Auto_Communication__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
             if(objResponseBody.ISSMT == 'YES'){
                 sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
             }
             else if (objResponseBody.ISSMT == 'NO'){
                 system.debug('mdtPEFrameworkvalues '+mdtEbotCase);
                 system.debug('recCasecase '+recCase[0].SuppliedEmail);
-                List<EmailMessage> emailMessages = [SELECT Id, ToAddress FROM EmailMessage WHERE ParentId =: caseId LIMIT 1];
+                List<EmailMessage> emailMessages = [SELECT Id, ToAddress, Winning_Email__c FROM EmailMessage WHERE ParentId =: caseId LIMIT 1];
                 system.debug('emailMessagescase '+emailMessages[0].ToAddress);
                 List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c LIMIT 1];
                 if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],objResponseBody, mdtEbotCase)){
@@ -136,6 +137,7 @@ public with sharing class ABFL_EBOTCaseLogics {
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         if(closed){
             //List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id LIMIT 1];
+            //commenting the below line as we need to send the closure email
            /* ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
             objUpdateCaseExt.Id = ABFLCaseExtId;
             objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
@@ -147,7 +149,7 @@ public with sharing class ABFL_EBOTCaseLogics {
              if(!lstUpdateCase.isEmpty()){
                 Database.SaveResult[] updateResult = Database.update(lstUpdateCase,false); 
                  if(updateResult[0].getId() != null){
-                      //createPELoggerRecords(recCase,caseCategConfig);
+                    //createPELoggerRecords(recCase,caseCategConfig);
                      //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
                      if(templateName){
                      ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'Multiple_Lan_Template',null,false);
@@ -192,7 +194,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                 }
             }
              for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -216,7 +218,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
              for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -246,7 +248,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -262,7 +264,6 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
-               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Lead__c  ;
         }
       /****************************************************************************************************************
@@ -277,7 +278,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -308,7 +309,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -323,8 +324,6 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
-               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
-               recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                allowedSubtype.contains(recCase.Sub_Type_Text__c) &&
                objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
                objResponseBody.ISATTACHMENTFLAG == condition.ISATTACHMENTFLAG__c &&
@@ -342,7 +341,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String toAdd : allowedToAddress) {
-                if (emailMessage.ToAddress.contains(toAdd.trim())) {
+                if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
                     isallowedToAddress = true;
                     break;
                 }
@@ -357,8 +356,6 @@ public with sharing class ABFL_EBOTCaseLogics {
                !isExcludedDomain &&
                objResponseBody.AUTOCLOSURE_IN_RR == condition.AUTOCLOSURE_IN_RR__c &&
                recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
-                recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
-                recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
                !allowedSubtype.contains(recCase.Sub_Type_Text__c) &&  
                objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
                objResponseBody.CONFIDENCESCORE >= condition.CONFIDENCESCORE__c ;
@@ -366,8 +363,8 @@ public with sharing class ABFL_EBOTCaseLogics {
      /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - createPELogAndinvokeCommPEevent to send an email to specific email 
-    * @return - void
-    * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email communication for specific email address
+    * @return - Database.SaveResult.
+    * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email communication.
     *****************************************************************************************************************/
     public static void createPELogAndinvokeCommPEevent(Case caseRec, String emailTemplate, String SpecificEmailId){
         PE_Logger__c peLogger = new PE_Logger__c();
