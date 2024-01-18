@@ -15,4 +15,19 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit ABHFL to ABHFL Role Hierarchy</description>
+        <label>ABHFL Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
