@@ -98,6 +98,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+	caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
