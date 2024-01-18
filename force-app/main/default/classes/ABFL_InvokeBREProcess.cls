@@ -95,7 +95,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     public void processResponse(ASF_Case_Integration__c caseInteg){
         System.debug('***processResponse invoked.');
         try {
-            if(caseInteg.Status__c == ABFL_Constants.SUCCESS){
+            if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
                 ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
                 
@@ -106,42 +106,37 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 System.debug('@@jsonMap'+jsonMap);
                 List<Case> caseListToUpdate = new List<Case>();
                 List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
-                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-                if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
-                    if(caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
-                        //Update Document URL on ABFL Case detail, proceed to manual fulfilment
-                        caseDetailListToUpdate.add(
-                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
-                        );
-                        // * Manual fulfillment, will be handled by default queue specified on case stage.
-                    }
-                    else if(caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
-                        //Update Document URL on ABFL Case detail, proceed to next stage.
-                        caseDetailListToUpdate.add(
-                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
-                                                Resolution_Comments__c = 'Resolved')
-                        );
-                        resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
-                    }
-                    else {
-                        //Sync the email tagged to Case record US-121
-                        caseDetailListToUpdate.add(
-                            new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
-                                                Resolution_Comments__c = 'Resolved')
-                        );
-                        resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
-                    }
-
+                Boolean isUpdateCase = false;
+               
+                if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
+                    //Update Document URL on ABFL Case detail, proceed to manual fulfilment
+                    caseDetailListToUpdate.add(
+                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
+                    );
+                    // * Manual fulfillment, will be handled by default queue specified on case stage.
                 }
-                // else {
-                // * Manual fulfillment, will be handled by default queue specified on case stage.
-                //     // ToDo: Assign for manual fullfillment
-                    
-                // }
+                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
+                    //Update Document URL on ABFL Case detail, proceed to next stage.
+                    caseDetailListToUpdate.add(
+                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
+                                            Resolution_Comments__c = 'Resolved')
+                    );
+                    isUpdateCase = true;
+                }
+                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
+                    //Sync the email tagged to Case record US-121
+                    isUpdateCase = true;
+                    caseDetailListToUpdate.add(
+                        new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
+                                            Resolution_Comments__c = 'Resolved')
+                    );
+                }
 
-                System.debug('@@@@Inside run STP Flow'+jsonMap);
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && resultWrap != null) {
-                    update resultWrap.caseToBeUpdated;
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && isUpdateCase) {
+                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
+                    System.debug('@@@@Inside run STP Flow'+resultWrap);
+                    update resultWrap?.caseToBeUpdated;
+               
                 }
                 if(Schema.sObjectType.Case.isUpdateable() && caseDetailListToUpdate.size() > 0){
                     update caseDetailListToUpdate;
@@ -157,26 +152,24 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
        
     }
     public void createCase(String externalId, Case caseRec) {
-            List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
-            if(!cccRec.isEmpty()) {
-                //create Case detail
-                ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
-                    insert detail;
-                }    
+        List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
+        if(!cccRec.isEmpty()) {
+            //create Case detail
+            ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
+            if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
 
-                //Create Case
-                if(Schema.sObjectType.Case.isCreateable()) {
-                    insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
-                                    parentId = caseRec.Id, AssetId = caseRec.AssetId,
-                                    Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
-                                    Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
-                                    ABFL_Case_Detail__c = detail.Id);
-                }           
-            }
-            
+                insert detail;
+            }    
 
-            
+            //Create Case
+            if(Schema.sObjectType.Case.isCreateable()) {
+                insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
+                                parentId = caseRec.Id, AssetId = caseRec.AssetId,
+                                Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
+                                Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
+                                ABFL_Case_Detail__c = detail.Id);
+            }           
+        }   
     }
     public class ResponseWrapper {
         public String ticketNo;
