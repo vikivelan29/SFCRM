@@ -27,7 +27,7 @@ public with sharing class ABFL_SOQL_Case {
 		    ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
 		    BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c
 		    FROM Case
-		    WHERE Id =: caseid]];
+		    WHERE Id =: caseid];
     } 
     /********************************************************************************************************
     * @author           Salesforce
