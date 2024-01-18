@@ -79,9 +79,9 @@ public class ABFL_TestDataFactory {
         stage3.SLA_Target_1_Type__c = 'Manager';
         stage3.SLA_Target_2_Type__c = 'Manager';
         stage3.SLA_Target_3_Type__c = 'Manager';
-        stage3.StageName__c  = 'Closed';
+        stage3.StageName__c  = 'Resolved';
         stage3.Gateway_Stage__c = true;
-        stage3.Status_Mapping__c = 'Closed';
+        stage3.Status_Mapping__c = 'Resolved';
         stage3.Query_Fields__c = 'Id,Stage__c';
         stageConfigList.add(stage3);
 
@@ -160,8 +160,8 @@ public class ABFL_TestDataFactory {
     public static List<ABFL_Case_Detail__c> createCaseDetail(String Lob, Boolean isCreate) {
         List<ABFL_Case_Detail__c> caseDetailList = new List<ABFL_Case_Detail__c>();
         ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c(ISREKYC__c= true,
-                                                                 CallbackDate__c= Date.today(),
-                                                                 CallBackTimeSlot__c= Time.newInstance(18, 30, 2, 20),
+                                                                 //CallbackDate__c= 'CallbackDate',
+                                                                 //CallBackTimeSlot__c= 'CallBackTimeSlot',
                                                                  //LOB__c= Lob,//'Corporate',
                                                                  Resolution_Comments__c= 'COMMENTS',
                                                                  URL__c= 'URL',
@@ -171,7 +171,9 @@ public class ABFL_TestDataFactory {
                                                                  REKYCURL__c= 'REKYCURL',
                                                                  KYCCOMPLIED__c= false,
                                                                  IsRegisteredCustomer__c=true,
-                                                                 SUBSOURCE__c= 'SUBSOURCE'
+                                                                 SUBSOURCE__c= 'SUBSOURCE',
+                                                                 From_Date__c = Date.Today(),
+                                                                 To_Date__c = Date.Today()+1
                                                                 );
         caseDetailList.add(caseDetail);
         if(isCreate) {
