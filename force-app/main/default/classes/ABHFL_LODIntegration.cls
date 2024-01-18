@@ -23,7 +23,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         Case caseRecord = [
             SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ]; 
         Calendar_Year__mdt cY =[SELECT Id, Current_Calendar_Year__c
 								FROM Calendar_Year__mdt WITH SECURITY_ENFORCED
@@ -123,7 +123,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Asset.Branch__r.Branch_Queue_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
             	FROM Case
-            	WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
+            	WHERE Id =: caseInteg.Case__c
         	];
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
             integrationFailure = false;

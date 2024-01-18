@@ -26,7 +26,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
             	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
         
         //Checking for mandatory API conditions
@@ -142,7 +142,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         Boolean integrationFailure = true;
         Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
                            MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c 
-                           FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id=:caseInteg.Case__c];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred)

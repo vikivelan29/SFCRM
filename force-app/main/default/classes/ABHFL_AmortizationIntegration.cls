@@ -22,7 +22,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRecord = [
             SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
         //Check for mandatory API conditions & Check for Loan Disbursement Status
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.Asset.Loan_Disbursement_Status__c != null && caseRecord.Asset.Loan_Disbursement_Status__c == 'Partially') {
@@ -121,7 +121,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
               FROM Case
-              WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
+              WHERE Id =: caseInteg.Case__c
            ]; 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
           Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
