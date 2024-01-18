@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>SMS_Template_Name__c</field>
-        <value xsi:type="xsd:string">ABWM_SMS_Closure_Template</value>
+        <value xsi:type="xsd:string">ABWM_SMS_CLOSURE_TEMPLATE</value>
     </values>
     <values>
         <field>To_recipient_CSV__c</field>
