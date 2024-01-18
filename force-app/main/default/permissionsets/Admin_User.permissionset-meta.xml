@@ -762,11 +762,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.STP_Failure__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_Case_Approv__c.Approval_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
