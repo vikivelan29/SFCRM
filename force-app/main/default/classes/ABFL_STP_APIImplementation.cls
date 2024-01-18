@@ -18,7 +18,7 @@ public class ABFL_STP_APIImplementation{
         System.debug('caseRec: ' + caseRec);
 
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
-		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear();
+		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0, 0);
         System.debug('@@@fis'+fi);
 
         switch  on integRec.STP_API_Identifier__c {
