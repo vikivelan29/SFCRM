@@ -51,16 +51,6 @@ public with sharing class ABCL_EmailMessageHelper {
                 {
                     EmailMessage email = caseEmailsMap.get(c.Id);
                     
-                    // VIRENDRA - SEND TO EBOT IF THE EMAIL ADDRESS IS MARKED FOR EBOT INTEGRATION ONLY.
-                    if(ASF_Email2CaseHandler.mEbotTriggerMap.containsKey(email.MessageIdentifier)){
-                        boolean sendToEbot = ASF_Email2CaseHandler.mEbotTriggerMap.get(email.MessageIdentifier);
-                        System.debug('sendToEbot ---> '+sendToEbot);
-                        if(!sendToEbot){ 
-                            continue;
-                        }
-                    }
-                    // VIRENDRA - ENDS HERE.
-                    
                     Map<String, String> fieldsMap = new Map<String, String>();
                     fieldsMap.put('Email_Message_ID__c', email.Id);
                     // Invoke Internal PE - This is required as content documents information is not persisted in initial transaction
