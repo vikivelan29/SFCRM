@@ -115,7 +115,17 @@
                 <fullName>In Progress with SRE Ops</fullName>
                 <default>false</default>
                 <label>In Progress with SRE Ops</label>
+            </value>            
+            <value>
+                <fullName>In Progress with Branch Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Branch Ops</label>
             </value>
+            <value>
+                <fullName>In Progress with Revenue &amp; Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Revenue &amp; Retention</label>
+            </value>   
         </valueSetDefinition>
     </valueSet>
 </CustomField>
