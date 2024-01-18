@@ -16,7 +16,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [SELECT Id,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
-                           FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseRec.Id];
         
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.SUCCESS;
@@ -70,7 +70,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         }
         
         Case caseRecord = [SELECT Id,CaseNumber,Customer_name_formula__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
-                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c FROM Case where Id =: caseRec.Id];
         PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
         PaytmResponseWrapper paytmResponseWrapper = new PaytmResponseWrapper() ;
