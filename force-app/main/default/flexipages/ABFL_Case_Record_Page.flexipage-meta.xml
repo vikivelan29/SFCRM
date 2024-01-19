@@ -62,12 +62,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentName>abhfl_MultipleLan</componentName>
                 <identifier>c_abhfl_MultipleLan</identifier>
             </componentInstance>
