@@ -814,9 +814,9 @@
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
                         </valueListItems>
-                        <valueListItems>
+                        <!-- <valueListItems>
                             <value>Case.Test_Update</value>
-                        </valueListItems>
+                        </valueListItems> -->
                         <valueListItems>
                             <value>MassChangeOwner</value>
                         </valueListItems>
