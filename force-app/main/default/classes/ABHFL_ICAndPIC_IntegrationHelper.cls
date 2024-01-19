@@ -44,6 +44,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+        caseIntOut.ServiceName__c  = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Business_Unit__c  = 'ABHFL';
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = integName;
