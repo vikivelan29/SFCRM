@@ -121,7 +121,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt.Name; 
+        caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
@@ -142,7 +142,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
         Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
-                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c 
+                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c ,No_Auto_Communication__c
                            FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
