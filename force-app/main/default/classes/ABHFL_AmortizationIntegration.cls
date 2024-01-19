@@ -20,7 +20,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateFailure').Message__c;
         
         Case caseRecord = [
-            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c
+            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id
         ];
@@ -120,7 +120,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         //processing of case, move to next
         Boolean integrationFailure = true;
         Case caseRec = [
-                SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
+                SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
               FROM Case
               WHERE Id =: caseInteg.Case__c
            ]; 

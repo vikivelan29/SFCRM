@@ -21,7 +21,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         
         
         Case caseRecord = [
-            SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c
+            SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id
         ]; 
@@ -122,7 +122,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         //processing of case, move to next
         Boolean integrationFailure = true;
         Case caseRec = [
-                SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Asset.Branch__r.Branch_Queue_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
+                SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Asset.Branch__r.Branch_Queue_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
             	FROM Case
             	WHERE Id =: caseInteg.Case__c
         	];
