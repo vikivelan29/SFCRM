@@ -24,7 +24,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
 
         Case caseRecord = [
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
-            	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c
+            	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
@@ -123,6 +123,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
