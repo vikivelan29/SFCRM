@@ -81,6 +81,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         caseIntOut.Case_Integration_ID__c = caseInte.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
         if(publishResult.isSuccess()){
