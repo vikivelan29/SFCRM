@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complaint_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Complaint Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Escalation</fullName>
+                <default>false</default>
+                <label>Escalation</label>
+            </value>
+            <value>
+                <fullName>Damage/deterioration/delay in service fulfilment</fullName>
+                <default>false</default>
+                <label>Damage/deterioration/delay in service fulfilment</label>
+            </value>
+            <value>
+                <fullName>Fraud/forgery in service</fullName>
+                <default>false</default>
+                <label>Fraud/forgery in service</label>
+            </value>
+            <value>
+                <fullName>Incorrect service fulfillment</fullName>
+                <default>false</default>
+                <label>Incorrect service fulfillment</label>
+            </value>
+            <value>
+                <fullName>Non receipt of service asked/requested for</fullName>
+                <default>false</default>
+                <label>Non receipt of service asked/requested for</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,5 +1,5 @@
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
         
         
     public static void searchAndAssocCustomerForAPICases(List<Case> newList){

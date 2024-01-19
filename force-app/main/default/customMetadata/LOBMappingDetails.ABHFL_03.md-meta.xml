@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Complaint_Type__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Branch Walkin</value>
     </values>
     <values>
         <field>Exclusion_Bu_s__c</field>
