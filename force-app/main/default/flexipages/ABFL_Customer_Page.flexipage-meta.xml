@@ -110,7 +110,7 @@
                 <identifier>RecordNPS_Score_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
+        <!-- <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -119,7 +119,7 @@
                 <fieldItem>Record.NACH_Status__c</fieldItem>
                 <identifier>RecordNACH_Status_cField</identifier>
             </fieldInstance>
-        </itemInstances>
+        </itemInstances> -->
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
