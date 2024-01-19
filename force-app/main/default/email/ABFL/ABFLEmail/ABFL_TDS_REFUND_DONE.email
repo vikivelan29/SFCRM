@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -162,7 +162,7 @@
 												&nbsp;<br />
 												We write to you with reference to your request for TDS refund.<br />
 												<br />
-												We would like to inform you that an amount of Rs __________&nbsp; towards your TDS refund has been initiated on __________&nbsp;to your bank account ending with XXX.<br />
+												We would like to inform you that an amount of Rs $$Asset.Loan_Amount__c$$&nbsp; towards your TDS refund has been initiated on __________&nbsp;to your bank account ending with ______.<br />
 												<br />
 												The UTR number of the transaction is $$ABFL_Case_Detail__r.UTRNo__c$$.<br />
 												<br />

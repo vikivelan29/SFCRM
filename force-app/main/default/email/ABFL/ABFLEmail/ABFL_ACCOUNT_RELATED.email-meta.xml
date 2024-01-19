@@ -5,7 +5,7 @@
     <name>ACCOUNT RELATED</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Your email has been received from an unregietered email ID</subject>
+    <subject>Your email has been received from an unregistered email ID</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

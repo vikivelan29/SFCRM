@@ -3,7 +3,7 @@
     <fullName>Email2__c</fullName>
     <description>This field is used to store the secondary email of the contact</description>
     <externalId>false</externalId>
-    <label>Email 2</label>
+    <label>Additional Email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Email</type>

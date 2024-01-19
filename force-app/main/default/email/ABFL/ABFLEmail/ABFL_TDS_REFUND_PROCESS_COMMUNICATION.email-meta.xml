@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL TDS REFUND PROCESS COMMUNICATION</name>
+    <name>TDS REFUND PROCESS COMMUNICATION</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Details reuired to process TDS Refund</subject>
+    <subject>Details required to process TDS Refund</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

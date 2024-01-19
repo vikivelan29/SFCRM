@@ -5,7 +5,7 @@
     <name>ABWM - AUTO HOLDING RESPONSE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>There is a delay in resolving your case!</subject>
+    <subject>Interim update - {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

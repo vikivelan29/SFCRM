@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL TDS REFUND DONE</name>
+    <name>TDS REFUND DONE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>TDS Refund successful!</subject>

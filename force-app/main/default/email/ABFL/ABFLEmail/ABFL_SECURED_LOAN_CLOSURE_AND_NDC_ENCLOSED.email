@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -160,13 +160,13 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												We write to you with reference to your request regarding foreclosure of your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
+												We write to you with reference to your request regarding the foreclosure of your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
 												<br />
-												We would like to inform you that we have received your funds and your loan has been closed in our records. Kindly provide a copy of your cancelled cheque to refund the excess amount, if any.<br />
+												We would like to inform you that we have received your funds and your loan has been closed in our records. Kindly provide a copy of your canceled cheque to refund the excess amount, if any.<br />
 												<br />
 												No Due Certificate is attached for your reference.<br />
 												<br />
-												Also, we will soon reach out to you for collection of property papers via request ID  {{{Case.CaseNumber}}}.<br />
+												Also, we will soon reach out to you for the collection of property papers via request ID  {{{Case.CaseNumber}}}.<br />
 												<br />
 												<br />
 												Thank you for trusting us. We look forward to serving you in the future, again.<br />
