@@ -805,9 +805,9 @@
                         <valueListItems>
                             <value>Case.Framework_Snapshot</value>
                         </valueListItems>
-                        <valueListItems>
+                        <!-- <valueListItems>
                             <value>Case.FTR__c</value>
-                        </valueListItems>
+                        </valueListItems> -->
                         <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>

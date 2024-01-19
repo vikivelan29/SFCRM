@@ -70,7 +70,7 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
+        <!-- <itemInstances>
             <componentInstance>
                 <componentName>aBHFL_AssetDetail_POC</componentName>
                 <identifier>c_aBHFL_AssetDetail_POC</identifier>
@@ -81,7 +81,7 @@
                 <componentName>abhfl_MultiplePayments</componentName>
                 <identifier>c_abhfl_MultiplePayments2</identifier>
             </componentInstance>
-        </itemInstances>
+        </itemInstances> -->
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

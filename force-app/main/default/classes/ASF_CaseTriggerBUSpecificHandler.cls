@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-20-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-20-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
@@ -25,7 +35,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
-        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
+        // ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
