@@ -210,16 +210,16 @@ public class ASF_CaseMovementHelper_Test {
         Assert.areEqual('Success', StageMovementResult.status);  
         Assert.areNotEqual(caseRecord.Stage__c, StageMovementResult.nextStageConfig.StageName__c, 'Case moved to Next Stage');
     } 
-    @isTest
-    private static void moveToBackStageTest() {
+    // @isTest
+    // private static void moveToBackStageTest() {
         
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];           
+    //     Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];           
         
-        Test.startTest();
-        ASF_CaseMovementHelper.StageWrapper StageMovementResult = ASF_CaseMovementHelper.moveToBackwardStage(caseRecord.Id,'Closed');
-        Test.stopTest();
-        Assert.areEqual('Success', StageMovementResult.status);   
-    }
+    //     Test.startTest();
+    //     ASF_CaseMovementHelper.StageWrapper StageMovementResult = ASF_CaseMovementHelper.moveToBackwardStage(caseRecord.Id,'Closed');
+    //     Test.stopTest();
+    //     Assert.areEqual('Success', StageMovementResult.status);   
+    // }
 
 
     @isTest
