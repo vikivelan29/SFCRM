@@ -24,7 +24,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         Case caseRecord = [
             SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 
          //Checking for mandatory API conditions
@@ -99,7 +99,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         Boolean integrationFailure = true;
 
         Case caseRec =[SELECT Id, CreatedById, Source__c, OwnerId, status,  AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c, ABHFL_Case_Detail__r.STP_Failure__c   
-                           FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id=:caseInteg.Case__c];
 
           if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);

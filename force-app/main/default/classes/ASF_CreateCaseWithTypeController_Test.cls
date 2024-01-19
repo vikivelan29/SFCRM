@@ -88,6 +88,10 @@
                                                                 Business_Unit__c = 'ABFL',Sub_Type__c = 'CreditCard',Source__c='CEC', 
                                                                 Process__c='Case', LOB__c = 'Retail - Secured',Only_CRN_Mandatory__c=true);
         insert ccc2;  
+        ASF_Case_Category_Config__c  ccc3 = new ASF_Case_Category_Config__c (CCC_External_Id__c ='CCC-CC-RC-04',Nature__c = 'Query',Product__c= 'CEC',Type__c= 'Testing',
+                                                                Business_Unit__c = 'ABFL',Sub_Type__c = 'CreditCard',Source__c='CEC', 
+                                                                Process__c='Case', LOB__c = 'Wealth',Only_CRN_Mandatory__c=true);
+        insert ccc3;  
     }
         
     @isTest
@@ -185,10 +189,25 @@
             system.runAs(usr)
             {
                 Test.startTest(); 
-                ASF_CreateCaseWithTypeController.getAccountDataByCustomerType('CIBIL', 'Test','false','Interaction','Retail - Secured');
+                ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails('CIBIL', 'Test','false','Interaction','Retail - Secured','{"accountLOB":"Wealth"}');
             }
             Test.stopTest();
             Integer count = [SELECT Count() FROM Account];
             Assert.areEqual(count, 1);
         }     
+          @isTest
+        public static void testScenario7(){
+            List<ASF_Case_Category_Config__c> ccc = [SELECT Id,LOB__c,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-04' LIMIT 1];
+            Asset assets = [SELECT Id,Name,LOB__c,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991abfl@gmail.com'];
+            system.runAs(usr)
+            {
+                Test.startTest(); 
+                ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Wealth"}');
+            }
+            Test.stopTest();
+            Integer count = [SELECT Count() FROM Account];
+            Assert.areEqual(count, 1);
+        }     
+    
 }

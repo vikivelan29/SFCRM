@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>TriggerBatchSize__c</field>
-        <value xsi:type="xsd:double">200.0</value>
+        <value xsi:type="xsd:double">40.0</value>
     </values>
     <values>
         <field>TriggerEnabled__c</field>

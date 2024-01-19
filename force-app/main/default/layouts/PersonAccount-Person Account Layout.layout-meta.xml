@@ -29,8 +29,8 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>PersonMobilePhone</field>
+                <behavior>Readonly</behavior>
+                <field>Mobile__pc</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
