@@ -72,6 +72,13 @@
         <value>Please select Customer to process SR type search.</value>
     </labels>
     <labels>
+        <fullName>ASF_Default_Reopen_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Reopen Reason for Email2Case</shortDescription>
+        <value>Customer Email</value>
+    </labels>
+    <labels>
         <fullName>ASF_Email_Bot_Feedback_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
