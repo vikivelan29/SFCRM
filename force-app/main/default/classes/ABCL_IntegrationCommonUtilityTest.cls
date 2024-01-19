@@ -49,7 +49,7 @@ public class ABCL_IntegrationCommonUtilityTest {
     
     @IsTest
     static void testCreatePELogAndinvokeCommPEevent(){
-        List<Case> caseRecords = [SELECT Id, AccountId, CCC_External_Id__c, ContactId FROM Case LIMIT 1];
+        List<Case> caseRecords = [SELECT Id, AccountId, CCC_External_Id__c, ContactId,No_Auto_Communication__c FROM Case LIMIT 1];
         Test.startTest();
         	Database.SaveResult eventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords[0], 'dev_01', 'Dev_02', true);
         Test.stopTest();
