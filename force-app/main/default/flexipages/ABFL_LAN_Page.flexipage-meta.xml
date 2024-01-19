@@ -806,7 +806,7 @@
                             <value>Case.Framework_Snapshot</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Is_FTR</value>
+                            <value>Case.FTR__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.NewChildCase</value>
