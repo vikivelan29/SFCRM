@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Payments</value>
     </values>
     <values>
+        <field>Source_Code__c</field>
+        <value xsi:type="xsd:string">00</value>
+    </values>
+    <values>
         <field>Source__c</field>
         <value xsi:type="xsd:string">Branch</value>
     </values>

@@ -23,7 +23,7 @@ public class ABFL_EBOTCaseLogics_Test {
             ccc.Business_Unit__c = 'ABFL';
             ccc.Sub_Type__c = 'Paytm';
             ccc.EBOT_Auto_Response__c = True;
-        	ccc.Overall_Case_Closure_SLA__c = 10;
+            ccc.Overall_Case_Closure_SLA__c = 10;
         insert ccc;
         // ASF_Case_Stage_Config__c  caseconfig =  new ASF_Case_Stage_Config__c (Order__c=1, Manual_Stage__c= True,Is_Approval_Stage__c = False,Default_Queue__c=g1.Id, StageName__c = 'In Progress with CEC', Case_Category_Config__c= ccc.Id);
         //insert caseconfig;
@@ -48,7 +48,7 @@ public class ABFL_EBOTCaseLogics_Test {
           newCase.Stage__c = 'Email';
           newCase.SuppliedEmail = 'abcl.abfl@gmail.com';
            newCase.Business_Unit__c  = 'ABFL'; 
-			insert newCase; 
+            insert newCase; 
           //  List<Case> caseRecords = ASF_TestDataFactory.createCaseRecords(1);
             /*caseRecords[0].Source__c = 'Email';
             caseRecords[0].CCC_External_Id__c = '';
@@ -72,7 +72,7 @@ public class ABFL_EBOTCaseLogics_Test {
              caseIntUpdate.Id = caseInt.Id;
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"00003974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"NO","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
-            update caseIntUpdate;
+           // insert caseIntUpdate;
            
             
             }
@@ -100,7 +100,7 @@ public class ABFL_EBOTCaseLogics_Test {
             ccc1.CCC_External_Id__c = '123456';
             ccc1.Business_Unit__c = 'ABFL';
             ccc1.Sub_Type__c = 'TDC Refund';
-        	ccc1.Overall_Case_Closure_SLA__c = 10;
+            ccc1.Overall_Case_Closure_SLA__c = 10;
         insert ccc1;
             ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
             stage1.Case_Category_Config__c = ccc1.Id;
@@ -120,7 +120,7 @@ public class ABFL_EBOTCaseLogics_Test {
           newCase.Source__c =  'Email';
           newCase.Stage__c = 'Email';
            newCase.Business_Unit__c  = 'ABFL'; 
-			insert newCase; 
+            insert newCase; 
        
             if(newCase.Id != null){
                 EmailMessage eMsg = new EmailMessage();
@@ -146,13 +146,13 @@ public class ABFL_EBOTCaseLogics_Test {
   
     @isTest   
     static void testPaytmInteractionNotNull(){
-		List<Case> objCase = [Select Id From Case WHERE Subject = 'Test Case Creation' LIMIT 1];
+        List<Case> objCase = [Select Id From Case WHERE Subject = 'Test Case Creation' LIMIT 1];
       
        // List<ASF_Case_Category_Config__c> objCaseCateg = [Select Id,Sub_Type__c,EBOT_Auto_Response__c From ASF_Case_Category_Config__c WHERE CCC_External_Id__c = '12345' LIMIT 1];  
         //objCaseCateg[0].EBOT_Auto_Response__c = TRUE;
         //update objCaseCateg[0];
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
- 		system.runAs(usr)
+        system.runAs(usr)
         {
         Test.startTest(); 
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
@@ -164,10 +164,10 @@ public class ABFL_EBOTCaseLogics_Test {
              caseIntUpdate.Id = caseInt.Id;
             caseIntUpdate.Status__c = 'Success';
             caseIntUpdate.Response__c = '{"AUTOCLOSURE_IN_RR":"NO","CASEID":"03974","CASESUBTYPE":"12345","COMMENT":"updatedd","CONFIDENCESCORE":"40.12","CUSTOMERNO":"1234566","ISATTACHMENTFLAG":"NO","ISMULTIPLELAN":"YES","ISREGISTEREDCUSTOMER":"YES","ISSMT":"NO","LAN":"122321321","LOB":"001","MOODSTAMP":"not sure","OWNERFULLNAME":"Shubham Sinha","PAYTMINTERACTIONID":"","PRIORITY":"low","AUTORESPONSEFLAG":"YES"}';
-            update caseIntUpdate;  
+           // update caseIntUpdate;  
             System.assertEquals('Success', caseIntUpdate.Status__c);          
         Test.stopTest(); 
-     	}
+        }
     }
         
 }

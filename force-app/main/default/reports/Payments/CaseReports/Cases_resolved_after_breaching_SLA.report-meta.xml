@@ -41,7 +41,7 @@
             <columnToColumn>true</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>greaterThan</operator>
-            <value>00NBl0000019UL7</value>
+            <value>00NNy000000myw8</value>
         </criteriaItems>
         <criteriaItems>
             <column>OWNER</column>

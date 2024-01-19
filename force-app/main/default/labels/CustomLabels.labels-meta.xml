@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-    <labels>
+    <labels> 
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -230,14 +230,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email</shortDescription>
-        <value>No Reply Address</value>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>No Reply Address</value>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
         <fullName>Base_URL_for_bitly</fullName>

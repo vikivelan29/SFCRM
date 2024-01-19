@@ -55,6 +55,7 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void updateCase(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         List<Case>lstCase = new List<Case>();
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
+            LIST<Asset> recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
             Case objCase = new Case();
             objCase.Id = caseId;
             objCase.ABFL_Case_Detail__c = caseDetailId;
@@ -62,6 +63,9 @@ public with sharing class ABFL_EBOTCaseLogics {
             objCase.Comments = objResponseBody.COMMENT;
             objCase.Case_Stage_Change_Date__c = system.now();
             objCase.LAN__c =  objResponseBody.LAN != null ? objResponseBody.LAN : '';
+             if(!recAsset.isEmpty()){
+            	objCase.AssetId = recAsset[0].Id;
+            }
             objCase.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             lstCase.add(objCase);
         }
@@ -82,7 +86,7 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void sendEmailAndCaseUpdate(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition'); 
-            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
+            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c,No_Auto_Communication__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
             if(objResponseBody.ISSMT == 'YES'){
                 sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
             }
@@ -93,22 +97,22 @@ public with sharing class ABFL_EBOTCaseLogics {
                 system.debug('emailMessagescase '+emailMessages[0].ToAddress);
                 List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c LIMIT 1];
                 if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True);
                 }
                 else if(checkPaytmInteractionNotNull(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False);
                 }
                 else if(checkLeadSubtype(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False);
                 }
                 else if(checkIsRegisteredCustomerNo(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False);
                 }
                  else if(checkIsRegisteredCustomerYes(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False);
                 }
                 else if(ConfidenceScoreAndSubtypeCheck(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False);
                 }
             }
         }
@@ -127,15 +131,15 @@ public with sharing class ABFL_EBOTCaseLogics {
     * @return - void .
     * @Description - Sends an email to contact and closes the case according to the flow  mentioned on user story PR970457-132
     *****************************************************************************************************************/
-       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String ABFLCaseExtId){
+       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String ABFLCaseExtId,Boolean templateName){
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         if(closed){
             //List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id LIMIT 1];
-            ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
+           /* ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
             objUpdateCaseExt.Id = ABFLCaseExtId;
             objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
-            update objUpdateCaseExt;
+            update objUpdateCaseExt;*/
             Case objCase = new Case();
             objCase.Id = recCase.Id;
             objCase.Stage__c = 'Resolved';
@@ -143,16 +147,21 @@ public with sharing class ABFL_EBOTCaseLogics {
              if(!lstUpdateCase.isEmpty()){
                 Database.SaveResult[] updateResult = Database.update(lstUpdateCase,false); 
                  if(updateResult[0].getId() != null){
-                    //createPELoggerRecords(recCase,caseCategConfig);
+                      //createPELoggerRecords(recCase,caseCategConfig);
                      //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
-                     ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
+                     if(templateName){
+                     ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'Multiple_Lan_Template',null,false);
+                     }
+                     else{
+                     	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
+                     }
                  }
             } 
          }
            else{
                 ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
                 objUpdateCaseExt.Id = ABFLCaseExtId;
-                objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
+                //objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
                 lstUpdateCaseExt.add(objUpdateCaseExt) ;
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 

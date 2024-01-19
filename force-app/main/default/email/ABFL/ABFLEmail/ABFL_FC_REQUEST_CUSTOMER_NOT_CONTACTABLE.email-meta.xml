@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ABFL FC REQUEST CUSTOMER NOT CONTACTABLE</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Your were not reachable to discuss the foreclosure!</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
