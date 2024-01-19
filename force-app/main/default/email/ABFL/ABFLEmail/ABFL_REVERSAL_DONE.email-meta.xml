@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL REVERSAL DONE</name>
+    <name>REVERSAL DONE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Reversal of charges on your loan is successful!</subject>

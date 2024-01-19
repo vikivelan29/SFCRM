@@ -2,7 +2,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
-        
+        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
 
@@ -16,23 +16,28 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         
     }
+
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
         
     }
+
     public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
-            }
+        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
+    }
     // INSERT CONTEXT - ENDS HERE
     
     // UPDATE CONTEXT - ENDS HERE
     public override void executeBeforeASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeBeforeASFCodeInBeforeUpdate');
-            }
+        ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+    }
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInBeforeUpdate');
-            }
+        ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+    }
     public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeBeforeASFCodeInAfterUpdate');
     }

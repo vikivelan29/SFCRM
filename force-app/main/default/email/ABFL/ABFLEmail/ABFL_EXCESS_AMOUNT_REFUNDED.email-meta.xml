@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL EXCESS AMOUNT REFUNDED</name>
+    <name>EXCESS AMOUNT REFUNDED</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Refund of exceed amount successful!</subject>

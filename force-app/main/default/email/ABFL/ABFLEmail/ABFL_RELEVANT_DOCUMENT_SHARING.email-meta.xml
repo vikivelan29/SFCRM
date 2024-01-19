@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL RELEVANT DOCUMENT SHARING</name>
+    <name>RELEVANT DOCUMENT SHARING</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Here&apos;s the __________ you asked for!</subject>

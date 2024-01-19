@@ -126,40 +126,77 @@
 				}
 	</style>
 </head>
-<body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">Dear Customer,<br />
-<br />
-Greetings from Aditya Birla Finance Limited.<br />
-<br />
-You can access the ABC Portal using the below steps.
-<ul>
-	<li>Website : &nbsp;https://finlogin.adityabirlacapital.com/Pages/Secured/OneABC/Login.aspx</li>
-	<li>Click on Login on Top Right corner of the web page</li>
-	<li>Click on Register (Existing Customer, but don’t have a login to ABC)</li>
-	<li>Select Personal Finance</li>
-	<li>Enter you Pan No &amp; Date of Birth</li>
-	<li>Confirm your Email Id/ Mobile Number</li>
-	<li>Click on Generate OTP</li>
-	<li>OTP will be generated</li>
-	<li>Create your Login ID and Password using the OTP</li>
-</ul>
-Kindly share the screenshot of the error in case you are facing any to investigate further.<br />
-<br />
-Please note, your attachments are protected with unique password. The first four letters of your password are the first 4 letters of your name followed by your date, month and year of birth (in DDMMYY format) in UPPERCASE for individual and first four letters of company name followed by last four characters of PAN number for organization.<br />
-<br />
-For Example:<br />
-<br />
-If your name is Niket Shah and date of birth is 22/02/1981, the password will be NIKE220281.<br />
-<br />
-If your name is N. Shah and date of birth is 22/02/1981, the password will be NSHA220281.<br />
-<br />
-If company name is M/S TestOrg and PAN is BRWPB0479G, the password would be MSTE479G.<br />
-<br />
-We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
-<br />
-Thank you for reaching out to us. Assuring you of our best services always.<br />
-<br />
-Note - Please DO NOT edit the subject line while responding to us on this case.<br />
-<br />
-Warm regards,<br />
-Aditya Birla Finance Limited</body>
+<body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
+	
+		<tr>
+			<td align="center" class="pc-email-body-inner" valign="top">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" class="pc-email-container" style="margin: 0 auto; max-width: 620px;background: #fff;border: 1px solid;" width="100%">
+				
+					<tr>
+						<td align="left" style="padding:0px;" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							
+								<tr>
+									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										
+											<tr>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
+												<br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
+												&nbsp;<br />
+												You can access the ABC Portal using the below steps.
+												<ul>
+													<li>Website: &nbsp;https://finlogin.adityabirlacapital.com/Pages/Secured/OneABC/Login.aspx</li>
+													<li>Click on Login on the Top Right corner of the web page</li>
+													<li>Click on Register (Existing Customer, but doesn’t have a login to ABC)</li>
+													<li>Select Personal Finance</li>
+													<li>Enter your Pan No &amp; Date of Birth</li>
+													<li>Confirm your Email Id/ Mobile Number</li>
+													<li>Click on Generate OTP</li>
+													<li>OTP will be generated</li>
+													<li>Create your Login ID and Password using the OTP</li>
+												</ul>
+												Kindly share the screenshot of the error in case you are facing any to investigate further.<br />
+												<br />
+												Please note, that your attachments are protected with a unique password. The first four letters of your password are the first 4 letters of your name followed by your date, month, and year of birth (in DDMMYY format) in UPPERCASE for individuals&nbsp;and the first four letters of your company name followed by the last four characters of PAN number for organization.<br />
+												<br />
+												For Example:<br />
+												<br />
+												If your name is Niket Shah and your date of birth is 22/02/1981, the password will be NIKE220281.<br />
+												<br />
+												If your name is N. Shah and your date of birth is 22/02/1981, the password will be NSHA220281.<br />
+												<br />
+												If the company name is M/S TestOrg and the PAN is BRWPB0479G, the password would be MSTE479G.<br />
+												<br />
+												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
+												<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
+												<br />
+												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
+												<br />
+												Warm regards,<br />
+												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
+												</td>
+											</tr>
+										
+									</table>
+									</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
 </html>

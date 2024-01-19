@@ -142,9 +142,6 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
-											</tr>
-											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
@@ -152,7 +149,7 @@
 												&nbsp;<br />
 												The reference number for this request is {{{Case.CaseNumber}}}.<br />
 												<br />
-												While our endeavour would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}}, we request you to extend us 7 more working days to review and provide the confirmation.<br />
+												While our endeavor would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}}, we request you to extend us 7 more working days to review and provide the confirmation.<br />
 												<br />
 												We regret any inconvenience caused to you and appreciate your patience.<br />
 												<br />
@@ -165,7 +162,6 @@
 												Note - Please DO NOT edit the subject line while responding to us on this case<br />
 												<br />
 												Warm Regards,<br />
-												<br />
 												<strong><span style="color:#c0392b;">Aditya Birla Finance Limited</span></strong></div>
 												</td>
 											</tr>
