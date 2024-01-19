@@ -133,7 +133,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     //Update Document URL on ABFL Case detail, proceed to next stage.
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
-                                            Resolution_Comments__c = 'Resolved')
+                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
                     );
                     isUpdateCase = true;
                 }
@@ -142,7 +142,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     isUpdateCase = true;
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
-                                            Resolution_Comments__c = 'Resolved')
+                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
                     );
                 }
 
@@ -176,7 +176,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
 
             //Create Case
             if(Schema.sObjectType.Case.isCreateable()) {
-                insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = 'API', 
+                insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = ABFL_Constants.API, 
                                 parentId = caseRec.Id, AssetId = caseRec.AssetId,
                                 Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
                                 Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
