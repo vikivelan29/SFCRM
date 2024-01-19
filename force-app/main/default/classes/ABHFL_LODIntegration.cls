@@ -101,6 +101,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
             response.status = ABHFL_Constants.SUCCESS;

@@ -52,4 +52,5 @@ public with sharing class ABHFL_Constants {
     public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
+    public static final String REPORTING_SERVICE = 'ReportingService';
 }
