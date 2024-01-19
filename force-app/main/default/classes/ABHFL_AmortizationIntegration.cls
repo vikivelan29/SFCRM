@@ -5,7 +5,7 @@
 *@Last Modified:  12/14/2023
 *@description  :  Class for Amortization STP integration. 
 *********************************************************/
-public without sharing  class ABHFL_AmortizationIntegration implements ASF_IntegrationInvocable {
+public with sharing  class ABHFL_AmortizationIntegration implements ASF_IntegrationInvocable {
   /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
@@ -16,11 +16,11 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
     
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        result.status = 'Error';
-        result.response = 'Evaluation Failed, cannot retrieve Amortization Letter';
+        result.status = ABHFL_Constants.ERROR;
+        result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateFailure').Message__c;
         
         Case caseRecord = [
-            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c
+            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
@@ -38,19 +38,19 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
                     cccRecord[0].Rejected_Case_SMS_Metadata__c,
                     false
               );
-      // Set wrapper response and status if evaluation is failure
-            result.status = 'Error';
-            result.response = 'Loan is Disbursed Partially, cannot fetch Amortization Letter. Closing the Case.';
+      		// Set wrapper response and status if evaluation is failure
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('AMORT_Evaluate_Disbursed_Partially').Message__c;
             caseRecord.MoveToNext__c = true;
             
-            if(Schema.sObjectType.Case.isUpdateable()){
+            if(Schema.sObjectType.Case.isUpdateable() && caseRecord.Source__c == 'API'){
                 update caseRecord;
             } 
             
           }
       } else {
-        result.status = 'Success';
-        result.response = 'Evaluation Success, Submit to get the Amortization Letter.';
+        result.status = ABHFL_Constants.SUCCESS;
+        result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
       }
   return result;
     }
@@ -68,8 +68,8 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
                                                                AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
         if(existingCaseIntRecords.size()>0){
           for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-                if(caseInt.Status__c == 'Pending'){
-                   caseInt.Status__c = 'Canceled';  
+                if(caseInt.Status__c == ABHFL_Constants.PENDING){
+                   caseInt.Status__c = ABHFL_Constants.CANCELED;  
                 }
             }
             
@@ -78,20 +78,21 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
             }
                        
         }
-
+		Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
-        response.status = 'Success';
+        response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
-        caseInteg.Status__c='Pending';
+        caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c)); 
+        caseInteg.Status__c = ABHFL_Constants.PENDING;
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg; 
         }
         
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
@@ -101,9 +102,9 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
         if(publishResult.isSuccess()){
-            response.status = 'Success';
+            response.status = ABHFL_Constants.SUCCESS;
         }else{
-            response.status = 'Error';
+            response.status = ABHFL_Constants.ERROR;
         }
         return response;
     }      
@@ -122,7 +123,7 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
               FROM Case
               WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
            ]; 
-        if(caseInteg.Status__c=='Success' && caseRec!=null){
+        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
           Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
       if(isTransferred){
                  integrationFailure = false;
@@ -134,9 +135,9 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
                                                                 cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
                  caseRec.MoveToNext__c = true;
                  update caseRec;        
-            }else if(caseRec.Source__c != 'Branch'){
-                        ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Amortization Letter', 'STP Document Retrieval Failure');
-                      Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team'  WITH SECURITY_ENFORCED Limit 1];
+            }else if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                        ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+                      Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  WITH SECURITY_ENFORCED Limit 1];
                         caseRec.OwnerId = csQueue.Id;
                         
                         if(Schema.sObjectType.Case.isUpdateable()){
@@ -146,17 +147,17 @@ public without sharing  class ABHFL_AmortizationIntegration implements ASF_Integ
         }
         if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
               caseRec.ABHFL_Case_Detail__r.STP_Failure__c = integrationFailure;
-              if(caseRec.Source__c != 'Branch'){
-                 Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team'  WITH SECURITY_ENFORCED Limit 1];
+              if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                 Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  WITH SECURITY_ENFORCED Limit 1];
                         caseRec.OwnerId = csQueue.Id;
                         
                         if(Schema.sObjectType.Case.isUpdateable()){
                              update caseRec;
                         } 
                         
-                   ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Amortization Letter', 'STP Document Retrieval Failure');
-             }else if(caseRec.Source__c == 'Branch'){
-                   ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Amortization Letter', 'STP Document Retrieval Failure');
+                   ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+             }else if(caseRec.Source__c == ABHFL_Constants.BRANCH){
+                   ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
            }
         }
     }
