@@ -16,6 +16,11 @@
                 <default>false</default>
                 <label>Invalid information</label>
             </value>
+            <value>
+                <fullName>Closed as Exception</fullName>
+                <default>false</default>
+                <label>Closed as Exception</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
