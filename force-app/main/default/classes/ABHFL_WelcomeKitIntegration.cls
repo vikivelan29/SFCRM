@@ -144,8 +144,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
                            MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c ,No_Auto_Communication__c
                            FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
-                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c 
-                           FROM Case WHERE Id=:caseInteg.Case__c];
+                           
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred)
