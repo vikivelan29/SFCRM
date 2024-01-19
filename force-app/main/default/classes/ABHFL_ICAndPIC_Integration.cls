@@ -129,7 +129,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Boolean integrationFailure = true;
         Boolean isTransferred = False;
         Boolean previousStatus;
-        Case caseRecord = [SELECT Id,AccountId,ContactId,Source__c,Sub_Type_Text__c,CCC_External_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
+        Case caseRecord = [SELECT Id,AccountId,ContactId,Source__c,Sub_Type_Text__c,CCC_External_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
                            FROM Case WHERE Id =: caseInt.Case__c WITH SECURITY_ENFORCED];
         
         String caseSubType = caseRecord.Sub_Type_Text__c;
