@@ -237,7 +237,7 @@ public without sharing class ASF_CaseManualStageController {
             }
             queueList =[select Id,Name, Type from Group Where Type ='queue'];
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw new AuraHandledException(e.getMessage()); 
         }
         return queueList;
     }
