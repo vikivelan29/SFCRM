@@ -13,7 +13,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
         astRec.LAN__c = 'Test';
         astRec.Branch__c = branchMstr.Id;
         astRec.Last_Disbursement_Date__c = Date.Today();
-        astRec.Loan_Disbursement_Status__c = 'Complete';
+        astRec.Loan_Disbursement_Status__c = 'Fully';
         update astRec;
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();

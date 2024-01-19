@@ -1,15 +1,14 @@
 import { LightningElement, wire, track, api } from 'lwc';
-import {  getRecord, getFieldValue } from 'lightning/uiRecordApi';
+//import {  getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getDataOnLoad from '@salesforce/apex/ASF_ClosedMilestoneTimeController.getDataOnLoad';
-import getDataOnLoadSLA from '@salesforce/apex/ASF_StageBasedMilestoneTimerController.getDataOnLoad';
-import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
-import CASE_CLOSE_SLA from '@salesforce/schema/Case.Overall_Case_Closure_SLA__c';
-import CASE_STAGE_SLA_1 from '@salesforce/schema/Case.Stage_SLA_1__c';
-import fetchCase from '@salesforce/schema/Case.CaseNumber';
+//import getDataOnLoadSLA from '@salesforce/apex/ASF_StageBasedMilestoneTimerController.getDataOnLoad';
+// import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
+// import CASE_CLOSE_SLA from '@salesforce/schema/Case.Overall_Case_Closure_SLA__c';
+// import CASE_STAGE_SLA_1 from '@salesforce/schema/Case.Stage_SLA_1__c';
+// import fetchCase from '@salesforce/schema/Case.CaseNumber';
 import { registerListener, unregisterAllListeners } from 'c/asf_pubsub';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
-import { refreshApex } from '@salesforce/apex';
-const fields = [CASE_STAGE,CASE_CLOSE_SLA,CASE_STAGE_SLA_1,fetchCase];
+//const fields = [CASE_STAGE,CASE_CLOSE_SLA,CASE_STAGE_SLA_1,fetchCase];
 
 export default class ASF_caseClosureandMilestonePath extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -29,54 +28,112 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
     stageWithin;
     stageOutside;
     
-    @wire(getRecord, { recordId: '$recordId', fields })
-    caseObj;
-    get caseStage() {
-        return getFieldValue(this.caseObj.data, CASE_STAGE);
-    } 
-    get caseCloseSLA() {
-        return getFieldValue(this.caseObj.data, CASE_CLOSE_SLA);
-    } 
-    get caseStageSLA1() {
-        return getFieldValue(this.caseObj.data, CASE_STAGE_SLA_1);
-    } 
-    get numberCase(){
-        return getFieldValue(this.caseObj.data, fetchCase);
+    // @wire(getRecord, { recordId: '$recordId', fields })
+    // caseObj;
+    // get caseStage() {
+    //     return getFieldValue(this.caseObj.data, CASE_STAGE);
+    // } 
+    // get caseCloseSLA() {
+    //     return getFieldValue(this.caseObj.data, CASE_CLOSE_SLA);
+    // } 
+    // get caseStageSLA1() {
+    //     return getFieldValue(this.caseObj.data, CASE_STAGE_SLA_1);
+    // } 
+    // get numberCase(){
+    //     return getFieldValue(this.caseObj.data, fetchCase);
+    // }
+
+    async loadData(){
+        let slaMap = await getDataOnLoad({caseId: this.recordId}).catch(error=>{console.log(error)});
+        if(slaMap){
+            if(slaMap.overall){
+                let data = slaMap.overall;
+                if( data.leftTotalSec && data.leftTotalSec > 0){
+                    this.totalLeftMilliseconds = data.leftTotalSec;
+                }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
+                    this.totalOverdueMilliseconds = data.overdueTotalSec;
+                }
+                
+                clearInterval(this.timerId);
+                
+                if(data?.businessHourWorking){
+                    this.start();
+                }else{
+                    if(this.totalLeftMilliseconds >= 1000){
+                        this.timer = this.msToTime(this.totalLeftMilliseconds);
+                        this.timer = this.timer + 'left';
+                        this.within = true;
+                    this.outside = false;
+                    }else if(this.totalOverdueMilliseconds >= 1000){
+                        this.timer = this.msToTime(this.totalOverdueMilliseconds);
+                        this.timer = this.timer + 'overdue';
+                        this.outside = true;
+                        this.within = false;
+                    } 
+                }
+            }
+            if(slaMap.stage){
+                let data = slaMap.stage;
+                if( data.leftTotalSec && data.leftTotalSec > 0){
+                    this.totalLeftMilliseconds1 = data.leftTotalSec;
+                }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
+                    this.totalOverdueMilliseconds1 = data.overdueTotalSec;
+                }
+                
+                clearInterval(this.timerId1);
+                if(data.businessHourWorking){
+                    this.start1();
+                }else{
+                    if(this.totalLeftMilliseconds1 >= 1000){
+                        this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
+                        this.slaTimer = this.slaTimer + 'left';
+                        this.stageWithin = true;
+                        this.stageOutside = false; 
+                    }else if(this.totalOverdueMilliseconds1 >= 1000){
+                        this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
+                        this.slaTimer = this.slaTimer + 'overdue';
+                        this.stageOutside = true;  
+                        this.stageWithin = false;
+                    } 
+                }
+            }
+        }
     }
-     @wire(getDataOnLoad, {caseId: '$recordId',caseStage:'$caseStage'}) 
-    wiredData(result){
-        this.wiredData = result;
-        if(result.data){
-            var data = result.data;
-            console.log('data==',data);
-            if( data.leftTotalSec && data.leftTotalSec > 0){
-                this.totalLeftMilliseconds = data.leftTotalSec;
-            }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-                this.totalOverdueMilliseconds = data.overdueTotalSec;
-            }
+
+    // @wire(getDataOnLoad, {caseId: '$recordId',caseStage:'$caseStage'}) 
+    // wiredData(result){
+    //     this.wiredData = result;
+    //     if(result.data){
+    //         var data = result.data;
+    //         console.log('data==',data);
+    //         if( data.leftTotalSec && data.leftTotalSec > 0){
+    //             this.totalLeftMilliseconds = data.leftTotalSec;
+    //         }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
+    //             this.totalOverdueMilliseconds = data.overdueTotalSec;
+    //         }
             
-            clearInterval(this.timerId);
+    //         clearInterval(this.timerId);
             
-            if(data?.businessHourWorking){
-                this.start();
-            }else{
-                if(this.totalLeftMilliseconds >= 1000){
-                    this.timer = this.msToTime(this.totalLeftMilliseconds);
-                    this.timer = this.timer + 'left';
-                    this.within = true;
-                   this.outside = false;
-                }else if(this.totalOverdueMilliseconds >= 1000){
-                    this.timer = this.msToTime(this.totalOverdueMilliseconds);
-                    this.timer = this.timer + 'overdue';
-                    this.outside = true;
-                    this.within = false;
-                } 
-            }
-        }
-        if(result.error){
-            console.log(result.error);
-        }
-    } 
+    //         if(data?.businessHourWorking){
+    //             this.start();
+    //         }else{
+    //             if(this.totalLeftMilliseconds >= 1000){
+    //                 this.timer = this.msToTime(this.totalLeftMilliseconds);
+    //                 this.timer = this.timer + 'left';
+    //                 this.within = true;
+    //                this.outside = false;
+    //             }else if(this.totalOverdueMilliseconds >= 1000){
+    //                 this.timer = this.msToTime(this.totalOverdueMilliseconds);
+    //                 this.timer = this.timer + 'overdue';
+    //                 this.outside = true;
+    //                 this.within = false;
+    //             } 
+    //         }
+    //     }
+    //     if(result.error){
+    //         console.log(result.error);
+    //     }
+    // } 
     start() {
         this.timerId = setInterval(()=> {
             if(this.totalLeftMilliseconds < 1000 && this.totalLeftMilliseconds > 0){
@@ -107,41 +164,41 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
             
         }, 1000);
     }
-    @wire(getDataOnLoadSLA, {caseId: '$recordId',caseStageSLA1:'$caseStageSLA1'}) 
-    wiredData1(result){
-        console.log('entered');
-        this.wiredData1 = result;
-        if(result.data){
-            console.log('entered?');
-            var data = result.data;
+    // @wire(getDataOnLoadSLA, {caseId: '$recordId',caseStageSLA1:'$caseStageSLA1'}) 
+    // wiredData1(result){
+    //     console.log('entered');
+    //     this.wiredData1 = result;
+    //     if(result.data){
+    //         console.log('entered?');
+    //         var data = result.data;
            
-            if( data.leftTotalSec && data.leftTotalSec > 0){
-                this.totalLeftMilliseconds1 = data.leftTotalSec;
-            }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-                this.totalOverdueMilliseconds1 = data.overdueTotalSec;
-            }
+    //         if( data.leftTotalSec && data.leftTotalSec > 0){
+    //             this.totalLeftMilliseconds1 = data.leftTotalSec;
+    //         }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
+    //             this.totalOverdueMilliseconds1 = data.overdueTotalSec;
+    //         }
             
-            clearInterval(this.timerId1);
-            if(data.businessHourWorking){
-                this.start1();
-            }else{
-                if(this.totalLeftMilliseconds1 >= 1000){
-                    this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
-                    this.slaTimer = this.slaTimer + 'left';
-                    this.stageWithin = true;
-                    this.stageOutside = false; 
-                }else if(this.totalOverdueMilliseconds1 >= 1000){
-                    this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
-                    this.slaTimer = this.slaTimer + 'overdue';
-                    this.stageOutside = true;  
-                    this.stageWithin = false;
-                } 
-            }
-        }
-        if(result.error){
-            console.log(result.error);
-        }
-    }
+    //         clearInterval(this.timerId1);
+    //         if(data.businessHourWorking){
+    //             this.start1();
+    //         }else{
+    //             if(this.totalLeftMilliseconds1 >= 1000){
+    //                 this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
+    //                 this.slaTimer = this.slaTimer + 'left';
+    //                 this.stageWithin = true;
+    //                 this.stageOutside = false; 
+    //             }else if(this.totalOverdueMilliseconds1 >= 1000){
+    //                 this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
+    //                 this.slaTimer = this.slaTimer + 'overdue';
+    //                 this.stageOutside = true;  
+    //                 this.stageWithin = false;
+    //             } 
+    //         }
+    //     }
+    //     if(result.error){
+    //         console.log(result.error);
+    //     }
+    // }
     start1() {
         this.timerId1 = setInterval(()=> {
             if(this.totalLeftMilliseconds1 < 1000 && this.totalLeftMilliseconds1 > 0){
@@ -173,17 +230,16 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
     }
     connectedCallback(){
         //Currently refreshing through the casePath1 component using refreshView
-        //registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
+        registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
+        console.log('in SLA connected callback');
+        this.loadData();
     }
     @wire(CurrentPageReference) pageRef;
 
     handlePublishedMessage(payload) {
         console.log('handlePublishedMessage of case SLA');
         if (this.recordId == payload.recordId) {
-            setTimeout(()=>{
-                console.log('calling refresh apex twice now in sla');
-                refreshApex(this.caseObj);
-            }, 1000);
+            this.loadData();
         }
     }
     disconnectedCallback(){

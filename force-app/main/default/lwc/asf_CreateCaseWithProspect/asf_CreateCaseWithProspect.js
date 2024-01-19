@@ -87,7 +87,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }, this.doneTypingInterval);
     }
     SearchAccountHandler() {
-        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null })
+        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;

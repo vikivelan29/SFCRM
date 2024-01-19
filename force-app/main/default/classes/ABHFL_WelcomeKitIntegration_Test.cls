@@ -75,9 +75,7 @@ public class ABHFL_WelcomeKitIntegration_Test {
     
     @IsTest
     static void testEvaluate(){
-        //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-        //System.runAs(uList[0]){
-         	ABHFL_WelcomeKitIntegration wcStp = new ABHFL_WelcomeKitIntegration();
+        	ABHFL_WelcomeKitIntegration wcStp = new ABHFL_WelcomeKitIntegration();
             Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case WHERE Source__c !='Welcome BOT' LIMIT 1];
             Case caseRecord1 = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case WHERE Source__c ='Welcome BOT' LIMIT 1];
             ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = wcStp.evaluate(caseRecord);
@@ -89,28 +87,23 @@ public class ABHFL_WelcomeKitIntegration_Test {
             update astRecord;
             ASF_IntegrationsController.IntegrationWrapper evaluateFailure = wcStp.evaluate(caseRecord);
             ASF_IntegrationsController.IntegrationWrapper evaluateFailure1 = wcStp.evaluate(caseRecord1);
-            System.assertEquals('Success',successfulEvaluate.Status);
-            System.assertEquals(null,EvaluateFailure.Status);   
-        //}        
+        	
+            System.assertEquals('Success',successfulEvaluate.status);
+            System.assertEquals('Error',evaluateFailure1.status);   
     }
     
     @IsTest
     static void testRun(){
-        //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-        //System.runAs(uList[0]){
             ABHFL_WelcomeKitIntegration wcStp = new ABHFL_WelcomeKitIntegration();
             Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c, Asset.Lan__c from Case limit 1];
             ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper wrap = new ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c);
             ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
             ASF_IntegrationsController.IntegrationWrapper integrationResponse = wcStp.run(integRecord,caseRecord);
             System.assertEquals('Success',integrationResponse.Status);
-        //}
     }
     
     @IsTest
     static void testProcessResponse(){
-        //List<User> uList = [SELECT Id FROM User WHERE Email='standarduser@testorg.com'];
-        //System.runAs(uList[0]){
             ABHFL_WelcomeKitIntegration wcStp = new ABHFL_WelcomeKitIntegration();
             ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c WHERE Case__r.Source__c ='Welcome BOT'];
             integRecord.Status__c = 'Success';
@@ -119,7 +112,6 @@ public class ABHFL_WelcomeKitIntegration_Test {
             Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
             Case caseRec = [Select id,OwnerId from Case where id =: integRecord.Case__c ];
             System.assertEquals(csQueue.Id,caseRec.OwnerId);
-        //}
     }
 
 }
