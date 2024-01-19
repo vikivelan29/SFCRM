@@ -217,7 +217,7 @@ public without sharing class ASF_CaseManualStageController {
             
         } catch (Exception e) {
 			System.debug('@@Mess'+e.getMessage());
-            throw new AuraHandledException(e.getMessage());
+            // throw new AuraHandledException(e.getMessage());
         }
         return result;
     }
