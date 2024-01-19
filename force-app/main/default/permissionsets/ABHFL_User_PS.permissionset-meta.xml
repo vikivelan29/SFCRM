@@ -45,6 +45,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHFL_Case_Detail__c.Payment_Link_Trigger_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.As_On_Date__c</field>
         <readable>true</readable>
