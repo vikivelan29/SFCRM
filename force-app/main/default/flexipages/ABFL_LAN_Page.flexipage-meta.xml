@@ -937,24 +937,6 @@
                 <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>buttonlabel</name>
-                    <value>Get Customer Info</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>metadata</name>
-                    <value>RTL_RealTime_BasicCustInfo</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>type</name>
-                    <value>Button</value>
-                </componentInstanceProperties>
-                <componentName>abfl_retailPanel</componentName>
-                <identifier>c_abfl_retailPanel</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
