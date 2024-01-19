@@ -6,14 +6,14 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
-	
+    
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - transferAttachments
     * @param caseIntegration - case integration record
     * @return - Boolean .
     * @description - Transfers Attachments from ASF_Case_Integration__c to Case
-	*****************************************************************************************************************/       
+    *****************************************************************************************************************/       
     public static Boolean transferAttachments(ASF_Case_Integration__c caseIntegration){
         Boolean isSuccess = true;
         List<ContentDocumentLink> relatedAttachments = [Select LinkedEntityId,ContentDocumentId from ContentDocumentLink 
@@ -32,7 +32,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             
             List<ContentVersion> contentList = [Select id from ContentVersion where ContentDocumentId in: contentDocumentIds WITH SECURITY_ENFORCED];
             for(ContentVersion file : contentList){
-				file.IsSTP__c = true;
+                file.IsSTP__c = true;
             }
             
             Database.SaveResult[] updateResult = Database.update(contentList,false);
@@ -79,13 +79,14 @@ public with sharing class ABCL_IntegrationCommonUtility {
         peLogger.Status__c = 'Pending';
         peLogger.CustomMetadataName__c = smsMetadata;
         peLogger.Email_Template_Name__c = emailTemplate;
+        peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c; 
         if(isTransferred){
             peLogger.Is_Attachment__c = true;
             //peLogger.Content_Version_Ids__c='0689I000001DJPFQA4';
         }
         if(Schema.sObjectType.PE_Logger__c.isCreateable())
         {
-        	insert peLogger;    
+            insert peLogger;    
         }
         
         Database.SaveResult eventResult = invokeCommunicationLogPlatformEvent(caseRec, peLogger);        
@@ -125,7 +126,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         recepientIds.add(caseRec.CreatedById);
         Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
         CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
-                                                            WHERE DeveloperName = 'Case_Assignment_Change' Limit 1];
+                                                            WHERE DeveloperName = 'Case_Assignment_Change' WITH SECURITY_ENFORCED Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
         }
