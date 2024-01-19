@@ -80,7 +80,7 @@
                 <identifier>RecordAccountNumberField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
+        <!-- <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -89,7 +89,7 @@
                 <fieldItem>Record.Salutation__pc</fieldItem>
                 <identifier>RecordSalutation_pcField</identifier>
             </fieldInstance>
-        </itemInstances>
+        </itemInstances> -->
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
