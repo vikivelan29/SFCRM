@@ -265,29 +265,63 @@ public class ASF_CaseMovementHelper {
                 nextStageConfig = config;
             }
         }
-
-        resultWrapper.nextStageConfig = nextStageConfig;
-
-        ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo assignmentInfo = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCaseRec, requestedStage);
-        resultWrapper.ownerId = assignmentInfo.defaultOwnerId;
-        resultWrapper.errorOwnerId = assignmentInfo.defaultErrorOwnerId;
+        // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
+        List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(new Set<String>{currentCaseRec.CCC_External_Id__c});
         
-        // If Owner Id not found, find by regular method
-        if(resultWrapper.ownerId == null){
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo rulesAssignmentInfo = ASF_CaseMovementHelper.getAssignmentForStage(currentCaseRec, requestedStage);
-            resultWrapper.ownerId = rulesAssignmentInfo.defaultOwnerId;
-            resultWrapper.errorOwnerId = rulesAssignmentInfo.defaultErrorOwnerId;
+        
+        // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.Query_Fields__c != null){
+                allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            }
         }
         
-        Case updatedCase = new Case(Id = currentCaseRec.Id);
-        updatedCase.Stage__c = requestedStage;
-        updatedCase.Status = nextStageConfig.Status_Mapping__c;
-        //currentCaseRec.pending_clarification__c = true;
-        // currentCaseRec.FTR__c = false; //need clarity on this field usage
-        resultWrapper.caseToBeUpdated = updatedCase;
-        resultWrapper.status = 'Success';
-        //resultWrapper.data = dataWrapper;
+        if(allFields.size() == 0){
+            resultWrapper.errorMessage = 'Query Fields not Found on Stage Config';
+            return resultWrapper;
+        }
         
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCaseRec.Id);
+        
+
+        List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
+        for(ASF_Case_Rule__c caseRule : allCaseRules){
+            if(caseRule.Case_Stage_Config__c == nextStageConfig.Id){
+                caseRulesForStage.add(caseRule);
+            }
+        }
+        
+        Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(queriedCaseRecord, caseRulesForStage);
+        System.debug('***isStageMovementValid'+isStageMovementValid);
+        
+        if(isStageMovementValid){
+
+            resultWrapper.nextStageConfig = nextStageConfig;
+
+            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo assignmentInfo = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCaseRec, requestedStage);
+            resultWrapper.ownerId = assignmentInfo.defaultOwnerId;
+            resultWrapper.errorOwnerId = assignmentInfo.defaultErrorOwnerId;
+            
+            // If Owner Id not found, find by regular method
+            if(resultWrapper.ownerId == null){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo rulesAssignmentInfo = ASF_CaseMovementHelper.getAssignmentForStage(currentCaseRec, requestedStage);
+                resultWrapper.ownerId = rulesAssignmentInfo.defaultOwnerId;
+                resultWrapper.errorOwnerId = rulesAssignmentInfo.defaultErrorOwnerId;
+            }
+            
+            Case updatedCase = new Case(Id = currentCaseRec.Id);
+            updatedCase.Stage__c = requestedStage;
+            updatedCase.Status = nextStageConfig.Status_Mapping__c;
+            //currentCaseRec.pending_clarification__c = true;
+            // currentCaseRec.FTR__c = false; //need clarity on this field usage
+            resultWrapper.caseToBeUpdated = updatedCase;
+            resultWrapper.status = 'Success';
+            //resultWrapper.data = dataWrapper;
+        }else{
+            resultWrapper.status = 'Error';
+            resultWrapper.errorMessage = 'Case is not eligible to enter '+requestedStage+' stage';
+        }
         return resultWrapper;
     }
     

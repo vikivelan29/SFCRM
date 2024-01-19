@@ -71,6 +71,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
             
             //Validation methods
+            ASF_CaseTriggerModularHelper.validateRecategorizationParameters(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.validateCloseCase(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);

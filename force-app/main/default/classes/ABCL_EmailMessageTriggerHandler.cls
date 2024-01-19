@@ -12,6 +12,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
 
         // VIRENDRA - CODE TO SET WINNING EMAIL ADDRESS.
         ASF_Email2CaseHandler.setPriorityEmailAddress(newItems);
+        ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
     }
     
     

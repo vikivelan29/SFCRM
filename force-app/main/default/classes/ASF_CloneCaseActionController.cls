@@ -238,10 +238,83 @@ public with sharing class ASF_CloneCaseActionController {
         }
     }
 
+    @AuraEnabled
+    public static CaseDetailWrapper createCloneCaseV2(Case cloneCaseRecord, Map<String, SObject> clonedCaseExtnRecords, Id originalCaseId, String assetId){
+        CaseDetailWrapper wrap = new CaseDetailWrapper();
+        try {
+
+            insert clonedCaseExtnRecords.values();
+
+            Case caseRec = [SELECT Id, CCC_External_Id__c, Origin, Nature__c, AccountId, BusinessHoursId, RecordTypeId,Stage__c
+                            //, Customer_Friendly_Verbiage__c 
+                            FROM Case WHERE Id =: originalCaseId LIMIT 1];
+            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, First_Stage__c, 
+                                                    //Reopen_Days__c, Customer_Friendly_Name__c, 
+                                                    ASF_Is_Cloneable__c, Type__c, Sub_Type__c  
+                                                    FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
+            
+            cloneCaseRecord.Cloned_From__c = originalCaseId;
+            //cloneCaseRecord.ASF_Is_Cloneable__c = cccRecs[0].ASF_Is_Cloneable__c; - Moved to case trigger
+            //cloneCaseRecord.Stage__c = cccRecs[0].First_Stage__c; - Moved to case trigger
+            /** Commented the below lines as the fields are not present in ABCL Dev org */
+            //cloneCaseRecord.Reopen_Days__c = cccRecs[0].Reopen_Days__c;
+            //cloneCaseRecord.Type__c = cccRecs[0].Type__c;
+            //cloneCaseRecord.Sub_Type__c = cccRecs[0].Sub_Type__c;
+            //cloneCaseRecord.Customer_Friendly_Verbiage__c = cccRecs[0].Customer_Friendly_Name__c;
+            cloneCaseRecord.ASF_Is_Clone__c = true;
+            cloneCaseRecord.AccountId = caseRec.AccountId;
+            cloneCaseRecord.BusinessHoursId = caseRec.BusinessHoursId;
+            if (assetId != 'NA'){
+                cloneCaseRecord.assetId = assetId;
+            }
+           
+            cloneCaseRecord.RecordTypeId = caseRec.RecordTypeId;
+            for(String objectAPIName : clonedCaseExtnRecords.keySet()){
+                cloneCaseRecord.put(objectAPIName, (Id)clonedCaseExtnRecords.get(objectAPIName).get('Id'));
+            }
+            insert cloneCaseRecord;
+
+            wrap.caseRecord = cloneCaseRecord;
+            wrap.resultFlag = true;
+            return wrap;
+        } catch (Exception e) {
+            AuraHandledException ex = new AuraHandledException(e.getMessage());
+            ex.setMessage(e.getMessage());
+            throw ex;
+        }
+
+    }    
+
+    @AuraEnabled(Cacheable=true)
+    public static BooleanWithReasonWrapper isCaseCloneableV2(Id caseId){
+        BooleanWithReasonWrapper wrap = new BooleanWithReasonWrapper();
+        try {
+            Case caseRec = [SELECT Id, CCC_External_Id__c,accountId FROM Case WHERE Id =: caseId LIMIT 1];
+            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, ASF_Is_Cloneable__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
+            if(cccRecs.isEmpty()){
+                AuraHandledException e = new AuraHandledException('Case Category Config is invalid');
+                e.setMessage('Case Category Config is invalid');
+                throw e;
+            }
+            wrap.resultFlag = cccRecs[0].ASF_Is_Cloneable__c;
+            wrap.accountId = caseRec.accountId; 
+            if(wrap.resultFlag == false){
+                wrap.reasonIfFalse = 'Case is not configured as cloneable, please contact System Administrator';
+            }
+            return wrap;
+        } catch (Exception e) {
+            System.debug(e.getMessage());
+            AuraHandledException ex = new AuraHandledException(e.getMessage());
+            ex.setMessage(e.getMessage());
+            throw ex;
+        }
+    }
+
     /** Wrapper classes */
     @TestVisible class BooleanWithReasonWrapper{
         @AuraEnabled public Boolean resultFlag{get;set;}
         @AuraEnabled public String reasonIfFalse{get;set;}
+        @AuraEnabled public String accountId{get;set;}
     }
 
     @TestVisible class FieldWrapper{

@@ -2,7 +2,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
     public static ASF_CaseMovementHelper.CaseAdditionalData addlDataFromStageMovementMethods;
-        public static Boolean triggerEncounteredError = false;
+    public static Boolean triggerEncounteredError = false;
     private static Map<Id, Case> caseFinalDMLMap;
 
     /****************************************************************************************************************
@@ -153,6 +153,19 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
     
+    /**
+     * Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
+     */
+    public static void validateRecategorizationParameters(List<Case> newList, Map<Id, Case> oldMap) {
+        for(Case caseRec : newList){
+            if(caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
+                if(caseRec.typeSubTypeMismatch__c == true){
+                    caseRec.addError(Label.RecategorizationError);
+                }
+            }
+        }
+    }
+
     //Applicable only for UI cases, 
     //validates the before rules of entering first stage during case creation and recategorisation
     public static void checkAndValidateFirstStageEntry(List<Case> newList, Map<Id, Case> oldMap) {
@@ -186,8 +199,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(currentStageConfig != null){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
                     if(wrap.status == 'Error'){
-                                                    caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                                            }else{
+                        if(supressErrors){
+                            triggerEncounteredError = true;
+                        }else{
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }
+                    }else{
                         if(wrap.isCaseUpdated == true){
                             Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
@@ -444,7 +461,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues = dataWrapper.slaCaseAndStageOverrideValues;
 
             if(addlDataFromStageMovementMethods != null && addlDataFromStageMovementMethods.allIntegrations != null 
-                && eligibleRecords[0].Technical_Source__c == 'API'){
+                && (eligibleRecords[0].Technical_Source__c == 'API' || eligibleRecords[0].Technical_Source__c == 'Email')){
                 ASF_IntegrationsController.IntegrationWrapper intWrap = ASF_CaseFrameworkHelper.runIntegrations(eligibleRecords[0], addlDataFromStageMovementMethods.allIntegrations);
                 if(intWrap.status == 'Error' && intWrap.assignToId != null){
                     //eligibleRecords[0].OwnerId = intWrap.assignToId;

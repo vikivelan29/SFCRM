@@ -27,7 +27,7 @@ public with sharing class ASF_RecategoriseCaseController {
     @AuraEnabled(Cacheable = true)
     public static Map<String,Object> getCaseRecordDetails( String recId){
         map<String,object> resultMap = new map<String,object>();
-
+		
         Case currentRecord =  [SELECT id,
                                         RecordType.Name,
                                         CCC_External_Id__c,
@@ -118,11 +118,12 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Case_Stage_Change_Date__c = system.now();
         toUpdateCase.Recategorisation_Date__c = system.now();
         toUpdateCase.typeSubTypeMismatch__c = false;
+        toUpdateCase.Type_Sub_Type_Mismatch_Reason__c = null;
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
         toUpdateCase.oldCCCIdFields__c = oldCCCId;
         ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :toUpdateCase.CCC_External_Id__c Limit 1];
-        String currentstageOfCase = cccRecord.First_Stage__c;
-
+        // String currentstageOfCase = cccRecord.First_Stage__c;
+        // toUpdateCase.stage__c = currentstageOfCase;
        /*
        null check is at done at app level and not at DB level. this is because 
        when we do null check at db , indexinf will go for TOSS
@@ -142,7 +143,7 @@ public with sharing class ASF_RecategoriseCaseController {
         }
 
         update slaHistoryToUpdate;
-        toUpdateCase.stage__c = currentstageOfCase;
+        
         
         /*
         Use case 1: From stage and To Stage are same. but no owner change. SLA cnange

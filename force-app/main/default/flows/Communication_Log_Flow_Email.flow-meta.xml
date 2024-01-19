@@ -101,7 +101,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Closed</stringValue>
+                <elementReference>Get_case_config.Resolved_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -161,7 +161,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Open_TAT_Available</stringValue>
+                <elementReference>Get_case_config.New_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -191,7 +191,7 @@
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Rejection_Reason_Available</stringValue>
+                <elementReference>Get_case_config.Rejected_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
