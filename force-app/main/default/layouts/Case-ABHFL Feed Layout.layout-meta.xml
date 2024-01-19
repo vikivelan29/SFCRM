@@ -21,14 +21,6 @@
             <feedFilterType>FeedItemType</feedFilterType>
             <feedItemType>ChangeStatusPost</feedItemType>
         </feedFilters>
-        <feedFilters>
-            <feedFilterName>Case.Emails_Posts</feedFilterName>
-            <feedFilterType>Custom</feedFilterType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterName>Case.Comms</feedFilterName>
-            <feedFilterType>Custom</feedFilterType>
-        </feedFilters>
         <fullWidthFeed>true</fullWidthFeed>
         <hideSidebar>true</hideSidebar>
         <highlightExternalFeedItems>true</highlightExternalFeedItems>
