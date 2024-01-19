@@ -28,7 +28,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         ];
 
          //Checking for mandatory API conditions
-         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null){
+        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null){
             result.status = ABHFL_Constants.SUCCESS;
             result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
          }
@@ -79,6 +79,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Id;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+        caseIntOut.ServiceName__c = 'ReportingService';
         caseIntOut.Request_Payload__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
@@ -105,7 +106,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
         }
 
-        Case caseRec =[SELECT Id, CreatedById, Source__c, OwnerId, status,  AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c, ABHFL_Case_Detail__r.STP_Failure__c   
+        Case caseRec =[SELECT Id, No_Auto_Communication__c, CreatedById, Source__c, OwnerId, status,  AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c, ABHFL_Case_Detail__r.STP_Failure__c   
                            FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec != null && isTransferred ){  
