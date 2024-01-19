@@ -26,7 +26,6 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
             SELECT Litmus_Trigger__c, Litmus_Project__c, Overall_Case_Closure_SLA__c,Business_Unit__c, CCC_External_Id__c
             FROM ASF_Case_Category_Config__c
             WHERE CCC_External_Id__c =:cccExternalId
-            WITH SECURITY_ENFORCED
         ];
         return cccRecordList;
     }
