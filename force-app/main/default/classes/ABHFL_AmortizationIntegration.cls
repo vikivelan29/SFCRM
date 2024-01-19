@@ -22,7 +22,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRecord = [
             SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
             FROM Case
-            WHERE Id =: caseRec.Id
+            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
         //Check for mandatory API conditions & Check for Loan Disbursement Status
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.Asset.Loan_Disbursement_Status__c != null && caseRecord.Asset.Loan_Disbursement_Status__c == 'Partially') {
@@ -84,7 +84,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
-        caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c)); 
+        caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord)); 
         caseInteg.Status__c = ABHFL_Constants.PENDING;
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
@@ -98,8 +98,8 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-	caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c));
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
         if(publishResult.isSuccess()){
@@ -122,7 +122,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
               FROM Case
-              WHERE Id =: caseInteg.Case__c
+              WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
            ]; 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
           Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
@@ -168,9 +168,20 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
     *****************************************************************************************************************/
       public class AmmortRequestWrapper{
         public string lan;
+        public string caseId;
+        public string souce;
+        public string requestType;
+        public string reportName;
+        public string documentType;
         
-        AmmortRequestWrapper(string lanNo){
+        AmmortRequestWrapper(string lanNo,Case caseRec){
             this.lan = lanNo;
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
+            this.lan = lanNo;
+            this.reportName = 'RepaymentSchedule';
+            this.documentType = ABHFL_Constants.BINARY_DATA;
+            this.caseId = caseRec.caseNumber;
         }
     }
 
