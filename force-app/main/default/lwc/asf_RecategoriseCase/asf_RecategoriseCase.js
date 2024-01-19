@@ -11,6 +11,7 @@ import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import RECATEGORISATION_REASON_FIELD from '@salesforce/schema/Case.Recategorisation_Reason__c';
+import BOT_FEEDBACK_FIELD from '@salesforce/schema/Case.Bot_Feedback__c';
 import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
 import CASESOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 
@@ -58,6 +59,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     productVal;
     sourceVal;
     rejectionReasonVal;
+    botFeedbackVal;
 
     assetId;
     isasset;
@@ -101,7 +103,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     oldCaseDetails ;
     currentCCCId;
     recategorizeEnabled;
-    sendBotFeedback = false;
+    sendBotFeedback = true;
     showBotFeedback = false;
      
     @wire(getRecord, { recordId: '$recordId', fields: [CASESOURCE_FIELD, CASE_BU_FIELD] })
@@ -368,6 +370,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             rejectionReason.reportValidity();
             return;
         }
+        const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
+        if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
+            botfeedback.reportValidity();
+            return;
+        }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         
         if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
@@ -397,10 +404,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
-        
+        fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
+        console.log('bot val--'+fields[BOT_FEEDBACK_FIELD.fieldApiName]+fields[RECATEGORISATION_REASON_FIELD.fieldApiName]+fields[CHANNEL_FIELD.fieldApiName]);
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
-         
+         console.log('case--'+JSON.stringify(caseRecord));
         updateCaseRecord({ recId: this.recordId,oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,newCaseJson : JSON.stringify(caseRecord) })
         .then(result => {
             this.dispatchEvent(new CloseActionScreenEvent());
@@ -411,7 +419,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
             this.createCaseWithAll = false; 
-            if(this.sendBotFeedback){
+            if(this.showBotFeedback && this.sendBotFeedback){
                 this.notifyEbot();
             }
         })
@@ -419,7 +427,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             console.log(error);
             this.showError('error', 'Oops! Error occured', error);
             this.loaded = true; 
-        });
+        }); 
     }
     notifyEbot(){
         callEbotFeedbackApi({ caseId: this.recordId})
