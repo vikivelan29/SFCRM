@@ -13,13 +13,13 @@ public class ABFL_STP_APIImplementation_Test{
                                                         LIMIT 1];
     @TestSetup
     static void makeData(){
-        Group SLAGroup = new Group();
+        Group slaGroup = new Group();
         
-        SLAGroup = new Group(
+        slaGroup = new Group(
             Name = 'SLAManagerGroup', 
             DeveloperName = 'SLAManagerGroup'
         );
-        insert SLAGroup;
+        insert slaGroup;
         
         User userRecord1 = new User(
             Alias = 'standt', 
@@ -31,7 +31,7 @@ public class ABFL_STP_APIImplementation_Test{
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
             UserName = 'cdefghijk567@gmail.com', 
-            managerGroupId__c = SLAGroup.Id
+            managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
         
@@ -47,11 +47,13 @@ public class ABFL_STP_APIImplementation_Test{
             List<ASF_Case_Category_Config__c> caseCat = ABFL_TestDataFactory.createCaseCategoryConfig(true);
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
-            
+            ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
+            System.debug('caseStage size: '+caseStage.size());
+            System.debug('caseStage: '+caseStage);
             Account acc = ABFL_TestDataFactory.createAccount();
             ABFL_TestDataFactory.createContact(acc.ID);
             List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);
-            
+
             List<Case> cases = ABFL_TestDataFactory.createCaseRecords(1, caseDetList[0].Id, true);
             Case c = cases.get(0);
             c.ownerid = userInfo.getuserId();
@@ -61,7 +63,7 @@ public class ABFL_STP_APIImplementation_Test{
     }
     
     @isTest
-    static void testGetDemandAdvice_Corp_RM_NoEmail(){
+    static void testGetDemandAdviceCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -99,7 +101,7 @@ public class ABFL_STP_APIImplementation_Test{
     }
     
     @isTest
-    static void testGetDemandAdvice_Corp_Branch(){
+    static void testGetDemandAdviceCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -127,12 +129,10 @@ public class ABFL_STP_APIImplementation_Test{
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             
             //Attach file on Case Integration record
-            ABFL_Constants constTemp = new ABFL_Constants();
-            Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUnTyped(constTemp.tempGetDemandAdviceResponse);
             ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
             wrapper.fileName = 'Demand_Advice.pdf';
             wrapper.title = 'Demand Advice';
-            wrapper.data = EncodingUtil.base64Decode((String)jsonMap.get('PDFData'));
+            wrapper.data = Blob.valueOf('Test Data');
             wrapper.parentId = caseIntRec.Id;
             ABFL_GenericFileCreation.createDocument(wrapper);
             
@@ -150,9 +150,9 @@ public class ABFL_STP_APIImplementation_Test{
             Assert.areEqual(true, caseRecord.IsClosed);
         }
     }
-
+    
     @isTest
-    static void testGetInterestResetLetter_Corp_RM_NoEmail(){
+    static void testGetInterestResetLetterCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -190,7 +190,7 @@ public class ABFL_STP_APIImplementation_Test{
     }
     
     @isTest
-    static void testGetInterestResetLetter_Corp_Branch(){
+    static void testGetInterestResetLetterCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -215,15 +215,14 @@ public class ABFL_STP_APIImplementation_Test{
             
             ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c
                                                   FROM ASF_Case_Integration__c
-                                                  WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
+                                                  WHERE Case__c = :caseRec.Id 
+                                                  AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             
             //Attach file on Case Integration record
-            ABFL_Constants constTemp = new ABFL_Constants();
-            Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUnTyped(constTemp.tempGetDemandAdviceResponse);
             ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
             wrapper.fileName = 'Demand_Advice.pdf';
             wrapper.title = 'Demand Advice';
-            wrapper.data = EncodingUtil.base64Decode((String)jsonMap.get('PDFData'));
+            wrapper.data = Blob.valueOf('Test Data');
             wrapper.parentId = caseIntRec.Id;
             ABFL_GenericFileCreation.createDocument(wrapper);
             
@@ -241,9 +240,9 @@ public class ABFL_STP_APIImplementation_Test{
             Assert.areEqual(true, caseRecord.IsClosed);
         }
     }
-
+    
     @isTest
-    static void testGetRepaymentSchedule_Corp_RM_NoEmail(){
+    static void testGetRepaymentScheduleCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -281,7 +280,7 @@ public class ABFL_STP_APIImplementation_Test{
     }
     
     @isTest
-    static void testGetRepaymentSchedule_Corp_Branch(){
+    static void testGetRepaymentScheduleCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -309,12 +308,10 @@ public class ABFL_STP_APIImplementation_Test{
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             
             //Attach file on Case Integration record
-            ABFL_Constants constTemp = new ABFL_Constants();
-            Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUnTyped(constTemp.tempGetDemandAdviceResponse);
             ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
             wrapper.fileName = 'Demand_Advice.pdf';
             wrapper.title = 'Demand Advice';
-            wrapper.data = EncodingUtil.base64Decode((String)jsonMap.get('PDFData'));
+            wrapper.data = Blob.valueOf('Test Data');
             wrapper.parentId = caseIntRec.Id;
             ABFL_GenericFileCreation.createDocument(wrapper);
             
@@ -332,9 +329,9 @@ public class ABFL_STP_APIImplementation_Test{
             Assert.areEqual(true, caseRecord.IsClosed);
         }
     }
-
+    
     @isTest
-    static void testGetWelcomeLetter_Corp_RM_NoEmail(){
+    static void testGetWelcomeLetterCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -372,7 +369,7 @@ public class ABFL_STP_APIImplementation_Test{
     }
     
     @isTest
-    static void testGetWelcomeLetter_Corp_Branch(){
+    static void testGetWelcomeLetterCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -400,12 +397,10 @@ public class ABFL_STP_APIImplementation_Test{
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             
             //Attach file on Case Integration record
-            ABFL_Constants constTemp = new ABFL_Constants();
-            Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUnTyped(constTemp.tempGetDemandAdviceResponse);
             ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
             wrapper.fileName = 'Demand_Advice.pdf';
             wrapper.title = 'Demand Advice';
-            wrapper.data = EncodingUtil.base64Decode((String)jsonMap.get('PDFData'));
+            wrapper.data = Blob.valueOf('Test Data');
             wrapper.parentId = caseIntRec.Id;
             ABFL_GenericFileCreation.createDocument(wrapper);
             
@@ -421,6 +416,261 @@ public class ABFL_STP_APIImplementation_Test{
             
             Assert.areEqual('Closed', caseRecord.Status);
             Assert.areEqual(true, caseRecord.IsClosed);
+        }
+    }
+    
+    @isTest
+    static void testInterestDebitNoteCorpBranch(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
+                                                                  FROM ASF_Case_Stage_Config__c
+                                                                  WHERE StageName__c = 'Open'];
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'InterestDebitNote_Corp');
+            List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            
+            caseRec.Source__c = 'Branch';
+            update caseRec;
+            
+            ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
+            caseDetail.Id = caseRec.ABFL_Case_Detail__c;
+            caseDetail.From_Date__c = Datetime.now().dateGMT();
+            caseDetail.To_Date__c = DateTime.now().addDays(2).dateGMT();
+            update caseDetail;
+            
+            Test.startTest();
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            
+            
+            ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c
+                                                  FROM ASF_Case_Integration__c
+                                                  WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
+            
+            //Attach file on Case Integration record
+            ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
+            wrapper.fileName = 'Demand_Advice.pdf';
+            wrapper.title = 'Demand Advice';
+            wrapper.data = Blob.valueOf('Test Data');
+            wrapper.parentId = caseIntRec.Id;
+            ABFL_GenericFileCreation.createDocument(wrapper);
+            
+            caseIntRec.Status__c = 'Success';
+            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            update caseIntRec;
+            Test.stopTest();
+            
+            Case caseRecord = [SELECT Id, IsClosed, Status
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+            Assert.areEqual('Closed', caseRecord.Status);
+            Assert.areEqual(true, caseRecord.IsClosed);
+        }
+    }
+    
+    @isTest
+    static void testInterestDebitNoteCorpRMNoEmail(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
+                                                                  FROM ASF_Case_Stage_Config__c
+                                                                  WHERE StageName__c = 'Open'];
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'InterestDebitNote_Corp');
+            List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            
+            ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
+            caseDetail.Id = caseRec.ABFL_Case_Detail__c;
+            caseDetail.From_Date__c = Datetime.now().dateGMT();
+            caseDetail.To_Date__c = DateTime.now().addDays(2).dateGMT();
+            update caseDetail;
+            
+            Test.startTest();
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            
+            
+            ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c
+                                                  FROM ASF_Case_Integration__c
+                                                  WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
+            caseIntRec.Status__c = 'Success';
+            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            update caseIntRec;
+            Test.stopTest();
+            
+            ABFL_Case_Detail__c updatedCaseDetail = [SELECT Id, Closure_Time__c, Autoclosed__c
+                                                     FROM ABFL_Case_Detail__c
+                                                     LIMIT 1];
+            
+            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c);
+            Assert.isTrue(updatedCaseDetail.Closure_Time__c != null);
+        }
+    }
+    
+    @isTest
+    static void testSOACorpBranch(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
+                                                                  FROM ASF_Case_Stage_Config__c
+                                                                  WHERE StageName__c = 'Open'];
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'SOA_Corp');
+            List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            
+            caseRec.Source__c = 'Branch';
+            update caseRec;
+            
+            ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
+            caseDetail.Id = caseRec.ABFL_Case_Detail__c;
+            caseDetail.From_Date__c = Datetime.now().dateGMT();
+            caseDetail.To_Date__c = DateTime.now().addDays(2).dateGMT();
+            update caseDetail;
+            
+            Test.startTest();
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            
+            
+            ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c
+                                                  FROM ASF_Case_Integration__c
+                                                  WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
+            
+            //Attach file on Case Integration record
+            ABFL_GenericFileCreation.ContentWrapper wrapper = new ABFL_GenericFileCreation.ContentWrapper();
+            wrapper.fileName = 'Demand_Advice.pdf';
+            wrapper.title = 'Demand Advice';
+            wrapper.data = Blob.valueOf('Test Data');
+            wrapper.parentId = caseIntRec.Id;
+            ABFL_GenericFileCreation.createDocument(wrapper);
+            
+            caseIntRec.Status__c = 'Success';
+            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            update caseIntRec;
+            Test.stopTest();
+            
+            Case caseRecord = [SELECT Id, IsClosed, Status
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+            Assert.areEqual('Closed', caseRecord.Status);
+            Assert.areEqual(true, caseRecord.IsClosed);
+        }
+    }
+    
+    @isTest
+    static void testSOACorpRMNoEmail(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
+                                                                  FROM ASF_Case_Stage_Config__c
+                                                                  WHERE StageName__c = 'Open'];
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'SOA_Corp');
+            List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            
+            ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
+            caseDetail.Id = caseRec.ABFL_Case_Detail__c;
+            caseDetail.From_Date__c = Datetime.now().dateGMT();
+            caseDetail.To_Date__c = DateTime.now().addDays(2).dateGMT();
+            update caseDetail;
+            
+            Test.startTest();
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            
+            
+            ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c
+                                                  FROM ASF_Case_Integration__c
+                                                  WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
+            caseIntRec.Status__c = 'Success';
+            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            update caseIntRec;
+            Test.stopTest();
+            
+            ABFL_Case_Detail__c updatedCaseDetail = [SELECT Id, Closure_Time__c, Autoclosed__c
+                                                     FROM ABFL_Case_Detail__c
+                                                     LIMIT 1];
+            
+            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c);
+            Assert.isTrue(updatedCaseDetail.Closure_Time__c != null);
+        }
+    }
+    
+    @isTest
+    static void testSOACorpException(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
+                                                                  FROM ASF_Case_Stage_Config__c
+                                                                  WHERE StageName__c = 'Open'];
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'SOA_Corp');
+            List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            
+            caseRec.Source__c = 'Branch';
+            update caseRec;
+            
+            Test.startTest();
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            Test.stopTest();
+            
+            Assert.areEqual('Error', retVal.status);
+            Assert.areEqual(ABFL_Constants.BLANK_DATE_FIELD, retVal.response);
+        }
+    }
+    
+    @isTest
+    static void testcloseSTPCaseFromFlow(){
+        User userRecord = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
+        System.runAs(userRecord){
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+                            FROM Case
+                            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                            LIMIT 1];
+            Test.startTest();
+            ABFL_InvokeSTPProcess.closeSTPCaseFromFlow(new List<Id>{caseRec.ABFL_Case_Detail__c});
+            Test.stopTest();
+            
+            Case updatedCaseRecord = [SELECT Id, IsClosed, Stage__c
+                                      FROM Case
+                                      WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                                      LIMIT 1];
+            
+            Assert.isTrue(updatedCaseRecord.IsClosed);
+            Assert.areEqual('Resolved', updatedCaseRecord.Stage__c);
         }
     }
 }

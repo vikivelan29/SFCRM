@@ -90,6 +90,40 @@ public class ABFL_TestDataFactory {
          }
          return stageConfigList;
      }
+    
+     public static void createCaseRuleEntry(List<ASF_Case_Stage_Config__c> stageConfigList) {
+         List<ASF_Case_Rule__c> listCaseRule = new List<ASF_Case_Rule__c>();
+         List<ASF_Case_Rule_Entry__c> CREs = new List<ASF_Case_Rule_Entry__c>();
+         ASF_Case_Rule_Entry__c stage1_Movement_RuleEntry = null;
+         ASF_Case_Rule__c stage1_StageMovement_Rule = null;
+         for(ASF_Case_Stage_Config__c config : stageConfigList) {
+			stage1_StageMovement_Rule = new ASF_Case_Rule__c();
+             
+             stage1_StageMovement_Rule.Case_Stage_Config__c = config.Id;
+             //stage1_StageMovement_Rule.Logical_Condition__c = '1';
+             stage1_StageMovement_Rule.Order__c = 1;
+             stage1_StageMovement_Rule.Type__c = 'Stage Movement';
+             
+             listCaseRule.add(stage1_StageMovement_Rule);
+         }    
+            // caseRuleList.add(stage1_StageMovement_Rule);
+         insert listCaseRule;
+         Integer i = 0;
+         for(ASF_Case_Rule__c caseRule : listCaseRule) {
+             stage1_Movement_RuleEntry = new ASF_Case_Rule_Entry__c();
+             //create case rule entry
+             stage1_Movement_RuleEntry.Number__c = 1;
+             stage1_Movement_RuleEntry.Case_Rule__c = caseRule.Id;
+             stage1_Movement_RuleEntry.Field_Api_Name__c = 'CCC_External_Id__c';
+             stage1_Movement_RuleEntry.Operator__c = '=';
+             stage1_Movement_RuleEntry.Data_Type__c = 'STRING';
+             stage1_Movement_RuleEntry.Value__c = '12345';
+             stage1_Movement_RuleEntry.External_ID__c = 'CRE-STAGEMV-OD-01'+i;
+             i++;
+             CREs.add(stage1_Movement_RuleEntry);
+         } 
+         insert CREs;  
+     }
      
      public static List<ASF_Case_Stage_Config__c> createCaseStageConfigWithTwoStages(Id caseCatConfigId, Boolean isCreate) {
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
@@ -171,9 +205,7 @@ public class ABFL_TestDataFactory {
                                                                  REKYCURL__c= 'REKYCURL',
                                                                  KYCCOMPLIED__c= false,
                                                                  IsRegisteredCustomer__c=true,
-                                                                 SUBSOURCE__c= 'SUBSOURCE',
-                                                                 From_Date__c = Date.Today(),
-                                                                 To_Date__c = Date.Today()+1
+                                                                 SUBSOURCE__c= 'SUBSOURCE'
                                                                 );
         caseDetailList.add(caseDetail);
         if(isCreate) {
@@ -230,7 +262,7 @@ public class ABFL_TestDataFactory {
             newCase.ABFL_Case_Detail__c = caseDetailId;
             newCase.Source__c =  ABFL_Constants.RM_NO_EMAIL;
             newCase.Stage__c = 'Open';
-            newCase.pending_clarification__c = true;
+            newCase.pending_clarification__c = false;
             newCase.OwnerId = UserInfo.getUserId();
             caseList.add(newCase);
         
