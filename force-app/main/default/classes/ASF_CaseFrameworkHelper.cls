@@ -24,6 +24,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                     caseApprovalRecord.Approver_04__c = caseRule.Step_2_Approver_2__c;
                     caseApprovalRecord.Approval_Type__c = caseRule.Approval_Style__c;
                     caseApprovalRecord.Approval_Status__c  = 'Pending';
+                    caseApprovalRecord.Case_Stage_At_Creation__c = currentCase.Stage__c;
                     caseApprovalRecord.SR__c = currentCase.Id;
                     approvalList.add(caseApprovalRecord);
                     break;
@@ -289,6 +290,8 @@ public with sharing class ASF_CaseFrameworkHelper {
     public class CaseRuleAssignmentInfo{
         public Id defaultOwnerId;
         public Id defaultErrorOwnerId;
+        public string status; 
+        public string errorMessage;
     }
 
 }

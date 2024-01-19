@@ -52,7 +52,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     */
     private static map<String,long> getSLAFieldValues(ASF_SLAWrapper s, Case c,Case oldCase){
         if(ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null){
-        } 
+            } 
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
         long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
@@ -471,47 +471,50 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                    BusinessHoursId__c 
                                                    FROM ASF_Case_SLA_History__c 
                                                    WHERE Case__c IN: changedCaseList
-                                                   ORDER BY Stage_Start_Date__c asc]) {
-                                                       //Loop through the loop get the stage to which case is going and calculate the time consumed in business hours
-                                                       if((slaHistory.BusinessHoursId__c != null) && (slaHistory.Stage__c == newCases.get(slaHistory.Case__c).Stage__c)){
-                                                           //get first stage and get Start Date of Stage 
-                                                           if(!caseStagesStartDate.contains(slaHistory.Case__c + slaHistory.Case__r.Stage__c)){
-                                                               if (!resultMap.containsKey(slaHistory.Case__c + slaHistory.Stage__c )){
-                                                                   ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-                                                                   c.stageStartTime = slaHistory;
-                                                                   resultMap.put(slaHistory.Case__c + slaHistory.Stage__c,c);
-                                                                   caseStagesStartDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c);
-                                                               }
-                                                           }
-                                                           if(slaHistory.Stage_End_Date__c == null){
-                                                               slaHistory.Stage_End_Date__c = system.now();
-                                                           }
-                                                           Long consumedBusinessmiliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                           
-                                                           if(resultMap.get(slaHistory.Case__c + slaHistory.Stage__c ).totalTimeSpent == 0){
-                                                               Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                               ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-                                                               c.totalTimeSpent = stageConsumedMilliSeconds;
-                                                               resultMap.put(slaHistory.Case__c+slaHistory.Stage__c,c);
-                                                               overallTimeSpent += c.totalTimeSpent;
-                                                           }
-                                                           else{
-                                                               long previousTimeSpent =  resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent;
-                                                               Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                               long totalConsumed = previousTimeSpent + stageConsumedMilliSeconds;
-                                                               resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent = totalConsumed;
-                                                               overallTimeSpent += totalConsumed;
-                                                           }
-                                                           if(slaHistory.Stage_Violation_Start_Date__c != null && !caseStagesViolatedDate.contains(slaHistory.Case__c + slaHistory.Stage__c ) ){
-                                                               ASF_SLAHistoryWraper r = resultMap.get(slaHistory.Case__c+slaHistory.Stage__c);
-                                                               r.violatedTime = slaHistory;
-                                                               caseStagesViolatedDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c); 
-                                                           }
-                                                       }
-                                                   }
-        ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-        c.totalTimeSpent = overallTimeSpent;
-        resultMap.put('overallTimeSpent', c);
+                                                   ORDER BY Case__c, Stage_Start_Date__c asc]) {
+            //Loop through the loop get the stage to which case is going and calculate the time consumed in business hours
+            if(slaHistory.BusinessHoursId__c != null){
+                if(slaHistory.Stage__c == newCases.get(slaHistory.Case__c).Stage__c){
+                    //get first stage and get Start Date of Stage 
+                    if(!caseStagesStartDate.contains(slaHistory.Case__c + slaHistory.Case__r.Stage__c)){
+                        if (!resultMap.containsKey(slaHistory.Case__c + slaHistory.Stage__c )){
+                            ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
+                            c.stageStartTime = slaHistory;
+                            resultMap.put(slaHistory.Case__c + slaHistory.Stage__c,c);
+                            caseStagesStartDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c);
+                        }
+                    }
+                    if(slaHistory.Stage_End_Date__c == null){
+                        slaHistory.Stage_End_Date__c = system.now();
+                    }
+                    
+                    long previousTimeSpent =  resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent;
+                    Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                    long totalConsumed = previousTimeSpent + stageConsumedMilliSeconds;
+                    resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent = totalConsumed;
+                    
+                    
+
+                    if(slaHistory.Stage_Violation_Start_Date__c != null && !caseStagesViolatedDate.contains(slaHistory.Case__c + slaHistory.Stage__c ) ){
+                        ASF_SLAHistoryWraper r = resultMap.get(slaHistory.Case__c+slaHistory.Stage__c);
+                        r.violatedTime = slaHistory;
+                        caseStagesViolatedDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c); 
+                    }
+                }
+                //Overall - run for all slaHistories
+                if(!resultMap.containsKey(slaHistory.Case__c+'overallTimeSpent')){
+                    ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
+                    resultMap.put(slaHistory.Case__c+'overallTimeSpent', c);
+                }
+                if(slaHistory.Stage_End_Date__c == null){
+                    slaHistory.Stage_End_Date__c = system.now();
+                }
+                long currentOverallSpent =  resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent;
+                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                currentOverallSpent += stageConsumedMilliSeconds;
+                resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent = currentOverallSpent;
+            }
+        }
         return resultMap;
     }
     
@@ -528,7 +531,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         else{
             //during insert old Case will be null
-            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c){
+            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
                 updatedCase.Case_Stage_Change_Date__c = system.now();
                 updatedCase.Last_Owner_Change_Date__c = system.now();
             }
@@ -771,11 +774,12 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                   timeSpentInLong = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent == null?0:
                                   caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent;
                               }
-                           if(caseStageSummarizedViewMap.containsKey('overallTimeSpent')){
-                                overallTimeSpent = caseStageSummarizedViewMap.get('overallTimeSpent').totalTimeSpent;
+                           if(caseStageSummarizedViewMap.containsKey(caseRec.Id+'overallTimeSpent')){
+                                overallTimeSpent = caseStageSummarizedViewMap.get(caseRec.Id+'overallTimeSpent').totalTimeSpent;
                            }
+                           
                            if(closeSlaSec != null){
-                                updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec);
+                                updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
                                 percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                            }
                            if(sla1Sec != null){

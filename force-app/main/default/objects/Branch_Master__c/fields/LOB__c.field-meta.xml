@@ -8,38 +8,6 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Digital</fullName>
-                <default>false</default>
-                <label>Digital</label>
-            </value>
-            <value>
-                <fullName>Retail - Secured</fullName>
-                <default>false</default>
-                <label>Retail - Secured</label>
-            </value>
-            <value>
-                <fullName>Retail - Unsecured</fullName>
-                <default>false</default>
-                <label>Retail - Unsecured</label>
-            </value>
-            <value>
-                <fullName>Corporate</fullName>
-                <default>false</default>
-                <label>Corporate</label>
-            </value>
-            <value>
-                <fullName>Wealth</fullName>
-                <default>false</default>
-                <label>Wealth</label>
-            </value>
-            <value>
-                <fullName>Not classified</fullName>
-                <default>false</default>
-                <label>Not classified</label>
-            </value>
-        </valueSetDefinition>
+        <valueSetName>LOB</valueSetName>
     </valueSet>
 </CustomField>
