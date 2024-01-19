@@ -48,6 +48,41 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Date_of_Transaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Mode_of_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Partner_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Payment_Received__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reason_of_Excess_Refund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Recovery_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reference_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
