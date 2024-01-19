@@ -3,7 +3,7 @@
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
  * @last modified on  : 01-20-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified by  : rsinghnagar@salesforce.com 
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-20-2024   rsinghnagar@salesforce.com   Initial Version
@@ -35,7 +35,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
-        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
+        // ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -46,7 +46,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInBeforeUpdate');
-        ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        // ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
     }
     public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeBeforeASFCodeInAfterUpdate');
