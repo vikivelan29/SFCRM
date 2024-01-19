@@ -79,7 +79,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Id;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-        caseIntOut.ServiceName__c = 'ReportingService';
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
