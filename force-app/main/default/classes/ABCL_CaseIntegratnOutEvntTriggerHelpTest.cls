@@ -132,8 +132,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id 
                                                   AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
-            
-            // Assert.isTrue(String.isNotBlank(caseIntRec.Request__c), 'The request field on the case integration record should not be blank');
+            Assert.isTrue(String.isNotBlank(caseIntRec.Request__c), 'The request field on the case integration record should not be blank');
         }
     }
     

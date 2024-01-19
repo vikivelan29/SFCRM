@@ -9,7 +9,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
-    * @param caseRec - Case record from the framework.
+    * @param caseRec - Case record from the framework. 
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @Description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Payment Link should be generated or not.
     *****************************************************************************************************************/
