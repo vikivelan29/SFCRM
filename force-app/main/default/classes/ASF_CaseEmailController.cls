@@ -169,8 +169,8 @@ public class ASF_CaseEmailController {
                 datetime datetimeValue = (datetime)fieldValue;
                 resultMap.put(field,string.valueOf( datetimeValue.format('MM-dd-yyyy HH:mm:ss', 'IST')));
             }else if(dataType.equals('DATE')){
-                datetime datetimeValue = (datetime)fieldValue;
-                resultMap.put(field,string.valueOf(datetimeValue.format('dd-MM-YYYY')));
+                Date dt = (Date)fieldValue;
+                resultMap.put(field, String.valueOf(dt.year()+'-'+dt.month()+'-'+dt.day()));
             }
         }
     }
