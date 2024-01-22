@@ -133,7 +133,7 @@ public class ASF_CaseMovementHelper {
                 if(nextStage.status != 'Error'){
                     
                     System.debug(nextStage);
-                    CaseStageValidationWrapper beforeResult = validateNextStageEntry(currentCaseRec, nextStage.stageConfig);
+                    CaseStageValidationWrapper beforeResult = validateNextStageEntry(queriedCaseRecord, nextStage.stageConfig);
                     if(beforeResult.status != 'Success'){
                         resultWrapper.errorMessage = beforeResult.errorMessage;
                         resultWrapper.status = 'Error';
@@ -232,7 +232,7 @@ public class ASF_CaseMovementHelper {
         }
 
         // If movement TO next Stage is valid
-        CaseStageValidationWrapper beforeResult = validateNextStageEntry(currentCaseRec, nextStageConfig);
+        CaseStageValidationWrapper beforeResult = validateNextStageEntry(queriedCaseRecord, nextStageConfig);
         
         if(beforeResult.status != 'Success'){
             resultWrapper.errorMessage = beforeResult.errorMessage;
