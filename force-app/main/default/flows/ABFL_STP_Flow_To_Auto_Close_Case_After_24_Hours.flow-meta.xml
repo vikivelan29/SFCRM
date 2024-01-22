@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Close_Related_Cases</name>
+        <label>Close Related Cases</label>
+        <locationX>588</locationX>
+        <locationY>411</locationY>
+        <actionName>01p9I000000CaULNotFound</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseDetailList</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <environments>Default</environments>
     <interviewLabel>ABFL STP Flow To Auto Close Case After 24 Hours {!$Flow.CurrentDateTime}</interviewLabel>
@@ -23,50 +39,6 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>Get_related_case</name>
-        <label>Get related case</label>
-        <locationX>704</locationX>
-        <locationY>324</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Update_Case_Status</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>ABFL_Case_Detail__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Case</object>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>MoveToNext__c</queriedFields>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordUpdates>
-        <name>Update_Case_Status</name>
-        <label>Update Case Status</label>
-        <locationX>664</locationX>
-        <locationY>528</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_related_case.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>MoveToNext__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>Case</object>
-    </recordUpdates>
     <start>
         <locationX>446</locationX>
         <locationY>48</locationY>
@@ -84,7 +56,7 @@
         <scheduledPaths>
             <name>ABFL_Auto_closure_of_case_after_24_hours</name>
             <connector>
-                <targetReference>Get_related_case</targetReference>
+                <targetReference>Close_Related_Cases</targetReference>
             </connector>
             <label>Auto-closure of case after 24 hours</label>
             <offsetNumber>24</offsetNumber>
