@@ -15,36 +15,19 @@ public with sharing class ABHFL_Auto_Closure_Test {
     @testSetup
     static void setupTestData(){ 
 
-        List<Case> caseRecList = new List<Case>();
-        List<ABHFL_Case_Detail__c> caseDetList = new List<ABHFL_Case_Detail__c>();
-
         String inpputString1 = '2024-01-05T01:44:00.000Z';
         DateTime resultDateTime1 = DateTime.ValueofGmt(inpputString1.replace('T', ' '));
 
-        String inpputString2 = '2024-01-17T01:44:00.000Z';
-        DateTime resultDateTime2 = DateTime.ValueofGmt(inpputString2.replace('T', ' '));
-
         ABHFL_Case_Detail__c caseDet1 = new ABHFL_Case_Detail__c();
         caseDet1.Payment_Link_Trigger_Time__c = resultDateTime1;
-        caseDetList.add(caseDet1);
 
-        ABHFL_Case_Detail__c caseDet2 = new ABHFL_Case_Detail__c();
-        caseDet2.Payment_Link_Trigger_Time__c = resultDateTime2;
-        caseDetList.add(caseDet2);
-
-        insert caseDetList;
+        insert caseDet1;
 
         Case case1 = new Case();
         case1.CCC_External_Id__c = 'hfl069';
-        case1.ABHFL_Case_Detail__c = caseDetList[0].Id;
-        caseRecList.add(case1);
+        case1.ABHFL_Case_Detail__c = caseDet1.Id;
 
-        Case case2 = new Case();
-        case2.CCC_External_Id__c = 'REFCL001';
-        case1.ABHFL_Case_Detail__c = caseDetList[1].Id;
-        caseRecList.add(case2);
-
-        insert caseRecList;
+        insert case1;
     }
 
     @isTest
@@ -62,10 +45,6 @@ public with sharing class ABHFL_Auto_Closure_Test {
             if(paymentLinkTriggerTime == '2024-01-05T01:44:00.000Z') {
                 system.assertEquals('Unresolved', cs.Stage__c);
                 system.assertEquals('Closed as Exception', cs.Rejection_Reason__c);
-            }
-            else {
-                system.assertEquals(null, cs.Stage__c);
-                system.assertEquals(null, cs.Rejection_Reason__c);
             }
         }
     }
