@@ -148,11 +148,11 @@
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
-												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance </span></strong><br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
 												The reference number for this request is {{{Case.CaseNumber}}}<br />
 												<br />
-												While our endeavor would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}},we request you to allow us 7 more days to review your case and provide appropriate response.<br />
+												While our endeavor would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}}, we request you to allow us 7 more days to review your case and provide the appropriate response.<br />
 												<br />
 												We regret any inconvenience caused to you and appreciate your patience.<br />
 												<br />

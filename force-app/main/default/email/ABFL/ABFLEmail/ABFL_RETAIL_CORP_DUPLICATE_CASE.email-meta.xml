@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>FIRST TAT COMMUNICATION - DIGITAL</name>
+    <name>RETAIL/CORP DUPLICATE CASE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Case Resolution Timeline for your Service Request No. {{{Case.CaseNumber}}}</subject>
+    <subject>Case identified as Duplicate</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

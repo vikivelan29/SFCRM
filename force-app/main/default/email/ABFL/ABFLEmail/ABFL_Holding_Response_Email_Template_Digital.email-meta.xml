@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Holding Response Email Template Digital</name>
+    <name>HOLDING RESPONSE EMAIL TEMPLATE DIGITAL</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Your case will b resolved in 7 working days</subject>
+    <subject>Your case will be resolved in 7 working days</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

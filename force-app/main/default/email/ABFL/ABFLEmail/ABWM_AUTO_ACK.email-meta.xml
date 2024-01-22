@@ -5,7 +5,7 @@
     <name>ABWM AUTO ACK</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>case created : {{{Case.CaseNumber}}}</subject>
+    <subject>Aditya Birla Finance - Wealth case created: {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
