@@ -656,7 +656,7 @@ public class ABFL_STP_APIImplementation_Test{
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
-            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
                             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                             LIMIT 1];
