@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Wealth</label>
             </value>
+            <value>
+                <fullName>Not Classified</fullName>
+                <default>false</default>
+                <label>Not Classified</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
