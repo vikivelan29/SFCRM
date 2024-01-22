@@ -7,6 +7,59 @@ public class ASF_CaseMovementHelper {
     // static List<Task> tasksToInsert = new List<Task>();
     // static Case tempCase = new case();
     
+
+    /**
+     * This method is used in before trigger where it returns the next eligible stage 
+     * so that before trigger can set the stage__c on trigger.new
+     */
+    @AuraEnabled
+    public static StageWrapper findNextStageForMoveToNextStage(Case currentCaseRec){
+        StageWrapper resultWrapper = new StageWrapper();
+        resultWrapper.status = 'Error';
+        resultWrapper.errorMessage = 'Unknown Error';
+
+        List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{currentCaseRec.CCC_External_Id__c});
+
+        // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.Query_Fields__c != null){
+                allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            }
+        }
+        
+        if(allFields.size() == 0){
+            resultWrapper.errorMessage = 'Query Fields not Found on Stage Config';
+            return resultWrapper;
+        }
+
+        Case queriedCaseRecord = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCaseRec.Id);
+        
+        //Find the next stage when moved forward after backward movement
+        if (currentCaseRec.pending_clarification__c == true) {
+            StageConfigWrapper nextStage = ASF_CaseMovementHelper.findNextStageAfterBackward(queriedCaseRecord);
+            if(nextStage.status != 'Error'){
+                resultWrapper.nextStageConfig = nextStage.stageConfig;
+                resultWrapper.status = 'Success';
+            }else{
+                resultWrapper.errorMessage = nextStage.errorMessage;
+                resultWrapper.status = 'Error';
+            }
+        }else{
+            //Find the next stage
+            StageConfigWrapper nextStage = ASF_CaseMovementHelper.findNextStageForward(queriedCaseRecord);
+            System.debug('***nextStage:'+nextStage);
+            if(nextStage.status != 'Error'){
+                resultWrapper.nextStageConfig = nextStage.stageConfig;
+                resultWrapper.status = 'Success';
+            }else{
+                resultWrapper.errorMessage = nextStage.errorMessage;
+                resultWrapper.status = 'Error';
+            } 
+        }
+        return resultWrapper;
+    }
+
     /**
     * This method is called when moved to Next Automated Stage for Automated Forward Movement - Standard Case
     * and used when moved to next stage after back movement
