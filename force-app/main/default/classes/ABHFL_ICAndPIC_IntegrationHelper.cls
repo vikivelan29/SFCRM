@@ -20,12 +20,23 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
     public ABHFL_ICAndPIC_IntegrationRequestWrapper generateRequest(Case caseRecord, String typ, String finYr) {
 
         String lan = caseRecord.Asset.LAN__c;
-        String type = typ;
+        String integName = String.isNotBlank(getIntegrationName(caseRecord.Sub_Type_Text__c)) ? getIntegrationName(caseRecord.Sub_Type_Text__c) : '';
 
         ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = new ABHFL_ICAndPIC_IntegrationRequestWrapper();
-        reqBodyObj.LAN       = lan;
-        reqBodyObj.FIN_YEAR  = finYr;
-        reqBodyObj.TYPE      = type;
+        reqBodyObj.caseId        = caseRecord.Id;
+        reqBodyObj.souce         = 'CRM';
+        reqBodyObj.requestType   = 'View';
+        reqBodyObj.lan           = lan;
+        
+        if(integName == 'Interest Certificate') {
+            reqBodyObj.financialYear = finYr;
+            reqBodyObj.reportName   = ABHFL_Constants.IC_REPORT_NAME;
+            reqBodyObj.documentType = ABHFL_Constants.IC_DOCUMENT_TYPE;
+        }
+        else if(integName == 'Provisional Interest Certificate') {
+            reqBodyObj.reportName    = ABHFL_Constants.PIC_REPORT_NAME;
+            reqBodyObj.documentType = ABHFL_Constants.PIC_DOCUMENT_TYPE;
+        }
 
         return reqBodyObj;
     }
@@ -83,10 +94,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
 *****************************************************************************************************************/
     public String getFinancialYr(Case caseRecord) {
 
-        String financialYr = '', currentFiscalYear;
-
-        Period priod = [SELECT FiscalYearSettings.Name FROM Period WHERE Type = 'Year' AND StartDate <= TODAY AND EndDate >= TODAY WITH SECURITY_ENFORCED];
-        currentFiscalYear = priod.FiscalYearSettings.Name;
+        String financialYr = '';
 
         String caseSubType = caseRecord.Sub_Type_Text__c;
         String integName = String.isNotBlank(getIntegrationName(caseSubType)) ? getIntegrationName(caseSubType) : '';
@@ -99,11 +107,6 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
                 financialYr = finYrList[0] + '-' + String.valueOf(addedfinYr);
             }
         }
-        else if(integName == 'Provisional Interest Certificate') {
-            Integer addYr = Integer.valueOf(currentFiscalYear) + 1;
-            financialYr = currentFiscalYear + '-' + String.valueOf(addYr);
-        }
-
         return financialYr;
     }
 
@@ -112,8 +115,12 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
     * @description - This is a wrapper class for  JSON structure of IC And PIC Integration.
 *****************************************************************************************************************/
     public class ABHFL_ICAndPIC_IntegrationRequestWrapper {
-        public String LAN;
-        public String FIN_YEAR;
-        public String TYPE;
+        public String caseId;
+        public String souce;
+        public String requestType;
+        public String lan;
+        public String financialYear;
+        public String reportName;
+        public String documentType;
     }
 }
