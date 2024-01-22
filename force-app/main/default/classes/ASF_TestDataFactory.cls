@@ -315,6 +315,8 @@ public with sharing class ASF_TestDataFactory {
     caseCatConfig.Nature__c = 'Request';
     caseCatConfig.Source__c = 'CEC';  // Branch
     caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+    caseCatConfig.Resolved_Case_Email_Template__c = 'dev_01';
+    caseCatConfig.Resolved_Case_SMS_Metadata__c ='Dev_02';
     
     insert caseCatConfig;
 
@@ -337,7 +339,7 @@ public with sharing class ASF_TestDataFactory {
     // stage1.Stage_SLA_2__c = 2;
     // stage1.Stage_SLA_3__c = 3;
     stage1.SLA_Target_1_Type__c = 'Manager';
-    stage1.Query_Fields__c = 'Id,Stage__c';
+    stage1.Query_Fields__c = 'Id,Stage__c,CSAT__c';
     stage1.Manual_Stage__c = false;
     stageConfigList.add(stage1);
 
@@ -1447,7 +1449,7 @@ public with sharing class ASF_TestDataFactory {
         stage1.Default_Queue__c = testGroup.Id;
         stage1.Default_Error_Queue__c = testGroupError.Id;
         stage1.Owner_Check_Stages__c = 'Pending with Initiator';
-        stage1.Has_Same_Owner_Check__c = true;
+        stage1.Has_Same_Owner_Check__c = false;
         stageConfigList.add(stage1);
     
        
@@ -1794,6 +1796,27 @@ public with sharing class ASF_TestDataFactory {
         insert checklistRecord;
     
     
+    }
+    
+    public static Lead createServiceProspectRecord(){
+        Lead ld = new Lead();
+        ld.FirstName = 'Prospect 1';
+        ld.LastName = 'Prospect 2';
+        ld.RecordTypeId = Schema.SObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        ld.Company = 'Salesforce';
+        ld.Email = 'invalid.invalid@invalid.com.net';
+        ld.MobilePhone = '98INVALIDNUM';
+        return ld;
+    }
+    public static Lead createSalesProspectRecord(){
+        Lead ld = new Lead();
+        ld.FirstName = 'Prospect 1';
+        ld.LastName = 'Prospect 2';
+        ld.Sales_Prospect__c = true;
+        ld.Company = 'Salesforce';
+        ld.Email = 'invalid.invalid@invalid.com.net';
+        ld.MobilePhone = '98INVALIDNUM';
+        return ld;
     }
 
 

@@ -1,3 +1,8 @@
+/****************************************************************************************************************
+  * Author           - Anirudh Raturi
+  * Date             - 28-November-2023
+  *****************************************************************************************************************/
+
 import { LightningElement, wire, api, track } from 'lwc';
 import fetchAssets from "@salesforce/apex/Asf_FetchAssetRelatedToAccountController.fetchAssets";
 
@@ -8,7 +13,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     @api recordId;
 
     @track columns = [];
-    @track assetRecords=[];
+    @track assetRecords;
     @track infoObject = {};
 
     isRenderDatatable = false;
@@ -29,7 +34,6 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     @wire(fetchAssets, { accountRecordId: '$recordId' })
     wiredAssets({ error, data }) {
         if (data) {
-            let assets = data.assetRecords;
             this.assetRecords = data.assetRecords;
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;

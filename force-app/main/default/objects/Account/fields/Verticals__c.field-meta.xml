@@ -14,6 +14,11 @@
                 <default>false</default>
                 <label>.</label>
             </value>
+            <value>
+                <fullName>Supply Chain</fullName>
+                <default>false</default>
+                <label>Supply Chain</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

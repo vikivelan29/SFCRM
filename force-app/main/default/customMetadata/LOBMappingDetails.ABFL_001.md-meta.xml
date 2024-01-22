@@ -11,6 +11,10 @@
         <value xsi:type="xsd:string">Walk in;Inbound Call;Outbound Call;Email</value>
     </values>
     <values>
+        <field>Complaint_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Exclusion_Bu_s__c</field>
         <value xsi:nil="true"/>
     </values>

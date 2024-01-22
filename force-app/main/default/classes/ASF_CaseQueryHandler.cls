@@ -30,7 +30,9 @@ public with sharing class ASF_CaseQueryHandler {
             cases = [SELECT Id,BusinessHoursId,Status,OwnerId,CCC_External_Id__c,Stage__c,pending_clarification__c,CreatedById,
                      Previous_Stage__c,ClosedDate, PAY_Payment_Detail__c, SLA_Target_1__c, CSAT__c, DB_Hours__c,
                      has_CheckLists__c, Has_Open_Tasks__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,Technical_Source__c,
-                     ABFL_Case_Detail__r.Resolution_Comments__c
+                     ABFL_Case_Detail__r.Resolution_Comments__c, Source__c,Nature__c,Description,
+                     (Select Id, Checklist_External_Id__c, Status__c from Checklists__r),
+                     (Select Id, Work_Item_External_ID__c from Tasks)
                      FROM Case
                      WHERE Id = :recordIds];
         }
@@ -95,7 +97,7 @@ public with sharing class ASF_CaseQueryHandler {
         }
         return caseIntegrations;
     }
-    
+    //15/02/2023: Added ABFL_BRE_CalloutClass__c field on ASF_Integration for BRE callout - AC
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
         if(caseStageConfigs == null){
             caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
@@ -106,7 +108,7 @@ public with sharing class ASF_CaseQueryHandler {
                                 (SELECT ID,Order__c,Type__c,Logical_Condition__c,Name,Assigned_Queue_Id__c,Validation_Message__c,Stage_Name__c,Step_1_Approver_1__c,
                                  Step_1_Approver_2__c,Step_2_Approver_1__c,Step_2_Approver_2__c,Approval_Success_Fields_to_Update__c,
                                  Approval_Rejected_Fields_to_Update__c,Approval_Style__c,Approval_SuccessStageMovement__c FROM Case_Rules__r),
-                                (SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,
+                                (SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
@@ -147,11 +149,12 @@ public with sharing class ASF_CaseQueryHandler {
                     Task_Title__c,
                     Task_Description__c,
                     Assigned_Queue__c,
-                    Completion_Time__c
+                    Completion_Time__c,
+                    Work_Item_External_ID__c
                     FROM Work_Items__r
                 ),
                 (
-                    SELECT Id, Name, Type__c, Mandatory__c,Description__c
+                    SELECT Id, Name, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c
                     FROM Case_Checklist_Masters__r
                 ),
                 Step_1_Approver_1__c,
@@ -204,7 +207,7 @@ public with sharing class ASF_CaseQueryHandler {
                                                           Stage_Start_Date__c, Stage_Violation_Start_Date__c, 
                                                           Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c 
                                                           FROM ASF_Case_SLA_History__c
-                                                          WHERE Case__c =: caseIds
+                                                          WHERE Case__c =: caseIds order by createddate DESC
                                                          ];
         }
         return caseSLAHistories;
@@ -223,12 +226,13 @@ public with sharing class ASF_CaseQueryHandler {
     }
     
     public static List<ASF_Case_Category_Config__c> getCaseCategoryConfigs(List<String> cccExternalIds) {
-        if(caseCategoryConfigs == null){
+        if(caseCategoryConfigs == null || refreshRecords){
             caseCategoryConfigs = [SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, 
                                     Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, 
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
-                                    Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c
+                                    Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
+                                    Is_Recategorise_Allowed__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
                                     
@@ -255,6 +259,16 @@ public with sharing class ASF_CaseQueryHandler {
 
         }
         return caseWithConfigQueryFields;
+    }
+    
+    // Virendra - This method is used to get the IntegrationRecords in retry mechanism
+    public static List<ASF_Integration__c> getASFIntegrationRecordsForRetry(Set<String> integrationExtnId){
+        return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
+                                 External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId];
+    }
+    public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
+        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c   FROM Case WHERE Id =: caseIds];
     }
     
 }

@@ -177,12 +177,12 @@ export function verifyIfNextApproverWasNeeded(errors) {
 
 //modal helper functions
 export function hideModal(self) {
-  let modalToHide = self.template.querySelector("c-modal");
+  let modalToHide = self.template.querySelector("c-asf_modal");
   modalToHide.hide();
 }
 
 export function showModal(self) {
-  let modalToShow = self.template.querySelector("c-modal");
+  let modalToShow = self.template.querySelector("c-asf_modal");
   modalToShow.show();
 }
 //end modal helper functions

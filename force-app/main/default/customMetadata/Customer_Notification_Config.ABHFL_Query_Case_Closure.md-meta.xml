@@ -39,11 +39,19 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>SMS_Sender_Id__c</field>
+        <value xsi:type="xsd:string">HFLABC</value>
+    </values>
+    <values>
+        <field>SMS_Entity_Id__c</field>
+        <value xsi:type="xsd:string">1101412910000010488</value>
+    </values>
+    <values>
         <field>Whatsapp_Template_Name__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>external_templateID__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">1107169261673495838</value>
     </values>
 </CustomMetadata>

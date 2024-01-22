@@ -14,6 +14,7 @@ public class ABHFL_CaseIntegrationHelper_Test {
             caseInt.Type__c = 'eBOT';
             insert caseInt;
             ContentVersion content = new ContentVersion();
+            //content.STP_Document__c = 'No';
             content.PathOnClient = 'Response.txt';
             content.Title = 'Response';
             content.VersionData = Blob.valueof('Test');
@@ -25,10 +26,10 @@ public class ABHFL_CaseIntegrationHelper_Test {
             docLink.ShareType = 'V';
             insert docLink;
         }
-    }	
+    }   
     @IsTest
     static void eBotHandler_Test(){
-		List<ASF_Case_Integration__c> caseIntegrations = [Select id from ASF_Case_Integration__c limit 1];
+        List<ASF_Case_Integration__c> caseIntegrations = [Select id from ASF_Case_Integration__c limit 1];
         if(caseIntegrations.size() > 0){
             caseIntegrations[0].Status__c = 'Success';
             caseIntegrations[0].Response__c = '{\"CASEID\":\"Success\",\"CASESUBTYPE\":\"AC123457\",\"COMMENT\":\"Problem\",\"OWNERFULLNAME\":\"Major\",\"CONFIDENCESCORE\":\"Major\"}';

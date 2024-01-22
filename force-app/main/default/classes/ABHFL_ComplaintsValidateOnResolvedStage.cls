@@ -1,21 +1,26 @@
-public class ABHFL_ComplaintsValidateOnResolvedStage implements ASF_CaseStageClassInvocable {
+public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF_CaseStageClassInvocable {
 	public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        retCls.status = 'Success';
+        retCls.status = ABHFL_Constants.SUCCESS;
         retCls.errorMessage = '';
         retCls.updatedCase = caseRec;
         retCls.isCaseUpdated = false;
 		Boolean isGrievanceUser = ABHFL_ComplaintCTSTHelper.isInGrievanceTeam(caseRec);
+        //Vaidation for Case Resolution - only Grievance team can Resolve the case.
         if(!isGrievanceUser){
-             retCls.status = 'Error';
-             retCls.errorMessage = 'You are not allowed to Resolve this Case.';
+             retCls.status = ABHFL_Constants.ERROR;
+             retCls.errorMessage = Custom_Messages__mdt.getInstance('ABHFL_Not_allowed_to_resolve_this_case').Message__c;
         }
-        Boolean checkGAPFields = ABHFL_ComplaintCTSTHelper.validateGAPfields(caseRec);
-        System.debug('Check GAP Fields: ' + checkGAPFields);
-        if(isGrievanceUser && checkGAPFields){
-            retCls.status = 'Error';
-            retCls.errorMessage = 'Any one of GAP or Regulator Initiated should be selected to complete RCA';
-        }
+        //Vaidation for RCA Fields
+        if(isGrievanceUser){
+            ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = ABHFL_ComplaintCTSTHelper.validateRCAfields(caseRec);
+            if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
+               retCls.status = ABHFL_Constants.ERROR;
+			   retCls.errorMessage = wrapperResult.message; 
+        } 
+    		
+		}
+
         return retCls;
         
     }

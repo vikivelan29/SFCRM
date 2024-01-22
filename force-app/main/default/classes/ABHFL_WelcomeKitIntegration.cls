@@ -3,84 +3,84 @@
 *Author       :  Aditya Mehrotra
 *Created Date :  12/04/2023
 *Last Modified:  12/05/2023
-*Description  :  Class for Welcome Kit Integration
+*@description :  Class for Welcome Kit Integration
 *********************************************************/
-public class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
+public with sharing class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
+    
+    public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
+    public final List<String> offlineSources = new List<String>{'Branch', 'Call Centre', 'Internal Usage', 'Social Media'};
     
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Welcome Kit integration should be fired or not.
+    * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Welcome Kit integration should be fired or not.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        result.status = 'Error';
-        result.response = 'Evaluation Failed, cannot retrieve Welcome Kit.';
-        system.debug('Case record:'+caseRec);
-        /*Case caseRecord = [
-            SELECT Id, CCC_External_Id__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
-            	Branch_Master__r.Queue_Id__c, ABHFL_Case_Detail__r.STP_Request_Type__c
+        result.status = ABHFL_Constants.ERROR;
+        result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failure').Message__c;
+
+        Case caseRecord = [
+            SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
+            	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id
-        ];*/
-        
-        Asset asset = [SELECT Id, Lan__c, Last_Disbursement_Date__c FROM Asset WHERE Id =:caseRec.AssetId];
-		ABHFL_Case_Detail__c caseDetail = [SELECT Id, STP_Request_Type__c FROM ABHFL_Case_Detail__c WHERE Id=:caseRec.ABHFL_Case_Detail__c];        
+        ];
         
         //Checking for mandatory API conditions
-        if(String.isNotBlank(asset.LAN__c) && caseDetail.STP_Request_Type__c == 'Email'){
+        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             Date today = Date.today();
             Date sixMonthsAgo = today.addMonths(-6);
-            if(asset.Last_Disbursement_Date__c!=null){
-            	Date disbursalDate = asset.Last_Disbursement_Date__c;
-                if(disbursalDate >= sixMonthsAgo){
-                    result.status = 'Success';
-                    result.response = 'Evaluation Success, Submit to get the Welcome Kit.';
-                }
-                else{
-                    system.debug('Disbursal date more than 6 months');
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
-                                                                  Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                  WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c];
-                	if(String.isNotBlank(caseRec.Channel__c) && caseRec.Channel__c == 'Digital'){
-                    	//Send standard email template and close the case
-                    	//PE_Logger__c peLogger = createPELoggerRecord(caseRecord, cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                     //cccRecord[0].Rejected_Case_SMS_Metadata__c);
-                        //Database.SaveResult platformEventResult = invokeCommunicationLogPlatformEvent(caseRecord,peLogger);
-                        //Case caseRec =[SELECT Id, MoveToNext__c,Attachment_Status__c  FROM Case WHERE Id=:caseInteg.Case__c];
-                        //if(caseRec!=null){
-                            caseRec.MoveToNext__c = true;
-                            //caseRec.Attachment_Status__c = 'Completed';
-                            update caseRec;    
-                        //}
-                    	result.status = 'Error';
-                        result.response = 'Evaluation failed. Disbursal date is > 6 months.';
-                	}
-                    else{
-                        if(String.isNotBlank(caseRec.Source__c) && caseRec.Source__c == 'Email'){
-                            //Send standard email template and close the case
-                            //PE_Logger__c peLogger = createPELoggerRecord(caseRecord, cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                     //cccRecord[0].Rejected_Case_SMS_Metadata__c);
-                            //Database.SaveResult platformEventResult = invokeCommunicationLogPlatformEvent(caseRecord,peLogger);
-                            caseRec.MoveToNext__c = true;
-                            update caseRec;
-                            result.status = 'Error';
-                            result.response = 'Evaluation failed. Disbursal date is > 6 months.';
-                        }
-                        else{
-                            //Show error response on the screen
-                            system.debug('Channel is not Digital and source is not email');
-                            result.status = 'Error';
-                            result.response = 'Disbursal date is > 6 months. Please inform the customer that Welcome Kit cannot be provided';
-                        }
-                    }
-                }
-            }   
+            Date disbursalDate = caseRecord.Asset.Last_Disbursement_Date__c;
+            if(disbursalDate >= sixMonthsAgo)
+            {
+                result.status = ABHFL_Constants.SUCCESS;
+                result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Success').Message__c;
+            }
+            else
+            {
+                result = handleDisbursalBeforeSixMonths(caseRecord);
+          	}    
         }
         
         return result;
+    }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - handleDisbursalAfterSixMonths
+    * @param caseRecord - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - Invoked from the evaluate method, this method handles disbursal before 6 months
+    *****************************************************************************************************************/
+    private ASF_IntegrationsController.IntegrationWrapper handleDisbursalBeforeSixMonths(Case caseRecord){
+        
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
+                                                                  Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                  WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+        if(String.isNotBlank(caseRecord.Source__c) && digitalSources.contains(caseRecord.Source__c))
+       	{
+           	//Send standard email template and close the case
+            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Rejected_Case_Email_Template__c, 
+                                                                    cccRecord[0].Rejected_Case_SMS_Metadata__c, false);
+            caseRecord.MoveToNext__c = true;
+            if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
+            {
+               	update caseRecord;
+            }
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Digital').Message__c;
+       	}
+        else
+       	{	
+            result.status = ABHFL_Constants.ERROR;
+           	result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Offline').Message__c;
+        }
+        return result;
+        
     }
     
     /****************************************************************************************************************
@@ -89,26 +89,47 @@ public class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
     * @param integ - ASF_Integration record.
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - Invoked from the ASF_IntegrationsController class, this method runs the Welcome Kit integration and creates Case Integration record.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the Welcome Kit integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 		List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:integ.External_Id__c];
+                                                               AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
-                cInt.Status__c = 'Canceled';
+                cInt.Status__c = ABHFL_Constants.CANCELED;
             }
-            update existingCaseIntRecords;            
+            if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
+            	update existingCaseIntRecords;                
+            }
         }
+        
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
                 
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c  = caseRec.Id;
-        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Status__c = 'Pending';
-        caseInt.Response__c = 'Waiting for API response';
-        insert caseInt;
+        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+        caseInteg.Case__c  = caseRec.Id;
+        caseInteg.Integration_Ext_Id__c = integ.External_Id__c;
+        caseInteg.Status__c = ABHFL_Constants.PENDING;
+        caseInteg.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        caseInteg.Request__c = JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+        	insert caseInteg;    
+        }
+        
+        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
+                
+        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+        caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+        caseIntOut.Case_Integration_ID__c = caseInt.Name;
+        caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        Database.SaveResult publishResult = EventBus.publish(caseIntOut);
+        
+        if(publishResult.IsSuccess()){
+        	wrap.status = ABHFL_Constants.SUCCESS;    
+        }
         return wrap;
     }
     
@@ -116,64 +137,86 @@ public class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
     * @LOB - ABHFL
     * @Function - processResponse
     * @param caseInteg - ASF_Case_Integration record.
-    * @return - void.
-    * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
+    * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
-        system.debug('Inside process response welcome kit');
-        if(caseInteg.Status__c=='Success'){
-        	Case caseRec =[SELECT Id, MoveToNext__c,Attachment_Status__c  FROM Case WHERE Id=:caseInteg.Case__c];
-            if(caseRec!=null){
-                caseRec.MoveToNext__c = true;
-                caseRec.Attachment_Status__c = 'Completed';
-                update caseRec;    
-            }    
-        }     
+        Boolean integrationFailure = true;
+        Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
+                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c ,No_Auto_Communication__c
+                           FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           
+        if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
+            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+            if(isTransferred)
+            {
+               	integrationFailure = false;
+                handleTransferSuccess(caseRec);
+           	}
+            else if(caseRec.Source__c != ABHFL_Constants.BRANCH)
+            {	
+               	handleTransferFailure(caseRec);
+           	}   
+        }    
+        if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
+            ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
+            caseDetails.STP_Failure__c = integrationFailure;
+            caseDetails.Id = caseRec.ABHFL_Case_Detail__c;
+            if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
+            	update caseDetails;    
+            }
+            if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                assignCaseToCSteam(caseRec);
+            }
+            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Welcome Kit', 'STP Document Retrieval Failure');
+        }
     }
     
-    /****************************************************************************************************************
-    * @LOB - ABHFL
-    * @Function - createPELoggerRecord
-    * @param caseRec - Case record.
-    * @param rejectionEmailTemplate - Rejection email template from Case Category Config record.
-    * @param rejectionSmsMetadata - Rejection SMS metadata from Case Category Config record.
-    * @return - PE_Logger__c.
-    * @Description - Function to create a PE_Logger__c record for email and SMS communication.
-    *****************************************************************************************************************/
-    private PE_Logger__c createPELoggerRecord(Case caseRec, String rejectionEmailTemplate, String rejectionSmsMetadata){
-        PE_Logger__c peLogger = new PE_Logger__c();
-        peLogger.AccountId__c = caseRec.AccountId;
-        peLogger.CCCExternalId__c = caseRec.CCC_External_Id__c;
-        peLogger.Case__c = caseRec.Id;
-        peLogger.ContactId__c = caseRec.ContactId;
-        peLogger.PE_Name__c = 'CommunicationLog';
-        peLogger.RecordID__c = caseRec.Id;
-        peLogger.Retry_PE__c = true;
-        peLogger.Status__c = 'Pending';
-        peLogger.CustomMetadataName__c = rejectionSmsMetadata;
-        peLogger.Email_Template_Name__c = rejectionEmailTemplate;
-        
-        insert peLogger;
-        
-        return peLogger;
+    private void handleTransferSuccess(Case caseRec){
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
+                                                                   Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                   WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                    
+      	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
+                    											cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
+        caseRec.MoveToNext__c = true;
+        if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
+        {
+           	update caseRec;            
+        }
     }
     
-    /****************************************************************************************************************
-    * @LOB - ABHFL
-    * @Function - invokeCommunicationLogPlatformEvent
-    * @param caseRec - Case record.
-    * @param peLogger - PE_Logger__c record.
-    * @return - Database.SaveResult.
-    * @Description - Function to publish ASF_CommnunicationLog__e platform event.
-    *****************************************************************************************************************/
-    private Database.SaveResult invokeCommunicationLogPlatformEvent(Case caseRec, PE_Logger__c peLogger){
-        ASF_CommnunicationLog__e commEvent = new ASF_CommnunicationLog__e();
-        commEvent.CCCExternalId__c = caseRec.CCC_External_Id__c;
-        commEvent.CustomMetadataName__c = 'Rejection_Reason_Available';
-        commEvent.PELoggerId__c = peLogger.Id;
-        commEvent.RecordID__c = caseRec.Id;
-        //commEvent.Unique_Id__c = 
-        Database.SaveResult eventResult = EventBus.publish(commEvent);
-        return eventResult;
+    private void handleTransferFailure(Case caseRec){
+        assignCaseToCSteam(caseRec);
+        ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Welcome Kit', 'STP Document Retrieval Failure');
+    }
+    
+    private void assignCaseToCSteam(Case caseRec){
+        Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName =:ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+        caseRec.OwnerId = csQueue.Id;
+        if(Schema.sObjectType.Case.isUpdateable())
+        {
+          	update caseRec;    
+        }
+    }
+    
+    /*********************************************************
+    *@description :  Wrapper Class for Welcome Kit Integration
+    *********************************************************/
+    public class WelcomeKitRequestWrapper{
+        public string caseId;
+        public string souce;
+        public string requestType;
+        public string lan;
+        public string reportName;
+        public string documentType;
+
+        public WelcomeKitRequestWrapper(string caseNumber,string lanNo){
+            this.caseId = caseNumber;
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
+            this.lan = lanNo;
+            this.reportName = ABHFL_Constants.WELCOME_KIT;
+            this.documentType = ABHFL_Constants.BINARY_DATA;
+        }
     }
 }
