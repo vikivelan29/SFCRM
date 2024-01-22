@@ -8,17 +8,16 @@ public class ABFL_STP_APIImplementation{
      * @LOB - ABFL
      * @Function - callout
      * @param integRec - ASF_Integration__c record from the framework.
-     * @param caseRec - Case record from the framework.
+     * @param caseRecord - Case record from the framework.
      * @return - void
      * @Description - Invoked from the ABFL_InvokeSTPProcess class
      *****************************************************************************************************************/
-    public static void callout(ASF_Integration__c integRec, Case caseRec){
+    public static void callout(ASF_Integration__c integRec, Case caseRecord){
         System.debug('In ABFL_STP_APIImplementation');
         System.debug('integRec: ' + integRec);
-        System.debug('caseRec: ' + caseRec);
+        System.debug('caseRecord: ' + caseRecord);
 
-        Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
-		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0, 0);
+		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0,0);
         System.debug('@@@fis'+fi);
 
         switch  on integRec.STP_API_Identifier__c {
@@ -39,12 +38,11 @@ public class ABFL_STP_APIImplementation{
                 performCallout(integRec, caseRecord, filter);
             }
             when 'InterestDebitNote_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'gte' => fi[0]?.StartDate, 'lte' => fi[0]?.EndDate } };
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'gte' => caseRecord.ABFL_Case_Detail__r.From_Date__c, 'lte' => caseRecord.ABFL_Case_Detail__r.To_Date__c } };
                 performCallout(integRec, caseRecord, filter);
             }
             when 'SOA_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => fi[0]?.StartDate, 'toDate' => fi[0]?.EndDate },
-                    												'TRANSACTIONID' => ''};
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => caseRecord.ABFL_Case_Detail__r.From_Date__c, 'toDate' => caseRecord.ABFL_Case_Detail__r.To_Date__c }, 'TRANSACTIONID' => System.now().format('ddMMyyyyhhmmss')};
                 performCallout(integRec, caseRecord, filter);
             }
              
@@ -55,26 +53,26 @@ public class ABFL_STP_APIImplementation{
      * @LOB - ABFL
      * @Function - performCallout
      * @param integRec - ASF_Integration__c record from the framework.
-     * @param caseRec - Case record from the framework.
+     * @param caseRecord - Case record from the framework.
      * @return - void
      * @Description - Invoked from the callout method of ABFL_STP_APIImplementation class
      *****************************************************************************************************************/
-    public static void performCallout(ASF_Integration__c integRec, Case caseRec, Map<String, Object> filter){
-        System.debug('In performCallout:' + caseRec.ID);
+    public static void performCallout(ASF_Integration__c integRec, Case caseRecord, Map<String, Object> filter){
+        System.debug('In performCallout:' + caseRecord.ID);
 
-        List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRec.Id, '');
+        List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id, '');
 
-        ABFL_STP_Wrapper wrapper = new ABFL_STP_Wrapper(filter, caseRec);
+        ABFL_STP_Wrapper wrapper = new ABFL_STP_Wrapper(filter, caseRecord);
 
         Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e(
-            Business_Unit__c = caseRec.Business_Unit__c, 
+            Business_Unit__c = caseRecord.Business_Unit__c, 
             Case_Integration_ID__c = caseIntg[0]?.Name, 
             Integration_Name__c = integRec.STP_API_Identifier__c,  // STP_API_Identifier__c is the actual name of API to invoke
             Request_Payload__c = JSON.serialize(wrapper)
         ));
     }
 
-    //replace hardcoded values
+    // Wrapper to send data
     public class ABFL_STP_Wrapper{
         public Map<String, Object> filter;
         public String reportType;
@@ -82,7 +80,7 @@ public class ABFL_STP_APIImplementation{
         public String pdfPassword;
         public String encryption;
 
-        public ABFL_STP_Wrapper(Map<String, Object> filter, Case caseRec){
+        public ABFL_STP_Wrapper(Map<String, Object> filter, Case caseRecord){
             this.filter = filter;
             this.reportType = 'pdf';
             this.passwordProtectPDF = 'False';
