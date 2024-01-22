@@ -67,7 +67,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
         caseInt.Status__c = ABHFL_Constants.PENDING;
         caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-        caseInt.Request__c = JSON.serialize(new SLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseInt.Request__c = JSON.serialize(new SLRequestWrapper(caseRecord.Asset.Lan__c));
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             INSERT caseInt; 
@@ -80,7 +80,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInte.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRecord.Asset.Lan__c));
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
@@ -167,12 +167,12 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
     *@description - 
     *****************************************************************************************************************/
     public class SLRequestWrapper{
-        public string lan;
-        public string documentType;
+        public string LAN;
+        public string DocumentType;
         
-        SLRequestWrapper(string caseNumber,string lanNo){
-            this.lan = lanNo;
-            this.documentType = ABHFL_Constants.SANCTION_FILE;
+        SLRequestWrapper(string lanNo){
+            this.LAN = lanNo;
+            this.DocumentType = ABHFL_Constants.SANCTION_FILE;
         }
     }
 }
