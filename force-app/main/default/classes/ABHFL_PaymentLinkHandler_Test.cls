@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 01-20-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   01-20-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @IsTest
 public class ABHFL_PaymentLinkHandler_Test {
     @TestSetup
@@ -32,8 +22,14 @@ public class ABHFL_PaymentLinkHandler_Test {
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         caseRecList[0].Business_Unit__c = 'ABHFL';
         caseRecList[0].AccountId = accRec.Id;
+        caseRecList[0].CCC_External_Id__c  = 'hfl069';
         update caseRecList[0];
+        
         ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_Case_Category_Config__c cccRec = [SELECT id FROM ASF_Case_Category_Config__c LIMIT 1];
+        cccRec.CCC_External_Id__c = 'hfl069';
+        update cccRec;
+        
         SLA_Threshold_Warning__c slaThreshold = SLA_Threshold_Warning__c.getOrgDefaults();
         slaThreshold.Stage_SLA_Threshold_1__c = .5;
         slaThreshold.Stage_SLA_Threshold_2__c = .75;
@@ -80,7 +76,7 @@ public class ABHFL_PaymentLinkHandler_Test {
     
     @IsTest
     static void testRun(){
-      ABHFL_PaymentLinkHandler paymentHandler = new ABHFL_PaymentLinkHandler();
+        ABHFL_PaymentLinkHandler paymentHandler = new ABHFL_PaymentLinkHandler();
         Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,OwnerId from Case limit 1];
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
         ASF_Case_Integration__c caseIntRecord = [Select id from ASF_Case_Integration__c limit 1];
@@ -90,6 +86,7 @@ public class ABHFL_PaymentLinkHandler_Test {
         mock.setStatusCode(200);
         Test.setMock(HttpCalloutMock.class, mock);
         Test.StartTest();
+        ASF_IntegrationsController.IntegrationWrapper integrationResponse = paymentHandler.run(integRecord,caseRecord);
         paymentHandler.processResponse(caseIntRecord);
         System.assertEquals('Success',integrationResponse.Status,'PASS');
         Test.StopTest();
