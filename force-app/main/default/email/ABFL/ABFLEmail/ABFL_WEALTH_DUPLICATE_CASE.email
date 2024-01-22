@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -146,14 +146,14 @@
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance - Wealth.</span></strong><br />
-												&nbsp;<br />
-												This is the system-generated response. This message is to inform you that your Case with Case ID {{{Case.CaseNumber}}} has been closed.<br />
 												<br />
-												In case of any further queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
+												We have received your case #{{{Case.CaseNumber}}}. We have noticed that it is a duplicate of case #{{{Case.Parent}}}<br />
 												<br />
-												Thank you for reaching out to us.<br />
+												We have reviewed both cases and to streamline the resolution process, we have closed this duplicate case.<br />
 												<br />
-												Assuring you of our best services always.<br />
+												Be rest assured, that we are actively working on resolving the matter through the primary case #{{{Case.Parent}}}<br />
+												<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
 												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
 												<br />
@@ -175,5 +175,7 @@
 		</tr>
 	
 </table>
-</body>
+<title></title>
+<style type="text/css"><!--br {mso-data-placement:same-cell;}-->
+</style></body>
 </html>
