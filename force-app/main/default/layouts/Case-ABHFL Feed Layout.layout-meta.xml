@@ -21,6 +21,9 @@
             <feedFilterType>FeedItemType</feedFilterType>
             <feedItemType>ChangeStatusPost</feedItemType>
         </feedFilters>
+        <feedFilters>
+            <feedFilterType>AllUpdates</feedFilterType>
+        </feedFilters>
         <fullWidthFeed>true</fullWidthFeed>
         <hideSidebar>true</hideSidebar>
         <highlightExternalFeedItems>true</highlightExternalFeedItems>
@@ -250,6 +253,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>OnCreateCloseSR__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Rejection_Reason__c</field>
             </layoutItems>
             <layoutItems>
@@ -343,10 +350,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Recategorisation_Reason__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>OnCreateCloseSR__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
