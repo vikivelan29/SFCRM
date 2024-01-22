@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Payment_Received__c</fullName>
+    <fullName>Reason_to_Stop_EMI__c</fullName>
     <externalId>false</externalId>
-    <label>Payment Received?</label>
+    <label>Reason to Stop EMI</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Cleared</fullName>
+                <fullName>Loan Closure</fullName>
                 <default>false</default>
-                <label>Cleared</label>
+                <label>Loan Closure</label>
             </value>
             <value>
-                <fullName>Bounced</fullName>
+                <fullName>Advance EMI</fullName>
                 <default>false</default>
-                <label>Bounced</label>
-            </value>
-            <value>
-                <fullName>Additional Requirement</fullName>
-                <default>false</default>
-                <label>Additional Requirement</label>
+                <label>Advance EMI</label>
             </value>
         </valueSetDefinition>
     </valueSet>

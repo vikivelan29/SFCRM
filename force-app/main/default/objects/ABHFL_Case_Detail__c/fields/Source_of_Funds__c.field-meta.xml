@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_of_Funds__c</fullName>
+    <externalId>false</externalId>
+    <label>Source of Funds</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mature</fullName>
+                <default>false</default>
+                <label>Mature</label>
+            </value>
+            <value>
+                <fullName>Settlement/Auction</fullName>
+                <default>false</default>
+                <label>Settlement/Auction</label>
+            </value>
+            <value>
+                <fullName>Own Source</fullName>
+                <default>false</default>
+                <label>Own Source</label>
+            </value>
+            <value>
+                <fullName>BT Banks</fullName>
+                <default>false</default>
+                <label>BT Banks</label>
+            </value>
+            <value>
+                <fullName>Internal BT</fullName>
+                <default>false</default>
+                <label>Internal BT</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
