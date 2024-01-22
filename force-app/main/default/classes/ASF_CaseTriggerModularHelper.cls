@@ -289,6 +289,37 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
+
+    //Method to get the next eligible stage for moveToNextStage and set on trigger.new
+    public static void findNextStageAndSetOnTriggerNew(List<Case> newList, Map<Id, Case> oldMap) {
+        Boolean isUpdate = oldMap!=null?true:false;
+        List<Case> eligibleRecords = new List<Case>();
+        Boolean supressErrors = (newList[0].Technical_Source__c == 'API' && oldMap == null)?true:false;
+        for(Case caseRec : newList){
+            System.debug('caseRec.MoveToNext__c'+caseRec.MoveToNext__c);
+           // System.debug('oldMap.get(caseRec.Id).MoveToNext__c'+oldMap.get(caseRec.Id).MoveToNext__c);
+            //If update, is MoveToNext changed to true, else if insert, MoveToNext is true
+            if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
+               && caseRec.MoveToNext__c == true){
+                   eligibleRecords.add(caseRec);
+               }
+        }
+        if(!eligibleRecords.isEmpty()){
+            for(Case caseRec : eligibleRecords){
+                ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.findNextStageForMoveToNextStage(caseRec);
+                if(resultWrap.status == 'Success'){
+                    caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                }else{
+                    if(supressErrors){
+                        triggerEncounteredError = true;
+                    }else{
+                        eligibleRecords[0].addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
+        
+    }
     
     //Method checks whether move to next stage is changed to true, if yes, calls the right modular methods to process it
     //Moved to after trigger context
