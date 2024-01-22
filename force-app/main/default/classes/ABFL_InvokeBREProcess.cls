@@ -147,7 +147,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 }
 
                 if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && isUpdateCase) {
-                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord.Id, 'Resolved');
+                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
                     System.debug('@@@@Inside run STP Flow'+resultWrap);
                     update resultWrap?.caseToBeUpdated;
                 }

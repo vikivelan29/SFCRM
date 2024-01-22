@@ -97,7 +97,7 @@ public class ABFL_TestDataFactory {
          ASF_Case_Rule_Entry__c stage1_Movement_RuleEntry = null;
          ASF_Case_Rule__c stage1_StageMovement_Rule = null;
          for(ASF_Case_Stage_Config__c config : stageConfigList) {
-			stage1_StageMovement_Rule = new ASF_Case_Rule__c();
+            stage1_StageMovement_Rule = new ASF_Case_Rule__c();
              
              stage1_StageMovement_Rule.Case_Stage_Config__c = config.Id;
              //stage1_StageMovement_Rule.Logical_Condition__c = '1';
@@ -203,7 +203,7 @@ public class ABFL_TestDataFactory {
                                                                  PRIORITY__c= 'PRIORITY',
                                                                  SEGMENT__c= 'SEGMENT',
                                                                  REKYCURL__c= 'REKYCURL',
-                                                                 KYCCOMPLIED__c= false,
+                                                                 KYCCOMPLIED__c='Some Text',
                                                                  IsRegisteredCustomer__c=true,
                                                                  SUBSOURCE__c= 'SUBSOURCE'
                                                                 );
