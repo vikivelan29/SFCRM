@@ -147,7 +147,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
     public static void closeSTPCaseFromFlow(List<Id> caseDetailList) {
         List<Case> casesToUpdateList = new List<Case>();
 
-        List<Case> caseList = [SELECT Id
+        List<Case> caseList = [SELECT Id, CCC_External_Id__c
                                FROM Case 
                                WHERE ABFL_Case_Detail__c IN :caseDetailList
                                AND IsClosed = FALSE
