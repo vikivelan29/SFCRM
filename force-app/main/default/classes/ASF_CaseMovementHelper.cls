@@ -323,7 +323,7 @@ public class ASF_CaseMovementHelper {
 
         // Validate Approvals
         Boolean areApprovalsCompleted = ASF_CaseFrameworkValidator.validateApprovals(currentCase);
-        if(!areTasksComplete){
+        if(!areApprovalsCompleted){
             result.status  = 'Error';
             // TODO - Create Labels
             result.errorMessage = 'Approvals are Pending';
