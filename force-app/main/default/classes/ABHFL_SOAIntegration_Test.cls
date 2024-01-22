@@ -101,7 +101,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
     @IsTest
     static void testProcessResponse() {
         ABHFL_SOAIntegration soa = new ABHFL_SOAIntegration();
-        ASF_Case_Integration__c caseInteg = [Select id,Case__c from ASF_Case_Integration__c limit 1];
+        ASF_Case_Integration__c caseInteg = [Select id, Status__c ,Case__c from ASF_Case_Integration__c limit 1];
         caseInteg.Status__c = 'Success';
         update caseInteg;
         Case caseRec = [SELECT Id, ABHFL_Case_Detail__r.STP_Failure__c, MoveToNext__c, status FROM Case WHERE Id=:caseInteg.Case__c];
