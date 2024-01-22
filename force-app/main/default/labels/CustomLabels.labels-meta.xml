@@ -366,6 +366,13 @@
         <value>3</value>
     </labels>
     <labels>
+        <fullName>RecategorizationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RecategorizationError</shortDescription>
+        <value>The Case does not match the CTST configuration, please recategorize the case</value>
+    </labels>
+    <labels>
         <fullName>STP_Flows</fullName>
         <language>en_US</language>
         <protected>false</protected>
