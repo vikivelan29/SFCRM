@@ -255,7 +255,7 @@ public with sharing class ASF_CaseFrameworkValidator {
         List<ASF_Case_Approv__c> allCaseApprovals 
             = ASF_CaseQueryHandler.getCaseApprovals(new Set<Id>{currentCase.Id}, new Set<String>{currentCase.Stage__c});
         
-        if(allCaseApprovals.size() == 0 || allCaseApprovals[0].Approval_Status__c == 'Approved'){
+        if(allCaseApprovals.size() == 0 || allCaseApprovals[0].Approval_Status__c == 'Approved' || allCaseApprovals[0].Approval_Status__c == 'Rejected'){
             return true;
         }
 
