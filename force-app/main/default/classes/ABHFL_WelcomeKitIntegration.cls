@@ -8,7 +8,7 @@
 public with sharing class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
     
     public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
-    public final List<String> offlineSources = new List<String>{'Branch', 'Call Centre', 'Internal Usage', 'Social Media'};
+    public final List<String> offlineSources = new List<String>{'Branch', 'Call Center', 'Internal Usage', 'Social Media'};
     
     /****************************************************************************************************************
     * @LOB - ABHFL
