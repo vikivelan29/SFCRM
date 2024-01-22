@@ -51,7 +51,7 @@ public class ABFL_CRMToEBOTEventTriggerTest {
         String requestGot = [Select Id,Name, Request__c from ASF_Case_Integration__c where Integration_Ext_Id__c='ASF_IN_System1' limit 1].Request__c;
         System.debug(requestMade);
         System.debug(requestGot);
-        System.assertEquals(requestGot,requestMade);
-        System.assertnotEquals(null,requestGot);
+        CRM_to_EBOT_Event__e requestReceived = (CRM_to_EBOT_Event__e) JSON.deserialize(requestGot, CRM_to_EBOT_Event__e.class);
+        System.assertEquals(requestReceived.Case_Integration_ID__c,ci1Name);
     }
 }

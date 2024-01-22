@@ -4,7 +4,7 @@
         <description>This apex class is for checking the BU Specific logic.</description>
         <name>Additional_Checks_for_Email_Templates</name>
         <label>Additional Checks for Email Templates</label>
-        <locationX>842</locationX>
+        <locationX>974</locationX>
         <locationY>2171</locationY>
         <actionName>ASF_CustomerEmailInvocable</actionName>
         <actionType>apex</actionType>
@@ -54,7 +54,7 @@
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
-        <locationX>1793</locationX>
+        <locationX>2041</locationX>
         <locationY>755</locationY>
         <actionName>Case.Case_creator_when_the_case_is_closed</actionName>
         <actionType>emailAlert</actionType>
@@ -74,7 +74,7 @@
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
         <label>Case owner when the case is assigned</label>
-        <locationX>1749</locationX>
+        <locationX>1997</locationX>
         <locationY>1139</locationY>
         <actionName>Case.Case_owner_when_the_case_is_assigned</actionName>
         <actionType>emailAlert</actionType>
@@ -116,6 +116,36 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_case_config.Resolved_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Email_Template_Found</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Duplicate_Email_Template</name>
+        <label>Duplicate Email Template</label>
+        <locationX>1370</locationX>
+        <locationY>1871</locationY>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Duplicate_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Resolved_Duplicate_Case_Email_Template__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSCustomMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Duplicate_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -185,7 +215,7 @@
     <decisions>
         <name>By_pass_flow</name>
         <label>By pass flow</label>
-        <locationX>408</locationX>
+        <locationX>470</locationX>
         <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Check_if_case_is_from_email</targetReference>
@@ -207,7 +237,7 @@
     <decisions>
         <name>Check_case_category_config</name>
         <label>Check case category config</label>
-        <locationX>1601</locationX>
+        <locationX>1832</locationX>
         <locationY>1547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -229,7 +259,7 @@
     <decisions>
         <name>Check_case_creator_if_case_closed</name>
         <label>Check case creator if case closed</label>
-        <locationX>1881</locationX>
+        <locationX>2129</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Check_Case_Owner_is_changed</targetReference>
@@ -282,7 +312,7 @@
     <decisions>
         <name>Check_Case_Owner_is_changed</name>
         <label>Check Case Owner is changed</label>
-        <locationX>1881</locationX>
+        <locationX>2129</locationX>
         <locationY>1031</locationY>
         <defaultConnector>
             <targetReference>Check_Case_status</targetReference>
@@ -328,12 +358,12 @@
     <decisions>
         <name>Check_Case_status</name>
         <label>Check Case status</label>
-        <locationX>1881</locationX>
+        <locationX>2129</locationX>
         <locationY>1331</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND 10)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND 10) OR (11 AND 12)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -404,6 +434,20 @@
                     <stringValue>ABFL</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed Duplicate</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed Duplicate</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_case_config</targetReference>
             </connector>
@@ -413,7 +457,7 @@
     <decisions>
         <name>Check_for_contact_or_account</name>
         <label>Check for contact or account</label>
-        <locationX>974</locationX>
+        <locationX>1106</locationX>
         <locationY>2363</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -520,7 +564,7 @@
     <decisions>
         <name>Check_if_case_is_from_email</name>
         <label>Check if case is from email</label>
-        <locationX>1031</locationX>
+        <locationX>1155</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Check_case_creator_if_case_closed</targetReference>
@@ -545,7 +589,7 @@
     <decisions>
         <name>Check_if_the_Origin_is_Email</name>
         <label>Check if the Origin is Email</label>
-        <locationX>1705</locationX>
+        <locationX>1953</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Case_creator_when_the_case_is_closed</targetReference>
@@ -577,7 +621,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1304</locationX>
+        <locationX>1502</locationX>
         <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -604,6 +648,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_case_config.Send_Duplicate_stage_communications__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Custom_metadata_names</targetReference>
             </connector>
@@ -613,7 +664,7 @@
     <decisions>
         <name>Custom_metadata_names</name>
         <label>Custom metadata names</label>
-        <locationX>974</locationX>
+        <locationX>1106</locationX>
         <locationY>1763</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -682,11 +733,33 @@
             </connector>
             <label>Unresolved - Stage</label>
         </rules>
+        <rules>
+            <name>Duplicate_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed Duplicate</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_case_config.Send_Duplicate_stage_communications__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Duplicate_Email_Template</targetReference>
+            </connector>
+            <label>Duplicate - Status</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Email_Template_Found</name>
         <label>Email Template Found?</label>
-        <locationX>974</locationX>
+        <locationX>1106</locationX>
         <locationY>2063</locationY>
         <defaultConnector>
             <targetReference>Check_for_contact_or_account</targetReference>
@@ -708,7 +781,8 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>added condition to send an email for ABFL when case is categorized .</description>
+    <description>added condition to send an email for ABFL when case is categorized .
+Added condition to send email/sms when case status is Closed Duplicate</description>
     <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
@@ -739,7 +813,7 @@
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>842</locationX>
+        <locationX>974</locationX>
         <locationY>2471</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
@@ -834,7 +908,7 @@
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>842</locationX>
+        <locationX>974</locationX>
         <locationY>2579</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
@@ -872,7 +946,7 @@
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1601</locationX>
+        <locationX>1832</locationX>
         <locationY>1439</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -891,7 +965,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>282</locationX>
+        <locationX>344</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>By_pass_flow</targetReference>
@@ -977,5 +1051,8 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
 </Flow>

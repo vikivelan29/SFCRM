@@ -24,9 +24,9 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
 
         Case caseRecord = [
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
-            	Branch_Master__r.Queue_Id__c, ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c
+            	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
         
         //Checking for mandatory API conditions
@@ -104,23 +104,26 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             	update existingCaseIntRecords;                
             }
         }
+        
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
                 
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Case__c  = caseRec.Id;
         caseInteg.Integration_Ext_Id__c = integ.External_Id__c;
         caseInteg.Status__c = ABHFL_Constants.PENDING;
         caseInteg.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        caseInteg.Request__c = JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInteg;    
         }
         
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
-        
+                
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
@@ -139,8 +142,9 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
         Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
-                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c 
+                           MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c ,No_Auto_Communication__c
                            FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred)
@@ -200,7 +204,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     *********************************************************/
     public class WelcomeKitRequestWrapper{
         public string caseId;
-        public string source;
+        public string souce;
         public string requestType;
         public string lan;
         public string reportName;
@@ -208,7 +212,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
 
         public WelcomeKitRequestWrapper(string caseNumber,string lanNo){
             this.caseId = caseNumber;
-            this.source = ABHFL_Constants.CRM;
+            this.souce = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
             this.reportName = ABHFL_Constants.WELCOME_KIT;

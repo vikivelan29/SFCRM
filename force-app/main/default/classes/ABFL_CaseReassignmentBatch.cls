@@ -18,8 +18,6 @@ global class ABFL_CaseReassignmentBatch implements Database.Batchable<sObject>, 
                 allInactiveUser.put(rec.Id, rec);
             }
         }
-        System.debug('***ABFL_CaseReassignmentBatch'+allactiveUser);
-        System.debug('***ABFL_CaseReassignmentBatch'+allInactiveUser);
         
         // Query cases with inactive owner users
         List<String> closedCaseList = new List<String>{
@@ -29,8 +27,6 @@ global class ABFL_CaseReassignmentBatch implements Database.Batchable<sObject>, 
     }
 
     global void execute(Database.BatchableContext BC, List<Case> scope) {
-        System.debug('***ABFL_CaseReassignmentBatch'+allactiveUser);
-        System.debug('***ABFL_CaseReassignmentBatch'+allInactiveUser);
         List<Case> casesToUpdate = new List<Case>();
         for (Case cs : scope) {
             String activeId = getActiveManagerId(cs.OwnerId);
@@ -42,11 +38,14 @@ global class ABFL_CaseReassignmentBatch implements Database.Batchable<sObject>, 
         }
 
         if (!casesToUpdate.isEmpty()) {
-            // try {
+            try {
                 Database.update(casesToUpdate);
-            // } catch (Exception e) {
-                // System.debug('Error updating cases: ' + e.getMessage());
-            // }
+            } catch (Exception e) {
+                ABCL_Logger.enableExceptionLogging();
+                ABCL_Logger.push('ABFL_CaseReassignmentBatch.execute');
+                ABCL_Logger.message(e.getMessage());
+                ABCL_Logger.emit();
+            }
         }
     }
 

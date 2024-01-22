@@ -26,7 +26,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Case caseRecord = [
             SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c 
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 		//system.debug('caseRecord-- '+caseRecord);
         financialYr = getFinancialYr(caseRecord);
@@ -75,7 +75,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Case caseRecord = [
             SELECT Id, Sub_Type_Text__c, Technical_Source__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 
         if(existingCaseIntRecords.size()>0){
@@ -127,15 +127,16 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     public void processResponse(ASF_Case_Integration__c caseInt){
         
         Boolean integrationFailure = true;
+        Boolean isTransferred = False;
         Boolean previousStatus;
         Case caseRecord = [SELECT Id,AccountId,ContactId,Source__c,Sub_Type_Text__c,CCC_External_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c
-                           FROM Case WHERE Id =: caseInt.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseInt.Case__c];
         
         String caseSubType = caseRecord.Sub_Type_Text__c;
         String integrationName = getIntegrationName(caseSubType);
 
-        if(caseInt.Status__c=='Success'){
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInt);
+        if(caseInt.Status__c == ABHFL_Constants.SUCCESS){
+            isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInt);
             if(caseRecord!=null){
                 if(isTransferred){
                     integrationFailure = false;
@@ -144,22 +145,17 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                             cccRecord[0].Resolved_Case_Email_Template__c, 
                                                                                                                             null, 
-                                                                                                                            true);       
-                } else {
-                    if(caseRecord.Source__c == 'Branch'){
-                        caseRecord.OwnerId = caseRecord.CreatedById;
-                        ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,integrationName,null);
-                    } else {
-                        Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED Limit 1];
-                        caseRecord.OwnerId = csQueue.Id;
-                    }
-                    if(Schema.sObjectType.Case.isUpdateable()){
-                    	update caseRecord;    
-                    }
-                    
-                }
+                                                                                                                            true); 
+
+                    caseRecord.MoveToNext__c = true;
+                    update caseRecord;       
+                } 
             }
         }
+        else if(caseInt.Status__c == ABHFL_Constants.FAILURE) {
+            handleFailure(caseRecord, integrationName); 
+        }
+
         if(integrationFailure != caseRecord.ABHFL_Case_Detail__r.STP_Failure__c){
             ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
             caseDetails.STP_Failure__c = integrationFailure;
@@ -168,5 +164,18 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             	update caseDetails;                   
             }
         }   
+    }
+
+    public void handleFailure(Case caseRecord, String integrationName) {
+        if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
+            caseRecord.OwnerId = caseRecord.CreatedById;
+            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,integrationName,null);
+        } else {
+            Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED Limit 1];
+            caseRecord.OwnerId = csQueue.Id;
+        }
+        if(Schema.sObjectType.Case.isUpdateable()){
+            update caseRecord;    
+        } 
     }
 }

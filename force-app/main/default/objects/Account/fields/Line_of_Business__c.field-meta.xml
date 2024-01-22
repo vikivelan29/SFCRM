@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Payments</label>
             </value>
+            <value>
+                <fullName>Wealth</fullName>
+                <default>false</default>
+                <label>Wealth</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

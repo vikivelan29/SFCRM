@@ -22,7 +22,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,
                    ABHFL_Case_Detail__r.As_On_Date__c,ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
         
         
@@ -53,7 +53,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
-    List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
+        List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
                                                                AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
         if(existingCaseIntRecords.size()>0){
@@ -65,19 +65,22 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                 UPDATE existingCaseIntRecords;  
             }           
         }
+            
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];    
                 
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Case__c  = caseRec.Id;
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
         caseInt.Status__c = ABHFL_Constants.PENDING;
         caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        caseInt.Request__c = JSON.serialize(new BCLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             INSERT caseInt; 
         }
         
         ASF_Case_Integration__c caseInte = [SELECT Name FROM ASF_Case_Integration__c WHERE Id =: caseInt.Id WITH SECURITY_ENFORCED];
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
@@ -103,28 +106,30 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
+        Boolean isTransferred = False;
+        
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
-            
-            Case caseRec = [SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Source__c,  
+            isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+        }
+        
+        Case caseRec = [SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Source__c,  
                                  CreatedById,ownerId,caseNumber,ABHFL_Case_Detail__c,ABHFL_Case_Detail__r.STP_Failure__c
-                          FROM Case WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED];
+                          FROM Case WHERE Id =: caseInteg.Case__c];
+        
+        if(caseRec != null && isTransferred && caseInteg.Status__c == ABHFL_Constants.SUCCESS){
+            handleSuccessfullTransfer(caseRec);
+        }else if(caseInteg.Status__c != ABHFL_Constants.CANCELED && caseInteg.Status__c != ABHFL_Constants.PENDING){
+            handleUnsuccessfullTransfer(caseRec,caseInteg);
+        }
+     
+        if(isTransferred == caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
+            ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+            caseDetail.STP_Failure__c = !isTransferred;
+            caseDetail.Id = caseRec.ABHFL_Case_Detail__c;
             
-            if(caseRec != null && isTransferred){
-                handleSuccessfullTransfer(caseRec);
-            }else{
-                handleUnsuccessfullTransfer(caseRec);
-            }
-            
-            if(isTransferred == caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
-                ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
-                caseDetail.STP_Failure__c = !isTransferred;
-                caseDetail.Id = caseRec.ABHFL_Case_Detail__c;
-                
-                if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
-                    UPDATE caseDetail; 
-                }            
-            }
+            if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
+                UPDATE caseDetail; 
+            }            
         }     
     }
     
@@ -144,7 +149,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
           } 
      }
      
-     private void handleUnsuccessfullTransfer(Case caseRec){
+     private void handleUnsuccessfullTransfer(Case caseRec,ASF_Case_Integration__c caseInteg){
          if(caseRec.Source__c != ABHFL_Constants.BRANCH){
             Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED LIMIT 1];
             caseRec.OwnerId = csQueue.Id;
@@ -152,14 +157,14 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             if(Schema.sObjectType.Case.isUpdateable()){
                 UPDATE caseRec;
             }  
-        }else if(caseRec.Source__c == ABHFL_Constants.BRANCH && caseRec.OwnerId != caseRec.CreatedById){
-            caseRec.OwnerId = caseRec.CreatedById;
+        }else if(caseRec.Source__c == ABHFL_Constants.BRANCH ){
             
-            if(Schema.sObjectType.Case.isUpdateable()){
+            if(Schema.sObjectType.Case.isUpdateable() && caseRec.OwnerId != caseRec.CreatedById){
+                caseRec.OwnerId = caseRec.CreatedById;
                 UPDATE caseRec;
             }
             
-            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.BALANCE_CONFIRMATION_LETTER, Null);
+            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.BALANCE_CONFIRMATION_LETTER, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
         }
      }
     

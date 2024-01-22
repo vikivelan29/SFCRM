@@ -22,7 +22,7 @@ public with sharing class PAY_CaseTriggerHelper_Test {
         List<Case> caseList = new List<Case>{testCase};
         PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI((List<Sobject>)caseList);
         customWrap.CompanyName = 'Test';
-        customWrap.ClientCode = 'T_32815';
+        customWrap.ClientCode = 'T_32815'; 
         testCase.Customer_Payload__c = JSON.serialize(customWrap);
         PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI((List<Sobject>)caseList);
     }

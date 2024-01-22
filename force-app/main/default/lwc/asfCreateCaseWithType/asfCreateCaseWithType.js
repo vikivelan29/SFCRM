@@ -1,5 +1,5 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountDataByCustomerType';
+import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails';
 import getAccountRec from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountRec';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
@@ -128,6 +128,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     accountRecordType = '';
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
 
+    accountLOB = '';
+
     //utility method
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);
@@ -214,7 +216,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
-        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset })
+
+        const inpArg = new Map();
+
+        inpArg['accountLOB'] = this.accountLOB;
+
+        let strInpArg = JSON.stringify(inpArg);
+
+        getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset,inpArg : strInpArg })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -761,6 +770,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.primaryLOBValue = result.Business_Unit__c;
                 this.classificationValue = result.Classification__c;
                 this.accountRecordType = result.RecordType.Name;
+                this.accountLOB = result.Line_of_Business__c; // THIS IS USED IN CASE OF ABFL TO CHECK IF THE LOB IS WEALTH.
                 console.log('result' + result);
             })
             .catch(error => {

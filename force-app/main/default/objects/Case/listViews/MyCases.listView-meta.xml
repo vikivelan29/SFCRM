@@ -5,8 +5,8 @@
     <columns>CASES.SUBJECT</columns>
     <columns>CASES.STATUS</columns>
     <columns>CASES.PRIORITY</columns>
-    <columns>CASES.ORIGIN</columns>
     <columns>CASES.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
     <columns>SR_TAT_elapsed__c</columns>
     <filterScope>Mine</filterScope>
     <label>My Cases</label>

@@ -66,7 +66,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Priority__c</field>
+        <field>ABHFL_Case_Detail__c.Priority1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1426,8 +1426,4 @@
         <object>Case_Integration_Outbound__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>TransferAnyCase</name>
-    </userPermissions>
 </PermissionSet>

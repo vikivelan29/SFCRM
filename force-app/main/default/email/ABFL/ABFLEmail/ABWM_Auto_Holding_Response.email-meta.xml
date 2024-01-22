@@ -5,7 +5,7 @@
     <name>ABWM - Auto Holding Response</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>To be Finalized</subject>
+    <subject>There is a delay in resolving your case!</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
