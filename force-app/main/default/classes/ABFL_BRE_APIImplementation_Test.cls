@@ -80,7 +80,7 @@ public class ABFL_BRE_APIImplementation_Test {
         System.debug('@@@'+Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable());
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
-      //  Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
+        Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
     }
     
     @isTest
@@ -113,8 +113,8 @@ public class ABFL_BRE_APIImplementation_Test {
         caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         Test.stopTest();
-     //   Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
-	//	Assert.areEqual(2, caseDetCount);
+        Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
+	Assert.areEqual(2, caseDetCount);
     }
     
     @isTest
@@ -148,7 +148,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
-	//	Assert.areEqual(2, caseDetCount);
+	Assert.areEqual(2, caseDetCount);
          Case caseRec1 = [
             SELECT Id, Status
             FROM Case
@@ -175,13 +175,13 @@ public class ABFL_BRE_APIImplementation_Test {
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
         
-        //Assert.areEqual(ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR,retVal.response);
+        Assert.areEqual(ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR,retVal.response);
         
         det.Autoclosure_IN_RR__c = true;
         update det;
         ASF_IntegrationsController.IntegrationWrapper retVals = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
         
-        //Assert.areEqual(ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR,retVal.response);
+        Assert.areEqual(ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR,retVal.response);
         Test.stopTest();
     }
     @isTest
@@ -214,7 +214,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
-      //  Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
+        Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
     }
     
      @isTest
@@ -247,7 +247,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
-       // Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
+       Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
     }
     
 }
