@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -160,10 +160,12 @@
 												<br />
 												Assuring you of our best services always.<br />
 												<br />
-												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
-												<br />
-												Warm regards,<br />
-												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
+												Note - Please DO NOT edit the subject line while responding to us on this case.
+												<p>Sincerely,</p>
+
+												<p>Customer Service,<br />
+												<strong style="color: rgb(192, 57, 43);">Aditya Birla Finance Limited</strong></p>
+												</div>
 												</td>
 											</tr>
 										
