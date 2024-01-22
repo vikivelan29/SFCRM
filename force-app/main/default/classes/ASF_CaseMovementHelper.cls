@@ -325,27 +325,6 @@ public class ASF_CaseMovementHelper {
         resultWrapper.status = 'Success';
         //resultWrapper.data = dataWrapper;
         
-            resultWrapper.nextStageConfig = nextStageConfig;
-
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo assignmentInfo = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(currentCaseRec, requestedStage);
-            resultWrapper.ownerId = assignmentInfo.defaultOwnerId;
-            resultWrapper.errorOwnerId = assignmentInfo.defaultErrorOwnerId;
-            
-            // If Owner Id not found, find by regular method
-            if(resultWrapper.ownerId == null){
-                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo rulesAssignmentInfo = ASF_CaseMovementHelper.getAssignmentForStage(currentCaseRec, requestedStage);
-                resultWrapper.ownerId = rulesAssignmentInfo.defaultOwnerId;
-                resultWrapper.errorOwnerId = rulesAssignmentInfo.defaultErrorOwnerId;
-            }
-            
-            Case updatedCase = new Case(Id = currentCaseRec.Id);
-            updatedCase.Stage__c = requestedStage;
-            updatedCase.Status = nextStageConfig.Status_Mapping__c;
-            //currentCaseRec.pending_clarification__c = true;
-            // currentCaseRec.FTR__c = false; //need clarity on this field usage
-            resultWrapper.caseToBeUpdated = updatedCase;
-            resultWrapper.status = 'Success';
-            //resultWrapper.data = dataWrapper;
         return resultWrapper;
     }
     
