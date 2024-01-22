@@ -5,7 +5,7 @@
         <label>Close Related Cases</label>
         <locationX>588</locationX>
         <locationY>411</locationY>
-        <actionName>01p9I000000CaULNotFound</actionName>
+        <actionName>ABFL_InvokeSTPProcess</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -14,6 +14,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ABFL_InvokeSTPProcess</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
