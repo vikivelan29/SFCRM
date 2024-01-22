@@ -110,7 +110,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         Boolean integrationFailure = true;
         Boolean previousStatus;
         Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,OwnerId,CreatedById,Asset.LAN__c,Asset.Account_Status__c,
-                           Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,ABHFL_Case_Detail__r.STP_Failure__c
+                           Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
                            FROM Case WHERE Id =: caseInt.Case__c];
         Boolean isTransferred = false;
         if(caseInt.Status__c==ABHFL_Constants.SUCCESS){

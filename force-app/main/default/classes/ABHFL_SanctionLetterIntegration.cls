@@ -81,6 +81,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         caseIntOut.Case_Integration_ID__c = caseInte.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
         if(publishResult.isSuccess()){
@@ -106,8 +107,8 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         }  
         
         Case caseRec = [SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Source__c,  
-                                 CreatedById,ownerId,caseNumber,ABHFL_Case_Detail__c,ABHFL_Case_Detail__r.STP_Failure__c
-                          FROM Case WHERE Id =: caseInteg.Case__c];
+                               CreatedById,ownerId,caseNumber,ABHFL_Case_Detail__c,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
+                          FROM Case WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED];
         
         if(caseRec != null && isTransferred && caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             handleSuccessfullTransfer(caseRec);
