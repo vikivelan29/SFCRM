@@ -1,8 +1,8 @@
 /*********************************************************
-*@Class        :  ABHFL_AmortizationIntegration
+*@Class        :  ABHFL_ComplaintCTSTHelper
 *@Author       :  Dhinesh Kumar T
 *@Created Date :  12/25/2023
-*@Last Modified:  12/27/2023
+*@Last Modified:  01/11/2024
 *@description  :  Class for complaints stage movement helper. 
 *********************************************************/
 public with sharing class ABHFL_ComplaintCTSTHelper {
@@ -14,7 +14,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
     *****************************************************************************************************************/
     public static void sendAcknowledgement(Case caseRec){
     	Id caseId = caseRec.Id; 
-    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c,No_Auto_Communication__c
+    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
                        FROM Case WHERE Id = :caseId WITH SECURITY_ENFORCED];
 
     	ASF_Case_Category_Config__c ccc = [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
