@@ -132,6 +132,7 @@ public with sharing class ABHFL_MultipleLANController {
     }
     @AuraEnabled
     public static Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
+        Asset_Detail__c assetDetail  = new Asset_Detail__c();
         //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
         //Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
         return assetDetail;
