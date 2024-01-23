@@ -62,17 +62,21 @@ public with sharing class ABHFL_Constants {
 
 
     // Constants for REKYC 
-    public static String reKycServiceName = 'Send_RKYC_API';
-    public static String reKycIntegrationName = 'REKYC';
+    public static String REKYC_SERVICE_NAME = 'Send_RKYC_API';
+    public static String REKYC_INTEGRATION_NAME = 'REKYC';
     
 
     // Constants for Bitly
-    public static String bitlyServiceName = 'ShortUrl';
-    public static String bitlyIntegrationName = 'Bitly_Url';
+    public static String BITLY_SERVICE_NAME = 'ShortUrl';
+    public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
 
 
     //Constants for Statement Of Account
-    public static String soaIntegrationName = 'SOA_API';
+    public static String SOA_INTEGRATION_NAME = 'SOA_API';
+    public static final String SOA_SOURCE = 'CRM';
+    public static final String SOA_REQUEST_TYPE = 'View';
+    public static final String SOA_REPORT_NAME = 'SOABinary';
+    public static final String SOA_DOCUMENT_TYPE = 'BinaryData';
 
 
     
