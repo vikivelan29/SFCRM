@@ -48,8 +48,6 @@ public class ABHFL_CTSTHelper {
             
         }
         
-        
-        
         // for RRSDPRSHFC01 - else{
            // caseRecord.OwnerId = emailNonFinancialQueue.Id;
         //}
