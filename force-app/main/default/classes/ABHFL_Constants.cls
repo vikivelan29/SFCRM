@@ -33,7 +33,8 @@ public with sharing class ABHFL_Constants {
     public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
-        
+    @auraEnabled public final String ABHFL = 'ABHFL';
+    
     
     //Constants for Welcome Kit STP Flow
     public static final String WK_EVALUATION_FAILED_ERROR = 'Evaluation Failed, cannot retrieve Welcome Kit.';
@@ -58,7 +59,24 @@ public with sharing class ABHFL_Constants {
     public static final String IC_REPORT_NAME = 'InterestCertificate';
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
+
+
+    // Constants for REKYC 
+    public static String reKycServiceName = 'Send_RKYC_API';
+    public static String reKycIntegrationName = 'REKYC';
     
+
+    // Constants for Bitly
+    public static String bitlyServiceName = 'Bitly Url Integration';
+    public static String bitlyIntegrationName = 'Bitly_Url';
+
+
+    //Constants for Statement Of Account
+    public static String soaIntegrationName = 'SOA_API';
+
+
+    
+
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
         return new ABHFL_Constants();
