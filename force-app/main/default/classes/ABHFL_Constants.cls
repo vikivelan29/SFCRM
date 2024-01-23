@@ -67,7 +67,7 @@ public with sharing class ABHFL_Constants {
     
 
     // Constants for Bitly
-    public static String bitlyServiceName = 'Bitly Url Integration';
+    public static String bitlyServiceName = 'ShortUrl';
     public static String bitlyIntegrationName = 'Bitly_Url';
 
 
