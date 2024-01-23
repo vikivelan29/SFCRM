@@ -17,6 +17,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     *****************************************************************************************************************/
 
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
+        Case caseRec = [SELECT Id, CCC_External_Id__c, Source__c FROM Case WHERE Id = :caseRec.Id];
         ASF_Case_Category_Config__c accc = [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c  = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
