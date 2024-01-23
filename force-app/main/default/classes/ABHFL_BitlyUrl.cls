@@ -16,7 +16,8 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Statment Of Account integration should be fired or not.
     *****************************************************************************************************************/
 
-    public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
+    public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRe){
+        Case caseRec = [SELECT Id, CCC_External_Id__c, Source__c FROM Case WHERE Id = :caseRe.Id];
         ASF_Case_Category_Config__c accc = [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c  = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
