@@ -34,6 +34,11 @@ public with sharing class ABHFL_Constants {
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
     @auraEnabled public final String ABHFL = 'ABHFL';
+    public static final String API = 'API';
+    public static final String OPEN = 'Open';
+    public static final String CHANNEL_ID = 'CHA1002';
+    public static final String ODP_ALERTS = 'ODP_Alerts';
+    
     
     
     //Constants for Welcome Kit STP Flow
@@ -59,6 +64,8 @@ public with sharing class ABHFL_Constants {
     public static final String IC_REPORT_NAME = 'InterestCertificate';
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
+    
+    
 
 
     // Constants for REKYC 
