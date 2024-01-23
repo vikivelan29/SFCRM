@@ -7,7 +7,7 @@
 </style>
 Dear Customer,<br />
 <br />
-Your request registered under reference number case id&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} &nbsp;for Loan account no.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} has been closed.<br />
+Your request registered under reference number case Id&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} &nbsp;for Loan account no.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} has been closed.<br />
 <br />
 Regards,<br />
 -Aditya Birla Housing Finance Limited<br />
