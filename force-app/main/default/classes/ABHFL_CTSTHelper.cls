@@ -47,9 +47,10 @@ public class ABHFL_CTSTHelper {
             }
             
         }
-        if(subType == 'RRSDPRSHFC01'){
-           caseRecord.OwnerId = emailNonFinancialQueue.Id;
-        }
+        
+        // for RRSDPRSHFC01 - else{
+           // caseRecord.OwnerId = emailNonFinancialQueue.Id;
+        //}
     }
     public static Case assignCaseToBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
@@ -159,6 +160,25 @@ public class ABHFL_CTSTHelper {
         system.debug('result--'+JSON.serialize(result));
         if(result.status == 'Success') {
             ASF_IntegrationsController.IntegrationWrapper resultOfRun = litmusApiObj.run(new ASF_Integration__c(), newCaseRec);
+        }
+    }
+
+    public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
+        Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
+        Case caseRecord = new Case();
+        caseRecord.Business_Unit__c = 'ABHFL';
+        caseRecord.Client_Code_Text__c = clientCode;
+        caseRecord.Source__c = source;
+        caseRecord.Technical_Source__c = techSource;
+        caseRecord.CCC_External_Id__c = ccc;
+        caseRecord.LAN__C = lan;
+        caseRecord.parentId = parentCaseId;
+        return caseRecord;
+    }
+    
+    public static void insertCases(List<Case> caseList) {
+        if(!caseList.isempty()){
+             insert caseList;
         }
     }
 }
