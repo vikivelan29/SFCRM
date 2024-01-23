@@ -29,7 +29,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c,
                 ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.Masked_Partial_LANs__c, ABHFL_Case_Detail__r.Masked_Full_LANs__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 
         List<Asset_Detail__c> relatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c
