@@ -1062,7 +1062,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Id> accountIds = new List<Id>();
         Map<String,ASF_Case_Category_Config__c> cccExternalIdCategoryMap = new Map<String,ASF_Case_Category_Config__c>();
         for(Case caseRec : newList){
-            if(oldMap != null 
+            if(oldMap != null && oldMap.get(caseRec.Id).CCC_External_Id__c != null 
                 && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
                 || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
