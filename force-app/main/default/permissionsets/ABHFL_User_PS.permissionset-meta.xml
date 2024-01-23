@@ -45,6 +45,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHFL_Case_Detail__c.Payment_Link_Trigger_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Claim_Status__c</field>
         <readable>true</readable>
@@ -281,7 +286,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Priority__c</field>
+        <field>ABHFL_Case_Detail__c.Priority1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1092,11 +1097,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Old_ROI__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Overdue_charges__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

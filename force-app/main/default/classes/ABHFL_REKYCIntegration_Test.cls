@@ -27,7 +27,7 @@ public class ABHFL_REKYCIntegration_Test {
         
 
         System.runAs(u){
-            Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
+            Account accRec = ASF_TestDataFactory.insertPersonAccount('John', 'Smith','10110000');
             accRec.KYC_Done_Date__c = Date.today().addMonths(-2);
             accRec.Client_Code__c = '123456789';
             update accRec;

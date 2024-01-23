@@ -19,7 +19,7 @@
                     <template if:true={showBotFeedback}>
                         <lightning-layout-item size="8" padding="around-small">
                             <lightning-input type="checkbox" label="Send Bot Feedback" value={sendBotFeedback}
-                                onchange={handleBotFeedback}>
+                                onchange={handleBotFeedback} checked>
                             </lightning-input>
                         </lightning-layout-item>
                     </template>
@@ -60,6 +60,9 @@
                                 <lightning-messages></lightning-messages>
                                 <lightning-input-field field-name="Recategorisation_Reason__c"
                                     data-id="rejectReason" required=true value={rejectionReasonVal}>
+                                </lightning-input-field>
+                                <lightning-input-field field-name="Bot_Feedback__c"
+                                    data-id="botfeedback" required=true value={botFeedbackVal}>
                                 </lightning-input-field>
                                 <template if:true={isAllNature}>
                                     <lightning-input-field field-name="Nature__c" data-id="natureField"
@@ -112,7 +115,7 @@
             </template>
         </template>
         <template if:false={recategorizeEnabled}>
-            Case is not Eligible for Recategorization
+            Case is not eligible for Recategorization
         </template>
         <div slot="footer">
             <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>

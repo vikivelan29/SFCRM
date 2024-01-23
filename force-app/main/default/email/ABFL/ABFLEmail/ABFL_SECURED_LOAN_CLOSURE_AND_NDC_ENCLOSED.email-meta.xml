@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL SECURED LOAN CLOSURE AND NDC ENCLOSED</name>
+    <name>SECURED LOAN CLOSURE AND NDC ENCLOSED</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Your ABFL Loan has been closed successfully!</subject>

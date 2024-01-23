@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL PAYMENT BOUNCE MEMO</name>
+    <name>PAYMENT BOUNCE MEMO</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>You payment has bounced!</subject>

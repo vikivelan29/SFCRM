@@ -3,7 +3,7 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>ABWM SMS CLOSURE TEMPLATE</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <relatedEntityType>ASF_Communication_Log__c</relatedEntityType>
     <style>none</style>
     <subject>Case Created</subject>
     <type>custom</type>

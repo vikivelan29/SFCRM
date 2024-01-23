@@ -3,7 +3,7 @@
     <sharingCriteriaRules>
         <fullName>Share_ABFL_Cases_to_ABFL_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>Share ABFL Cases to ABFL Users</label>
+        <label>Share ABFL Cases to ABFL Users</label> 
         <sharedTo>
             <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
         </sharedTo>

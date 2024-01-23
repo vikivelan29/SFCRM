@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -162,9 +162,9 @@
 												&nbsp;<br />
 												We write to you with reference to your request for the reversal of __________&nbsp;charges towards your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
 												<br />
-												We would like to confirm that your (charges) of (INR XXX) are reversed.<br />
+												We would like to confirm that your (charges) of (INR _______) are reversed.<br />
 												<br />
-												We request you to refer below link for schedule of charges.<br />
+												We request you to refer below link for the schedule of charges.<br />
 												<br />
 												https://personalfinance.adityabirlacapital.com/Documents/Schedule-of-Charges-and-Interest-Rates.pdf<br />
 												<br />

@@ -22,8 +22,14 @@ public class ABHFL_PaymentLinkHandler_Test {
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         caseRecList[0].Business_Unit__c = 'ABHFL';
         caseRecList[0].AccountId = accRec.Id;
+        caseRecList[0].CCC_External_Id__c  = 'hfl069';
         update caseRecList[0];
+        
         ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_Case_Category_Config__c cccRec = [SELECT id FROM ASF_Case_Category_Config__c LIMIT 1];
+        cccRec.CCC_External_Id__c = 'hfl069';
+        update cccRec;
+        
         SLA_Threshold_Warning__c slaThreshold = SLA_Threshold_Warning__c.getOrgDefaults();
         slaThreshold.Stage_SLA_Threshold_1__c = .5;
         slaThreshold.Stage_SLA_Threshold_2__c = .75;

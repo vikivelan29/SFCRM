@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABFL TO INFORM RM DETAILS FOR TOP-UP LOAN</name>
+    <name>TO INFORM RM DETAILS FOR TOP UP LOAN</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Status of your Top up Loan application!</subject>

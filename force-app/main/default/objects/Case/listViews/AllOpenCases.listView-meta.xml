@@ -4,8 +4,8 @@
     <columns>CASES.CASE_NUMBER</columns>
     <columns>CASES.SUBJECT</columns>
     <columns>CASES.STATUS</columns>
-    <columns>CASES.PRIORITY</columns>
-    <columns>CASES.ORIGIN</columns>
+    <columns>Vertical__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>SR_TAT_elapsed__c</columns>
     <filterScope>Everything</filterScope>
@@ -13,11 +13,6 @@
         <field>CASES.STATUS</field>
         <operation>notEqual</operation>
         <value>Closed</value>
-    </filters>
-    <filters>
-        <field>CORE.USERS.ALIAS</field>
-        <operation>equals</operation>
-        <value>ymish</value>
     </filters>
     <label>All Cases</label>
 </ListView>

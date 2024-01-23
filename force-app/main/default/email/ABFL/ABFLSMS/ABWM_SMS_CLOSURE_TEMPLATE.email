@@ -1,129 +1,23 @@
 <html>
-<head><meta /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" name="viewport" /><meta content="telephone=no" name="format-detection" />
-	<title>Aditya Birla Capital</title>
-	<style type="text/css">body {
-	background: #ffffff;
-	font-size: 14px;
-	margin: 0;
-	padding: 0;
-	-webkit-text-size-adjust: none;
-	-ms-text-size-adjust: none;
-}
-table {
-	
-	border-radius:1px;
-	border-radius:1px;
-	border-spacing: 0;
-}
-td {
-	border-collapse: collapse;
-}
- @media only screen and (max-width: 699px) {
-body, table, td, p, a, li, blockquote {
-	-webkit-text-size-adjust: none !important;
-}
-table {
-	margin-bottom: 0px!important;
-}
-.marginone {
-	margin: 0 !important;
-}
-.marginbot {
-	margin-bottom: 15px !important;
-}
-.marginmiddle {
-	margin-middle: 15px !important;
-}
-.table {
-	width: 100% !important;
-	max-width: 100% !important;
-	min-width: 100% !important;
-	clear: both !important;
-}
-.responsive-image img {
-	height: auto !important;
-	max-width: 100% !important;
-	width: 100% !important;
-}
-.hide {
-	display: none !important;
-	width: 100% !important;
-}
-.inpadding-bottom {
-	padding: 0 0 10px;
-}
-.marginmiddle {
-	padding-middle: 5px !important;
-}
-.cell-no a {
-	color: #ffffff !important;
-	text-decoration: none !important;
-}
-.imgpd {
-	padding: 10px 10px 0 10px;
-}
-.mbg {
-	padding-bottom: 50px !important;
-}
-.left {
-	text-align: left !important;
-}
-.center {
-	text-align: center !important;
-}
-.center img {
-	margin:auto !important;
-}
-.padnone {
-	padding: 0 !important;
-}
-.pdmiddleno {
-	padding-middle: 0 !important;
-}
-.pdleftno {
-	padding-left: 0 !important;
-}
-.pdbotno {
-	padding-bottom: 0 !important;
-}
-.pdlr {
-	padding-left: 15px!important;
-	padding-right: 15px!important;
-}
-.padtb15 {
-	padding-middle: 15px!important;
-	padding-bottom: 15px!important;
-}
-.padmiddle10 {
-	padding-middle: 10px!important;
-}
-.padmiddle15 {
-	padding-middle: 15px!important;
-}
-.padbot10 {
-	padding-bottom: 10px!important;
-}
-.td-block {
-	display: block !important;
-	min-width: 100% !important;
-	max-width: 100% !important;
-	width: 100% !important;
-	clear: both !important;
-}
-.padrno {
-	padding-right: 0!important;
-}
-.pdmiddleno {
-	border-middle: none !important;
-}
-.valign{vertical-align:middle !important;}
-.bnone{border:none !important;}
-}
-	</style>
+<head>
+	<title></title>
 </head>
-<body style="margin: 0px; padding: 0px; height: auto; min-height: auto;">"Dear Customer,&nbsp;<br />
-<br />
-We wish to inform you that your Case ID {{{Case.CaseNumber}}} has been closed.&nbsp;<br />
-<br />
-Regards – Aditya Birla Finance Limited.</body>
+<body style="height: auto; min-height: auto;">
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+<table width="353">
+	<colgroup>
+		<col width="353" />
+	</colgroup>
+	
+		<tr>
+			<td>Dear Customer,&nbsp;<br />
+			<br />
+			We wish to inform you that your Case ID&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed.&nbsp;<br />
+			<br />
+			Regards – Aditya Birla Finance - Wealth</td>
+		</tr>
+	
+</table>
+</body>
 </html>

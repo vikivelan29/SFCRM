@@ -93,10 +93,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Resolved_Duplicate_Case_Email_Template__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Multiple_Child_Component_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -178,6 +174,10 @@
                 <behavior>Edit</behavior>
                 <field>Send_Rejected_stage_communications__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Send_Duplicate_stage_communications__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -208,6 +208,10 @@
                 <behavior>Edit</behavior>
                 <field>Rejected_Case_Email_Template__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Resolved_Duplicate_Case_Email_Template__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -234,6 +238,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Rejected_Case_SMS_Metadata__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Duplicate_Case_SMS_Metadata__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -267,6 +275,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>EBOT_Template__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EBOT_Unregistered_Template__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EBOT_Registered_Template__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

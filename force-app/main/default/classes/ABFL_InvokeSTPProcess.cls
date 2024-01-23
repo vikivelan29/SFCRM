@@ -3,7 +3,7 @@
  *Author       :  Aditee Churiwala
  *Description  :  Update STP Flow
  *********************************************************/
-public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
+public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
     public enum Response{
         STP_SUCCESS, 
         STP_FAILURE, 
@@ -19,7 +19,6 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
      * @Description - Invoked from the ASF_IntegrationsController class
      *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        System.debug('In evaluate');
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
@@ -36,29 +35,53 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
      * @Description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
      *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
-        System.debug('In run');
+        
+        //Get case record for validation
+        Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
+        // Perform additional checks as per STP identifier i.e. integration
+        ASF_IntegrationsController.IntegrationWrapper result = doAdditionalChecks(integ, caseRecord);
+
+        if(result.status == NULL){ // i.e. Additional check were successful
+            //Cancel existing records in ASF_Case_Integration__c - Canceling will call the trigger
+            ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integ.External_Id__c);
+    
+            ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
+                Case__c = caseRec.Id,
+                Integration_Ext_Id__c = integ.External_Id__c,
+                Status__c = ABFL_Constants.PENDING,
+                Response__c = ABFL_Constants.WAITING_API_RESPONSE
+            );
+
+            if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()) {
+                insert caseInt;
+            }
+    
+            //Fire Actual Integration---Begins
+            ABFL_STP_APIImplementation.callout(integ, caseRecord);
+            //Fire Actual Integration---Ends
+    
+            result.status = ABFL_Constants.SUCCESS;
+            result.response = ABFL_Constants.WAITING_API_RESPONSE;
+        }
+        return result;
+    }
+
+    /****************************************************************************************************************
+     * @LOB - ABFL
+     * @Function - doAdditionalChecks
+     * @param integ - ASF_Integration record.
+     * @param caseRecord - Case record from the framework.
+     * @return - ASF_IntegrationsController.IntegrationWrapper.
+     * @Description - Invoked from the run method, this method is used to perform additional checks before creating the case integration record
+     *****************************************************************************************************************/
+    private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRecord){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-
-        //Cancel existing records in ASF_Case_Integration__c
-        //Canceling will call the trigger
-        ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integ.External_Id__c);
-
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c = caseRec.Id;
-        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Status__c = ABFL_Constants.PENDING;
-        caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
-        insert caseInt;
-
-        System.debug('@@@@case' + caseInt);
-        System.debug('@@@@case' + integ.STP_API_Identifier__c);
-
-        //Fire Actual Integration---Begins
-        ABFL_STP_APIImplementation.callout(integ, caseRec);
-        //Fire Actual Integration---Ends
-
-        result.status = ABFL_Constants.SUCCESS;
-        result.response = ABFL_Constants.WAITING_API_RESPONSE;
+        
+        if((integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp') && (caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c == NULL)){
+            //Proceed to manual fulfilment
+            result.status = ABFL_Constants.ERROR;
+            result.response = ABFL_Constants.BLANK_DATE_FIELD;
+        }
         return result;
     }
 
@@ -74,6 +97,7 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
 
         if (caseInteg.Status__c == ABFL_Constants.SUCCESS){
             Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
+            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
 
             //Attach the file to case (Attaching the files on case on both the scenarios due to current implementation of the framework)
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
@@ -86,9 +110,10 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
                 caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
                 caseDetailRecord.Closure_Time__c = System.now();
                 caseDetailRecord.Autoclosed__c = true;
-                caseDetailRecord.Resolution_Comments__c = 'Resolved';
-                update caseDetailRecord;
-                System.debug('Case detail updated');
+				caseDetailRecord.Resolution_Comments__c = 'Resolved';
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable()) {
+                    update caseDetailRecord;
+                }
 
                 //If source of case is not "RM-no email" then send the PDF in an email to the customer and auto close the Case immediately
             } else{
@@ -98,18 +123,46 @@ public with sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvoca
                                                                    WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
                                                                    WITH SECURITY_ENFORCED];
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Resolved_Case_Email_Template__c, null, isTransferred);
-
-                    ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
-                    caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
-                    caseDetailRecord.Resolution_Comments__c = 'Resolved';
-                    update caseDetailRecord;
-
-                    //close the case
-                    caseRecord.MoveToNext__c = true;
-                    update caseRecord;
                 }
+
+                ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
+                caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
+				caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
+                update caseDetailRecord;
+                
+                resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
+                update resultWrap.caseToBeUpdated;
             }
         }
     }
 
+    /****************************************************************************************************************
+     * @LOB - ABFL
+     * @Function - closeSTPCaseFromFlow
+     * @param caseInteg - List of ABFL_Case_Detail__c Ids
+     * @return - void.
+     * @Description - Invoked from flow to close the case
+     *****************************************************************************************************************/
+    @InvocableMethod(label='Close Related Cases')
+    public static void closeSTPCaseFromFlow(List<Id> caseDetailList) {
+        List<Case> casesToUpdateList = new List<Case>();
+
+        List<Case> caseList = [SELECT Id, CCC_External_Id__c
+                               FROM Case 
+                               WHERE ABFL_Case_Detail__c IN :caseDetailList
+                               AND IsClosed = FALSE
+                               WITH SYSTEM_MODE];
+
+        for(Case caseRecord :caseList) {
+            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
+            casesToUpdateList.add(resultWrap.caseToBeUpdated);
+        }
+
+        if(casesToUpdateList.size() > 0) {
+            if(Schema.sObjectType.Case.isUpdateable()) {
+                update casesToUpdateList;
+            }
+       }
+    }
 }

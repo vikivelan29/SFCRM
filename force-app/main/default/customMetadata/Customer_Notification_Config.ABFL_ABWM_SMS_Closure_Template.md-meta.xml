@@ -23,12 +23,20 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>SMS_Entity_Id__c</field>
+        <value xsi:type="xsd:string">1101637580000010297</value>
+    </values>
+    <values>
         <field>SMS_Merge_Fields_CSV__c</field>
         <value xsi:type="xsd:string">CaseNumber</value>
     </values>
     <values>
+        <field>SMS_Sender_Id__c</field>
+        <value xsi:type="xsd:string">FINABC</value>
+    </values>
+    <values>
         <field>SMS_Template_Name__c</field>
-        <value xsi:type="xsd:string">ABWM_SMS_Closure_Template</value>
+        <value xsi:type="xsd:string">ABWM_SMS_CLOSURE_TEMPLATE</value>
     </values>
     <values>
         <field>To_recipient_CSV__c</field>

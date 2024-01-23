@@ -28,48 +28,18 @@ public without sharing class ABFL_SuppressEmailHelper {
             allOutputs.put(inp.caseId,output);
             caseIds.add(inp.caseId);
         }
-        
-        // SCENARIO 1 - EBOT - EMAIL ALREADY SENT AS PART OF PROCESS. - ONLY RUN WHEN CASE IS RESOLVED.
-        if(caseIdsForEBOTResolution.size()>0)
-            suppressEBOTResolutionEmail(caseIdsForEBOTResolution,inpArg,allOutputs);
-        
-        // SCENARIO 2 - WHEN CASE CREATED WITH SOURCE AS RM-NO EMAIL/ IVR-NO EMAIL/ PHONE-INBOUND AND QUERY.
+                
+        // SCENARIO 1 - WHEN CASE CREATED WITH SOURCE AS RM-NO EMAIL/ IVR-NO EMAIL/ PHONE-INBOUND AND QUERY.
         suppressRMNoEmail(caseIds,inpArg,allOutputs);
         
-    }
-    
-    private static void suppressEBOTResolutionEmail(Set<Id> caseIds,
-                                                    List<ASF_CustomerEmailInvocable.EmailInputWrapper> inpArg,
-                                                    Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
-    {
-        List<ABFL_Case_Detail__c > abflCaseExtension = [SELECT ID,Case__c, Resolved_Email_Sent__c  FROM ABFL_Case_Detail__c WHERE Case__c = :caseIds LIMIT 1];
-        Map<Id,boolean> mCaseResolutionEmailSent = new Map<Id,boolean>();
-        
-        for(ABFL_Case_Detail__c caseExt : abflCaseExtension){
-            if(!mCaseResolutionEmailSent.containsKey(caseExt.Case__c)){
-                boolean bResolutionCommunicationSent = caseExt.Resolved_Email_Sent__c ? true : false;
-                mCaseResolutionEmailSent.put(caseExt.Case__c,bResolutionCommunicationSent);
-            }
-        }
-        for(ASF_CustomerEmailInvocable.EmailInputWrapper inp : inpArg){
-            if(allOutputs.containsKey(inp.caseId)){
-                if(mCaseResolutionEmailSent.containsKey(inp.caseId)){
-                    boolean bResolEmailSent = mCaseResolutionEmailSent.get(inp.caseId);
-                    ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
-                    output.supressEmail = bResolEmailSent;
-                    output.templateName = inp.templateName;
-                    allOutputs.put(inp.caseId,output);
-                }
-            }
-        }
     }
     
     private static void suppressRMNoEmail(Set<Id> caseIds,
                                           List<ASF_CustomerEmailInvocable.EmailInputWrapper> inpArg,
                                           Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
     {
-		System.debug('caseIds --> '+caseIds);
-        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c FROM Case WHERE Id =: caseIds]);
+        System.debug('caseIds --> '+caseIds);
+        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c,FTR__c,OnCreateCloseSR__c FROM Case WHERE Id =: caseIds]);
         for(ASF_CustomerEmailInvocable.EmailInputWrapper inp : inpArg){
             if(mCases.containsKey(inp.caseId)){
                 Case c = mCases.get(inp.caseId);
@@ -82,6 +52,12 @@ public without sharing class ABFL_SuppressEmailHelper {
                         output.templateName = inp.templateName;
                         allOutputs.put(inp.caseId,output);
                     }
+                }
+                if(c.FTR__c == true || c.OnCreateCloseSR__c == true){
+                    ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
+                    output.supressEmail = true;
+                    output.templateName = inp.templateName;
+                    allOutputs.put(inp.caseId,output);
                 }
             }
         }

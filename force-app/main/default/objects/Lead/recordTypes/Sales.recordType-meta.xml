@@ -267,6 +267,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Prospect_Type__c</picklist>
+        <values>
+            <fullName>Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rating</picklist>
         <values>
             <fullName>Cold</fullName>

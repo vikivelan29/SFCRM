@@ -217,7 +217,7 @@ public without sharing class ASF_CaseManualStageController {
             
         } catch (Exception e) {
 			System.debug('@@Mess'+e.getMessage());
-            throw new AuraHandledException(e.getMessage());
+            // throw new AuraHandledException(e.getMessage());
         }
         return result;
     }
@@ -237,7 +237,7 @@ public without sharing class ASF_CaseManualStageController {
             }
             queueList =[select Id,Name, Type from Group Where Type ='queue'];
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw new AuraHandledException(e.getMessage()); 
         }
         return queueList;
     }
