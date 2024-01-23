@@ -63,7 +63,7 @@ public class ABHFL_CTSTHelper {
     }
     public static Boolean validatePayments(Case caseRecord) {
         Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
-		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id WITH SECURITY_ENFORCED];
+		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id];
 		// Check if every payment record has Realization_Status__c equal to 'Cleared'
         for (ABHFL_Payment__c payment : payments) {
             if (payment.Realization_Status__c != 'Cleared') {
