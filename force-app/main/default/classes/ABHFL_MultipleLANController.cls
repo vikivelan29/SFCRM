@@ -132,16 +132,16 @@ public with sharing class ABHFL_MultipleLANController {
     }
     @AuraEnabled
     public static Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
-        ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-        Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
+        //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+        //Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
         return assetDetail;
     }
 
-    public static Asset_Detail__c dataServiceConverter(ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse,Asset assetRecord,String caseRecId){
-        ABHFL_DataServiceDetailsController.LoanStatusRow loanStatusRow = apiResponse.Summary_Data[0].Loan_Status.rows[0];
-        ABHFL_DataServiceDetailsController.LoanInfoRow loanInfoRow = apiResponse.Summary_Data[0].loan_info.rows[0];
+    public static Asset_Detail__c dataServiceConverter(String apiResponse,Asset assetRecord,String caseRecId){
+        /*ABHFL_DataServiceDetailsController.LoanStatusRow loanStatusRow = apiResponse.Summary_Data[0].Loan_Status.rows[0];
+        ABHFL_DataServiceDetailsController.LoanInfoRow loanInfoRow = apiResponse.Summary_Data[0].loan_info.rows[0];*/
         Asset_Detail__c assetDetail = new Asset_Detail__c();
-        assetDetail.Product__c = loanStatusRow.PRODUCT;
+        /*assetDetail.Product__c = loanStatusRow.PRODUCT;
         assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING);
         assetDetail.Is_Restructured__c = loanStatusRow.RESTRUCTURED == 'Yes'? true : false;
         assetDetail.Bounce__c = loanStatusRow.BOUNCE;
@@ -159,7 +159,7 @@ public with sharing class ABHFL_MultipleLANController {
         assetDetail.Interest_Rate__c = Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4));
         system.debug('assetRecord---->'+assetRecord);
         assetDetail.Asset__c = assetRecord.Id;
-        assetDetail.Case__c = caseRecId;
+        assetDetail.Case__c = caseRecId;*/
         return assetDetail;
     }
 
@@ -209,11 +209,11 @@ public with sharing class ABHFL_MultipleLANController {
         for(Integer i=0; i<labels.size() ; i++){
           system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
-          ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+          //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
           String indexStr = labels[i].split('-')[1];
           Integer index = Integer.valueOf(indexStr) - 1;
-          Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          responseList.add(detailRecord);
+          //Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+          //responseList.add(detailRecord);
           //responseList.add(response.getBody());
         }
         continuationWrapper.responseList = responseList;
@@ -241,13 +241,13 @@ public with sharing class ABHFL_MultipleLANController {
         for(Integer i=0; i<labels.size() ; i++){
           system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
-          ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+          //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
           String indexStr = labels[i].split('-')[1];
           Integer index = Integer.valueOf(indexStr) - 1;
-          Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          if(detailRecord != null){
-            responseList.add(detailRecord);
-          }
+          //Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+          //if(detailRecord != null){
+            //responseList.add(detailRecord);
+          //}
         }
         continuationWrapper.responseList = responseList;
         Continuation con2 = new Continuation(35);
@@ -273,11 +273,11 @@ public with sharing class ABHFL_MultipleLANController {
       for(Integer i=0; i<labels.size() ; i++){
         system.debug('labels[i]'+labels[i]);
         HttpResponse response = Continuation.getResponse(labels[i]);
-        ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+        //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
         String indexStr = labels[i].split('-')[1];
         Integer index = Integer.valueOf(indexStr) - 1;
-        Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-        responseList.add(detailRecord);
+        //Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+        //responseList.add(detailRecord);
       }
       responseList.addAll(continuationWrapper.responseList);
       return responseList;
