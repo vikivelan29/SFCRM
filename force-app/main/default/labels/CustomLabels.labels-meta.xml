@@ -72,6 +72,13 @@
         <value>Please select Customer to process SR type search.</value>
     </labels>
     <labels>
+        <fullName>ASF_Default_Reopen_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Reopen Reason for Email2Case</shortDescription>
+        <value>Customer Email</value>
+    </labels>
+    <labels>
         <fullName>ASF_Email_Bot_Feedback_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -240,6 +247,13 @@
         <value>No Reply Address</value>
     </labels>
     <labels>
+        <fullName>Allowed_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Allowed_Domain</shortDescription>
+        <value>gmail.com</value>
+    </labels>
+    <labels>
         <fullName>Base_URL_for_bitly</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -294,6 +308,34 @@
         <protected>false</protected>
         <shortDescription>EndUserProfiles</shortDescription>
         <value>Base Profile</value>
+    </labels>
+    <labels>
+        <fullName>Error_From_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error From Address</shortDescription>
+        <value>Please select different sender id which is allowed to be used by your team</value>
+    </labels>
+    <labels>
+        <fullName>Error_Restricted_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error_Restricted_Domain</shortDescription>
+        <value>You are not allowed to send email to external user for this from address-</value>
+    </labels>
+    <labels>
+        <fullName>Error_Team_Not_Found</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Team Not Found</shortDescription>
+        <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>2</value>
     </labels>
     <labels>
         <fullName>FA_Mandatory</fullName>
@@ -364,6 +406,13 @@
         <protected>false</protected>
         <shortDescription>Re Kyc Month</shortDescription>
         <value>3</value>
+    </labels>
+    <labels>
+        <fullName>RecategorizationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RecategorizationError</shortDescription>
+        <value>The Case does not match the CTST configuration, please recategorize the case</value>
     </labels>
     <labels>
         <fullName>STP_Flows</fullName>

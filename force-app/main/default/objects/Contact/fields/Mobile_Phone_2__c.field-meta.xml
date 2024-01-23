@@ -3,7 +3,7 @@
     <fullName>Mobile_Phone_2__c</fullName>
     <description>This field is used to store secondary mobile</description>
     <externalId>false</externalId>
-    <label>Mobile 2</label>
+    <label>Additional Mobile</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Phone</type>

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -160,15 +160,15 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												We write to you with reference to your request regarding foreclosure letter for your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
+												We write to you with reference to your request regarding the foreclosure letter for your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
 												<br />
 												We would like to inform you that our representative has tried to contact you on your Registered Mobile Number __________&nbsp;but was unable to reach you.<br />
 												<br />
 												Hence, we request you to contact Mr. /Ms. __________&nbsp;(Retention manager) at __________ (contact number) for further details.<br />
 												<br />
-												Alternately, please confirm a suitable day and time so that we may call you back on your registered number.<br />
+												Alternatively, please confirm a suitable day and time so that we may call you back on your registered number.<br />
 												<br />
-												We will place the request for foreclosure letter post our discussion with you.<br />
+												We will place the request for&nbsp;foreclosure letter post our discussion with you.<br />
 												<br />
 												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />

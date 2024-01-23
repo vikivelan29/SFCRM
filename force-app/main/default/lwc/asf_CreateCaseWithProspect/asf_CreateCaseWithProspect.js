@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountDataByCustomerType';
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import { reduceErrors } from 'c/asf_ldsUtils';
@@ -8,6 +8,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 
 
@@ -19,11 +20,18 @@ import CCC_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 
 import CASE_OBJECT from '@salesforce/schema/Case';
 
 import FROMPROSPECTPAGE from "./asf_CreateCaseFromProspect.html";
 import FROMGLOBALSEARCHPAGE from "./asf_CreateCaseWithProspect.html";
+
+import loggedInUserId from '@salesforce/user/Id';
+
+import { getRecord } from 'lightning/uiRecordApi';
+import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -60,6 +68,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @track showFromGlobalSearch = true;
     selectedCTSTFromProspect;
     @api isInternalCase = false;
+    @track loggedInUserBusinessUnit = '';
+    noAutoCommOptions = [];
+    noAutoCommValue = [];
 
 
 
@@ -74,6 +85,34 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         { label: 'Email', fieldName: 'Email', type: 'text' },
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
+
+
+    //To get No Auto Communication pickilst values
+    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
+    objectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            let pickVals = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+            this.noAutoCommOptions.push.apply(this.noAutoCommOptions,pickVals) ;
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
+
+
+    @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
+    currentUserInfo({error, data}) {
+        if (data) {
+            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+        } else if (error) {
+            //this.error = error ;
+        }
+    }
 
 
     handelSearchKey(event) {
@@ -100,7 +139,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                         //this.createCaseWithAll = true;
                         this.lstChannelValues = result.lstChannel;
                         this.strDefaultChannel = this.lstChannelValues[0].label;
-                        this.strChannelValue = this.strDefaultChannel;
+                        if(this.loggedInUserBusinessUnit != 'ABFL'){
+                            this.strChannelValue = this.strDefaultChannel;
+                        }
                         this.boolChannelVisible = true;
 
                     }
@@ -136,7 +177,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.disableCreateBtn = false;
             }
         }
-        if ((selected) && (this.businessUnit == 'ABFL')) {
+        if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -205,6 +246,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
             }
         });
+
+        
         return isValid;
     }
     resetBox() {
@@ -217,14 +260,31 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
 
     async handleNext(event) {
+        event.preventDefault();
+
+        
+        
+        this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+        if (!this.isInputValid()) {
+            // Stay on same page if lightning-text field is required and is not populated with any value.
+            return;
+        }
+        const All_Compobox_Valid = [...this.template.querySelectorAll('lightning-combobox')]
+            .reduce((validSoFar, input_Field_Reference) => {
+                input_Field_Reference.reportValidity();
+                return validSoFar && input_Field_Reference.checkValidity();
+            }, true);
+        if(!All_Compobox_Valid){
+            return;
+        }
+
         this.ctstSelection = false;
         this.showDupeList = false;
         this.disableBackBtn = false;
         this.dupeLead = [];
         this.disableCreateBtn = false;
-        this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
 
-        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null })
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {
@@ -263,6 +323,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         let caseExtnRecord = {};
         let caseRecord = {};
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
+        leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
 
         if(this.showFromGlobalSearch == false){
             selected = this.selectedCTSTFromProspect;
@@ -291,7 +352,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         caseRecord[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        caseRecord[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         caseRecord["sobjectType"] = "Case";
+        
 
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -355,5 +418,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     render() {
         return this.showFromGlobalSearch ? FROMGLOBALSEARCHPAGE : FROMPROSPECTPAGE;
       }
+    
+      handleAutoCommChange(event){
+        this.noAutoCommValue = event.detail.value;
+    }
+    handleSource(event) {
+        this.sourceFldValue = event.target.value;
+    }
       
 }

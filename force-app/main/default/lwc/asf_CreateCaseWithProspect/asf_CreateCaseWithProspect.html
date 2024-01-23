@@ -32,8 +32,8 @@
                                 role="status">
                                 <div class="slds-media__figure">
                                     <span class="slds-icon_container slds-icon-utility-info" title="information">
-                                        <lightning-icon icon-name="utility:info" alternative-text="Create SR"
-                                            title="Create SR" size="small" variant="inverse"></lightning-icon>
+                                        <lightning-icon icon-name="utility:info" alternative-text="Create Case"
+                                            title="Create Case" size="small" variant="inverse"></lightning-icon>
                                         <span class="slds-assistive-text">information</span>
                                     </span>
                                 </div>
@@ -60,8 +60,7 @@
                             </template>
                             <template if:true={boolAllSourceVisible}>
                                 <lightning-combobox data-id="Source Field" value={sourceFldValue} label="Source"
-                                    options={sourceFldOptions} onchange={handleSource} placeholder={strSource} read-only
-                                    required>
+                                    options={sourceFldOptions} onchange={handleSource} placeholder={strSource} required>
                                 </lightning-combobox>
                             </template>
                             <!--- </div></div> -->
@@ -70,7 +69,16 @@
                                     onchange={handleChangeChannel} placeholder={strDefaultChannel} required>
                                 </lightning-combobox>
                             </template>
+
+                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
+                                onchange={handleAutoCommChange}>
+                            </lightning-checkbox-group>
                         </template>
+
+                        <lightning-checkbox-group name="nocomm" class="slds-p-top_small" label="No Auto Communication"
+                            options={noAutoCommOptions} value={noAutoCommValue} onchange={handleAutoCommChange}>
+                        </lightning-checkbox-group>
 
                         <template if:true={isPhoneInbound}>
                             <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
@@ -110,13 +118,14 @@
                 <h1 slot="title">Prospect Creation Form</h1>
                 <div>
                     <lightning-record-edit-form object-api-name="Lead" onsuccess={handleSuccess}
-                    data-id="leadCreateForm" onsubmit={handleLeadSubmit}>
+                        data-id="leadCreateForm" onsubmit={handleLeadSubmit}>
                         <lightning-messages></lightning-messages>
                         <div class="slds-grid slds-wrap slds-m-around_small">
                             <template if:true={fields}>
                                 <template for:each={fields} for:item="f">
                                     <div key={f.Id} class="slds-col slds-size_1-of-2">
-                                        <lightning-input-field field-name={f.FieldName} required={f.required} class="validate">
+                                        <lightning-input-field field-name={f.FieldName} required={f.required}
+                                            class="validate">
                                         </lightning-input-field>
                                     </div>
                                 </template>
@@ -127,7 +136,7 @@
                                         <p>Duplicate prospect found with matching information.</p>
                                     </div>
                                     <lightning-datatable key-field="id" data={dupeLead} columns={dupeLeadCols}
-                                    hide-checkbox-column class="slds-max-medium-table_stacked">
+                                        hide-checkbox-column class="slds-max-medium-table_stacked">
                                     </lightning-datatable>
                                 </template>
 
@@ -135,6 +144,7 @@
                         </div>
                     </lightning-record-edit-form>
                 </div>
+
 
             </template>
 
@@ -149,9 +159,10 @@
             <button class="slds-button slds-button_brand" onclick={handleNext} disabled={disbleNextBtn}>Next</button>
         </template>
         <template if:false={ctstSelection}>
-            <button class="slds-button slds-button_brand" onclick={createCaseHandler} disabled={disableCreateBtn}>Create Prospect and Case</button>
+            <button class="slds-button slds-button_brand" onclick={createCaseHandler} disabled={disableCreateBtn}>Create
+                Prospect and Case</button>
         </template>
-        
+
     </div>
     <!--- </template> -->
 </template>

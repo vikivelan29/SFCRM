@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -160,7 +160,7 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												We write to you with reference to your request regarding foreclosure of your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
+												We write to you with reference to your request regarding the foreclosure of your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
 												<br />
 												You need to pay an amount of Rs _________ by _________ to successfully foreclose your account.<br />
 												<br />
@@ -168,7 +168,9 @@
 												<br />
 												You may pay the amount via any of the below listed options:<br />
 												<br />
-												Online Payment: Below are the bank details for NEFT or RTGS. Kindly provide us the UTR number along with loan details from your registered email address on care.finance@adityabirlacapital.com to process your request.<br />
+												<strong>Online Payment:</strong><br />
+												<br />
+												Below are the bank details for NEFT or RTGS. Kindly provide us the UTR number along with loan details from your registered email address on care.finance@adityabirlacapital.com to process your request.<br />
 												&nbsp;
 												<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
 													
@@ -224,7 +226,9 @@
 													
 												</table>
 												<br />
-												Cheque or Demand Draft favouring ADITYA BIRLA FINANCE LTD. followed by your LAN as mentioned above to be deposited in HDFC bank.<br />
+												<strong>By Cheque or Demand Draft(DD):</strong><br />
+												<br />
+												Cheque or Demand Draft favoring ADITYA BIRLA FINANCE LTD. followed by your LAN as mentioned above to be deposited in HDFC bank.<br />
 												<br />
 												Kindly share the cheque or DD number and deposit slip copy from your registered email address on care.finance@adityabirlacapital.com to process your request.<br />
 												&nbsp;
@@ -255,14 +259,14 @@
 												<br />
 												Things to know about the foreclosure of your loan:
 												<ul>
-													<li>Foreclosure amount mentioned in the attached letter has a validity date and we recommend you to pay the specified foreclosure amount on or before validity date.</li>
-													<li>If the amount is not credited to ABFL account by the validity date, we request you to raise a fresh foreclosure request to receive the new foreclosure amount. Alongside, please keep your repayment account sufficiently funded for the EMI clearance.</li>
+													<li>The foreclosure amount mentioned in the attached letter has a validity date and we recommend you to pay the specified foreclosure amount on or before the validity date.</li>
+													<li>If the amount is not credited to the ABFL account by the validity date, we request you to raise a fresh foreclosure request to receive the new foreclosure amount. Alongside, please keep your repayment account sufficiently funded for the EMI clearance.</li>
 													<li>The above-mentioned foreclosure amount is valid subject to clearance of all the dues/instalments till date.</li>
-													<li>We recommend you to pay the amount through RTGS using Virtual Account number (details given in your foreclosure letter). Once done, share the payment details with us on care.finance@adityabirlacapital.com.</li>
+													<li>We recommend you to pay the amount through RTGS using a Virtual Account Number (details given in your foreclosure letter). Once done, share the payment details with us on care.finance@adityabirlacapital.com.</li>
 													<li>You will receive an email on your registered email address in case any shortfall in the foreclosure payment is observed. We request you to make the payment of the shortfall amount within 7 days. In case the payment is not received then the excess funds will be considered as part payment with effect on tenure as per the part payment terms and conditions mentioned in the sanction letter or loan agreement.</li>
 													<li>The foreclosure will be processed within 7 working days from the day of payment acknowledgment by ABFL.</li>
 													<li>No Dues Certificate(NDC) will be issued post receipt of all TDS certificates (if any).</li>
-													<li>At the time of NDC issuance, if there is any excess payment made to ABFL, the same will be refunded to your registered bank account (i.e. bank account registered for EMI auto-debit disbursal bank account) once the loan is closed. For your mortgage loan, we request you to provide us with a copy of cancelled cheque to refund excess amount.</li>
+													<li>At the time of NDC issuance, if there is any excess payment made to ABFL, the same will be refunded to your registered bank account (i.e. bank account registered for EMI auto-debit disbursal bank account) once the loan is closed. For your mortgage loan, we request you to provide us with a copy of the canceled cheque to refund the excess amount.</li>
 												</ul>
 												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />

@@ -12,16 +12,16 @@ public class ASF_FieldSetController {
         return form;
     }
     @AuraEnabled
-    public static FieldSetForm getLOBSpecificForm(Id recordId,String objectName,String fieldSetName){
+    public static FieldSetForm getLOBSpecificForm(Id recordId,String objectName,String fieldSetName,Boolean salesProspect){
         Id loggedInUserId = UserInfo.getUserId();
         User loggedInUser = [SELECT ID,Business_Unit__c FROM User WHERE Id =: loggedInUserId];
-        getFieldSetName(objectName,loggedInUser.Business_Unit__c);
+        getFieldSetName(objectName,loggedInUser.Business_Unit__c,salesProspect);
         FieldSetForm form = new FieldSetForm();        
         form.Fields = getFields(recordId, objectName, fieldSetName);
         return form;
         
     }
-    private static void getFieldSetName(String objectName,String businessUnit){
+    private static void getFieldSetName(String objectName,String businessUnit,Boolean salesProspect){
         Schema.SObjectType objectType = Schema.getGlobalDescribe().get(objectName);
         Schema.DescribeSObjectResult objectDescribe = objectType.getDescribe();
         List<Schema.FieldSetMember> fieldSetMembers = new List<Schema.FieldSetMember>();
@@ -29,7 +29,14 @@ public class ASF_FieldSetController {
         Map<String, Schema.FieldSet> fieldSetMap = objectDescribe.fieldSets.getMap();
         System.debug(fieldSetMap);
         for(String fsName : fieldSetMap.keySet()){
-            if(fsName.startsWithIgnoreCase(businessUnit)){
+            if(salesProspect && fsName.startsWithIgnoreCase(businessUnit+'_Sales')){
+                fieldSet = fieldSetMap.get(fsName);
+                break;
+            }
+            else if(salesProspect && !fsName.startsWithIgnoreCase(businessUnit+'_Sales')){
+                continue;
+            }
+            else if(fsName.startsWithIgnoreCase(businessUnit)){
                 fieldSet = fieldSetMap.get(fsName);
                 break;
             }

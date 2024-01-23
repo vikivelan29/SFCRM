@@ -192,6 +192,7 @@ public class ASF_CaseApprovalTriggerHelper {
     private void checkIfApprovalProcessCommentPresent(Map<Id,ASF_Case_Approv__c> oldApproveMap,Map<Id,ASF_Case_Approv__c> newApproveMap){
         Set<Id> caseApprId = new Set<Id>();
         for(ASF_Case_Approv__c ca : newApproveMap.values()){
+            System.debug(ca.Approval_Status__c + ' - '+oldApproveMap.get(ca.Id).Approval_Status__c);
             if(ca.Approval_Status__c == 'Rejected' && (ca.Approval_Status__c != oldApproveMap.get(ca.Id).Approval_Status__c)){
                 caseApprId.add(ca.Id);
             }

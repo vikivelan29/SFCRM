@@ -1532,15 +1532,15 @@ public with sharing class ASF_TestDataFactory {
         
         
     
-        ASF_Case_Rule__c stage1_StageMovement_Rule = new ASF_Case_Rule__c();
+        // ASF_Case_Rule__c stage1_StageMovement_Rule = new ASF_Case_Rule__c();
     
-        stage1_StageMovement_Rule.Case_Stage_Config__c = stage1.Id;
-        stage1_StageMovement_Rule.Logical_Condition__c = '1';
-        stage1_StageMovement_Rule.Order__c = 1;
-        stage1_StageMovement_Rule.Type__c = 'Stage Movement';
+        // stage1_StageMovement_Rule.Case_Stage_Config__c = stage1.Id;
+        // stage1_StageMovement_Rule.Logical_Condition__c = '1';
+        // stage1_StageMovement_Rule.Order__c = 1;
+        // stage1_StageMovement_Rule.Type__c = 'Stage Movement';
     
-        // caseRuleList.add(stage1_StageMovement_Rule);
-        insert stage1_StageMovement_Rule;
+        // // caseRuleList.add(stage1_StageMovement_Rule);
+        // insert stage1_StageMovement_Rule;
         
         ASF_Case_Rule__c stage1_Assignment_Rule = new ASF_Case_Rule__c();
     
@@ -1760,15 +1760,15 @@ public with sharing class ASF_TestDataFactory {
         stage1_assignment_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-7061';
         caseRuleEntryList.add(stage1_assignment_RuleEntry);
             
-        ASF_Case_Rule_Entry__c stage2_movement_RuleEntry = new ASF_Case_Rule_Entry__c();
-        stage2_movement_RuleEntry.Number__c = 1;
-        stage2_movement_RuleEntry.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        stage2_movement_RuleEntry.Field_Api_Name__c = 'Stage__c';
-        stage2_movement_RuleEntry.Operator__c = '=';
-        stage2_movement_RuleEntry.Data_Type__c = 'STRING';
-        stage2_movement_RuleEntry.Value__c = 'Pending with Initiator';
-        stage2_movement_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-8051';
-        caseRuleEntryList.add(stage2_movement_RuleEntry);
+        // ASF_Case_Rule_Entry__c stage2_movement_RuleEntry = new ASF_Case_Rule_Entry__c();
+        // stage2_movement_RuleEntry.Number__c = 1;
+        // stage2_movement_RuleEntry.Case_Rule__c = stage1_StageMovement_Rule.Id;
+        // stage2_movement_RuleEntry.Field_Api_Name__c = 'Stage__c';
+        // stage2_movement_RuleEntry.Operator__c = '=';
+        // stage2_movement_RuleEntry.Data_Type__c = 'STRING';
+        // stage2_movement_RuleEntry.Value__c = 'Pending with Initiator';
+        // stage2_movement_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-8051';
+        // caseRuleEntryList.add(stage2_movement_RuleEntry);
            
     
         insert caseRuleEntryList;
