@@ -12,6 +12,6 @@
     <label>ABFL Internal Ombudsman</label>
     <queue>ABFL_Internal_Ombudsman</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Internal_Ombudsman_Queue_G</group>
     </sharedTo>
 </ListView>

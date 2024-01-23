@@ -12,6 +12,6 @@
     <label>ABFL Unsecured Foreclosure CS</label>
     <queue>ABFL_Unsecured_Foreclosure_CS</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_Foreclosure_CS_G</group>
     </sharedTo>
 </ListView>

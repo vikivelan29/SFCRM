@@ -12,6 +12,6 @@
     <label>ABFL ABWM Brokerage Team</label>
     <queue>ABFL_ABWM_Brokerage_Team</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_ABWM_Brokerage_Team_G</group>
     </sharedTo>
 </ListView>

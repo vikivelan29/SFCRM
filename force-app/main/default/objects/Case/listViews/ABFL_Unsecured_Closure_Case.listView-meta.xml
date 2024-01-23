@@ -12,6 +12,6 @@
     <label>ABFL Unsecured Closure</label>
     <queue>ABFL_Unsecured_Closure</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_Closure_G</group>
     </sharedTo>
 </ListView>

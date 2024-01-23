@@ -12,6 +12,6 @@
     <label>ABFL Institutional Service Desk</label>
     <queue>ABFL_Institutional_Service_Desk</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Institutional_Service_Desk_G</group>
     </sharedTo>
 </ListView>

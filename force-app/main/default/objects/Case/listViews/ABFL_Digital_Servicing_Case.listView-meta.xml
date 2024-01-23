@@ -12,6 +12,6 @@
     <label>ABFL Digital Servicing</label>
     <queue>ABFL_Digital_Servicing</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Digital_Servicing_G</group>
     </sharedTo>
 </ListView>

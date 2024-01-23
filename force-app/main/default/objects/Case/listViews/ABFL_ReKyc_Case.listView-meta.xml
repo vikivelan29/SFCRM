@@ -12,6 +12,6 @@
     <label>ABFL ReKyc</label>
     <queue>ABFL_ReKyc</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_ReKyc_G</group>
     </sharedTo>
 </ListView>

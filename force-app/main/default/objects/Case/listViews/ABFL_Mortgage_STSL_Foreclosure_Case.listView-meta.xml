@@ -12,6 +12,6 @@
     <label>ABFL Mortgage-STSL Foreclosure</label>
     <queue>ABFL_Mortgage_STSL_Foreclosure</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Mortgage_STSL_Foreclosure_G</group>
     </sharedTo>
 </ListView>
