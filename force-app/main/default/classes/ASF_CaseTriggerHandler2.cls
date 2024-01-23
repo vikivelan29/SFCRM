@@ -71,19 +71,22 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
             
             //Validation methods
-            ASF_CaseTriggerModularHelper.validateRecategorizationParameters(newCaseMap.values(), (Map<Id, Case>)oldItems);
+            
             ASF_CaseTriggerModularHelper.validateCloseCase(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            
             // ASF_CaseTriggerModularHelper.lwcCaseValidationBeforeInsertUpdate(newCaseMap.values(), oldItems.values());
             // ASF_CaseTriggerModularHelper.validateUserForAssignMe((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
             //Prepopulation methods
-            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNewForReopenRequest((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             
+            ASF_CaseTriggerModularHelper.validateRecategorizationParameters(newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
             

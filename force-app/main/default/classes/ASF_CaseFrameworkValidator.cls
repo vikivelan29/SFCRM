@@ -161,11 +161,11 @@ public with sharing class ASF_CaseFrameworkValidator {
     * Validate if Incomplete Checklists are present
     * For this Case at this stage
     */
-    public static Boolean validateChecklists(Case currentCase){
+    public static Boolean validateChecklists(Case currentCase, String currentStage){
         
         // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
         List<ASF_Checklist__c> incompleteCasesChecklists 
-            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(new Set<Id>{currentCase.Id}, new Set<String>{currentCase.Stage__c});
+            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(new Set<Id>{currentCase.Id}, new Set<String>{currentStage});
         return (incompleteCasesChecklists.size() == 0);
     }
 
@@ -186,10 +186,10 @@ public with sharing class ASF_CaseFrameworkValidator {
     * Validate if Incomplete Checklists are present
     * For this Case at this stage
     */
-    public static Boolean validateTasks(Case currentCase){
+    public static Boolean validateTasks(Case currentCase, String currentStage){
         
         List<Task> incompleteTaskslists 
-            = ASF_CaseQueryHandler.getIncompleteCaseTasks(new Set<Id>{currentCase.Id}, new Set<String>{currentCase.Stage__c});
+            = ASF_CaseQueryHandler.getIncompleteCaseTasks(new Set<Id>{currentCase.Id}, new Set<String>{currentStage});
         return (incompleteTaskslists.size() == 0);
     }
     
@@ -250,10 +250,9 @@ public with sharing class ASF_CaseFrameworkValidator {
      * Validates if the Case Approval, if any, is Approved for
      * the stage movement
      */
-    public static Boolean validateApprovals(Case currentCase){
-        
+    public static Boolean validateApprovals(Case currentCase, String currentStage){
         List<ASF_Case_Approv__c> allCaseApprovals 
-            = ASF_CaseQueryHandler.getCaseApprovals(new Set<Id>{currentCase.Id}, new Set<String>{currentCase.Stage__c});
+            = ASF_CaseQueryHandler.getCaseApprovals(new Set<Id>{currentCase.Id}, new Set<String>{currentStage});
         
         if(allCaseApprovals.size() == 0 || allCaseApprovals[0].Approval_Status__c == 'Approved' || allCaseApprovals[0].Approval_Status__c == 'Rejected'){
             return true;
