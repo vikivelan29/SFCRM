@@ -155,11 +155,13 @@ public class ABHFL_CTSTHelper {
         
         ABHFL_LitmusApi litmusApiObj = new ABHFL_LitmusApi();
         Case newCaseRec = newCaseList[0];
-
-        ASF_IntegrationsController.IntegrationWrapper result = litmusApiObj.evaluate(newCaseRec);
-        system.debug('result--'+JSON.serialize(result));
-        if(result.status == 'Success') {
-            ASF_IntegrationsController.IntegrationWrapper resultOfRun = litmusApiObj.run(new ASF_Integration__c(), newCaseRec);
+        String businessUnit = newCaseRec.Business_Unit__c;
+        
+        if(businessUnit == 'ABHFL') {
+            ASF_IntegrationsController.IntegrationWrapper result = litmusApiObj.evaluate(newCaseRec);
+            if(result.status == 'Success') {
+                ASF_IntegrationsController.IntegrationWrapper resultOfRun = litmusApiObj.run(new ASF_Integration__c(), newCaseRec);
+            }
         }
     }
 
