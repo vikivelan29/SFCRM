@@ -1,0 +1,26 @@
+<template>
+    <template lwc:if={isLAN}>
+    <lightning-formatted-url value={assetURL} label={colValue} ></lightning-formatted-url>
+    </template>
+    <template lwc:elseif={displayCheckbox}>
+        <lightning-input type="checkbox" checked={colValue} disabled></lightning-input>
+    </template> 
+    <template lwc:elseif={displayNumber}>
+        <lightning-formatted-number value={colValue} format-style="currency"></lightning-formatted-number>
+    </template> 
+    <template lwc:elseif={displayPercentage}>
+        <lightning-formatted-number value={colValue} format-style="percent-fixed" maximum-fraction-digits="2"></lightning-formatted-number>
+    </template> 
+    <template lwc:elseif={displayDate}>
+        <lightning-formatted-date-time value={colValue} ></lightning-formatted-date-time>
+    </template> 
+    <template lwc:elseif={displayInput}>
+        <lightning-input type={inputType} value={colValue} formatter={formatType} step={stepValue} onchange={handleChange} ></lightning-input>
+    </template> 
+    <template lwc:elseif={displayCombo}>
+        <lightning-combobox value={colValue} options={options} onchange={handleChange} dropdown-alignment="auto" class="slds-dropdown_length-1" ></lightning-combobox>
+    </template> 
+    <template lwc:else>
+        <lightning-formatted-text value={colValue} ></lightning-formatted-text>
+    </template> 
+</template>
