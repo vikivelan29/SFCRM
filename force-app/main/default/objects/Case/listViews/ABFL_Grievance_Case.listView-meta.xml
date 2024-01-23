@@ -13,6 +13,6 @@
     <label>ABFL Grievance</label>
     <queue>ABFL_Grievance</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Grievance_G</group>
     </sharedTo>
 </ListView>

@@ -12,6 +12,6 @@
     <label>ABFL ABWM Onboarding &amp; KYC</label>
     <queue>ABFL_ABWM_Onboarding_KYC</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_ABWM_Onboarding_KYC_G</group>
     </sharedTo>
 </ListView>

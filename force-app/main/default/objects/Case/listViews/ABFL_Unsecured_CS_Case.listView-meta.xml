@@ -12,6 +12,6 @@
     <label>ABFL Unsecured CS</label>
     <queue>ABFL_Unsecured_CS</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_CS_G</group>
     </sharedTo>
 </ListView>

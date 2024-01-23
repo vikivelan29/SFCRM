@@ -12,6 +12,6 @@
     <label>ABFL Mortgage CS</label>
     <queue>ABFL_Mortgage_CS</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Mortgage_CS_G</group>
     </sharedTo>
 </ListView>

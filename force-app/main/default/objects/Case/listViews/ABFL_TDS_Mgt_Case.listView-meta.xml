@@ -12,6 +12,6 @@
     <label>ABFL TDS Mgt</label>
     <queue>ABFL_TDS_Mgt</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_TDS_Mgt_G</group>
     </sharedTo>
 </ListView>

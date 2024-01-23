@@ -12,6 +12,6 @@
     <label>ABFL Secured Branch Ops South</label>
     <queue>ABFL_Secured_Branch_Ops_South</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Secured_Branch_Ops_South_G</group>
     </sharedTo>
 </ListView>
