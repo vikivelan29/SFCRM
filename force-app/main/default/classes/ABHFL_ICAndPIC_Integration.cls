@@ -156,9 +156,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     integrationFailure = false;
                     List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                                                                             cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            null, 
+                                                                                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,
                                                                                                                             true); 
 
                     caseRecord.MoveToNext__c = true;
