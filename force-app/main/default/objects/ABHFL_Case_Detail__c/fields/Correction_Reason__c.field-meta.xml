@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Payment_Received__c</fullName>
+    <fullName>Correction_Reason__c</fullName>
     <externalId>false</externalId>
-    <label>Payment Received?</label>
+    <label>Correction Reason</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Cleared</fullName>
+                <fullName>Account Status</fullName>
                 <default>false</default>
-                <label>Cleared</label>
+                <label>Account Status</label>
             </value>
             <value>
-                <fullName>Bounced</fullName>
+                <fullName>Delinquency</fullName>
                 <default>false</default>
-                <label>Bounced</label>
+                <label>Delinquency</label>
             </value>
             <value>
-                <fullName>Additional Requirement</fullName>
+                <fullName>Deletion of Enquiry</fullName>
                 <default>false</default>
-                <label>Additional Requirement</label>
+                <label>Deletion of Enquiry</label>
             </value>
         </valueSetDefinition>
     </valueSet>
