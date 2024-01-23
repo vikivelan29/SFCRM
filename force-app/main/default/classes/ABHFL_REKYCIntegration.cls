@@ -98,7 +98,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt1.Name;
         caseIntOut.ServiceName__c = ABHFL_Constants.REKYC_SERVICE_NAME;
-        caseIntOut.Integration_Name__c  = ABHFL_Constants.REKYC_INTEGRATION_NAME;
+        caseIntOut.Integration_Name__c  = ABHFL_Constants.REKYC_SERVICE_NAME;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
                                             caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
                                              caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c,
@@ -148,7 +148,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         public String CurrentCity;
         public String CurrentState;
         //public String CustomerCategory;
-        //public String SYSTEM;
+        public String SYS;
         // public String Mobile2;
         // public String Mobile3;
         // public String Mobile4;
@@ -180,6 +180,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             this.CurrentCity = currentCity;
             this.CurrentState = currentState;
             this.DisbursementDate = disbursementDate;
+            this.SYS = ABHFL_Constants.REKYC_SYS_NAME;
         }
     }
 }
