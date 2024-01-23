@@ -126,6 +126,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Purpose__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Insurance_Partner_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
