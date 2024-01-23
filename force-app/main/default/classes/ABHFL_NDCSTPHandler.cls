@@ -36,11 +36,11 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedBranchAssignment').Message__c;                                                                                                                               
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                             cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                                                                            null,
+                                                                                                                            cccRecord[0].Rejected_Case_SMS_Metadata__c,
                                                                                                                             false);
                     //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
@@ -76,23 +76,27 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             }    
         }
 
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id];
+
+        string requestBody = JSON.serialize(new NDCRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
         caseInteg.Status__c= ABHFL_Constants.PENDING;
+        caseInteg.Request__c = requestBody;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
 
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id];
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id];
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new NDCRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.Request_Payload__c  =  requestBody;
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         response.status = ABHFL_Constants.SUCCESS;
@@ -119,11 +123,11 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         if(caseRecord!=null){
             if(isTransferred){
                 integrationFailure = false;
-                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
+                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                                                 WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
                 Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                         cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                        null, 
+                                                                                                                        cccRecord[0].Resolved_Case_SMS_Metadata__c, 
                                                                                                                         isTransferred);
                 caseRecord.MoveToNext__c = true;
                 update caseRecord;        

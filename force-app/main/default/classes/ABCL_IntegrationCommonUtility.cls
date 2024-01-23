@@ -79,7 +79,14 @@ public with sharing class ABCL_IntegrationCommonUtility {
         peLogger.Status__c = 'Pending';
         peLogger.CustomMetadataName__c = smsMetadata;
         peLogger.Email_Template_Name__c = emailTemplate;
-        peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c; 
+        peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
+        Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
+        if(!caseFieldValMap.containsKey('Business_Unit__c')){
+            Case caseRecord = [Select id,Business_Unit__c from Case where id =: caseRec.Id];
+            peLogger.LOB__c = caseRecord.Business_Unit__c;            
+        } else {
+            peLogger.LOB__c = caseRec.Business_Unit__c;        
+        }
         if(isTransferred){
             peLogger.Is_Attachment__c = true;
             //peLogger.Content_Version_Ids__c='0689I000001DJPFQA4';
