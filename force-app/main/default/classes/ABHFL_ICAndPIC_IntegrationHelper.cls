@@ -27,15 +27,15 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         reqBodyObj.souce         = 'CRM';
         reqBodyObj.requestType   = 'View';
         reqBodyObj.lan           = lan;
-        
+        reqBodyObj.documentType = 'BinaryData';
+
         if(integName == 'Interest Certificate') {
             reqBodyObj.financialYear = finYr;
             reqBodyObj.reportName   = ABHFL_Constants.IC_REPORT_NAME;
-            reqBodyObj.documentType = 'BinaryData';
+            
         }
         else if(integName == 'Provisional Interest Certificate') {
             reqBodyObj.reportName    = ABHFL_Constants.PIC_REPORT_NAME;
-            reqBodyObj.documentType = 'BinaryData';
         }
 
         return reqBodyObj;
