@@ -63,8 +63,7 @@ public with sharing class ABHFL_Constants {
 
     // Constants for REKYC 
     public static String REKYC_SERVICE_NAME = 'Send_RKYC_API';
-    public static String REKYC_INTEGRATION_NAME = 'REKYC';
-    
+    public static final String REKYC_SYS_NAME = 'A3S';
 
     // Constants for Bitly
     public static String BITLY_SERVICE_NAME = 'ShortUrl';
