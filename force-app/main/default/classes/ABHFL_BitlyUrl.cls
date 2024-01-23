@@ -94,7 +94,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
 
-        Case caseRec =[SELECT Id, AccountId, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+        Case caseRec =[SELECT Id, AccountId, No_Auto_Communication__c, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
         List<String> emailTemplates = (cccRecord[0].New_Case_Email_Template__c).split(',');
         List<String> smsMetadata = (cccRecord[0].New_Case_SMS_Metadata__c).split(',');
