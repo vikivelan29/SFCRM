@@ -20,6 +20,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
+        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
