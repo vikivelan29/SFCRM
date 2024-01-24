@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
-        <fullName>ABHFL</fullName>
-        <default>false</default>
-        <label>ABHFL</label>
-    </customValue>
-    <customValue>
         <fullName>Payments</fullName>
         <default>false</default>
         <label>Payments</label>
@@ -39,6 +34,17 @@
         <fullName>Not classified</fullName>
         <default>false</default>
         <label>Not classified</label>
+    </customValue>
+    <customValue>
+        <fullName>HFC</fullName>
+        <default>false</default>
+        <label>HFC</label>
+    </customValue>
+    <customValue>
+        <fullName>ABHFL</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ABHFL</label>
     </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
