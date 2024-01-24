@@ -25,6 +25,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
+       // caseRecList[0].Business_Unit__c = 'ABHFL';
         update caseRecList[0];
         
         ASF_TestDataFactory.createCaseCategoryConfig();
@@ -96,6 +97,7 @@ public class ABHFL_CTSTHelper_Test {
 	}
     @isTest
     static void testassignCaseToQueue(){
+        Test.startTest();
         Case caseRecord = [Select id,CreatedById from Case limit 1];
         caseRecord.CCC_External_Id__c='hfl060';
         caseRecord.Source__c='Branch';
@@ -117,7 +119,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.Source__c='Branch';
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
-        
+        Test.stopTest();
     }
     @IsTest
     static void testRequestInProgressApexClass(){
