@@ -30,4 +30,5 @@ public with sharing class ABFL_Constants {
     public static final string API = 'API';
     public static final string RESOLVED_BY_BRE = 'Resolved by BRE';
     public static final string RESOLVED_BY_STP = 'Resolved by STP';
+    public static final string NO = 'no';
 }

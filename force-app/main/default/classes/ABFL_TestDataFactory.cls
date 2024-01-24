@@ -204,7 +204,7 @@ public class ABFL_TestDataFactory {
                                                                  SEGMENT__c= 'SEGMENT',
                                                                  REKYCURL__c= 'REKYCURL',
                                                                  KYCCOMPLIED__c='Some Text',
-                                                                 IsRegisteredCustomer__c=true,
+                                                                 IsRegisteredCustomer__c='Yes',
                                                                  SUBSOURCE__c= 'SUBSOURCE'
                                                                 );
         caseDetailList.add(caseDetail);
