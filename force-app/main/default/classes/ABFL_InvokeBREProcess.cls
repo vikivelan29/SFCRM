@@ -23,7 +23,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         // * Manual fulfillment, will be handled by default queue specified on case stage.
         //Integer assetCount = ABFL_SOQL_Case.getLANCount(caseRecord.AccountId);
-        if(caseRecord.LAN__c == null || caseRecord.LAN__c == '' || caseRecord.LAN__c == 'NA') { // Check LAN
+        if(caseRecord.AssetId == null) { // Check LAN
             //Proceed to manual fulfilment
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_LAN_ERROR;
@@ -37,8 +37,8 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             //Proceed to manual fulfilment if yes
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_AUTOCLOSURE;
-        }
-        else if(!caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c) { // Check Registered Customer
+        } 
+        else if(caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c != null && caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c?.equalsIgnoreCase(ABFL_Constants.NO)) { // Check Registered Customer
             //No --- Proceed to manual fulfilment
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR;
@@ -175,11 +175,11 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
         if(!cccRec.isEmpty()) {
             //create Case detail
-            ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
+            ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = 'Yes');
             if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
 
                 insert detail;
-            }    
+            } 
 
             //Create Case
             if(Schema.sObjectType.Case.isCreateable()) {

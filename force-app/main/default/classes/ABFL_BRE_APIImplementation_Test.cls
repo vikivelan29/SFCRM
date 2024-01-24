@@ -114,7 +114,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
-	Assert.areEqual(2, caseDetCount);
+		Assert.areEqual(2, caseDetCount);
     }
     
     @isTest
@@ -148,7 +148,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
-	Assert.areEqual(2, caseDetCount);
+		Assert.areEqual(2, caseDetCount);
          Case caseRec1 = [
             SELECT Id, Status
             FROM Case
@@ -169,7 +169,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseRec;
         
         ABFL_Case_Detail__c det = [SELECT Id,IsRegisteredCustomer__c,Autoclosure_IN_RR__c FROM ABFL_Case_Detail__c LIMIT 1];
-        det.IsRegisteredCustomer__c = false;
+        det.IsRegisteredCustomer__c = 'No';
         update det;
         
         Test.startTest();
@@ -247,7 +247,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseIntRec;
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
-       Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
+        Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
     }
     
 }
