@@ -72,7 +72,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
                
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRec.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt.Name;
+        caseIntOut.Case_Integration_ID__c = caseInt1.Name;
         caseIntOut.ServiceName__c = ABHFL_Constants.BITLY_SERVICE_NAME;
         caseIntOut.Integration_Name__c  = ABHFL_Constants.BITLTY_INTEGRATION_NAME;
         caseIntOut.Request_Payload__c  =   JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
