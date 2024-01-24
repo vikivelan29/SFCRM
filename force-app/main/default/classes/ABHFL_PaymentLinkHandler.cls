@@ -123,11 +123,11 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                 update caseInteg;
             }
-            List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
+            List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:cccExternalId WITH SECURITY_ENFORCED];
             Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                     cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                    null, 
+                                                                                                                    cccRecord[0].Resolved_Case_SMS_Metadata__c, 
                                                                                                                     false); 
         }
         
