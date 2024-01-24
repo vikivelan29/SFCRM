@@ -8,52 +8,57 @@
 public class ABHFL_CTSTHelper {
 
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
-        // List of valid subTypes
-        List<String> validSubTypes = new List<String>{'hfl060', 'RRSDPRSHFC01','hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029','AC123470','HFCRARGI'};
+    // List of valid subTypes
+    	List<String> validSubTypes = new List<String>{'hfl060', 'RRSDPRSHFC01','hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029','AC123470','HFCRARGI'};
 
-        for (Case caseRecord : caseList) {
-           	String previousStage = (String) oldCaseMap.get(caseRecord.Id).get('Stage__c');
-            String currentStage = (String) caseRecord.get('Stage__c');
-            String subType = (String) caseRecord.get('CCC_External_Id__c');
+    	for (Case caseRecord : caseList) {
+        	Case originalCase = oldCaseMap.get(caseRecord.Id);
 
-            // Check if the previous stage was not 'Open', the current stage is 'Open',
-            // and the sub_Type_Text__c is one of the valid subTypes
-            if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c=='ABHFL') {
-                assignCaseToQueue(caseRecord);
-            }
-        }
-    }
+        	String previousStage = originalCase.Stage__c;	
+        	String currentStage = caseRecord.Stage__c;
+        	String subType = caseRecord.CCC_External_Id__c;
+
+        // Check if the previous stage was not 'Open', the current stage is 'Open',
+        // and the sub_Type_Text__c is one of the valid subTypes
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+            	assignCaseToQueue(caseRecord);
+        	}
+    	}
+	}
+
 
     public static void assignCaseToQueue(Case caseRecord) {
-        String subType = (String) caseRecord.get('CCC_External_Id__c');
-        List<String> emailFinancialSubTypes =  new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
-        List<String> emailNonFinancialSubTypes =  new List<String>{'hfl060','AC123470','HFCRARGI'};
-        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1 ];
-        Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1 ];
-        // assign the case to a queue here 
-        if(emailNonFinancialSubTypes.contains(subType)){
-            if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
-                caseRecord.OwnerId = caseRecord.CreatedById;
-            }else{
-                caseRecord.OwnerId = emailNonFinancialQueue.Id;
-            }
-            
-        }
-        if(emailFinancialSubTypes.contains(subType)){
-            if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
-                caseRecord.OwnerId = caseRecord.CreatedById;
-            }else{
-                caseRecord.OwnerId = emailFinancialQueue.Id;
-            }
-            
-        }
-        
-        
-        
-        // for RRSDPRSHFC01 - else{
-           // caseRecord.OwnerId = emailNonFinancialQueue.Id;
-        //}
-    }
+    	String subType = (String)caseRecord.get('CCC_External_Id__c');
+    	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
+    	List<String> emailNonFinancialSubTypes = new List<String>{'hfl060','AC123470','HFCRARGI'};
+    	Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+    	Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+
+    	// Create a new instance to avoid trigger recursion
+   	 	Case updatedCase = new Case(Id = caseRecord.Id);
+
+    	// assign the case to a queue 
+    	if (emailNonFinancialSubTypes.contains(subType)) {
+        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRecord.CreatedById;
+        	} else {
+            updatedCase.OwnerId = emailNonFinancialQueue.Id;
+        	}
+    	}
+
+    	if (emailFinancialSubTypes.contains(subType)) {
+        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRecord.CreatedById;
+        	} else {
+            updatedCase.OwnerId = emailFinancialQueue.Id;
+        		}
+    	}
+
+    	if (subType == 'RRSDPRSHFC01') {
+        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
+    	}
+    	update new List<Case>{ updatedCase };
+	}
     public static Case assignCaseToBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
 		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
@@ -157,11 +162,13 @@ public class ABHFL_CTSTHelper {
         
         ABHFL_LitmusApi litmusApiObj = new ABHFL_LitmusApi();
         Case newCaseRec = newCaseList[0];
-
-        ASF_IntegrationsController.IntegrationWrapper result = litmusApiObj.evaluate(newCaseRec);
-        system.debug('result--'+JSON.serialize(result));
-        if(result.status == 'Success') {
-            ASF_IntegrationsController.IntegrationWrapper resultOfRun = litmusApiObj.run(new ASF_Integration__c(), newCaseRec);
+        String businessUnit = newCaseRec.Business_Unit__c;
+        
+        if(businessUnit == 'ABHFL') {
+            ASF_IntegrationsController.IntegrationWrapper result = litmusApiObj.evaluate(newCaseRec);
+            if(result.status == 'Success') {
+                ASF_IntegrationsController.IntegrationWrapper resultOfRun = litmusApiObj.run(new ASF_Integration__c(), newCaseRec);
+            }
         }
     }
 
