@@ -111,8 +111,6 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         
         masterlog.put(tempFieldAPIName,comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
         masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
-        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
-        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
 
         mPeLogIdCommunicationLog.put(pLogId, masterlog);
         
