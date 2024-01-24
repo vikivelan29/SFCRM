@@ -27,18 +27,22 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
         //Check for Mandatory Conditions...
-        if(String.isNotBlank(caseRecord.Customer_name_formula__c) && String.isNotBlank(caseRecord.Account.Client_Code__c) 
-                     &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
-            Date dueDate = caseRecord.Account.KYC_Done_Date__c;
-            Date withinMonthDate = dueDate.addMonths(withinMonth);
-            if(Date.today() < withinMonthDate){
-                result.status = ABHFL_Constants.SUCCESS;
-                result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
+        if(caseRecord.Account.IsPersonAccount){
+            if(String.isNotBlank(caseRecord.Customer_name_formula__c) && String.isNotBlank(caseRecord.Account.Client_Code__c) 
+                        &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
+                Date dueDate = caseRecord.Account.KYC_Done_Date__c;
+                Date withinMonthDate = dueDate.addMonths(withinMonth);
+                if(Date.today() < withinMonthDate){
+                    result.status = ABHFL_Constants.SUCCESS;
+                    result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
+                }else{
+                    result.response = Custom_Messages__mdt.getInstance('REKYC_DUE_PERIODE_ENDED').Message__c;
+                }
             }else{
-                result.response = Custom_Messages__mdt.getInstance('REKYC_DUE_PERIODE_ENDED').Message__c;
+                result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATE_FAILED_FIELD_BLANK_ERROR').Message__c;
             }
-        }else{
-            result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATE_FAILED_FIELD_BLANK_ERROR').Message__c;
+        } else{
+            result.response = Custom_Messages__mdt.getInstance('REKYC_FAILED_NOT_PERSON_ACCOUNT').Message__c;
         }
         return result;
     }
@@ -49,7 +53,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
     * @param integ - ASF_Integration record.
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @description - Invoked from the ASF_IntegrationsController class, this method runs the Statment Of Account integration and creates Case Integration record.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the REKYC integration and creates Case Integration record.
     *****************************************************************************************************************/
 
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
@@ -64,17 +68,8 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             update existingCaseIntRecords;            
         }
         
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c  = caseRec.Id;
-        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Status__c = ABHFL_Constants.PENDING;
-        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt; 
-        }
-
         Case caseRecord = [
-            SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
+            SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
              Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
@@ -82,14 +77,32 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
 
         String kycDoneDate = String.valueOf(caseRecord.Account.KYC_Done_Date__c);
         String birthDate = String.valueOf(caseRecord.Account.PersonBirthdate);
+        String lastDisbursementDate = String.valueOf(caseRecord.Asset.Last_Disbursement_Date__c);
 
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Case__c  = caseRec.Id;
+        caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+        caseInt.Status__c = ABHFL_Constants.PENDING;
+        caseInt.Request__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
+                                            caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
+                                             caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c, 
+                                             lastDisbursementDate
+                                            ));
+        caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInt; 
+        }
+
+        ASF_Case_Integration__c caseInt1 = [Select id, name from ASF_Case_Integration__c where id =: caseInt.Id ];
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt.Id;
-        caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+        caseIntOut.Case_Integration_ID__c = caseInt1.Name;
+        caseIntOut.ServiceName__c = ABHFL_Constants.REKYC_SERVICE_NAME;
+        caseIntOut.Integration_Name__c  = ABHFL_Constants.REKYC_SERVICE_NAME;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
                                             caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
-                                             caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c
+                                             caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c,
+                                             lastDisbursementDate
                                             ));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
@@ -118,42 +131,56 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
     *****************************************************************************************************************/
 
     public class REKYCRequestWrapper{
-        public string lob;
-        public String ccc;
-        public String customerNo;
-        public String name;
-        public String lanNo;
-        public String riskCategory;
-        public String reKYCDate;
-        public String email;
-        public String mobile1;
-        public String pan;
-        public String dob;
-        public String currentAddressLine1;
-        public String currentAddressLine2;
-        public String currentAddressLine3;
-        public String currentCity;
-        public String currentState;
-       // public String customerCategory;
+        public string LOB;
+        public String CCC;
+        public String CUSTOMERNO;
+        public String NAME;
+        public String LANNO;
+        public String Riskcategory;
+        public String ReKYCDate;
+        public String EMAIL;
+        public String Mobile1;
+        public String PAN;
+        public String DOB;
+        public String CurrentAddressLine1;
+        public String CurrentAddressLine2;
+        public String CurrentAddressLine3;
+        public String CurrentCity;
+        public String CurrentState;
+        //public String CustomerCategory;
+        public String SYS;
+        // public String Mobile2;
+        // public String Mobile3;
+        // public String Mobile4;
+        // public String PermanentAddressLine1;
+        // public String PermanentAddressLine2;
+        // public String PermanentAddressLine3;
+        // public String PermanentCity;
+        // public String PermanentState;
+        // public String CLOSERDATE;
+        public String DisbursementDate;
+
+
         
-        REKYCRequestWrapper(string lob, String ccc, String customerNo, String name, String lanNo, String riskCategory, String reKYCDate, String email, String mobile1, String pan, String dob,String currentAddressLine1 ,String currentAddressLine2 ,String currentAddressLine3, String currentCity, String currentState){
-            this.lob = lob;
-            this.ccc = ccc;
-            this.customerNo = customerNo;
-            this.name = name;
-            this.lanNo = lanNo;
-            this.riskCategory = riskCategory;
-            this.reKYCDate = reKYCDate;
-            this.email = email;
-            this.mobile1 = mobile1;
-            this.pan = pan;
-            this.dob = dob;
-            this.currentAddressLine1 = currentAddressLine1;
-            this.currentAddressLine2 = currentAddressLine2;
-            this.currentAddressLine3 = currentAddressLine3; 
-            this.currentCity = currentCity;
-            this.currentState = currentState;
-           // this.customerCategory = customerCategory;
+        REKYCRequestWrapper(string lob, String ccc, String customerNo, String name, String lanNo, String riskCategory, String reKYCDate, String email, String mobile1, String pan, String dob,String currentAddressLine1 ,String currentAddressLine2 ,String currentAddressLine3, String currentCity, String currentState, String disbursementDate){
+            this.LOB = lob;
+            this.CCC = ccc;
+            this.CUSTOMERNO = customerNo;
+            this.NAME = name;
+            this.LANNO = lanNo;
+            this.Riskcategory = riskCategory;
+            this.ReKYCDate = reKYCDate;
+            this.EMAIL = email;
+            this.Mobile1 = mobile1;
+            this.PAN = pan;
+            this.DOB = dob;
+            this.CurrentAddressLine1 = currentAddressLine1;
+            this.CurrentAddressLine2 = currentAddressLine2;
+            this.CurrentAddressLine3 = currentAddressLine3; 
+            this.CurrentCity = currentCity;
+            this.CurrentState = currentState;
+            this.DisbursementDate = disbursementDate;
+            this.SYS = ABHFL_Constants.REKYC_SYS_NAME;
         }
     }
 }

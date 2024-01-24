@@ -55,4 +55,23 @@ public with sharing class ABHFL_Constants {
     public static final String REPORTING_SERVICE = 'ReportingService';
     public static final String IC_REPORT_NAME = 'InterestCertificate';
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
+    
+
+    // Constants for REKYC 
+    public static String REKYC_SERVICE_NAME = 'Send_RKYC_API';
+    public static final String REKYC_SYS_NAME = 'A3S';
+
+    // Constants for Bitly
+    public static String BITLY_SERVICE_NAME = 'ShortUrl';
+    public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
+
+
+    //Constants for Statement Of Account
+    public static String SOA_INTEGRATION_NAME = 'SOA_API';
+    public static final String SOA_SOURCE = 'CRM';
+    public static final String SOA_REQUEST_TYPE = 'View';
+    public static final String SOA_REPORT_NAME = 'SOABinary';
+    public static final String SOA_DOCUMENT_TYPE = 'BinaryData';
+
+
 }
