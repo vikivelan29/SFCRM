@@ -5,7 +5,7 @@
 *@Last Modified:  01/11/2024
 *@description  :  Class for ABHFL Specific Methods. 
 *********************************************************/
-public class ABHFL_CTSTHelper {
+public without Sharing class ABHFL_CTSTHelper {
 
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
     // List of valid subTypes
@@ -24,7 +24,7 @@ public class ABHFL_CTSTHelper {
             	assignCaseToQueue(caseRecord);
         	}
     	}
-	  }
+	}
 
 
     public static void assignCaseToQueue(Case caseRecord) {
@@ -33,11 +33,9 @@ public class ABHFL_CTSTHelper {
     	List<String> emailNonFinancialSubTypes = new List<String>{'hfl060','AC123470','HFCRARGI'};
     	Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
     	Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-
-    	// Create a new instance to avoid trigger recursion
+		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
-
-    	// assign the case to a queue 
+		// assign the case to a queue 
     	if (emailNonFinancialSubTypes.contains(subType)) {
         	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
             updatedCase.OwnerId = caseRecord.CreatedById;
@@ -57,8 +55,13 @@ public class ABHFL_CTSTHelper {
     	if (subType == 'RRSDPRSHFC01') {
         	updatedCase.OwnerId = emailNonFinancialQueue.Id;
     	}
+        ASF_Case_SLA_History__c slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
+
+    	if (slaHistory != null) {
+        	delete slaHistory;
+    	}
     	update new List<Case>{ updatedCase };
-	  }
+	}
     public static Case assignCaseToBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
 		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
@@ -93,7 +96,7 @@ public class ABHFL_CTSTHelper {
         // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
         List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
         External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card' ];
+        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card' WITH SECURITY_ENFORCED];
 
         for(ASF_Integration__c asfCaseInteg : specificIntegrations){
             if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
