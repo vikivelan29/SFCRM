@@ -68,9 +68,9 @@ public class ABHFL_CTSTHelper_Test {
 
     @IsTest
     static void testExecuteSpecificIntegrations(){
-        Case caseRecord = [Select id from Case limit 1];
+        List<Case> caseRecordList = [Select id, CCC_External_Id__c, Business_Unit__c, Technical_Source__c from Case limit 1];
         
-        ABHFL_CTSTHelper.executeSpecificIntegrations(caseRecord);
+        ABHFL_CTSTHelper.executeSpecificIntegrations(caseRecordList);
         //System.assertEquals('Success',,'Done');
         
 	}
