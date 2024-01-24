@@ -186,7 +186,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = ABFL_Constants.API, 
                                 parentId = caseRec.Id, AssetId = caseRec.AssetId,
                                 Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
-                                Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c
+                                Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
                                 ABFL_Case_Detail__c = detail.Id);
             }           
         }   
