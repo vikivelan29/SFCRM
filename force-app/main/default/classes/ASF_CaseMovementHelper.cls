@@ -195,7 +195,7 @@ public class ASF_CaseMovementHelper {
     */
     
     @AuraEnabled
-    public static StageWrapper moveToForwardStage(Case currentCaseRec, string requestedStage){
+    public static StageWrapper moveToForwardStage(Case currentCaseRec, string requestedStage, String currentStage){
         StageWrapper resultWrapper = new StageWrapper();
         
         // Determine Next STage Config        
@@ -224,7 +224,7 @@ public class ASF_CaseMovementHelper {
         
 
         //Run validation on current Stage
-        CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord);
+        CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord, currentStage);
         if(validationResult.status != 'Success'){
             resultWrapper.errorMessage = validationResult.errorMessage;
             resultWrapper.status = 'Error';
