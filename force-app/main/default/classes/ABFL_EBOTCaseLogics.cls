@@ -20,7 +20,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                 objABFL.Case__c = caseId; 
                 objABFL.ConfidenceScore__c = Decimal.valueOf(objResponseBody.CONFIDENCESCORE);
                 objABFL.Autoclosure_IN_RR__c = objResponseBody.AUTOCLOSURE_IN_RR == 'NO' ? FALSE : TRUE;
-                objABFL.IsRegisteredCustomer__c =objResponseBody.ISREGISTEREDCUSTOMER == 'NO' ? FALSE : TRUE;
+                objABFL.IsRegisteredCustomer__c = objResponseBody.ISREGISTEREDCUSTOMER;
                 objABFL.Moodstamp__c = objResponseBody.MOODSTAMP != null ? objResponseBody.MOODSTAMP : '';
                 objABFL.Priority__c = objResponseBody.PRIORITY != null ? objResponseBody.PRIORITY : '';
                 objABFL.IsSMT__c = objResponseBody.ISSMT == 'NO' ? FALSE : TRUE;

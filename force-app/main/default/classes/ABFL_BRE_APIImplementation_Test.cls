@@ -169,7 +169,7 @@ public class ABFL_BRE_APIImplementation_Test {
         update caseRec;
         
         ABFL_Case_Detail__c det = [SELECT Id,IsRegisteredCustomer__c,Autoclosure_IN_RR__c FROM ABFL_Case_Detail__c LIMIT 1];
-        det.IsRegisteredCustomer__c = false;
+        det.IsRegisteredCustomer__c = 'No';
         update det;
         
         Test.startTest();
