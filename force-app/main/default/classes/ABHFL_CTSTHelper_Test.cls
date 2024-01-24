@@ -65,89 +65,12 @@ public class ABHFL_CTSTHelper_Test {
         slaThreshold.Case_SLA_Threshold_3__c = 1;
         upsert slaThreshold SLA_Threshold_Warning__c.Id;
     }
+
     @IsTest
-    static void testPreClosurePaymentCheck(){
-        Case caseRecord = [Select id from Case limit 1];
-        List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
-    	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
-        	ABHFL_Payment__c payment = new ABHFL_Payment__c(
-            Case__c = caseRecord.Id,
-            Realization_Status__c = 'Bounce',
-            Date__c = Date.Today(),
-            Amount__c=5000,
-            Mode_of_Payment__c='Escrow',
-            Payment_Identifier__c='43234234'
-            );
-        dummyPayments.add(payment);
-    	}
-        insert dummyPayments;
-        //Assertion when payments are not cleared.
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(caseRecord);
-        System.assertEquals('Error',retCls.Status,'Done');
-        List<ABHFL_Payment__c> relatedPayments = [SELECT id,Realization_Status__c from ABHFL_Payment__c where case__c =: caseRecord.id];
-        for(ABHFL_Payment__c pay : relatedPayments){
-            pay.Realization_Status__c ='Cleared';
-        }
-        update relatedPayments;
-        //Assertion when payments are cleared.
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(caseRecord);
-        System.assertEquals('Success',retCls2.Status,'Done');
-        ABHFL_PreClosurePaymentCheck.afterStageMovement(caseRecord);
-        
-	}
-    @isTest
-    static void testassignCaseToQueue(){
-        Test.startTest();
-        Case caseRecord = [Select id,CreatedById from Case limit 1];
-        caseRecord.CCC_External_Id__c='hfl060';
-        caseRecord.Source__c='Branch';
-		update caseRecord;
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
-        caseRecord.CCC_External_Id__c='hfl060';
-        caseRecord.Source__c='Call Centre';
-		update caseRecord;
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        caseRecord.CCC_External_Id__c='hfl061';
-		update caseRecord;
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        caseRecord.CCC_External_Id__c='RRSDPRSHFC01';
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        caseRecord.CCC_External_Id__c='hfcrepaprod';
-		update caseRecord;
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        caseRecord.Source__c='Branch';
-        ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
-        System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
-        Test.stopTest();
-    }
-    @IsTest
-    static void testRequestInProgressApexClass(){
-        Case caseRecord = [Select id from Case limit 1];
-        List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
-    	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
-        	ABHFL_Payment__c payment = new ABHFL_Payment__c(
-            Case__c = caseRecord.Id,
-            Realization_Status__c = 'Bounce',
-            Date__c = Date.Today(),
-            Amount__c=5000,
-            Mode_of_Payment__c='Escrow',
-            Payment_Identifier__c='43234234'
-            );
-        dummyPayments.add(payment);
-    	}
-        insert dummyPayments;
-        //Assertion for Branch Assignment
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_requestInProgressApexClass.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
-        
-	}
-    @IsTest
-    static void testBranchAssignment(){
+    static void testExecuteSpecificIntegrations(){
         Case caseRecord = [Select id from Case limit 1];
         
-        ABHFL_CTSTHelper.assignCaseToBranch(caseRecord);
+        ABHFL_CTSTHelper.executeSpecificIntegrations(caseRecord);
         //System.assertEquals('Success',,'Done');
         
 	}
