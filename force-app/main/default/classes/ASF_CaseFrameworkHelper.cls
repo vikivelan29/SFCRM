@@ -115,7 +115,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                 if (result == true){
                     for (ASF_Work_Item__c workItem : caseRule.Work_Items__r) {
                         Task newTask = new Task();
-                        newTask.OwnerId = workItem.Assigned_Queue__c;
+                        newTask.OwnerId = workItem.Assigned_Queue__c!=null?workItem.Assigned_Queue__c:UserInfo.getUserId();
                         newTask.Subject = workItem.Task_Title__c;
                         newTask.Description = workItem.Task_Description__c;
                         newTask.WhatId = currentCase.Id;
