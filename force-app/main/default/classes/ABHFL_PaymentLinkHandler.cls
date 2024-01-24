@@ -70,7 +70,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         }
         
         Case caseRecord = [SELECT Id,ABHFL_Case_Detail__r.ROI_Switch_Fee__c,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
-                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
         List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c 

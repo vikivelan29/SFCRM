@@ -12,6 +12,6 @@
     <label>ABFL Receipts</label>
     <queue>ABFL_Receipts</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Receipts_G</group>
     </sharedTo>
 </ListView>

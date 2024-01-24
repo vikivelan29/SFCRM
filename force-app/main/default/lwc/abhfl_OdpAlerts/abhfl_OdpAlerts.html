@@ -1,0 +1,34 @@
+<template>
+    <div if:true={isAbhflUser} class="container">
+        <div class="lgc-bg">
+            <div class="header">
+                <lightning-button-icon icon-name="action:refresh" variant="brand" alternative-text="Refresh" onclick={odpAlerts}></lightning-button-icon>
+            </div>
+            <div if:false={showErrorMessage} class="bullet-points">
+                <ul>
+                    <template for:each={responseMessage} for:item="res">
+                        <li key={res.messageText}>
+                            <lightning-formatted-rich-text value={res.messageText}></lightning-formatted-rich-text>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+            <br/>
+            <div if:true={showErrorMessage} class="error-message">
+                {responseMessage}
+            </div>
+        </div>
+        
+        <!-- Spinner container -->
+        <div if:true={showSpinner} class="spinner-container slds-spinner_container">
+            <!--<div class="slds-spinner slds-spinner_medium slds-spinner_brand"></div>-->
+                <div class="slds-spinner_container">
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</template>

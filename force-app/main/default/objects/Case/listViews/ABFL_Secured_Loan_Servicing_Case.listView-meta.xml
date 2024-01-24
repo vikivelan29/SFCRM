@@ -12,6 +12,6 @@
     <label>ABFL Secured Loan Servicing</label>
     <queue>ABFL_Secured_Loan_Servicing</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Secured_Loan_Servicing_G</group>
     </sharedTo>
 </ListView>

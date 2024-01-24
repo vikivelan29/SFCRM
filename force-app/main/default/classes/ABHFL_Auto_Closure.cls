@@ -48,15 +48,16 @@ global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObje
         List<String> stagetoInclude = new List<String>{'Resolved', 'resolved', 'Unresolved', 'unresolved', 'Duplicate', 'duplicate', 'Closed', 'closed'};
 
         for(Case caserec : caseLst) {
-            String stage = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).Stage__c;
+            String caseStage = caserec.Stage__c;
+            String stageToBePopulated = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).Stage__c;
             String realizationStatus  = caserec.ABHFL_Case_Detail__r.Realization_status__c;
             Decimal closureOfDuration = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).Duration_Of_Closure__c;
             DateTime paymentLinkTriggerTIme = caserec.ABHFL_Case_Detail__r.Payment_Link_Trigger_Time__c;
             Map<String, Decimal> timeFormatsToTimeVal  = differenceBetweenTwoDateTime(DateTime.Now(), paymentLinkTriggerTIme);
             Decimal numberOfDays = timeFormatsToTimeVal.get('days');
 
-            if(numberOfDays > closureOfDuration && String.isBlank(realizationStatus) && stagetoInclude.contains(stage)) {
-                caserec.Stage__c = stage;
+            if(numberOfDays > closureOfDuration && String.isBlank(realizationStatus) && !stagetoInclude.contains(caseStage)) {
+                caserec.Stage__c = stageToBePopulated;
                 caserec.Rejection_Reason__c = 'Closed as Exception';
                 updateCaseList.add(caserec); 
             }

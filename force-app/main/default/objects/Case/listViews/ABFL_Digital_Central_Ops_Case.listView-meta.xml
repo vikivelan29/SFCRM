@@ -12,6 +12,6 @@
     <label>ABFL Digital Central Ops</label>
     <queue>ABFL_Digital_Central_Ops</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Digital_Central_Ops_G</group>
     </sharedTo>
 </ListView>
