@@ -24,7 +24,7 @@ public with sharing class ASF_RecategoriseCaseController {
         return originalList;
     }    
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled(Cacheable = false)
     public static Map<String,Object> getCaseRecordDetails( String recId){
         map<String,object> resultMap = new map<String,object>();
 		
