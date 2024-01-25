@@ -167,16 +167,17 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
 
 
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation(newItemsCase.values());
+            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
+            ASF_CaseTriggerModularHelper.updateCasesFinally();
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
-            ASF_CaseTriggerModularHelper.updateCasesFinally();
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newItemsCase.values(), null);
-            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
+            
             
             //SLA 
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
             
-
+            
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterInsert(frameworkRTCases);            
         }
