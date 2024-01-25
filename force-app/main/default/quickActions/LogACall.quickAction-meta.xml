@@ -23,11 +23,6 @@
         <quickActionLayoutColumns>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Track_ID__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>WhatId</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
