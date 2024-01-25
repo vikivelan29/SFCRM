@@ -71,7 +71,7 @@ public with sharing class ABCL_IntegrationCallout {
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
                                                                     Mock_Status_Code__c,Mock_Response_Resource__c,
                                                                     Full_Log__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
-                                                                    from ABCL_Integrations__mdt where DeveloperName =: integrationName WITH SECURITY_ENFORCED];
+                                                                    from ABCL_Integrations__mdt where DeveloperName =: integrationName];
         return integrationMetadata[0];
     }
     
