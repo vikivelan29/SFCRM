@@ -21,7 +21,7 @@ public with sharing class ABFL_SOQL_Case {
         if(caseRec==null){
             caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
             ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
-            ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,
+            ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
              Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
              Account.Phone,
              Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
