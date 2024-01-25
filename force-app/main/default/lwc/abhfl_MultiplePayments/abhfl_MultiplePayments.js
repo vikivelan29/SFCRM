@@ -7,7 +7,7 @@ import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 
-export default class Abfl_MultiplePayments extends LightningElement {
+export default class Abhfl_MultiplePayments extends LightningElement {
     // Case Record Id
     @api recordId;
     @track payments = [];
@@ -27,8 +27,6 @@ export default class Abfl_MultiplePayments extends LightningElement {
         if (error) {
         }
         else if(data){
-            // TODO -  based on Stage, set the fields Editability
-            
             let stage = getFieldValue(data, STAGE_FIELD);
             this.setupFieldPermissions(stage);
         }
@@ -37,7 +35,6 @@ export default class Abfl_MultiplePayments extends LightningElement {
     @wire(getPaymentsForCase, {caseId:'$recordId'})
     getPaymentsWire(paymentRecords) {
         this.serverPayments = paymentRecords;
-        console.log('Ritika', paymentRecords);
         if(paymentRecords.data && paymentRecords.data.length > 0){
            let records = JSON.parse(JSON.stringify(paymentRecords.data));
            console.log(records)
@@ -120,14 +117,16 @@ export default class Abfl_MultiplePayments extends LightningElement {
         let allRecords = [];
         this.payments.forEach((payment) =>{
             const record = {
-                sobjectType: "ABFL_Payment__c",
+                sobjectType: "ABHFL_Payment__c",
                 Payment_Identifier__c:payment.Payment_Identifier__c,
                 Amount__c:payment.Amount__c,
                 Mode_of_Payment__c:payment.Mode_of_Payment__c,
                 Date__c:payment.Date__c,
                 Id:payment.Id,
+                Realization_Status__c:payment.Realization_Status__c,
                 Case__c:this.recordId
             };
+            console.log(this.record);
             allRecords.push(record);
         })
         if(allRecords.length > 0){
@@ -144,12 +143,10 @@ export default class Abfl_MultiplePayments extends LightningElement {
         }
     }
 
-    onDoubleClickEdit() {
-        this.isEdited = true;
-    }
+   
 
     handleCancel() {
-        this.isEdited = false;
+       
     }
 
     showToast(title, message, variant) {
@@ -178,9 +175,13 @@ export default class Abfl_MultiplePayments extends LightningElement {
             case 'CPU Banking':
                 this.isRealizationEditable = true;
                 break;
+            case 'Pending CPU Banking':
+                this.isRealizationEditable = true;
+                break;
             default:
-              break;
+                break;
           }
+        console.log('Setup Field Permissions' + this.isRealizationEditable);
 
     }
 
