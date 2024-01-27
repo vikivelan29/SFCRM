@@ -4,9 +4,6 @@
 *Description  :  Update STP Flow - BRE
 *********************************************************/
 public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvocable {
-    // Response enum
-    public enum Response {STP_SUCCESS, STP_FAILURE, STP_VALIDATION_ERROR, STP_CLOSURE_IN_PROGRESS}
-   
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
@@ -15,7 +12,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @Description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        System.debug('***ABFL_InvokeBREProcess'+caseRec);
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
@@ -43,7 +39,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR;
         }
-        System.debug('***ABFL_InvokeBREProcess:result>'+result);
         return result;
     }
     /****************************************************************************************************************
@@ -114,7 +109,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
-        System.debug('***processResponse invoked.');
         try {
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
@@ -124,19 +118,18 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 // Assume the following response from Integration
                 String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
                 ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);
-                System.debug('@@jsonMap'+jsonMap);
                 List<Case> caseListToUpdate = new List<Case>();
                 List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
                 Boolean isUpdateCase = false;
                
-                if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
+                if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS && caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
                     //Update Document URL on ABFL Case detail, proceed to manual fulfilment
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
                     );
                     // * Manual fulfillment, will be handled by default queue specified on case stage.
                 }
-                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
+                else if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS && caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
                     //Update Document URL on ABFL Case detail, proceed to next stage.
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
@@ -144,7 +137,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     );
                     isUpdateCase = true;
                 }
-                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
+                else if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS) {
                     //Sync the email tagged to Case record US-121
                     isUpdateCase = true;
                     caseDetailListToUpdate.add(
@@ -153,21 +146,24 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     );
                 }
 
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && isUpdateCase) {
+
+                if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
-                    System.debug('@@@@Inside run STP Flow'+resultWrap);
                     update resultWrap?.caseToBeUpdated;
                 }
-                if(Schema.sObjectType.Case.isUpdateable() && caseDetailListToUpdate.size() > 0){
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && caseDetailListToUpdate.size() > 0){
                     update caseDetailListToUpdate;
                 }
-                if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == Response.STP_SUCCESS.name())  {
+                if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == ABFL_Constants.BRESUCCESS)  {
                         createCase(intg.STP_Config_External_Id__c, caseRecord);
                 }
             }
         }
-        catch(Exception ex) {
-            System.debug(ex.getMessage());
+        catch(Exception e) {
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
        
     }

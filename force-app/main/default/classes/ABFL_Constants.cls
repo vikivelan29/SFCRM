@@ -6,6 +6,7 @@
 *History        :
 Name                Date                  Change Description
 *********************************************************/
+@SuppressWarnings('PMD.PropertyNamingConventions')
 public with sharing class ABFL_Constants {
 	public static final string SUCCESS = 'Success';
     public static final string BRE = 'BRE';
@@ -31,4 +32,16 @@ public with sharing class ABFL_Constants {
     public static final string RESOLVED_BY_BRE = 'Resolved by BRE';
     public static final string RESOLVED_BY_STP = 'Resolved by STP';
     public static final string NO = 'no';
+
+    // BRE flag values such as “SUCCESS”,” FAILURE”,”VALIDATION ERROR”,”IN_PROCESS”,” Closure In Process” will be passed in this parameter.
+    public static final String BRESUCCESS {
+        get{
+            return 'SUCCESS';
+        }
+    }
+    public static final String BREFAILURE {
+        get{
+            return 'FAILURE';
+        }
+    }
 }
