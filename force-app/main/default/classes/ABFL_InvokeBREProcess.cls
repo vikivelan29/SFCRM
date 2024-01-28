@@ -87,17 +87,18 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         // Get case record for date validations
-        Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
-        switch on integ.STP_API_Identifier__c {
-            when 'BRE_ProInterestCert_Retail','BRE_InterestCert_Retail' {
-                if(caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c==NULL){
-                    //Proceed to manual fulfilment
-                    // Todo: Remove hardcoding
-                    result.status = ABFL_Constants.ERROR;
-                    result.response = 'Please add required date field values.';
-                }
-            }
-        }
+        // ! Not applicable for now
+        // Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
+        // switch on integ.STP_API_Identifier__c {
+        //     when 'BRE_ProInterestCert_Retail' {
+        //         if(caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c==NULL){
+        //             //Proceed to manual fulfilment
+        //             // Todo: Remove hardcoding
+        //             result.status = ABFL_Constants.ERROR;
+        //             result.response = 'Please add required date field values.';
+        //         }
+        //     }
+        // }
         return result;
     }
 
