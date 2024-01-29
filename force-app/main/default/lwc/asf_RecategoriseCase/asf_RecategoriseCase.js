@@ -370,11 +370,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             rejectionReason.reportValidity();
             return;
         }
-        const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
+       /* const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
         if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
             botfeedback.reportValidity();
             return;
-        }
+        } */
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         
         if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
