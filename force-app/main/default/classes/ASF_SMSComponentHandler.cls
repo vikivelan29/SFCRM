@@ -60,7 +60,8 @@ public without sharing class ASF_SMSComponentHandler {
             Set<String> templateName = new Set<String>();
             mCaseIdMetadataName = mCaseVsMetadata;
             
-            comm_configs = [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c   
+            comm_configs = [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c,
+                            SMS_Sender_Id__c,SMS_Entity_Id__c
                             from Customer_Notification_Config__mdt where developerName =: mCaseVsMetadata.values()];
             for(Customer_Notification_Config__mdt cncmdt : comm_configs){
                 //Build CustomMetadata Developer Name Vs CustomMetadata map.
@@ -270,6 +271,8 @@ public without sharing class ASF_SMSComponentHandler {
         
         masterlog.put(tempFieldAPIName,comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
         masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
+        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
+        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
         
         mCaseIdCommunicationLog.put(caseRecord.Id, masterlog);
         
@@ -344,7 +347,9 @@ public without sharing class ASF_SMSComponentHandler {
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
-                                                                        Type__c = msgType);
+                                                                        Type__c = msgType,
+                                                                       	SMS_Entity_Id__c = log.SMS_Entity_Id__c,
+                                                                        SMS_Sender_Id__c = log.SMS_Sender_Id__c);
         
         return event;
     }
