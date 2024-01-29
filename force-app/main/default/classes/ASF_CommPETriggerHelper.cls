@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-17-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
@@ -355,7 +365,10 @@ public class ASF_CommPETriggerHelper {
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
-                                                                        Type__c = msgType);
+                                                                        Type__c = msgType,
+                                                                        SMS_Entity_Id__c = log.SMS_Entity_Id__c,
+                                                                        SMS_Sender_Id__c = log.SMS_Sender_Id__c
+                                                                        );
         
         return event;
     }

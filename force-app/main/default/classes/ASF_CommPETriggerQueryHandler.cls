@@ -7,7 +7,7 @@ public without sharing class ASF_CommPETriggerQueryHandler {
     }
     
     public static List<Customer_Notification_Config__mdt> getCustomMetadataList(Set<String> devName){
-        return [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c   
+        return [select id,developerName,Email_Merge_Fields_CSV__c,Email_Template_Name__c,SMS_Merge_Fields_CSV__c,SMS_Template_Name__c,Whatsapp_Merge_Fields_CSV__c,Whatsapp_Template_Name__c,external_templateID__c,SMS_Sender_Id__c,SMS_Entity_Id__c   
                             from Customer_Notification_Config__mdt where developerName =: devName];
     }
     
