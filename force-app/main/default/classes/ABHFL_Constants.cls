@@ -33,6 +33,12 @@ public with sharing class ABHFL_Constants {
     public static final String ABHFL_CUSTOMER_SERVICE_TEAM = 'ABHFL_Customer_Service_Team';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
+    @auraEnabled public final String ABHFL = 'ABHFL';
+    public static final String API = 'API';
+    public static final String OPEN = 'Open';
+    public static final String CHANNEL_ID = 'CHA1002';
+    public static final String ODP_ALERTS = 'ODP_Alerts';
+    
     
     
     //Constants for Welcome Kit STP Flow
@@ -53,4 +59,36 @@ public with sharing class ABHFL_Constants {
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
     public static final String REPORTING_SERVICE = 'ReportingService';
+    public static final String IC_DOCUMENT_TYPE = 'ReportFilePath';
+    public static final String PIC_DOCUMENT_TYPE = 'BinaryData';
+    public static final String IC_REPORT_NAME = 'InterestCertificate';
+    public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
+    public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
+    
+    
+
+
+    // Constants for REKYC 
+    public static String REKYC_SERVICE_NAME = 'Send_RKYC_API';
+    public static final String REKYC_SYS_NAME = 'A3S';
+
+    // Constants for Bitly
+    public static String BITLY_SERVICE_NAME = 'ShortUrl';
+    public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
+
+
+    //Constants for Statement Of Account
+    public static String SOA_INTEGRATION_NAME = 'SOA_API';
+    public static final String SOA_SOURCE = 'CRM';
+    public static final String SOA_REQUEST_TYPE = 'View';
+    public static final String SOA_REPORT_NAME = 'SOABinary';
+    public static final String SOA_DOCUMENT_TYPE = 'BinaryData';
+
+
+    
+
+    @AuraEnabled(cacheable=true)
+    public static ABHFL_Constants getAllConstants() {
+        return new ABHFL_Constants();
+    }
 }

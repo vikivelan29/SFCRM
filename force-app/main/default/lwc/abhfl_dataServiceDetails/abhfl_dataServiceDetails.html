@@ -1,0 +1,93 @@
+<template>
+    <div style="background:white">
+        <div class="slds-align_absolute-center" style="vertical-align: middle;white-space: nowrap;position:relative">
+            <lightning-spinner if:true={isLoading} variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+        <template if:true={sectionClosed}>
+            <div style="display:flex;height:50px">
+                <lightning-button class="slds-align--absolute-center" variant="brand" label="Get Details" title="getDetails" onclick={getDataServiceDetails}></lightning-button>
+            </div>
+        </template>
+        <template if:false={sectionClosed}>
+            <div style="overflow-x:auto;overflow-y:hidden">
+                <lightning-accordion onsectiontoggle={handleToggleSection} class="example-accordion" 
+                    allow-multiple-sections-open>
+                    <template for:each={outerSections} for:item="sec">
+                        <lightning-accordion-section name={sec.sectionName} label={sec.sectionLabel} key={sec.sectionName}>
+                            <template if:false={ifCusAndAcc}>
+                                <template if:true={sec.tabular}>
+                                    <lightning-datatable
+                                            key-field="id"
+                                            show-row-number-column
+                                            hide-checkbox-column
+                                            data={sec.sectionTabularData}
+                                            columns={sec.sectionTabularColumns}>
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={sec.tabular}>
+                                    <div class="outer-form-container" style="display:flex;justify-content: space-between;">
+                                        <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                                            <template for:each={fieldsInOuterColumn1} for:item="outerField">
+                                                <div key={outerField.fieldName}>
+                                                    <label style="font-weight:bold;" for={outerField.fieldName}>{outerField.label}</label></br>
+                                                    <h1 id={outerField.fieldName} name={outerField.fieldName}>{outerField.value}</h1>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                                            <template for:each={fieldsInOuterColumn2} for:item="outerField">
+                                                <div key={outerField.fieldName}>
+                                                    <label style="font-weight:bold;" for={outerField.fieldName}>{outerField.label}</label></br>
+                                                    <h1 id={outerField.fieldName} name={outerField.fieldName}>{outerField.value}</h1>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:true={ifCusAndAcc}>
+                                <lightning-accordion onsectiontoggle={handleToggleSectionInner} allow-multiple-sections-open
+                                    active-section-name={activeInnerSections}>
+                                    <template for:each={innerSections} for:item="secInner">
+                                        <lightning-accordion-section name={secInner.sectionName} label={secInner.sectionLabel} key={secInner.sectionName}>
+                                            <template if:true={secInner.tabular}>
+                                                <lightning-datatable
+                                                        key-field="id"
+                                                        show-row-number-column
+                                                        hide-checkbox-column
+                                                        data={secInner.sectionTabularData}
+                                                        columns={secInner.sectionTabularColumns}>
+                                                </lightning-datatable>
+                                            </template>
+                                            <div class="inner-form-container" style="display:flex;justify-content: space-between;">
+                                                <div class="inner-form-columns" style="flex:1;margin-right: 20px;">
+                                                    <template for:each={fieldsInInnerColumn1} for:item="innerField">
+                                                        <div key={innerField.fieldName}>
+                                                            <label style="font-weight:bold;" for={innerField.fieldName}>{innerField.label}</label></br>
+                                                            <h1 id={innerField.fieldName} name={innerField.fieldName}>{innerField.value}</h1>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                                <div class="inner-form-columns" style="flex:1;margin-right: 20px;">
+                                                    <template for:each={fieldsInInnerColumn2} for:item="innerField">
+                                                        <div key={innerField.fieldName}>
+                                                            <label style="font-weight:bold;" for={innerField.fieldName}>{innerField.label}</label></br>
+                                                            <h1 id={innerField.fieldName} name={innerField.fieldName}>{innerField.value}</h1>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </lightning-accordion>
+                            </template>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+            </div>
+            <div style="display:flex;margin-top:5px;margin-right:5px;justify-content: end;">
+                <lightning-button icon-name='utility:refresh' variant="brand" label="Refresh" title="Refresh" onclick={getDataServiceDetails}></lightning-button>
+            </div>
+        </template>
+    </div>
+</template>
