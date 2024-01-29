@@ -33,11 +33,11 @@ public class ASF_CaseEmailController_Test {
             update astRec;
             
             Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, PAY_Payment_Detail__c, PAY_Payment_Detail__r.Payment_mode__c,
-                            SLA_Target_1__c, CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c, Reopen_Days__c,Reopened__c,ABHFL_Case_Detail__r.EMI_Tenure__c  from case LIMIT 1];
+                            SLA_Target_1__c, CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c, Reopen_Days__c,Reopened__c  from case LIMIT 1];
 
             ABHFL_Case_Detail__c caseExtension = new ABHFL_Case_Detail__c();
             caseExtension.Case__c=caseRecord.id;
-            caseExtension.EMI_Tenure__c=3;
+            //caseExtension.EMI_Tenure__c=3;
             caseExtension.As_On_Date__c = Date.newInstance(2023, 12, 12);
             caseExtension.Part_Payment_Amount__c=100;
             caseExtension.Payable_Charges__c=1000;
