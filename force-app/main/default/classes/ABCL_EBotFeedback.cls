@@ -82,7 +82,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
 
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRecord.Id 
-                                                               AND Type__c = 'eBOT Feedback'];
+                                                               AND Type__c = 'eBOTFeedback'];
 
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
@@ -96,7 +96,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         system.debug('jsonBody-- '+jsonBody);    
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Case__c  = caseRecord.Id;
-        caseInt.Type__c = 'eBOT Feedback';
+        caseInt.Type__c = 'eBOTFeedback';
         caseInt.Status__c = 'Pending';
         caseInt.Request__c = jsonBody;
         insert caseInt;
@@ -111,14 +111,14 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         
         EBotFeedbackWrapper ebotFeedbackWrappObj = new EBotFeedbackWrapper();
         ebotFeedbackWrappObj.Case_X = caseRecord.CaseNumber;
-        ebotFeedbackWrappObj.Category = caseRecord.CCC_External_Id__c;
-        ebotFeedbackWrappObj.Type = caseRecord.Type_Text__c;
-        ebotFeedbackWrappObj.SubType = caseRecord.Sub_Type_Text__c;
-        ebotFeedbackWrappObj.Description = String.isNotBlank(caseRecord.Recategorisation_Reason__c) ? caseRecord.Recategorisation_Reason__c : '';
-        ebotFeedbackWrappObj.Comments = '';
+        ebotFeedbackWrappObj.CATEGORY = caseRecord.CCC_External_Id__c;
+        ebotFeedbackWrappObj.TYPE = caseRecord.Type_Text__c;
+        ebotFeedbackWrappObj.SUB_TYPE = caseRecord.Sub_Type_Text__c;
+        ebotFeedbackWrappObj.DESCRIPTION = String.isNotBlank(caseRecord.Recategorisation_Reason__c) ? caseRecord.Recategorisation_Reason__c : '';
+        ebotFeedbackWrappObj.COMMENTS = '';
 
         String reqBody = JSON.serialize(ebotFeedbackWrappObj);
-        String actualReqBody = reqBody.replace('"Case_X":', '"Case":');
+        String actualReqBody = reqBody.replace('"Case_X":', '"case":');
 
         return actualReqBody;
     }
@@ -132,17 +132,18 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         caseIntOut.Business_Unit__c  = 'ABHFL';
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = 'Ebot Feedback';
+        caseIntOut.ServiceName__c  = 'eBotFeedback';
         caseIntOut.Request_Payload__c  =  jsonBody;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
     }
 
     public class EBotFeedbackWrapper {
         public String Case_X;
-        public String Category;
-        public String Type;
-        public String SubType;
-        public String Description;
-        public String Comments;
+        public String CATEGORY;
+        public String TYPE;
+        public String SUB_TYPE;
+        public String DESCRIPTION;
+        public String COMMENTS;
 
     }
 

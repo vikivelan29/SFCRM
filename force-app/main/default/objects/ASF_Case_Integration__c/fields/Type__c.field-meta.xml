@@ -17,9 +17,9 @@
                 <label>eBOT</label>
             </value>
             <value>
-                <fullName>eBOT Feedback</fullName>
+                <fullName>eBOTFeedback</fullName>
                 <default>false</default>
-                <label>eBOT Feedback</label>
+                <label>eBOTFeedback</label>
             </value>
             <value>
                 <fullName>Log</fullName>
