@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insurance_Status__c</fullName>
+    <fullName>Claim_Status2__c</fullName>
     <externalId>false</externalId>
-    <label>Insurance Status 1</label>
+    <label>Claim Status 2</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -11,24 +11,24 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Refunded</fullName>
+                <fullName>Intimated</fullName>
                 <default>false</default>
-                <label>Refunded</label>
+                <label>Intimated</label>
             </value>
             <value>
-                <fullName>Under process</fullName>
+                <fullName>Registered</fullName>
                 <default>false</default>
-                <label>Under process</label>
+                <label>Registered</label>
             </value>
             <value>
-                <fullName>Expired</fullName>
+                <fullName>Approved</fullName>
                 <default>false</default>
-                <label>Expired</label>
+                <label>Approved</label>
             </value>
             <value>
-                <fullName>Lock-in</fullName>
+                <fullName>Rejected</fullName>
                 <default>false</default>
-                <label>Lock-in</label>
+                <label>Rejected</label>
             </value>
         </valueSetDefinition>
     </valueSet>

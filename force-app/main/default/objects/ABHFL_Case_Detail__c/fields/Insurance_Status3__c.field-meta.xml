@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Insurance_Status__c</fullName>
+    <fullName>Insurance_Status3__c</fullName>
     <externalId>false</externalId>
-    <label>Insurance Status 1</label>
+    <label>Insurance Status 3</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
