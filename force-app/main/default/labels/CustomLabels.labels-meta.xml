@@ -8,6 +8,13 @@
         <value>ABHFL,ABFL,Payments</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Data_Service_Sections</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Data Service Sections</shortDescription>
+        <value>repayment_detail,Disbursement_History</value>
+    </labels>
+    <labels>
         <fullName>ASF_CRN_Basis_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -55,14 +62,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithFA</shortDescription>
-        <value>Create SR with A/c #</value>
+        <value>Create Case with LAN</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
-        <value>Create SR for Customer</value>
+        <value>Create Case for Customer</value>
     </labels>
     <labels>
         <fullName>ASF_Customer_Mandatory</fullName>
@@ -104,7 +111,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_FA_Mandatory_preframework</shortDescription>
-        <value>Please select Financial Account first to process SR type search</value>
+        <value>Please tag LAN to customer to process Case Type Search</value>
     </labels>
     <labels>
         <fullName>ASF_FA_Validation_Message</fullName>
