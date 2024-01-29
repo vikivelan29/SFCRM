@@ -7,6 +7,12 @@ public class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
     
     public static Boolean TriggerDisabled = false;
     
+    public override void beforeInsert(list<sObject> newItems) {
+        for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems){
+            caseInteg.Next_Retry__c = System.now().addMinutes(15);
+        }
+    }
+    
     /**
      * Framework Method - to Process the Response on Case Integration
      * Used when Async Integrations are called, the Case Integration
