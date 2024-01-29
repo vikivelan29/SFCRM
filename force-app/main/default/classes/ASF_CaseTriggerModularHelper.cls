@@ -382,7 +382,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(!eligibleRecords.isEmpty()){
             for(Case caseRec : eligibleRecords){
                 //invoke moveToNextStage of ASF_CaseMovementHelper
-                ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToNextStage(caseRec, caseRec.Stage__c);
+                String currentStage = isUpdate ? oldMap.get(caseRec.Id).Stage__c:'';
+                ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToNextStage(caseRec, currentStage);
                 if(resultWrap.status == 'Success'){
                     if(isUpdate){
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
@@ -954,7 +955,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Add all the public group members to the map
             for(Id queueId : oldQueueAndMemberMap.keySet()){
 				for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
-                    if(((String)queueMember).startsWith('00G')){
+                    if(((String)queueMember).startsWith('00G') && oldgroupAndMemberMap.containsKey(queueMember)){
                         oldQueueAndMemberMap.get(queueId).addAll(oldgroupAndMemberMap.get(queueMember));
                     }
                 }                
@@ -1104,7 +1105,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Id> accountIds = new List<Id>();
         Map<String,ASF_Case_Category_Config__c> cccExternalIdCategoryMap = new Map<String,ASF_Case_Category_Config__c>();
         for(Case caseRec : newList){
-            if(oldMap != null 
+            if(oldMap != null && oldMap.get(caseRec.Id).CCC_External_Id__c != null 
                 && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
                 || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
