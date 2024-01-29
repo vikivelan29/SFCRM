@@ -5,8 +5,8 @@
 *@Last Modified:  01/11/2024
 *@description  :  Class for ABHFL Specific Methods. 
 *********************************************************/
-public without Sharing class ABHFL_CTSTHelper {
-
+public without sharing class ABHFL_CTSTHelper {
+    //Dhinesh
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
     // List of valid subTypes
     	List<String> validSubTypes = new List<String>{'hfl060', 'RRSDPRSHFC01','hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029','AC123470','HFCRARGI'};
@@ -62,6 +62,7 @@ public without Sharing class ABHFL_CTSTHelper {
     	}
     	update new List<Case>{ updatedCase };
 	}
+    //Dhinesh
     public static Case assignCaseToBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
 		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
@@ -71,6 +72,19 @@ public without Sharing class ABHFL_CTSTHelper {
 
         return caseRec;
     }
+    //Dhinesh
+    public static Case assignCaseToPreferredBranch(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        if (prefBranch.Branch_Queue_Id__c != null) {
+            caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
+        }
+
+        return caseRec;
+    }
+    
+    //Dhinesh
     public static Boolean validatePayments(Case caseRecord) {
         Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
 		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id];
@@ -96,7 +110,7 @@ public without Sharing class ABHFL_CTSTHelper {
         // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
         List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
         External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card' WITH SECURITY_ENFORCED];
+        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
 
         for(ASF_Integration__c asfCaseInteg : specificIntegrations){
             if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
@@ -193,4 +207,5 @@ public without Sharing class ABHFL_CTSTHelper {
              insert caseList;
         }
     }
+    
 }
