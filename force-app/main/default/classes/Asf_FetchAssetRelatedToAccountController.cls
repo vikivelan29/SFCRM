@@ -59,6 +59,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                 TypeAttributes typeAttrbtObj = new TypeAttributes();
                 CellAttributes cellAttrbtObj = new CellAttributes();
                 TypeAttributesLabel typeAttrLabelObj = new TypeAttributesLabel();
+                ToolTip toolTp = new ToolTip();
 
                 String fldLabel = fld.split(':')[0];
                 String fieldApiName = fld.split(':')[1];
@@ -83,6 +84,9 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     }
                     else if(fieldApiName == 'LAN__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
                     }
                     typeAttrLabelObj.fieldName = fieldApiName;
                     typeAttrbtObj.label  = typeAttrLabelObj;
@@ -126,6 +130,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         @AuraEnabled public String currencyCode;
         @AuraEnabled public String target;
         @AuraEnabled public TypeAttributesLabel label;
+        @AuraEnabled public ToolTip tooltip;
     }
 
     public class CellAttributes {
@@ -133,6 +138,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
     }
 
     public class TypeAttributesLabel {
+        @AuraEnabled public String fieldName;
+    }
+
+    public class ToolTip {
         @AuraEnabled public String fieldName;
     }
 }
