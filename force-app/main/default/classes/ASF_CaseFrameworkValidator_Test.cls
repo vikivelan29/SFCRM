@@ -205,7 +205,7 @@ public class ASF_CaseFrameworkValidator_Test {
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];
         
         Test.startTest();
-        Boolean evaluationResult = ASF_CaseFrameworkValidator.validateChecklists(caseRecord);
+        Boolean evaluationResult = ASF_CaseFrameworkValidator.validateChecklists(caseRecord, caseRecord.Stage__c);
         Test.stopTest();
         Assert.areEqual(evaluationResult, true);   
     }
@@ -228,7 +228,7 @@ public class ASF_CaseFrameworkValidator_Test {
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];
         
         Test.startTest();
-        Boolean evaluationResult = ASF_CaseFrameworkValidator.validateTasks(caseRecord);
+        Boolean evaluationResult = ASF_CaseFrameworkValidator.validateTasks(caseRecord, caseRecord.Stage__c);
         Test.stopTest();
         Assert.areEqual(evaluationResult, true);   
     }
@@ -238,7 +238,7 @@ public class ASF_CaseFrameworkValidator_Test {
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];
         
         Test.startTest();
-            Boolean evaluationResult = ASF_CaseFrameworkValidator.validateApprovals(caseRecord);
+            Boolean evaluationResult = ASF_CaseFrameworkValidator.validateApprovals(caseRecord, caseRecord.Stage__c);
         Test.stopTest();
         Assert.areEqual(evaluationResult, true);   
     }

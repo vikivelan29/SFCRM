@@ -66,7 +66,7 @@ public class ASF_CaseMovementHelper {
     * Returns StageWrapper - Contains Case Data to be updated, and other Objects to be inserted as well
     */
     @AuraEnabled
-    public static StageWrapper moveToNextStage(Case currentCaseRec){
+    public static StageWrapper moveToNextStage(Case currentCaseRec, String currentStage){
         
         StageWrapper resultWrapper = new StageWrapper();
         resultWrapper.status = 'Error';
@@ -120,7 +120,7 @@ public class ASF_CaseMovementHelper {
         else {
             //Run validation on current Stage
             System.debug('Current Stage' + currentCaseRec.Stage__c);
-            CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord);
+            CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord, currentStage);
             if(validationResult.status != 'Success'){
                 resultWrapper.errorMessage = validationResult.errorMessage;
                 resultWrapper.status = 'Error';
@@ -195,7 +195,7 @@ public class ASF_CaseMovementHelper {
     */
     
     @AuraEnabled
-    public static StageWrapper moveToForwardStage(Case currentCaseRec, string requestedStage){
+    public static StageWrapper moveToForwardStage(Case currentCaseRec, string requestedStage, String currentStage){
         StageWrapper resultWrapper = new StageWrapper();
         
         // Determine Next STage Config        
@@ -224,7 +224,7 @@ public class ASF_CaseMovementHelper {
         
 
         //Run validation on current Stage
-        CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord);
+        CaseStageValidationWrapper validationResult = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecord, currentStage);
         if(validationResult.status != 'Success'){
             resultWrapper.errorMessage = validationResult.errorMessage;
             resultWrapper.status = 'Error';
@@ -366,34 +366,34 @@ public class ASF_CaseMovementHelper {
      * Validate if the movemnet out of this current stage is valid or not
      * Accordinlgy only next stage movement will happen
      */
-    public static CaseStageValidationWrapper validateCurrentStageExit(Case currentCase){
+    public static CaseStageValidationWrapper validateCurrentStageExit(Case currentCase, String currentStage){
         
         CaseStageValidationWrapper result = new CaseStageValidationWrapper();
         ASF_Case_Stage_Config__c currentStageConfig;
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{currentCase.CCC_External_Id__c});
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
-            if(config.StageName__c == currentCase.Stage__c){
+            if(config.StageName__c == currentStage){
                 currentStageConfig = config;
             }
         }
         
         result.status = 'Success';
         // Validate Checklists
-        Boolean areChecklistsComplete = ASF_CaseFrameworkValidator.validateChecklists(currentCase);
+        Boolean areChecklistsComplete = ASF_CaseFrameworkValidator.validateChecklists(currentCase, currentStage);
         if(!areChecklistsComplete){
             result.status  = 'Error';
             result.errorMessage = System.Label.Incomplete_Checklist_Error_Message;
         }
         
         // Validate Tasks
-        Boolean areTasksComplete = ASF_CaseFrameworkValidator.validateTasks(currentCase);
+        Boolean areTasksComplete = ASF_CaseFrameworkValidator.validateTasks(currentCase, currentStage);
         if(!areTasksComplete){
             result.status  = 'Error';
             result.errorMessage = System.Label.Incomplete_Tasks_Error_Message;
         }
 
         // Validate Approvals
-        Boolean areApprovalsCompleted = ASF_CaseFrameworkValidator.validateApprovals(currentCase);
+        Boolean areApprovalsCompleted = ASF_CaseFrameworkValidator.validateApprovals(currentCase, currentStage);
         if(!areApprovalsCompleted){
             result.status  = 'Error';
             // TODO - Create Labels
@@ -474,7 +474,7 @@ public class ASF_CaseMovementHelper {
                 break;
             }
         }
-        
+                
         // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
         List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(new Set<String>{currentCase.CCC_External_Id__c});
         

@@ -18,9 +18,9 @@ public with sharing class ABFL_EBOTCaseLogics {
             if(String.isNotBlank(caseId) && objResponseBody!=null ){
                 ABFL_Case_Detail__c objABFL = new ABFL_Case_Detail__c();
                 objABFL.Case__c = caseId; 
-                objABFL.ConfidenceScore__c = Decimal.valueOf(objResponseBody.CONFIDENCESCORE);
+                objABFL.ConfidenceScore__c = objResponseBody.CONFIDENCESCORE==''?0:Decimal.valueOf(objResponseBody.CONFIDENCESCORE);
                 objABFL.Autoclosure_IN_RR__c = objResponseBody.AUTOCLOSURE_IN_RR == 'NO' ? FALSE : TRUE;
-                objABFL.IsRegisteredCustomer__c =objResponseBody.ISREGISTEREDCUSTOMER == 'NO' ? FALSE : TRUE;
+                objABFL.IsRegisteredCustomer__c = objResponseBody.ISREGISTEREDCUSTOMER;
                 objABFL.Moodstamp__c = objResponseBody.MOODSTAMP != null ? objResponseBody.MOODSTAMP : '';
                 objABFL.Priority__c = objResponseBody.PRIORITY != null ? objResponseBody.PRIORITY : '';
                 objABFL.IsSMT__c = objResponseBody.ISSMT == 'NO' ? FALSE : TRUE;
@@ -55,7 +55,10 @@ public with sharing class ABFL_EBOTCaseLogics {
     public static void updateCase(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         List<Case>lstCase = new List<Case>();
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
-           LIST<Asset> recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
+            LIST<Asset> recAsset;
+            if(String.isNotBlank(objResponseBody.LAN)){
+                recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
+            }
            Case objCase = new Case();
            //Case objCase = [SELECT ID FROM CASE WHERE ID =: caseId  LIMIT 1 FOR UPDATE];
             objCase.Id = caseId;
@@ -63,9 +66,9 @@ public with sharing class ABFL_EBOTCaseLogics {
             objCase.CCC_External_Id__c = objResponseBody.CASESUBTYPE;
             objCase.Comments = objResponseBody.COMMENT;
             objCase.Case_Stage_Change_Date__c = system.now();
-            objCase.LAN__c =  objResponseBody.LAN != null ? objResponseBody.LAN : '';
-            if(!recAsset.isEmpty()){
-            	objCase.AssetId = recAsset[0].Id;
+            objCase.LAN__c =  String.isNotBlank(objResponseBody.LAN)? objResponseBody.LAN : '';
+            if(recAsset!=null && recAsset.size()>0){
+                objCase.AssetId = recAsset[0].Id;
             }
             objCase.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             lstCase.add(objCase);
@@ -98,7 +101,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                 system.debug('emailMessagescase '+emailMessages[0].ToAddress);
                 List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c ,EBOT_Registered_Template__c ,EBOT_Unregistered_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c LIMIT 1];
                 if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],objResponseBody, mdtEbotCase)){
-                  	system.debug('multipleLAn');
+                    system.debug('multipleLAn');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True,false,false,false);
                 }
                 else if(checkPaytmInteractionNotNull(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
@@ -114,7 +117,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,false);
                 }
                  else if(checkIsRegisteredCustomerYes(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                   	system.debug('RegisteredCustomeryes');
+                    system.debug('RegisteredCustomeryes');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false);
                 }
                 else if(ConfidenceScoreAndSubtypeCheck(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
@@ -158,22 +161,26 @@ public with sharing class ABFL_EBOTCaseLogics {
                   System.debug('updatedcase'+updateResult);      
                   System.debug('notUpdatedCase'+updateResult[0].getErrors());
                  if(updateResult[0].getId() != null){
+                    system.debug('enteredClosed');
                     //createPELoggerRecords(recCase,caseCategConfig);
                      //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
                      if(templateName){
-                     	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'Multiple_Lan_Template',null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'Multiple_Lan_Template',null,false);
+                     }
+                      else if(isLead){
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_LEAD',null,false);
                      }
                       else if(isPaytm){
-                     	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_PaytmAutorespon',null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_PaytmAutorespon',null,false);
                      }
                      else if(!isRegistered){
-                     	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
                      }
                      else if(isRegistered){
-                     	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c ,null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c ,null,false);
                      }
                  }
-			 } 
+             } 
          }
            else{
                 ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
@@ -183,12 +190,9 @@ public with sharing class ABFL_EBOTCaseLogics {
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 
                     if(updateResult[0].getId() != null){
-                        if(isLead){
-                            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_LEAD',null,false);
-                        }
                         //createPELoggerRecords(recCase,caseCategConfig);
                         //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email. 
-                        //ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
 
                      }
                 }

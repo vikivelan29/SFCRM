@@ -158,7 +158,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
      */
     public static void validateRecategorizationParameters(List<Case> newList, Map<Id, Case> oldMap) {
         for(Case caseRec : newList){
-            if(caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
+            if(caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
+            && caseRec.Stage__c != ASF_Constants.DUPLICATESTAGE 
+            && caseRec.Stage__c != ASF_Constants.REJECTIONSTATUS){
                 if(caseRec.typeSubTypeMismatch__c == true){
                     caseRec.addError(Label.RecategorizationError);
                 }
@@ -225,6 +227,44 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
     }
 
+    //Detects the Reopen request and sets the Stage__c on trigger.new for other methods to consume
+    public static void findNextStageAndSetOnTriggerNewForReopenRequest(List<Case> newList, Map<Id, Case> oldMap) {
+        List<Case> eligibleRecords = new List<Case>();
+        List<String> cccExtIds = new List<String>();
+        Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap = new Map<String, ASF_Case_Category_Config__c>();
+        for(Case caseRec : newList){
+            //On update, if Reopened_DateTime__c changed, else no action
+            if(caseRec.Reopened_DateTime__c != oldMap.get(caseRec.Id).Reopened_DateTime__c && caseRec.Reopened__c == true){
+                eligibleRecords.add(caseRec);
+                if(caseRec.Reopen_Style__c == 'Move To First Stage'){
+                    cccExtIds.add(caseRec.CCC_External_Id__c);
+                }
+            }
+        }
+        if(!cccExtIds.isEmpty()){
+            for(ASF_Case_Category_Config__c cccRec : ASF_CaseQueryHandler.getCaseCategoryConfigs(cccExtIds)){
+                cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
+            }
+        }
+        if(!eligibleRecords.isEmpty()){
+            for(Case caseRec : eligibleRecords){
+                ASF_Case_Category_Config__c appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+                switch on caseRec.Reopen_Style__c {
+                    when 'Move To First Stage' {
+                        caseRec.Stage__c = appliedCCC.First_Stage__c;
+                    }
+                    when 'Reopen Stage With Movement', 'Reopen Stage No Movement' {
+                        caseRec.Stage__c = 'Reopened';
+                    }
+                    when else {
+                        System.debug('Unknown Reopen Style');
+                    }
+                }
+            }
+        }
+    }
+
+
     //Detects the Reopen request and processes it based on reopen style
     //Moved to after  trigger context
     public static void checkAndProcessReopenCase(List<Case> newList, Map<Id, Case> oldMap) {
@@ -235,14 +275,17 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //On update, if Reopened_DateTime__c changed, else no action
             if(caseRec.Reopened_DateTime__c != oldMap.get(caseRec.Id).Reopened_DateTime__c && caseRec.Reopened__c == true){
                 eligibleRecords.add(caseRec);
-                cccExtIds.add(caseRec.CCC_External_Id__c);
+                if(caseRec.Reopen_Style__c == 'Move To First Stage'){
+                    cccExtIds.add(caseRec.CCC_External_Id__c);
+                }
             }
         }
         if(!cccExtIds.isEmpty()){
             for(ASF_Case_Category_Config__c cccRec : ASF_CaseQueryHandler.getCaseCategoryConfigs(cccExtIds)){
                 cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
             }
-
+        }
+        if(!eligibleRecords.isEmpty()){
             for(Case caseRec : eligibleRecords){
                 ASF_Case_Category_Config__c appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
                 switch on caseRec.Reopen_Style__c {
@@ -264,7 +307,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }
                     }
                     when 'Reopen Stage With Movement', 'Reopen Stage No Movement' {
-                        ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Reopened');
+                        ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Reopened', oldMap.get(caseRec.Id).Stage__c);
                         if(resultWrap.status == 'Success'){
                             caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
@@ -318,7 +361,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
         }
-        
     }
     
     //Method checks whether move to next stage is changed to true, if yes, calls the right modular methods to process it
@@ -340,7 +382,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(!eligibleRecords.isEmpty()){
             for(Case caseRec : eligibleRecords){
                 //invoke moveToNextStage of ASF_CaseMovementHelper
-                ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToNextStage(caseRec);
+                String currentStage = isUpdate ? oldMap.get(caseRec.Id).Stage__c:'';
+                ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToNextStage(caseRec, currentStage);
                 if(resultWrap.status == 'Success'){
                     if(isUpdate){
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
@@ -368,7 +411,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         for(String fieldName : populatedFieldMap.keySet()){
                             caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                         }
-                        caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : resultWrap.caseToBeUpdated.OwnerId);
+                        caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
@@ -412,7 +455,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case caseRec : eligibleRecords){
                 ASF_CaseMovementHelper.StageWrapper wrapToReturn = new ASF_CaseMovementHelper.StageWrapper();
                 if(movement == 'forward'){
-                    wrapToReturn = ASF_CaseMovementHelper.moveToForwardStage(caseRec, caseRec.Stage__c);
+                    wrapToReturn = ASF_CaseMovementHelper.moveToForwardStage(caseRec, caseRec.Stage__c, oldMap.get(caseRec.Id).Stage__c);
                     if(wrapToReturn.status == 'Success'){
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                         if(!caseFinalDMLMap.containsKey(caseRec.Id)){
@@ -662,11 +705,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case caseRec : eligibleRecords){
 
                 if(caseRec.Is_Duplicate__c){
-                    ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.DUPLICATESTAGE);
+                    ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.DUPLICATESTAGE, oldMap.get(caseRec.Id).Stage__c);
                     caseRec.Stage__c = ASF_Constants.DUPLICATESTAGE;
                     caseRec.Status = ASF_Constants.DUPLICATESTATUS;
                 }else{
-                    ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.REJECTIONSTATUS);
+                    ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.REJECTIONSTATUS, oldMap.get(caseRec.Id).Stage__c);
                     caseRec.Stage__c = resultWrap.caseToBeUpdated.Stage__c;
                     caseRec.Status = resultWrap.caseToBeUpdated.Status!=null?resultWrap.caseToBeUpdated.Status:ASF_Constants.REJECTIONSTATUS;
                 }

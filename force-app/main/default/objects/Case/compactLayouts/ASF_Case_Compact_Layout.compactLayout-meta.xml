@@ -3,6 +3,7 @@
     <fullName>ASF_Case_Compact_Layout</fullName>
     <fields>AccountId</fields>
     <fields>CaseNumber</fields>
+    <fields>Lead__c</fields>
     <fields>Type_Text__c</fields>
     <fields>Sub_Type_Text__c</fields>
     <fields>CreatedDate</fields>

@@ -174,7 +174,13 @@
                                 </template>
                             </template>
                         </div>
-
+                        <!-- HIDDEN BUTTON TO SUBMIT THE FORM FROM BUTTON PANEL-->
+                        <!-- Damn! Stupid record-edit-form doesnt let you submit form and auto invoke onsubmit method from outside the form buttons. -->
+                        <template if:false={caseExtensionRecordId}>
+                            <lightning-button variant="brand" type="submit"
+                                class="slds-m-around_xxx-small hiddenSubmitBtn" label="Hidden">
+                            </lightning-button>
+                        </template>
                         <!--</lightning-layout>-->
                     </lightning-record-edit-form>
 
