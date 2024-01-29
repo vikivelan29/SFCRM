@@ -4,9 +4,6 @@
 *Description  :  Update STP Flow - BRE
 *********************************************************/
 public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvocable {
-    // Response enum
-    public enum Response {STP_SUCCESS, STP_FAILURE, STP_VALIDATION_ERROR, STP_CLOSURE_IN_PROGRESS}
-   
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
@@ -15,7 +12,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @Description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        System.debug('***ABFL_InvokeBREProcess'+caseRec);
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
@@ -23,7 +19,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         // * Manual fulfillment, will be handled by default queue specified on case stage.
         //Integer assetCount = ABFL_SOQL_Case.getLANCount(caseRecord.AccountId);
-        if(caseRecord.LAN__c == null || caseRecord.LAN__c == '' || caseRecord.LAN__c == 'NA') { // Check LAN
+        if(caseRecord.AssetId == null) { // Check LAN
             //Proceed to manual fulfilment
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_LAN_ERROR;
@@ -37,13 +33,12 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             //Proceed to manual fulfilment if yes
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_AUTOCLOSURE;
-        }
-        else if(!caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c) { // Check Registered Customer
+        } 
+        else if(caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c != null && caseRecord.ABFL_Case_Detail__r.IsRegisteredCustomer__c?.equalsIgnoreCase(ABFL_Constants.NO)) { // Check Registered Customer
             //No --- Proceed to manual fulfilment
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_IS_REGIS_ERROR;
         }
-        System.debug('***ABFL_InvokeBREProcess:result>'+result);
         return result;
     }
     /****************************************************************************************************************
@@ -82,20 +77,28 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         return result;
     }
 
+    /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - doAdditionalChecks
+    * @param caseInteg - ASF_Case_Integration record.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - Invoked to do Additional check for 
+    *****************************************************************************************************************/
     private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         // Get case record for date validations
-        Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
-        switch on integ.STP_API_Identifier__c {
-            when 'BRE_ProInterestCert_Retail','BRE_InterestCert_Retail' {
-                if(caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c==NULL){
-                    //Proceed to manual fulfilment
-                    // Todo: Remove hardcoding
-                    result.status = ABFL_Constants.ERROR;
-                    result.response = 'Please add required date field values.';
-                }
-            }
-        }
+        // ! Not applicable for now
+        // Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
+        // switch on integ.STP_API_Identifier__c {
+        //     when 'BRE_ProInterestCert_Retail' {
+        //         if(caseRecord.ABFL_Case_Detail__r.From_Date__c==NULL || caseRecord.ABFL_Case_Detail__r.To_Date__c==NULL){
+        //             //Proceed to manual fulfilment
+        //             // Todo: Remove hardcoding
+        //             result.status = ABFL_Constants.ERROR;
+        //             result.response = 'Please add required date field values.';
+        //         }
+        //     }
+        // }
         return result;
     }
 
@@ -107,7 +110,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
-        System.debug('***processResponse invoked.');
         try {
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
@@ -117,19 +119,18 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 // Assume the following response from Integration
                 String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
                 ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);
-                System.debug('@@jsonMap'+jsonMap);
                 List<Case> caseListToUpdate = new List<Case>();
                 List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
                 Boolean isUpdateCase = false;
                
-                if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
+                if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS && caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL) {
                     //Update Document URL on ABFL Case detail, proceed to manual fulfilment
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL)
                     );
                     // * Manual fulfillment, will be handled by default queue specified on case stage.
                 }
-                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name() && caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
+                else if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS && caseRecord.Source__c  == ABFL_Constants.IVR_NO_EMAIL) {
                     //Update Document URL on ABFL Case detail, proceed to next stage.
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
@@ -137,7 +138,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     );
                     isUpdateCase = true;
                 }
-                else if(jsonMap.stpFlag == Response.STP_SUCCESS.name()) {
+                else if(jsonMap.stpFlag == ABFL_Constants.BRESUCCESS) {
                     //Sync the email tagged to Case record US-121
                     isUpdateCase = true;
                     caseDetailListToUpdate.add(
@@ -146,21 +147,24 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     );
                 }
 
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && isUpdateCase) {
-                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
-                    System.debug('@@@@Inside run STP Flow'+resultWrap);
+
+                if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
+                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
                     update resultWrap?.caseToBeUpdated;
                 }
-                if(Schema.sObjectType.Case.isUpdateable() && caseDetailListToUpdate.size() > 0){
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && caseDetailListToUpdate.size() > 0){
                     update caseDetailListToUpdate;
                 }
-                if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == Response.STP_SUCCESS.name())  {
+                if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == ABFL_Constants.BRESUCCESS)  {
                         createCase(intg.STP_Config_External_Id__c, caseRecord);
                 }
             }
         }
-        catch(Exception ex) {
-            System.debug(ex.getMessage());
+        catch(Exception e) {
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
        
     }
@@ -168,11 +172,11 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
         if(!cccRec.isEmpty()) {
             //create Case detail
-            ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = true);
+            ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = 'Yes');
             if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
 
                 insert detail;
-            }    
+            } 
 
             //Create Case
             if(Schema.sObjectType.Case.isCreateable()) {

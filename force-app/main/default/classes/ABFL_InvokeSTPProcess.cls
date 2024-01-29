@@ -130,7 +130,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 				caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
                 update caseDetailRecord;
                 
-                resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
+                resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
                 update resultWrap.caseToBeUpdated;
             }
         }
@@ -155,7 +155,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         for(Case caseRecord :caseList) {
             ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved');
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
             casesToUpdateList.add(resultWrap.caseToBeUpdated);
         }
 

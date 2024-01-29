@@ -8,7 +8,7 @@ public without sharing class ASF_AssocCustomerForAPICases {
         Map<String,Asset> lanNoVsAsset = new Map<String,Asset>();
         
         for(Case individualCase : newList){
-            if(individualCase.Technical_Source__c == 'API'){
+            if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
                 if(individualCase.Client_Code_Text__c != null){
                     accountsClientCode.add(individualCase.Client_Code_Text__c); 
                 }
@@ -32,7 +32,7 @@ public without sharing class ASF_AssocCustomerForAPICases {
             } 
         }   
         for(Case individualCase : newList){
-            if(individualCase.Technical_Source__c == 'API'){
+            if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
                 if(individualCase.Client_Code_Text__c != null){
                     if(accClientCodeVsAccIds.containsKey(individualCase.Client_Code_Text__c)){
                         individualCase.AccountId = accClientCodeVsAccIds.get(individualCase.Client_Code_Text__c);
