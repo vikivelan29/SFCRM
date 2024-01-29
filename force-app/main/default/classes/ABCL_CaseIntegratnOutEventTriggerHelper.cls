@@ -36,11 +36,10 @@ public without sharing class ABCL_CaseIntegratnOutEventTriggerHelper{
             // Prepare records to update
             List<ASF_Case_Integration__c> ciToUpdateList = new List<ASF_Case_Integration__c>();
             for (Case_Integration_Outbound__e event : newRecords){
-                EventFailureWrapper evntFailureWrapper = new EventFailureWrapper(event);
                 
                 // update Case Integration record
                 ASF_Case_Integration__c caseIntegrationRecord = ciMap.get(event.Case_Integration_ID__c);
-                caseIntegrationRecord.Request__c = JSON.serialize(evntFailureWrapper);
+                caseIntegrationRecord.Request__c = JSON.serialize(event);
                 ciToUpdateList.add(caseIntegrationRecord);
             }
             
@@ -54,22 +53,4 @@ public without sharing class ABCL_CaseIntegratnOutEventTriggerHelper{
             ABCL_Logger.emit();
         }
     }
-    
-    public class EventFailureWrapper{
-        public String businessUnit;
-        public String caseIntegrationID;
-        public String integrationName;
-        public String requestPayload;
-        public String serviceName;
-        
-        public EventFailureWrapper(Case_Integration_Outbound__e event){
-            this.businessUnit = event.Business_Unit__c;
-            this.caseIntegrationID = event.Case_Integration_ID__c;
-            this.integrationName = event.Integration_Name__c;
-            this.requestPayload = event.Request_Payload__c;
-            this.serviceName = event.ServiceName__c;
-        }
-        
-    }
-    
 }
