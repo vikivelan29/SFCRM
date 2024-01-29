@@ -940,8 +940,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                        (groupId IN :caseOwnerGroupIdMap.values() OR groupId IN :queueIdNameMap.keySet())]){
 
                     if(!oldQueueAndMemberMap.containsKey(gmember.GroupId))
-                    	oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
-                	oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                        oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
+                    oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
                     if(((String)gmember.UserOrGroupId).startsWith('00G')){
                         groupIdset.add(gmember.UserOrGroupId);
                     }  
@@ -949,13 +949,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Query public group members that are part of above queues
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where UserOrGroupId != null and groupId IN :groupIdset]){
                 if(!oldgroupAndMemberMap.containsKey(gmember.GroupId))
-                    	oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
-                	oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                        oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
+                    oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
             }
             //Add all the public group members to the map
             for(Id queueId : oldQueueAndMemberMap.keySet()){
-				for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
-                    if(((String)queueMember).startsWith('00G')){
+                for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
+                    if(((String)queueMember).startsWith('00G') && oldgroupAndMemberMap.containsKey(queueMember)){
                         oldQueueAndMemberMap.get(queueId).addAll(oldgroupAndMemberMap.get(queueMember));
                     }
                 }                
