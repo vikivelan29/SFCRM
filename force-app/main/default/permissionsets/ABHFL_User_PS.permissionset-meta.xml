@@ -158,6 +158,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHFL_Case_Detail__c.Shortfall_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Customer_Contacted__c</field>
         <readable>true</readable>
