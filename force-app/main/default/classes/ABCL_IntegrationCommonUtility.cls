@@ -154,10 +154,12 @@ public with sharing class ABCL_IntegrationCommonUtility {
     public static void updateErrorMessage(ASF_Case_Integration__c caseIntegration){
         try{
             stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
-            if(response != null && response.operationStatus != null && response.operationMessage != null){
+
+            ASF_Case_Integration__c  caseInt = [Select id from ASF_Case_Integration__c where id =: caseIntegration.Id  limit 1];
+            if(response != null && response.operationStatus != null && response.operationMessage != null && caseIntegration.Error_Message__c != null && response.operationStatus != '1' ){
                 if(response.operationStatus == '0'){
-                    caseIntegration.Error_Message__c = response.operationMessage;
-                    update caseIntegration;
+                    caseInt.Error_Message__c = response.operationMessage;
+                    update caseInt;
                 }
             }
         }catch(exception e){}
