@@ -125,6 +125,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
                 UPDATE caseDetail; 
             }
         }   
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     
      private void handleSuccessfullTransfer(Case caseRec){

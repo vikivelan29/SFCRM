@@ -161,6 +161,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
                    ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
            }
         }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     
     /****************************************************************************************************************

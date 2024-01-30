@@ -124,6 +124,8 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
                 update caseDetails;   
             }            
         }
+
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
 
 
