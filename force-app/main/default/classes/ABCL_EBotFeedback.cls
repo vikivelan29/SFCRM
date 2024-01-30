@@ -10,7 +10,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
 
     public Case getCaseRec(String caseId){
         Case caseRecord = [
-            SELECT CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c
+            SELECT CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Bot_Feedback__c
             FROM Case
             WHERE Id =:caseId
         ];
@@ -115,7 +115,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         ebotFeedbackWrappObj.TYPE = caseRecord.Type_Text__c;
         ebotFeedbackWrappObj.SUB_TYPE = caseRecord.Sub_Type_Text__c;
         ebotFeedbackWrappObj.DESCRIPTION = String.isNotBlank(caseRecord.Recategorisation_Reason__c) ? caseRecord.Recategorisation_Reason__c : '';
-        ebotFeedbackWrappObj.COMMENTS = '';
+        ebotFeedbackWrappObj.COMMENTS = caseRecord.Bot_Feedback__c;
 
         String reqBody = JSON.serialize(ebotFeedbackWrappObj);
         String actualReqBody = reqBody.replace('"Case_X":', '"case":');
