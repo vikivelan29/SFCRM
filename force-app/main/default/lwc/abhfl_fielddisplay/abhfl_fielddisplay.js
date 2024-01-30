@@ -92,4 +92,11 @@ export default class Abhfl_fielddisplay extends LightningElement {
         // Fire the custom event
         this.dispatchEvent(selectEvent);
     }
+
+    renderedCallback(){
+        if(this.columnType == 'PICKLIST'){
+            this.template.querySelector("select[name=selection]").value = this.colValue;
+        }
+    }
+    
 }

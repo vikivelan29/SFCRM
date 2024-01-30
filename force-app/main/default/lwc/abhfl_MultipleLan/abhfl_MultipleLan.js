@@ -10,7 +10,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     @api recordId;
     searchResult; 
     totalNoOfRecordsInDatatable;
-    pageSize = 10; //No.of records to be displayed per page
+    pageSize = 5; //No.of records to be displayed per page
     totalPages; //Total no.of pages
     pageNumber = 1; //Page number    
     recordsToDisplay = []; //Records to be displayed on the page
@@ -20,19 +20,24 @@ export default class Abhfl_MultipleLan extends LightningElement {
     displayChildTable;
     disableAdd = true;
     displayMultipleLan;
-    disableSave = true;;
+    disableSave = true;
+    displaySpinner = true;
 
     connectedCallback(){
         if(this.recordId){
             getAssetRecordsandMetadata({recId : this.recordId}).then((result) => {
                 console.log(result);
-                this.columns = result.columnData;
-                this.childColumns = result.childColumnData;
-                this.searchResult = result.assetDetailRecords;
-                this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
-                this.paginationHelper(); // call helper menthod to update pagination logic
-                this.displayMultipleLan = true;
-                this.childTableDisplay();
+                if(result && result.columnData){
+                    this.columns = result.columnData;
+                    this.childColumns = result.childColumnData;
+                    this.searchResult = result.assetDetailRecords;
+                    this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
+                    this.paginationHelper(); // call helper menthod to update pagination logic
+                    this.displayMultipleLan = true;
+                    this.childTableDisplay();
+                    
+                } 
+                this.displaySpinner = false;
             }).catch((error) => {
                 console.log(error);
             })
@@ -54,6 +59,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     fetchAssetDetails(e){
         let asset;
         let detail;
+        this.displaySpinner = true;
         for(let i=0; i < this.recordsToDisplay.length;i++){
             if(e.currentTarget.dataset.id == this.recordsToDisplay[i].asset.Id){
                 asset = this.recordsToDisplay[i].asset;
@@ -64,6 +70,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
         fetchAssetDetailsExt({assetRecord : asset, caseRecId : this.recordId}).then((result) => {
             console.log(result);
             this.updateSearchResult(result);
+            this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
         })
@@ -191,6 +198,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     }
 
     removeRecord(e){
+        this.displaySpinner = true;
         let deleteIndex = e.currentTarget.name;
         deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
         .then(() => {
@@ -205,7 +213,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 message: "Record deleted",
                 variant: "success",
             });
-
+            this.displaySpinner = false;
         })
         .catch((error) => {
             this.showToast({
@@ -222,11 +230,23 @@ export default class Abhfl_MultipleLan extends LightningElement {
         for(let record in this.childTableRecords){
             updateRecords.push(this.childTableRecords[record].detail);
         }
+        this.displaySpinner = true;
         if(updateRecords.length){
             upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
                 console.log(result);
+                this.displaySpinner = false;
+                this.showToast({
+                    title: "Success",
+                    message: "Records Updated",
+                    variant: "success",
+                });
             }).catch((error) => {
                 console.log(error);
+                this.showToast({
+                    title: "Error Updating Records",
+                    message: error.body.message,
+                    variant: "error",
+                });
             })
         }
     }
@@ -243,6 +263,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
 
     fetchAllAsset(e){
         let assetRecords = [];
+        this.displaySpinner = true;
         for(let record in this.recordsToDisplay){
             assetRecords.push(this.recordsToDisplay[record].asset);
         }
@@ -257,6 +278,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 }
             }
             this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.setColValue();});
+            this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
         })       

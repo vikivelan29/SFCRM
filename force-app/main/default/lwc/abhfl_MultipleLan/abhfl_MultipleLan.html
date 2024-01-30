@@ -1,4 +1,9 @@
 <template>
+    <div>
+        <template if:true={displaySpinner}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+    </div>
     <template lwc:if={displayMultipleLan}>
         <lightning-card title="Multiple LAN">
             <template lwc:if={recordsToDisplay}>
@@ -89,7 +94,7 @@
                                     </template>
                                     <td scope="col">
                                         <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
-                                            <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId}></c-abhfl_assetdetail>
+                                            <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId} lan={item.asset.LAN__c}></c-abhfl_assetdetail>
                                         </div>
                                     </td>
                                     <td class="slds-size_2-of-14" data-label="Action">
