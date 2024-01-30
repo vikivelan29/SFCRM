@@ -10,7 +10,11 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
             retCls.updatedCase = updatedCaseRec;
             retCls.isCaseUpdated = true;
         }
-        
+         if(caseRec.Stage__c == 'Branch'){
+            Case updatedCaseRec = ABHFL_CTSTHelper.assignCaseToAOMROM(caseRec);
+            retCls.updatedCase = updatedCaseRec;
+            retCls.isCaseUpdated = true;
+        }
         return retCls;
     }
      public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){

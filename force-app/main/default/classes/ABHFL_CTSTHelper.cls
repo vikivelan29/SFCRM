@@ -92,11 +92,20 @@ public without sharing class ABHFL_CTSTHelper {
 
         return caseRec;
     }
-    
+    //Dhinesh - Used for assigning case to AOM/ROM
+    public static Case assignCaseToAOMROM(Case caseRecord){
+        Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        if (prefBranch.ROM_AOM__c != null) {
+            caseRec.OwnerId = prefBranch.ROM_AOM__c;
+        }
+        return caseRec;
+    }
     //Dhinesh
     public static Boolean validatePayments(Case caseRecord) {
         Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
-		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id];
+		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id WITH SECURITY_ENFORCED];
 		// Check if every payment record has Realization_Status__c equal to 'Cleared'
         for (ABHFL_Payment__c payment : payments) {
             if (payment.Realization_Status__c != 'Cleared') {
@@ -146,8 +155,23 @@ public without sharing class ABHFL_CTSTHelper {
         }    
     }
     
-    
-
+    //Dhinesh - 1/30 Payment Received email from stage specific.
+    public static void sendEmailPaymentReceived(Case caseRecord){
+        List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        Boolean paymentRecieved = false;
+    	List<ABHFL_Payment__c> casePayments = [SELECT Id,Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c =: caseRecord.Id];
+    	for(ABHFL_Payment__c pay : casePayments){
+            if(pay.Realization_Status__c == 'Cleared'){
+                paymentRecieved = true;
+            }
+        }
+        if(paymentRecieved && validSubTypes.contains(queriedCase.CCC_External_Id__c)){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PAYMENT_RECEIVED_TEMPLATE, 
+                                                                ABHFL_Constants.PAYMENT_RECEIVED_SMS, False);
+        }
+    }
     public static void executeSpecificIntegrations(List<Case> newCases){
         Set<String> c3ExternalIds = new Set<String>();
         Map<String, List<ASF_Integration__c>> uiCardIntegrationMap = new Map<String, List<ASF_Integration__c>>();
