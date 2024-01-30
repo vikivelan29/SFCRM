@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Additional Requirement</label>
             </value>
+            <value>
+                <fullName>Not Received</fullName>
+                <default>false</default>
+                <label>Not Received</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
