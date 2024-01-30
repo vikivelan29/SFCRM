@@ -151,7 +151,7 @@
 												<br />
 												The reference number for this request is {{{Case.CaseNumber}}}.<br />
 												<br />
-												Your Service Request is in process and our customer service executive will respond to you shortly. You can expect to get resolution by&nbsp;{{{Case.Overall_Case_Closure_SLA__c}}}.<br />
+												Your Service Request is in process and our customer service executive will respond to you shortly. You can expect to get the resolution by&nbsp;{{{Case.Overall_Case_Closure_SLA__c}}}.<br />
 												<br />
 												In case of any further queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
 												<br />
