@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Asset_Detail_Fields__c</field>
-        <value xsi:type="xsd:string">Amount_Overdue__c,Interest_Rate__c,Last_Repricing_Date__c,MOB__c,Is_NACH__c,Is_PDD__c,Product__c,Is_Restructured__c,VAN__c,Bounce__c,Loan_Status__c,Constitution__c,Fixed_Period__c,Account_Status__c,Current_Balance__c</value>
+        <value xsi:type="xsd:string">Overdues__c,Interest_Rate__c,Last_Repricing_Date__c,MOB__c,Is_NACH__c,Is_PDD__c,Product__c,Is_Restructured__c,VAN__c,Bounce__c,Loan_Status__c,Constitution__c,Fixed_Period__c,Account_Status__c,Current_Balance__c,ARR__c</value>
     </values>
     <values>
         <field>Asset_Fields__c</field>

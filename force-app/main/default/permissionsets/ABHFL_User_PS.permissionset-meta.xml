@@ -8,6 +8,10 @@
         <apexClass>ABHFL_AmortizationIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+<classAccesses>
+        <apexClass>ABHFL_AssetFileUploader</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ABHFL_ComplaintCTSTHelper</apexClass>
         <enabled>true</enabled>
@@ -46,6 +50,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FrameworkFunctionalityExtender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_MultipleLANController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <customMetadataTypeAccesses>
@@ -1440,6 +1448,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset_Detail__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset_Detail__c.ARR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset_Detail__c.Overdues__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

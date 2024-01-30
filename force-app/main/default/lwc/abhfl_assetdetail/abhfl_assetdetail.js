@@ -14,6 +14,7 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @track fileData;
     @api recordId;
     @api detailId;
+    @api lan;
 
     get modalHeader(){
         return 'Upload Documents';
@@ -33,11 +34,14 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
         var reader = new FileReader();
         reader.onload = () => {
             var base64 = reader.result.split(',')[1];
+            var fileNameList = file.name.split('.');
+            var extension = fileNameList[(fileNameList.length - 1)];
             this.fileData = {
-                'filename': file.name,
+                'lan': this.lan,
                 'base64': base64,
                 'recordId': this.recordId,
-                'detailId': this.detailId
+                'detailId': this.detailId,
+                'extension' : extension
             };
             console.log(this.fileData);
         }
@@ -45,10 +49,10 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     }
 
     saveFileToLanHandler(event){
-        const {base64, filename, recordId, detailId} = this.fileData;
-        uploadFile({ base64, filename, recordId, detailId }).then(result=>{
+        const {base64, lan, recordId, detailId,extension} = this.fileData;
+        uploadFile({ base64, lan, recordId, detailId, extension }).then(result=>{
             this.fileData = null;
-            let title = `${filename} uploaded successfully!!`;
+            let title = `File uploaded successfully!!`;
             this.toast(title);
             this.showAddAttachmentModal = false;
         });

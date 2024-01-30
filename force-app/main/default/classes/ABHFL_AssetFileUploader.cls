@@ -1,19 +1,26 @@
 public with sharing class ABHFL_AssetFileUploader {
 
     @AuraEnabled
-    public static String uploadFile(String base64, String filename, String recordId, String detailId){
-        ContentVersion cv = createContentVersion(base64, filename);
+    public static String uploadFile(String base64, String lan, String recordId, String detailId, string extension){
+        ContentVersion cv = createContentVersion(base64, detailId,lan,extension);
         ContentDocumentLink cdl = createContentLink(cv.Id, new List<String>{recordId,detailId});
         if (cv == null || cdl == null) { return null; }
         return cdl.Id;
     }
 
-    private static ContentVersion createContentVersion(String base64, String filename){
+    private static ContentVersion createContentVersion(String base64, String detailId, string lan, string extension){
         ContentVersion cv = new ContentVersion();
         cv.VersionData = EncodingUtil.base64Decode(base64);
-        cv.Title = filename;
-        cv.PathOnClient = filename;
         cv.IsSTP__c = true;
+        string searchTerm = lan + '%';
+        List<ContentDocumentLink> docLinkList = [Select id from ContentDocumentLink 
+                                                 where LinkedEntityId =: detailId and contentDocument.Title like :searchTerm ];
+        integer docCount = 1;
+        if(docLinkList.size() > 0){
+            docCount = docLinkList.size() + 1;
+        }
+        cv.Title = lan + '_FCL_Letter_' + docCount + '.'+ extension;
+        cv.PathOnClient = lan + '_FCL_Letter_' + docCount+ '.'+ extension;
         try {
             if(Schema.sObjectType.ContentVersion.isCreateable()){
                 insert cv;
