@@ -145,4 +145,30 @@ public with sharing class ABCL_IntegrationCommonUtility {
         currNotification.setTargetId(caseRec.Id);                    
         currNotification.send(recepientIds);                 
     }    
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - updateErrorMessage
+    * @param caseIntegration - Case Integration record.
+    * @description - Processes STP Response and Updated Error Message
+    *****************************************************************************************************************/
+    public static void updateErrorMessage(ASF_Case_Integration__c caseIntegration){
+        try{
+            stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
+            if(response != null && response.operationStatus != null && response.operationMessage != null){
+                if(response.operationStatus == '0'){
+                    caseIntegration.Error_Message__c = response.operationMessage;
+                    update caseIntegration;
+                }
+            }
+        }catch(exception e){}
+
+    }
+
+    public class stpResponseWrapper{
+        public string operationStatus;
+        public string operationMessage;
+        public string binaryDataList;
+        public string caseId;
+        public string reportPath;
+    }
 }

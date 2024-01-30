@@ -143,6 +143,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 update caseDetails;  
             }            
         }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
     } 
 
     private static void handleFailure(Case caseRecord){
