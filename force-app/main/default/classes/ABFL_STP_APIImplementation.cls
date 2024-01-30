@@ -30,7 +30,7 @@ public class ABFL_STP_APIImplementation{
                 performCallout(integRec, caseRecord, filter);
             }
             when 'GetRepaymentSchedule_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'DUEDATE' => new Map<String, Object>{ 'lte' => '' } };
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'DUEDATE' => new Map<String, Object>{ 'lte' => System.now().format('dd-MMM-yyyy') } };
                 performCallout(integRec, caseRecord, filter);
             }
             when 'GetWelcomeLetter_Corp'{
@@ -83,9 +83,9 @@ public class ABFL_STP_APIImplementation{
         public ABFL_STP_Wrapper(Map<String, Object> filter, Case caseRecord){
             this.filter = filter;
             this.reportType = 'pdf';
-            this.passwordProtectPDF = 'False';
+            this.passwordProtectPDF = 'false';
             this.pdfPassword = '';
-            this.encryption = 'False';
+            this.encryption = 'false';
         }
     }
 }
