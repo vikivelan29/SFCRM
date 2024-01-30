@@ -41,7 +41,7 @@ public with sharing class ABHFL_MultipleLANController {
 
         Map<String,Schema.SObjectField> fieldSchemaMap = new Map<String,Schema.SObjectField>();
         if(isChildTable){
-            fieldSchemaMap = Schema.Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
+            fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
         }else {
             fieldSchemaMap = Schema.Asset.SObjectType.getDescribe().fields.getMap();
         }
@@ -64,7 +64,7 @@ public with sharing class ABHFL_MultipleLANController {
 
         List<String> intFieldList = new List<String>();
         intFieldList = String.isNotBlank(lanMetadata.Asset_Detail_Fields__c) ? lanMetadata.Asset_Detail_Fields__c.split(',') : intFieldList;
-        fieldSchemaMap = Schema.Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
+        fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
         if(intFieldList != null && intFieldList.size() > 0){
             for(String field : intFieldList){
                 ColumnWrapper column = new ColumnWrapper();
@@ -79,7 +79,7 @@ public with sharing class ABHFL_MultipleLANController {
 
         List<String> editableFieldList = new List<String>();
         editableFieldList = String.isNotBlank(lanMetadata.Asset_Detail_Editable_Fields__c) ? lanMetadata.Asset_Detail_Editable_Fields__c.split(',') : editableFieldList;
-        fieldSchemaMap = Schema.Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
+        fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
         if(editableFieldList != null && editableFieldList.size() > 0){
             for(String field : editableFieldList){
                 ColumnWrapper column = new ColumnWrapper();
@@ -116,10 +116,10 @@ public with sharing class ABHFL_MultipleLANController {
         if(String.isNotBlank(childlanMetadata.Asset_Detail_Editable_Fields__c)){
             assetDetailQueryStr = assetDetailQueryStr + ',' + String.escapeSingleQuotes(childlanMetadata.Asset_Detail_Editable_Fields__c);
         }       
-        assetDetailQueryStr = assetDetailQueryStr + ' from Asset_Detail__c where Case__c =\''+String.escapeSingleQuotes(recId)+'\'';
+        assetDetailQueryStr = assetDetailQueryStr + ' from ABHFL_Asset_Detail__c where Case__c =\''+String.escapeSingleQuotes(recId)+'\'';
         List<sObject> assetDetails = Database.Query(assetDetailQueryStr);
-        Map<String,Asset_Detail__c> assetIdMap = new Map<String,Asset_Detail__c>();
-        for(Asset_Detail__c assetDetail : (List<Asset_Detail__c>)assetDetails){
+        Map<String,ABHFL_Asset_Detail__c> assetIdMap = new Map<String,ABHFL_Asset_Detail__c>();
+        for(ABHFL_Asset_Detail__c assetDetail : (List<ABHFL_Asset_Detail__c>)assetDetails){
             assetIdMap.put(assetDetail.Asset__c,assetDetail);
         }
         for(Asset rec : (List<Asset>)assetRecords){
@@ -127,7 +127,7 @@ public with sharing class ABHFL_MultipleLANController {
             if(assetIdMap.containsKey(rec.Id)){
                 assetDetailWrap.detail = assetIdMap.get(rec.Id);
             }else{
-                Asset_Detail__c detailRec = new Asset_Detail__c();
+                ABHFL_Asset_Detail__c detailRec = new ABHFL_Asset_Detail__c();
                 detailRec.Asset__c = rec.Id;
                 detailRec.LAN__c = rec.LAN__c;
                 assetDetailWrap.detail = detailRec;
@@ -138,34 +138,34 @@ public with sharing class ABHFL_MultipleLANController {
         return assetDetailRecords;
     }
     @AuraEnabled
-    public static Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
+    public static ABHFL_Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
         try{
             ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-            Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
+            ABHFL_Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
             return assetDetail;
         }catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
 
-    public static Asset_Detail__c dataServiceConverter(ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse,Asset assetRecord,String caseRecId){
+    public static ABHFL_Asset_Detail__c dataServiceConverter(ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse,Asset assetRecord,String caseRecId){
         ABHFL_DataServiceDetailsController.LoanStatusRow loanStatusRow = apiResponse.Summary_Data[0].Loan_Status.rows[0];
         ABHFL_DataServiceDetailsController.LoanInfoRow loanInfoRow = apiResponse.Summary_Data[0].loan_info.rows[0];
-        Asset_Detail__c assetDetail = new Asset_Detail__c();
+        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
         assetDetail.Product__c = loanStatusRow.PRODUCT;
-        assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING).daysBetween(System.Today()) < 180 ? 'Last repricing <6 months' : '';
+        assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING).daysBetween(System.Today()) < 180 ? 'Last repricing <6 months' : 'Last repricing >6 months';
         assetDetail.Is_Restructured__c = loanStatusRow.RESTRUCTURED == 'Yes'? 'Re-structured Not Done' : 'Re-structured Done';
-        assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE) > 0 ? 'Bounce > 0' : '';
-        assetDetail.Is_PDD__c = loanStatusRow.PDD == 'Yes'? 'PDD Pending' : '';
+        assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE) > 0 ? 'Bounce > 0' : 'Bounce < 0';
+        assetDetail.Is_PDD__c = loanStatusRow.PDD == 'Yes'? 'PDD Pending' : 'PDD Not Pending';
         assetDetail.Is_NACH__c = loanStatusRow.NACH == 'Yes'? 'NACH Registered' : 'NACH Not Registered';
         assetDetail.Loan_Status__c = loanStatusRow.LOANSTATUS;
         assetDetail.Constitution__c = loanStatusRow.CONSTITUTION;
         assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod) > 0 ? 'Fixed Period > 0' : '';
         assetDetail.VAN__c = loanStatusRow.VAN;
-        assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : '';
+        assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : 'MOB > 6 months';
         assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS != 'Standard' ? 'Not Standard' : 'Standard';
         assetDetail.Amount_Overdue__c = Decimal.valueof(loanInfoRow.AMOUNT_OVERDUE);
-        assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : '';
+        assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
         assetDetail.Current_Balance__c = Decimal.valueof(loanInfoRow.CURRENT_BALANCE);
         assetDetail.LAN__c = assetRecord.LAN__c;//loanInfoRow.LOAN_ACCOUNT_NUMBER;
         assetDetail.Interest_Rate__c = Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4));
@@ -177,15 +177,15 @@ public with sharing class ABHFL_MultipleLANController {
     }
 
     @AuraEnabled
-    public static List<Asset_Detail__c> upsertRecords(String assetDetails,String recId){
+    public static List<ABHFL_Asset_Detail__c> upsertRecords(String assetDetails,String recId){
         try {
             system.debug(assetDetails);
-            List<Asset_Detail__c> assetRecords = (List<Asset_Detail__c>)JSON.deserialize(assetDetails,List<Asset_Detail__c>.class);
+            List<ABHFL_Asset_Detail__c> assetRecords = (List<ABHFL_Asset_Detail__c>)JSON.deserialize(assetDetails,List<ABHFL_Asset_Detail__c>.class);
             system.debug(assetRecords);
-            for(Asset_Detail__c rec : assetRecords){
+            for(ABHFL_Asset_Detail__c rec : assetRecords){
                 rec.Case__c = recId;
             }
-            if(Schema.sObjectType.Asset_Detail__c.isUpdateable() && Schema.sObjectType.Asset_Detail__c.isCreateable()){
+            if(Schema.sObjectType.ABHFL_Asset_Detail__c.isUpdateable() && Schema.sObjectType.ABHFL_Asset_Detail__c.isCreateable()){
                 upsert assetRecords;
             }
             return assetRecords;
@@ -229,7 +229,7 @@ public with sharing class ABHFL_MultipleLANController {
         DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
         List<Asset> assetList = continuationWrapper.assetRecords;
         Integer counter = continuationWrapper.counter;
-        List<Asset_Detail__c> responseList = new List<Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
         for(Integer i=0; i<labels.size() ; i++){
           system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
@@ -241,7 +241,7 @@ public with sharing class ABHFL_MultipleLANController {
           }          
           String indexStr = labels[i].split('-')[1];
           Integer index = Integer.valueOf(indexStr) - 1;
-          Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
           responseList.add(detailRecord);
           //responseList.add(response.getBody());
         }
@@ -278,7 +278,7 @@ public with sharing class ABHFL_MultipleLANController {
         DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
         List<Asset> assetList = continuationWrapper.assetRecords;
         Integer counter = continuationWrapper.counter;
-        List<Asset_Detail__c> responseList = new List<Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
         for(Integer i=0; i<labels.size() ; i++){
           system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
@@ -290,7 +290,7 @@ public with sharing class ABHFL_MultipleLANController {
           }          
           String indexStr = labels[i].split('-')[1];
           Integer index = Integer.valueOf(indexStr) - 1;
-          Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
           responseList.add(detailRecord);
           //responseList.add(response.getBody());
         }
@@ -325,7 +325,7 @@ public with sharing class ABHFL_MultipleLANController {
     public static Object processResponse(List<String> labels, Object state) {
 	  System.debug(' CurrState ' +state);
       DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
-      List<Asset_Detail__c> responseList = new List<Asset_Detail__c>();
+      List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
       for(Integer i=0; i<labels.size() ; i++){
         system.debug('labels[i]'+labels[i]);
         HttpResponse response = Continuation.getResponse(labels[i]);
@@ -337,7 +337,7 @@ public with sharing class ABHFL_MultipleLANController {
         }          
         String indexStr = labels[i].split('-')[1];
         Integer index = Integer.valueOf(indexStr) - 1;
-        Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+        ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
         responseList.add(detailRecord);
         //responseList.add(response.getBody());
       }
@@ -372,7 +372,7 @@ public with sharing class ABHFL_MultipleLANController {
         @AuraEnabled
         public Asset asset;
         @AuraEnabled
-        public Asset_Detail__c detail;       
+        public ABHFL_Asset_Detail__c detail;       
     }
 
     public class PicklistWrapper{
@@ -385,7 +385,7 @@ public with sharing class ABHFL_MultipleLANController {
     public class DataServiceContinuationWrapper{
         public List<Asset> assetRecords;
         public string caseRecId;
-        public List<Asset_Detail__c> responseList;
+        public List<ABHFL_Asset_Detail__c> responseList;
         public Integer counter;
     }
 }

@@ -153,13 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Asset Detail</label>
+    <label>ABHFL Asset Detail</label>
     <nameField>
         <displayFormat>A-{0000000000}</displayFormat>
         <label>Asset Detail Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Asset Details</pluralLabel>
+    <pluralLabel>ABHFL Asset Details</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

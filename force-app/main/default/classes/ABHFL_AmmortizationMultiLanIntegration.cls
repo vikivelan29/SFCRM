@@ -14,7 +14,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Ammortization API call for all LANs should be fired or not.
     *****************************************************************************************************************/
-    public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec)
+   public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec)
     {
        	ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
@@ -32,8 +32,8 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             WHERE Id =: caseRec.Id
         ];
 
-        List<Asset_Detail__c> relatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c
-                                                   FROM Asset_Detail__c
+        List<ABHFL_Asset_Detail__c> relatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c
+                                                   FROM ABHFL_Asset_Detail__c
                                                    WHERE Case__c=:caseRecord.Id
                                                    //AND Type__c='FCROI'
                                                    AND AmmortApiStatus__c = false];
@@ -42,7 +42,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
                                                            Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
                                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-        	for(Asset_Detail__c assetDetail : relatedAssetsFCROI){
+        	for(ABHFL_Asset_Detail__c assetDetail : relatedAssetsFCROI){
             	//Check for mandatory API conditions & Check for Loan Disbursement Status
         		if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
                    assetDetail.Asset__r.Loan_Disbursement_Status__c != null &&
@@ -117,19 +117,19 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         
         Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
-        List<Asset_Detail__c> allRelatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c,
+        List<ABHFL_Asset_Detail__c> allRelatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c,
                                                    AmmortApiStatus__c
-                                                   FROM Asset_Detail__c
+                                                   FROM ABHFL_Asset_Detail__c
                                                    WHERE Case__c=:caseRecord.Id
                                                    //AND Type__c='FCROI'
                                                    AND AmmortApiStatus__c = false];
         
-        List<Asset_Detail__c> fullyDisAssetsFCROI = new List<Asset_Detail__c>();
-        List<Asset_Detail__c> partiallyDisAssetsFCROI = new List<Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> fullyDisAssetsFCROI = new List<ABHFL_Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> partiallyDisAssetsFCROI = new List<ABHFL_Asset_Detail__c>();
         List<ASF_Case_Integration__c> caseIntList = new List<ASF_Case_Integration__c>();
         List<Case_Integration_Outbound__e> eventList = new List<Case_Integration_Outbound__e>();
         
-        for(Asset_Detail__c ad: allRelatedAssetsFCROI){
+        for(ABHFL_Asset_Detail__c ad: allRelatedAssetsFCROI){
             if(ad.Asset__r.Loan_Disbursement_Status__c!=null && ad.Asset__r.Loan_Disbursement_Status__c!='Partially')
             {
                 fullyDisAssetsFCROI.add(ad);
@@ -198,10 +198,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred){
-                List<Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM Asset_Detail__c];
-                List<Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM Asset_Detail__c 
+                List<ABHFL_Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                     FROM ABHFL_Asset_Detail__c];
+                List<ABHFL_Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                     FROM ABHFL_Asset_Detail__c 
                                                      WHERE Asset__r.Lan__c =:caseInteg.Business_External_Id__c
                                                      AND Case__c =:caseRec.Id LIMIT 1];
                 assetDetail[0].AmmortApiStatus__c = isTransferred;
@@ -220,10 +220,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                     lanList.add(cInt.Business_External_Id__c);
                 }
                 
-                List<Asset_Detail__c> assetDetails = [SELECT Id, AmmortApiStatus__c FROM Asset_Detail__c 
+                List<ABHFL_Asset_Detail__c> assetDetails = [SELECT Id, AmmortApiStatus__c FROM ABHFL_Asset_Detail__c 
                                                       WHERE Asset__r.LAN__c IN :lanList
                                                       AND Case__c =:caseRec.Id];
-                for(Asset_Detail__c aDet : assetDetails){
+                for(ABHFL_Asset_Detail__c aDet : assetDetails){
                     if(aDet.AmmortApiStatus__c == false){
                         allTransferred = false;
                         break;

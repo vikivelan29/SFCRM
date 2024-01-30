@@ -47,11 +47,11 @@ public class ABHFL_AmmortizationMultiLanTest {
         update caseRecList;
         
         //create Asset Detail
-        Asset_Detail__c assetDetail = new Asset_Detail__c();
+        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
         assetDetail.Asset__c = astRec.Id;
         assetDetail.Case__c = caseRecList[0].Id;
         assetDetail.AmmortApiStatus__c = false;
-        Asset_Detail__c assetDetail1 = new Asset_Detail__c();
+        ABHFL_Asset_Detail__c assetDetail1 = new ABHFL_Asset_Detail__c();
         assetDetail1.Asset__c = astRec1.Id;
         assetDetail1.Case__c = caseRecList[0].Id;
         assetDetail1.AmmortApiStatus__c = false;
