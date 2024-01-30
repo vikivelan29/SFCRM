@@ -94,45 +94,60 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
      *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         System.debug('***processResponse invoked.');
-
-        if (caseInteg.Status__c == ABFL_Constants.SUCCESS){
-            Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-
-            //Attach the file to case (Attaching the files on case on both the scenarios due to current implementation of the framework)
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
-
-            //If source of case is "RM-no email" then attach the pdf to case and auto-close the case after 24 hours.
-            if (caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL){
-
-                //Auto close the case after 24 hours (Handled via record trigger flow on ABFL_Case_Detail__c)
-                ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
-                caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
-                caseDetailRecord.Closure_Time__c = System.now();
-                caseDetailRecord.Autoclosed__c = true;
-				caseDetailRecord.Resolution_Comments__c = 'Resolved';
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable()) {
+        try{
+            if (caseInteg.Status__c == ABFL_Constants.SUCCESS){
+                Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
+                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+    
+                //Attach the file to case (Attaching the files on case on both the scenarios due to current implementation of the framework)
+                Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+    
+                //If source of case is "RM-no email" then attach the pdf to case and auto-close the case after 24 hours.
+                if (caseRecord.Source__c == ABFL_Constants.RM_NO_EMAIL){
+    
+                    //Auto close the case after 24 hours (Handled via record trigger flow on ABFL_Case_Detail__c)
+                    ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
+                    caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
+                    caseDetailRecord.Closure_Time__c = System.now();
+                    caseDetailRecord.Autoclosed__c = true;
+                    caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
+                    if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable()) {
+                        update caseDetailRecord;
+                    }
+    
+                    //If source of case is not "RM-no email" then send the PDF in an email to the customer and auto close the Case immediately
+                } else{
+                    if (isTransferred){
+                        // Get template stored on asf_integration record 
+                        System.debug('***Integration_Ext_Id__c'+caseInteg.Integration_Ext_Id__c);
+                        ASF_Integration__c intRec = [SELECT Id, STP_Template__c 
+                                                                FROM ASF_Integration__c 
+                                                                WHERE External_Id__c=:caseInteg.Integration_Ext_Id__c
+                                                                WITH SECURITY_ENFORCED];
+                        // List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,
+                        //                                                New_Case_Email_Template__c
+                        //                                                FROM ASF_Case_Category_Config__c
+                        //                                                WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
+                        //                                                WITH SECURITY_ENFORCED];
+                        if(String.isNotBlank(intRec.STP_Template__c)){
+                            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, isTransferred);
+                        }
+                    }
+    
+                    ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
+                    caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
+                    caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
                     update caseDetailRecord;
+                    
+                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
+                    update resultWrap.caseToBeUpdated;
                 }
-
-                //If source of case is not "RM-no email" then send the PDF in an email to the customer and auto close the Case immediately
-            } else{
-                if (isTransferred){
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c
-                                                                   FROM ASF_Case_Category_Config__c
-                                                                   WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
-                                                                   WITH SECURITY_ENFORCED];
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Resolved_Case_Email_Template__c, null, isTransferred);
-                }
-
-                ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
-                caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
-				caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
-                update caseDetailRecord;
-                
-                resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
-                update resultWrap.caseToBeUpdated;
             }
+        }catch(Exception e){
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_InvokeSTPProcess.processResponse');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
 
