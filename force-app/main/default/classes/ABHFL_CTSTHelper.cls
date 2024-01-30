@@ -26,13 +26,15 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 	}
 
-
+    //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
     	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
-    	List<String> emailNonFinancialSubTypes = new List<String>{'hfl060','AC123470','HFCRARGI'};
+    	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
+        List<String> customerServiceSubTypes = new List<String>{'hfl060'};
     	Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
     	Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        Group customerServiceQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
 		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
@@ -49,6 +51,13 @@ public without sharing class ABHFL_CTSTHelper {
             updatedCase.OwnerId = caseRecord.CreatedById;
         	} else {
             updatedCase.OwnerId = emailFinancialQueue.Id;
+        		}
+    	}
+        if (customerServiceSubTypes.contains(subType)) {
+        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRecord.CreatedById;
+        	} else {
+            updatedCase.OwnerId = customerServiceQueue.Id;
         		}
     	}
 
@@ -96,6 +105,45 @@ public without sharing class ABHFL_CTSTHelper {
         }
 
         return true; // All payment records have Realization_Status__c as 'Cleared'
+    }
+    
+    //Dhinesh - 1/29 Backward Movement Email Communication
+    public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
+        List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        for (Case caseRecord : caseList) {
+        	Case originalCase = oldCaseMap.get(caseRecord.Id);
+
+        	String previousStage = originalCase.Stage__c;	
+        	String currentStage = caseRecord.Stage__c;
+        	String subType = caseRecord.CCC_External_Id__c;
+
+        	// for payment bounce / not received email and sms
+        	if ('CPU Banking'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+            	sendEmail(caseRecord);
+        	}
+            //for Shortfall email/sms - only for Pre Closure (hfl060)
+            
+            if ('CPU FCL Issuance'.equals(previousStage) && 'Open'.equals(currentStage) && 'hfl060'.equals(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+                ABHFL_Case_Detail__c caseDetail =  [SELECT Id,Shortfall_Amount__c FROM ABHFL_Case_Detail__c WHERE Id =: caseRecord.ABHFL_Case_Detail__c];
+                if(caseDetail.Shortfall_Amount__c !=  Null){
+                   ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,ABHFL_Constants.SHORTFALL_TEMPLATE, 
+                                                                ABHFL_Constants.SHORTFALL_SMS, False); 
+                }
+            }
+    	}
+    }
+    public static void sendEmail(Case caseRecord){
+       List<ABHFL_Payment__c> casePayments = [SELECT Id,Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c =: caseRecord.Id];
+        for(ABHFL_Payment__c pay : casePayments){
+            if(pay.Realization_Status__c == 'Bounce'){
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,ABHFL_Constants.PAYMENT_BOUNCE_TEMPLATE, 
+                                                                ABHFL_Constants.PAYMENT_BOUNCE_SMS, False);
+            }
+            if(pay.Realization_Status__c == 'Not Received'){
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,ABHFL_Constants.PAYMENT_NOTRECEIVED_TEMPLATE, 
+                                                                ABHFL_Constants.PAYMENT_NOTRECEIVED_SMS, False);
+            }
+        }    
     }
     
     
@@ -207,6 +255,5 @@ public without sharing class ABHFL_CTSTHelper {
              insert caseList;
         }
     }
-
+    
 }
-
