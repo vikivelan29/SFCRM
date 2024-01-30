@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+Despite the payment made for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} against the Loan number {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}, we could not trace the payment details in our records. We request you to please provide additional details or contact your bank for the necessary transaction details. Thank you. - Aditya Birla Housing Finance Limited</body>
+</html>

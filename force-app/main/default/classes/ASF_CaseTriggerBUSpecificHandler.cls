@@ -45,6 +45,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
         ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        
     }
     
 }
