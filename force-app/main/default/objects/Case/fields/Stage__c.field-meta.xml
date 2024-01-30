@@ -116,6 +116,51 @@
                 <default>false</default>
                 <label>In Progress with SRE Ops</label>
             </value>
+            <value>
+                <fullName>In Progress with GRT</fullName>
+                <default>false</default>
+                <label>In Progress with GRT</label>
+            </value>
+            <value>
+                <fullName>Pending for Approval</fullName>
+                <default>false</default>
+                <label>Pending for Approval</label>
+            </value>
+            <value>
+                <fullName>IO Recommendation</fullName>
+                <default>false</default>
+                <label>IO Recommendation</label>
+            </value>
+            <value>
+                <fullName>IO Feedback</fullName>
+                <default>false</default>
+                <label>IO Feedback</label>
+            </value>
+            <value>
+                <fullName>In Progress with RCU</fullName>
+                <default>false</default>
+                <label>In Progress with RCU</label>
+            </value>
+            <value>
+                <fullName>In Progress with CAD</fullName>
+                <default>false</default>
+                <label>In Progress with CAD</label>
+            </value>
+            <value>
+                <fullName>In Progress with Collection</fullName>
+                <default>false</default>
+                <label>In Progress with Collection</label>
+            </value>
+            <value>
+                <fullName>Verification</fullName>
+                <default>false</default>
+                <label>Verification</label>
+            </value>
+            <value>
+                <fullName>Reopened</fullName>
+                <default>false</default>
+                <label>Reopened</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
