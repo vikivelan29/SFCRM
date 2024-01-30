@@ -153,7 +153,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             update objUpdateCaseExt;*/
             Case objCase = new Case();
             objCase.Id = recCase.Id;
-            objCase.OnCreateCloseSR__c  = True;
+            //objCase.OnCreateCloseSR__c  = True;
             objCase.Stage__c = 'Resolved';
             lstUpdateCase.add(objCase);
              if(!lstUpdateCase.isEmpty()){
