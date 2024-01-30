@@ -27,13 +27,16 @@ export default class Abhfl_MultipleLan extends LightningElement {
         if(this.recordId){
             getAssetRecordsandMetadata({recId : this.recordId}).then((result) => {
                 console.log(result);
-                this.columns = result.columnData;
-                this.childColumns = result.childColumnData;
-                this.searchResult = result.assetDetailRecords;
-                this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
-                this.paginationHelper(); // call helper menthod to update pagination logic
-                this.displayMultipleLan = true;
-                this.childTableDisplay();
+                if(result){
+                    this.columns = result.columnData;
+                    this.childColumns = result.childColumnData;
+                    this.searchResult = result.assetDetailRecords;
+                    this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
+                    this.paginationHelper(); // call helper menthod to update pagination logic
+                    this.displayMultipleLan = true;
+                    this.childTableDisplay();
+                    
+                } 
                 this.displaySpinner = false;
             }).catch((error) => {
                 console.log(error);
