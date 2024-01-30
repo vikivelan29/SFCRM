@@ -27,7 +27,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
         if(this.recordId){
             getAssetRecordsandMetadata({recId : this.recordId}).then((result) => {
                 console.log(result);
-                if(result){
+                if(result && result.columnData){
                     this.columns = result.columnData;
                     this.childColumns = result.childColumnData;
                     this.searchResult = result.assetDetailRecords;
