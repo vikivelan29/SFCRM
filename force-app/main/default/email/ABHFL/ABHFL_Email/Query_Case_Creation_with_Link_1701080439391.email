@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -151,7 +151,7 @@
 												Thank you for reaching out to us.<br />
 												&nbsp;<br />
 												Your request for {{{Case.Masked_LAN__c}}}   has been received and registered under reference number {{{Case.CaseNumber}}}.<br />
-												We anticipate resolving this matter by {{{Case.Overall_Case_Closure_SLA__c}}}. You can even track the real time status of your case by clicking on &lt;/Link to track cases&gt;<br />
+												We anticipate resolving this matter by {{{Case.Overall_Case_Closure_SLA__c}}}. You can even track the real time status of your case by clicking on {{{Case.Short_URL__c}}}<br />
 												<br />
 												We appreciate your patience during this time. Kindly note that this is an auto acknowledgement.<br />
 												<br />
