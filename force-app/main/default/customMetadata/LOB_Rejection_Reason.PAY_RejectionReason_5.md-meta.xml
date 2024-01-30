@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Other</value>
+        <value xsi:type="xsd:string">Partially Resolved</value>
     </values>
 </CustomMetadata>
