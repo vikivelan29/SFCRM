@@ -9,8 +9,10 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
-
-   //Generic Constants
+	//NDC Subtype
+	public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
+	   
+    //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
@@ -38,6 +40,8 @@ public with sharing class ABHFL_Constants {
     public static final String OPEN = 'Open';
     public static final String CHANNEL_ID = 'CHA1002';
     public static final String ODP_ALERTS = 'ODP_Alerts';
+    public static final String LEAD_CREATE = 'Lead_Create';
+    
     
     
     
@@ -56,6 +60,7 @@ public with sharing class ABHFL_Constants {
     public static final String PAYMENTLINK_INTEGRATION_METADATA = 'Payment_Link';
     public static final String PAYTMLINK_INTEGRATION_METADATA = 'Paytm_Link';
     public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
+    public static final String COMPLAINT_INVESTIGATION_INTEGRATION_METADATA = 'Complaint_investigation_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
     public static final String REPORTING_SERVICE = 'ReportingService';
@@ -70,6 +75,8 @@ public with sharing class ABHFL_Constants {
     public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
     public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
     public static final String SHORTFALL_SMS = 'ABHFL_Shortfall_Amount_Part_Payment';
+    public static final String PAYMENT_RECEIVED_TEMPLATE = 'Payment_Received_Successfully_1705035361551';
+    public static final String PAYMENT_RECEIVED_SMS = 'ABHFL_Payment_Received_Successfully';
     
 
 

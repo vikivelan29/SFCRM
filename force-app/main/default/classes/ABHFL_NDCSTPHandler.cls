@@ -37,7 +37,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
                     List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                                   WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                             cccRecord[0].Rejected_Case_Email_Template__c, 
                                                                                                                             cccRecord[0].Rejected_Case_SMS_Metadata__c,
@@ -124,7 +124,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             if(isTransferred){
                 integrationFailure = false;
                 List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                                WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
                 Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                         cccRecord[0].Resolved_Case_Email_Template__c, 
                                                                                                                         cccRecord[0].Resolved_Case_SMS_Metadata__c, 
