@@ -525,9 +525,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     private static Case resetSLAFields(Case newCase, Case oldCase, Case updatedCase){
         //if(newCase.Stage__c == 'Closed' || newCase.Stage__c == 'Rejected'){
         if(ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(newCase.Stage__c)){
-            updatedCase.Stage_SLA_1__c = null;
-            updatedCase.Stage_SLA_2__c = null;
-            updatedCase.Stage_SLA_3__c = null;
+            // updatedCase.Stage_SLA_1__c = null;
+            // updatedCase.Stage_SLA_2__c = null;
+            // updatedCase.Stage_SLA_3__c = null;
         }
         else{
             //during insert old Case will be null
@@ -740,9 +740,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
                 }
 
-                updatedCase.Stage_SLA_1__c = null; 
-                updatedCase.Stage_SLA_2__c = null; 
-                updatedCase.Stage_SLA_3__c = null; 
+                // updatedCase.Stage_SLA_1__c = null; 
+                // updatedCase.Stage_SLA_2__c = null; 
+                // updatedCase.Stage_SLA_3__c = null; 
                 String businessHrsusedForcalcuation ; 
                 
                 //owner change or Stage change . enter
