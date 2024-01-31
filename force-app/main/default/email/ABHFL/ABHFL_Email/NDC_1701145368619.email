@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -150,7 +150,9 @@
 												<br />
 												Greetings from Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We write you with reference to your request regarding the {{{Case.Sub_Type_Text__c}}} required for your ABHFL Loan A/C no. {{{Case.Masked_LAN__c}}} Please find attached document for your perusal.<br />
+												We write you with reference to your request regarding the No Due Certificate required for your ABHFL Loan A/C no. {{{Case.Masked_LAN__c}}} Please find attached document for your perusal.</div>
+
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">We look forward to serving you again in future.<br />
 												<br />
 												In order to maintain confidentiality and protect privacy, your document is password protected. To open the statement your default password is PAN number of the main applicant in upper case.<br />
 												<br />
