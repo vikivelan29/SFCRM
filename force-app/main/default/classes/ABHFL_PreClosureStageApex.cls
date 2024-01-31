@@ -4,7 +4,16 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
         retCls.status = ABHFL_Constants.SUCCESS;
         retCls.updatedCase = caseRec;
         retCls.isCaseUpdated = false;
-        
+        if(caseRec.Stage__c == 'Open' || 
+   		   caseRec.Stage__c == 'CPU Banking' || 
+   		   caseRec.Stage__c == 'CPU FCL Issuance' || 
+   		   caseRec.Stage__c == 'NDC' || 
+   		   caseRec.Stage__c == 'Retrieval' || 
+   		   caseRec.Stage__c == 'Hub Location' || 
+   		   caseRec.Stage__c == 'Branch' || 
+   		   caseRec.Stage__c == 'AOM/ROM') {
+               ABHFL_CTSTHelper.sendTrackingLink(caseRec);
+         }
         if(caseRec.Stage__c == 'Hub Location'){
             Case updatedCaseRec = ABHFL_CTSTHelper.assignCaseToPreferredBranch(caseRec);
             retCls.updatedCase = updatedCaseRec;
