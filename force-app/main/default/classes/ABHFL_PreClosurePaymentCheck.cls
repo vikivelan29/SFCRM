@@ -9,8 +9,11 @@ public with sharing class ABHFL_PreClosurePaymentCheck implements ASF_CaseStageC
         if(!isPaymentsCleared){
             retCls.status = ABHFL_Constants.ERROR;
         	retCls.errorMessage = 'Payments should be Cleared in order to move to Next Stage.';
+        }else{
+            ABHFL_CTSTHelper.sendEmailPaymentReceived(caseRec);
+            ABHFL_CTSTHelper.sendTrackingLink(caseRec);
         }
-
+		
         return retCls;
         
     }

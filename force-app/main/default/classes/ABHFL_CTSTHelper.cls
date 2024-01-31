@@ -197,6 +197,17 @@ public without sharing class ABHFL_CTSTHelper {
             }
         }
     }
+    public static void sendTrackingLink(Case caseRec){
+        Id caseId = caseRec.Id; 
+    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+                       FROM Case WHERE Id = :caseId];
+        if(caseRecord.Short_URL__c != NULL){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  NULL, 
+                                                                  ABHFL_Constants.TRACKING_LINK_SMS, 
+                                                                  false);
+        }
+    }
 
     public void prePopulateFields(List<Case> newCaseList) {
 
