@@ -272,8 +272,52 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
 
+    public void populateFieldsInAfterContext(List<Case> newCaseList) {
+        populateFieldsOfABHFL_CaseDetail(newCaseList);
+    }
+
+    public void populateFieldsOfABHFL_CaseDetail(List<Case> newCaseList) {
+        
+        List<String> caseDetIdList = new List<String>();
+        List<ABHFL_Case_Detail__c> caseDetListToUpdate = new List<ABHFL_Case_Detail__c>();
+
+        for(Case cs : newCaseList) {
+
+            String technicalSource = cs.Technical_Source__c;
+            String businessUnt = cs.Business_Unit__c;
+            String csDetId = cs.ABHFL_Case_Detail__c;
+
+            if(technicalSource == 'API' && businessUnt == 'ABHFL') {
+                if(String.isNotBlank(csDetId)) {
+                    caseDetIdList.add(csDetId);
+                }
+            }
+        }
+
+        List<ABHFL_Case_Detail__c> csDetList = [SELECT From_Year__c, To_Year__c, Financial_Year__c
+                                                FROM ABHFL_Case_Detail__c
+                                                WHERE id in :caseDetIdList];
+        
+        for(ABHFL_Case_Detail__c csDet : csDetList) {
+
+            String fromYr = csDet.From_Year__c;
+            String toYr   = csDet.To_Year__c;
+
+            if(String.isNotBlank(fromYr) && String.isNotBlank(toYr)) {
+                String lastTwoDigitOfToYr = toYr.right(2);
+                csDet.Financial_Year__c = fromYr + '-' + lastTwoDigitOfToYr;
+                caseDetListToUpdate.add(csDet);
+            }
+        }
+
+        if(caseDetListToUpdate.size() > 0) {
+            update caseDetListToUpdate;
+        }
+
+    }
+
     public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
-        Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
+Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
         Case caseRecord = new Case();
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
@@ -286,7 +330,7 @@ public without sharing class ABHFL_CTSTHelper {
     }
     
     public static void insertCases(List<Case> caseList) {
-	ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
+ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }
