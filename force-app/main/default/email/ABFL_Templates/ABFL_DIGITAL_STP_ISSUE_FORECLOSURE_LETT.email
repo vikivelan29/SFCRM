@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Foreclosure of Loan account:" recipientType="Contact" relatedToType="Case">
+    <messaging:htmlEmailBody >
+        <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="DIGITAL STP CASE TEAMPLATE FOR ISSUE FOR CLOSURE LETTER Not in Use" ></c:ASF_CaseEmail>
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>
