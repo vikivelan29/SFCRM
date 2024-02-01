@@ -80,6 +80,10 @@ public with sharing class ABHFL_Constants {
     public static final String TRACKING_LINK_SMS = 'ABHFL_Stage_Mvmnt_Tracking_Link';
     public static final String MULTIPLELAN_PAYMENT_RECEIVED_SMS = 'ABHFL_MultiLAN_Payment_Received';
     public static final String MULTIPLELAN_PAYMENT_RECEIVED_EMAIL = 'Payment_acceptance_email_MultiLAN_VF';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_EMAIL ='Informing_customer_that_ROI_is_revised_Partailly_disbursed_loan_1706087796320';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_SMS ='ABHFL_ROI_revision_partially_disbursed';
+    public static final String MULTIPLELAN_AMORT_FULL_EMAIL ='Informing_customer_that_ROI_is_revised_Fully_disbursed_loan_1706090167218';
+    public static final String MULTIPLELAN_AMORT_FULL_SMS ='ABHFL_ROI_revision_fully_disbursed';
 
 
     // Constants for REKYC 
