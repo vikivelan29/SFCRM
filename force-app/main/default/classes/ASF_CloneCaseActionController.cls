@@ -24,14 +24,8 @@ public with sharing class ASF_CloneCaseActionController {
     public static BooleanWithReasonWrapper isCaseCloneable(Id caseId){
         BooleanWithReasonWrapper wrap = new BooleanWithReasonWrapper();
         try {
-            Case caseRec = [SELECT Id, CCC_External_Id__c FROM Case WHERE Id =: caseId LIMIT 1];
-            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, ASF_Is_Cloneable__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
-            if(cccRecs.isEmpty()){
-                AuraHandledException e = new AuraHandledException('Case Category Config is invalid');
-                e.setMessage('Case Category Config is invalid');
-                throw e;
-            }
-            wrap.resultFlag = cccRecs[0].ASF_Is_Cloneable__c;
+            Case caseRec = [SELECT Id, ASF_Is_Cloneable__c FROM Case WHERE Id =: caseId LIMIT 1];
+            wrap.resultFlag = caseRec.ASF_Is_Cloneable__c;
             if(wrap.resultFlag == false){
                 wrap.reasonIfFalse = 'Case is not configured as cloneable, please contact System Administrator';
             }
