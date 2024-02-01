@@ -92,6 +92,7 @@ public without sharing class ABHFL_CTSTHelper {
 
         return caseRec;
     }
+    
     //Dhinesh - Used for assigning case to AOM/ROM
     public static Case assignCaseToAOMROM(Case caseRecord){
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
@@ -102,6 +103,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
         return caseRec;
     }
+    
     //Dhinesh
     public static Boolean validatePayments(Case caseRecord) {
         Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
@@ -197,16 +199,51 @@ public without sharing class ABHFL_CTSTHelper {
             }
         }
     }
+    //Dhinesh - to Send Tracking Links
     public static void sendTrackingLink(Case caseRec){
+        List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
         Id caseId = caseRec.Id; 
     	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
                        FROM Case WHERE Id = :caseId];
-        if(caseRecord.Short_URL__c != NULL){
+        if(caseRecord.Short_URL__c != NULL && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                   NULL, 
                                                                   ABHFL_Constants.TRACKING_LINK_SMS, 
                                                                   false);
         }
+    }
+    //Dhinesh - to store multi lan in a field and send payment confirmation mail
+    public static void storeMultipleLANs(Case caseRec){
+        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+                       FROM Case WHERE Id = :caseRec.Id];
+        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
+                                                   FROM ABHFL_Asset_Detail__c
+                                                   WHERE Case__c=:caseRec.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c,Payment_Status__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        String result = '';
+		for (Integer i = 0; i < relatedAssets.size(); i++) {
+    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+        	if (i == relatedAssets.size() - 1) {
+        		// Last iteration, use 'and'
+        		 result += ' and ' + maskedLan;
+    		} else {
+        	// Other iterations, use comma if not the first iteration
+        		if (i > 0) {
+            		result += ', ';
+        		}
+        	result += maskedLan;
+    		}
+		}
+		caseDetail.Masked_Full_LANs__c = result;
+        update caseDetail;
+        if(caseDetail.Masked_Full_LANs__c != NULL && caseDetail.Payment_Status__c == 'Payment Received'){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_EMAIL, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_SMS, 
+                                                                  false);
+        }
+        
     }
 
     public void prePopulateFields(List<Case> newCaseList) {
