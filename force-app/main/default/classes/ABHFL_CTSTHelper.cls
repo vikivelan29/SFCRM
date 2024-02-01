@@ -243,9 +243,35 @@ public without sharing class ABHFL_CTSTHelper {
                                                                   ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_SMS, 
                                                                   false);
         }
-        
+     
     }
-
+    public static void sendPrclsStatementclosure(Case caseRec){
+        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,ABHFL_Case_Detail__c
+                       FROM Case WHERE Id = :caseRec.Id];
+        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
+                                                   FROM ABHFL_Asset_Detail__c
+                                                   WHERE Case__c=:caseRec.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRecord.ABHFL_Case_Detail__c LIMIT 1];
+        String result = '';
+		for (Integer i = 0; i < relatedAssets.size(); i++) {
+    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+        	if (i == relatedAssets.size() - 1) {
+        		 result += ' and ' + maskedLan;
+    		} else {
+        		if (i > 0) {
+            		result += ', ';
+        		}
+        	result += maskedLan;
+    		}
+		}
+		caseDetail.Masked_Full_LANs__c = result;
+        update caseDetail;
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS, 
+                                                                  true);
+    }
     public void prePopulateFields(List<Case> newCaseList) {
 
         prePopulateABHFL_Case_Detail_Fields(newCaseList);

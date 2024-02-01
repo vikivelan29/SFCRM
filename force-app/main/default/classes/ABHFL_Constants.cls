@@ -40,7 +40,7 @@ public with sharing class ABHFL_Constants {
     public static final String OPEN = 'Open';
     public static final String CHANNEL_ID = 'CHA1002';
     public static final String ODP_ALERTS = 'ODP_Alerts';
-    public static final String LEAD_CREATE = 'Lead_Create';
+    public static final String SEND_LEAD_TO_CRM = 'Send_Lead_To_CRM';
     
     
     
@@ -84,6 +84,8 @@ public with sharing class ABHFL_Constants {
     public static final String MULTIPLELAN_AMORT_PARTIAL_SMS ='ABHFL_ROI_revision_partially_disbursed';
     public static final String MULTIPLELAN_AMORT_FULL_EMAIL ='Informing_customer_that_ROI_is_revised_Fully_disbursed_loan_1706090167218';
     public static final String MULTIPLELAN_AMORT_FULL_SMS ='ABHFL_ROI_revision_fully_disbursed';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL ='Foreclosure_letter_MultiLAN';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
 
 
     // Constants for REKYC 
