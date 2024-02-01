@@ -78,7 +78,8 @@ public with sharing class ABHFL_Constants {
     public static final String PAYMENT_RECEIVED_TEMPLATE = 'Payment_Received_Successfully_1705035361551';
     public static final String PAYMENT_RECEIVED_SMS = 'ABHFL_Payment_Received_Successfully';
     public static final String TRACKING_LINK_SMS = 'ABHFL_Stage_Mvmnt_Tracking_Link';
-    
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_SMS = 'ABHFL_MultiLAN_Payment_Received';
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_EMAIL = 'Payment_acceptance_email_MultiLAN_VF';
 
 
     // Constants for REKYC 
