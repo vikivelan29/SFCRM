@@ -841,7 +841,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+            //Resolution_Remarks__c - ABHFL
+            //Resolution_Comments__c - ABFL
+            //Closure_Comments__c - Payments
+            if (ele.fieldName == 'Resolution_Remarks__c' || ele.fieldName == 'Resolution_Comments__c'
+             || ele.fieldName == 'Closure_Comments__c') {
                 this.resolutionReasonPopUpFld = ele.value;
             }
         })
@@ -2764,7 +2768,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     handleResolnCommntChng(event) {
         this.resolutionReasonPopUpFld = event.target.value;
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+            //Resolution_Remarks__c - ABHFL
+            //Resolution_Comments__c - ABFL
+            //Closure_Comments__c - Payments
+            if (ele.fieldName == 'Resolution_Remarks__c' || ele.fieldName == 'Resolution_Comments__c'
+             || ele.fieldName == 'Closure_Comments__c') {
                 ele.value = this.resolutionReasonPopUpFld;
             }
         })
