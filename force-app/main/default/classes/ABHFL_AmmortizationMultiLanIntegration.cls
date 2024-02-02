@@ -29,11 +29,11 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c,
                 ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.Masked_Partial_LANs__c, ABHFL_Case_Detail__r.Masked_Full_LANs__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id
         ];
 
-        List<Asset_Detail__c> relatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c
-                                                   FROM Asset_Detail__c
+        List<ABHFL_Asset_Detail__c> relatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c
+                                                   FROM ABHFL_Asset_Detail__c
                                                    WHERE Case__c=:caseRecord.Id
                                                    //AND Type__c='FCROI'
                                                    AND AmmortApiStatus__c = false];
@@ -42,7 +42,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
                                                            Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
                                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-        	for(Asset_Detail__c assetDetail : relatedAssetsFCROI){
+        	for(ABHFL_Asset_Detail__c assetDetail : relatedAssetsFCROI){
             	//Check for mandatory API conditions & Check for Loan Disbursement Status
         		if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
                    assetDetail.Asset__r.Loan_Disbursement_Status__c != null &&
@@ -81,8 +81,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             if(sendRejectionForPartialLoans && !cccRecord.isEmpty()){
                 Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
                         caseRecord,//configure this for sending mail for only Partially disbursed Loans
-                        cccRecord[0].Rejected_Case_Email_Template__c,
-                        cccRecord[0].Rejected_Case_SMS_Metadata__c,
+                    	ABHFL_Constants.MULTIPLELAN_AMORT_PARTIAL_EMAIL,
+                    	ABHFL_Constants.MULTIPLELAN_AMORT_PARTIAL_SMS,
+                        //cccRecord[0].Rejected_Case_Email_Template__c,
+                        //cccRecord[0].Rejected_Case_SMS_Metadata__c,
                         false
                 );
             }
@@ -117,19 +119,19 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         
         Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
-        List<Asset_Detail__c> allRelatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c,
+        List<ABHFL_Asset_Detail__c> allRelatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c,
                                                    AmmortApiStatus__c
-                                                   FROM Asset_Detail__c
+                                                   FROM ABHFL_Asset_Detail__c
                                                    WHERE Case__c=:caseRecord.Id
                                                    //AND Type__c='FCROI'
                                                    AND AmmortApiStatus__c = false];
         
-        List<Asset_Detail__c> fullyDisAssetsFCROI = new List<Asset_Detail__c>();
-        List<Asset_Detail__c> partiallyDisAssetsFCROI = new List<Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> fullyDisAssetsFCROI = new List<ABHFL_Asset_Detail__c>();
+        List<ABHFL_Asset_Detail__c> partiallyDisAssetsFCROI = new List<ABHFL_Asset_Detail__c>();
         List<ASF_Case_Integration__c> caseIntList = new List<ASF_Case_Integration__c>();
         List<Case_Integration_Outbound__e> eventList = new List<Case_Integration_Outbound__e>();
         
-        for(Asset_Detail__c ad: allRelatedAssetsFCROI){
+        for(ABHFL_Asset_Detail__c ad: allRelatedAssetsFCROI){
             if(ad.Asset__r.Loan_Disbursement_Status__c!=null && ad.Asset__r.Loan_Disbursement_Status__c!='Partially')
             {
                 fullyDisAssetsFCROI.add(ad);
@@ -137,7 +139,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
                 caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
                 caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c)); 
+                caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c,caseRecord)); 
                 caseInteg.Status__c = ABHFL_Constants.PENDING;
                 caseInteg.Business_External_Id__c = ad.Asset__r.Lan__c;
                 caseIntList.add(caseInteg);
@@ -146,7 +148,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
                 //caseIntOut.Case_Integration_ID__c = caseInt.Name;
                 caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-                caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c));
+                caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c,caseRecord));
                 eventList.add(caseIntOut);
                 
             }
@@ -198,10 +200,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred){
-                List<Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM Asset_Detail__c];
-                List<Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM Asset_Detail__c 
+                List<ABHFL_Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                     FROM ABHFL_Asset_Detail__c];
+                List<ABHFL_Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                     FROM ABHFL_Asset_Detail__c 
                                                      WHERE Asset__r.Lan__c =:caseInteg.Business_External_Id__c
                                                      AND Case__c =:caseRec.Id LIMIT 1];
                 assetDetail[0].AmmortApiStatus__c = isTransferred;
@@ -220,10 +222,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                     lanList.add(cInt.Business_External_Id__c);
                 }
                 
-                List<Asset_Detail__c> assetDetails = [SELECT Id, AmmortApiStatus__c FROM Asset_Detail__c 
+                List<ABHFL_Asset_Detail__c> assetDetails = [SELECT Id, AmmortApiStatus__c FROM ABHFL_Asset_Detail__c 
                                                       WHERE Asset__r.LAN__c IN :lanList
                                                       AND Case__c =:caseRec.Id];
-                for(Asset_Detail__c aDet : assetDetails){
+                for(ABHFL_Asset_Detail__c aDet : assetDetails){
                     if(aDet.AmmortApiStatus__c == false){
                         allTransferred = false;
                         break;
@@ -236,8 +238,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                                                                           WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                 //Have to accommodate isTransferred logic here
                 //configure this for sending mail for only Fully disbursed Loans
-                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                    cccRecord[0].Resolved_Case_SMS_Metadata__c,allTransferred);
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, 
+                                                                              ABHFL_Constants.MULTIPLELAN_AMORT_FULL_EMAIL, 
+                                                                    		  ABHFL_Constants.MULTIPLELAN_AMORT_FULL_SMS,
+                                                                              allTransferred);
                 caseRec.MoveToNext__c = true;
                 if(!Test.IsRunningTest()){
                 	update caseRec;    
@@ -260,9 +264,20 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     *********************************************************/
     public class AmmortRequestWrapper{
         public string lan;
+        public string caseId;
+        public string souce;
+        public string requestType;
+        public string reportName;
+        public string documentType;
         
-        public AmmortRequestWrapper(string lanNo){
+        AmmortRequestWrapper(string lanNo,Case caseRec){
             this.lan = lanNo;
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
+            this.lan = lanNo;
+            this.reportName = 'RepaymentSchedule';
+            this.documentType = ABHFL_Constants.BINARY_DATA;
+            this.caseId = caseRec.caseNumber;
         }
     }
     
