@@ -250,7 +250,6 @@
         <content>ABHFL_Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
@@ -259,7 +258,6 @@
         <content>ABHFL_Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
