@@ -15,7 +15,6 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
                     createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status
             FROM Case
             WHERE Id =:caseId
-            WITH SECURITY_ENFORCED
         ];
         return caseRecord;
     }
@@ -26,7 +25,6 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
             SELECT Litmus_Trigger__c, Litmus_Project__c, Overall_Case_Closure_SLA__c,Business_Unit__c, CCC_External_Id__c
             FROM ASF_Case_Category_Config__c
             WHERE CCC_External_Id__c =:cccExternalId
-            WITH SECURITY_ENFORCED
         ];
         return cccRecordList;
     }
@@ -47,14 +45,15 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         String nature = '';
         String cccExternalId = '';
         String litmusProject = '';
+        String caseStatus = '';
         String subtype = caseRec.Sub_Type_Text__c;
-        String caseStatus = caseRec.Status;
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Error';
 
         caseRecId = caseRec.Id;
         Case caseRecord = getCaseRec(caseRecId);
+        caseStatus = caseRecord.Status;
         ASF_Case_Category_Config__c cccRec = getCCC(caseRecord.CCC_External_Id__c).size() > 0 ? getCCC(caseRecord.CCC_External_Id__c)[0] : new ASF_Case_Category_Config__c();
         litmusTrigger = cccRec.Litmus_Trigger__c;
         litmusProject = String.isNotBlank(cccRec.Litmus_Project__c) ? cccRec.Litmus_Project__c : '';

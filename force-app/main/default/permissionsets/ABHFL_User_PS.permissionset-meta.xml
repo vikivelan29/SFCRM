@@ -5,6 +5,14 @@
         <name>Calendar_Year__mdt</name>
     </customMetadataTypeAccesses>
     <classAccesses>
+        <apexClass>ABHFL_CTSTHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_LitmusApi</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_AmortizationIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
