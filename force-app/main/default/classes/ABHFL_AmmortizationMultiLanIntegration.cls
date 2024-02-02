@@ -81,8 +81,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             if(sendRejectionForPartialLoans && !cccRecord.isEmpty()){
                 Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
                         caseRecord,//configure this for sending mail for only Partially disbursed Loans
-                        cccRecord[0].Rejected_Case_Email_Template__c,
-                        cccRecord[0].Rejected_Case_SMS_Metadata__c,
+                    	ABHFL_Constants.MULTIPLELAN_AMORT_PARTIAL_EMAIL,
+                    	ABHFL_Constants.MULTIPLELAN_AMORT_PARTIAL_SMS,
+                        //cccRecord[0].Rejected_Case_Email_Template__c,
+                        //cccRecord[0].Rejected_Case_SMS_Metadata__c,
                         false
                 );
             }
@@ -137,7 +139,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
                 caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
                 caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c)); 
+                caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c,caseRecord)); 
                 caseInteg.Status__c = ABHFL_Constants.PENDING;
                 caseInteg.Business_External_Id__c = ad.Asset__r.Lan__c;
                 caseIntList.add(caseInteg);
@@ -146,7 +148,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
                 //caseIntOut.Case_Integration_ID__c = caseInt.Name;
                 caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-                caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c));
+                caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c,caseRecord));
                 eventList.add(caseIntOut);
                 
             }
@@ -236,8 +238,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                                                                           WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                 //Have to accommodate isTransferred logic here
                 //configure this for sending mail for only Fully disbursed Loans
-                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                    cccRecord[0].Resolved_Case_SMS_Metadata__c,allTransferred);
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, 
+                                                                              ABHFL_Constants.MULTIPLELAN_AMORT_FULL_EMAIL, 
+                                                                    		  ABHFL_Constants.MULTIPLELAN_AMORT_FULL_SMS,
+                                                                              allTransferred);
                 caseRec.MoveToNext__c = true;
                 if(!Test.IsRunningTest()){
                 	update caseRec;    
@@ -260,9 +264,20 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     *********************************************************/
     public class AmmortRequestWrapper{
         public string lan;
+        public string caseId;
+        public string souce;
+        public string requestType;
+        public string reportName;
+        public string documentType;
         
-        public AmmortRequestWrapper(string lanNo){
+        AmmortRequestWrapper(string lanNo,Case caseRec){
             this.lan = lanNo;
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
+            this.lan = lanNo;
+            this.reportName = 'RepaymentSchedule';
+            this.documentType = ABHFL_Constants.BINARY_DATA;
+            this.caseId = caseRec.caseNumber;
         }
     }
     
