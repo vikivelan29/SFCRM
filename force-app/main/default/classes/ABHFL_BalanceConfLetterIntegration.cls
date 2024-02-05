@@ -144,7 +144,8 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                                                             cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
             
           caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
-          caseRec.MoveToNext__c = true;
+          //caseRec.MoveToNext__c = true;
+          caseRec.Stage__c = ABHFL_Constants.RESOLVED;
           
           if(Schema.sObjectType.Case.isUpdateable()){
             UPDATE caseRec;
