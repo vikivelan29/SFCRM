@@ -270,7 +270,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         public string reportName;
         public string documentType;
         
-        AmmortRequestWrapper(string lanNo,Case caseRec){
+        public AmmortRequestWrapper(string lanNo,Case caseRec){
             this.lan = lanNo;
             this.souce = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;

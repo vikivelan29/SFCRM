@@ -47,11 +47,11 @@ public class ABHFL_AmmortizationMultiLanTest {
         update caseRecList;
         
         //create Asset Detail
-        Asset_Detail__c assetDetail = new Asset_Detail__c();
+        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
         assetDetail.Asset__c = astRec.Id;
         assetDetail.Case__c = caseRecList[0].Id;
         assetDetail.AmmortApiStatus__c = false;
-        Asset_Detail__c assetDetail1 = new Asset_Detail__c();
+        ABHFL_Asset_Detail__c assetDetail1 = new ABHFL_Asset_Detail__c();
         assetDetail1.Asset__c = astRec1.Id;
         assetDetail1.Case__c = caseRecList[0].Id;
         assetDetail1.AmmortApiStatus__c = false;
@@ -124,7 +124,7 @@ public class ABHFL_AmmortizationMultiLanTest {
     static void testRun(){
             ABHFL_AmmortizationMultiLanIntegration ammStp = new ABHFL_AmmortizationMultiLanIntegration();
             Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c, Asset.Lan__c from Case limit 1];
-            ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c);
+            ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c, caseRecord);
             ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
             ASF_IntegrationsController.IntegrationWrapper integrationResponse = ammStp.run(integRecord,caseRecord);
             System.assertEquals('Success',integrationResponse.Status);
