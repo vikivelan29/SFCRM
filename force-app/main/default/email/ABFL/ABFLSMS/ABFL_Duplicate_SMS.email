@@ -123,7 +123,7 @@ table {
 </head>
 <body style="margin: 0px; padding: 0px; height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
 <br />
-Your case&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} is closed as it has been identified as a&nbsp;duplicate&nbsp;of {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}. We're addressing it through the primary case&nbsp; {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}.<br />
+Your case&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} is closed as it has been identified as a&nbsp;duplicate&nbsp;of {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}. We're addressing it through the primary case&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}}.<br />
 <br />
 Regards,<br />
 Aditya Birla Finance Limited<br />

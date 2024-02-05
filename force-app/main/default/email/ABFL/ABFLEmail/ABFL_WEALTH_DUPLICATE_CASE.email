@@ -142,19 +142,19 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										<tbody>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear {{{Case.Account}}},<br />
 												<br />
-												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance - Wealth</span></strong><br />
 												&nbsp;<br />
-												We have received your case #{{{Case.CaseNumber}}}. We have noticed that it is a duplicate of case #{{{Case.Parent}}}<br />
+												We have received your case {{{Case.CaseNumber}}}. We have noticed that it is a duplicate of case {{{Case.Parent}}}<br />
 												<br />
 												We have reviewed both the cases and to streamline the resolution process, we have closed this duplicate case.<br />
 												<br />
-												Be rest assured,&nbsp;we are actively working on resolving the matter through the primary case #{{{Case.Parent}}}<br />
+												Be rest assured,&nbsp;we are actively working on resolving the matter through the primary case {{{Case.Parent}}}<br />
 												<br />
 												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
