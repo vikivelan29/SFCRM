@@ -15,10 +15,16 @@
         <lightning-formatted-date-time value={colValue} ></lightning-formatted-date-time>
     </template> 
     <template lwc:elseif={displayInput}>
-        <lightning-input type={inputType} value={colValue} formatter={formatType} step={stepValue} onchange={handleChange} ></lightning-input>
+        <lightning-input type={inputType} value={colValue} formatter={formatType} step={stepValue} onchange={handleChange} variant="label-hidden"></lightning-input>
     </template> 
     <template lwc:elseif={displayCombo}>
-        <lightning-combobox value={colValue} options={options} onchange={handleChange} dropdown-alignment="auto" class="slds-dropdown_length-1" ></lightning-combobox>
+        <!--<lightning-combobox value={colValue} options={options} onchange={handleChange} dropdown-alignment="auto" class="slds-dropdown_length-1" ></lightning-combobox>-->
+        <select onchange={handleChange} class="slds-select" name="selection">
+            <option value=""></option>
+            <template for:each={options} for:item = "item" for:index="indexVar">
+                <option key={item.value} value={item.value}>{item.label}</option>    
+            </template>
+          </select>
     </template> 
     <template lwc:else>
         <lightning-formatted-text value={colValue} ></lightning-formatted-text>

@@ -18,10 +18,12 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
 
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
-        
+        ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
+        ctstHelperObj.populateFieldsInAfterContext((List<Case>)newItems.values());
     }
 
     public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
+
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
@@ -36,9 +38,13 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInBeforeUpdate');
+        
+        
+        
     }
     public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeBeforeASFCodeInAfterUpdate');
+        
     }
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInAfterUpdate');

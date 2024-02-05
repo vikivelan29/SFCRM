@@ -955,7 +955,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Add all the public group members to the map
             for(Id queueId : oldQueueAndMemberMap.keySet()){
 				for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
-                    if(((String)queueMember).startsWith('00G')){
+                    if(((String)queueMember).startsWith('00G') && oldgroupAndMemberMap.containsKey(queueMember)){
                         oldQueueAndMemberMap.get(queueId).addAll(oldgroupAndMemberMap.get(queueMember));
                     }
                 }                

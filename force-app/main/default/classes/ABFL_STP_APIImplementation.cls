@@ -17,12 +17,12 @@ public class ABFL_STP_APIImplementation{
         System.debug('integRec: ' + integRec);
         System.debug('caseRecord: ' + caseRecord);
 
-		List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0,0);
-        System.debug('@@@fis'+fi);
+        Datetime fromDate =  caseRecord.ABFL_Case_Detail__r.From_Date__c != null ? DateTime.newInstance(caseRecord.ABFL_Case_Detail__r.From_Date__c.year(), caseRecord.ABFL_Case_Detail__r.From_Date__c.month(), caseRecord.ABFL_Case_Detail__r.From_Date__c.day()) : null;
+        Datetime toDate = caseRecord.ABFL_Case_Detail__r.To_Date__c != null ? DateTime.newInstance(caseRecord.ABFL_Case_Detail__r.To_Date__c.year(), caseRecord.ABFL_Case_Detail__r.To_Date__c.month(), caseRecord.ABFL_Case_Detail__r.To_Date__c.day()) : null;
 
         switch  on integRec.STP_API_Identifier__c {
             when 'GetDemandAdvice_Corp' {
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'NEXT_DUE_DATE' => new Map<String, Object>{ 'lte' => Datetime.now().dateGMT() } };
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'NEXT_DUE_DATE' => new Map<String, Object>{ 'lte' => Datetime.now().format('dd-MMM-yyyy') } };
                 performCallout(integRec, caseRecord, filter);
             }
             when 'GetInterestResetLetter_Corp' {
@@ -30,7 +30,7 @@ public class ABFL_STP_APIImplementation{
                 performCallout(integRec, caseRecord, filter);
             }
             when 'GetRepaymentSchedule_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'DUEDATE' => new Map<String, Object>{ 'lte' => '' } };
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'DUEDATE' => new Map<String, Object>{ 'lte' => System.now().format('dd-MMM-yyyy') } };
                 performCallout(integRec, caseRecord, filter);
             }
             when 'GetWelcomeLetter_Corp'{
@@ -38,11 +38,11 @@ public class ABFL_STP_APIImplementation{
                 performCallout(integRec, caseRecord, filter);
             }
             when 'InterestDebitNote_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'gte' => caseRecord.ABFL_Case_Detail__r.From_Date__c, 'lte' => caseRecord.ABFL_Case_Detail__r.To_Date__c } };
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'gte' => fromDate.format('dd-MMM-yyyy'), 'lte' => toDate.format('dd-MMM-yyyy') } };
                 performCallout(integRec, caseRecord, filter);
             }
             when 'SOA_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => caseRecord.ABFL_Case_Detail__r.From_Date__c, 'toDate' => caseRecord.ABFL_Case_Detail__r.To_Date__c }, 'TRANSACTIONID' => System.now().format('ddMMyyyyhhmmss')};
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => fromDate.format('dd-MMM-yyyy'), 'toDate' => toDate.format('dd-MMM-yyyy') }, 'TRANSACTIONID' => System.now().format('ddMMyyyyhhmmss')};
                 performCallout(integRec, caseRecord, filter);
             }
              
@@ -83,9 +83,9 @@ public class ABFL_STP_APIImplementation{
         public ABFL_STP_Wrapper(Map<String, Object> filter, Case caseRecord){
             this.filter = filter;
             this.reportType = 'pdf';
-            this.passwordProtectPDF = 'False';
+            this.passwordProtectPDF = 'false';
             this.pdfPassword = '';
-            this.encryption = 'False';
+            this.encryption = 'false';
         }
     }
 }

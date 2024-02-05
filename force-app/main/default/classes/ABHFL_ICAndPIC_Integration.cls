@@ -16,7 +16,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Interest Certificate Or Provisional Interest Certificate Integration should be fired or not.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        
+
         String financialYr = '';
         String integrationName = '';
 
@@ -29,11 +29,11 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
-		
+
         integrationName = getIntegrationName(caseRecord.Sub_Type_Text__c);
         financialYr = getFinancialYr(caseRecord);
         String lan   = caseRecord.Asset.LAN__c;
-
+        
         if(caseRecord.Technical_Source__c == 'Api' || caseRecord.Technical_Source__c == 'LWC') {
                 if(integrationName == 'Interest Certificate') {
                     if(String.isNotBlank(financialYr) && String.isNotBlank(lan)) {
@@ -178,6 +178,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             	update caseDetails;                   
             }
         }   
+
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
     }
 
     public void handleFailure(Case caseRecord, String integrationName) {

@@ -18,9 +18,9 @@ public with sharing class ASF_ClosedMilestoneTimeController {
             caseObj = [SELECT Id, Stage__c,Overall_Case_Closure_SLA__c, CreatedDate, Owner.Name, BusinessHoursId,
                         Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c,LastModifiedDate
                         FROM  Case
-                        WHERE Id =:caseId AND isClosed = False
+                        WHERE Id =:caseId
                         LIMIT 1];
-            if(!ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(caseObj.Stage__c)){
+            //if(!ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(caseObj.Stage__c)){
                 
                 if(caseObj.Overall_Case_Closure_SLA__c != null && (system.now() < caseObj.Overall_Case_Closure_SLA__c)){
                      overallwrpcls.leftTotalSec = BusinessHours.diff(caseObj.BusinessHoursId,system.now(),caseObj.Overall_Case_Closure_SLA__c);
@@ -36,9 +36,11 @@ public with sharing class ASF_ClosedMilestoneTimeController {
                 overallwrpcls.businessHourWorking = BusinessHours.isWithin(caseObj.BusinessHoursId, system.now());
                 overallwrpcls.caseObj = caseObj;
                 stagewrpcls.caseObj = caseObj;
+                overallwrpcls.isClosed = ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(caseObj.Stage__c);
+                stagewrpcls.isClosed = overallwrpcls.isClosed;
                 wrapperMap.put('overall', overallwrpcls );
                 wrapperMap.put('stage', stagewrpcls );
-            }
+            //}
             return wrapperMap;
 
         } catch (Exception e) {
@@ -48,13 +50,15 @@ public with sharing class ASF_ClosedMilestoneTimeController {
 
     public class TimerWrapperClass{
         @auraEnabled
-        public Case caseObj                                             {get;set;}
+        public Case caseObj {get;set;}
         @auraEnabled 
-        public Long overdueTotalSec                                     {get;set;}
+        public Long overdueTotalSec {get;set;}
         @auraEnabled 
-        public Long leftTotalSec                                        {get;set;}
+        public Long leftTotalSec {get;set;}
         @auraEnabled 
-        public Boolean businessHourWorking                              {get;set;}
+        public Boolean businessHourWorking {get;set;}
+        @auraEnabled 
+        public Boolean isClosed {get;set;}
     
     }
 }

@@ -52,6 +52,175 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Case_Categorisation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Case_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Partner_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Date_of_Transaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Mode_of_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reference_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reason_of_Excess_Refund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Customer_claim_status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Customer_demand_VOC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Call_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_recommended_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_views__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Voice_of_Customer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Primary_Erring_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Secondary_Erring_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_People__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_IT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Financial_Impact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Action_Taken__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Grievance_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Retention_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.SL_LA_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Approval_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Complaint_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.RBI_Complaint_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Final_Decision__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Correct_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Correct_Call_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Correct_Sub_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Diputed_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions><fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Refund_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -302,11 +471,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABFL_Case_Detail__c.Source__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABFL_Case_Detail__c.SubSource__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -403,6 +567,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Integration__c.STP_API_Identifier__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Integration__c.STP_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

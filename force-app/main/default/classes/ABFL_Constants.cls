@@ -32,6 +32,8 @@ public with sharing class ABFL_Constants {
     public static final string RESOLVED_BY_BRE = 'Resolved by BRE';
     public static final string RESOLVED_BY_STP = 'Resolved by STP';
     public static final string NO = 'no';
+    public static final string DESCRIPTION_MSG = 'Auto created Case by BRE for loan closure of digital loan';
+    public static final string SOURCE = 'SystemIntegration';
 
     // BRE flag values such as “SUCCESS”,” FAILURE”,”VALIDATION ERROR”,”IN_PROCESS”,” Closure In Process” will be passed in this parameter.
     public static final String BRESUCCESS {

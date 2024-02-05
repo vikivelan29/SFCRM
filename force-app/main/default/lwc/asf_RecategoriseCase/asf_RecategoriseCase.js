@@ -374,7 +374,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
             botfeedback.reportValidity();
             return;
-        }
+        } 
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         
         if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
@@ -405,12 +405,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
-        console.log('bot val--'+fields[BOT_FEEDBACK_FIELD.fieldApiName]+fields[RECATEGORISATION_REASON_FIELD.fieldApiName]+fields[CHANNEL_FIELD.fieldApiName]);
+
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
          console.log('case--'+JSON.stringify(caseRecord));
         updateCaseRecord({ recId: this.recordId,oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,newCaseJson : JSON.stringify(caseRecord) })
         .then(result => {
+            if(this.showBotFeedback && this.sendBotFeedback){
+                this.notifyEbot();
+            }
             this.dispatchEvent(new CloseActionScreenEvent());
             console.log('Firing pubsub from Recategorize!!!!!!');
             let payload = {'source':'recat', 'recordId':this.recordId};
@@ -419,9 +422,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
             this.createCaseWithAll = false; 
-            if(this.showBotFeedback && this.sendBotFeedback){
-                this.notifyEbot();
-            }
         })
         .catch(error => {
             console.log(error);
@@ -430,6 +430,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         }); 
     }
     notifyEbot(){
+        console.log('inside ebot callout');
         callEbotFeedbackApi({ caseId: this.recordId})
             .then(result => {
                console.log('ebot call success');
