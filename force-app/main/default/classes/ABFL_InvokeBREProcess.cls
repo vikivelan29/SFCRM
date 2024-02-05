@@ -158,6 +158,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == ABFL_Constants.BRESUCCESS)  {
                         createCase(intg.STP_Config_External_Id__c, caseRecord);
                 }
+                /*User us = [SELECT Id FROM User where username = 'admin-dev@example.com.dev'];
+                caseRecord.OwnerId = us.Id;
+                update caseRecord;*/
             }
         }
         catch(Exception e) {
@@ -181,10 +184,10 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             //Create Case
             if(Schema.sObjectType.Case.isCreateable()) {
                 insert new Case(CCC_External_Id__c = cccRec[0].CCC_External_Id__c, Technical_Source__c = ABFL_Constants.API, 
-                                parentId = caseRec.Id, AssetId = caseRec.AssetId,
-                                Source__c = caseRec.Source__c, AccountId = caseRec.AccountId,
+                                parentId = caseRec.Id, AssetId = caseRec.AssetId, AccountId = caseRec.AccountId,
                                 Business_Unit__c = caseRec.Business_Unit__c, LAN__c = caseRec.LAN__c,
-                                ABFL_Case_Detail__c = detail.Id);
+                                ABFL_Case_Detail__c = detail.Id, Source__c = ABFL_Constants.SOURCE,
+                                Description = ABFL_Constants.DESCRIPTION_MSG);
             }           
         }   
     }
