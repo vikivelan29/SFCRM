@@ -104,7 +104,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
