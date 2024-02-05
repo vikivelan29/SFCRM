@@ -37,9 +37,12 @@ public class ABHFL_MultipleLANController_Test {
     @IsTest
     static void testFetchAllLANDetails(){
         Case caseRecord = [Select id from Case limit 1];
-        List<Asset> assetRecords = [Select id,LAN__c from Asset];
+        List<Asset> assetRecords = [Select id,LAN__c,Account.Client_Code__c from Asset];
         Object lanResponse = ABHFL_MultipleLANController.fetchAllLANDetails(assetRecords,caseRecord.Id);
         ABHFL_MultipleLANController.DataServiceContinuationWrapper multipleLan = new ABHFL_MultipleLANController.DataServiceContinuationWrapper();
+        multipleLan.counter = 1;
+        multipleLan.assetRecords = assetRecords;
+        multipleLan.responseList = new List<ABHFL_Asset_Detail__c>();
        	Object state = multipleLan;
         Object lanResponseChain = ABHFL_MultipleLANController.continuationChaining(new List<String>(),state);
         Object lanResponseContinueChain = ABHFL_MultipleLANController.chainingContinuation(new List<String>(),state);
@@ -48,6 +51,6 @@ public class ABHFL_MultipleLANController_Test {
         System.assertEquals(true,lanResponseChain!=null,'PASS');
         System.assertEquals(true,lanResponseContinueChain!=null,'PASS');
         System.assertEquals(true,lanResponseFinal!=null,'PASS');
-    } 
+    }
     
 }
