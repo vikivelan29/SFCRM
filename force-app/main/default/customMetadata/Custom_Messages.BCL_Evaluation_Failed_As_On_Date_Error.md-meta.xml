@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Message__c</field>
-        <value xsi:type="xsd:string">Evaluation failed. As on Date is Empty.</value>
+        <value xsi:type="xsd:string">Please Fill AS On Date Field and Save the Data Before Calling the STP</value>
     </values>
     <values>
         <field>Type__c</field>
