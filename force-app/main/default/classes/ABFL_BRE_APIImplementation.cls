@@ -18,8 +18,7 @@ public class ABFL_BRE_APIImplementation {
         // Determine the API to invoke & generate wrapper 
      	switch on integRec.STP_API_Identifier__c {
             when 'BRE_BalanceConfirmation_Retail', 'BRE_Foreclosure_Retail', 'BRE_NDCReasonMaster_Retail',
-                'BRE_RepaymentSchedule_Retail', 'BRE_WelcomeLetter_Retail', 'BRE_LoanAgreement_Retail', 'BRE_ClosureProcess_Retail',
-           	    'BRE_SanctionLetter_Retail'{
+                'BRE_RepaymentSchedule_Retail', 'BRE_WelcomeLetter_Retail', 'BRE_ClosureProcess_Retail'{
                 fireWithoutDates(integRec, caseRecord, caseIntg);
             }
             when 'BRE_SOA_Retail', 'BRE_PartPayment_Retail' {
@@ -40,6 +39,9 @@ public class ABFL_BRE_APIImplementation {
                //** Add business Date
                 fireWithDates(integRec, caseRecord, caseIntg, null);
            }
+           when 'BRE_SanctionLetter_Retail', 'BRE_LoanAgreement_Retail'{
+            fireWithoutStatus(integRec, caseRecord, caseIntg);
+           }
         }    
     }
     /****************************************************************************************************************
@@ -51,7 +53,16 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static void fireWithoutDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
         System.debug('In callout:'+caseRecord.AccountId);     
-        ABFL_BRE_Wrapper wrapper = new ABFL_BRE_Wrapper(caseRecord);
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        Map<String, Object> payloadWrap = new Map<String, Object>{ 
+                                                                'loanAccountNumber' => caseRecord.LAN__c, 
+                                                                'ticketNo' =>  caseRecord.CaseNumber,
+                                                                'source' => caseRecord.BRE_Source__c,
+                                                                'email' => emailId,
+                                                                'mobileNumber' => mobileNo,
+                                                                'threadId' => EmailMessages.getFormattedThreadingToken(caseRecord.Id)
+                                                            };
 
         // publish event
         Database.SaveResult publishResult = EventBus.publish(
@@ -59,7 +70,36 @@ public class ABFL_BRE_APIImplementation {
                 Business_Unit__c  = caseRecord.Business_Unit__c,
                 Case_Integration_ID__c = caseIntg[0]?.Name,
                 Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
-                Request_Payload__c  =  JSON.serialize(wrapper)
+                Request_Payload__c  =  JSON.serialize(payloadWrap)
+            )
+        );
+    }
+
+    /****************************************************************************************************************
+    * @Function - callout
+    * @param caseRec - Case record from the framework.
+    * @return - void
+    * @Description - Called for Different APIs : 'BRE_SanctionLetter_Retail', 'BRE_LoanAgreement_Retail'
+    *****************************************************************************************************************/
+    public static void fireWithoutStatus(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
+        System.debug('In callout:'+caseRecord.AccountId);     
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        Map<String, Object> payloadWrap = new Map<String, Object>{ 
+                                                                'loanAccountNumber' => caseRecord.LAN__c, 
+                                                                'ticketNo' =>  caseRecord.CaseNumber,
+                                                                'email' => emailId,
+                                                                'mobileNumber' => mobileNo,
+                                                                'threadId' => EmailMessages.getFormattedThreadingToken(caseRecord.Id)
+                                                            };
+
+        // publish event
+        Database.SaveResult publishResult = EventBus.publish(
+            new Case_Integration_Outbound__e (
+                Business_Unit__c  = caseRecord.Business_Unit__c,
+                Case_Integration_ID__c = caseIntg[0]?.Name,
+                Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
+                Request_Payload__c  =  JSON.serialize(payloadWrap)
             )
         );
     }
@@ -72,12 +112,31 @@ public class ABFL_BRE_APIImplementation {
     * @Description - Invoked from the ABFL_InvokeBREProcess class
     *****************************************************************************************************************/
     public static void fireWithDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg, List<Date> dts){
-		String wrapper;
+        Map<String, Object> payloadWrap;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         if(dts != null && !dts.isEmpty() ) {
-           wrapper = JSON.serialize(new ABFL_BRE_Wrapper_Dates(caseRecord, dts));
+            payloadWrap = new Map<String, Object>{ 
+                                                    'loanAccountNumber' => caseRecord.LAN__c, 
+                                                    'ticketNo' =>  caseRecord.CaseNumber,
+                                                    'source' => caseRecord.BRE_Source__c,
+                                                    'email' => emailId,
+                                                    'mobileNumber' => mobileNo,
+                                                    'fromDate' => dts[0],
+                                                    'toDate' => dts[1],
+                                                    'threadId' => EmailMessages.getFormattedThreadingToken(caseRecord.Id)
+                                                };
         }
         else{
-            wrapper = JSON.serialize(new ABFL_BRE_Wrapper_BusinessDates(caseRecord));
+            payloadWrap = new Map<String, Object>{ 
+                                                    'loanAccountNumber' => caseRecord.LAN__c, 
+                                                    'ticketNo' =>  caseRecord.CaseNumber,
+                                                    'source' => caseRecord.BRE_Source__c,
+                                                    'email' => emailId,
+                                                    'mobileNumber' => mobileNo,
+                                                    'businessDate' => Date.today(),
+                                                    'threadId' => EmailMessages.getFormattedThreadingToken(caseRecord.Id)
+                                                };
         }
 
         Database.SaveResult publishResult = EventBus.publish(
@@ -85,95 +144,8 @@ public class ABFL_BRE_APIImplementation {
                 Business_Unit__c  = caseRecord.Business_Unit__c,
                 Case_Integration_ID__c = caseIntg[0]?.Name,
                 Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
-                Request_Payload__c  =  wrapper
+                Request_Payload__c  =  JSON.serialize(payloadWrap)
             )
         );
-    }
-
-    // Wrapper without dates
-    Public class ABFL_BRE_Wrapper {
-        public string loanAccountNumber ;
-        public string ticketNo;
-        public string source;
-        public string email;
-        public string mobileNumber;
-        public string threadId;
-        /****************************************************************************************************************
-        * @LOB - ABFL
-        * @Function - constructor
-        * @param 
-        * @return 
-        * @Description - Invoked from the 
-        *****************************************************************************************************************/
-        public ABFL_BRE_Wrapper(Case caseRec){
-            loanAccountNumber = caseRec.LAN__c;
-            ticketNo = caseRec.CaseNumber;
-            source = caseRec.BRE_Source__c;
-            // email = caseRec.Origin == 'Email'?caseRec.SuppliedEmail:cont[0]?.Email;
-            /** 
-			* We are not using Contact records, so ContactEmail can't be used 
-			* If Account exists, then if PersonAccount Use PersonEmail, else use Office_Email__c 
-            * 
-			**/
-            email = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonEmail:caseRec.Account.Office_Email__c):NULL;
-            mobileNumber = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonMobilePhone:caseRec.Account.Phone):NULL;
-            threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
-        }
-    }
-    // Wrapper with dates
-    Public class ABFL_BRE_Wrapper_Dates {
-        public string loanAccountNumber ;
-        public string ticketNo;
-        public string source;
-        public string email;
-        public string mobileNumber;
-        // From and to dates will be dynamically populated by the caller
-        public Date fromDate;
-        public Date toDate;
-        public string threadId;
-        /****************************************************************************************************************
-        * @LOB - ABFL
-        * @Function - constructor
-        * @param 
-        * @return 
-        * @Description - Invoked from the fireWithDates
-        *****************************************************************************************************************/
-        public ABFL_BRE_Wrapper_Dates(Case caseRec, List<Date> dts) {
-            loanAccountNumber = caseRec.LAN__c;
-            ticketNo = caseRec.CaseNumber;
-            source = caseRec.BRE_Source__c;
-            email = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonEmail:caseRec.Account.Office_Email__c):NULL;
-            mobileNumber = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonMobilePhone:caseRec.Account.Phone):NULL;
-            fromDate = dts[0];
-            toDate = dts[1];
-			threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
-        }
-    }
-    // Wrapper with dates
-    Public class ABFL_BRE_Wrapper_BusinessDates {
-        public string loanAccountNumber ;
-        public string ticketNo;
-        public string source;
-        public string email;
-        public string mobileNumber;
-        // From and to dates will be dynamically populated by the caller
-        public Date businessDate;
-        public string threadId;
-        /****************************************************************************************************************
-        * @LOB - ABFL
-        * @Function - constructor
-        * @param 
-        * @return 
-        * @Description - Invoked from the fireWithDates
-        *****************************************************************************************************************/
-        public ABFL_BRE_Wrapper_BusinessDates(Case caseRec) {
-            loanAccountNumber = caseRec.LAN__c;
-            ticketNo = caseRec.CaseNumber;
-            source = caseRec.BRE_Source__c;
-            email = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonEmail:caseRec.Account.Office_Email__c):NULL;
-            mobileNumber = (caseRec.AccountId != NULL)?(caseRec.Account.IsPersonAccount?caseRec.Account.PersonMobilePhone:caseRec.Account.Phone):NULL;
-            businessDate = Date.today();
-			threadId = EmailMessages.getFormattedThreadingToken(caseRec.Id);
-        }
     }
 }
