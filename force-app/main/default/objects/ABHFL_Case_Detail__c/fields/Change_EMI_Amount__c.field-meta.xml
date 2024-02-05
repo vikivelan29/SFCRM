@@ -4,9 +4,9 @@
     <description>Used for HFL Inbound API</description>
     <externalId>false</externalId>
     <label>Change EMI Amount</label>
-    <precision>17</precision>
+    <length>50</length>
     <required>false</required>
-    <scale>2</scale>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>
