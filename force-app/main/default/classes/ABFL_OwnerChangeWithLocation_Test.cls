@@ -9,11 +9,11 @@ public class ABFL_OwnerChangeWithLocation_Test {
 private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-    	Group SLAGroup = new Group();        
+        Group SLAGroup = new Group();        
         SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-        	insert SLAGroup;
+            insert SLAGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
-        	insert g1;
+            insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
@@ -48,6 +48,36 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             stage1.Manual_Stage__c = false;
             stage1.Default_Queue__c =g1.Id;
             insert stage1;
+             Id rtId = Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
+         Account acc= new Account(
+            FirstName='Test FName',
+            RecordTypeId = rtId,
+            LastName='Test LName',
+            PersonMailingStreet='test@yahoo.com',
+            PersonMailingPostalCode='12345',
+            PersonMailingCity='SFO',
+            PersonEmail='test@yahoo.com',
+            PersonHomePhone='1234567',
+            PersonMobilePhone='12345678'
+        );
+        insert acc;
+            Asset assetObj = new Asset();
+            assetObj.Name = '981726345';
+            assetObj.AccountId = acc.Id;
+            assetObj.RM_Code__c = 'FED12346';
+            assetObj.RM_Assignment__c = 'Pending';
+            assetObj.Business_Unit__c ='ABFL';
+            assetObj.LAN__c = 'ABFLJOD1234';
+            insert assetObj;
+            
+            Asset assetObj1 = new Asset();
+            assetObj1.Name = '981726345';
+            assetObj1.AccountId = acc.Id;
+            assetObj1.RM_Code__c = 'FED12346';
+            assetObj1.RM_Assignment__c = 'Pending';
+            assetObj1.Business_Unit__c ='ABFL';
+            assetObj1.LAN__c = 'ABJAI1234';
+            insert assetObj1;
               //  Group mortgageGrp = new Group(Name='ABFL Mortgage CS', type='Queue');
                 //insert mortgageGrp;
             //QueueSobject mappingObject = new QueueSobject(QueueId = mortgageGrp.Id, SobjectType = 'Case');
@@ -59,38 +89,40 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
                 newCase.Business_Unit__c  = 'ABFL';
                 newCase.LAN__c = 'ABFLJOD';
                 newCase.OwnerId = queueRecord.Id;
-            	insert newCase; 
+                insert newCase; 
             Case newCase1 = new Case();
                 newCase1.Subject = 'Test Case Creation';
                 newCase1.CCC_External_Id__c =ccc.CCC_External_Id__c ;
                 newCase1.Business_Unit__c  = 'ABFL';
                 newCase1.LAN__c = 'ABFLJOD1234';
-            	insert newCase1;
+                newCase1.AssetId = assetObj.Id;
+                insert newCase1;
             Case newCase2 = new Case();
                 newCase2.Subject = 'Test Case Creation';
                 newCase2.CCC_External_Id__c =ccc.CCC_External_Id__c ;
                 newCase2.Business_Unit__c  = 'ABFL';
                 newCase2.LAN__c = 'ABJAI1234';
-            	insert newCase2;
+                newCase2.AssetId = assetObj1.Id;
+                insert newCase2;
             ABFL_Location_Master__c  loc = new ABFL_Location_Master__c();
                 loc.Code__c = 'JOD';
                 loc.Location__c  = 'Jodhpur';
                 loc.SPOC__c = userRecord1.Id;
-            	insert loc;
+                insert loc;
             ABFL_Location_Master__c  loc1 = new ABFL_Location_Master__c();
                 loc1.Code__c = 'JAI';
                 loc1.Location__c  = 'Jaipur';
                 loc1.SPOC__c = userRecord1.Id;
-            	insert loc1;
+                insert loc1;
         }
     }
      @isTest
     static void beforeUpdateContainsABFLTest(){
-        List<Case> objCase = [Select Id,OwnerId From Case WHERE LAN__c = 'ABFLJOD1234' LIMIT 1];
+        List<Case> objCase = [Select Id,OwnerId,AssetId From Case WHERE LAN__c = 'ABFLJOD1234' LIMIT 1];
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
         ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JOD' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
- 		system.runAs(usr)
+        system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
@@ -101,11 +133,11 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         }
     @isTest
     static void beforeUpdateContainsNotABFLTest(){
-        List<Case> objCase = [Select Id,OwnerId From Case WHERE LAN__c = 'ABJAI1234' LIMIT 1];
+        List<Case> objCase = [Select Id,OwnerId,AssetId From Case WHERE LAN__c = 'ABJAI1234' LIMIT 1];
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
         ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JAI' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
- 		system.runAs(usr)
+        system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
