@@ -124,7 +124,7 @@ public class ABHFL_AmmortizationMultiLanTest {
     static void testRun(){
             ABHFL_AmmortizationMultiLanIntegration ammStp = new ABHFL_AmmortizationMultiLanIntegration();
             Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c, Asset.Lan__c from Case limit 1];
-            ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c);
+            ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c, caseRecord);
             ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
             ASF_IntegrationsController.IntegrationWrapper integrationResponse = ammStp.run(integRecord,caseRecord);
             System.assertEquals('Success',integrationResponse.Status);
