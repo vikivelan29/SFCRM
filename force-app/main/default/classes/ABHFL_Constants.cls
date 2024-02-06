@@ -9,6 +9,8 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
+//NDC Subtype
+	public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
 
    //Generic Constants
     public static final String SUCCESS = 'Success';

@@ -37,11 +37,13 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
                     List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                   WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                    if(cccRecord.size() > 0){
+                    	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                             cccRecord[0].Rejected_Case_Email_Template__c, 
                                                                                                                             cccRecord[0].Rejected_Case_SMS_Metadata__c,
                                                                                                                             false);
+                    }
                     //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
                     update caseRecord;
@@ -124,11 +126,13 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             if(isTransferred){
                 integrationFailure = false;
                 List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                if(cccRecord.size() > 0){
+                	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                         cccRecord[0].Resolved_Case_Email_Template__c, 
                                                                                                                         cccRecord[0].Resolved_Case_SMS_Metadata__c, 
-                                                                                                                        isTransferred);
+                                                                                                                        isTransferred);           
+                }
                 caseRecord.MoveToNext__c = true;
                 update caseRecord;        
             } else {
@@ -143,13 +147,13 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 update caseDetails;  
             }            
         }
-    } 
+            } 
 
     private static void handleFailure(Case caseRecord){
         if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
             if(caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
-                update caseRecord;
+                                update caseRecord;
                 ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,ABHFL_Constants.NDC_STP_NAME,null);
             }
         } else {
