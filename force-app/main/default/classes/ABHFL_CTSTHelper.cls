@@ -73,9 +73,9 @@ public without sharing class ABHFL_CTSTHelper {
 	}
     //Dhinesh
     public static Case assignCaseToBranch(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
 		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
-        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null) {
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch') {
             caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
         }
 
