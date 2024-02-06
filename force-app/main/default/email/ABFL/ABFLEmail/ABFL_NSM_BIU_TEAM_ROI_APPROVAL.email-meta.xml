@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>TDS REFUND DONE Not in Use</name>
+    <name>NSM/ BIU TEAM ROI APPROVAL Not in Use</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>TDS Refund successful!</subject>
+    <subject>Reduction in ROI Approval  {{{Case.Account}}}   {{{Case.LAN__c}}}   {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
