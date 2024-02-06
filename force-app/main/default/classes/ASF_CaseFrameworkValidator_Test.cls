@@ -28,7 +28,7 @@ public class ASF_CaseFrameworkValidator_Test {
          ASF_Case_Rule__c stage1_StageMovement_Rule = new ASF_Case_Rule__c();
 
         stage1_StageMovement_Rule.Case_Stage_Config__c = stageConfigList[0].Id;
-        stage1_StageMovement_Rule.Logical_Condition__c = '1 AND 2 AND 3 AND 4 AND 7 AND 8 AND 9 AND (5 OR 6)';
+        stage1_StageMovement_Rule.Logical_Condition__c = '1 AND 2 AND 3 AND 4 AND 7 AND 8 AND (5 OR 6)';
         stage1_StageMovement_Rule.Order__c = 1;
         stage1_StageMovement_Rule.Type__c = 'Approval';
         
@@ -181,20 +181,20 @@ public class ASF_CaseFrameworkValidator_Test {
     private static void evaluateCaseRuleTest2() {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){
-        Id caseRuleId = [select id from ASF_Case_Rule__c where Type__c = 'Approval' and Logical_Condition__c = '1 AND 2 AND 3 AND 4 AND 7 AND 8 AND 9 AND (5 OR 6)' LIMIT 1].Id;
+        Id caseRuleId = [select id from ASF_Case_Rule__c where Type__c = 'Approval' and Logical_Condition__c = '1 AND 2 AND 3 AND 4 AND 7 AND 8 AND (5 OR 6)' LIMIT 1].Id;
         
         List<ASF_Case_Rule_Entry__c> caseRuleEntryList = [Select Id, Number__c, Case_Rule__c, Field_Api_Name__c, Operator__c, Data_Type__c, 
                                                           Value__c, External_ID__c from ASF_Case_Rule_Entry__c where Case_Rule__c =: caseRuleId];
         
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, PAY_Payment_Detail__c, PAY_Payment_Detail__r.Payment_mode__c,
-                           SLA_Target_1__c, CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c, Reopen_Days__c,Reopened__c from case LIMIT 1];  
+                           SLA_Target_1__c, CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c, Reopen_Days__c,Reopened__c, ABHFL_Case_Detail__c from case LIMIT 1];  
         
         PAY_Payment_Detail__c paymentRec = [select Id, Payment_mode__c from PAY_Payment_Detail__c LIMIT 1];
         caseRecord.PAY_Payment_Detail__c = paymentRec.Id;
         update caseRecord;
         
         Test.startTest();
-        Boolean evaluationResult = ASF_CaseFrameworkValidator.evaluateCaseRule('1 AND 2 AND 3 AND 4 AND 7 AND 8 AND 9 AND (5 OR 6)', caseRuleEntryList, caseRecord);
+        Boolean evaluationResult = ASF_CaseFrameworkValidator.evaluateCaseRule('1 AND 2 AND 3 AND 4 AND 7 AND 8 AND (5 OR 6)', caseRuleEntryList, caseRecord);
         Test.stopTest();
         Assert.areNotEqual(evaluationResult, true);
         //}    
