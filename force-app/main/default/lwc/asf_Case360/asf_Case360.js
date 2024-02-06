@@ -274,6 +274,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         currentStageConfig = currentStageConfig[0];
         return currentStageConfig.Order__c == 1;
     }
+    get isCaseAtReopenStage(){
+        return this.caseObj.Stage__c == 'Reopened';
+    }
+    get isReopenWithoutMovement(){
+        return this.caseObj.Reopen_Style__c == 'Reopen Stage No Movement';
+    }
     get hasManualStagesForward() {
         let currentStageConfig = this.stagesData.filter((item, index) => {
             return item.StageName__c == this.caseObj.Stage__c;
@@ -323,7 +329,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Case is not pending for approval
         // * Case is not at first stage
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage
+            && (!this.isCaseAtReopenStage
+            || (this.isCaseAtReopenStage && !this.isReopenWithoutMovement));
     }
 
     get showSaveButton() {
@@ -334,6 +342,17 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
             && this.isCurrentUserOwner && !this.isPendingForApproval;
+    }
+
+    get showMoveToNextButton() {
+        // * Case is not rejected - isRejection = false
+        // * Current user is owner - isCurrentUserOwner = true
+        // * Case is not in Closed state
+        // * User clicked on Edit Details button
+        // * Case is not pending for approval
+        // * Not in Reopen stage
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtReopenStage;
     }
 
     get showForwardToStageButton() {
