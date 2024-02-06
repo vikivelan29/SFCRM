@@ -31,6 +31,10 @@ public class ABFL_BRE_APIImplementation_Test {
         Test.stopTest();
         System.runAs(userRecord1) {
             List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
+            decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
+            thresholdController.Customer_Email_buffer_hours__c=56;
+            update thresholdController;
 
             List<ASF_Case_Category_Config__c> caseCat =  ABFL_TestDataFactory.createCaseCategoryConfig(true);
     
@@ -44,11 +48,24 @@ public class ABFL_BRE_APIImplementation_Test {
     		caseDetList[0].From_Date__c = Date.Today();
 			caseDetList[0].To_Date__c = Date.Today()+1;
             update caseDetList;
-            List<Case> cases = ABFL_TestDataFactory.createCaseRecords(1, caseDetList[0].Id, true);
+
+            Asset assetObj = new Asset();
+            assetObj.Name = 'LAN-145';
+            assetObj.LAN__c = 'LAN-145';
+            assetObj.AccountId = acc.Id;
+            assetObj.Business_Unit__c ='ABFL';
+            insert assetObj;
+
+            // List<Case> cases = ABFL_TestDataFactory.createCaseRecords(1, caseDetList[0].Id, true);
+            List<Case> cases = ASF_TestDataFactory.createCaseRecords(1);
             
             Case c = cases.get(0);
             c.ownerid = userInfo.getuserId();
             c.AccountId = acc.ID;
+            c.LAN__c = 'LAN-145';
+            c.AssetId = assetObj.Id;
+            c.Source__c = ABFL_Constants.RM_NO_EMAIL;
+            c.ABFL_Case_Detail__c = caseDetList[0].Id;
             update c;
         }
 
@@ -75,7 +92,7 @@ public class ABFL_BRE_APIImplementation_Test {
             AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
         ];
         caseIntRec.Status__c = 'Success';
-        caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
+        caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         System.debug('@@@'+Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable());
         Test.stopTest();
@@ -110,7 +127,7 @@ public class ABFL_BRE_APIImplementation_Test {
             AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
         ];
         caseIntRec.Status__c = 'Success';
-        caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
+        caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
@@ -144,7 +161,7 @@ public class ABFL_BRE_APIImplementation_Test {
             AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
         ];
         caseIntRec.Status__c = 'Success';
-        caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
+        caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
@@ -210,7 +227,7 @@ public class ABFL_BRE_APIImplementation_Test {
             AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
         ];
         caseIntRec.Status__c = 'Success';
-        caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
+        caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
@@ -243,7 +260,7 @@ public class ABFL_BRE_APIImplementation_Test {
             AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
         ];
         caseIntRec.Status__c = 'Success';
-        caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
+        caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\", \"STPDescription\":\"STPDescription\", \"DocumentURL\":\"DocumentURL\"}';
         update caseIntRec;
         Test.stopTest();
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];

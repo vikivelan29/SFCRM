@@ -179,6 +179,7 @@ public class ABFL_TestDataFactory {
         prePopInt1.Processing_Class__c = processingClass;
         prePopInt1.STP_API_Identifier__c = stpAPIIdentifier;
         prePopInt1.Display_Name__c = 'Fetch Field';
+        prePopInt1.STP_Template__c = 'ABFL_FIRST_TAT_COMMUNICATION_DIGITAL';
 
         intConfigList.add(prePopInt1);
         if(isCreate) {
@@ -251,7 +252,7 @@ public class ABFL_TestDataFactory {
         for(Integer i=0;i<noOfCase;i++){
             
             Case newCase = new Case(Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator',
-                                SLA_Target_1__c = 'test'+i+'@salesforce.com' );
+            SLA_Target_1__c = 'test'+i+'@salesforce.com', CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
             newCase.Stage_SLA_1__c = System.now();
             newCase.Stage_SLA_2__c = System.now()+1;
             newCase.Stage_SLA_3__c = System.now()+2;
