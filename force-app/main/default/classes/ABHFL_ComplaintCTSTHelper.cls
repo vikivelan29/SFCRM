@@ -14,25 +14,33 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
     *****************************************************************************************************************/
     public static void sendAcknowledgement(Case caseRec){
     	Id caseId = caseRec.Id; 
-    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c,No_Auto_Communication__c,Short_URL__c
                        FROM Case WHERE Id = :caseId WITH SECURITY_ENFORCED];
-		
+
     	ASF_Case_Category_Config__c ccc = [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED LIMIT 1];
-        List<String> emailTemplates = (ccc.New_Case_Email_Template__c).split(',');
-        List<String> smsMetadata = (ccc.New_Case_SMS_Metadata__c).split(',');
-        if(caseRecord.Short_URL__c == NULL){
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                  emailTemplates[1], 
-                                                                  smsMetadata[1], 
-                                                                  false);
-        }else{
-			ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                  emailTemplates[0], 
-                                                                  smsMetadata[0], 
-                                                                  false);
+        List<String> emailTemplates = new List<String>();
+        List<String> smsMetadata = new List<String>();
+        if(String.isNotBlank(ccc.New_Case_Email_Template__c)){
+    		emailTemplates = (ccc.New_Case_Email_Template__c).split(',');            
         }
-    	
+        if(String.isNotBlank(ccc.New_Case_SMS_Metadata__c)){
+    		smsMetadata = (ccc.New_Case_SMS_Metadata__c).split(',');            
+        }
+        if(emailTemplates.size() > 0 && smsMetadata.size() > 0){
+            if(caseRecord.Short_URL__c == NULL){
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                      emailTemplates[1], 
+                                                                      smsMetadata[1], 
+                                                                      false);
+            }else{
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                      emailTemplates[0], 
+                                                                      smsMetadata[0], 
+                                                                      false);
+            }            
+        }
+
 	}
      /****************************************************************************************************************
     * @LOB - ABHFL

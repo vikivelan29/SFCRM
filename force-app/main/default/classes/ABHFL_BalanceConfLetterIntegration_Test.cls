@@ -50,6 +50,19 @@ public class ABHFL_BalanceConfLetterIntegration_Test {
         docLink.ContentDocumentId = conVersion.ContentDocumentId;
         docLink.ShareType = 'V';
         INSERT docLink;
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        SLA_Threshold_Warning__c slaThreshold = SLA_Threshold_Warning__c.getOrgDefaults();
+        slaThreshold.Stage_SLA_Threshold_1__c = .5;
+        slaThreshold.Stage_SLA_Threshold_2__c = .75;
+        slaThreshold.Stage_SLA_Threshold_3__c = 1;
+        slaThreshold.Case_SLA_Threshold_1_Label__c = '50%';
+        slaThreshold.Case_SLA_Threshold_2_Label__c = '75%';
+        slaThreshold.Case_SLA_Threshold_3_Label__c = '100%';
+        slaThreshold.Case_SLA_Threshold_1__c = .5;
+        slaThreshold.Case_SLA_Threshold_2__c = .75;
+        slaThreshold.Case_SLA_Threshold_3__c = 1;
+        upsert slaThreshold SLA_Threshold_Warning__c.Id;
     }
     @IsTest
     static void testEvaluate(){
@@ -87,7 +100,7 @@ public class ABHFL_BalanceConfLetterIntegration_Test {
         
         bclI.processResponse(integRecord);
         Case caseRec = [Select id,Stage__c,ownerId,CreatedById,MoveToNext__c  from Case where id =: integRecord.Case__c ];
-        System.assertEquals('Resolved',caseRec.Stage__c);
+        System.assertEquals('In Progress with Recovery',caseRec.Stage__c);
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: integRecord.Id limit 1];
         DELETE conDoc;
         
