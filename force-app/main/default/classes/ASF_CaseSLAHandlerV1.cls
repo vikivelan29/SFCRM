@@ -624,7 +624,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             if(String.valueOf(owner).startsWith('005')){
                 wrapper.ownerType = 'User';
                 String emailid = userIdToEmailMap.get(c.ownerId);
-                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(owner);
+                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailid);
                 wrapper.ownerUserRecordorQueueOwnerEmailUserRecord =  userEmailMangerMap.get(emailId);     
             }
             else {
