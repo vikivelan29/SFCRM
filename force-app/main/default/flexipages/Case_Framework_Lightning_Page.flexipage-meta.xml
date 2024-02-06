@@ -178,21 +178,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <!--
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Multiple_Child_Details__c}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Payments</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        -->
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -225,22 +210,12 @@
                         <valueListItems>
                             <value>Case.Framework_Snapshot</value>
                         </valueListItems>
-                        <!--
-                        <valueListItems>
-                            <value>Case.Is_FTR</value>
-                        </valueListItems>
-                        -->
                         <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
                         </valueListItems>
-                        <!--
-                        <valueListItems>
-                            <value>Case.Test_Update</value>
-                        </valueListItems>
-                        -->
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -348,36 +323,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-f2b3bba9-1a03-40d9-b26c-ef8a17b47364</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>CaseComments</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ahv3wjwx2i</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -502,20 +447,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ahv3wjwx2i</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Case Comments</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab8</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-5da13f5c-be3d-4cca-bff7-a65600190b93</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -576,26 +507,6 @@
             <componentInstance>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsClosed}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_caseClosureMileStoneNotClosed</componentName>
-                <identifier>c_aSF_caseClosureMileStoneNotClosed</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsClosed}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -614,14 +525,6 @@
                 <identifier>forceChatter_recordFeedContainer2</identifier>
             </componentInstance>
         </itemInstances>
-        <!--
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments2</identifier>
-            </componentInstance>
-        </itemInstances>
-        -->
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
@@ -713,6 +616,32 @@
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>CaseComments</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

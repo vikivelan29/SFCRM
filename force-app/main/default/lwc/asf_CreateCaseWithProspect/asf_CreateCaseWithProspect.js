@@ -314,6 +314,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
         if (!this.isInputValid()) {
             // Stay on same page if lightning-text field is required and is not populated with any value.
+            this.disableCreateBtn = false;
             return;
         }
         var selected = this.selectedCTSTRecord;

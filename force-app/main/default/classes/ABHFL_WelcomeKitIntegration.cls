@@ -168,6 +168,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             }
             ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Welcome Kit', 'STP Document Retrieval Failure');
         }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     
     private void handleTransferSuccess(Case caseRec){
@@ -194,7 +195,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         caseRec.OwnerId = csQueue.Id;
         if(Schema.sObjectType.Case.isUpdateable())
         {
-          	update caseRec;    
+          	update caseRec; 
         }
     }
     

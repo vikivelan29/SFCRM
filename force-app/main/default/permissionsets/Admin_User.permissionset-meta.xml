@@ -31,6 +31,136 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Case_Categorisation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Case_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Partner_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Date_of_Transaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Mode_of_Payment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reference_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Reason_of_Excess_Refund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Customer_claim_status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Customer_demand_VOC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Call_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_recommended_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.IO_views__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Voice_of_Customer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Primary_Erring_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Secondary_Erring_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_People__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_Process__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Gap_IT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Financial_Impact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Action_Taken__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Grievance_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Retention_Outcome__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.SL_LA_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Approval_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -283,11 +413,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Segment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABFL_Case_Detail__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2666,6 +2791,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Integration__c.STP_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Integration__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2941,7 +3071,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.AmmortApiStatus__c</field>
+        <field>ABHFL_Asset_Detail__c.AmmortApiStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3601,117 +3731,162 @@
     </fieldPermissions>
 <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Account_Status__c</field>
+        <field>ABHFL_Asset_Detail__c.Account_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.AmmortApiStatus__c</field>
+        <field>ABHFL_Asset_Detail__c.AmmortApiStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Amount_Overdue__c</field>
+        <field>ABHFL_Asset_Detail__c.Amount_Overdue__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Bounce__c</field>
+        <field>ABHFL_Asset_Detail__c.Bounce__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset_Detail__c.Business_Unit__c</field>
+        <field>ABHFL_Asset_Detail__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Case__c</field>
+        <field>ABHFL_Asset_Detail__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Constitution__c</field>
+        <field>ABHFL_Asset_Detail__c.Constitution__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Current_Balance__c</field>
+        <field>ABHFL_Asset_Detail__c.Current_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Fixed_Period__c</field>
+        <field>ABHFL_Asset_Detail__c.Fixed_Period__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Impact__c</field>
+        <field>ABHFL_Asset_Detail__c.Impact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Interest_Rate__c</field>
+        <field>ABHFL_Asset_Detail__c.Interest_Rate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Is_NACH__c</field>
+        <field>ABHFL_Asset_Detail__c.Is_NACH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Is_PDD__c</field>
+        <field>ABHFL_Asset_Detail__c.Is_PDD__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Is_Restructured__c</field>
+        <field>ABHFL_Asset_Detail__c.Is_Restructured__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.LAN__c</field>
+        <field>ABHFL_Asset_Detail__c.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Last_Repricing_Date__c</field>
+        <field>ABHFL_Asset_Detail__c.Last_Repricing_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Loan_Status__c</field>
+        <field>ABHFL_Asset_Detail__c.Loan_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.MOB__c</field>
+        <field>ABHFL_Asset_Detail__c.MOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Product__c</field>
+        <field>ABHFL_Asset_Detail__c.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Revised_ROI__c</field>
+        <field>ABHFL_Asset_Detail__c.Revised_ROI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.Type__c</field>
+        <field>ABHFL_Asset_Detail__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset_Detail__c.VAN__c</field>
+        <field>ABHFL_Asset_Detail__c.VAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Offered_ROI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Product_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Branch_Master__c.Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+ <fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Region__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Contact_Person__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Source_Modified_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>Branch_Master__c.Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5568,7 +5743,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Asset_Detail__c</object>
+        <object>ABHFL_Asset_Detail__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

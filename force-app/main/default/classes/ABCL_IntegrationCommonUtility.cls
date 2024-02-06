@@ -145,4 +145,51 @@ public with sharing class ABCL_IntegrationCommonUtility {
         currNotification.setTargetId(caseRec.Id);                    
         currNotification.send(recepientIds);                 
     }    
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - updateErrorMessage
+    * @param caseIntegration - Case Integration record.
+    * @description - Processes STP Response and Updated Error Message
+    *****************************************************************************************************************/
+    public static void updateErrorMessage(ASF_Case_Integration__c caseIntegration){
+        try{
+            ASF_Case_Integration__c  caseInt = [Select id,Error_Message__c,Request__c from ASF_Case_Integration__c where id =: caseIntegration.Id  limit 1];
+            string eventName = '';
+            if(String.isNotBlank(caseInt.Request__c)){
+                Case_Integration_Outbound__e intEvent = (Case_Integration_Outbound__e)JSON.deserialize(caseInt.Request__c,Case_Integration_Outbound__e.class);
+                eventName = intEvent.Integration_Name__c;
+            }
+            if(eventName == 'Sanction Letter'){
+                reportingResponseWrapper response = (reportingResponseWrapper)JSON.deserialize(caseIntegration.Response__c,reportingResponseWrapper.class);
+                if(response != null && response.returnCode != null && response.returnMessage != null && caseInt.Error_Message__c == null && response.returnCode != '1' ){
+                    if(response.returnCode != '1'){
+                        caseInt.Error_Message__c = response.returnMessage;
+                        update caseInt;
+                    }
+                }
+            }else {
+                stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
+                if(response != null && response.operationStatus != null && response.operationMessage != null && caseInt.Error_Message__c == null && response.operationStatus != '1' ){
+                    if(response.operationStatus == '0'){
+                        caseInt.Error_Message__c = response.operationMessage;
+                        update caseInt;
+                    }
+                }
+            }
+        }catch(exception e){}
+
+    }
+
+    public class stpResponseWrapper{
+        public string operationStatus;
+        public string operationMessage;
+        public string binaryDataList;
+        public string caseId;
+        public string reportPath;
+    }
+
+    public class reportingResponseWrapper{
+        public string returnCode;
+        public string returnMessage;
+    }
 }

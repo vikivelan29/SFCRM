@@ -30,6 +30,8 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     }
     
     handleFilesChange(event){
+        this.template.querySelector('lightning-input').disabled=true;
+        this.template.querySelector('.slds-button_neutral').disabled=true;
         const file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = () => {
@@ -44,6 +46,9 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
                 'extension' : extension
             };
             console.log(this.fileData);
+            if(this.fileData){
+                this.saveFileToLanHandler();
+            }
         }
         reader.readAsDataURL(file);
     }

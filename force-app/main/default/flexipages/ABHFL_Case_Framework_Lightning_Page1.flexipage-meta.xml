@@ -174,20 +174,33 @@
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_MultiplePayments</componentName>
+                <identifier>c_abhfl_MultiplePayments</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.AmIOwner__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Multiple_Child_Details__c}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Payments</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>abhfl_MultiplePayments</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentName>abhfl_MultipleLan</componentName>
-                <identifier>abhfl_MultipleLan</identifier>
+                <identifier>c_abhfl_MultipleLan</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

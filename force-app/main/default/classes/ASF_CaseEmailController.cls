@@ -111,7 +111,6 @@ public class ASF_CaseEmailController {
                 }
             }
         }
-
         if(!dynamicFieldsToReplace.isEmpty() || !subQueriesToReplace.isEmpty()){
             resultMap = getDynamicFields(dynamicFieldsToReplace, subQueriesToReplace, caseObjectId,objectschemas, dateFormat);
             resultMap.put('Today',Date.today().format());
@@ -235,6 +234,8 @@ public class ASF_CaseEmailController {
         }
         return resultMap;
     } 
+
+
 
     private static String buildDynamicSOQL(String sObjectType, List<String> fieldsToQuerUiqueList, Id recordId) {
         return 'Select Id, ' + String.join(fieldsToQuerUiqueList,',') + ' From ' + sobjectType +' Where Id =:recordId1';

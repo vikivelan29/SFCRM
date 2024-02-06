@@ -5,6 +5,7 @@
     <name>Complaint Case Closure</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Aditya Birla Housing Finance Limited- Resolution provided for {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

@@ -73,9 +73,9 @@ public without sharing class ABHFL_CTSTHelper {
 	}
     //Dhinesh
     public static Case assignCaseToBranch(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,AssetId FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
 		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
-        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null) {
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch') {
             caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
         }
 
@@ -93,10 +93,21 @@ public without sharing class ABHFL_CTSTHelper {
         return caseRec;
     }
     
+    //Dhinesh - Used for assigning case to AOM/ROM
+    public static Case assignCaseToAOMROM(Case caseRecord){
+        Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        if (prefBranch.ROM_AOM__c != null) {
+            caseRec.OwnerId = prefBranch.ROM_AOM__c;
+        }
+        return caseRec;
+    }
+    
     //Dhinesh
     public static Boolean validatePayments(Case caseRecord) {
         Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
-		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id];
+		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id WITH SECURITY_ENFORCED];
 		// Check if every payment record has Realization_Status__c equal to 'Cleared'
         for (ABHFL_Payment__c payment : payments) {
             if (payment.Realization_Status__c != 'Cleared') {
@@ -146,8 +157,23 @@ public without sharing class ABHFL_CTSTHelper {
         }    
     }
     
-    
-
+    //Dhinesh - 1/30 Payment Received email from stage specific.
+    public static void sendEmailPaymentReceived(Case caseRecord){
+        List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        Boolean paymentRecieved = false;
+    	List<ABHFL_Payment__c> casePayments = [SELECT Id,Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c =: caseRecord.Id];
+    	for(ABHFL_Payment__c pay : casePayments){
+            if(pay.Realization_Status__c == 'Cleared'){
+                paymentRecieved = true;
+            }
+        }
+        if(paymentRecieved && validSubTypes.contains(queriedCase.CCC_External_Id__c)){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PAYMENT_RECEIVED_TEMPLATE, 
+                                                                ABHFL_Constants.PAYMENT_RECEIVED_SMS, False);
+        }
+    }
     public static void executeSpecificIntegrations(List<Case> newCases){
         Set<String> c3ExternalIds = new Set<String>();
         Map<String, List<ASF_Integration__c>> uiCardIntegrationMap = new Map<String, List<ASF_Integration__c>>();
@@ -173,7 +199,79 @@ public without sharing class ABHFL_CTSTHelper {
             }
         }
     }
-
+    //Dhinesh - to Send Tracking Links
+    public static void sendTrackingLink(Case caseRec){
+        List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        Id caseId = caseRec.Id; 
+    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+                       FROM Case WHERE Id = :caseId];
+        if(caseRecord.Short_URL__c != NULL && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  NULL, 
+                                                                  ABHFL_Constants.TRACKING_LINK_SMS, 
+                                                                  false);
+        }
+    }
+    //Dhinesh - to store multi lan in a field and send payment confirmation mail
+    public static void storeMultipleLANs(Case caseRec){
+        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+                       FROM Case WHERE Id = :caseRec.Id];
+        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
+                                                   FROM ABHFL_Asset_Detail__c
+                                                   WHERE Case__c=:caseRec.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c,Payment_Status__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        String result = '';
+		for (Integer i = 0; i < relatedAssets.size(); i++) {
+    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+        	if (i == relatedAssets.size() - 1) {
+        		// Last iteration, use 'and'
+        		 result += ' and ' + maskedLan;
+    		} else {
+        	// Other iterations, use comma if not the first iteration
+        		if (i > 0) {
+            		result += ', ';
+        		}
+        	result += maskedLan;
+    		}
+		}
+		caseDetail.Masked_Full_LANs__c = result;
+        update caseDetail;
+        if(caseDetail.Masked_Full_LANs__c != NULL && caseDetail.Payment_Status__c == 'Payment Received'){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_EMAIL, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_SMS, 
+                                                                  false);
+        }
+     
+    }
+    public static void sendPrclsStatementclosure(Case caseRec){
+        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,ABHFL_Case_Detail__c
+                       FROM Case WHERE Id = :caseRec.Id];
+        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
+                                                   FROM ABHFL_Asset_Detail__c
+                                                   WHERE Case__c=:caseRec.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRecord.ABHFL_Case_Detail__c LIMIT 1];
+        String result = '';
+		for (Integer i = 0; i < relatedAssets.size(); i++) {
+    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+        	if (i == relatedAssets.size() - 1) {
+        		 result += ' and ' + maskedLan;
+    		} else {
+        		if (i > 0) {
+            		result += ', ';
+        		}
+        	result += maskedLan;
+    		}
+		}
+		caseDetail.Masked_Full_LANs__c = result;
+        update caseDetail;
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL, 
+                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS, 
+                                                                  true);
+    }
     public void prePopulateFields(List<Case> newCaseList) {
 
         prePopulateABHFL_Case_Detail_Fields(newCaseList);
@@ -237,8 +335,52 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
 
+    public void populateFieldsInAfterContext(List<Case> newCaseList) {
+        populateFieldsOfABHFL_CaseDetail(newCaseList);
+    }
+
+    public void populateFieldsOfABHFL_CaseDetail(List<Case> newCaseList) {
+        
+        List<String> caseDetIdList = new List<String>();
+        List<ABHFL_Case_Detail__c> caseDetListToUpdate = new List<ABHFL_Case_Detail__c>();
+
+        for(Case cs : newCaseList) {
+
+            String technicalSource = cs.Technical_Source__c;
+            String businessUnt = cs.Business_Unit__c;
+            String csDetId = cs.ABHFL_Case_Detail__c;
+
+            if(technicalSource == 'API' && businessUnt == 'ABHFL') {
+                if(String.isNotBlank(csDetId)) {
+                    caseDetIdList.add(csDetId);
+                }
+            }
+        }
+
+        List<ABHFL_Case_Detail__c> csDetList = [SELECT From_Year__c, To_Year__c, Financial_Year__c
+                                                FROM ABHFL_Case_Detail__c
+                                                WHERE id in :caseDetIdList];
+        
+        for(ABHFL_Case_Detail__c csDet : csDetList) {
+
+            String fromYr = csDet.From_Year__c;
+            String toYr   = csDet.To_Year__c;
+
+            if(String.isNotBlank(fromYr) && String.isNotBlank(toYr)) {
+                String lastTwoDigitOfToYr = toYr.right(2);
+                csDet.Financial_Year__c = fromYr + '-' + lastTwoDigitOfToYr;
+                caseDetListToUpdate.add(csDet);
+            }
+        }
+
+        if(caseDetListToUpdate.size() > 0) {
+            update caseDetListToUpdate;
+        }
+
+    }
+
     public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
-        Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
+Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
         Case caseRecord = new Case();
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
@@ -251,7 +393,7 @@ public without sharing class ABHFL_CTSTHelper {
     }
     
     public static void insertCases(List<Case> caseList) {
-	ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
+ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }

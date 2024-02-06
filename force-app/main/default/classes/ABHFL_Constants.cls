@@ -9,8 +9,10 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
-
-   //Generic Constants
+	//NDC Subtype
+	public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
+	   
+    //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
@@ -38,6 +40,8 @@ public with sharing class ABHFL_Constants {
     public static final String OPEN = 'Open';
     public static final String CHANNEL_ID = 'CHA1002';
     public static final String ODP_ALERTS = 'ODP_Alerts';
+    public static final String SEND_LEAD_TO_CRM = 'Send_Lead_To_CRM';
+    
     
     
     
@@ -56,6 +60,7 @@ public with sharing class ABHFL_Constants {
     public static final String PAYMENTLINK_INTEGRATION_METADATA = 'Payment_Link';
     public static final String PAYTMLINK_INTEGRATION_METADATA = 'Paytm_Link';
     public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
+    public static final String COMPLAINT_INVESTIGATION_INTEGRATION_METADATA = 'Complaint_investigation_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
     public static final String REPORTING_SERVICE = 'ReportingService';
@@ -65,12 +70,22 @@ public with sharing class ABHFL_Constants {
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
     public static final String PAYMENT_BOUNCE_TEMPLATE = 'Payment_Bounced_1705034284521';
-    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_detail_1705035027022';
+    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_details_1705034679464';
     public static final String PAYMENT_BOUNCE_SMS = 'ABHFL_Payment_Bounce';
     public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
     public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
     public static final String SHORTFALL_SMS = 'ABHFL_Shortfall_Amount_Part_Payment';
-    
+    public static final String PAYMENT_RECEIVED_TEMPLATE = 'Payment_Received_Successfully_1705035361551';
+    public static final String PAYMENT_RECEIVED_SMS = 'ABHFL_Payment_Received_Successfully';
+    public static final String TRACKING_LINK_SMS = 'ABHFL_Stage_Mvmnt_Tracking_Link';
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_SMS = 'ABHFL_MultiLAN_Payment_Received';
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_EMAIL = 'Payment_acceptance_email_MultiLAN_VF';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_EMAIL ='Informing_customer_that_ROI_is_revised_Partailly_disbursed_loan_1706087796320';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_SMS ='ABHFL_ROI_revision_partially_disbursed';
+    public static final String MULTIPLELAN_AMORT_FULL_EMAIL ='Informing_customer_that_ROI_is_revised_Fully_disbursed_loan_1706090167218';
+    public static final String MULTIPLELAN_AMORT_FULL_SMS ='ABHFL_ROI_revision_fully_disbursed';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL ='Foreclosure_letter_MultiLAN';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
 
 
     // Constants for REKYC 

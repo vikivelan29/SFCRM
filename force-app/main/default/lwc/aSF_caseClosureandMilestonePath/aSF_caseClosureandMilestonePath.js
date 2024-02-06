@@ -56,7 +56,7 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
                 
                 clearInterval(this.timerId);
                 
-                if(data?.businessHourWorking){
+                if(data.businessHourWorking && data.isClosed == false){
                     this.start();
                 }else{
                     if(this.totalLeftMilliseconds >= 1000){
@@ -81,7 +81,7 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
                 }
                 
                 clearInterval(this.timerId1);
-                if(data.businessHourWorking){
+                if(data.businessHourWorking && data.isClosed == false){
                     this.start1();
                 }else{
                     if(this.totalLeftMilliseconds1 >= 1000){

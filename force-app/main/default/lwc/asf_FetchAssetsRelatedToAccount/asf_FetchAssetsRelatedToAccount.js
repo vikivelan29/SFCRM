@@ -15,6 +15,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     @track columns = [];
     @track assetRecords;
     @track infoObject = {};
+    @track currentSelRecord = {};
 
     isRenderDatatable = false;
     fieldMappingForCase;
@@ -80,10 +81,16 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     onSelectedRow(event) {
 
         event.preventDefault();
+
+        let currentSelectedRec;
         let checkboxAction = event.detail.config.action;
         let selectedRows=event.detail.selectedRows;
         let currentSelectedRow = event.detail.config.value;
-        let currentSelectedRec;
+
+        let getRowNo = Number(currentSelectedRow.split("-")[1]);
+        let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
+        currentSelectedRec = this.assetRecords[selectedRowNo];
+        this.currentSelRecord = currentSelectedRec;
 
         if(checkboxAction == "rowSelect") {
             this.infoObject.isAsset = "true";
@@ -109,9 +116,6 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
 
         this.selectSingleCheckboxLogix(selectedRows, currentSelectedRow);
 
-        let selectedRowNo = currentSelectedRow.split("-")[1];
-        currentSelectedRec = this.assetRecords[selectedRowNo];
-
         if(currentSelectedRec){
             this.setFieldMaapingOnCase(currentSelectedRec);
         }
@@ -119,8 +123,10 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
 
     // Method Description - Deselect all checkbox from lightning datatable
     deselectAllCheckboxes() {
-        let dataTableRecords = this.template.querySelector('lightning-datatable');
-        dataTableRecords.selectedRows = [];
+       let dataTableRecords = this.template.querySelector('lightning-datatable');
+       if(dataTableRecords) {
+           dataTableRecords.selectedRows = [];
+       }
     }
 
     // Method Description - Preparing Object that will contain key(Asset Field Api Name) value(Case Field Api Name) pair
@@ -161,21 +167,29 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     previousPage() {
         this.pageNumber = this.pageNumber - 1;
         this.paginationHelper();
+        this.deselectAllCheckboxesOnNext();
+        
     }
 
     nextPage() {
         this.pageNumber = this.pageNumber + 1;
         this.paginationHelper();
+        this.deselectAllCheckboxesOnNext();
+        
     }
 
     firstPage() {
         this.pageNumber = 1;
         this.paginationHelper();
+        this.deselectAllCheckboxesOnNext();
+        
     }
 
     lastPage() {
         this.pageNumber = this.totalPages;
         this.paginationHelper();
+        this.deselectAllCheckboxesOnNext();
+        
     }
 
     // JS function to handel pagination logic 
@@ -189,12 +203,20 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         } else if (this.pageNumber >= this.totalPages) {
             this.pageNumber = this.totalPages;
         }
-        // set records to display on current page 
+        
         for (let i = (this.pageNumber - 1) * this.pageSize; i < this.pageNumber * this.pageSize; i++) {
             if (i === this.totalNoOfRecordsInDatatable) {
                 break;
             }
             this.recordsToDisplay.push(this.assetRecords[i]);
+        }
+    }
+
+    deselectAllCheckboxesOnNext() {
+      
+        let isCurrRecExistInRecordsToDisplay = this.recordsToDisplay.filter(rec => rec.Id == this.currentSelRecord.Id);
+        if(isCurrRecExistInRecordsToDisplay.length == 0) {
+            this.deselectAllCheckboxes();   
         }
     }
 
