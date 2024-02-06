@@ -21,7 +21,10 @@ public class ASF_CaseHistoryPercentageCalc {
         System.debug('@@@firstThreshold '+firstThreshold+' '+secondThreshold);
         System.debug('@@@firstThreshold2 '+thresholdController.Customer_Email_buffer_hours__c);
         long slaIdentifier = 3600000;
-        long bufferDays = Integer.valueOf(thresholdController.Customer_Email_buffer_hours__c) * slaIdentifier;
+        long bufferDays = 0;
+        if(thresholdController.Customer_Email_buffer_hours__c != null && thresholdController.Customer_Email_buffer_hours__c >0){
+            bufferDays = Integer.valueOf(thresholdController.Customer_Email_buffer_hours__c) * slaIdentifier;
+        }
         setFieldValue(slaInMilliSec,bh,startTime,c,firstThreshold,secondThreshold,thirdThreshold,'Case_SLA_Threshold_1__c','Case_SLA_Threshold_2__c','Case_SLA_Threshold_3__c', bufferDays);
     }
     public void setStagePercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
