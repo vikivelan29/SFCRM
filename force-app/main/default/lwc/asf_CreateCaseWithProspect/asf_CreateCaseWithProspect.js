@@ -396,7 +396,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                this.showError('error', 'Oops! Error occured', error);
+                //this.showError('error', 'Oops! Error occured', error);
 
                 this.loaded = true;
                 this.isNotSelected = true;
