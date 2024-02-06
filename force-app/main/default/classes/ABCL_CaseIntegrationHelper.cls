@@ -16,6 +16,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
         // Find eligible records
         Set<Id> caseIds = new Set<Id>();
         Set<Id> caseIntegrationIds = new Set<Id>();
+        Set<Id> caseIntIds = new Set<Id>();
         List<ABHFL_Case_Detail__c> caseDetailList = new List<ABHFL_Case_Detail__c>();
         for(ASF_Case_Integration__c recordAfter : (List<ASF_Case_Integration__c>)newItems.values()){
             ASF_Case_Integration__c recordBefore = (ASF_Case_Integration__c)oldItems.get(recordAfter.Id);
@@ -27,6 +28,8 @@ public with sharing class ABCL_CaseIntegrationHelper {
             ){
                 caseIds.add(recordAfter.Case__c);
                 caseIntegrationIds.add(recordAfter.Id);
+            } else if(recordAfter.Status__c == 'Pending' && String.isNotBlank(recordAfter.Case__c) && String.isNotBlank(recordAfter.Response__c)){
+                caseIntIds.add(recordAfter.Id);
             }  
         } 
         system.debug('****caseIntegrationIds:'+caseIntegrationIds);
@@ -52,6 +55,16 @@ public with sharing class ABCL_CaseIntegrationHelper {
                     }  
                 }
             }      
+        }
+        
+        if(caseIntIds.size() > 0){
+            List<ASF_Case_Integration__c> caseIntRecords = [Select id,Response__c from ASF_Case_Integration__c where id in: caseIntIds];
+            for(ASF_Case_Integration__c caseInt : caseIntRecords){
+                caseInt.Acknowledgement__c = caseInt.Response__c;
+                caseInt.Response__c = null;
+            }
+            
+            update caseIntRecords;
         }
     }
 }
