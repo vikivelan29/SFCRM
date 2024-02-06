@@ -120,17 +120,17 @@ public class ASF_CaseFrameworkValidator_Test {
         stage2_Work_RuleEntry7.External_ID__c = 'CRE-Work-CIBIL-OD-010';
         Stage1CREs.add(stage2_Work_RuleEntry7);
         
-        ASF_Case_Rule_Entry__c stage2_Work_RuleEntry8 = new ASF_Case_Rule_Entry__c();
+        /*ASF_Case_Rule_Entry__c stage2_Work_RuleEntry8 = new ASF_Case_Rule_Entry__c();
         stage2_Work_RuleEntry8.Number__c = 9;
         stage2_Work_RuleEntry8.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        //stage2_Work_RuleEntry8.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
+        stage2_Work_RuleEntry8.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
         stage2_Work_RuleEntry8.Operator__c = '=';
         stage2_Work_RuleEntry8.Data_Type__c = 'Decimal';
         stage2_Work_RuleEntry8.Value__c = '10';
         stage2_Work_RuleEntry8.External_ID__c = 'CRE-Work-CIBIL-OD-011';
         Stage1CREs.add(stage2_Work_RuleEntry8);
         
-        /*ASF_Case_Rule_Entry__c stage2_Work_RuleEntry9 = new ASF_Case_Rule_Entry__c();
+        ASF_Case_Rule_Entry__c stage2_Work_RuleEntry9 = new ASF_Case_Rule_Entry__c();
         stage2_Work_RuleEntry9.Number__c = 10;
         stage2_Work_RuleEntry9.Case_Rule__c = stage1_StageMovement_Rule.Id;
         stage2_Work_RuleEntry9.Field_Api_Name__c = 'ABHFL_Case_Detail__r.Part_Payment_Amount__c';
@@ -143,7 +143,7 @@ public class ASF_CaseFrameworkValidator_Test {
         /*ASF_Case_Rule_Entry__c stage2_Work_RuleEntry10 = new ASF_Case_Rule_Entry__c();
         stage2_Work_RuleEntry10.Number__c = 11;
         stage2_Work_RuleEntry10.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        //stage2_Work_RuleEntry10.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
+        stage2_Work_RuleEntry10.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
         stage2_Work_RuleEntry10.Operator__c = '>';
         stage2_Work_RuleEntry10.Data_Type__c = 'Decimal';
         stage2_Work_RuleEntry10.Value__c = '10';
