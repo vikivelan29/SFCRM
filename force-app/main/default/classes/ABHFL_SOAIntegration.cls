@@ -57,7 +57,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             }       
         }
 
-        Case caseRecord = [SELECT Id, caseNumber, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
 
         String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
@@ -68,20 +68,19 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         caseInt.Case__c  = caseRec.Id;
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
         caseInt.Status__c = ABHFL_Constants.PENDING;
-        caseInt.Request__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
+        caseInt.Request__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate));
         caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInt;
         }
 
-        ASF_Case_Integration__c caseInt1 = [Select id, name from ASF_Case_Integration__c where id =: caseInt.Id ];
-       
+        
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt1.Name;
-        caseIntOut.Integration_Name__c  = ABHFL_Constants.SOA_INTEGRATION_NAME;
+        caseIntOut.Case_Integration_ID__c = caseInt.Id;
+        caseIntOut.Integration_Name__c  = integ.Display_Name__c;
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate));
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
             result.status = ABHFL_Constants.SUCCESS;
@@ -165,21 +164,14 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
 *****************************************************************************************************************/
 
     public class SOARequestWrapper{
-
         public string lan;
         public String toDate;
         public String fromDate;
-        public String caseId;
-        public String souce = ABHFL_Constants.SOA_SOURCE;
-        public String requestType = ABHFL_Constants.SOA_REQUEST_TYPE;
-        public String reportName = ABHFL_Constants.SOA_REPORT_NAME;
-        public String documentType = ABHFL_Constants.SOA_DOCUMENT_TYPE;
         
-        SOARequestWrapper(string lanNo, String toDate, String fromDate, String caseId){
+        SOARequestWrapper(string lanNo, String toDate, String fromDate){
             this.lan = lanNo;
             this.toDate = toDate;
             this.fromDate = fromDate;
-            this.caseId = caseId;
         }
     }
 }
