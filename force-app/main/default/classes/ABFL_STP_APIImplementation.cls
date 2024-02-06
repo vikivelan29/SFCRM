@@ -42,7 +42,7 @@ public class ABFL_STP_APIImplementation{
                 performCallout(integRec, caseRecord, filter);
             }
             when 'SOA_Corp'{
-                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => fromDate.format('dd-MMM-yyyy'), 'toDate' => toDate.format('dd-MMM-yyyy') }, 'TRANSACTIONID' => System.now().format('ddMMyyyyhhmmss')};
+                Map<String, Object> filter = new Map<String, Object>{ 'AGREEMENTNO' => caseRecord.LAN__c, 'CBD' => new Map<String, Object>{ 'fromDate' => fromDate.format('dd-MMM-yyyy'), 'toDate' => toDate.format('dd-MMM-yyyy') }, 'TRANSACTIONID' => Long.valueOf(System.now().format('ddMMyyyyhhmmss'))};
                 performCallout(integRec, caseRecord, filter);
             }
              
