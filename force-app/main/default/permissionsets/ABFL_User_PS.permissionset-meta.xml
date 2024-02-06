@@ -218,9 +218,15 @@
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Diputed_Amount__c</field>
         <readable>true</readable>
-    </fieldPermissions><fieldPermissions>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Refund_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Disbursement_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
 <fieldPermissions>
