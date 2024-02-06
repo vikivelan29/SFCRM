@@ -138,7 +138,9 @@ public with sharing class ASF_CloneCaseActionController {
             }
             //Assuming that the relationship field api name would always be same as the relatedTo object api name.
             for(String objectAPIName : extnObjectToQueryMap.keySet()){
-                caseQuery += String.escapeSingleQuotes(objectAPIName)+', ';
+                if(!caseQuery.contains(objectAPIName)){
+                    caseQuery += String.escapeSingleQuotes(objectAPIName)+', ';
+                }
             }
             caseQuery += 'Id FROM Case WHERE Id =:caseId';
 
