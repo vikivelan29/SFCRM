@@ -3,7 +3,7 @@
     <apiVersion>60.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>TDS REFUND DONE VF</name>
+    <name>TDS REFUND DONE</name>
     <style>none</style>
     <type>visualforce</type>
     <uiType>Aloha</uiType>

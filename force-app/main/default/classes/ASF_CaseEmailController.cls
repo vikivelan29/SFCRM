@@ -31,6 +31,10 @@ public class ASF_CaseEmailController {
     * @description - Use for return output/displaying text in email.
     *********************************************************/
     public String outputBody;
+    /*********************************************************
+    // Map to store date field as value and possible format in list
+    *********************************************************/
+    Map<String, List<String>> mDateFieldFormat = new Map<String, List<String>>();
     
    /****************************************************************************************************************
     * @Function - getOutputBody
@@ -70,7 +74,7 @@ public class ASF_CaseEmailController {
         Matcher matcher2 = regex2.matcher(inputText);
         
         List<String> dynamicFieldsToReplace = new List<String>();
-        Map<String,String> resultMap;
+        Map<String,String> resultMap = new Map<String, String>();
         set<string> objectschemas = new set<string>();
 
         set<String> subQueriesToReplace = new set<String>();
@@ -85,31 +89,98 @@ public class ASF_CaseEmailController {
         while (matcher.find()) {
             String capturedString = matcher.group(1);
             if (!dynamicFieldsToReplace.contains(capturedString)){
+                System.debug('captured string'+capturedString);
                 if(capturedString.contains(':')){
-                    break;
+                    String fs = capturedString;
+                    // 1st -> field api, 2nd: either date/datetime, 3rd: function, 4th: number
+                    capturedString = capturedString.split(':')[0];
+                    if(mDateFieldFormat.containsKey(capturedString)){
+                        mDateFieldFormat.get(capturedString).add(fs);
+                    }else{
+                        mDateFieldFormat.put(capturedString, new List<String>{fs});
+                    }
                 }
-                if(capturedString.contains('__r')){
-                    string objectName=capturedString.split('\\.')[0].replace('__r','__c');
-                    objectschemas.add(objectName);
-                }else if(capturedString.contains('.')){
-                    objectschemas.add(capturedString.split('\\.')[0]);
+                if (!dynamicFieldsToReplace.contains(capturedString) && capturedString!='Today'){
+                    if(capturedString.contains('__r')){
+                        string objectName=capturedString.split('\\.')[0].replace('__r','__c');
+                        objectschemas.add(objectName);
+                    }else if(capturedString.contains('.')){
+                        objectschemas.add(capturedString.split('\\.')[0]);
+                    }
+                    dynamicFieldsToReplace.add(capturedString);
                 }
-                dynamicFieldsToReplace.add(capturedString);
             }
         }
-
-
         if(!dynamicFieldsToReplace.isEmpty() || !subQueriesToReplace.isEmpty()){
             resultMap = getDynamicFields(dynamicFieldsToReplace, subQueriesToReplace, caseObjectId,objectschemas, dateFormat);
+            resultMap.put('Today',Date.today().format());
+        }else{
+            resultMap.put('Today',Date.today().format());
         }
         System.debug(resultMap);
         System.debug(inputText);
 
         inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap);
+        if (resultMap != null){
+            for (String resKey : resultMap.keySet()) {
+                String resVal = resultMap.get(resKey);
+                if(resVal != null){
+                    // check in mDateFieldFormat
+                    if(mDateFieldFormat.containsKey(resKey)){
+                        // get dateformated strings from Map
+                        List<String> lDtFormats = mDateFieldFormat.get(resKey);
+                        for(String rec: lDtFormats){
+                            String evalValue = evalFormula(resVal, rec);
+                            inputText = inputText.replace('$$' + rec + '$$', evalValue);
+                        }
+                        // for cases where simple date field is also present along with calculated fields
+                        inputText = inputText.replace('$$' + resKey + '$$', resVal);
+                    }else{
+                        inputText = inputText.replace('$$' + resKey + '$$', resVal);
+                    }
+                }else{
+                    inputText = inputText.replace('$$' + resKey + '$$', '');
+                }
+            }
+        }
         return inputText; 
     } 
 
-     /****************************************************************************************************************
+    private String evalFormula(String fv, String format){
+        String retVal;
+        // Split formated string and evaluate formula
+        List<String> splitList = format.split(':');
+        switch on splitList[1] {
+            // datetime
+            when  'dt'{
+                if(splitList[2]=='add'){
+                    Datetime datetimeVal = Datetime.parse(fv);
+                    retVal = datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy HH:mm:ss', 'IST');
+                }
+            }
+            // date
+            when 'd'{
+                if(splitList[2]=='add'){
+                    System.debug('***fv:'+fv);
+                    Datetime datetimeVal = (Datetime) Date.parse(fv);
+                    System.debug('***datetimeVal:'+datetimeVal);
+                    retVal = datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
+                }
+            }
+            when 'cd'{
+                if(splitList[2]=='add'){
+                    System.debug('inside custom.');
+                    Datetime datetimeVal = (Datetime) Date.parse(fv);
+                    retVal =  datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
+                    System.debug('cusyom date ==> '+retVal);
+                }
+            }
+        }
+        System.debug('***retVal:'+retVal);
+        return retVal;
+    }
+
+    /****************************************************************************************************************
     * @Function - getDynamicFields
     * @return - Map<String,String>.
     * @param fieldsToQuery - fields for geting field value.

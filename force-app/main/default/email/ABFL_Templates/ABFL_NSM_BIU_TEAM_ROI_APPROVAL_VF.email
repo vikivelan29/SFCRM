@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="Reduction in ROI Approval {!relatedTo.Account.Name} {!relatedTo.LAN__c} {!relatedTo.CaseNumber}" recipientType="Contact" relatedToType="Case">
 <messaging:htmlEmailBody >
-    <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="NSM/ BIU TEAM ROI APPROVAL Not in Use"></c:ASF_CaseEmail>
+    <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateDevloperName="ABFL_NSM_BIU_TEAM_ROI_APPROVAL"></c:ASF_CaseEmail>
 </messaging:htmlEmailBody>
 </messaging:emailTemplate>

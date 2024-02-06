@@ -157,7 +157,7 @@
 												*** ADD BELOW IN BULLET ***</div>
 
 												<ul>
-													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">The foreclosure amount mentioned in the attached letter is valid for 5 calendar days i.e. till $$Today:AddDays:5$$</li>
+													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">The foreclosure amount mentioned in the attached letter is valid for 5 calendar days i.e. till $$Today:cd:add:5$$</li>
 													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">The foreclosure will be processed within 10 working days, post-payment acknowledgment by ABFL.</li>
 													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">Upon receipt of the foreclosure amount by ABFL, your loan account will be closed subject to clearance of all dues/outstanding till the payment date.</li>
 													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">If the amount is not credited to the ABFL account by this time, you will have to raise a fresh foreclosure request to receive the new foreclosure amount.</li>
