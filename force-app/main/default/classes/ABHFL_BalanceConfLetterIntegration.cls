@@ -117,8 +117,8 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
 
                                  CreatedById,ownerId,caseNumber,ABHFL_Case_Detail__c,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
                           FROM Case WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED];
-
         
+
         if(caseRec != null && isTransferred && caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             handleSuccessfullTransfer(caseRec);
         }else if(caseInteg.Status__c != ABHFL_Constants.CANCELED && caseInteg.Status__c != ABHFL_Constants.PENDING){
@@ -133,7 +133,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 UPDATE caseDetail; 
             }            
-        }     
+        } 
     }
     
      private void handleSuccessfullTransfer(Case caseRec){
@@ -145,11 +145,11 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                                                             cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
             
           caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
-          caseRec.Stage__c = ABHFL_Constants.RESOLVED;
+          caseRec.MoveToNext__c = true;
           
           if(Schema.sObjectType.Case.isUpdateable()){
             UPDATE caseRec;
-          } 
+          }
      }
      
      private void handleUnsuccessfullTransfer(Case caseRec,ASF_Case_Integration__c caseInteg){

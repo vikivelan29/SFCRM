@@ -4,7 +4,7 @@ public class ABHFL_NDCSTPHandler_Test {
     static void createTestData(){
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
         Branch_Master__c branchMstr = new Branch_Master__c();
-        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and DeveloperName like 'ABHFL%' LIMIT 1].Id;
         insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';
@@ -56,7 +56,7 @@ public class ABHFL_NDCSTPHandler_Test {
     @IsTest
     static void testEvaluate(){
         ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
-        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
+                Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
         ASF_IntegrationsController.IntegrationWrapper caseAssignToBranch = ndcStp.evaluate(caseRecord);
         caseRecord.Source__c = 'Branch';
         update caseRecord;
@@ -83,7 +83,7 @@ public class ABHFL_NDCSTPHandler_Test {
     @IsTest
     static void testProcessResponse(){
         ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
-        ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c limit 1];
+                ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c limit 1];
         integRecord.Status__c = 'Success';
         update integRecord;
         ndcStp.processResponse(integRecord);
