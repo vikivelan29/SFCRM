@@ -1341,12 +1341,42 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_4__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Metadata__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4317,6 +4347,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Overall_Case_Closure_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Overall_SLA_plus_X_days__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
