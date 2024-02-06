@@ -64,9 +64,9 @@ public without sharing class ABHFL_CTSTHelper {
     	if (subType == 'RRSDPRSHFC01') {
         	updatedCase.OwnerId = emailNonFinancialQueue.Id;
     	}
-        ASF_Case_SLA_History__c slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
+        List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
-    	if (slaHistory != null) {
+    	if (slaHistory.size() > 0) {
         	delete slaHistory;
     	}
     	update new List<Case>{ updatedCase };

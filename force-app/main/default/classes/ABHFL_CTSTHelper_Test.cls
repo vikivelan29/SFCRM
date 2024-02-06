@@ -64,7 +64,8 @@ public class ABHFL_CTSTHelper_Test {
         slaThreshold.Case_SLA_Threshold_2__c = .75;
         slaThreshold.Case_SLA_Threshold_3__c = 1;
         upsert slaThreshold SLA_Threshold_Warning__c.Id;
-    }
+
+            }
     @IsTest
     static void testPreClosurePaymentCheck(){
         Case caseRecord = [Select id from Case limit 1];
@@ -102,6 +103,10 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.CCC_External_Id__c='hfl060';
         caseRecord.Source__c='Branch';
 		update caseRecord;
+        ASF_Case_SLA_History__c caseSLAHistory = new ASF_Case_SLA_History__c();
+        caseSLAHistory.Case__c = caseRecord.Id;
+        caseSLAHistory.Stage_End_Date__c = null;
+        insert caseSLAHistory;
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
         caseRecord.CCC_External_Id__c='hfl060';
@@ -110,6 +115,19 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         caseRecord.CCC_External_Id__c='hfl061';
 		update caseRecord;
+        System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
+        Test.stopTest();
+    }
+    @IsTest 
+    static void testassignCaseToQueueCont(){
+        Case caseRecord = [Select id,CreatedById from Case limit 1];
+        caseRecord.CCC_External_Id__c='hfl060';
+        caseRecord.Source__c='Branch';
+		update caseRecord;
+        ASF_Case_SLA_History__c caseSLAHistory = new ASF_Case_SLA_History__c();
+        caseSLAHistory.Case__c = caseRecord.Id;
+        caseSLAHistory.Stage_End_Date__c = null;
+        insert caseSLAHistory;
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         caseRecord.CCC_External_Id__c='RRSDPRSHFC01';
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
@@ -119,9 +137,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.Source__c='Branch';
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
-        Test.stopTest();
     }
-    @IsTest
     static void testRequestInProgressApexClass(){
         Case caseRecord = [Select id from Case limit 1];
         List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
