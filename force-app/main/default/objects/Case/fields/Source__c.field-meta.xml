@@ -36,6 +36,16 @@
                 <default>false</default>
                 <label>Walk-In</label>
             </value>
+            <value>
+                <fullName>SystemIntegration</fullName>
+                <default>false</default>
+                <label>SystemIntegration</label>
+            </value>
+            <value>
+                <fullName>Webform</fullName>
+                <default>false</default>
+                <label>Webform</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

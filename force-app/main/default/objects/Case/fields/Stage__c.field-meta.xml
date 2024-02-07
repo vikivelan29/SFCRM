@@ -161,6 +161,21 @@
                 <default>false</default>
                 <label>Reopened</label>
             </value>
+            <value>
+                <fullName>In Progress with NACH Ops</fullName>
+                <default>false</default>
+                <label>In Progress with NACH Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Credit</fullName>
+                <default>false</default>
+                <label>In Progress with Credit</label>
+            </value>
+            <value>
+                <fullName>In Progress with Retention Team</fullName>
+                <default>false</default>
+                <label>In Progress with Retention Team</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
