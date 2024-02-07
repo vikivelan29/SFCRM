@@ -65,9 +65,7 @@
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Full_Name__pc</fieldItem>
-                <identifier>RecordFull_Name_pcField</identifier>
+                </fieldInstanceProperties>                
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -86,8 +84,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Salutation__pc</fieldItem>
-                <identifier>RecordSalutation_pcField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -140,8 +136,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Preferred_Name__pc</fieldItem>
-                <identifier>RecordPreferred_Name_pcField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
