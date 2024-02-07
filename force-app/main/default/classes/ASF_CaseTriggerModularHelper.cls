@@ -446,6 +446,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && (caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c )
                 && (caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c)
                 && (caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c)
+               &&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                    eligibleRecords.add(caseRec);
                    movement = caseRec.pending_clarification__c==true?'backward':'forward';
@@ -705,7 +706,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case caseRec : eligibleRecords){
 
                 if(caseRec.Is_Duplicate__c){
-                    ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.DUPLICATESTAGE, oldMap.get(caseRec.Id).Stage__c);
+                    //ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.DUPLICATESTAGE, oldMap.get(caseRec.Id).Stage__c);
                     caseRec.Stage__c = ASF_Constants.DUPLICATESTAGE;
                     caseRec.Status = ASF_Constants.DUPLICATESTATUS;
                 }else{
@@ -941,8 +942,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                        (groupId IN :caseOwnerGroupIdMap.values() OR groupId IN :queueIdNameMap.keySet())]){
 
                     if(!oldQueueAndMemberMap.containsKey(gmember.GroupId))
-                    	oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
-                	oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                        oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
+                    oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
                     if(((String)gmember.UserOrGroupId).startsWith('00G')){
                         groupIdset.add(gmember.UserOrGroupId);
                     }  
@@ -950,12 +951,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //Query public group members that are part of above queues
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where UserOrGroupId != null and groupId IN :groupIdset]){
                 if(!oldgroupAndMemberMap.containsKey(gmember.GroupId))
-                    	oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
-                	oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                        oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
+                    oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
             }
             //Add all the public group members to the map
             for(Id queueId : oldQueueAndMemberMap.keySet()){
-				for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
+                for(Id queueMember : oldQueueAndMemberMap.get(queueId)){
                     if(((String)queueMember).startsWith('00G') && oldgroupAndMemberMap.containsKey(queueMember)){
                         oldQueueAndMemberMap.get(queueId).addAll(oldgroupAndMemberMap.get(queueMember));
                     }
