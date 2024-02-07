@@ -1,59 +1,59 @@
 <template>
-    <lightning-card  title="" class="slds-p-bottom_medium">
-       <div class="slds-grid slds-gutters">
-          <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
-             <lightning-input type="text" label="" onchange={valChange} placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #"></lightning-input>
-          </div>
-       </div>
-       <div class="slds-grid slds-gutters slds-m-left_medium">
-          <div class="slds-size_1-of-1 ">
-             <br/>
-             <strong>Select Customer </strong>
-             <lightning-datatable
+   <lightning-card title="Customer/LAN Tagging" class="slds-p-bottom_medium">
+      <div class="slds-grid slds-gutters">
+         <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
+            <lightning-input type="text" label="" onchange={valChange} placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #"></lightning-input>
+                  </div>
+      </div>
+      <div class="slds-grid slds-gutters slds-m-left_medium">
+         <div class="slds-size_1-of-1 ">
+            <br/>
+            <strong>Select Customer </strong>
+            <lightning-datatable
                 key-field="Id"
                 data={accData}
                 data-id="accTable"
                 class="colorWhite"
                 max-row-selection =1
-                onrowselection={handleAccAction}
+               onrowselection={handleAccAction}
                 columns={accCols}
                 selected-rows={preSelectedRows}>
-             </lightning-datatable>
-          </div>
-       </div>
-       <br/><br/> 
-       <div class="slds-grid slds-gutters  slds-m-left_medium">
-          <div class="slds-size_1-of-1">
-             <br/><br/> 
-             <lightning-layout >
-                <lightning-layout-item  class="slds-p-top_small" >
-                   <strong>Select Account Number  </strong> &nbsp;
-                </lightning-layout-item>
-                <lightning-layout-item  class="">
-                   <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
-                </lightning-layout-item>
-             </lightning-layout>
-             <br/> 
-             <lightning-datatable
+            </lightning-datatable>
+         </div>
+      </div>
+      <br/><br/>
+               <div class="slds-grid slds-gutters  slds-m-left_medium">
+            <div class="slds-size_1-of-1">
+               <br/><br/>
+               <lightning-layout >
+                  <lightning-layout-item  class="slds-p-top_small" >
+                     <strong>Select LAN  </strong> &nbsp;
+                  </lightning-layout-item>
+                  <lightning-layout-item  class="">
+                     <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
+                  </lightning-layout-item>
+               </lightning-layout>
+               <br/>
+               <lightning-datatable
                 key-field="Id"
                 data-id="asstTable"
                 max-row-selection ="1"
                 data={asstData}
-                class="colorWhite"
+                  class="colorWhite"
                 columns={asstCols}
                 selected-rows={preSelectedAsset}>
-             </lightning-datatable>
-          </div>
-       </div>
-    </lightning-card>
-    <lightning-card>
-       <lightning-quick-action-panel title="">
-          <div slot="footer">
-             <lightning-button variant="neutral" label="Update SR" title="Update SR" onclick={handleclick} class="slds-m-left_x-small">
-             </lightning-button>
-             &nbsp;
-             <lightning-button variant="neutral" label="Cancel" onclick={closeQuickAction}></lightning-button>
-          </div>
-       </lightning-quick-action-panel>
-    </lightning-card>
- </template>
+               </lightning-datatable>
+            </div>
+         </div>
+         </lightning-card>
+   <lightning-card>
+      <lightning-quick-action-panel title="">
+         <div slot="footer">
+            <lightning-button variant="neutral" label="Update Case" title="Update Case" onclick={handleclick} class="slds-m-left_x-small">
+            </lightning-button>
+            &nbsp;
+            <lightning-button variant="neutral" label="Cancel" onclick={closeQuickAction}></lightning-button>
+         </div>
+      </lightning-quick-action-panel>
+   </lightning-card>
+</template>
