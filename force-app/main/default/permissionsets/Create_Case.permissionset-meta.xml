@@ -2763,6 +2763,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ABFL_Incoming_Email_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.ABHFL_Case_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
