@@ -189,7 +189,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                this.showError('error', 'Oops! Error occured', error);
+                //this.showError('error', 'Oops! Error occured', error);
             });
     }
     
