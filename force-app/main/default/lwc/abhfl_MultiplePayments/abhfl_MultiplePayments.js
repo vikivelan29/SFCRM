@@ -159,7 +159,8 @@ export default class Abhfl_MultiplePayments extends LightningElement {
     }
 
     setupFieldPermissions(stageName){
-
+        this.isSaveAllowed = false;
+        this.isDeleteAllowed = false;
         this.isPaymentIdEditable = false;
         this.isPaymentAmountEditable = false;
         this.isPaymentModeEditable = false;
@@ -171,12 +172,16 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 this.isPaymentAmountEditable = true;
                 this.isPaymentModeEditable = true;
                 this.isDateEditable = true;
+                this.isDeleteAllowed = true;
+                this.isSaveAllowed = true;
                 break;
             case 'CPU Banking':
                 this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
                 break;
             case 'Pending CPU Banking':
                 this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
                 break;
             default:
                 break;
