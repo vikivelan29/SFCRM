@@ -52,7 +52,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
 
         caseRec = [SELECT Id, CaseNumber, Business_Unit__c FROM Case WHERE Id = :caseRec.Id WITH SECURITY_ENFORCED];
-		String longUrl = System.label.Base_URL_for_bitly+ '/' +caseRec.CaseNumber;
+		String longUrl = System.label.ABHFL_Base_URL_For_Bitly+ '/' +caseRec.CaseNumber;
         Integer expiryDay = Integer.valueOf(System.label.ExpiryDay_For_Bitly_URL);
         String lob = caseRec.Business_Unit__c;
 
@@ -94,11 +94,19 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
+        
+        ASF_Integration__c  asf_integ = [SELECT id, Case_Stage_Config__r.SLA_Override_Enabled__c from ASF_Integration__c WHERE External_Id__c = :caseInteg.Integration_Ext_Id__c LIMIT 1];
 
         Case caseRec =[SELECT Id, AccountId, No_Auto_Communication__c, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c, Nature__c, Send_open_stage_communications__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
         List<String> emailTemplates = (cccRecord[0].New_Case_Email_Template__c).split(',');
         List<String> smsMetadata = (cccRecord[0].New_Case_SMS_Metadata__c).split(',');
+        Boolean sendCommunication = false;
+        if(asf_integ.Case_Stage_Config__r.SLA_Override_Enabled__c == true && cccRecord[0].Nature__c == 'Complaint' && cccRecord[0].Send_open_stage_communications__c == false){
+            sendCommunication = true;
+        }
+
+
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             ResponseWrapper result = (ResponseWrapper) System.JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);                        
@@ -108,13 +116,15 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
             caseDetails.Id = caseRec.ABHFL_Case_Detail__c;
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 update caseDetails;   
-            }      
+            }
             caseRec.Short_URL__c = result.urlReturned;
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRec;
             }
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplates[0], smsMetadata[0], false);
-        }else{
+            if(sendCommunication){
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplates[0], smsMetadata[0], false);
+            }
+        }else if(sendCommunication){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplates[1], smsMetadata[1], false); 
         }
         if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
