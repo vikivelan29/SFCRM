@@ -65,25 +65,9 @@
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
-                </fieldInstanceProperties>                
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.AccountNumber</fieldItem>
                 <identifier>RecordAccountNumberField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -130,14 +114,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
