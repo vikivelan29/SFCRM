@@ -144,12 +144,13 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                 caseInteg.Business_External_Id__c = ad.Asset__r.Lan__c;
                 caseIntList.add(caseInteg);
                 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
+                /*Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                 caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
                 //caseIntOut.Case_Integration_ID__c = caseInt.Name;
                 caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+                caseIntOut.ServiceName__c = 'ReportingService';
                 caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(ad.Asset__r.Lan__c,caseRecord));
-                eventList.add(caseIntOut);
+                eventList.add(caseIntOut);*/
                 
             }
             else if(ad.Asset__r.Loan_Disbursement_Status__c!=null)
@@ -162,6 +163,16 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseIntList;    
+        }
+        List<ASF_Case_Integration__c> cIntList = [SELECT Id, Name, Request__c FROM ASF_Case_Integration__c WHERE Id IN :caseIntList];
+        for(ASF_Case_Integration__c cInt: cIntList){
+            Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
+            caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+            caseIntOut.Case_Integration_ID__c = cInt.Name;
+            caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+            caseIntOut.ServiceName__c = 'ReportingService';
+            caseIntOut.Request_Payload__c = cInt.Request__c;
+            eventList.add(caseIntOut);
         }
 		List<Database.SaveResult> eventResults = EventBus.publish(eventList);
         
