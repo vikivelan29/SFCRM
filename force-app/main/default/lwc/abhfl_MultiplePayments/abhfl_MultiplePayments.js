@@ -2,6 +2,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getPaymentsForCase from '@salesforce/apex/ABHFL_MultiplePaymentsController.getPaymentsForCase';
+import deletePaymentRecord from '@salesforce/apex/ABHFL_MultiplePaymentsController.deletePaymentRecord';
 import savePayments from '@salesforce/apex/ABHFL_MultiplePaymentsController.savePayments';
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -104,10 +105,24 @@ export default class Abhfl_MultiplePayments extends LightningElement {
     remove(event) { 
         let indexPosition = event.currentTarget.name;
         const recId = event.currentTarget.dataset.id;  
-        if(this.payments.length > 1){
+    
+        if (this.payments.length > 1) {
             this.payments.splice(indexPosition, 1);
+            this.error = undefined;
+    
+            // Call the Apex method to delete the payment record by its Id
+            deletePaymentRecord({ paymentId: recId })
+                .then(() => {
+                    // Success message or any additional logic after successful deletion
+                    console.log('Payment record deleted successfully.');
+                    this.showToast('Success', 'Payment deleted successfully', 'success');
+                })
+                .catch(error => {
+                    // Handle error during record deletion
+                    console.error('Error deleting payment record:', error);
+                    this.showToast('Error', 'Error deleting payment record', 'error');
+                });
         } 
-        this.error = undefined;
     }
 
     handleSave() {
