@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IsAttachmentFlag__c</fullName>
+    <fullName>Loan_Agreement_Document__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Is attachment available against the email.</description>
     <externalId>false</externalId>
-    <label>Attachment Flag</label>
+    <label>Loan Agreement Document</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

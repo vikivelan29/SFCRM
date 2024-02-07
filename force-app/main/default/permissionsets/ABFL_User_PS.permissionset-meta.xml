@@ -68,6 +68,51 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Emi_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Fraud_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Loan_Agreement_Document__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Sanction_Letter__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.New_Bank_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.New_Bank_Account_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.New_Acc_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Payment_Updated__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.ROI_Approval__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Case_Categorisation__c</field>
         <readable>true</readable>
     </fieldPermissions>

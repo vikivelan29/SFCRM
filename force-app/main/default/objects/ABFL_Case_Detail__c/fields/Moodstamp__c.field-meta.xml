@@ -3,7 +3,7 @@
     <fullName>Moodstamp__c</fullName>
     <description>Mood stamp of the customer</description>
     <externalId>false</externalId>
-    <label>Moodstamp</label>
+    <label>Mood Stamp</label>
     <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>

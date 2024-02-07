@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Is Senior Management flag</description>
     <externalId>false</externalId>
-    <label>IsSMT</label>
+    <label>SMT</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
