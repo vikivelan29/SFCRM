@@ -82,6 +82,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
          if(!insertFinalUpdateCase.isEmpty()){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
         	update insertFinalUpdateCase;
         }
     }
@@ -135,6 +136,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
         if(!insertFinalUpdateCase.isEmpty()){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
         	update insertFinalUpdateCase;
         }
     }
@@ -227,6 +229,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
 		if(!insertFinalUpdateCase.isEmpty()){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
         	update insertFinalUpdateCase;
      	}
     }
@@ -260,6 +263,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
         if(!insertFinalUpdateCase.isEmpty()){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
         	update insertFinalUpdateCase;
      	}
     }
