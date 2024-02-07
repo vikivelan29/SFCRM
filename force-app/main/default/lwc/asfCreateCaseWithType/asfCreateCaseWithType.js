@@ -85,7 +85,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     options;
     flag;
-    businessUnitValue;
     value;
     contactName;
     contactSelected;
@@ -121,6 +120,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     trackId = '';
     complaintType;
     uniqueId;
+    businessUnit;
+    
+    cols = [
+        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+        { label: 'Type', fieldName: 'Type__c', type: 'text' },
+        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+    ]
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
@@ -141,10 +148,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.dispatchEvent(event);
     }
     @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
-    user;
-    
-    get businessUnit() {
-        return getFieldValue(this.user.data, BUSINESS_UNIT);
+    user({ error, data}) {
+        if (data){
+           this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
     }
 
     connectedCallback() {
@@ -157,6 +166,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         console.log('assestid ---> ' + this.uniqueId);
         this.getAccountRecord();
         console.log('business ---> ' + this.businessUnit);
+        if(this.businessUnit === 'ABHFL'){
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ]
+        }
        
 
     }
@@ -227,6 +243,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
+                    console.log('result data table--'+JSON.stringify(result.lstCCCrecords));
                     this.strSource = result.strSource;
                     this.complaintType = result.complaintType;
                     if(this.strSource) {
@@ -617,15 +634,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.loaded = true;
             })
     }
-
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        //{ label: 'Product', fieldName: 'Product__c', type: 'text' },
-        //{ label: 'Source', fieldName: 'Source__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
 
     handleNatureVal(event) {
         this.natureVal = event.target.value;

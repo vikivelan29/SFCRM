@@ -1,16 +1,30 @@
 <template>
     <lightning-card title="">
         <div class="slds-p-bottom_x-small slds-align_absolute-center">
-            <lightning-button class="slds-m-right_x-small" label={withFALabel} variant="brand" onclick={showModal}>
-            </lightning-button>&nbsp;
-
-            <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel} variant="brand"
-                onclick={showModalWitoutFA}>
-            </lightning-button>
-
-            <lightning-button class="slds-m-left_x-small" label="Close without CRN" variant="brand"
+            <!-- Create Case with LAN : TO BE VISIBLE WHEN LAN IS TAGGED TO CASE.-->
+            <template if:true={showOnCustomerTagging}>
+                <lightning-button class="slds-m-right_x-small" label={withFALabel} variant="brand" onclick={showModal}>
+                </lightning-button>&nbsp;
+                <!-- Create Case for Customer : TO BE VISIBLE WHEN CUSTOMER TAGGED TO CASE.-->
+                <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel}
+                    variant="brand" onclick={showModalWitoutFA}>
+                </lightning-button>
+            </template>
+            <!-- Create Case without Customer : SHOW ALWAYS-->
+            <template if:false={showOnCustomerTagging}>
+                <lightning-button class="slds-m-left_x-small" label={closeWithoutCustomerLbl} variant="brand"
                 onclick={showModalCloseWitoutCRN}>
             </lightning-button>
+            </template>
+            
+            <template if:true={showOnProspectTagging}>
+                <!-- Create Case with Prospect -->
+                <lightning-button class="slds-m-left_x-small" label={caseWithProspectLbl} variant="brand"
+                    onclick={categoriseCaseForProspect}>
+                </lightning-button>
+            </template>
+
+
         </div>
     </lightning-card>
     <template if:true={showSRModal}>
@@ -52,7 +66,7 @@
                             <h2 class="slds-text-heading_small">Contact Selected: <lightning-badge
                                     label={contactName}></lightning-badge></h2>
                         </div>
-                        <lightning-card title="SR Type Search">
+                        <lightning-card title="Case Type Search">
                             <template if:true={loaded}>
                                 <lightning-layout multiple-rows="true" vertical-align="end">
                                     <lightning-layout-item size="8" padding="around-small">
@@ -147,8 +161,8 @@
 
                                                 <lightning-combobox class="slds-m-left_xx-small slds-m-right_xx-small"
                                                     value={selectedReason} label="Rejection Reason" options={reasonLOV}
-                                                    placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
-                                                    required>
+                                                    placeholder='Close Unresolved Reason'
+                                                    onchange={handleRejReasonChange} required>
                                                 </lightning-combobox>
                                                 <div class="slds-align_absolute-center">
                                                     <lightning-button class="slds-m-around_small" label="Save"
@@ -200,8 +214,8 @@
                                             onclick={handleCloseBtn}></lightning-button>
                                     </lightning-layout-item>
                                     <lightning-layout-item padding="around-small">
-                                        <lightning-button label="Close Unresolved" variant="brand" onclick={handleRejectBtn}
-                                            disabled={isNotSelectedReject}></lightning-button>
+                                        <lightning-button label="Close Unresolved" variant="brand"
+                                            onclick={handleRejectBtn} disabled={isNotSelectedReject}></lightning-button>
                                     </lightning-layout-item>
                                 </lightning-layout>
 
