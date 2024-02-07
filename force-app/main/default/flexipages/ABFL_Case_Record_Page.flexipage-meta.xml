@@ -126,9 +126,6 @@
                             <value>Case.Close_the_Case</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Is_FTR</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>

@@ -62,6 +62,12 @@
         <closed>true</closed>
     </standardValue>
     <standardValue>
+        <fullName>Closed Duplicate</fullName>
+        <default>false</default>
+        <label>Closed Duplicate</label>
+        <closed>true</closed>
+    </standardValue>
+    <standardValue>
         <fullName>Unresolved</fullName>
         <default>false</default>
         <label>Unresolved</label>
