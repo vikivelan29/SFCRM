@@ -2,7 +2,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
-        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
+        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems); 
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
 
@@ -28,6 +28,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
+        ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -52,7 +53,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
         ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        
+        ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
     }
     
 }
