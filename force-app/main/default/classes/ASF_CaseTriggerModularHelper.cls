@@ -710,7 +710,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseRec.Status = ASF_Constants.DUPLICATESTATUS;
                 }else{
                     ASF_CaseMovementHelper.StageWrapper resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, ASF_Constants.REJECTIONSTATUS, oldMap.get(caseRec.Id).Stage__c);
-                    caseRec.Stage__c = resultWrap.caseToBeUpdated.Stage__c;
+                    // VIRENDRA : 7 Feb 2024 : Added to fix Unresolved fixes when Current Stage is having Checklist or Tasks.
+                    caseRec.Stage__c = resultWrap.caseToBeUpdated.Stage__c!=null?resultWrap.caseToBeUpdated.Stage__c:ASF_Constants.REJECTIONSTATUS;
                     caseRec.Status = resultWrap.caseToBeUpdated.Status!=null?resultWrap.caseToBeUpdated.Status:ASF_Constants.REJECTIONSTATUS;
                 }
             }
