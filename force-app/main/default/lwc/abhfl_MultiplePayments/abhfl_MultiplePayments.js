@@ -102,19 +102,22 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         console.log(JSON.stringify(this.payments));
     }
 
-    remove(event) { 
-        let indexPosition = event.currentTarget.name;
-        const recId = event.currentTarget.dataset.id;  
+    remove(event) {
+        const recId = event.currentTarget.dataset.id;
     
-        if (this.payments.length > 1) {
-            this.payments.splice(indexPosition, 1);
+        // Find the index of the element to be removed
+        const indexToRemove = this.payments.findIndex(item => item.key === recId);
+    
+        if (indexToRemove !== -1) {
+            // Remove the element from the array
+            this.payments.splice(indexToRemove, 1);
             this.error = undefined;
     
             // Call the Apex method to delete the payment record by its Id
             deletePaymentRecord({ paymentId: recId })
-                .then(() => {
-                    // Success message or any additional logic after successful deletion
-                    console.log('Payment record deleted successfully.');
+                .then((response ) => {
+                    // Success message after successful deletion
+                    console.error('deleted payment record:', response );
                     this.showToast('Success', 'Payment deleted successfully', 'success');
                 })
                 .catch(error => {
@@ -122,7 +125,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                     console.error('Error deleting payment record:', error);
                     this.showToast('Error', 'Error deleting payment record', 'error');
                 });
-        } 
+        }
     }
 
     handleSave() {

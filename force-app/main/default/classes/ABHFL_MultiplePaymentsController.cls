@@ -49,22 +49,16 @@ public with sharing class ABHFL_MultiplePaymentsController {
     }
 
     @AuraEnabled
-    public static void deletePaymentRecord(String paymentId) {
+    public static string deletePaymentRecord(String paymentId) {
         try {
             // Query the payment record by Id
-            ABHFL_Payment__c paymentToDelete = [SELECT Id FROM ABHFL_Payment__c WHERE Id = :paymentId LIMIT 1];
-
-            // Check if the record exists before attempting to delete
-            if (paymentToDelete != null) {
-                // Delete the payment record
-                delete paymentToDelete;
-            } else {
-                // Handle the case where the record was not found
-                throw new AuraHandledException('Payment record not found.');
-            }
+            ABHFL_Payment__c paymentToDelete = [SELECT Id FROM ABHFL_Payment__c WHERE Id = :paymentId LIMIT 1]; 
+            // Delete the payment record
+            delete paymentToDelete;
+            return 'deleted';
         } catch (Exception ex) {
             // Handle any exceptions and log the error
-            throw new AuraHandledException('Error deleting payment record: ' + ex.getMessage());
+            return 'Error deleting payment record: ' + ex.getMessage();
         }
     }
 
