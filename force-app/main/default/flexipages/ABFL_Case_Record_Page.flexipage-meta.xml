@@ -128,9 +128,6 @@
                         <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Case.Test_Update</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

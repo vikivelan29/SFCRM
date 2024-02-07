@@ -18,9 +18,6 @@
                         <valueListItems>
                             <value>WebsiteHighlightAction</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Account.Update_Fields</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
