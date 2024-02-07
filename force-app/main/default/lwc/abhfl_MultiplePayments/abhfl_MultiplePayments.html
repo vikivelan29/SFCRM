@@ -2,6 +2,7 @@
     
     <lightning-card title="Payments">
         <lightning-button
+            if:true={isPaymentIdEditable}
             icon-name="utility:add" 
             slot="actions" 
             onclick={add} 
@@ -153,6 +154,7 @@
         >
         </lightning-button> -->
         <lightning-button
+          if:true={isSaveAllowed}
           type="button"
           variant="brand"
           onclick={handleSave}
