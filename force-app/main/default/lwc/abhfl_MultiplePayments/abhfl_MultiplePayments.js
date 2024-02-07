@@ -42,7 +42,6 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 //if(this.record[i].Id)
                 console.log(records[i].Id);
                 records[i].key = `${records[i].Id}`;
-                records[i].isDeleteAllowed = false;
             }
             this.payments = records;
         }
@@ -160,20 +159,20 @@ export default class Abhfl_MultiplePayments extends LightningElement {
 
     setupFieldPermissions(stageName){
         this.isSaveAllowed = false;
-        this.isDeleteAllowed = false;
         this.isPaymentIdEditable = false;
         this.isPaymentAmountEditable = false;
         this.isPaymentModeEditable = false;
         this.isDateEditable = false;
         this.isRealizationEditable = false;
+        this.isDeleteAllowed = false;
         switch(stageName) {
             case 'Open':
                 this.isPaymentIdEditable = true;
                 this.isPaymentAmountEditable = true;
                 this.isPaymentModeEditable = true;
                 this.isDateEditable = true;
-                this.isDeleteAllowed = true;
                 this.isSaveAllowed = true;
+                this.isDeleteAllowed = true;
                 break;
             case 'CPU Banking':
                 this.isRealizationEditable = true;
@@ -188,6 +187,6 @@ export default class Abhfl_MultiplePayments extends LightningElement {
           }
         console.log('Setup Field Permissions' + this.isRealizationEditable);
 
-    }
+        }
 
 }
