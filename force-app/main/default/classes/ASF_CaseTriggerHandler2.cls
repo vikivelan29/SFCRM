@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 01-25-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler {
     private Boolean isTriggerDisabled(){
         return isDisabled('Case');
@@ -54,12 +61,9 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
 
-        //Run Change Owner validation for multiple records when accessed from lsit view quick action
+        //Run Change Owner validation for multiple records when accessed from list view quick action
         if(!isBatchSizeOne(newItemsCase.values())){
-            if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-                Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
-                ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
-            }
+                ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newItemsCase.values(), (Map<Id, Case>)oldItems);
             return;
         }
         
@@ -101,6 +105,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.caseOwnerChangeValidation((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             
         }
         
@@ -127,9 +132,10 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndProcessReopenCase(newCaseMap.values(),(map<Id,Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndProcessManualStageMovement(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
 
@@ -168,9 +174,9 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
 
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation(newItemsCase.values());
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newItemsCase.values(), null);
             
             
