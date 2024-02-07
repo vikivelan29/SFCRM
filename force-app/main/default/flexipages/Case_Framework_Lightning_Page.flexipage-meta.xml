@@ -530,6 +530,16 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
+                <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-3d4fc1e8-bb30-42d8-9079-570b5fe13aaa</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
