@@ -148,13 +148,14 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 }
 
 
+                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && caseDetailListToUpdate.size() > 0){
+                    update caseDetailListToUpdate;
+                }
                 if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
                     update resultWrap?.caseToBeUpdated;
                 }
-                if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && caseDetailListToUpdate.size() > 0){
-                    update caseDetailListToUpdate;
-                }
+                
                 if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == ABFL_Constants.BRESUCCESS)  {
                         createCase(intg.STP_Config_External_Id__c, caseRecord);
                 }
