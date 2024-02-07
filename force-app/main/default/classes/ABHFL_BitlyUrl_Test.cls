@@ -75,7 +75,7 @@ public class ABHFL_BitlyUrl_Test {
     @IsTest
     static void testProcessResponse() {
         ABHFL_BitlyUrl bit = new ABHFL_BitlyUrl();
-        ASF_Case_Integration__c caseInteg = [Select id,Case__c, Status__c, Response__c from ASF_Case_Integration__c limit 1];
+        ASF_Case_Integration__c caseInteg = [Select id,Case__c, Status__c, Response__c, Integration_Ext_Id__c from ASF_Case_Integration__c limit 1];
         bit.processResponse(caseInteg);
         
         caseInteg.status__c = 'Success';

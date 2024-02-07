@@ -15,6 +15,13 @@
         <value>Test Project Id</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Data_Service_Sections</fullName>
         <language>en_US</language>
         <protected>false</protected>

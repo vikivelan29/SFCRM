@@ -27,7 +27,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
-        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values());
+        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
@@ -49,6 +49,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInAfterUpdate');
+        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
+
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
         ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);

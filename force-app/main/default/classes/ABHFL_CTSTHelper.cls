@@ -174,28 +174,30 @@ public without sharing class ABHFL_CTSTHelper {
                                                                 ABHFL_Constants.PAYMENT_RECEIVED_SMS, False);
         }
     }
-    public static void executeSpecificIntegrations(List<Case> newCases){
-        Set<String> c3ExternalIds = new Set<String>();
-        Map<String, List<ASF_Integration__c>> uiCardIntegrationMap = new Map<String, List<ASF_Integration__c>>();
+    public static void executeSpecificIntegrations(List<Case> newCases, List<Case> oldCases){
+        if((!oldCases.isEmpty() && String.isEmpty(oldCases[0].Sub_Type_Text__c)  && oldCases[0].Sub_Type_Text__c != newCases[0].Sub_Type_Text__c) || oldCases.isEmpty()){
+            Set<String> c3ExternalIds = new Set<String>();
+            Map<String, List<ASF_Integration__c>> uiCardIntegrationMap = new Map<String, List<ASF_Integration__c>>();
 
-        for(case cs : newCases){
-            c3ExternalIds.add(cs.CCC_External_Id__c);
-        }
-        // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
-        List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
-        External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
-
-        for(ASF_Integration__c asfCaseInteg : specificIntegrations){
-            if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
-                uiCardIntegrationMap.put(asfCaseInteg.C3ExternalId__c, new List<ASF_Integration__c>());
+            for(case cs : newCases){
+                c3ExternalIds.add(cs.CCC_External_Id__c);
             }
-            uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
-        }
+            // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
+            List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
+            External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
+            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
 
-        for(Case cs : newCases){
-            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+            for(ASF_Integration__c asfCaseInteg : specificIntegrations){
+                if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
+                    uiCardIntegrationMap.put(asfCaseInteg.C3ExternalId__c, new List<ASF_Integration__c>());
+                }
+                uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
+            }
+
+            for(Case cs : newCases){
+                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                }
             }
         }
     }
@@ -376,11 +378,9 @@ public without sharing class ABHFL_CTSTHelper {
         if(caseDetListToUpdate.size() > 0) {
             update caseDetListToUpdate;
         }
-
     }
 
     public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
-Case parentCase = [SELECT Id, Nature__c, AccountId FROM Case WHERE Id =: parentCaseId WITH SECURITY_ENFORCED];
         Case caseRecord = new Case();
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;

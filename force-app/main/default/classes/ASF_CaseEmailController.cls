@@ -111,6 +111,7 @@ public class ASF_CaseEmailController {
                 }
             }
         }
+
         if(!dynamicFieldsToReplace.isEmpty() || !subQueriesToReplace.isEmpty()){
             resultMap = getDynamicFields(dynamicFieldsToReplace, subQueriesToReplace, caseObjectId,objectschemas, dateFormat);
             resultMap.put('Today',Date.today().format());
