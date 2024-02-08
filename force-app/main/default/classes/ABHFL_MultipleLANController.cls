@@ -144,7 +144,7 @@ public with sharing class ABHFL_MultipleLANController {
             ABHFL_Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
             return assetDetail;
         }catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw e;//new AuraHandledException(e.getMessage());
         }
     }
 
