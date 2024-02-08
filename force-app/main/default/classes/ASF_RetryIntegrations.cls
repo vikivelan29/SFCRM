@@ -85,6 +85,9 @@ public without sharing class ASF_RetryIntegrations {
                 }
             }
         }
+        Map<Integer,Integer> mCaseCaseIntegrationIdVsAttempt = new Map<Integer,Integer>();
+        Set<Id> caseIdForProcess = new Set<Id>();
+        Set<String> caseIntProcess = new Set<String>();
         
         for(ASF_Case_Integration__c cInt : caseIntegrationRecords){
             if(cInt.Case__c != null){
@@ -113,6 +116,14 @@ public without sharing class ASF_RetryIntegrations {
                             System.debug('iAttempts --> '+iAttempts);
                             if(iAttempts <= 2){
                                 retryProcessTypeIntegrations(integ,cRec,casesToUpdate);
+                                
+                                String tempCompositeKeyForCaseIntegration = cInt.Case__c+cInt.Integration_Ext_Id__c;
+                                integer itempCompositeKeyForCaseInt = tempCompositeKeyForCaseIntegration.hashCode();
+                                mCaseCaseIntegrationIdVsAttempt.put(itempCompositeKeyForCaseInt,iAttempts);
+                                
+                                caseIdForProcess.add(cInt.Case__c);
+                                caseIntProcess.add(cInt.Integration_Ext_Id__c);
+                                
                             }
                             
                         }
@@ -127,6 +138,25 @@ public without sharing class ASF_RetryIntegrations {
                 }
             }
         }
+        
+        if(mCaseCaseIntegrationIdVsAttempt.keySet().size()>0){
+            List<ASF_Case_Integration__c> asfCaseIntegrations = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =: caseIdForProcess AND
+                                                               Integration_Ext_Id__c =:caseIntProcess];
+            for(ASF_Case_Integration__c cInteg : asfCaseIntegrations){
+                String tempKey = cInteg.Case__c+cInteg.Integration_Ext_Id__c;
+                integer itempKey = tempKey.hashcode();
+                if(mCaseCaseIntegrationIdVsAttempt.containsKey(itempKey)){
+                    cInteg.Retry_Attempt__c = mCaseCaseIntegrationIdVsAttempt.get(itempKey);
+                    if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) >= 2){
+                        cInteg.Retry__c = false;
+                        cInteg.Next_Retry__c = null;
+                        caseInteToUpdate.add(cInteg);
+                    }
+                }
+            }
+        }
+        
+        
         
         if(casesToUpdate.size()>0){
             Database.SaveResult[] results = Database.update(casesToUpdate,false);
@@ -168,6 +198,7 @@ public without sharing class ASF_RetryIntegrations {
         }
         if(cInt.Retry_Attempt__c > 2){
             cInt.Next_Retry__c = null;
+            cInt.Retry__c = false;
         }
         caseInteToUpdate.add(cInt);
         System.debug(caseInteToUpdate);
