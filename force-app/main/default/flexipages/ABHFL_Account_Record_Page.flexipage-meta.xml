@@ -642,6 +642,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-dc02df65-802e-42ec-a243-f7c62d30cfa7</value>

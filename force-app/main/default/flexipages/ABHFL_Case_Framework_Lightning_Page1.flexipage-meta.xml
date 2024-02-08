@@ -616,6 +616,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>fieldSetName</name>
                     <value>ASF_Editable_Fields</value>
