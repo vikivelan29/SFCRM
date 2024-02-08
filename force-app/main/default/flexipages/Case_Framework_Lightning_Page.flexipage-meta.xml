@@ -507,26 +507,6 @@
             <componentInstance>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsClosed}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_caseClosureMileStoneNotClosed</componentName>
-                <identifier>c_aSF_caseClosureMileStoneNotClosed</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsClosed}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
