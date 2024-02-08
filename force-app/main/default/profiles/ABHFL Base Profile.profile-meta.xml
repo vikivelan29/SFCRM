@@ -677,11 +677,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABFL_Case_Detail__c.CustomerNo__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ABFL_Case_Detail__c.Customer_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
