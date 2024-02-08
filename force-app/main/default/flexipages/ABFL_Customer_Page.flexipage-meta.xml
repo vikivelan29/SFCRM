@@ -86,16 +86,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NPS_Score__c</fieldItem>
-                <identifier>RecordNPS_Score_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.CreatedById</fieldItem>
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
@@ -152,16 +142,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Client_Code__c</fieldItem>
                 <identifier>RecordClient_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.NPS_Result__c</fieldItem>
-                <identifier>RecordNPS_Result_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
