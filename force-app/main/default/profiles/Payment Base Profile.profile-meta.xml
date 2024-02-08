@@ -3482,11 +3482,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Unique_Key__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LOBMappingDetails__mdt.CCValue__c</field>
         <readable>false</readable>
     </fieldPermissions>
