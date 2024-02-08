@@ -13,7 +13,7 @@ import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import RECATEGORISATION_REASON_FIELD from '@salesforce/schema/Case.Recategorisation_Reason__c';
 import BOT_FEEDBACK_FIELD from '@salesforce/schema/Case.Bot_Feedback__c';
 import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
-import CASESOURCE_FIELD from '@salesforce/schema/Case.Source__c';
+import SENTTOBOT_FIELD from '@salesforce/schema/Case.Sent_to_EBOT__c';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 
@@ -106,12 +106,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     sendBotFeedback = true;
     showBotFeedback = false;
      
-    @wire(getRecord, { recordId: '$recordId', fields: [CASESOURCE_FIELD, CASE_BU_FIELD] })
+    @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD] })
     wiredRecord({ error, data }) {
         if (data) {
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
             const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
-            if(getFieldValue(data, CASESOURCE_FIELD) === 'Email' && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
+            if(getFieldValue(data, SENTTOBOT_FIELD) === true && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
                 this.showBotFeedback = true;
             }
         } else if (error) {
@@ -156,7 +156,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     //This function gets the value from the Send Bit Feedback Checkbox
     handleBotFeedback(event){
         this.sendBotFeedback = event.target.checked;
-        console.log('bot value--'+this.sendBotFeedback);
     }
 
     //This function will fetch the CCC Name on basis of searchkey
@@ -405,10 +404,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
-
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
-         console.log('case--'+JSON.stringify(caseRecord));
         updateCaseRecord({ recId: this.recordId,oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,newCaseJson : JSON.stringify(caseRecord) })
         .then(result => {
             if(this.showBotFeedback && this.sendBotFeedback){
@@ -430,7 +427,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         }); 
     }
     notifyEbot(){
-        console.log('inside ebot callout');
         callEbotFeedbackApi({ caseId: this.recordId})
             .then(result => {
                console.log('ebot call success');
