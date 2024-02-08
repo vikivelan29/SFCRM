@@ -15,6 +15,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track accountVal
     @track inpValue;
     selectedCustomer;
+    selectedAsset;
     @api recordId;
     initialRecords;
     inpValueA;
@@ -22,9 +23,9 @@ export default class Asf_CRNTagging extends LightningElement {
     preSelectedAsset = [];
     prestdAcctId;
     noUpdate = noUpdate;
-    accountCrn;
+        accountCrn;
     FAId;
-    
+
     asstCols = [{
         label: 'Id',
         fieldName: 'Id',
@@ -133,7 +134,7 @@ export default class Asf_CRNTagging extends LightningElement {
         if(data){
             this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
             this.FAId = getFieldValue(data, ASSET_FIELD);
-        } else if(error){
+                    } else if(error){
             console.log(error);
         }
     };
@@ -174,7 +175,7 @@ export default class Asf_CRNTagging extends LightningElement {
         data
     }) {
         if (data) {
-            this.asstData = data.asstList;
+                        this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
 
@@ -210,7 +211,7 @@ export default class Asf_CRNTagging extends LightningElement {
         })
             .then(result => {
                 this.accData = result;
-            })
+                            })
             .catch(error => {
             });
     }
@@ -230,13 +231,17 @@ export default class Asf_CRNTagging extends LightningElement {
             .then(result => {
                 this.asstData = result.asstList;
                 this.initialRecords = result.asstList;
-            })
+                            })
             .catch(error => {
             });
     }
+    handleAsstAction(event){
+        const row = event.detail.selectedRows;
+        this.selectedAsset = row[0];
+    }
 
     handleclick(event) {
-        let conTable = this.template.querySelector('[data-id="conTable"]');
+         /*let conTable = this.template.querySelector('[data-id="conTable"]');
         let asstTable = this.template.querySelector('[data-id="asstTable"]');
         let selectedAsst = undefined;
         if(asstTable != undefined && asstTable != null){
@@ -244,13 +249,12 @@ export default class Asf_CRNTagging extends LightningElement {
                 selectedAsst = JSON.stringify(asstTable.getSelectedRows()).length > 2 ? asstTable.getSelectedRows() : undefined;
             }
             
-        }
-        
+        } */
         let selectedAsstId = null;
         let selectedFANum = 'NA';
-        if (selectedAsst != undefined) {
-            selectedAsstId = selectedAsst[0].Id;
-            selectedFANum = selectedAsst[0].LAN__c;
+        if (this.selectedAsset != undefined) {
+            selectedAsstId = this.selectedAsset.Id;
+            selectedFANum = this.selectedAsset.LAN__c;
         }
 
         if (this.selectedCustomer) {

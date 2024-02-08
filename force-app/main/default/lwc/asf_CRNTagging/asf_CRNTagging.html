@@ -1,6 +1,6 @@
 <template>
    <lightning-card title="Customer/LAN Tagging" class="slds-p-bottom_medium">
-      <div class="slds-grid slds-gutters">
+            <div class="slds-grid slds-gutters">
          <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
             <lightning-input type="text" label="" onchange={valChange} placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #"></lightning-input>
                   </div>
@@ -41,7 +41,8 @@
                 data={asstData}
                   class="colorWhite"
                 columns={asstCols}
-                selected-rows={preSelectedAsset}>
+                selected-rows={preSelectedAsset
+               onrowselection={handleAsstAction}>
                </lightning-datatable>
             </div>
          </div>
