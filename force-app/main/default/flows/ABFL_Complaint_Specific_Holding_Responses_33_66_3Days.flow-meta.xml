@@ -51,7 +51,7 @@
         </outputParameters>
         <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>60.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <description>Assigning the Email template and SMS template Dev Name</description>
         <name>Assign_Email_SMS_Template_Dev_Name_1</name>
