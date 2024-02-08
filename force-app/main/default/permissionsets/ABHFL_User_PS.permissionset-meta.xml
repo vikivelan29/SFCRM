@@ -64,7 +64,7 @@
         <apexClass>FrameworkFunctionalityExtender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
+<classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1605,14 +1605,14 @@
         <field>Case.Multiple_Child_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+<fieldPermissions>
         <editable>true</editable>
         <field>Case.Bot_Feedback__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Business_Unit__c</field>
+<field>Case.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1630,7 +1630,7 @@
         <field>Case.No_Auto_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+<fieldPermissions>
         <editable>true</editable>
         <field>Case.Sent_to_EBOT__c</field>
         <readable>true</readable>
@@ -2137,7 +2137,7 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <userPermissions>
+<userPermissions>
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>
