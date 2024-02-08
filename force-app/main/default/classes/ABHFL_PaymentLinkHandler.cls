@@ -65,12 +65,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                                                 WHERE CCC_External_Id__c =:cccExternalId];
         
         String chargeReason = docChargeMdtLst[0].Charges__c;
-        String amount = String.valueOf(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
         String chargeCode = docChargeMdtLst[0].Charge_Code__c;
         String integrationResponse = ABHFL_Constants.FAILURE;
 
         PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
-        //paytmRequestWrapper.amount = amount;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
         system.debug('paytmRequestBody'+paytmRequestBody);
         PaytmResponseWrapper paytmResponseWrapper = new PaytmResponseWrapper() ;
