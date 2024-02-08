@@ -15,7 +15,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
     public static void sendAcknowledgement(Case caseRec){
     	Id caseId = caseRec.Id; 
     	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c,No_Auto_Communication__c,Short_URL__c
-                       FROM Case WHERE Id = :caseId WITH SECURITY_ENFORCED];
+                       FROM Case WHERE Id = :caseId];
 
     	ASF_Case_Category_Config__c ccc = [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED LIMIT 1];
