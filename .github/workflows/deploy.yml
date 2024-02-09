@@ -8,7 +8,7 @@ on:
         description: Which environment to deploy to
         options:
           - uat-sandbox
-        default: 'sit1-sandbox'
+        default: 'uat-sandbox'
         required: true
       validateOnly:
         description: 'Run the deployment as validation only'
