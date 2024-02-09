@@ -5,7 +5,7 @@
     <formulas>
         <name>IncrementIncomingCount</name>
         <dataType>Number</dataType>
-        <expression>IF(IsBlank({!$Record.Parent.Incoming_Email_Count__c}), 1, {!$Record.Parent.Incoming_Email_Count__c}+1)</expression>
+        <expression>IF(IsBlank({!$Record.Parent.ABFL_Incoming_Email_Count__c}), 1, {!$Record.Parent.ABFL_Incoming_Email_Count__c}+1)</expression>
         <scale>2</scale>
     </formulas>
     <interviewLabel>ABFL Incoming {!$Flow.CurrentDateTime}</interviewLabel>

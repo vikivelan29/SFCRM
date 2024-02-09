@@ -1,32 +1,48 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 02-09-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   02-09-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CaseEmailControllerBUSpecificHandler {
-    public static String replaceDynamicFields(String inputText, Map<String, String> resultMap) {
-        String regExpForMultipleChildsValue = '\\@\\@(.*?)\\@\\@';
+    public static String replaceDynamicFields(String inputText, Map<String, String> resultMap, Boolean isABHFL) {
+        if(isABHFL){
+            String regExpForMultipleChildsValue = '\\@\\@(.*?)\\@\\@';
 
-        Pattern regex = Pattern.compile(regExpForMultipleChildsValue);
-        Matcher matcher = regex.matcher(inputText);
+            Pattern regex = Pattern.compile(regExpForMultipleChildsValue);
+            Matcher matcher = regex.matcher(inputText);
 
-        while (matcher.find()) {
-            String capturedString = matcher.group(1);
-            String concatinatedSubFields = '';
-            for(String str : resultMap.keySet()){
-                if(capturedString.contains('##' + str + '##')){
-                    concatinatedSubFields+=str + ',';
+            while (matcher.find()) {
+                String capturedString = matcher.group(1);
+                String concatinatedSubFields = '';
+                for(String str : resultMap.keySet()){
+                    if(capturedString.contains('##' + str + '##')){
+                        concatinatedSubFields+=str + ',';
+                    }
+                }
+                System.debug('concatinatedSubFields   ----   ' + concatinatedSubFields);
+                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap);
+                inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
+            }    
+
+            System.debug('result Map  =------ >   '+resultMap);
+            if (resultMap != null){
+                for (String s : resultMap.keySet()) {
+                    inputText = inputText.replace('##' + s + '##', resultMap.get(s));
+                    System.debug('##' + s + '##    --->>.    ' + resultMap.get(s));
                 }
             }
-            System.debug('concatinatedSubFields   ----   ' + concatinatedSubFields);
-            String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap);
-            inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
-        }    
-
-        System.debug('result Map  =------ >   '+resultMap);
-        if (resultMap != null){
-            for (String s : resultMap.keySet()) {
-                System.debug('$$ ==> '+s);
-                inputText = inputText.replace('$$' + s + '$$', resultMap.get(s) != null ? resultMap.get(s) : ' --- ');
-                inputText = inputText.replace('##' + s + '##', resultMap.get(s));
-                System.debug('##' + s + '##    --->>.    ' + resultMap.get(s));
-            }
         }
+        // if (resultMap != null){
+        //     for (String s : resultMap.keySet()) {
+        //         System.debug('$$ ==> '+s);
+        //         inputText = inputText.replace('$$' + s + '$$', resultMap.get(s) != null ? resultMap.get(s) : ' --- ');
+        //     }
+        // }
         return inputText;
     }
 
