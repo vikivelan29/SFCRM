@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-     <labels>
+<labels>
         <fullName>Repeated_Indicator</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15,13 +15,20 @@
         <value>ABHFL,ABFL,Payments</value>
     </labels>
     <labels>
+        <fullName>ABCL_Integration_User_Nickname</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration User Nickname</shortDescription>
+        <value>ABFSGSFDC User</value>
+    </labels>
+    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
         <value>Test Project Id</value>
     </labels>
-    <labels>
+<labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -113,7 +120,7 @@
         <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
         <value>Create Case for Customer</value>
     </labels>
-    <labels>
+<labels>
         <fullName>ASF_Customer_Mandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>

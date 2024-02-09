@@ -142,18 +142,19 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear &lt;Name of BOPS&gt;,<br />
 												<br />
-												With reference to the captioned customer details, request you to kindly retrieve the Sanction letter for the LAN as the customer is requesting foreclosure.<br />
+												With reference to the captioned  customer details, request you to kindly retrieve the Sanction letter for the LAN as the customer is requesting foreclosure.<br />
 												<br />
 												Please find below the details of the Customer.  <br />
 												{{{Case.Account}}}<br />
 												{{{Case.LAN__c}}} <br />
 												{{{Case.CaseNumber}}}<br />
+												<br />
 												<br />
 												Thanks and Regards,<br />
 												&lt;Name of CSE&gt;</div>

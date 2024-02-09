@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Approval for FCL & LOD {!relatedTo.Account.Name} {!relatedTo.LAN__c} {!relatedTo.CaseNumber}" recipientType="Contact" relatedToType="Case">
+<messaging:emailTemplate subject="Reduction in ROI Approval {!relatedTo.Account.Name} {!relatedTo.LAN__c} {!relatedTo.CaseNumber}" recipientType="Contact" relatedToType="Case">
 <messaging:htmlEmailBody >
     <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateDevloperName="ABFL_NSM_APPROVAL_FOR_RELEASE_OF_FCL_LOD"></c:ASF_CaseEmail>
 </messaging:htmlEmailBody>

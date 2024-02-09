@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>SMT Escalation Template</name>
+    <name>SMT ESCALATION TEMPLATE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>SMT Escalation Template</subject>
-    <type>custom</type> 
+    <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

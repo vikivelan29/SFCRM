@@ -13,6 +13,7 @@ public with sharing class ABFL_Constants {
     public static final string ERROR = 'Error';  
     public static final string CANCELED = 'Canceled';
     public static final string PENDING = 'Pending';
+    public static final string RESOLVED = 'Resolved';
     public static final string RM_NO_EMAIL = 'RM-No email';
     public static final string IVR_NO_EMAIL = 'IVR-No email';
     public static final string EVALUATION_FAILED_LAN_ERROR = 'LAN can\'t be found on Case ';
@@ -29,7 +30,7 @@ public with sharing class ABFL_Constants {
     public static final String ABFL = 'ABFL';
     @auraEnabled public final String lob_ABFL = 'ABFL'; //for ODP alters
     public static final String CHANNEL_ID = 'CHA1002'; //Needs to check what is channel Id?
-    public static final String ODP_ALERTS = 'ODP_Alerts_ABFL';
+    public static final String ODP_ALERTS = 'ABFL_ODP_Alerts';
         
     public static final string WEALTHLOB = 'Wealth';
     public static final string API = 'API';
@@ -49,5 +50,10 @@ public with sharing class ABFL_Constants {
         get{
             return 'FAILURE';
         }
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static ABFL_Constants getAllConstants() {
+        return new ABFL_Constants();
     }
 }
