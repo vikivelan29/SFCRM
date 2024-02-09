@@ -461,18 +461,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>displayType</name>
-                    <value>Timer</value>
-                </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_caseClosureMileStoneNotClosed</componentName>
-                <identifier>c_aSF_caseClosureMileStoneNotClosed</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
