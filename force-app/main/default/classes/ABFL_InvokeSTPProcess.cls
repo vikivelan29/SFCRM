@@ -52,7 +52,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                 Status__c = ABFL_Constants.PENDING, 
                 Response__c = ABFL_Constants.WAITING_API_RESPONSE
             );
-
+            if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
+                caseInt.Is_Validation_Success__c = true;
+            } 
             if (Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert caseInt;
             }
