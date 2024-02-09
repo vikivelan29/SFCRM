@@ -632,11 +632,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Test_Percent__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Client_Code_Text__c</field>
             <table>Case</table>
         </columns>
@@ -717,11 +712,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Resolved_Email_Sent__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Assigned_Team__c</field>
             <table>Case</table>
         </columns>
@@ -738,11 +728,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Short_URL__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Master_Record_Name__c</field>
             <table>Case</table>
         </columns>
         <columns>
