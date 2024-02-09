@@ -143,7 +143,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     isUpdateCase = true;
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
-                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
+                                            Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP)
                     );
                 }
 
@@ -153,6 +153,8 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 }
                 if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
+                    System.debug('@@@resultWrap'+resultWrap);
+                    resultWrap.caseToBeUpdated.OwnerId = Userinfo.getuserId();
                     update resultWrap?.caseToBeUpdated;
                 }
                 
