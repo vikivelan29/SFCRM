@@ -150,7 +150,7 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												We write to you with reference to your request regarding the closure of your ABFL Loan A/C no. {{{Case.LAN__c}}}<br />
+												We write to you with reference to your request regarding the closure of your ABFL Loan A/C no. {{{Case.LAN__c}}}.<br />
 												<br />
 												We wish to inform you that the loan payment has been updated and your account has been closed.<br />
 												<br />
