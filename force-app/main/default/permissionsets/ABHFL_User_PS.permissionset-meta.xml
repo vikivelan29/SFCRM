@@ -114,11 +114,11 @@
         <field>ABHFL_Asset_Detail__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!-- <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Credit_in_Repayment_Accounts__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions> -->
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.AWB_Number__c</field>
