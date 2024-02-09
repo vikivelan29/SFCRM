@@ -134,7 +134,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     //Update Document URL on ABFL Case detail, proceed to next stage.
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
-                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
+                                            Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP)
                     );
                     isUpdateCase = true;
                 }
