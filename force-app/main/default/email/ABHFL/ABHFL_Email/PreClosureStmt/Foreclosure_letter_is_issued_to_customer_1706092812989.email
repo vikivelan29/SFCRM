@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -165,7 +165,7 @@
 												<br />
 												You can now make the payment at your ease by banking from home via online transfer using the below details.<br />
 												Beneficiary Name Aditya Birla Housing Finance Limited<br />
-												Beneficiary Account Number &lt; VAN number of the Primary LAN&gt;<br />
+												Beneficiary Account Number $$Asset.VAN__c$$<br />
 												(This account is only meant for Electronic fund transfer in the Aditya Birla Account, hence don’t use this for direct cheque/cash banking. In case you want to deposit the cheque please visit our branch and handover the cheque to our Customer service team for physical banking).<br />
 												Beneficiary Bank &amp; Branch<br />
 												IndusInd Bank , Ground floor, maker chambers IV, Nariman Point, Mumbai – 400021.<br />

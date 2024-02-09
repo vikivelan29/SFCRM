@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We tried to contact you on {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} but failed to establish a successful contact. We will received your property papers and No Dues Certificate (NDC) to our home branch {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} . Request you to contact our branch for any further formalities. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Regards, -Aditya Birla Housing Finance Limited</body>
+</html>
