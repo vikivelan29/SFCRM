@@ -76,7 +76,7 @@ public without sharing class ASF_RetryIntegrations {
         if(intExtIds.size()>0){
             intergraionMaster = ASF_CaseQueryHandler.getASFIntegrationRecordsForRetry(intExtIds);
         }
-            
+        
         
         for(ASF_Integration__c integ : intergraionMaster){
             if(integ.External_Id__c != null){
@@ -98,7 +98,7 @@ public without sharing class ASF_RetryIntegrations {
                     System.debug('tempUniqueKeyForMdt '+tempUniqueKeyForMdt);
                     integer iHashUniqueKeyForMdt = 0;
                     if(tempUniqueKeyForMdt != null && tempUniqueKeyForMdt != ''){
-						iHashUniqueKeyForMdt = tempUniqueKeyForMdt.hashCode();
+                        iHashUniqueKeyForMdt = tempUniqueKeyForMdt.hashCode();
                     }
                     
                     if(mIntegrationRecords.containsKey(cInt.Integration_Ext_Id__c)){
@@ -141,15 +141,18 @@ public without sharing class ASF_RetryIntegrations {
         
         if(mCaseCaseIntegrationIdVsAttempt.keySet().size()>0){
             List<ASF_Case_Integration__c> asfCaseIntegrations = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =: caseIdForProcess AND
-                                                               Integration_Ext_Id__c =:caseIntProcess];
+                                                                 Integration_Ext_Id__c =:caseIntProcess AND Status__c = 'Pending'];
             for(ASF_Case_Integration__c cInteg : asfCaseIntegrations){
                 String tempKey = cInteg.Case__c+cInteg.Integration_Ext_Id__c;
                 integer itempKey = tempKey.hashcode();
                 if(mCaseCaseIntegrationIdVsAttempt.containsKey(itempKey)){
                     cInteg.Retry_Attempt__c = mCaseCaseIntegrationIdVsAttempt.get(itempKey);
-                    if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) >= 2){
-                        cInteg.Retry__c = false;
-                        cInteg.Next_Retry__c = null;
+                    if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) <= 2){
+                        if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) == 2){
+                            cInteg.Next_Retry__c = null;
+                            cInteg.Retry__c = false;
+                        }
+                        
                         caseInteToUpdate.add(cInteg);
                     }
                 }
