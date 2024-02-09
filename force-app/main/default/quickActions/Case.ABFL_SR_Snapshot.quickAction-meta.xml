@@ -64,7 +64,7 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>AssetId</field>
+                <field>SuppliedEmail</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>

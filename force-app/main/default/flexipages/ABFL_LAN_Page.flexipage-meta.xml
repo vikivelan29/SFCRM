@@ -23,7 +23,7 @@
                     <name>numVisibleActions</name>
                     <value>3</value>
                 </componentInstanceProperties>
-                <componentName>force:highlightsPanel</componentName>
+                <componentName>force:highlightsPanel</componentName>   
                 <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>

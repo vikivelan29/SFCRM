@@ -471,6 +471,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>aSF_caseClosureMileStoneNotClosed</componentName>
+                <identifier>c_aSF_caseClosureMileStoneNotClosed</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-9e59018b-0a4a-4dd5-9711-15dd3d363291</value>

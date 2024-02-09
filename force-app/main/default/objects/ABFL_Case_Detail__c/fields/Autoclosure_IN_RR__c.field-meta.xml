@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Trail Mail Flag of the Email</description>
     <externalId>false</externalId>
-    <label>Autoclosure_IN_RR</label>
+    <label>Trail Mail</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
