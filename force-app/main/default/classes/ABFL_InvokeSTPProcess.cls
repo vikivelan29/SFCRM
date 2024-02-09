@@ -52,9 +52,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                 Status__c = ABFL_Constants.PENDING, 
                 Response__c = ABFL_Constants.WAITING_API_RESPONSE
             );
-            if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
+			if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
                 caseInt.Is_Validation_Success__c = true;
-            } 
+            }    
             if (Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert caseInt;
             }
@@ -143,7 +143,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                         if (isEmailSentToCustomer){
                             ABFL_Case_Detail__c caseDetailRecord = new ABFL_Case_Detail__c();
                             caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
-                            caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
+                            caseDetailRecord.Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP;
                             update caseDetailRecord;
 
                             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');

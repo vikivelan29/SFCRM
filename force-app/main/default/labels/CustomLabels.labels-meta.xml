@@ -22,6 +22,13 @@
         <value>Test Project Id</value>
     </labels>
     <labels>
+        <fullName>ABFL_RESOLVED_STP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL RESOLVED STP</shortDescription>
+        <value>Resolved By STP</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Base_URL_For_Bitly</fullName>
         <language>en_US</language>
         <protected>false</protected>
