@@ -146,17 +146,17 @@
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Sir / Madam,&nbsp;<br />
 												This is a system-generated response. This message is to inform you that your SLA Level 3&nbsp;is escalated for Case ID {{{Case.CaseNumber}}} <br />
 												<br />
-												Customer Name. {{{Case.Account}}} <br />
+												Customer Name: {{{Case.Account}}} <br />
 												<br />
-												Case Category. {{{Case.Nature__c}}} <br />
+												Case Category: {{{Case.Nature__c}}} <br />
 												<br />
-												Case Type. {{{Case.Type_Text__c}}} <br />
+												Case Type: {{{Case.Type_Text__c}}} <br />
 												<br />
-												Case Sub Type. {{{Case.Sub_Type_Text__c}}} <br />
+												Case Sub Type: {{{Case.Sub_Type_Text__c}}} <br />
 												<br />
-												Case Remarks. {{{Case.Description}}} <br />
+												Case Remarks: {{{Case.Description}}} <br />
 												<br />
-												Case Owner. {{{Case.OwnerFullName}}}&nbsp;<br />
+												Case Owner: {{{Case.OwnerFullName}}}&nbsp;<br />
 												<br />
 												To visit the CRM System, Please use the mentioned link ABFLCRM</div>
 												</td>

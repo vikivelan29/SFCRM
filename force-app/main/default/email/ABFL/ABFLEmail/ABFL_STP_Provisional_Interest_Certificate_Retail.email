@@ -148,17 +148,15 @@
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
-												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance </span></strong><br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance.</span></strong><br />
 												&nbsp;<br />
 												We are glad to have you as our valued customer.<br />
 												<br />
-												As per your request, please find the Provisional Interest Certificate attached with this mail for your ABFL Loan Account No. {{{Case.LAN__c}}}<br />
+												As per your request, please find the Provisional Interest Certificate attached with this mail for your ABFL Loan Account No. {{{Case.LAN__c}}}.<br />
 												<br />
 												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />
-												Thank you for reaching out to us.<br />
-												<br />
-												Assuring you of our best services always.<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
 												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
 												<br />

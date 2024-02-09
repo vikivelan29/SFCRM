@@ -150,13 +150,11 @@
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												As per your request, the Interest Certificate is attached with the mail for your ABFL Loan Account no. {{{Case.LAN__c}}}<br />
+												As per your request, the Interest Certificate is attached with the mail for your ABFL Loan Account no. {{{Case.LAN__c}}}.<br />
 												<br />
 												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />
-												Thank you for reaching out to us.<br />
-												<br />
-												Assuring you of our best services always.<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
 												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
 												<br />
