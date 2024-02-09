@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Email To User On Case Assigment</name>
+    <name>Email To User On Case Assignment</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Service Request ID {{{Case.CaseNumber}}} for Category - {{{Case.Nature__c}}} , Request Type - {{{Case.Type_Text__c}}}  assigned to you.</subject>
+    <subject>Service Request ID {{{Case.CaseNumber}}} for Category - {{{Case.Nature__c}}}, Request Type - {{{Case.Type_Text__c}}} assigned to you.</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
