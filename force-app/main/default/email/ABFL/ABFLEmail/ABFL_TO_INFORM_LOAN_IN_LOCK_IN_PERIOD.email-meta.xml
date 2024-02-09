@@ -5,7 +5,7 @@
     <name>TO INFORM LOAN IN LOCK IN PERIOD</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Regarding your request for foreclosure of your loan account</subject>
+    <subject>Regarding your request for foreclosure of your loan acount</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

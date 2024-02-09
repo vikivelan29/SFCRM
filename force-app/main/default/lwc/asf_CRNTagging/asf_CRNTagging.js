@@ -10,6 +10,18 @@ import ASSET_FIELD from '@salesforce/schema/Case.AssetId';
 import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 
 
+
+// VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
+import CUSTOMERPROSPECTSEARCH from "./asf_CRNTagging.html";
+import PROSPECTCREATION from "./asf_ProspectTagging.html";
+import loggedInUserId from '@salesforce/user/Id';
+
+import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
+import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
+import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
+// VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
+
 export default class Asf_CRNTagging extends LightningElement {
     @track accountOpts
     @track accountVal
@@ -23,7 +35,15 @@ export default class Asf_CRNTagging extends LightningElement {
     preSelectedAsset = [];
     prestdAcctId;
     noUpdate = noUpdate;
-        accountCrn;
+    @track showLANForCustomer = false;
+    @track showProspectCreation = false;
+    fields;
+    error;
+    @track loggedInUserBusinessUnit = '';
+    @track dupeLead=[];
+    @track showDupeList=false;
+    disableCreateBtn = false;
+    accountCrn;
     FAId;
 
     asstCols = [{
@@ -123,8 +143,24 @@ export default class Asf_CRNTagging extends LightningElement {
         initialWidth: 180
     }
     ]
+
+    dupeLeadCols = [
+        { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
+        { label: 'Email', fieldName: 'Email', type: 'text' },
+        { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
+    ]
     asstData;
     accData;
+
+
+    @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
+    currentUserInfo({error, data}) {
+        if (data) {
+            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+        } else if (error) {
+            //this.error = error ;
+        }
+    }
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -134,7 +170,8 @@ export default class Asf_CRNTagging extends LightningElement {
         if(data){
             this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
             this.FAId = getFieldValue(data, ASSET_FIELD);
-                    } else if(error){
+            console.log('acc id--'+this.accountCrn);
+        } else if(error){
             console.log(error);
         }
     };
@@ -175,7 +212,8 @@ export default class Asf_CRNTagging extends LightningElement {
         data
     }) {
         if (data) {
-                        this.asstData = data.asstList;
+            console.log('con data--'+JSON.stringify(data));
+            this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
 
@@ -211,7 +249,8 @@ export default class Asf_CRNTagging extends LightningElement {
         })
             .then(result => {
                 this.accData = result;
-                            })
+                console.log('adc data--'+JSON.stringify(this.accData));
+            })
             .catch(error => {
             });
     }
@@ -231,13 +270,15 @@ export default class Asf_CRNTagging extends LightningElement {
             .then(result => {
                 this.asstData = result.asstList;
                 this.initialRecords = result.asstList;
-                            })
+                console.log('asset data--'+JSON.stringify(this.asstData));
+            })
             .catch(error => {
             });
     }
     handleAsstAction(event){
         const row = event.detail.selectedRows;
         this.selectedAsset = row[0];
+        console.log('sekectd asset--'+JSON.stringify(this.selectedAsset));
     }
 
     handleclick(event) {
@@ -335,4 +376,112 @@ export default class Asf_CRNTagging extends LightningElement {
         }
     }
 
+    async handleProspectCreation(event){
+        // THIS METHOD IS USED TO SHOW PROSPECT SCREEN.
+        this.showProspectCreation = true;
+
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
+            .then(result => {
+                console.log('Data:' + JSON.stringify(result));
+                if (result) {
+                    this.fields = result.Fields;
+                    this.error = undefined;
+                }
+            }).catch(error => {
+                console.log(error);
+                this.error = error;
+            });
     }
+    /* ADDED BY - VIRENDRA
+       REQUIREMENT - TO RENDER THE PROSPECT CREATION FORM WHEN USER CLICKS ON CREATE PROSPECT BUTTON.
+    */
+    render() {
+        return this.showProspectCreation ? PROSPECTCREATION : CUSTOMERPROSPECTSEARCH;
+      }
+      /* ADDED BY - VIRENDRA
+         REQUIREMENT - TO CREATE THE PROSPECT RECORD (LOB SPECIFIC) WHEN CLICKED ON CREATE PROSPECT BUTTON ON PROSPECT FORM.
+      */
+      async handleLeadSubmit(event){
+        event.preventDefault();
+        let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
+        let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
+        if (!this.isInputValid()) {
+            // Stay on same page if lightning-text field is required and is not populated with any value.
+            return;
+        }
+        const fields = {};
+        let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
+        let caseRecord = {};
+        leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
+        caseRecord["sobjectType"] = "Case";
+        caseRecord["id"] = this.recordId;
+
+        /* PASS CASERECORD WITH ID AND PROSPECTRECORD TO BE CREATED.
+           IF THERE IS A DUPLICATE SERVICE PROSPECT ALREADY FOUND IN THE SYSTEM, IT WILL BE RETURNED
+           AND SHOWN IN DATA-TABLE. USER CAN CLICK ON PROSPECT NAME HYPERLINK TO NAVIGATE TO EXISTING PROSPECT.
+        */
+        createProspectAndUpdCase({ caseToInsert: caseRecord, prospectRecord: leadRecord })
+            .then(result =>{
+                if(result.DuplicateLead != null && result.DuplicateLead != undefined){
+                    this.dupeLead.push(JSON.parse(JSON.stringify(result.DuplicateLead)));
+                    if(this.dupeLead != null && this.dupeLead != undefined && this.dupeLead.length > 0){
+                        this.dupeLead[0].redirectLink =  '/' + this.dupeLead[0].Id;
+                        this.showDupeList=true;
+                        this.disableCreateBtn = true;
+                        //this.loaded = true;
+                        return;
+                    }
+                }
+                this.caseRecordId = result.Case.Id;
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: this.caseRecordId,
+                        actionName: 'view'
+                    },
+                    state: {
+                        mode: 'edit'
+                    }
+                });
+                this.dispatchEvent(new CloseActionScreenEvent());
+            })
+
+
+
+
+      }
+      isInputValid() {
+        let isValid = true;
+        let inputFields = this.template.querySelectorAll('lightning-input-field');
+        inputFields.forEach(inputField => {
+            //if (inputField.value != null && inputField.value != undefined) {
+
+            if (inputField.required == true) {
+                if (inputField.value != null && inputField != undefined) {
+                    if (inputField.value.trim() == '') {
+                        inputField.value = '';
+                        inputField.reportValidity();
+                        isValid = false;
+                    }
+                    
+                }
+                else{
+                    inputField.reportValidity();
+                    isValid = false;
+                }
+
+            }
+        });
+
+        
+        return isValid;
+    }
+    handleBack(event){
+        this.showProspectCreation = false;
+    }
+
+    // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
+
+      
+
+}

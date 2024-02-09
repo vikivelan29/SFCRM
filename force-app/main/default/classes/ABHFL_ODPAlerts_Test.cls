@@ -8,7 +8,7 @@ public class ABHFL_ODPAlerts_Test {
         insert testAccount;
 
         // Test the getOdpAlerts method
-        List<ODPAlertResponse> result = ABHFL_ODPAlerts.getOdpAlerts(testAccount.Id);
+        List<ODPAlertResponse> result = ABHFL_ODPAlerts.getOdpAlerts(testAccount.Id,true);
 
         System.assertNotEquals(null, result);
         

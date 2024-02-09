@@ -31,6 +31,9 @@ import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 
+// VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
+import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
+
 
 export class asf_Utility {
 
@@ -142,6 +145,12 @@ export class asf_Utility {
        if(contact){
            fields[CASE_CONTACT_FIELD.fieldApiName] = contact;
        }
+
+       // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT - 
+       if(parentJS.prospectRecId != undefined && parentJS.prospectRecId != null && parentJS.prospectRecId != ''){
+        fields[CASE_PROSPECT_ID.fieldApiName] = parentJS.prospectRecId;
+       }
+       // VIRENDRA - END PROSPECT HERE.
        console.log('####Fields##'+JSON.stringify(fields));
        this.updateCaseJS(fields,parentJS);
    }

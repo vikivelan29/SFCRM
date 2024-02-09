@@ -142,46 +142,47 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												In case, you wish to make an online payment, please find the virtual account details mentioned below.<br />
-												<br />
-												<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">In case, you wish to make an online payment, please find the virtual account details mentioned below.</span></span></span></span></span></span></span></span><br />
+												&nbsp;
+												<table class="MsoTableGrid" style="border-collapse:collapse; border:none">
 													
 														<tr>
-															<td>Beneficiary Name</td>
-															<td>Aditya Birla Finance Limited</td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Beneficiary Name:</span></span></span></span></span></span></span></td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:1px solid black; border-right:1px solid black; border-left:none" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Aditya Birla Finance Limited</span></span></span></span></span></span></span></td>
 														</tr>
 														<tr>
-															<td>Beneficiary Account No</td>
-															<td>___________</td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Beneficiary Account No:</span></span></span></span></span></span></span></td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:none" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">___________</span></span></span></span></span></span></span></td>
 														</tr>
 														<tr>
-															<td>Bank &amp; branch</td>
-															<td>HDFC Bank Limited, KANJURMARG</td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Bank &amp; branch:</span></span></span></span></span></span></span></td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:none" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">HDFC Bank Limited, KANJURMARG</span></span></span></span></span></span></span></td>
 														</tr>
 														<tr>
-															<td>IFSC Code</td>
-															<td>HDFC0004989</td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:1px solid black" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">IFSC Code:</span></span></span></span></span></span></span></td>
+															<td style="border-bottom:1px solid black; width:308px; padding:0cm 7px 0cm 7px; border-top:none; border-right:1px solid black; border-left:none" valign="top"><span style="font-size:11pt"><span style="line-height:normal"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">HDFC0004989</span></span></span></span></span></span></span></td>
 														</tr>
+													
 												</table>
 												<br />
-												Request you to confirm and share the payment receipt (screenshot) once you have paid the amount.<br/>
-												<br/>
-												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Request you to confirm and share the payment receipt (screenshot) once you have paid the amount We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below. </span></span></span></span></span></span></span></span><br />
 												<br />
-												Thank you for reaching out to us. Assuring you of our best services always.<br />
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Thank you for reaching out to us.</span></span></span></span></span></span></span></span><br />
 												<br />
-												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Assuring you of our best services always.</span></span></span></span></span></span></span></span><br />
 												<br />
-												Warm regards,<br />
-												<strong><span style="color:#ca1f34;">Aditya Birla Finance Limited</span></strong></div>
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Note - Please DO NOT edit the subject line while responding to us on this case. </span></span></span></span></span></span></span></span><br />
+												<br />
+												<span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><span style="color:black">Warm regards, </span></span></span></span></span></span></span></span><br />
+												<span style="color:#c0392b;"><strong><span style="font-size:11pt"><span style="line-height:115%"><span style="font-family:Calibri,&quot;sans-serif&quot;"><span style="font-size:11.5pt"><span style="background:white"><span style="line-height:115%"><span style="font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Aditya Birla Finance Limited</span></span></span></span></span></span></span></strong></span></div>
 												</td>
 											</tr>
 										

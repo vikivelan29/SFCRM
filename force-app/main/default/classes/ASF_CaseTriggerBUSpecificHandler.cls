@@ -2,7 +2,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
-        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems); 
+        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
 
@@ -28,7 +28,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
-        ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -53,9 +52,14 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
 
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
+
+        //PR970457-417 ABFL - Customer survey through LITMUS
+        ABFL_InvokeLitmusProcess invokeLitmusProcessObj = new ABFL_InvokeLitmusProcess();
+        invokeLitmusProcessObj.evaluateCasesForLitmus((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
+
         ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        
     }
     
 }

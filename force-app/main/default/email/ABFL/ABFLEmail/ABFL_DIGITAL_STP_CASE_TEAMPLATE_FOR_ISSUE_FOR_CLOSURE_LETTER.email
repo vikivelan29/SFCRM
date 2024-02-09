@@ -142,19 +142,17 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												<br />
 												As per your request, attached is the foreclosure letter for your ABFL Loan A/C no. {{{Case.LAN__c}}} <br />
 												<br />
-												Things to know about the foreclosure of your loan:<br />
-												<br />
-												*** ADD BELOW IN BULLET ***</div>
+												Things to know about the foreclosure of your loan:</div>
 
 												<ul>
 													<li style="margin-right: 4px; margin-left: 4px; text-align: justify;">The foreclosure amount mentioned in the attached letter is valid for 5 calendar days i.e. till $$Today:cd:add:5$$</li>
@@ -209,7 +207,7 @@
 												<br />
 												In case of any queries, please write to us at care.digitalfinance@adityabirlacapital.com or call us on 1800-2707-000 (10 A.M. to 7 P.M.)<br />
 												<br />
-												Warm regards,<br />
+												Warm Regards,<br />
 												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
 												</td>
 											</tr>
