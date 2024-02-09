@@ -123,6 +123,7 @@ public with sharing class ASF_Constants {
         
     /* RETRY MECHANISM RELATED CONSTANTS. */
     public static final String RETRY_PROCESSTYPEINTEG = 'Process';
+    public static final String RETRY_PREPOPULATEDTYPEINTEG = 'Pre Populate';
     public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
 
 }
