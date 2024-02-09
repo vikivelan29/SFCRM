@@ -1,7 +1,7 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="format-detection" content="telephone=no"><meta name="x-apple-disable-message-reformatting">
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -128,19 +128,19 @@
 </head>
 <body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
 <table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
-	
+	<tbody>
 		<tr>
 			<td align="center" class="pc-email-body-inner" valign="top">
 			<table align="center" border="0" cellpadding="0" cellspacing="0" class="pc-email-container" style="margin: 0 auto; max-width: 620px;background: #fff;border: 1px solid;" width="100%">
-				
+				<tbody>
 					<tr>
 						<td align="left" style="padding:0px;" valign="top">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
-							
+							<tbody>
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
-										
+										<tbody>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
@@ -156,13 +156,13 @@
 												<br />
 												Login to the portal https://wealth.adityabirlacapital.com/registration/sign-in with your Login ID: Registered Email ID / Pan Number and follow the below steps:<br />
 												<br />
-												1. Click the&nbsp;"SIP Cancellation" tab on the menu on the left-hand side of the logged-in screen and further click on the "Cease" tab for the scheme which you want to cancel.<br />
+												1. Click the&nbsp;&quot;SIP Cancellation&quot; tab on the menu on the left-hand side of the logged-in screen and further click on the &quot;Cease&quot; tab for the scheme which you want to cancel.<br />
 												<br />
-												2. A confirmation screen will pop up to proceed with cancellation, click ‘Yes’ to proceed with cancellation and a further 1st-level cancellation initiation screen will pop up.<br />
+												2. A confirmation screen will pop up to proceed with cancellation, click &lsquo;Yes&rsquo; to proceed with cancellation and a further 1st-level cancellation initiation screen will pop up.<br />
 												<br />
-												3. You will get an email notification from “NSENMF” as it is 2 step verification for security purposes, please click on the “Confirm Transaction” link.<br />
+												3. You will get an email notification from &ldquo;NSENMF&rdquo; as it is 2 step verification for security purposes, please click on the &ldquo;Confirm Transaction&rdquo; link.<br />
 												<br />
-												4. The page will be directed to the NSE platform, please click on “Accept”.<br />
+												4. The page will be directed to the NSE platform, please click on &ldquo;Accept&rdquo;.<br />
 												<br />
 												Please note that you will receive an authorization mail from NSE on your registered email ID. Please confirm and authorize to complete your cancellation request. Also note, that the link is valid for 48 hours only, in case you fail to authorize within the stipulated timeframe, the SIP cancellation request will not be processed and you will have to re-initiate the process.<br />
 												<br />
@@ -172,36 +172,35 @@
 												<br />
 												2) Scheduled SIPs must be canceled 7 business days before the SIP date. If any sips are scheduled within 7 business days, then the same will get invested.<br />
 												<br />
-												3) In case you are unable to cancel the SIP then please share the “error screenshot” along with your PAN number to care.wealth@adityabirlacapital.com.<br />
+												3) In case you are unable to cancel the SIP then please share the &ldquo;error screenshot&rdquo; along with your PAN number to care.wealth@adityabirlacapital.com.<br />
 												<br />
 												In case of any further queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
 												<br />
-												Thank you for reaching out to us.<br />
-												<br />
-												Assuring you of our best services always.<br />
+												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
 												Note - Please DO NOT edit the subject line while responding to us on this case<br />
 												<br />
-												Warm Regards,<br />
+												Warm regards,<br />
 												{{{Case.OwnerFullName}}}<br />
 												<strong><span style="color:#ca1f34;">Aditya Birla Finance Limited</span></strong></div>
 												</td>
 											</tr>
-										
+										</tbody>
 									</table>
 									</td>
 								</tr>
-							
+							</tbody>
 						</table>
 						</td>
 					</tr>
-				
+				</tbody>
 			</table>
 			</td>
 		</tr>
-	
+	</tbody>
 </table>
+</body>
+</html>
 <title></title>
 <style type="text/css"><!--br {mso-data-placement:same-cell;}-->
-</style></body>
-</html>
+</style>

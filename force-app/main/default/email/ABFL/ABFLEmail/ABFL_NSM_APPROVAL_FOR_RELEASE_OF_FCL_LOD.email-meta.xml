@@ -5,7 +5,7 @@
     <name>NSM APPROVAL FOR RELEASE OF FCL &amp; LOD Not in Use</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Approval for FCL &amp; LOD  {{{Case.Account}}}  {{{Case.LAN__c}}}   {{{Case.CaseNumber}}}</subject>
+    <subject>Approval for FCL &amp; LOD {{{Case.Account}}} {{{Case.LAN__c}}} {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
