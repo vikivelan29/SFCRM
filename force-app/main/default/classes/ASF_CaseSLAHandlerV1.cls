@@ -624,7 +624,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             if(String.valueOf(owner).startsWith('005')){
                 wrapper.ownerType = 'User';
                 String emailid = userIdToEmailMap.get(c.ownerId);
-                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailid);
+                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailId);
                 wrapper.ownerUserRecordorQueueOwnerEmailUserRecord =  userEmailMangerMap.get(emailId);     
             }
             else {
@@ -657,8 +657,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             //Stage Change Loop or change in external Id. Recategrize changes external Id
             if(oldCases.containsKey(i) &&
                 (newCases.get(i).Stage__c != oldCases.get(i).Stage__c || 
+                newCases.get(i).OwnerId != oldCases.get(i).OwnerId ||
                 newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c)){
-                Case updatedCase = new Case(Id=newCases.get(i).Id);
+                Case updatedCase = new Case(Id=newCases.get(i).Id, Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
                 if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
@@ -854,7 +855,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
                     }
                     if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
                     }
                 }
                 index++;
