@@ -5,10 +5,9 @@
 <body style="height: auto; min-height: auto;">
 <style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 </style>
-Dear Customer,<br />
+Dear Customer,&nbsp;<br />
 <br />
-With reference to your service request no {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} We sincerely apologize for the delay in response. We are working your request and we will provide a more substantive response to your request and a suitable solution soon. We thank you for your patience and sincerely apologize for the inconvenience caused to you in this regard.<br />
-<br />
+With reference to your service request no {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} We sincerely apologize for the delay in response. We are working on your request, and we will provide a more substantive response to your request and a suitable solution soon. We thank you for your patience and sincerely apologize for the inconvenience caused to you in this regard.&nbsp;<br />
 Regards,<br />
-Aditya Birla Housing Finance Limited</body>
+-Aditya Birla Housing Finance Limited</body>
 </html>

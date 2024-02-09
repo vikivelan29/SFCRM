@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -152,11 +152,11 @@
 												<br />
 												We would like to thank you for your continued support and the confidence you have placed in Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We would like to inform you that your original property documents has been delivered to our $$ABHFL_Case_Detail__r.Preferred_Branch__c$$ branch on {{{Case.CreatedDate}}} . We would request you to please collect the documents from our branch within 15 days from the date of receipt of this mail.<br />
+												We would like to inform you that your original property documents has been delivered to our $$ABHFL_Case_Detail__r.Preferred_Branch__c$$ branch on $$ABHFL_Case_Detail__r.Doc_Received_Date__c$$. We would request you to please collect the documents from our branch within 15 days from the date of receipt of this mail.<br />
 												<br />
 												Please note the original property documents will be handed over to the property owner(s) only in presence of all other co-borrowers. Hence, we request all the borrowers/customers to carry the photo ID proofs and signature proofs for collecting the documents.<br />
 												<br />
-												BRANCH ADDRESS: &lt; Mention branch address as required &gt;<br />
+												BRANCH ADDRESS:&nbsp;$$ABHFL_Case_Detail__r.Address__c$$<br />
 												Branch timings:10 am to 6 pm (Lunch – 1 pm to 1.30 pm)<br />
 												Holidays - Every 1st &amp; 2nd Saturday &amp; all Sundays<br />
 												<br />

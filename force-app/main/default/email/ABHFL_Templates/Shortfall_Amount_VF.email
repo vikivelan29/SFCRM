@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Balance Confirmation letter for {!relatedTo.Masked_LAN__c}." recipientType="Contact" relatedToType="Case">
+<messaging:emailTemplate subject="Shortfall Amount - Part Payment Applied" recipientType="Contact" relatedToType="Case">
 <messaging:htmlEmailBody >
 <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Shortfall Amount - Part Payment Applied"></c:ASF_CaseEmail>
 </messaging:htmlEmailBody>

@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Handover of collateral documents- Delay caused by Courier service</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Handover of collateral documents- Delay caused by Courier service</name>
+    <name>Handover of collateral documents-Delay caused by Courier service</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <type>custom</type>

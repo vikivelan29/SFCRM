@@ -5,6 +5,7 @@
     <name>Handover of collateral documents- Delay caused by ABHFL</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Handover of collateral documents- Delay caused by ABHFL</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

@@ -152,7 +152,7 @@
 												<br />
 												We would like to thank you for your continued support and the confidence you have placed in Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We write to you with reference to your Loan Closure done on $$Asset.Loan_End_Date__c$$. Please be informed that your Loan Account Number {{{Case.Masked_LAN__c}}}&nbsp;is closed. We will be dispatching your property papers and No Objection Certificate(NOC) to your home branch within $$Asset.Date_of_Dispatch__c$$&nbsp;days. Your home branch will contact you and will assist you with the further formalities.<br />
+												We write to you with reference to your Loan Closure done on $$Asset.Loan_End_Date__c$$. Please be informed that your Loan Account Number {{{Case.Masked_LAN__c}}}&nbsp;is closed. We will be dispatching your property papers and No Objection Certificate(NOC) to your home branch within 15&nbsp;days. Your home branch will contact you and will assist you with the further formalities.<br />
 												<br />
 												For any queries, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. You may also access your loan documents at a click of the button through our digital channels. We are pleased to inform you that we are now on WhatsApp. Send a “Hi” to 8828800032 and get instant access to a host of services on your Home Loan Account.<br />
 												<br />

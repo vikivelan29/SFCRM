@@ -152,7 +152,7 @@
 												<br />
 												Thank you for your continued support and the confidence you have placed in Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We would like to inform you that there is a delay in sharing your collateral document due to $$ABHFL_Case_Detail__c.Reason_for_delay__c$$&nbsp;against your loan account number ending in {{{Case.Masked_LAN__c}}}.<br />
+												We would like to inform you that there is a delay in sharing your collateral document due to $$ABHFL_Case_Detail__r.Reason_for_delay__c$$&nbsp;against your loan account number ending in {{{Case.Masked_LAN__c}}}.<br />
 												We request you to contact our branch executive for further assistance.<br />
 												<br />
 												In case of any queries, please feel free to contact us through any of our customer service channels mentioned below.<br />

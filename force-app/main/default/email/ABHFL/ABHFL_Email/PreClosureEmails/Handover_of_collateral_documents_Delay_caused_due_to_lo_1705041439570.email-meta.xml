@@ -6,6 +6,7 @@
     <name>Handover of collateral documents- Delay caused due to loss of document</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Handover of collateral documents- Delay caused due to loss of document</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

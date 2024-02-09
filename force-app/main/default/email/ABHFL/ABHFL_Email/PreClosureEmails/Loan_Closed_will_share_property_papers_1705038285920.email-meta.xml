@@ -5,6 +5,7 @@
     <name>Loan Closed - will share property papers</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Loan Account no. {{{Case.Masked_LAN__c}}} Closed</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
