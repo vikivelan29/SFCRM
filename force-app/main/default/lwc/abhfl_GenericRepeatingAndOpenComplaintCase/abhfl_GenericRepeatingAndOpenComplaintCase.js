@@ -87,8 +87,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             iconAttrObjOC.dataId = '[data-id="Open_Complaint_Indicator"]';
             iconAttrObjOC.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjOC);
-            this.isLoaded = false;
         }
+        this.isLoaded = false;
 
     }
 
@@ -99,8 +99,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             iconAttrObjRI.dataId = '[data-id="Repeated_Indicator"]';
             iconAttrObjRI.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjRI);
-            this.isLoaded = false;
         }
+        this.isLoaded = false;
     }
 
     addAndChangeAttributes(attrbObj) {
