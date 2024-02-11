@@ -84,8 +84,8 @@ public without sharing class PAY_CustomerSearchController {
     
     public static List<Account> createCustomerList(List<CustomerDetailsWrapper> customerDataList){
         try {
-            String abclIntegrationUserNm = '%'+System.Label.ABCL_Integration_UserName+'%';
-            List<User> systemUser = [SELECT ID FROM User WHERE Name Like : abclIntegrationUserNm];
+            String abclIntegrationUserNm = '%'+System.Label.ABCL_Integration_User_Nickname +'%';
+            List<User> systemUser = [SELECT ID FROM User WHERE CommunityNickname Like : abclIntegrationUserNm];
             List<Account> accountList = new List<Account>();
             List<Contact> contactList = new List<Contact>();
             system.debug('customerDataList'+customerDataList);
