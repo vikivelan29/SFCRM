@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
 <labels>
-        <fullName>Repeated_Indicator</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Repeated Indicator</shortDescription>
-        <value>30</value>
-    </labels>
-    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Business_Unit</shortDescription>
         <value>ABHFL,ABFL,Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Integration_UserName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration UserName</shortDescription>
+        <value>ABCL AWS API User</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_User_Nickname</fullName>
@@ -28,7 +28,7 @@
         <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
         <value>Test Project Id</value>
     </labels>
-<labels>
+    <labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -120,7 +120,7 @@
         <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
         <value>Create Case for Customer</value>
     </labels>
-<labels>
+    <labels>
         <fullName>ASF_Customer_Mandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -492,10 +492,10 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ABFL_RESOLVED_STP</fullName>
+        <fullName>ASF_Bulk_Restricted_File_Ext</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABFL RESOLVED STP</shortDescription>
-        <value>Resolved By STP</value>
+        <shortDescription>ASF_Bulk_Restricted_File_Ext</shortDescription>
+        <value>script,htm,exe,dmg,apk,bat,bin,cgi,com,pl,gadget,jar,msi,py,wsf,js,flash,php,CMD,CPL,INF1,INS,INX,ISU,JOB,JSE,LNK,MSC,MSP,MST,PAF,PIF,PS1,REG,RGS,SCR,SCT,SHB,SHS,U3P,VB,WS,swf,dll,asp,aspx,vbs</value>
     </labels>
 </CustomLabels>

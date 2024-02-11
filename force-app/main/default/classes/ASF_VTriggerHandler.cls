@@ -22,6 +22,6 @@ public virtual class ASF_VTriggerHandler {
     public Boolean isDisabled(String objectName){
         ASF_TriggerDeactivationSettings__c instCS = ASF_TriggerDeactivationSettings__c.getInstance(UserInfo.getUserId());
         System.debug('objectName'+objectName);
-        return instCS.get('ASF_Deactivate_'+objectName+'_Trigger__c')==null?false:(Boolean)instCS.get('ASF_Deactivate_'+objectName+'_Trigger__c');
+        return instCS.get('Deactivate_'+objectName+'_Trigger__c')==null?false:(Boolean)instCS.get('Deactivate_'+objectName+'_Trigger__c');
     }
 }
