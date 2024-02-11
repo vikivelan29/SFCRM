@@ -6,7 +6,8 @@ public without sharing class PAY_CustomerCreationListener {
         List<Contact> contactsToInsert = new List<Contact>();
         Set<String> clientCodes = new Set<String>();
         List<merchantContact> contactDataList = new List<merchantContact>();
-        List<User> systemUser = [SELECT ID FROM User WHERE Name Like '%ABCL AWS API User%'];
+        String abclIntegrationUserNm = '%'+System.Label.ABCL_Integration_User_Nickname +'%';
+        List<User> systemUser = [SELECT ID FROM User WHERE CommunityNickname Like : abclIntegrationUserNm];
         
         Map<String,List<Contact>> clientCodeVsContacts = new Map<String,List<Contact>>();
         for (PAY_Staging_Customer_to_Account__e event : newEvents) {
