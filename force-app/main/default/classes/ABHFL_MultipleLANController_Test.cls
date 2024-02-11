@@ -17,16 +17,16 @@ public class ABHFL_MultipleLANController_Test {
 	@IsTest
     static void testGetLanDataAndMetadata(){
         Case caseRecord = [Select id from Case limit 1];
-        ABHFL_MultipleLANController.MultipleLanWrapper lanResponse = ABHFL_MultipleLANController.getLanDataAndMetadata(caseRecord.Id);
+        ABHFL_MultipleLANController.MultipleLanWrapper lanResponse = ABHFL_MultipleLANController.getLanDataAndMetadata(caseRecord.Id,userInfo.getUserId());
         System.assertEquals(true,lanResponse!=null,'PASS');
     }
 	@IsTest
     static void testFetchAssetDetailsExt(){
         Case caseRecord = [Select id from Case limit 1];
         Asset assetRecord = [Select id,LAN__c from Asset limit 1];
-        Test.startTest();
+Test.startTest();
         ABHFL_Asset_Detail__c assetDetails = ABHFL_MultipleLANController.fetchAssetDetailsExt(assetRecord,caseRecord.Id);
-        Test.stopTest();
+Test.stopTest();
         System.assertEquals(true,assetDetails!=null,'PASS');
     } 
     @IsTest

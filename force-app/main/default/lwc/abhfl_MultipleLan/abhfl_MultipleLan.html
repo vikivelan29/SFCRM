@@ -11,8 +11,12 @@
                     <table class="slds-table slds-table_cell-buffer slds-table_bordered">
                         <thead>
                             <tr>
-                                <th>Fetch Details</th>
-                                <th>Select</th>
+                                <template lwc:if={enableFetchAll}>
+                                    <th>Fetch Details</th>
+                                </template>
+                                <template lwc:if={enableRowSelection}>
+                                    <th>Select</th>
+                                </template>
                                 <template for:each={columns} for:item="column">
                                     <th scope="col" key={column.name}>
                                         <div>{column.label}</div>
@@ -23,16 +27,20 @@
                         <tbody>
                             <template for:each={recordsToDisplay} for:item = "item" for:index="indexVar">
                                 <tr key={item.asset.Id} data-id={item.asset.Id}>
-                                    <td scope="col">
-                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
-                                            <a name={indexVar} data-id={item.asset.Id} onclick={fetchAssetDetails}>
-                                                <lightning-icon icon-name="utility:download" alternative-text="Fetch Details"  size="x-small"></lightning-icon>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td scope="col">
-                                        <lightning-input type="checkbox" onchange={handleSelection} name={item.asset.Id}> </lightning-input>
-                                    </td>   
+                                    <template lwc:if={enableFetchAll}>
+                                        <td scope="col">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                <a name={indexVar} data-id={item.asset.Id} onclick={fetchAssetDetails}>
+                                                    <lightning-icon icon-name="utility:download" alternative-text="Fetch Details"  size="x-small"></lightning-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </template>
+                                    <template lwc:if={enableRowSelection}>
+                                        <td scope="col">
+                                            <lightning-input type="checkbox" onchange={handleSelection} name={item.asset.Id}> </lightning-input>
+                                        </td>   
+                                    </template>
                                     <template for:each={columns} for:item="column">
                                         <td scope="col" key={column.name}>
                                             <c-abhfl_fielddisplay column-name={column.name} row-data={item} data-id={item.asset.id} column-type={column.type}></c-abhfl_fielddisplay>
@@ -44,18 +52,22 @@
                     </table>
                 </div>
                 <div class="slds-align_absolute-center" style="height:3rem">
-                <lightning-button 
-                    onclick={addRecords} 
-                    label="Add"
-                    variant="brand"
-                    disabled={disableAdd} >
-                </lightning-button>
-                &nbsp;
-                <lightning-button 
-                    onclick={fetchAllAsset} 
-                    label="Fetch All"
-                    variant="brand" >
-                </lightning-button>
+                    <template lwc:if={enableFetchAll}>
+                        <lightning-button 
+                            onclick={addRecords} 
+                            label="Add"
+                            variant="brand"
+                            disabled={disableAdd} >
+                        </lightning-button>
+                    </template>
+                    &nbsp;
+                    <template lwc:if={enableFetchAll}>
+                        <lightning-button 
+                            onclick={fetchAllAsset} 
+                            label="Fetch All"
+                            variant="brand" >
+                        </lightning-button>
+                    </template>
                 </div>
                 <div class="slds-align_absolute-center" style="height:3rem">
                     <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
@@ -78,8 +90,12 @@
                                         <div>{column.label}</div>
                                     </th>
                                 </template>
-                                <th></th>
-                                <th></th>
+                                <template lwc:if={enableUpload}>
+                                    <th></th>
+                                </template>
+                                <template lwc:if={enableDelete}>
+                                    <th></th>
+                                </template>
                             </tr>
                         </thead>
                     </template>
@@ -89,33 +105,39 @@
                                 <tr key={item.asset.Id} data-childid={item.asset.Id}>
                                     <template for:each={childColumns} for:item="column">
                                         <td scope="col" key={column.name}>
-                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} column-type={column.type} column-editable={column.isEditable} options={column.options} onselection={updateAssetDetail}></c-abhfl_fielddisplay>
+                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} column-type={column.type} column-editable={column.isEditable} options={column.options} onselection={updateAssetDetail} disable-edit-field={disableEditField}></c-abhfl_fielddisplay>
                                         </td>
                                     </template>
-                                    <td scope="col">
-                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
-                                            <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId} lan={item.asset.LAN__c}></c-abhfl_assetdetail>
-                                        </div>
-                                    </td>
-                                    <td class="slds-size_2-of-14" data-label="Action">
-                                        <a name={indexVar} data-id={item.asset.Id} onclick={removeRecord}>
-                                            <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
-                                        </a>
-                                    </td>                      
+                                    <template lwc:if={enableUpload}>
+                                        <td scope="col">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId} lan={item.asset.LAN__c}></c-abhfl_assetdetail>
+                                            </div>
+                                        </td>
+                                    </template>
+                                    <template lwc:if={enableDelete}>
+                                        <td class="slds-size_2-of-14" data-label="Action">
+                                            <a name={indexVar} data-id={item.asset.Id} onclick={removeRecord}>
+                                                <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
+                                            </a>
+                                        </td>  
+                                    </template>                    
                                 </tr>
                             </template>   
                         </tbody>
                     </template>
                 </table>
             </div>
-            <div class="slds-align_absolute-center" style="height:3rem">
-                <lightning-button 
-                    onclick={saveRecords} 
-                    label="Save"
-                    variant="brand" 
-                    disabled={disableSave}>
-                </lightning-button>
+            <template lwc:if={enableSave}>
+                <div class="slds-align_absolute-center" style="height:3rem">
+                    <lightning-button 
+                        onclick={saveRecords} 
+                        label="Save"
+                        variant="brand" 
+                        disabled={disableSave}>
+                    </lightning-button>
                 </div>
+            </template>
         </lightning-card>
     </template>
 </template>

@@ -3988,6 +3988,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Failure_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Branch_Master__c.Address__c</field>
         <readable>true</readable>
     </fieldPermissions>

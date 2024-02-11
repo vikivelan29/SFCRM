@@ -14,4 +14,24 @@
         <field>Asset_Fields__c</field>
         <value xsi:type="xsd:string">LAN__c</value>
     </values>
+    <values>
+        <field>Stages_Allowing_Add_Rows__c</field>
+        <value xsi:type="xsd:string">Open</value>
+    </values>
+    <values>
+        <field>Stages_Allowing_Delete_Rows__c</field>
+        <value xsi:type="xsd:string">Open</value>
+    </values>
+    <values>
+        <field>Stages_Allowing_Fetch_All__c</field>
+        <value xsi:type="xsd:string">Open</value>
+    </values>
+    <values>
+        <field>Stages_Allowing_Field_Edit__c</field>
+        <value xsi:type="xsd:string">Open</value>
+    </values>
+    <values>
+        <field>Stages_Allowing_File_Upload__c</field>
+        <value xsi:type="xsd:string">CPU FCL Issuance</value>
+    </values>
 </CustomMetadata>

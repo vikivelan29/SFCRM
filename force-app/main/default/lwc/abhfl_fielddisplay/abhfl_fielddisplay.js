@@ -7,6 +7,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api columnType;
     @api columnEditable;
     @api options;
+    @api disableEditField;
     isLAN
     assetURL;
     displayNumber;
