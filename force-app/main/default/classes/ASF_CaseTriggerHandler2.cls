@@ -66,6 +66,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
+            //TODO ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             
             //Prepopulation methods
             ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);

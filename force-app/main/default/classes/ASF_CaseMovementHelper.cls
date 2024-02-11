@@ -250,7 +250,6 @@ public class ASF_CaseMovementHelper {
         Set<String> externalIds = new Set<String>();
         for(Case caseRec : currentCases){
             StageWrapper resultWrapper = new StageWrapper();
-            resultWrapper.status = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
             externalIds.add(caseRec.CCC_External_Id__c);
         }
@@ -258,7 +257,7 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -410,7 +409,7 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -529,7 +528,7 @@ public class ASF_CaseMovementHelper {
         for(Case caseRec : currentCases){
             externalIds.add(caseRec.CCC_External_Id__c);
             CaseStageValidationWrapper resultWrapper = new CaseStageValidationWrapper();
-            resultWrapper.status  = 'Success';
+            resultWrapper.status  = 'Error';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
 
@@ -670,7 +669,7 @@ public class ASF_CaseMovementHelper {
             stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
         }
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -802,7 +801,7 @@ public class ASF_CaseMovementHelper {
             externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
         }
 
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
         for(Case caseRec : currentCases){
             for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                 if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
@@ -827,9 +826,7 @@ public class ASF_CaseMovementHelper {
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
         for(Case caseRec : currentCases){
-            if(stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
-                caseRulesForStage.put(caseRec.Id, stageConfigToCaseRuleMap.get(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id));
-            }
+            caseRulesForStage.put(caseRec.Id, stageConfigToCaseRuleMap.get(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id));
         }
 
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecords, caseRulesForStage);
@@ -1027,16 +1024,14 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             String nextStage = caseIdToNextStageMap.get(caseRec.Id);
-            if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
-                if(!caseIdToCaseRuleMap.containsKey(caseRec.Id)){
-                    caseIdToCaseRuleMap.put(caseRec.Id, new List<ASF_Case_Rule__c>());
-                }
-                caseIdToCaseRuleMap.get(caseRec.Id).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
+            if(!caseIdToCaseRuleMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
+                caseIdToCaseRuleMap.put(caseRec.CCC_External_Id__c+nextStage, new List<ASF_Case_Rule__c>());
             }
+            caseIdToCaseRuleMap.get(caseRec.CCC_External_Id__c+nextStage).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
         }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));

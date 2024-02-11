@@ -141,7 +141,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Integer index = 0;
         for(Case c: newCases){
             if(c.CCC_External_Id__c != null && c.stage__c != null){
-                if(externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
+                if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
                     if(!casesToUpdate.containsKey(c.Id)){
                         casesToUpdate.put(c.Id, new Case(Id=c.Id));
                     }
