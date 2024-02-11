@@ -528,7 +528,7 @@ public class ASF_CaseMovementHelper {
         for(Case caseRec : currentCases){
             externalIds.add(caseRec.CCC_External_Id__c);
             CaseStageValidationWrapper resultWrapper = new CaseStageValidationWrapper();
-            resultWrapper.status  = 'Error';
+            resultWrapper.status  = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
 
@@ -826,7 +826,9 @@ public class ASF_CaseMovementHelper {
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
         for(Case caseRec : currentCases){
-            caseRulesForStage.put(caseRec.Id, stageConfigToCaseRuleMap.get(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id));
+            if(stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
+                caseRulesForStage.put(caseRec.Id, stageConfigToCaseRuleMap.get(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id));
+            }
         }
 
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecords, caseRulesForStage);
@@ -1024,10 +1026,12 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             String nextStage = caseIdToNextStageMap.get(caseRec.Id);
-            if(!caseIdToCaseRuleMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
-                caseIdToCaseRuleMap.put(caseRec.CCC_External_Id__c+nextStage, new List<ASF_Case_Rule__c>());
+            if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
+                if(!caseIdToCaseRuleMap.containsKey(caseRec.Id)){
+                    caseIdToCaseRuleMap.put(caseRec.Id, new List<ASF_Case_Rule__c>());
+                }
+                caseIdToCaseRuleMap.get(caseRec.Id).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
             }
-            caseIdToCaseRuleMap.get(caseRec.CCC_External_Id__c+nextStage).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
         }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
