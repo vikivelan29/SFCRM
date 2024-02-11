@@ -280,6 +280,42 @@ public with sharing class ASF_CaseFrameworkHelper {
      * Run All Integrations defined on the Case Stage Config 
      * of Type Auto Run on Load
      */
+    public static ASF_IntegrationsController.IntegrationWrapper runIntegrations(Case currentCase, List<ASF_Integration__c> allIntegrations){
+
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        result.status = 'Success';
+        ASF_Case_Stage_Config__c currentStageConfig;
+        List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{currentCase.CCC_External_Id__c});
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.StageName__c == currentCase.Stage__c){
+                currentStageConfig = config;
+            }
+        }
+        List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
+        for(ASF_Integration__c integ : allIntegrations){
+            if(integ.Auto_Run_on_Load__c){
+                ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, currentCase);
+                intResults.add(intResult);
+            }
+        }
+
+        for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
+            if(wrap.status == 'Error'){
+                if(currentStageConfig != null){
+                    wrap.assignToId = currentStageConfig.Default_Error_Queue__c;
+                }
+                result =  wrap;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Run All Integrations defined on the Case Stage Config 
+     * of Type Auto Run on Load
+     */
     public static Map<Id, ASF_IntegrationsController.IntegrationWrapper> runIntegrations(List<Case> caseList, Map<Id, List<ASF_Integration__c>> allIntegrations){
 
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
