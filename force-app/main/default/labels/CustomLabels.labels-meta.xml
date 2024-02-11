@@ -498,11 +498,4 @@
         <shortDescription>ABFL RESOLVED STP</shortDescription>
         <value>Resolved By STP</value>
     </labels>
-    <labels>
-        <fullName>ABCL_Integration_User_Nickname</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL Integration User Nickname</shortDescription>
-        <value>ABFSGSFDC User</value>
-    </labels>
 </CustomLabels>
