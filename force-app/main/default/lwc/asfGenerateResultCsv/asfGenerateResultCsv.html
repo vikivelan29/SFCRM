@@ -1,0 +1,11 @@
+<template>
+        <template lwc:if={reqfromLwc}>
+            <p>Please click on the following link to download the Result </p>
+                <lightning-button variant="brand" class="slds-button slds-p-top_small" 
+                label="Download Result" onclick={downloadCsv}>
+                </lightning-button>
+        </template>
+       <!--<template lwc:if={downloadSuccess}>
+            <p>File Downloaded Successfully! </p>
+        </template>-->
+</template>
