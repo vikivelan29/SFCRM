@@ -12,6 +12,6 @@
     <label>ABFL Unsecured Revenue and Retention</label>
     <queue>ABFL_Unsecured_Revenue_and_Retention</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_Revenue_and_Retention_G</group>
     </sharedTo>
 </ListView>

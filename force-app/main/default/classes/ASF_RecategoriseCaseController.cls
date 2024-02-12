@@ -121,6 +121,7 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Type_Sub_Type_Mismatch_Reason__c = null;
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
         toUpdateCase.oldCCCIdFields__c = oldCCCId;
+        toUpdateCase.Bot_Feedback__c = (String)caseObject.get('Bot_Feedback__c');
         ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :toUpdateCase.CCC_External_Id__c Limit 1];
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;

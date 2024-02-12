@@ -12,6 +12,6 @@
     <label>ABFL Unsecured Disbursement Ops</label>
     <queue>ABFL_Unsecured_Disbursement_Ops</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_Disbursement_Ops_G</group>
     </sharedTo>
 </ListView>

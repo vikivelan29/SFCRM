@@ -23,20 +23,20 @@
         <value xsi:type="xsd:string">Case</value>
     </values>
     <values>
-        <field>SMS_Merge_Fields_CSV__c</field>
-        <value xsi:type="xsd:string">Masked_LAN__c,Overall_Case_Closure_SLA__c</value>
+        <field>SMS_Entity_Id__c</field>
+        <value xsi:type="xsd:string">1101412910000010488</value>
     </values>
     <values>
-        <field>SMS_Template_Name__c</field>
-        <value xsi:type="xsd:string">Complaint_Case_Creation_without_Link_1701077110680</value>
+        <field>SMS_Merge_Fields_CSV__c</field>
+        <value xsi:type="xsd:string">Masked_LAN__c,CaseNumber,Overall_Case_Closure_SLA__c</value>
     </values>
     <values>
         <field>SMS_Sender_Id__c</field>
         <value xsi:type="xsd:string">HFLABC</value>
     </values>
     <values>
-        <field>SMS_Entity_Id__c</field>
-        <value xsi:type="xsd:string">1101412910000010488</value>
+        <field>SMS_Template_Name__c</field>
+        <value xsi:type="xsd:string">Complaint_Case_Creation_without_Link_1701077110680</value>
     </values>
     <values>
         <field>To_recipient_CSV__c</field>

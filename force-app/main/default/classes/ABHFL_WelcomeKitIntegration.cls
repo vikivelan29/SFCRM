@@ -8,7 +8,7 @@
 public with sharing class ABHFL_WelcomeKitIntegration implements ASF_IntegrationInvocable {
     
     public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
-    public final List<String> offlineSources = new List<String>{'Branch', 'Call Centre', 'Internal Usage', 'Social Media'};
+    public final List<String> offlineSources = new List<String>{'Branch', 'Call Center', 'Internal Usage', 'Social Media'};
     
     /****************************************************************************************************************
     * @LOB - ABHFL
@@ -168,6 +168,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             }
             ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, 'Welcome Kit', 'STP Document Retrieval Failure');
         }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     
     private void handleTransferSuccess(Case caseRec){
@@ -194,7 +195,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         caseRec.OwnerId = csQueue.Id;
         if(Schema.sObjectType.Case.isUpdateable())
         {
-          	update caseRec;    
+          	update caseRec; 
         }
     }
     

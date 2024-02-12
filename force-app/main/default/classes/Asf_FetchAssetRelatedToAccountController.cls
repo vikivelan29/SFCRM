@@ -14,6 +14,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
     public static Asf_FetchAssetRelatedToAccountControllerWrapper fetchAssets(String accountRecordId) {
 
         String accLOB = '';
+        Set<String> assetIdSet = new Set<String>();
         Asf_FetchAssetRelatedToAccountControllerWrapper findAssetObj                 = new Asf_FetchAssetRelatedToAccountControllerWrapper();
         Asf_FetchAssetRelatedToAccountControllerWrapper  fieldApiNameOnBasisOfLOBObj = new Asf_FetchAssetRelatedToAccountControllerWrapper();
 
@@ -26,7 +27,13 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         String fieldMapping = fieldApiNameOnBasisOfLOBObj.fieldMappingForCase;
         String allFieldApiNameString = String.join(fieldApiNamList,',');
 
-        String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM Asset WHERE accountId =:accountRecordId';
+        List<LAN_Mapping__c> lanMpRecLst = [SELECT id, Lan__c FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null];
+
+        for(LAN_Mapping__c lnMap : lanMpRecLst) {
+            assetIdSet.add(lnMap.Lan__c);
+        }
+
+        String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM Asset WHERE id in:assetIdSet';
         List<Asset> assetRecLst = Database.query(dynamicQuery);
 
         findAssetObj.columnNameList = colmnNameList;
@@ -59,6 +66,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                 TypeAttributes typeAttrbtObj = new TypeAttributes();
                 CellAttributes cellAttrbtObj = new CellAttributes();
                 TypeAttributesLabel typeAttrLabelObj = new TypeAttributesLabel();
+                ToolTip toolTp = new ToolTip();
 
                 String fldLabel = fld.split(':')[0];
                 String fieldApiName = fld.split(':')[1];
@@ -83,6 +91,9 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     }
                     else if(fieldApiName == 'LAN__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
                     }
                     typeAttrLabelObj.fieldName = fieldApiName;
                     typeAttrbtObj.label  = typeAttrLabelObj;
@@ -126,6 +137,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         @AuraEnabled public String currencyCode;
         @AuraEnabled public String target;
         @AuraEnabled public TypeAttributesLabel label;
+        @AuraEnabled public ToolTip tooltip;
     }
 
     public class CellAttributes {
@@ -133,6 +145,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
     }
 
     public class TypeAttributesLabel {
+        @AuraEnabled public String fieldName;
+    }
+
+    public class ToolTip {
         @AuraEnabled public String fieldName;
     }
 }

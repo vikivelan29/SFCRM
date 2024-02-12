@@ -5,6 +5,7 @@
     <name>Query SLA Breach</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Aditya Birla Housing Finance Limited- interim update for {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

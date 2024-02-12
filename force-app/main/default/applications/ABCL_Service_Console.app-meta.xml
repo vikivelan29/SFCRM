@@ -455,7 +455,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
+        <content>ABHFL_Case_Framework_Lightning_Page1</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
@@ -464,7 +464,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
+        <content>ABHFL_Case_Framework_Lightning_Page1</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>

@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Is Multiple LAN Flag</description>
     <externalId>false</externalId>
-    <label>IsMultipleLAN</label>
+    <label>Multiple LAN</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

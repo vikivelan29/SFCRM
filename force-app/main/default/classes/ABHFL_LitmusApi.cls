@@ -28,7 +28,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         ];
         return cccRecordList;
     }
-     
+    
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
@@ -45,14 +45,15 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         String nature = '';
         String cccExternalId = '';
         String litmusProject = '';
+        String caseStatus = '';
         String subtype = caseRec.Sub_Type_Text__c;
-        String caseStatus = caseRec.Status;
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Error';
 
         caseRecId = caseRec.Id;
         Case caseRecord = getCaseRec(caseRecId);
+        caseStatus = caseRecord.Status;
         ASF_Case_Category_Config__c cccRec = getCCC(caseRecord.CCC_External_Id__c).size() > 0 ? getCCC(caseRecord.CCC_External_Id__c)[0] : new ASF_Case_Category_Config__c();
         litmusTrigger = cccRec.Litmus_Trigger__c;
         litmusProject = String.isNotBlank(cccRec.Litmus_Project__c) ? cccRec.Litmus_Project__c : '';

@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-20-2023
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 02-06-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseHistoryPercentageCalc {
     public void setOverallPercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
@@ -19,8 +19,13 @@ public class ASF_CaseHistoryPercentageCalc {
         decimal secondStageThreshold = thresholdController.Stage_SLA_Threshold_2__c ;
         decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
         System.debug('@@@firstThreshold '+firstThreshold+' '+secondThreshold);
-        
-        setFieldValue(slaInMilliSec,bh,startTime,c,firstThreshold,secondThreshold,thirdThreshold,'Case_SLA_Threshold_1__c','Case_SLA_Threshold_2__c','Case_SLA_Threshold_3__c');
+        System.debug('@@@firstThreshold2 '+thresholdController.Customer_Email_buffer_hours__c);
+        long slaIdentifier = 3600000;
+        long bufferDays = 0;
+        if(thresholdController.Customer_Email_buffer_hours__c != null && thresholdController.Customer_Email_buffer_hours__c >0){
+            bufferDays = Integer.valueOf(thresholdController.Customer_Email_buffer_hours__c) * slaIdentifier;
+        }
+        setFieldValue(slaInMilliSec,bh,startTime,c,firstThreshold,secondThreshold,thirdThreshold,'Case_SLA_Threshold_1__c','Case_SLA_Threshold_2__c','Case_SLA_Threshold_3__c', bufferDays);
     }
     public void setStagePercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
         SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
@@ -29,11 +34,12 @@ public class ASF_CaseHistoryPercentageCalc {
         decimal secondStageThreshold = thresholdController.Stage_SLA_Threshold_2__c ;
         decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
         
-        setFieldValue(slaInMilliSec,bh,startTime,c,firstStageThreshold,secondStageThreshold,thirdStageThreshold,'Stage_SLA_Threshold_1__c','Stage_SLA_Threshold_2__c','Stage_SLA_Threshold_3__c');
+        setFieldValue(slaInMilliSec,bh,startTime,c,firstStageThreshold,secondStageThreshold,thirdStageThreshold,'Stage_SLA_Threshold_1__c','Stage_SLA_Threshold_2__c','Stage_SLA_Threshold_3__c', null);
     }
     private void setFieldValue(long slaInMilliSec,String bh,DateTime startTime,Case c,decimal firstThreshold,
                                decimal secondThreshold,decimal thirdThreshold,
-                               String firstFieldApiName,String secondFieldApiName,String thirdFieldApiName)
+                               String firstFieldApiName,String secondFieldApiName,String thirdFieldApiName,
+                               long bufferDays)
     {
         long slaMulitplierInLong = 3600000;
         System.debug('@@@slaInMilliSec'+slaInMilliSec+' '+firstThreshold);
@@ -56,7 +62,9 @@ public class ASF_CaseHistoryPercentageCalc {
         c.put(firstFieldApiName, dt50Percentage);
         c.put(secondFieldApiName, dt75Percentage);
         c.put(thirdFieldApiName,dt90Percentage);
-        
+        if(bufferDays != null && c.Overall_Case_Closure_SLA__c != null){
+            c.Overall_SLA_plus_X_days__c = BusinessHours.add(c.BusinessHoursId,c.Overall_Case_Closure_SLA__c, bufferDays);
+        }
     }
     
 }

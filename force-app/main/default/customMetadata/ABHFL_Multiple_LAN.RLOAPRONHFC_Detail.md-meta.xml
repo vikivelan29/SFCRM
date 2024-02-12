@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>RLOAPRONHFC_Detail</label>
+    <protected>false</protected>
+    <values>
+        <field>Asset_Detail_Editable_Fields__c</field>
+        <value xsi:type="xsd:string">Revised_ROI__c,Impact__c</value>
+    </values>
+    <values>
+        <field>Asset_Detail_Fields__c</field>
+        <value xsi:type="xsd:string">LAN__c</value>
+    </values>
+    <values>
+        <field>Asset_Fields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stages_Allowing_Add_Rows__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stages_Allowing_Delete_Rows__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stages_Allowing_Fetch_All__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stages_Allowing_Field_Edit__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stages_Allowing_File_Upload__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

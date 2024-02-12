@@ -162,6 +162,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
         	}
         }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     /****************************************************************************************************************
     * @LOB - ABHFL

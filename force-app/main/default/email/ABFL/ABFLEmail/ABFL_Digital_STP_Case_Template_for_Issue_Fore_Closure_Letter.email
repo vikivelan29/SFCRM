@@ -148,7 +148,7 @@
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
-												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited</span></strong><br />
+												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												<br />
 												&nbsp;As per your request, attached is the foreclosure letter for your ABFL Loan A/C no. {{{Case.LAN__c}}}<br />
 												<br />

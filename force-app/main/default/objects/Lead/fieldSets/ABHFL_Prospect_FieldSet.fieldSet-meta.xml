@@ -20,12 +20,12 @@
     <displayedFields>
         <field>Email</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
         <field>MobilePhone</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <label>ABHFL Prospect FieldSet</label>
 </FieldSet>

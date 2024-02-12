@@ -12,6 +12,6 @@
     <label>ABFL Digital CS</label>
     <queue>ABFL_Digital_CS</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Digital_CS_G</group>
     </sharedTo>
 </ListView>

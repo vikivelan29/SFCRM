@@ -44,6 +44,11 @@ public class ABFL_STP_APIImplementation_Test{
         
         System.runAs(userRecord1){
             List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
+            decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
+            thresholdController.Customer_Email_buffer_hours__c=56;
+            update thresholdController;
+            
             List<ASF_Case_Category_Config__c> caseCat = ABFL_TestDataFactory.createCaseCategoryConfig(true);
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
@@ -87,7 +92,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -95,8 +100,8 @@ public class ABFL_STP_APIImplementation_Test{
                                               FROM ABFL_Case_Detail__c
                                               LIMIT 1];
             
-            Assert.areEqual(true, caseDetail.Autoclosed__c);
-            Assert.isTrue(caseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, caseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.isTrue(caseDetail.Closure_Time__c != null, 'Closure time should not be null');
         }
     }
     
@@ -137,7 +142,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -146,8 +151,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -176,7 +181,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -184,8 +189,8 @@ public class ABFL_STP_APIImplementation_Test{
                                               FROM ABFL_Case_Detail__c
                                               LIMIT 1];
             
-            Assert.areEqual(true, caseDetail.Autoclosed__c);
-            Assert.isTrue(caseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, caseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.isTrue(caseDetail.Closure_Time__c != null, 'Closure time should not be null');
         }
     }
     
@@ -227,7 +232,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -236,8 +241,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -266,7 +271,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -274,8 +279,8 @@ public class ABFL_STP_APIImplementation_Test{
                                               FROM ABFL_Case_Detail__c
                                               LIMIT 1];
             
-            Assert.areEqual(true, caseDetail.Autoclosed__c);
-            Assert.isTrue(caseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, caseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.isTrue(caseDetail.Closure_Time__c != null, 'Closure time should not be null');
         }
     }
     
@@ -316,7 +321,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -325,8 +330,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -355,7 +360,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -363,8 +368,8 @@ public class ABFL_STP_APIImplementation_Test{
                                               FROM ABFL_Case_Detail__c
                                               LIMIT 1];
             
-            Assert.areEqual(true, caseDetail.Autoclosed__c);
-            Assert.isTrue(caseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, caseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.isTrue(caseDetail.Closure_Time__c != null, 'Closure time should not be null');
         }
     }
     
@@ -405,7 +410,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -414,8 +419,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -462,7 +467,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -471,8 +476,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -507,7 +512,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -515,8 +520,8 @@ public class ABFL_STP_APIImplementation_Test{
                                                      FROM ABFL_Case_Detail__c
                                                      LIMIT 1];
             
-            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c);
-            Assert.isTrue(updatedCaseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.isTrue(updatedCaseDetail.Closure_Time__c != null, 'Closure Time should not be null');
         }
     }
     
@@ -563,7 +568,7 @@ public class ABFL_STP_APIImplementation_Test{
             ABFL_GenericFileCreation.createDocument(wrapper);
             
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -572,8 +577,8 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status);
-            Assert.areEqual(true, caseRecord.IsClosed);
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+            Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
     
@@ -608,7 +613,7 @@ public class ABFL_STP_APIImplementation_Test{
                                                   FROM ASF_Case_Integration__c
                                                   WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c = :prepIntegrations[0].External_Id__c];
             caseIntRec.Status__c = 'Success';
-            caseIntRec.Response__c = '{\"STPFlag\":\"STP_SUCCESS\"}';
+            caseIntRec.Response__c = '{\"STPFlag\":\"SUCCESS\"}';
             update caseIntRec;
             Test.stopTest();
             
@@ -616,8 +621,8 @@ public class ABFL_STP_APIImplementation_Test{
                                                      FROM ABFL_Case_Detail__c
                                                      LIMIT 1];
             
-            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c);
-            Assert.isTrue(updatedCaseDetail.Closure_Time__c != null);
+            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
+            Assert.areEqual(true, updatedCaseDetail.Autoclosed__c, 'Autoclosed field should have been marked as true');
         }
     }
     
@@ -645,8 +650,8 @@ public class ABFL_STP_APIImplementation_Test{
             ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
             Test.stopTest();
             
-            Assert.areEqual('Error', retVal.status);
-            Assert.areEqual(ABFL_Constants.BLANK_DATE_FIELD, retVal.response);
+            Assert.areEqual('Error', retVal.status, 'Status should be error');
+            Assert.areEqual(ABFL_Constants.BLANK_DATE_FIELD, retVal.response, 'Response should be "Please add required date field values"');
         }
     }
     
@@ -656,7 +661,7 @@ public class ABFL_STP_APIImplementation_Test{
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
-            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
+            Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
                             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                             LIMIT 1];
@@ -669,8 +674,8 @@ public class ABFL_STP_APIImplementation_Test{
                                       WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                       LIMIT 1];
             
-            Assert.isTrue(updatedCaseRecord.IsClosed);
-            Assert.areEqual('Resolved', updatedCaseRecord.Stage__c);
+            Assert.isTrue(updatedCaseRecord.IsClosed, 'Case should have been closed');
+            Assert.areEqual('Resolved', updatedCaseRecord.Stage__c, 'Case stage should have been marked as "Resolved"');
         }
     }
 }

@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We regret to inform you that the payment details provided have encountered an issue.<br />
+Your recent payment for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} has bounced. Please update payment information at your earliest convenience. Thank you. - Aditya Birla Housing Finance Limited</body>
+</html>

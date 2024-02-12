@@ -3,18 +3,17 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         return isDisabled('Case');
     }
     
-    private Boolean isBatchSizeOne(List<SObject> listOfRecords){
+    /*private Boolean isBatchSizeOne(List<SObject> listOfRecords){
         return (listOfRecords.size() == 1);
-    }
+    } */
     
     public override void beforeInsert(List<SObject> newItemsCase) {
         if(isTriggerDisabled()){return;}
-        if(!isBatchSizeOne(newItemsCase)){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'Before')){return;}
-
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
-        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
+                     
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
@@ -28,10 +27,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.onCreateCloseServiceRequest(mRecordTypeVsCases.get(frameworkRTId));
             ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
-            //commented and moving for SLA override rules later
-            //ASF_CaseSLAHandlerV1 caseSLA = new ASF_CaseSLAHandlerV1();
-            //caseSLA.calculateSLAOnCaseInsert(mRecordTypeVsCases.get(frameworkRTId));
- 
+            
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
             
@@ -49,19 +45,12 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
     public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         if(isTriggerDisabled()){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'Before')){return;}
-
+        
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
-
-        //Run Change Owner validation for multiple records when accessed from lsit view quick action
-        if(!isBatchSizeOne(newItemsCase.values())){
-            if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-                Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
-                ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
-            }
-            return;
-        }
+        system.debug('mRecordTypeVsCasesentered '+mRecordTypeVsCases.containsKey(frameworkRTId));
+        
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
@@ -69,24 +58,23 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
-            
+            //Added for Ebot
+            ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
+
             //Validation methods
-            ASF_CaseTriggerModularHelper.validateRecategorizationParameters(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.validateCloseCase(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
-            // ASF_CaseTriggerModularHelper.lwcCaseValidationBeforeInsertUpdate(newCaseMap.values(), oldItems.values());
-            // ASF_CaseTriggerModularHelper.validateUserForAssignMe((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
+            
             //Prepopulation methods
+            ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNewForReopenRequest((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.checkAndProcessReopenCase(newCaseMap.values(),(map<Id,Case>)oldItems);
-            ASF_CaseTriggerModularHelper.checkAndProcessManualStageMovement(newCaseMap.values(), (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             
+            ASF_CaseTriggerModularHelper.validateRecategorizationParameters(newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
             
@@ -108,9 +96,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
     
     public override void afterUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         if(isTriggerDisabled()){return;}
-        if(!isBatchSizeOne(newItemsCase.values())){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'After')){return;}
-
+        
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
@@ -121,10 +108,15 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
             
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndProcessReopenCase(newCaseMap.values(),(map<Id,Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndProcessManualStageMovement(newCaseMap, (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
+
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
-            ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
 
             // Virendra - to Reject the Checklist and Task on Case Rejection.
@@ -143,7 +135,6 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
     
     public override void afterInsert(Map<Id, SObject> newItemsCase) {
         if(isTriggerDisabled()){return;}
-        if(!isBatchSizeOne(newItemsCase.values())){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'After')){return;}
         
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
@@ -157,17 +148,18 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInAfterInsert(frameworkRTCases);
             
-            ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation(newItemsCase.values());
-            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
+            ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
+            ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation((Map<Id, Case>)newItemsCase);
+            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.updateCasesFinally();
-            ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newItemsCase.values(), null);
-            ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
+            ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
+            ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords((Map<Id, Case>)newItemsCase, null);
             
             //SLA 
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
             
-
+            
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterInsert(frameworkRTCases);            
         }

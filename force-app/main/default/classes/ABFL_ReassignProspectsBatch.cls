@@ -7,49 +7,41 @@
 global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        //String abfl = 'ABFL';
-        // Query cases with lead lookup field and associated lead information
-        return Database.getQueryLocator('SELECT Id, Subject, Lead__c, Lead__r.Email, Lead__r.PANNO__c FROM Case WHERE Business_Unit__c = \'ABFL\' AND Lead__c != null AND Lead__r.PANNO__c!=null AND Lead__r.Email!=null');
+        return Database.getQueryLocator('SELECT Id, Subject, Lead__c, SuppliedEmail FROM Case WHERE Business_Unit__c = \'ABFL\' AND Lead__c != null AND SuppliedEmail != null');
     }
 
     global void execute(Database.BatchableContext BC, List<Case> scope) {
         List<Case> casesToUpdate = new List<Case>();
-        Set<String> leadEmailSet = new Set<String>();
-        Set<String> leadPANSet = new Set<String>();
-		List<Case> csList = new List<Case>();
-			
-        // Collect unique Email and PAN information from the cases
+        Set<String> SuppliedEmailSet = new Set<String>();
+        List<Case> csList = new List<Case>();
+        
+        // Collect unique SuppliedEmail from the cases
         for (Case c : scope) {
-            if (c.Lead__c != null && c.Lead__r.Email != null && c.Lead__r.PANNO__c != null) {
-                leadEmailSet.add(c.Lead__r.Email);
-                leadPANSet.add(c.Lead__r.PANNO__c);
-                casesToUpdate.add(c); // Remove the Lead association 
+            if (c.Lead__c != null && c.SuppliedEmail != null) {
+                SuppliedEmailSet.add(c.SuppliedEmail);
+                casesToUpdate.add(c); // Prepare for update
             }
         }
         
-        // Map for Account - Key (Email-PAN)
+        // Map for Account - Key (Email)
         Map<String, Id> accKeyMap = new Map<String, Id>();
-        for(Account rec: [Select id, PersonEmail,PAN__c from account where PersonEmail IN: leadEmailSet AND PAN__c IN: leadPANSet]){
-            accKeyMap.put(rec.PersonEmail+':'+rec.PAN__c, rec.Id);
+        for (Account acc : [SELECT Id, PersonEmail FROM Account WHERE PersonEmail IN :SuppliedEmailSet Order By CreatedDate desc limit 1]) {
+            accKeyMap.put(acc.PersonEmail, acc.Id);
         }
-        system.debug('***accKeyMap:'+accKeyMap);
 
-        for(Case cs : casesToUpdate){
-            if(accKeyMap.containsKey(cs.Lead__r.Email+':'+cs.Lead__r.PANNO__c)){
+        for (Case cs : casesToUpdate) {
+            if (accKeyMap.containsKey(cs.SuppliedEmail)) {
                 // Map cases to Account
-                cs.AccountId = accKeyMap.get(cs.Lead__r.Email+':'+cs.Lead__r.PANNO__c);
-                // We can keep existing relationship to lead as well
-                // cs.Lead__c = null;
+                cs.AccountId = accKeyMap.get(cs.SuppliedEmail);
                 csList.add(cs);
-            } 
+            }
         }
         
         // Update cases to remove Lead and assign to Account
         try {
-            System.debug('csList: ' + csList);
             update csList;
-        }catch (Exception e) {
-            // Handle other exceptions
+        } catch (Exception e) {
+            // Handle exceptions
             System.debug('Error: ' + e.getMessage());
         }
     }

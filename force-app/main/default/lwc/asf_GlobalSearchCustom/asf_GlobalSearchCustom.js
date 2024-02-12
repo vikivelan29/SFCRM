@@ -10,6 +10,9 @@ import loggedInUserId from '@salesforce/user/Id';
 import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
+import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
+
+
 
 
 export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningElement) {
@@ -189,7 +192,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                this.showError('error', 'Oops! Error occured', error);
+                //this.showError('error', 'Oops! Error occured', error);
             });
     }
     
@@ -241,5 +244,10 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         this.headerName = 'Create Internal Case';
         this.isInternalCase = true;
     }
+
+    get isSalesProspectVisible() {
+        return hasSalesProspectPermission;
+    }
+
 
 }

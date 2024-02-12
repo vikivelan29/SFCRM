@@ -12,6 +12,6 @@
     <label>ABFL East West North South Branch Ops</label>
     <queue>ABFL_East_West_North_South_Branch_Ops</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_East_West_North_South_Branch_Ops_G</group>
     </sharedTo>
 </ListView>
