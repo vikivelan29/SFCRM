@@ -1,7 +1,9 @@
 <template>
-    <a onclick={openAddAttachmentModal}>
-        <lightning-icon icon-name="utility:upload" alternative-text="Upload Documents"  size="x-small"></lightning-icon>
-    </a>
+    <template if:true={showIcon}>
+        <a onclick={openAddAttachmentModal}>
+            <lightning-icon icon-name="utility:upload" alternative-text="Upload Documents"  size="x-small"></lightning-icon>
+        </a>
+    </template>
     <template if:true={showAddAttachmentModal}>
         <div>
             <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
