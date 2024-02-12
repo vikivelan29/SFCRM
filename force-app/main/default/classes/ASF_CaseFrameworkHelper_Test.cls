@@ -10,7 +10,7 @@ public class ASF_CaseFrameworkHelper_Test {
     
 
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
-  /*  @testSetup
+    /*  @testSetup
     static void setUpData(){
         ASF_TestDataFactory.createCaseRecords(1);
         
@@ -95,7 +95,7 @@ public class ASF_CaseFrameworkHelper_Test {
     stage2_AssignmentMovement_Rule.Order__c = 2;
     stage2_AssignmentMovement_Rule.Type__c = 'Assignment';    
     caseRuleList.add(stage2_AssignmentMovement_Rule);
-        
+             
     insert caseRuleList;
         
         List<ASF_Case_Rule_Entry__c> CREs = new List<ASF_Case_Rule_Entry__c>();
@@ -120,7 +120,7 @@ public class ASF_CaseFrameworkHelper_Test {
 
 
         CREs.add(stage2_Assignment_RuleEntry);
-               
+        
         insert CREs;
         
         Case cs = new Case();
@@ -137,7 +137,7 @@ public class ASF_CaseFrameworkHelper_Test {
     private static void addApprovalsTest() {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){
-      /*  List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Approval');
+        /*  List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Approval');
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
                           CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case LIMIT 1];
         System.debug('@@@caseRuleList'+caseRuleList);
@@ -150,7 +150,7 @@ public class ASF_CaseFrameworkHelper_Test {
         //}    
     }
     
-   /* @isTest
+    /* @isTest
     private static void addChecklistsTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Checklists');
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
@@ -256,12 +256,12 @@ public class ASF_CaseFrameworkHelper_Test {
                 Assigned_Error_Queue_Id__c,
                 (select Id, Number__c, Field_Api_Name__c, Operator__c, Data_Type__c, 
                  Value__c, External_ID__c from Case_Rule_Entries__r),
-                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c from Case_Checklist_Masters__r),
+                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c, Checklist_External_Id__c from Case_Checklist_Masters__r),
                 (select Id, Task_Title__c, Task_Description__c, Completion_Time__c, Case_Rule__c,
-                 Assigned_Queue__c from Work_Items__r)
+                 Assigned_Queue__c, Work_Item_External_ID__c from Work_Items__r)
                 FROM ASF_Case_Rule__c where Type__c =: TypeVal];
         
         
-    }  */
+    }  */  
       
 }

@@ -10,28 +10,30 @@ public with sharing class ASF_CaseFrameworkHelper {
         Map<Id, List<ASF_Case_Approv__c>> approvalMap = new Map<Id, List<ASF_Case_Approv__c>>();
         for (Case caseRec : caseList){
             List<ASF_Case_Approv__c> approvalList = new List<ASF_Case_Approv__c>();
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                
-                if(caseRule.Type__c == 'Approval'){  
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                    if (result == true) {
-                        //Logic to insert into approvals
-                        ASF_Case_Approv__c caseApprovalRecord = new ASF_Case_Approv__c();
-                        caseApprovalRecord.Approver_01__c  = caseRule.Step_1_Approver_1__c;
-                        caseApprovalRecord.Approver_02__c = caseRule.Step_1_Approver_2__c;
-                        caseApprovalRecord.Approver_03__c = caseRule.Step_2_Approver_1__c;
-                        caseApprovalRecord.Approver_04__c = caseRule.Step_2_Approver_2__c;
-                        caseApprovalRecord.Approval_Type__c = caseRule.Approval_Style__c;
-                        caseApprovalRecord.Approval_Status__c  = 'Pending';
-                        caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
-                        caseApprovalRecord.SR__c = caseRec.Id;
-                        approvalList.add(caseApprovalRecord);
-                        break;
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    
+                    if(caseRule.Type__c == 'Approval'){  
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                        if (result == true) {
+                            //Logic to insert into approvals
+                            ASF_Case_Approv__c caseApprovalRecord = new ASF_Case_Approv__c();
+                            caseApprovalRecord.Approver_01__c  = caseRule.Step_1_Approver_1__c;
+                            caseApprovalRecord.Approver_02__c = caseRule.Step_1_Approver_2__c;
+                            caseApprovalRecord.Approver_03__c = caseRule.Step_2_Approver_1__c;
+                            caseApprovalRecord.Approver_04__c = caseRule.Step_2_Approver_2__c;
+                            caseApprovalRecord.Approval_Type__c = caseRule.Approval_Style__c;
+                            caseApprovalRecord.Approval_Status__c  = 'Pending';
+                            caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
+                            caseApprovalRecord.SR__c = caseRec.Id;
+                            approvalList.add(caseApprovalRecord);
+                            break;
+                        }
                     }
-           	 	}
+                }
             }
             //considering same case will not be uploaded in the same transaction
            	approvalMap.put(caseRec.Id,approvalList); 
@@ -49,31 +51,33 @@ public with sharing class ASF_CaseFrameworkHelper {
         Map<Id, List<ASF_Checklist__c>> checklistMap = new Map<Id, List<ASF_Checklist__c>>();
         for (Case caseRec : caseList){
             List<ASF_Checklist__c> checklistList = new List<ASF_Checklist__c>();
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                
-                if(caseRule.Type__c == 'Checklists'){
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                    if (result == true){
-                        for (ASF_Case_Checklist_Master__c chklistMaster : caseRule.Case_Checklist_Masters__r) {
-                            
-                            ASF_Checklist__c checklistRecord = new ASF_Checklist__c();
-                            checklistRecord.Label__c = chklistMaster.Name;
-                            checklistRecord.Mandatory__c = chklistMaster.Mandatory__c;
-                            checklistRecord.Description__c = chklistMaster.Description__c;
-                            checklistRecord.Type__c = chklistMaster.Type__c;
-                            checklistRecord.Status__c = 'Pending';
-                            checklistRecord.Systeminitiated__c = true;
-                            checklistRecord.Case__c = caseRec.Id;
-                            checklistRecord.Stage_Name__c = caseRec.Stage__c;
-                            checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
-                            checklistList.add(checklistRecord);
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    
+                    if(caseRule.Type__c == 'Checklists'){
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                        if (result == true){
+                            for (ASF_Case_Checklist_Master__c chklistMaster : caseRule.Case_Checklist_Masters__r) {
+                                
+                                ASF_Checklist__c checklistRecord = new ASF_Checklist__c();
+                                checklistRecord.Label__c = chklistMaster.Name;
+                                checklistRecord.Mandatory__c = chklistMaster.Mandatory__c;
+                                checklistRecord.Description__c = chklistMaster.Description__c;
+                                checklistRecord.Type__c = chklistMaster.Type__c;
+                                checklistRecord.Status__c = 'Pending';
+                                checklistRecord.Systeminitiated__c = true;
+                                checklistRecord.Case__c = caseRec.Id;
+                                checklistRecord.Stage_Name__c = caseRec.Stage__c;
+                                checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
+                                checklistList.add(checklistRecord);
+                            }
+                            break;
                         }
-                        break;
                     }
-            	}
+                }
             }
         	//considering same case will not be uploaded in the same transaction
            	checklistMap.put(caseRec.Id,checklistList);
@@ -92,22 +96,24 @@ public with sharing class ASF_CaseFrameworkHelper {
         
         for (Case caseRec : caseList){
             Map<string,long> slaMap = new Map<string,long>();
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                
-                if(caseRule.Type__c == 'SLA Override' && caseRule.Case_Stage_Config__r.SLA_Override_Enabled__c){
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                    if (result == true){
-                        slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c.longValue());
-                        slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c.longValue());
-                        slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c.longValue());
-                        slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c.longValue());    
-                        break;
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    
+                    if(caseRule.Type__c == 'SLA Override' && caseRule.Case_Stage_Config__r.SLA_Override_Enabled__c){
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                        if (result == true){
+                            slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c.longValue());
+                            slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c.longValue());
+                            slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c.longValue());
+                            slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c.longValue());    
+                            break;
+                        }
                     }
-            	}
-        	}
+                }
+            }
             //considering same case will not be uploaded in the same transaction
            	caseSlaMap.put(caseRec.Id,slaMap);
         }
@@ -124,43 +130,45 @@ public with sharing class ASF_CaseFrameworkHelper {
          Map<Id, List<Task>> tasksMap = new Map<Id, List<Task>>();
         for (Case caseRec : caseList){
             List<Task> tasksList = new List<Task>();
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                
-                if(caseRule.Type__c == 'Work'){
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                    if (result == true){
-                        for (ASF_Work_Item__c workItem : caseRule.Work_Items__r) {
-                            Task newTask = new Task();
-                            newTask.OwnerId = workItem.Assigned_Queue__c;
-                            newTask.Subject = workItem.Task_Title__c;
-                            newTask.Description = workItem.Task_Description__c;
-                            newTask.WhatId = caseRec.Id;
-                            newTask.Case_Stage__c = caseRec.Stage__c;
-                            newTask.Systeminitiated__c = true;
-                            newTask.Task_Type__c ='Automatic';
-                            newTask.Work_Item_External_ID__c = workItem.Work_Item_External_ID__c;
-                            newTask.ActivityDate = Date.valueOf(
-                                BusinessHours.add(
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    
+                    if(caseRule.Type__c == 'Work'){
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                        if (result == true){
+                            for (ASF_Work_Item__c workItem : caseRule.Work_Items__r) {
+                                Task newTask = new Task();
+                                newTask.OwnerId = workItem.Assigned_Queue__c;
+                                newTask.Subject = workItem.Task_Title__c;
+                                newTask.Description = workItem.Task_Description__c;
+                                newTask.WhatId = caseRec.Id;
+                                newTask.Case_Stage__c = caseRec.Stage__c;
+                                newTask.Systeminitiated__c = true;
+                                newTask.Task_Type__c ='Automatic';
+                                newTask.Work_Item_External_ID__c = workItem.Work_Item_External_ID__c;
+                                newTask.ActivityDate = Date.valueOf(
+                                    BusinessHours.add(
+                                        caseRec.BusinessHoursId,
+                                        System.now(),
+                                        Integer.valueOf(workItem.Completion_Time__c * 60 * 60 * 1000)
+                                    )
+                                );
+                                newTask.Due_Date_Time__c = 
+                                    BusinessHours.add(
                                     caseRec.BusinessHoursId,
                                     System.now(),
                                     Integer.valueOf(workItem.Completion_Time__c * 60 * 60 * 1000)
-                                )
-                            );
-                            newTask.Due_Date_Time__c = 
-                                BusinessHours.add(
-                                caseRec.BusinessHoursId,
-                                System.now(),
-                                Integer.valueOf(workItem.Completion_Time__c * 60 * 60 * 1000)
-                            );
-                            tasksList.add(newTask);
+                                );
+                                tasksList.add(newTask);
+                            }
+                            break;
+                        
                         }
-                        break;
-                    
                     }
-            	}
+                }
             }
             //considering same case will not be uploaded in the same transaction
             tasksMap.put(caseRec.Id,tasksList);
@@ -177,25 +185,27 @@ public with sharing class ASF_CaseFrameworkHelper {
     public static Map<Id, CaseRuleAssignmentInfo> runAssignmentRules(List<Case> caseList, Map<Id, List<ASF_Case_Rule__c>> allCaseRules){
         
         Map<Id, CaseRuleAssignmentInfo> resultInfoMap = new Map<Id, CaseRuleAssignmentInfo>();
-        
+        System.debug(allCaseRules);
         for (Case caseRec : caseList){
             CaseRuleAssignmentInfo resultInfo = new CaseRuleAssignmentInfo();
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                
-                if(caseRule.Type__c == 'Assignment'){
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    
+                    if(caseRule.Type__c == 'Assignment'){
 
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                
-                system.debug('Ritika Case Rule' + ' ' + result);
-                    if (result == true) {
-                        resultInfo.defaultOwnerId = caseRule.Assigned_Queue_Id__c;
-                        resultInfo.defaultErrorOwnerId = caseRule.Assigned_Error_Queue_Id__c;
-                        break;
-                    }                
-            	}
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                    
+                    system.debug('Ritika Case Rule' + ' ' + result);
+                        if (result == true) {
+                            resultInfo.defaultOwnerId = caseRule.Assigned_Queue_Id__c;
+                            resultInfo.defaultErrorOwnerId = caseRule.Assigned_Error_Queue_Id__c;
+                            break;
+                        }                
+                    }
+                }
             }
             //considering same case will not be uploaded in the same transaction
             resultInfoMap.put(caseRec.Id,resultInfo);
@@ -280,6 +290,42 @@ public with sharing class ASF_CaseFrameworkHelper {
      * Run All Integrations defined on the Case Stage Config 
      * of Type Auto Run on Load
      */
+    public static ASF_IntegrationsController.IntegrationWrapper runIntegrations(Case currentCase, List<ASF_Integration__c> allIntegrations){
+
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        result.status = 'Success';
+        ASF_Case_Stage_Config__c currentStageConfig;
+        List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(new Set<String>{currentCase.CCC_External_Id__c});
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.StageName__c == currentCase.Stage__c){
+                currentStageConfig = config;
+            }
+        }
+        List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
+        for(ASF_Integration__c integ : allIntegrations){
+            if(integ.Auto_Run_on_Load__c){
+                ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, currentCase);
+                intResults.add(intResult);
+            }
+        }
+
+        for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
+            if(wrap.status == 'Error'){
+                if(currentStageConfig != null){
+                    wrap.assignToId = currentStageConfig.Default_Error_Queue__c;
+                }
+                result =  wrap;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Run All Integrations defined on the Case Stage Config 
+     * of Type Auto Run on Load
+     */
     public static Map<Id, ASF_IntegrationsController.IntegrationWrapper> runIntegrations(List<Case> caseList, Map<Id, List<ASF_Integration__c>> allIntegrations){
 
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
@@ -312,20 +358,22 @@ public with sharing class ASF_CaseFrameworkHelper {
         Map<Id, String> returnResultMap = new Map<Id, String>();
         
         for (Case caseRec : caseList){
-            for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
-                if(caseRule.Type__c == 'Validation'){
+            if(allCaseRules.containsKey(caseRec.Id)){
+                for (ASF_Case_Rule__c caseRule : allCaseRules.get(caseRec.Id)){
+                    if(caseRule.Type__c == 'Validation'){
 
-                boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
-                    caseRule.Logical_Condition__c,
-                    caseRule.Case_Rule_Entries__r,
-                    caseRec);
-                System.debug('***result:'+ result);
-                    if (result == false) {
-                        //Only Failed rule values will be part of the Map
-                        returnResultMap.put(caseRec.Id, caseRule.Validation_Message__c);
-                        break;
-                    }                
-            	}
+                    boolean result = ASF_CaseFrameworkValidator.evaluateCaseRule(
+                        caseRule.Logical_Condition__c,
+                        caseRule.Case_Rule_Entries__r,
+                        caseRec);
+                    System.debug('***result:'+ result);
+                        if (result == false) {
+                            //Only Failed rule values will be part of the Map
+                            returnResultMap.put(caseRec.Id, caseRule.Validation_Message__c);
+                            break;
+                        }                
+                    }
+                }
             }
         }
         return returnResultMap;

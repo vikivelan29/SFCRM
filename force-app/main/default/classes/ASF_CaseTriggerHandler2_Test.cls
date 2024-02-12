@@ -34,7 +34,7 @@ public class ASF_CaseTriggerHandler2_Test {
         Assert.areEqual(1, frameworkCase2.size(), 'Expected 1, Not found');
     }
 
-   /* @isTest
+    /* @isTest
     public static void test_Update(){
         ASF_TestDataFactory.createCaseCategoryConfig();
         ASF_TestDataFactory.createCaseRecords(0);
