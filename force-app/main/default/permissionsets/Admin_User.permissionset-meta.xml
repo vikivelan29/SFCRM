@@ -5592,6 +5592,11 @@
         <field>Case.Track_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.EmailMessageIdentifier__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Admin User</label>
     <objectPermissions>
