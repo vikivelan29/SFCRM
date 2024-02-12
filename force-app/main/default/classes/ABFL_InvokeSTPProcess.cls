@@ -100,7 +100,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
         try{
             if (caseInteg.Status__c == ABFL_Constants.SUCCESS){
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
 
                 //Attach the file to case (Attaching the files on case on both the scenarios due to current implementation of the framework)
                 Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
@@ -146,8 +146,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                             caseDetailRecord.Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP;
                             update caseDetailRecord;
 
-                            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
-                            update resultWrap.caseToBeUpdated;
+                            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRecord.Id => 'Open'});
+                            update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                         }
                     }
                 }
@@ -177,9 +178,10 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                WITH SYSTEM_MODE];
 
         for (Case caseRecord : caseList){
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
-            casesToUpdateList.add(resultWrap.caseToBeUpdated);
+            Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRecord.Id => 'Open'});
+            casesToUpdateList.add(resultWrap.get(caseRecord.Id).caseToBeUpdated);
         }
 
         if (casesToUpdateList.size() > 0){
