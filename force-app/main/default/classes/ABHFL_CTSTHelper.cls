@@ -89,7 +89,22 @@ public without sharing class ABHFL_CTSTHelper {
         if (prefBranch.Branch_Queue_Id__c != null) {
             caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
         }
-
+        caseDetail.Address__c = prefBranch.Address__c;
+        update caseDetail;
+        return caseRec;
+    }
+    
+    //Dhinesh - TDS Refund BRANCH assignment
+    public static Case assignCaseToBranchTDS(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
+        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c == 'Branch') {
+            caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
+        }
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch'){
+            caseRec.OwnerId = emailNonFinancialQueue.Id;
+    	}
         return caseRec;
     }
     
@@ -118,6 +133,13 @@ public without sharing class ABHFL_CTSTHelper {
         return true; // All payment records have Realization_Status__c as 'Cleared'
     }
     
+    //Dhinesh - 2/8 Send Preclosure loan closed email.
+	public static void sendLoanClosedEmail(Case caseRecord){
+    	Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PRECLS_LOANCLOSED_EMAIL, 
+                                                                ABHFL_Constants.PRECLS_LOANCLOSED_SMS, False);
+    }
     //Dhinesh - 1/29 Backward Movement Email Communication
     public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
@@ -397,6 +419,20 @@ ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }
+    }
+
+    public static void sendCommunicationPayableCharges(Case caseRecord){
+        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, ABHFL_Case_Detail__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Payable_Charges__c FROM ABHFL_Case_Detail__c WHERE Id =:queriedCase.ABHFL_Case_Detail__c LIMIT 1];
+        if(Integer.valueOf(caseDetail.Payable_Charges__c) > 0){
+            System.debug('greater then 0');
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS, false);
+        }else{
+            System.debug(' equals zero');
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS, false);
+        }
+
     }
     
 }
