@@ -3,9 +3,10 @@
     <fullName>Resolution_Comments__c</fullName>
     <externalId>false</externalId>
     <label>Resolution Comments</label>
-    <required>false</required>
+    <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>TextArea</type>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>
