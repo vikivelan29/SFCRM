@@ -28,6 +28,11 @@ public class ABHFL_WelcomeKitIntegration_Test {
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
         insert caseDetail;
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
        
         //Create Case
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(2);
@@ -38,8 +43,6 @@ public class ABHFL_WelcomeKitIntegration_Test {
         caseRecList[1].ABHFL_Case_Detail__c = caseDetail.Id;
         //caseRecList[0].Source__c = 'Welcome BOT';
         update caseRecList;
-        
-        ASF_TestDataFactory.createCaseCategoryConfig();
 
         //create ASF Integration
         ASF_Integration__c integ = new ASF_Integration__c();
@@ -68,9 +71,7 @@ public class ABHFL_WelcomeKitIntegration_Test {
         docLink.ContentDocumentId = conVersion.ContentDocumentId;
         docLink.ShareType = 'V';
         insert docLink;
-        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
-                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
-                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
+        
     }
     
     @IsTest

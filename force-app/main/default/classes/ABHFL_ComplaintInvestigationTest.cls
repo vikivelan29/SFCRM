@@ -11,6 +11,12 @@ public class ABHFL_ComplaintInvestigationTest {
          UserName=uniqueUserName);
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
+        
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
@@ -33,7 +39,7 @@ public class ABHFL_ComplaintInvestigationTest {
         caseRecList[0].AccountId = accRec.Id;
         //caseRecList[0].Source__c = 'Welcome BOT';
         update caseRecList;
-        ASF_TestDataFactory.createCaseCategoryConfig();
+        
     }
     
     @IsTest

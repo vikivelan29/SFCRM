@@ -18,6 +18,12 @@ public class ABHFL_AmmortizationMultiLanTest {
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
         insert branchMstr;
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
+        
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test123456';
@@ -61,7 +67,7 @@ public class ABHFL_AmmortizationMultiLanTest {
 		insert assetDetail;
         insert assetDetail1;
         
-        ASF_TestDataFactory.createCaseCategoryConfig();
+        
 
         //create ASF Integration
         ASF_Integration__c integ = new ASF_Integration__c();
@@ -103,9 +109,7 @@ public class ABHFL_AmmortizationMultiLanTest {
         docLink1.ContentDocumentId = conVersion1.ContentDocumentId;
         docLink1.ShareType = 'V';
         insert docLink1;
-        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
-                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
-                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
+        
     }
     
     @IsTest
