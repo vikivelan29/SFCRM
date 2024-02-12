@@ -6,7 +6,9 @@ public class ABCL_IntegrationCommonUtilityTest {
         
         //Create Case Category Config Record
         ASF_TestDataFactory.createCaseCategoryConfig();
-        
+        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                          Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                          Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
         //Create Case
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         
