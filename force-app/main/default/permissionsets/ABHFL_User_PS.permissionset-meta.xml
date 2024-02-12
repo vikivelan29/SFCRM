@@ -1674,7 +1674,6 @@
         <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    </fieldPermissions>
 		<fieldPermissions>
         <editable>false</editable>
         <field>Contact.Full_Name__c</field>
