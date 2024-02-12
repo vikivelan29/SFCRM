@@ -8,6 +8,7 @@
 public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageClassInvocable {
     
     public ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
+
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         retCls.status = 'Success';
         retCls.errorMessage = '';
@@ -21,10 +22,23 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
                 retCls.status = 'Error';
                 retCls.errorMessage = 'Resolution Comments is required when changing Stage to Resolved.';
             }
-        }
-        return retCls;
-        
+        }    
+         //Complaint Nature Cases RCA Validation, exempt for Wealth LOB   
+        if(caseRec.Nature__c == 'Complaint'){     
+
+            Set<String> blankRCA_Fields = ABFL_ComplaintsValidateOnResolvedStage.validateRCAfields(caseRec);
+                
+                // setting the Error Message if RCA fields found blank
+                if(blankRCA_Fields.size() > 0){   
+                    
+                    retCls.status = 'Error';
+                    retCls.errorMessage = 'Please fill the RCA fields on Verification Stage';
+                }  
+        } 
+
+        return retCls;        
     }
+    
     public ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         
