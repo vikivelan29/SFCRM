@@ -316,7 +316,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         ASF_CaseMovementHelper.StageWrapper resultWrap = backResultWrap.containsKey(caseRec.Id) ? backResultWrap.get(caseRec.Id) : null;
                         if(resultWrap !=null && resultWrap.status == 'Success'){
 
-                            //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                            caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                             if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                                 Case caseObj = new Case(Id = caseRec.Id);
                                 caseFinalDMLMap.put(caseObj.Id, caseObj);
@@ -333,7 +333,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     when 'Reopen Stage With Movement', 'Reopen Stage No Movement' {
                         ASF_CaseMovementHelper.StageWrapper resultWrap = fwdResultWrap.containsKey(caseRec.Id) ? fwdResultWrap.get(caseRec.Id) : null;
                         if(resultWrap !=null && resultWrap.status == 'Success'){
-                            //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                            caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                                 Case caseObj = new Case(Id = caseRec.Id);
@@ -426,7 +426,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 
                 if(resultWrap != null && resultWrap.status == 'Success'){
                     if(isUpdate){
-                        //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                         if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                             Case caseObj = new Case(Id = caseRec.Id);
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
@@ -441,7 +441,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }else{
                         //After Insert call
-                        //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                         if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                             Case caseObj = new Case(Id = caseRec.Id);
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
@@ -509,7 +509,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case caseRec : forwardCases){
                 if(wrapToReturn.containsKey(caseRec.Id) && wrapToReturn.get(caseRec.Id).status == 'Success'){
                     ASF_CaseMovementHelper.StageWrapper resultWrap = wrapToReturn.get(caseRec.Id);
-                    //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                     if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                         Case caseObj = new Case(Id = caseRec.Id);
                         caseFinalDMLMap.put(caseObj.Id, caseObj);
@@ -533,7 +533,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Case caseRec : backwardCases){
                 if(wrapToReturnMap.containsKey(caseRec.Id) && wrapToReturnMap.get(caseRec.Id).status == 'Success'){
                     ASF_CaseMovementHelper.StageWrapper wrapToReturn = wrapToReturnMap.get(caseRec.Id);
-                    //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                     if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                         Case caseObj = new Case(Id = caseRec.Id);
                         caseFinalDMLMap.put(caseObj.Id, caseObj);
@@ -570,7 +570,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfoMap = ASF_CaseMovementHelper.getAssignmentForStage(eligibleCases, caseStageMap);
             for(Case caseRec : eligibleCases){
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo ownerInfo = ownerInfoMap.get(caseRec.Id);
-                //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                 if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                     Case caseObj = new Case(Id = caseRec.Id, OwnerId=caseRec.OwnerId);
                     caseFinalDMLMap.put(caseRec.Id, caseObj);
@@ -667,7 +667,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
 
                     if(addlDataFromStageMovementMethods.get(caseId).manualApprovalStage != null){
-                        //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                         Case caseToUpdate;
                         if(!caseFinalDMLMap.containsKey(caseId)){
                             caseToUpdate = new Case(Id=caseId, is_Manual_Approval__c = addlDataFromStageMovementMethods.get(caseId).manualApprovalStage);
@@ -682,7 +682,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(!integCaseList.isEmpty()){
                 Map<Id, ASF_IntegrationsController.IntegrationWrapper> intWrapMap = ASF_CaseFrameworkHelper.runIntegrations(integCaseList, runIntegrationMap);
-                //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                 for(Case caseRec : integCaseList){
                     if(intWrapMap.containsKey(caseRec.Id)){
                         ASF_IntegrationsController.IntegrationWrapper intWrap = intWrapMap.get(caseRec.Id);
@@ -765,7 +765,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             casesToUpdate = ASF_CaseSLAHandlerV1.calculateSLAOnCaseInsert(newCaseMap.values());
         }
         if(!casesToUpdate.isEmpty()){
-            //caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+            caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
             for(Case caseRecFromSLA : casesToUpdate.values()){
                 if(!caseFinalDMLMap.containsKey(caseRecFromSLA.Id)){
                     caseFinalDMLMap.put(caseRecFromSLA.Id, caseRecFromSLA);
