@@ -98,10 +98,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             insert caseInt;
             
             Test.startTest();
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Resolved', 'Open');
+            Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id,ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRec}, new Map<Id, String>{caseRec.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRec.Id => 'Open'});
             
-            update resultWrap.caseToBeUpdated;
+            update resultWrap.get(caseRec.Id).caseToBeUpdated;
             
             Test.stopTest();
             
@@ -130,10 +131,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             update caseRec;
             
             Test.startTest();
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Resolved', 'Open');
+            Map<Id,ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id,ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRec}, new Map<Id, String>{caseRec.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRec.Id => 'Open'});
             
-            update resultWrap.caseToBeUpdated;
+            update resultWrap.get(caseRec.Id).caseToBeUpdated;
             
             Test.stopTest();
             
@@ -162,10 +164,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             update caseRec;
             
             Test.startTest();
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Resolved', 'Open');
+            Map<Id,ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id,ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRec}, new Map<Id, String>{caseRec.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRec.Id => 'Open'});
             
-            update resultWrap.caseToBeUpdated;
+            update resultWrap.get(caseRec.Id).caseToBeUpdated;
             
             Test.stopTest();
             
@@ -194,10 +197,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             update caseRec;
             
             Test.startTest();
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Resolved', 'Open');
+            Map<Id,ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id,ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRec}, new Map<Id, String>{caseRec.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRec.Id => 'Open'});
             
-            update resultWrap.caseToBeUpdated;
+            update resultWrap.get(caseRec.Id).caseToBeUpdated;
             
             Test.stopTest();
             
@@ -226,10 +230,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             update caseRec;
             
             Test.startTest();
-            ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
-            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRec, 'Resolved', 'Open');
+            Map<Id,ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id,ASF_CaseMovementHelper.StageWrapper>();
+            resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRec}, new Map<Id, String>{caseRec.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRec.Id => 'Open'});
             
-            update resultWrap.caseToBeUpdated;
+            update resultWrap.get(caseRec.Id).caseToBeUpdated;
             
             Test.stopTest();
             
