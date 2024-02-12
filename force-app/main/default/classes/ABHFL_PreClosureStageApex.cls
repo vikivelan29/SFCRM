@@ -28,7 +28,12 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
     }
      public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        
+        retCls.status = ABHFL_Constants.SUCCESS;
+        retCls.updatedCase = caseRec;
+        retCls.isCaseUpdated = false;
+        if(caseRec.Stage__c == 'Retrieval'){
+          ABHFL_CTSTHelper.sendLoanClosedEmail(caseRec);    
+         } 
         return retCls;
     }
 }
