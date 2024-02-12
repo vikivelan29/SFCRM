@@ -4806,13 +4806,11 @@
         <field>Contact.AccountId</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!--
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.GenderIdentity__c</field>
+        <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    -->
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PersonBirthDate__c</field>
