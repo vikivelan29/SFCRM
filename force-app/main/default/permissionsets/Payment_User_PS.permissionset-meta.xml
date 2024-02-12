@@ -111,6 +111,7 @@
         <editable>false</editable>
         <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>PAY_Payment_Detail__c.Cash_Back_Amount__c</field>
