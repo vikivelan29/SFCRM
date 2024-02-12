@@ -250,13 +250,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         let caseStage = this.currentStatus;
         if (this.hasApprovalRecord) {
             for (let i in this.stagesData) {
-                if (caseStage.trim().toLowerCase() == this.stagesData[i].Stage_Name__c.trim().toLowerCase()) {
+                if (caseStage.trim().toLowerCase() == this.stagesData[i].StageName__c.trim().toLowerCase()) {
                     stgData = this.stagesData[i];
                     break;
                 }
             }
             if (stgData.Is_Approval_Stage__c) {
-                let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                 if (latestCaseApprovalStatus.trim().toLowerCase() == 'pending') {
                     return true;
                 }
@@ -273,6 +273,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         }
         currentStageConfig = currentStageConfig[0];
         return currentStageConfig.Order__c == 1;
+    }
+    get isCaseAtReopenStage(){
+        return this.caseObj.Stage__c == 'Reopened';
+    }
+    get isReopenWithoutMovement(){
+        return this.caseObj.Reopen_Style__c == 'Reopen Stage No Movement';
     }
     get hasManualStagesForward() {
         let currentStageConfig = this.stagesData.filter((item, index) => {
@@ -323,7 +329,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Case is not pending for approval
         // * Case is not at first stage
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtFirstStage
+            && (!this.isCaseAtReopenStage
+            || (this.isCaseAtReopenStage && !this.isReopenWithoutMovement));
     }
 
     get showSaveButton() {
@@ -334,6 +342,17 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
             && this.isCurrentUserOwner && !this.isPendingForApproval;
+    }
+
+    get showMoveToNextButton() {
+        // * Case is not rejected - isRejection = false
+        // * Current user is owner - isCurrentUserOwner = true
+        // * Case is not in Closed state
+        // * User clicked on Edit Details button
+        // * Case is not pending for approval
+        // * Not in Reopen stage
+        return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.isCaseAtReopenStage;
     }
 
     get showForwardToStageButton() {
@@ -841,7 +860,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+            //Resolution_Remarks__c - ABHFL
+            //Resolution_Comments__c - ABFL
+            //Closure_Comments__c - Payments
+            if (ele.fieldName == 'Resolution_Remarks__c' || ele.fieldName == 'Resolution_Comments__c'
+             || ele.fieldName == 'Closure_Comments__c') {
                 this.resolutionReasonPopUpFld = ele.value;
             }
         })
@@ -2215,7 +2238,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         let caseStage = this.currentStatus;
 
         for (let i in this.stagesData) {
-            if (caseStage.trim().toLowerCase() == this.stagesData[i].Stage_Name__c.trim().toLowerCase()) {
+            if (caseStage.trim().toLowerCase() == this.stagesData[i].StageName__c.trim().toLowerCase()) {
                 stgData = this.stagesData[i];
                 break;
             }
@@ -2237,12 +2260,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
     showHideSubmitNextButton(stgData, caseStage) {
-        if (caseStage.trim().toLowerCase() == stgData.Stage_Name__c.trim().toLowerCase()) {
+        if (caseStage.trim().toLowerCase() == stgData.StageName__c.trim().toLowerCase()) {
             if (stgData.Is_Approval_Stage__c && !stgData.Manual_Stage__c && !this.isPendingClarification) {
                 // Condition 1 : Approval Stage = True AND Manual Stage = False AND Pending Clarification = False
                 if (this.caseApprovalRecord) {
-                    if (this.caseApprovalRecord.ApprovalStatus__c != null && this.caseApprovalRecord.ApprovalStatus__c != "") {
-                        let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    if (this.caseApprovalRecord.Approval_Status__c != null && this.caseApprovalRecord.Approval_Status__c != "") {
+                        let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                         if (latestCaseApprovalStatus.trim().toLowerCase() == "approved") {
                             // Show Submit & Next Button.
                             this.bShowApprovalNextButton = true;
@@ -2264,8 +2287,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             else if (stgData.Is_Approval_Stage__c && (stgData.Manual_Stage__c || this.isPendingClarification)) {
                 // Condition 2 : Approval Stage = True AND (Manual Stage = True OR Pending Clarification = True)
                 if (this.caseApprovalRecord) {
-                    if (this.caseApprovalRecord.ApprovalStatus__c != null && this.caseApprovalRecord.ApprovalStatus__c != "") {
-                        let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    if (this.caseApprovalRecord.Approval_Status__c != null && this.caseApprovalRecord.Approval_Status__c != "") {
+                        let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                         if (latestCaseApprovalStatus.trim().toLowerCase() == "approved" || latestCaseApprovalStatus.trim().toLowerCase() == "recalled") {
                             // Show Submit Button when Case Approved.
                             this.bShowApprovalNextButton = true;
@@ -2308,10 +2331,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     ShowHideRejectButton(stgData, caseStage) {
         let arr_AllowedRejectionStatus = ['approved', 'rejected', 'recalled'];
-        if (caseStage.trim().toLowerCase() == stgData.Stage_Name__c.trim().toLowerCase()) {
+        if (caseStage.trim().toLowerCase() == stgData.StageName__c.trim().toLowerCase()) {
             if (stgData.Is_Approval_Stage__c && !stgData.Manual_Stage__c && !this.isPendingClarification) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (arr_AllowedRejectionStatus.indexOf(latestCaseApprovalStatus.trim().toLowerCase()) > -1) {
                         // Show Reject button when - Case Approval Status is Approved, Reject or Recalled.
                         this.bApprovalStageShowRejectButton = true;
@@ -2333,7 +2356,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             else if (stgData.Is_Approval_Stage__c && (stgData.Manual_Stage__c || this.isPendingClarification)) {
                 // Condition 2 : Approval Stage = True AND (Manual Stage = True OR Pending Clarification = True)
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (arr_AllowedRejectionStatus.indexOf(latestCaseApprovalStatus.trim().toLowerCase()) > -1) {
                         // Show Reject button when - Case Approval Status is Approved, Reject or Recalled.
                         this.bApprovalStageShowRejectButton = true;
@@ -2368,10 +2391,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     ShowHideBackButton(stgData, caseStage) {
         let arr_AllowedRejectionStatus = ['approved', 'rejected', 'recalled'];
-        if (caseStage.trim().toLowerCase() == stgData.Stage_Name__c.trim().toLowerCase()) {
+        if (caseStage.trim().toLowerCase() == stgData.StageName__c.trim().toLowerCase()) {
             if (stgData.Is_Approval_Stage__c && !stgData.Manual_Stage__c && !this.isPendingClarification) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (arr_AllowedRejectionStatus.indexOf(latestCaseApprovalStatus.trim().toLowerCase()) > -1) {
                         // Show Back button when Case Approval is Approved, Rejected, Recalled.
                         this.bApprovalStageShowBackButton = true;
@@ -2391,7 +2414,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             }
             else if (stgData.Is_Approval_Stage__c && (stgData.Manual_Stage__c || this.isPendingClarification)) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (arr_AllowedRejectionStatus.indexOf(latestCaseApprovalStatus.trim().toLowerCase()) > -1) {
                         // Show Back button when Case Approval is Approved, Rejected, Recalled.
                         this.bApprovalStageShowBackButton = true;
@@ -2449,10 +2472,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     ShowHideManualStageComboBox(stgData, caseStage) {
         let arr_AllowedRejectionStatus = ['approved', 'rejected', 'recalled'];
-        if (caseStage.trim().toLowerCase() == stgData.Stage_Name__c.trim().toLowerCase()) {
+        if (caseStage.trim().toLowerCase() == stgData.StageName__c.trim().toLowerCase()) {
             if (stgData.Is_Approval_Stage__c && !stgData.Manual_Stage__c && !this.isPendingClarification) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (latestCaseApprovalStatus.trim().toLowerCase() == "approved") {
                         // Show Submit & Next Button.
                         this.bProcessBasedOnApprovalStage = true;
@@ -2472,7 +2495,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             }
             else if (stgData.Is_Approval_Stage__c && (stgData.Manual_Stage__c || this.isPendingClarification)) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (latestCaseApprovalStatus.trim().toLowerCase() == "approved" || latestCaseApprovalStatus.trim().toLowerCase() == "recalled") {
                         // Show Submit & Next Button.
                         this.bProcessBasedOnApprovalStage = true;
@@ -2494,10 +2517,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
     MakeAllFieldsReadOnlyWhenCaseApprovalPending(stgData, caseStage) {
-        if (caseStage.trim().toLowerCase() == stgData.Stage_Name__c.trim().toLowerCase()) {
+        if (caseStage.trim().toLowerCase() == stgData.StageName__c.trim().toLowerCase()) {
             if (stgData.Is_Approval_Stage__c && !stgData.Manual_Stage__c && !this.isPendingClarification) {
                 if (this.caseApprovalRecord) {
-                    let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                    let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                     if (latestCaseApprovalStatus.trim().toLowerCase() == "approved" || latestCaseApprovalStatus.trim().toLowerCase() == "pending") {
                         this.showWhyRecordReadOnlyInfo = true;
                         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
@@ -2519,7 +2542,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             else if (stgData.Is_Approval_Stage__c && (stgData.Manual_Stage__c || this.isPendingClarification)) {
                 this.template.querySelectorAll('lightning-input-field').forEach(ele => {
                     if (this.caseApprovalRecord) {
-                        let latestCaseApprovalStatus = this.caseApprovalRecord.ApprovalStatus__c;
+                        let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                         if (latestCaseApprovalStatus.trim().toLowerCase() == "approved" || latestCaseApprovalStatus.trim().toLowerCase() == "pending") {
                             this.showWhyRecordReadOnlyInfo = true;
                             this.template.querySelectorAll('lightning-input-field').forEach(ele => {
@@ -2764,7 +2787,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     handleResolnCommntChng(event) {
         this.resolutionReasonPopUpFld = event.target.value;
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if (ele.fieldName == 'Resolution_Comments__c' || ele.fieldName == 'Closure_Comments__c') {
+            //Resolution_Remarks__c - ABHFL
+            //Resolution_Comments__c - ABFL
+            //Closure_Comments__c - Payments
+            if (ele.fieldName == 'Resolution_Remarks__c' || ele.fieldName == 'Resolution_Comments__c'
+             || ele.fieldName == 'Closure_Comments__c') {
                 ele.value = this.resolutionReasonPopUpFld;
             }
         })

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Comment__c</fullName>
+    <description>Value to come from API</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Share your suggestions as to how we can better your experience</inlineHelpText>
+    <label>Primary Comment</label>
+    <length>131072</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

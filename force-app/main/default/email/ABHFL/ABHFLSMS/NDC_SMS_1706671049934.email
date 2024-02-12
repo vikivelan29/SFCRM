@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We have shared the No Due Certificate (NDC) of your ABHFL Loan A/C no. {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} on your registered email ID.<br />
+Regards, -Aditya Birla Housing Finance Limited</body>
+</html>

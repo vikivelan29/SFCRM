@@ -3,7 +3,7 @@
     <apiVersion>60.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>BASIC LOAN INFORMATION VF</name>
+    <name>BASIC LOAN INFORMATION</name>
     <style>none</style>
     <type>visualforce</type>
     <uiType>Aloha</uiType>

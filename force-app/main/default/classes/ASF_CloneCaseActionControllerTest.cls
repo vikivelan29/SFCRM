@@ -157,8 +157,8 @@ public with sharing class ASF_CloneCaseActionControllerTest {
     static void test_isCaseCloneable_3(){
         Case caseRec = [Select id from Case limit 1];
         ASF_Case_Category_Config__c config = [select id from ASF_Case_Category_Config__c limit 1];
-        config.ASF_Is_Cloneable__c = false;
-        update config;
+        caseRec.ASF_Is_Cloneable__c = false;
+        update caseRec;
         
         Test.startTest();
         ASF_CloneCaseActionController.BooleanWithReasonWrapper result = ASF_CloneCaseActionController.isCaseCloneable(caseRec.Id);

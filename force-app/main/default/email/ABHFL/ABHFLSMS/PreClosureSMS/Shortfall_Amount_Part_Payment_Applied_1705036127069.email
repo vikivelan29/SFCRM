@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We would like to inform you that we have received a shortfall amount of {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. We have adjust it against your outstanding amount and shall procced to close your home loan account {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} . If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
+</html>

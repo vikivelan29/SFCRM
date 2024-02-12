@@ -12,6 +12,6 @@
     <label>ABFL CS Supply Chain</label>
     <queue>ABFL_CS_Supply_Chain</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_CS_Supply_Chain_G</group>
     </sharedTo>
 </ListView>

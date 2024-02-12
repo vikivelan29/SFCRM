@@ -174,7 +174,13 @@
                                 </template>
                             </template>
                         </div>
-
+                        <!-- HIDDEN BUTTON TO SUBMIT THE FORM FROM BUTTON PANEL-->
+                        <!-- Damn! Stupid record-edit-form doesnt let you submit form and auto invoke onsubmit method from outside the form buttons. -->
+                        <template if:false={caseExtensionRecordId}>
+                            <lightning-button variant="brand" type="submit"
+                                class="slds-m-around_xxx-small hiddenSubmitBtn" label="Hidden">
+                            </lightning-button>
+                        </template>
                         <!--</lightning-layout>-->
                     </lightning-record-edit-form>
 
@@ -279,7 +285,7 @@
                                     </template>
                                     <template lwc:else>
                                         <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
-                                            label="Resolution Comments" variant="label-stacked"
+                                            label="Resolution Remarks" variant="label-stacked"
                                             value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
                                             placeholder="type here..."></lightning-textarea>
                                     </template>
@@ -359,7 +365,7 @@
                                 <lightning-button label="Save" icon-name="utility:save" class="slds-m-around_xxx-small"
                                     onclick={saveCaseAndExtn} variant="brand"></lightning-button>
                             </template>
-                            <template lwc:if={showSaveButton}>
+                            <template lwc:if={showMoveToNextButton}>
                                 <lightning-button variant="brand" icon-name="utility:breadcrumbs"
                                     class="slds-m-around_xxx-small" onclick={handleMoveToNext}
                                     label="Move to Next Stage">

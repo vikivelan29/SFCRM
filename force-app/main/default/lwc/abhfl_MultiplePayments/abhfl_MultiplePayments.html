@@ -1,0 +1,167 @@
+<template>
+    
+    <lightning-card title="Payments">
+        <lightning-button
+            if:true={isPaymentIdEditable}
+            icon-name="utility:add" 
+            slot="actions" 
+            onclick={add} 
+            label="Add"
+            variant="brand" >
+        </lightning-button>
+        <div class="slds-p-around_x-small">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="">
+                        <th class="slds-size_2-of-14" scope="col">
+                            <div class="slds-truncate" title="Payments Id">Payment Identifier</div>
+                        </th>
+                        <th class="slds-size_2-of-14" scope="col">
+                            <div class="slds-truncate" title="Amount">Amount</div>
+                        </th>
+                        <th class="slds-size_2-of-14" scope="col">
+                            <div class="slds-truncate" title="Date">Date</div>
+                        </th>
+                        <th class="slds-size_3-of-14" scope="col">
+                            <div class="slds-truncate" title="Mode of Payment">Mode of Payment</div>
+                        </th>
+                        <th class="slds-size_3-of-14" scope="col">
+                            <div class="slds-truncate" title="Realization Status">Realization Status</div>
+                        </th>
+                        <th class="slds-size_2-of-14" scope="col">
+                            <div class="slds-truncate" title="Action">Action</div>
+                        </th>
+                    </tr>
+                </thead>
+            <tbody>
+                <template for:each={payments} for:item = "item" for:index="indexVar">
+                    <tr key={item.key} class="slds-hint-parent" ondblclick={onDoubleClickEdit}>
+                        <td class="slds-size_2-of-14" data-label="Payments Id">
+                            <div  title="Payments Id">
+                                <template if:false={isPaymentIdEditable}>
+                                    {item.Payment_Identifier__c}
+                                </template>
+                                <template if:true={isPaymentIdEditable}>
+                                    <lightning-input 
+                                        data-id={item.key} 
+                                        data-fieldname="Payment_Identifier__c"
+                                        name="input1" 
+                                        label="Payment Id" 
+                                        value={item.Payment_Identifier__c} 
+                                        variant="label-hidden" 
+                                        onchange={handleDataChange}
+                                        required="true"
+                                        message-when-value-missing="Required">
+                                    </lightning-input>
+                                </template>
+                            </div>
+                        </td>
+                        <td class="slds-size_2-of-14" data-label="Amount">
+                            <div  title="Amount">
+                                <template if:false={isPaymentAmountEditable}>
+                                    {item.Amount__c}
+                                </template>
+                                <template if:true={isPaymentAmountEditable}>
+                                    <lightning-input 
+                                        data-id={item.key} 
+                                        data-fieldname="Amount__c"
+                                        name="input2" 
+                                        type="number"
+                                        label="Amount" 
+                                        value={item.Amount__c} 
+                                        variant="label-hidden" 
+                                        onchange={handleDataChange}
+                                        required="true"
+                                        message-when-value-missing="Required">
+                                    </lightning-input>
+                                </template>
+                            </div>
+                        </td>
+                        <td class="slds-size_2-of-14" data-label="Date">
+                            <div  title="Date">
+                                <template if:false={isDateEditable}>
+                                    {item.Date__c}
+                                </template>
+                                <template if:true={isDateEditable}>
+                                    <lightning-input 
+                                        data-id={item.key} 
+                                        data-fieldname="Date__c"
+                                        name="input3" 
+                                        type="date"
+                                        label="Date" 
+                                        value={item.Date__c} 
+                                        variant="label-hidden" 
+                                        onchange={handleDataChange}
+                                        required="true"
+                                        message-when-value-missing="Required">
+                                    </lightning-input>
+                                </template>
+                            </div>
+                        </td>
+                        <td class="slds-size_3-of-14" data-label="Mode of Payment">
+                            <div  title="Amount">
+                                <template if:false={isPaymentModeEditable}>
+                                    {item.Mode_of_Payment__c}
+                                </template>
+                                <template if:true={isPaymentModeEditable}>
+                                    <c-asf_-picklist 
+                                        unique-key={item.key} 
+                                        object-api-name="ABHFL_Payment__c"  
+                                        selected-value={item.Mode_of_Payment__c}  
+                                        pick-listfield-api-name="Mode_of_Payment__c" 
+                                        variant="label-hidden"
+                                        onpicklistchange={handlePicklistChange}>
+                                    </c-asf_-picklist>
+                                </template>
+                            </div>
+                        </td>
+                        <td class="slds-size_3-of-14" data-label="Realization Status">
+                            <div  title="Amount">
+                                <template if:false={isRealizationEditable}>
+                                    {item.Realization_Status__c}
+                                </template>
+                                <template if:true={isRealizationEditable}>
+                                    <c-asf_-picklist 
+                                        unique-key={item.key} 
+                                        object-api-name="ABHFL_Payment__c"  
+                                        selected-value={item.Realization_Status__c}  
+                                        pick-listfield-api-name="Realization_Status__c" 
+                                        variant="label-hidden"
+                                        onpicklistchange={handlePicklistChange}>
+                                    </c-asf_-picklist>
+                                </template>
+                            </div>
+                        </td>
+                        <td class="slds-size_2-of-14" data-label="Action">
+                            <template if:true={isDeleteAllowed}>
+                                <a name={indexVar} data-id={item.key} onclick={remove}>
+                                    <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
+                                </a>
+                            </template>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+    <div class="slds-p-around_small slds-align_absolute-center" slot="footer">
+        <!-- <lightning-button
+            type="button"
+            variant="neutral"
+            onclick={handleCancel}
+            label="Cancel"
+            class="slds-m-horizontal_x-small"
+        >
+        </lightning-button> -->
+        <lightning-button
+          if:true={isSaveAllowed}
+          type="button"
+          variant="brand"
+          onclick={handleSave}
+          label="Save"
+          class="slds-m-horizontal_x-small"
+        >
+        </lightning-button>
+      </div>
+</lightning-card>
+</template>

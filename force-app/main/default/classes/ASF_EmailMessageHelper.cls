@@ -18,7 +18,7 @@ public class ASF_EmailMessageHelper {
         Request reqInfo = Request.getCurrent();
         String currentRequestId = reqInfo.getRequestId();
         Quiddity currentType = reqInfo.getQuiddity();
-        if(currentType != Quiddity.QUICK_ACTION){
+        if(currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS){
             if(!Test.isRunningTest()){
                 return;
             }

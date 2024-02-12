@@ -16,6 +16,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
         // Find eligible records
         Set<Id> caseIds = new Set<Id>();
         Set<Id> caseIntegrationIds = new Set<Id>();
+        Set<Id> caseIntIds = new Set<Id>();
         List<ABHFL_Case_Detail__c> caseDetailList = new List<ABHFL_Case_Detail__c>();
         for(ASF_Case_Integration__c recordAfter : (List<ASF_Case_Integration__c>)newItems.values()){
             ASF_Case_Integration__c recordBefore = (ASF_Case_Integration__c)oldItems.get(recordAfter.Id);
@@ -27,7 +28,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
             ){
                 caseIds.add(recordAfter.Case__c);
                 caseIntegrationIds.add(recordAfter.Id);
-            }  
+            } 
         } 
         system.debug('****caseIntegrationIds:'+caseIntegrationIds);
         
@@ -53,5 +54,6 @@ public with sharing class ABCL_CaseIntegrationHelper {
                 }
             }      
         }
+        
     }
 }

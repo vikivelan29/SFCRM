@@ -95,10 +95,10 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                 if(FldType == Schema.DisplayType.DateTime){
                     Datetime dt = (Datetime) caseRecord.get(mergeField);
                     if(dt!=null){
-                        if(mergeField =='CreatedDate')
+                        //if(mergeField =='CreatedDate')
                             fieldValue = dt.format();
-                        else
-                            fieldValue = dt.date().format();
+                        //else
+                            //fieldValue = dt.date().format();
                     }
                     
                 }else if(FldType == Schema.DisplayType.Date){

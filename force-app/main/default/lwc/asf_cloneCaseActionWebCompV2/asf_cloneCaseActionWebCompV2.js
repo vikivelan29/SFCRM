@@ -23,7 +23,6 @@ import isCaseCloneable from '@salesforce/apex/ASF_CloneCaseActionController.isCa
 import fetchCommonFieldsToCopy from '@salesforce/apex/ASF_CloneCaseActionController.fetchCommonFieldsToCopy';
 import fetchCCCSpecificFieldsToCopy from '@salesforce/apex/ASF_CloneCaseActionController.fetchCCCSpecificFieldsToCopy';
 import fetchCaseDetailsWithExtension from '@salesforce/apex/ASF_CloneCaseActionController.fetchCaseDetailsWithExtension';
-import createCloneCase from '@salesforce/apex/ASF_CloneCaseActionController.createCloneCase';
 import createCloneCaseV2 from '@salesforce/apex/ASF_CloneCaseActionController.createCloneCaseV2';
 import { getRecord } from "lightning/uiRecordApi";
 
@@ -48,33 +47,27 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
         additionalFields: [{ fieldPath: "Account.Name"}],
-      };
+    };
 
-      displayInfo = {
+    displayInfo = {
         additionalFields: ["Account.Name"] 
-      };
+    };
 
-      handleChange(event) {
+    handleChange(event) {
         this.newAssetSelected = event.detail.recordId;
         console.log(`Selected record: ${event.detail.recordId}`);
-      }
+    }
 
     @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME] })
         wiredRecord({ error, data }) {
             if (error) {
-                let message = "Unknown error";
-                if (Array.isArray(error.body)) {
-                    message = error.body.map((e) => e.message).join(", ");
-                } else if (typeof error.body.message === "string") {
-                    message = error.body.message;
-                }
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                    title: "Error loading Clone Page",
-                    message,
-                    variant: "error",
-                    }), 
-                );
+                let errMsg = reduceErrors(error);
+                const event = new ShowToastEvent({
+                    variant: 'error',
+                    title: 'Error loading the case',
+                    message: Array.isArray(errMsg)?errMsg[0]:errMsg
+                });
+                this.dispatchEvent(event);
             } 
             else if (data) {
                 console.log('data', JSON.stringify(data));
@@ -124,6 +117,15 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         let clonedCaseRecord = {};
         let clonedCaseExtnRecords = {}; //Its a map of objectapiname to cloned record
 
+        if(!this.template.querySelector("lightning-record-picker").reportValidity()){
+            const event = new ShowToastEvent({
+                variant: 'error',
+                title: 'Error on asset selector',
+                message: ''
+            });
+            this.dispatchEvent(event);
+            return;
+        }
         //start spinner
         this.isLoading = true;
 
@@ -254,16 +256,6 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             this.isLoading = false;
             this.closeAction();
         }
-    }
-
-    async getCaseDetails() {
-        let result = await isCaseCloneableV2({ 
-            recId: this.recordId 
-        })
-        .catch(error => {
-            console.log(error);
-            this.showError('error', 'Oops! Error occured while loading the case', error);
-        });
     }
 
 }

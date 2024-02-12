@@ -21,7 +21,6 @@ public with sharing class Asf_FetchAssetRelatedToAccountCntrl_Test {
         
        Asset asst = new Asset();
        asst.accountId = objAccount.Id;
-       //asst.LOB__c = 'ABHFL';
        asst.Loan_Amount__c = 130000000;
        asst.Scheme__c = 'Test Scheme ';
        asst.Last_Disbursement_Date__c = Date.Today().addDays(1);
@@ -33,6 +32,12 @@ public with sharing class Asf_FetchAssetRelatedToAccountCntrl_Test {
        asst.Name = 'Test Asset';
 
        insert asst;
+        
+       LAN_Mapping__c lnMapp = new LAN_Mapping__c();
+       lnMapp.LAN__c = asst.Id;
+       lnMapp.Customer__c = objAccount.Id;
+       
+       insert lnMapp;
     }
     /****************************************************
      * @Description - Test Method to test the fetchAssets Method

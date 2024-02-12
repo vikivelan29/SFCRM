@@ -10,6 +10,8 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     public override void beforeInsert(List<SObject> newItems){
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
         ABCL_SendEmailValidation.validateUsersTeam(newItems);
+        
+        
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
         // VIRENDRA - CODE TO SET WINNING EMAIL ADDRESS.
@@ -28,10 +30,11 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
         
+        // Check creation rules for ABFL BU - Can't be used in before as we need case details for logic
+        ABFL_E2C_CreationRules.checkCreationRules(ABCL_EmailMessageHelper.getEligibles(newEmails.values()));
         
         // VIRENDRA - UPDATEMESSAGEIDENTIFIERONCASE TO AVOID CREATING MULTIPLE CASES WHEN MULTIPLE EMAIL TO CASE ADDRESSES ARE PART OF INCOMING EMAIL.
         ASF_Email2CaseHandler.updateMessageIdentifierOnCase((List<EmailMessage>)newEmails.values());
-        // ABFL_E2C_CreationRules.checkCreationRules(newEmails.values());
         
         // IF EVERYTHING IS SUCCESSFUL THEN ONLY TRIGGER EBOT CODE.
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE

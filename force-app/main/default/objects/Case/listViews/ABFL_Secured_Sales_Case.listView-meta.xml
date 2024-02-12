@@ -12,6 +12,6 @@
     <label>ABFL Secured Sales</label>
     <queue>ABFL_Secured_Sales</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Secured_Sales_G</group>
     </sharedTo>
 </ListView>

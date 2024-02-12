@@ -17,9 +17,9 @@
                 <label>eBOT</label>
             </value>
             <value>
-                <fullName>eBOT Feedback</fullName>
+                <fullName>eBOTFeedback</fullName>
                 <default>false</default>
-                <label>eBOT Feedback</label>
+                <label>eBOTFeedback</label>
             </value>
             <value>
                 <fullName>Log</fullName>
@@ -30,6 +30,11 @@
                 <fullName>BRE</fullName>
                 <default>false</default>
                 <label>BRE</label>
+            </value>
+            <value>
+                <fullName>Litmus</fullName>
+                <default>false</default>
+                <label>Litmus</label>
             </value>
         </valueSetDefinition>
     </valueSet>

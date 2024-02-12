@@ -12,6 +12,6 @@
     <label>ABFL Unsecured Servicing</label>
     <queue>ABFL_Unsecured_Servicing</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Unsecured_Servicing_G</group>
     </sharedTo>
 </ListView>

@@ -151,7 +151,7 @@
 												Thank you for reaching out to us.<br />
 												&nbsp;<br />
 												Your request for {{{Case.Masked_LAN__c}}}   has been received and registered under reference number {{{Case.CaseNumber}}}.<br />
-												We anticipate resolving this matter by {{{Case.Overall_Case_Closure_SLA__c}}}. You can even track the real time status of your case by clicking on &lt;/Link to track cases&gt;<br />
+												We anticipate resolving this matter by {{{Case.Overall_Case_Closure_SLA__c}}}. You can even track the real time status of your case by clicking on {{{Case.Short_URL__c}}}<br />
 												<br />
 												We appreciate your patience during this time. Kindly note that this is an auto acknowledgement.<br />
 												<br />

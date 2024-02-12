@@ -1,59 +1,64 @@
 <template>
-    <lightning-card  title="" class="slds-p-bottom_medium">
-       <div class="slds-grid slds-gutters">
-          <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
-             <lightning-input type="text" label="" onchange={valChange} placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #"></lightning-input>
-          </div>
-       </div>
-       <div class="slds-grid slds-gutters slds-m-left_medium">
-          <div class="slds-size_1-of-1 ">
-             <br/>
-             <strong>Select Customer </strong>
-             <lightning-datatable
-                key-field="Id"
-                data={accData}
-                data-id="accTable"
-                class="colorWhite"
-                max-row-selection =1
-                onrowselection={handleAccAction}
-                columns={accCols}
-                selected-rows={preSelectedRows}>
-             </lightning-datatable>
-          </div>
-       </div>
-       <br/><br/> 
-       <div class="slds-grid slds-gutters  slds-m-left_medium">
-          <div class="slds-size_1-of-1">
-             <br/><br/> 
-             <lightning-layout >
-                <lightning-layout-item  class="slds-p-top_small" >
-                   <strong>Select Account Number  </strong> &nbsp;
-                </lightning-layout-item>
-                <lightning-layout-item  class="">
-                   <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
-                </lightning-layout-item>
-             </lightning-layout>
-             <br/> 
-             <lightning-datatable
-                key-field="Id"
-                data-id="asstTable"
-                max-row-selection ="1"
-                data={asstData}
-                class="colorWhite"
-                columns={asstCols}
-                selected-rows={preSelectedAsset}>
-             </lightning-datatable>
-          </div>
-       </div>
-    </lightning-card>
-    <lightning-card>
-       <lightning-quick-action-panel title="">
-          <div slot="footer">
-             <lightning-button variant="neutral" label="Update SR" title="Update SR" onclick={handleclick} class="slds-m-left_x-small">
-             </lightning-button>
-             &nbsp;
-             <lightning-button variant="neutral" label="Cancel" onclick={closeQuickAction}></lightning-button>
-          </div>
-       </lightning-quick-action-panel>
-    </lightning-card>
- </template>
+   <lightning-card title="Customer/Prospect/LAN Tagging" class="slds-p-bottom_medium">
+      <!-- Virendra : BELOW ALERT ADDED FOR PROSPECT TAGGING REQUIREMENT FOR PREFRAMEWORK - PR970457-426 -->
+      <div class="slds-notify slds-notify_alert slds-alert_offline" role="alert">
+         <h2>If you're not finding expected record, please click on Create Prospect Button.
+
+         </h2>
+
+      </div>
+      <!-- Virendra : ENDS HERE -->
+      <div class="slds-grid slds-gutters">
+         <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
+            <lightning-input type="text" label="" onchange={valChange}
+               placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #/ Prospect Name"></lightning-input>
+         </div>
+         <div class="slds-col slds-size_1-of-3 slds-m-left_medium slds-p-top_medium">
+            <lightning-button variant="brand" label="Create Prospect" title="Primary action"
+               onclick={handleProspectCreation} class="slds-m-left_x-small"></lightning-button>
+         </div>
+      </div>
+      <div class="slds-grid slds-gutters slds-m-left_medium">
+         <div class="slds-size_1-of-1 ">
+            <br />
+            <strong>Select Customer/ Prospect </strong>
+            <lightning-datatable key-field="recordId" data={accData} data-id="accTable" class="colorWhite" max-row-selection=1
+               onrowselection={handleAccAction} columns={accCols} selected-rows={preSelectedRows}>
+            </lightning-datatable>
+         </div>
+      </div>
+      <br /><br />
+      <!-- Virendra : Added check to show LAN only when the selected record is Customer. For Prospect don't show the LAN records.-->
+      <template if:true={showLANForCustomer}>
+         <div class="slds-grid slds-gutters  slds-m-left_medium">
+            <div class="slds-size_1-of-1">
+               <br /><br />
+               <lightning-layout>
+                  <lightning-layout-item class="slds-p-top_small">
+                     <strong>Select LAN </strong> &nbsp;
+                  </lightning-layout-item>
+                  <lightning-layout-item class="">
+                     <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
+                  </lightning-layout-item>
+               </lightning-layout>
+               <br />
+               <lightning-datatable key-field="Id" data-id="asstTable" max-row-selection="1" data={asstData}
+                  class="colorWhite" columns={asstCols} selected-rows={preSelectedAsset} onrowselection={handleAsstAction}>
+               </lightning-datatable>
+            </div>
+         </div>
+      </template>
+
+   </lightning-card>
+   <lightning-card>
+      <lightning-quick-action-panel title="">
+         <div slot="footer">
+            <lightning-button variant="neutral" label="Update Case" title="Update Case" onclick={handleclick}
+               class="slds-m-left_x-small">
+            </lightning-button>
+            &nbsp;
+            <lightning-button variant="neutral" label="Cancel" onclick={closeQuickAction}></lightning-button>
+         </div>
+      </lightning-quick-action-panel>
+   </lightning-card>
+</template>

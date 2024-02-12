@@ -1,43 +1,136 @@
 /**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
+* @description       : 
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
 **/
-public without sharing class  ASF_CaseUIController {
-    //get Asset Records for the time of selection while creating Case
-    @AuraEnabled(Cacheable=false)
-    public static List<account> getMatchingAccount(string userInp) {
-        if(userInp!=null){
-            Set<id> accIdSet = new Set<id>();
-        List<contact> conList = New List<contact>();//database.query(queryField);
-        	userInp = '%'+userInp+'%';
-            System.debug(userInp);
-            List<List<SObject>> searchList = 
-                [FIND :userInp IN ALL FIELDS 
-                RETURNING 
-                Contact (Id, AccountId WHERE email  LIKE :userInp OR mobilePhone LIKE : userInp),
-                Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp),
-                Asset (Id, AccountId WHERE Name  LIKE : userInp)
-                ]; 
-			
-            System.debug(searchList);
-            if(searchList[0].size()>0){
-                conList = (List<contact>)searchList[0];
-                for(Contact con: conList)
-                    accIdSet.add(con.AccountId);
-                
-            }else if(searchList[1].size()>0){
-                List<Account> accList = (List<Account>)searchList[1];
-                for(Account acc: accList)
-                    accIdSet.add(acc.Id);
-            }else if(searchList[2].size()>0){
-                List<Asset> assList = (List<Asset>)searchList[2];
-                for(Asset ass: assList)
-                    accIdSet.add(ass.AccountId);
+public with sharing class  ASF_CaseUIController {
+    
+    @AuraEnabled
+    public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
+        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
+        
+        Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
+        Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        User loggedInUser = [SELECT ID FROM User WHERE Id =: UserInfo.getUserId()];
+        if(prospectRecord != null){
+            // In case of Prospect Case, create Prospect first.
+            Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates(new List<Lead>{prospectRecord});
+            for (Datacloud.FindDuplicatesResult findDupeResult : results) {
+                for (Datacloud.DuplicateResult dupeResult : findDupeResult.getDuplicateResults()) {
+                    for (Datacloud.MatchResult matchResult : dupeResult.getMatchResults()) {
+                        for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
+                            System.debug(matchRecord.getRecord());
+                            mObjectVsRecId.put('DuplicateLead',matchRecord.getRecord());
+                            return mObjectVsRecId;
+                        }
+                    }
+                }
+            }
+            prospectRecord.RecordTypeId = serviceProspectRTId;
+            if(prospectRecord.Sales_Prospect__c == true){
+                prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
-            List<account> accList = [select id,name,Client_Code__c from account where ID IN:accIdSet];
-            return accList;
+            insert prospectRecord;
+            mObjectVsRecId.put('Lead',prospectRecord);
+        }
+        
+        if(caseToInsert != null){
+            String sObjectName = '';
+            if(caseToInsert.Lead__c == null){
+                if(prospectRecord != null){
+                    // In case of Internal Case - No need to create prospect.
+                    caseToInsert.put('Lead__c',prospectRecord.Id);
+                }
+                
+            }
+            
+            update caseToInsert;
+            mObjectVsRecId.put('Case',caseToInsert);
+        }
+        
+        return mObjectVsRecId;
+    }
+    
+    //get Asset Records for the time of selection while creating Case
+    @AuraEnabled(Cacheable=true)
+    public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected) {
+        List<searchResponse> lstResponse = new List<searchResponse>();
+        
+        if(userInp!=null){
+            Set<id> accIdSet = new Set<id>();
+            if(!accPreSelected){
+                List<contact> conList = New List<contact>();//database.query(queryField);
+                String searchString = '%'+String.escapeSingleQuotes(userInp)+'%';
+                userInp = '%'+userInp+'%';
+                
+                System.debug(userInp);
+                List<List<SObject>> searchList = 
+                    [FIND :searchString IN ALL FIELDS 
+                    RETURNING 
+                    Contact (Id, AccountId WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
+                    Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp),
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
+                    ]; 
+                
+                System.debug(searchList[3]);
+                if(searchList[0].size()>0){
+                    conList = (List<contact>)searchList[0];
+                    for(Contact con: conList)
+                        accIdSet.add(con.AccountId);
+                    
+                }
+                if(searchList[1].size()>0){
+                    List<Account> accList = (List<Account>)searchList[1];
+                    for(Account acc: accList)
+                        accIdSet.add(acc.Id);
+                }
+                if(searchList[2].size()>0){
+                    List<Asset> assList = (List<Asset>)searchList[2];
+                    for(Asset ass: assList)
+                        accIdSet.add(ass.AccountId);
+                }
+                if(searchList[3].size()>0){
+                    for(Lead prospect : (List<Lead>)searchList[3]){
+                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c);
+                        
+                        lstResponse.add(resp);
+                    }     
+                }
+            } else{
+                Id accId = [select Id from account where Client_Code__c =: userInp].Id;
+                accIdSet.add(accId);
+            }
+            
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount from account where ID IN:accIdSet];
+            Map<Id,contact> accIdConMap = new Map<Id,contact>();
+            Set<Id> businessAccIdSet = new Set<Id>();
+            for(Account accRec : accList){
+                if(!accRec.IsPersonAccount){
+                    businessAccIdSet.add(accRec.Id);
+                }
+            }
+            for(contact conRec : [select Id, mobilePhone, email, AccountId from contact where AccountId IN: businessAccIdSet and Primary__c = true]){
+                accIdConMap.put(conRec.AccountId,conRec);
+            }
+            for(Account customer : accList){
+                searchResponse custResp;
+                if(customer.IsPersonAccount){
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c);
+                }else{
+                    String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
+                    String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
+
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c);
+                }
+                
+                lstResponse.add(custResp);
+            }
+            for(integer i=0;i<lstResponse.size();i++){
+                System.debug(lstResponse);
+            }
+            return lstResponse;
         }
         else{ return null; }
     }
@@ -50,7 +143,9 @@ public without sharing class  ASF_CaseUIController {
     @AuraEnabled(cacheable=true)
     public static conAssetWrapper getMatchingContacts(string accountId) {
         if(accountId!=''){
-        List<asset> asstList = [select id,Name from asset where accountId =:accountId];
+            List<asset> asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
+                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c
+                                    from asset where accountId =:accountId];
             
             conAssetWrapper wrapper = new conAssetWrapper(asstList);
             return wrapper;
@@ -65,8 +160,17 @@ public without sharing class  ASF_CaseUIController {
         
         Case cs = new Case();
         cs.Id = caseId;
-        if(accountId != '')
-            cs.AccountId = accountId;
+        if(accountId != ''){
+            Id entityId = Id.ValueOf(accountId);
+            if(entityId.getSObjectType() == Account.sObjectType){
+                cs.AccountId = accountId;
+            }
+            else if(entityId.getsObjectType() == Lead.sObjectType){
+                cs.Lead__c = accountId;
+            }
+            
+        }
+        
         if(assetId != '')
             cs.AssetId  = assetId ;
         if(faNumber != '')
@@ -93,7 +197,7 @@ public without sharing class  ASF_CaseUIController {
         for(String fieldName : jsonRes.keySet())
             cs.put(fieldName, jsonRes.get(fieldName));
         
-        Case recForOtherFields = [select id,accountId,assetId,ContactId  from case where Id =: cs.Id];
+        Case recForOtherFields = [select id,accountId,assetId,ContactId,Lead__c  from case where Id =: cs.Id];
         System.debug('cs.Status -->'+cs.Status);
         if(cs.Status ==ASF_Constants.REJECTIONSTATUS || cs.Reject_Case__c == true ){
             update cs;
@@ -101,11 +205,14 @@ public without sharing class  ASF_CaseUIController {
         }
         else if( isAsset == 'closeCRN' || (!String.isBlank(cs.Type_Text__c) &&  !String.isBlank(cs.Sub_Type_Text__c) && recForOtherFields.AccountId !=null) )
             update cs;
+        else if(isAsset == 'Prospect' && recForOtherFields.Lead__c != null){
+            update cs;
+        }
         else
             throw new AuraHandledException('Please update Customer/Contact');    
         return cs;
     }
-
+    
     @AuraEnabled
     public static Id createCaseExtension(SObject record, SObject cccRec){
         try{
@@ -119,7 +226,7 @@ public without sharing class  ASF_CaseUIController {
         insert record;
         return record.Id;
     }
-
+    
     
     public class resWrapper{
         @AuraEnabled
@@ -142,4 +249,32 @@ public without sharing class  ASF_CaseUIController {
         }
     }
     
+    public class searchResponse{
+        @AuraEnabled
+        public Id recordId{get;set;}
+        @AuraEnabled
+        public String objectType{get;set;}
+        @AuraEnabled
+        public String name{get;set;}
+        @AuraEnabled
+        public String clientCode{get;set;}
+        @AuraEnabled
+        public String emailId{get;set;}
+        @AuraEnabled
+        public String mobile{get;set;}
+        @AuraEnabled
+        public String pan{get;set;}
+        
+        public searchResponse(String recId, String objType,String name,String clientCode,
+                            String emailId,String mobile,String pan){
+            this.recordId = recId;
+            this.objectType = objType;
+            this.name = name;
+            this.clientCode = clientCode;
+            this.emailId = emailId;
+            this.mobile = mobile;
+            this.pan = pan;
+        }
+        
+    }
 }

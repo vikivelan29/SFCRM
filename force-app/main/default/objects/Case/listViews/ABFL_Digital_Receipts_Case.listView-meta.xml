@@ -12,6 +12,6 @@
     <label>ABFL Digital Receipts</label>
     <queue>ABFL_Digital_Receipts</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Digital_Receipts_G</group>
     </sharedTo>
 </ListView>

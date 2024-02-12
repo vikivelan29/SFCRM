@@ -56,6 +56,7 @@ public class ABHFL_EbotTriggerHelper {
             fieldsMap.put('Case_Integration_ID__c',caseInt.Name);
             fieldsMap.put('Description__c',emailMsg.Parent.Description);
             fieldsMap.put('Line_of_Business__c',LOB);
+            fieldsMap.put('Business_Unit__c',LOB);
             fieldsMap.put('Integration_Name__c','EBOT API');
             fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
             fieldsMap.put('From_Address__c',emailMsg.FromAddress);

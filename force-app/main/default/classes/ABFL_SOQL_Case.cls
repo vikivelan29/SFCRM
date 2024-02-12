@@ -16,17 +16,44 @@ public with sharing class ABFL_SOQL_Case {
     * @Paramters        String
     * @return           case
     *********************************************************************************************************/
+    private static Case caseRec;
     public static Case getCaseInfo(string caseid){
-	return [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
-		    ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
-		    ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,
-		    Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
-		    Account.Phone,
-		    Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
-		    CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,
-		    ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
-		    BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c
-		    FROM Case
-		    WHERE Id =: caseid];
+        if(caseRec==null){
+            caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
+            ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
+            ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
+             Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
+             Account.Phone,
+             Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
+             CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,
+             ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
+             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c
+             FROM Case
+             WHERE Id =: caseid];
+        }
+        return caseRec;
     }
+    
+    public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
+        Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
+
+        if(caseIdSet?.size() > 0) {
+            Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, Status, IsClosed, CaseNumber, AccountId, CreatedDate, ClosedDate, Business_Unit__c, Stage__c, Nature__c, Type_Text__c, Sub_Type_Text__c, CCC_External_Id__c, LOB__c, Source__c, Owner.Name, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Lock_in_Period__c, Account.RecordType.Name, Account.IsPersonAccount, Account.Name, Account.Full_Name__pc, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.City__c, Account.Client_Code__c, Asset.Product2.Name, Asset.LAN__c
+                       FROM Case 
+                       WHERE Id 
+                       IN :caseIdSet
+                       WITH SYSTEM_MODE]);
+            caseMapToReturn = caseIdToRecordMap;
+        }
+        return caseMapToReturn;
+    }
+    /**
+    * @description: Fetch case origin info
+    * @author rsinghnagar@salesforce.com | 01-02-2024 
+    * @param List<Id> idList 
+    * @return Case 
+    **/
+    public static List<Case> getCaseOrginInfo(Set<Id> idSet){
+        return [SELECT Id, origin FROM Case WHERE ID IN : idSet]; // this is invoked by E2C, hence can't use with_security_enforced
+    } 
 }

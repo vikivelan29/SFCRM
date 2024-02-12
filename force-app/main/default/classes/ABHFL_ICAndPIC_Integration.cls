@@ -16,8 +16,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Interest Certificate Or Provisional Interest Certificate Integration should be fired or not.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        
+
         String financialYr = '';
+        String integrationName = '';
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Error';
@@ -28,26 +29,39 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
-		//system.debug('caseRecord-- '+caseRecord);
+
+        integrationName = getIntegrationName(caseRecord.Sub_Type_Text__c);
         financialYr = getFinancialYr(caseRecord);
         String lan   = caseRecord.Asset.LAN__c;
-
+        
         if(caseRecord.Technical_Source__c == 'Api' || caseRecord.Technical_Source__c == 'LWC') {
-                if(String.isNotBlank(financialYr) && String.isNotBlank(lan)) {
-                    result.status = 'Success';
-                    result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+                if(integrationName == 'Interest Certificate') {
+                    if(String.isNotBlank(financialYr) && String.isNotBlank(lan)) {
+                        result.status = 'Success';
+                        result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+                    }
+                    else if(String.isBlank(financialYr) && String.isBlank(lan)) {
+                        result.status = 'Error';
+                        result.response = 'Please fill the Financial Year and Loan Account Number';
+                    }
+                    else if(String.isBlank(financialYr)){
+                        result.status = 'Error';
+                        result.response = 'Please fill the Financial Year';
+                    }
+                    else if(String.isBlank(lan)){
+                        result.status = 'Error';
+                        result.response = 'Please fill the LAN';
+                    }
                 }
-                else if(String.isBlank(financialYr) && String.isBlank(lan)) {
-                    result.status = 'Error';
-                    result.response = 'Please fill the Financial Year and Loan Account Number';
-                }
-                else if(String.isBlank(financialYr)){
-                    result.status = 'Error';
-                    result.response = 'Please fill the Financial Year';
-                }
-                else if(String.isBlank(lan)){
-                    result.status = 'Error';
-                    result.response = 'Please fill the LAN';
+                else if(integrationName == 'Provisional Interest Certificate') {
+                    if(String.isNotBlank(lan)) {
+                        result.status = 'Success';
+                        result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+                    }
+                    else if(String.isBlank(lan)){
+                        result.status = 'Error';
+                        result.response = 'Please fill the LAN';
+                    }
                 }
         }
         return result;
@@ -97,7 +111,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 
         if(subTypeList.contains(caseSubType)) {
             ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = generateRequest(caseRecord, type, financialYr);
-            jsonBody = JSON.serialize(reqBodyObj);
+            jsonBody = JSON.serialize(reqBodyObj, true);
         }
    
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
@@ -140,11 +154,11 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             if(caseRecord!=null){
                 if(isTransferred){
                     integrationFailure = false;
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c FROM ASF_Case_Category_Config__c 
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                                                                             cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            null, 
+                                                                                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,
                                                                                                                             true); 
 
                     caseRecord.MoveToNext__c = true;
@@ -164,6 +178,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             	update caseDetails;                   
             }
         }   
+
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
     }
 
     public void handleFailure(Case caseRecord, String integrationName) {

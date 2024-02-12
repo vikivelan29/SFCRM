@@ -16,6 +16,12 @@ import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
 import {RefreshEvent } from 'lightning/refresh'
 import { refreshApex } from '@salesforce/apex';
 
+
+
+// Virendra - Added Refresh Event to fire when Click on Refresh Button on UI.
+
+import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
+
 /**
  * Integrations Panel is one Component to be included above the Regular Case 
  * Standard / Custom Pages. It shows Dynamic Buttons for running integrations
@@ -116,6 +122,10 @@ export default class Asf_IntegrationsPanel extends LightningElement {
 
     refresh(){
       refreshApex(this._wiredCaseIntegrations);
+
+      // VIRENDRA - Added fixes for the Refreshing the page when 
+      let payload = {'source':'intPanel', 'recordId':this.recordId};
+      fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);  
     }
 
     openModal() {

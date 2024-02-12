@@ -12,6 +12,6 @@
     <label>ABFL ABWM Customer Service</label>
     <queue>ABFL_ABWM_Customer_Service</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_ABWM_Customer_Service_G</group>
     </sharedTo>
 </ListView>

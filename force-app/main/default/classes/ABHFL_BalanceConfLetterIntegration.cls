@@ -131,7 +131,8 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 UPDATE caseDetail; 
             }            
-        }     
+        } 
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);    
     }
     
      private void handleSuccessfullTransfer(Case caseRec){
@@ -143,11 +144,11 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                                                             cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
             
           caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
-          caseRec.Stage__c = ABHFL_Constants.RESOLVED;
+          caseRec.MoveToNext__c = true;
           
           if(Schema.sObjectType.Case.isUpdateable()){
             UPDATE caseRec;
-          } 
+          }
      }
      
      private void handleUnsuccessfullTransfer(Case caseRec,ASF_Case_Integration__c caseInteg){

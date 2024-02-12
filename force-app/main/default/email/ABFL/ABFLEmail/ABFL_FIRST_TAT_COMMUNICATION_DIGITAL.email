@@ -142,30 +142,29 @@
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Finance Limited.</span></strong><br />
 												&nbsp;<br />
-												This is an automated acknowledgment.<br />
+												This is an automated acknowledgement.<br />
 												<br />
-												The reference number for this request is {{{Case.CaseNumber}}}..<br />
+												The reference number for this request is {{{Case.CaseNumber}}}.<br />
 												<br />
-												Your Service Request is in process and our customer service executive will respond to you shortly. You can expect to get the resolution by {{{Case.Overall_Case_Closure_SLA__c}}}.<br />
-												<br />
-												We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
-												<br />
-												In case of any further queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
+												Your Service Request is in process and our customer service executive will respond to you shortly. You can expect to get the resolution by {{{Case.Overall_Case_Closure_SLA__c}}}.
+												<p>We request you to avail the convenience of instant resolution to your queries through any of our channels mentioned below.<br />
 												<br />
 												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
 												Note - Please DO NOT edit the subject line while responding to us on this case.<br />
-												<br />
-												Warm regards,<br />
-												<span style="color:#c0392b;"><strong>Aditya Birla Finance Limited</strong></span></div>
+												&nbsp;</p>
+
+												<p>Warm regards,<br />
+												<strong style="color: rgb(192, 57, 43);">Aditya Birla Finance Limited</strong></p>
+												</div>
 												</td>
 											</tr>
 										
