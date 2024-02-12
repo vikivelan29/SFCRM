@@ -7,7 +7,7 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @track loanData=[];
     error;
     rowOffset;
-    showAddAttachmentModal = false;
+    @api showAddAttachmentModal = false;
     selectedLan;
     @track lanOptions=[];
     isLoanSelected = false;
@@ -15,7 +15,14 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api recordId;
     @api detailId;
     @api lan;
+    @api isHyperlink;
+    showIcon = true;
 
+    connectedCallback(e){
+        if(this.isHyperlink){
+            this.showIcon = false;
+        }
+    }
     get modalHeader(){
         return 'Upload Documents';
     }
@@ -27,6 +34,9 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
 
     closeModal(event){
         this.showAddAttachmentModal = false;
+        if(this.isHyperlink){
+            this.closeWorkspace();
+        }
     }
     
     handleFilesChange(event){
@@ -60,6 +70,11 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             let title = `File uploaded successfully!!`;
             this.toast(title);
             this.showAddAttachmentModal = false;
+            if(this.isHyperlink){
+                this.closeWorkspace();
+            }
+        }).catch((error) => {
+            console.log(error);
         });
     }
 
@@ -69,6 +84,11 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             variant:"success"
         });
         this.dispatchEvent(toastEvent);
+    }
+
+    closeWorkspace(){
+        const selectEvent = new CustomEvent('closeWorkSpace', {});
+       this.dispatchEvent(selectEvent);
     }
 
 }
