@@ -1,5 +1,5 @@
 <template>
-        <lightning-card title="SR Type Search">
+        <lightning-card title="Case Type Search">
             <template if:true={loaded}>
                 <lightning-layout multiple-rows="true" vertical-align="end">
                     <lightning-layout-item size="8" padding="around-small">
@@ -29,7 +29,7 @@
                         <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark" role="status">
                             <div class="slds-media__figure">
                                 <span class="slds-icon_container slds-icon-utility-info" title="information">
-                                    <lightning-icon icon-name="utility:info" alternative-text="Create SR" title="Create SR" size="small" variant="inverse"></lightning-icon>
+                                    <lightning-icon icon-name="utility:info" alternative-text="Create SR" title="Create Case" size="small" variant="inverse"></lightning-icon>
                                     <span class="slds-assistive-text">information</span>
                                 </span>
                             </div>
@@ -78,7 +78,6 @@
                                             required>
                                 </lightning-combobox> 
                         </template>
-      
                         <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
                                         label="No Auto Communication"
                                         options={noAutoCommOptions}
@@ -110,7 +109,7 @@
                 
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small">
-                        <lightning-button label="Create SR" variant="brand" disabled={isNotSelected}
+                        <lightning-button label="Create Case" variant="brand" disabled={isNotSelected}
                             onclick={createCaseHandler}></lightning-button>
                         <template if:true={boolShowDownloadCSV}>
                             <lightning-button class="slds-m-left_xx-small" label="Download SR Template" variant="brand"
