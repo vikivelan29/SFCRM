@@ -228,7 +228,7 @@ export default class Asf_CRNTagging extends LightningElement {
 
     valChange(event) {
         this.inpValue = event.target.value;
-        if (this.inpValue && this.inpValue.length >= 3) {
+        if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
             this.prestdAcctId = '';
             this.asstData = [];

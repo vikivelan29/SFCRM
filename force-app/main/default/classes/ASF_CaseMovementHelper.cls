@@ -804,13 +804,15 @@ public class ASF_CaseMovementHelper {
 
         Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
-                    caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
-                    if(config.Query_Fields__c != null){
-                        allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
+                        caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
+                        if(config.Query_Fields__c != null){
+                            allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -827,7 +829,7 @@ public class ASF_CaseMovementHelper {
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
         for(Case caseRec : currentCases){
-            if(stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
+            if(caseIdToCurrentStageConfigMap.containsKey(caseRec.Id) && stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
                 caseRulesForStage.put(caseRec.Id, stageConfigToCaseRuleMap.get(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id));
             }
         }
@@ -839,12 +841,12 @@ public class ASF_CaseMovementHelper {
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
 
-            ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseId);
+            ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.containsKey(caseId) ? caseIdToCurrentStageConfigMap.get(caseId) : null;
             if(resultWrapper.defaultOwnerId == null){
-                resultWrapper.defaultOwnerId = currentStageConfig.Default_Queue__c;
+                resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){
-                resultWrapper.defaultErrorOwnerId = currentStageConfig.Default_Error_Queue__c;
+                resultWrapper.defaultErrorOwnerId = currentStageConfig != null ? currentStageConfig.Default_Error_Queue__c : null;
             }
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseId, resultWrapper);
