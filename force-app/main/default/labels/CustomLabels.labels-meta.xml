@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-    <labels> 
+    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Business_Unit</shortDescription>
         <value>ABHFL,ABFL,Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
+        <value>Test Project Id</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Data_Service_Sections</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Data Service Sections</shortDescription>
+        <value>Disbursement_History</value>
     </labels>
     <labels>
         <fullName>ASF_CRN_Basis_Case</fullName>
@@ -51,25 +72,46 @@
         <value>You cannot assign to a Queue that is not of your BU</value>
     </labels>
     <labels>
+        <fullName>ASF_CloseCaseWithoutCustomer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CloseCaseWithoutCustomer</shortDescription>
+        <value>Close Case without Customer</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateCaseWithProspect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateCaseWithProspect</shortDescription>
+        <value>Create Case with Prospect</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithFA</shortDescription>
-        <value>Create SR with A/c #</value>
+        <value>Create Case with LAN</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
-        <value>Create SR for Customer</value>
+        <value>Create Case for Customer</value>
     </labels>
     <labels>
         <fullName>ASF_Customer_Mandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Customer_Mandatory</shortDescription>
-        <value>Please select Customer to process SR type search.</value>
+        <value>Please select Customer to process Case type search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Default_Reopen_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Reopen Reason for Email2Case</shortDescription>
+        <value>Customer Email</value>
     </labels>
     <labels>
         <fullName>ASF_Email_Bot_Feedback_BU</fullName>
@@ -97,14 +139,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_FA_Mandatory_preframework</shortDescription>
-        <value>Please select Financial Account first to process SR type search</value>
+        <value>Please tag LAN to customer to process Case Type Search</value>
     </labels>
     <labels>
         <fullName>ASF_FA_Validation_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_FA_Validation_Message</shortDescription>
-        <value>Please select Loan Account Number to process SR type search</value>
+        <value>Please select Loan Account Number to process Case type search</value>
     </labels>
     <labels>
         <fullName>ASF_HiddenComps</fullName>
@@ -139,7 +181,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_No_Merge_Duplicates</shortDescription>
-        <value>No duplicate SRs found.</value>
+        <value>No duplicate Cases found.</value>
     </labels>
     <labels>
         <fullName>ASF_No_Record_Selected</fullName>
@@ -195,7 +237,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_SRButtonName</shortDescription>
-        <value>Create SR</value>
+        <value>Create Case</value>
     </labels>
     <labels>
         <fullName>ASF_SearchAPI</fullName>
@@ -216,28 +258,35 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Success_Case_Merge</shortDescription>
-        <value>SR has been merged successfully.</value>
+        <value>Case has been merged successfully.</value>
     </labels>
     <labels>
         <fullName>ASF_Whatsapp_No_Contacts_Available</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Whatsapp_No_Contacts_Available</shortDescription>
-        <value>No contacts are associated with this SR. Please contact the administrator.</value>
+        <value>No contacts are associated with this Case. Please contact the administrator.</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
+        <value>No Reply Address</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
+        <value>No Reply Address</value>
+    </labels>
+    <labels>
+        <fullName>Allowed_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Allowed_Domain</shortDescription>
+        <value>gmail.com</value>
     </labels>
     <labels>
         <fullName>Base_URL_for_bitly</fullName>
@@ -251,7 +300,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Case Closed Error Message</shortDescription>
-        <value>You are not allowed to edit a Closed SR.</value>
+        <value>You are not allowed to edit a Closed Case.</value>
     </labels>
     <labels>
         <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
@@ -289,11 +338,46 @@
         <value>Selected user is not part of the Queue</value>
     </labels>
     <labels>
+        <fullName>Complaint_Investigation_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complaint Investigation Fields</shortDescription>
+        <value>Deal No:DealNo,Loan Account No:LoanAccountNo,Branch/Location:Branchcode,Login Date:LoginDate,Disburse Date:LastDisbursementDate,Sanction Amount:DealSanctionAmount,Total disburse Amount:TotalDisbursedAmount,Current POS:CurrentPOS,DPD:DPD,Credit Eligibility program:CreditEligibilityProgram,Old cibil score:OldCIBILScore,Employer/Business Name:CompanyName,Office address:CompanyAddress,SM Name:SMName,SO Name:SOName,DSA / Referral partner:DSAReferralPartner,Property Details:PropertyAddress</value>
+    </labels>
+    <labels>
         <fullName>EndUserProfiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>EndUserProfiles</shortDescription>
         <value>Base Profile</value>
+    </labels>
+    <labels>
+        <fullName>Error_From_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error From Address</shortDescription>
+        <value>Please select different sender id which is allowed to be used by your team</value>
+    </labels>
+    <labels>
+        <fullName>Error_Restricted_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error_Restricted_Domain</shortDescription>
+        <value>You are not allowed to send email to external user for this from address-</value>
+    </labels>
+    <labels>
+        <fullName>Error_Team_Not_Found</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Team Not Found</shortDescription>
+        <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>2</value>
     </labels>
     <labels>
         <fullName>FA_Mandatory</fullName>
@@ -307,14 +391,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incomplete Checklist Error Message</shortDescription>
-        <value>Incomplete Checklists found for the SR.</value>
+        <value>Incomplete Checklists found for the Case.</value>
     </labels>
     <labels>
         <fullName>Incomplete_Tasks_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incomplete Tasks Error Message</shortDescription>
-        <value>Tasks not complete for the SR.</value>
+        <value>Tasks not complete for the Case.</value>
     </labels>
     <labels>
         <fullName>LOB_for_masked_fields</fullName>
@@ -328,7 +412,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
-        <value>This user cannot be assigned as the user has worked on the SR in the Maker stage.</value>
+        <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
     </labels>
     <labels>
         <fullName>Masked_Subject_Email_Template_Ids</fullName>
@@ -371,6 +455,13 @@
         <protected>false</protected>
         <shortDescription>RecategorizationError</shortDescription>
         <value>The Case does not match the CTST configuration, please recategorize the case</value>
+    </labels>
+    <labels>
+        <fullName>Repeated_Indicator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Repeated Indicator</shortDescription>
+        <value>30</value>
     </labels>
     <labels>
         <fullName>STP_Flows</fullName>

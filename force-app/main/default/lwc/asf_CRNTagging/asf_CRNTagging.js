@@ -15,6 +15,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track accountVal
     @track inpValue;
     selectedCustomer;
+    selectedAsset;
     @api recordId;
     initialRecords;
     inpValueA;
@@ -22,6 +23,8 @@ export default class Asf_CRNTagging extends LightningElement {
     preSelectedAsset = [];
     prestdAcctId;
     noUpdate = noUpdate;
+        accountCrn;
+    FAId;
 
     asstCols = [{
         label: 'Id',
@@ -42,26 +45,80 @@ export default class Asf_CRNTagging extends LightningElement {
         fieldName: 'Product_Code__c',
         type: 'text',
         initialWidth: 180
+    },
+    {
+        label: 'LAN Number',
+        fieldName: 'LAN__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Disbursal Amount',
+        fieldName: 'Disbursed_Amount__c',
+        type: 'currency',
+        initialWidth: 180
+    },
+    {
+        label: 'Loan Disbursement Status',
+        fieldName: 'Loan_Disbursement_Status__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Loan Start Date',
+        fieldName: 'Loan_Start_Date__c',
+        type: 'date',
+        initialWidth: 180
+    },
+    {
+        label: 'Loan End Date',
+        fieldName: 'Loan_End_Date__c',
+        type: 'date',
+        initialWidth: 180
     }
     ]
 
     accCols = [{
         label: 'Id',
-        fieldName: 'Id',
+        fieldName: 'recordId',
         type: 'text',
         fixedWidth: 1,
         hideLabel: true,
         hideDefaultActions: true
     },
     {
-        label: 'Name',
-        fieldName: 'Name',
+        label: 'Customer Name',
+        fieldName: 'name',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Email ID',
+        fieldName: 'emailId',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Mobile Number',
+        fieldName: 'mobile',
         type: 'text',
         initialWidth: 180
     },
     {
         label: 'Client Code',
-        fieldName: 'Client_Code__c',
+        fieldName: 'clientCode',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'PAN Number',
+        fieldName: 'pan',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Type',
+        fieldName: 'objectType',
         type: 'text',
         initialWidth: 180
     }
@@ -73,20 +130,18 @@ export default class Asf_CRNTagging extends LightningElement {
         recordId: "$recordId",
         fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD]
     })
-    CaseData;
-
-
-    get accountCrn() {
-        return getFieldValue(this.CaseData.data, ACCOUNT_CRN_FIELD);
-    }
-
-    get FAId() {
-        return getFieldValue(this.CaseData.data, ASSET_FIELD);
-    }
-
+    CaseData({error, data}){
+        if(data){
+            this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
+            this.FAId = getFieldValue(data, ASSET_FIELD);
+                    } else if(error){
+            console.log(error);
+        }
+    };
 
     @wire(getMatchingAccount, {
-        userInp: '$accountCrn'
+        userInp: '$accountCrn',
+        accPreSelected: true
     })
     wiredAccounts({
         error,
@@ -94,13 +149,19 @@ export default class Asf_CRNTagging extends LightningElement {
     }) {
         if (data) {
             this.accData = data;
-            let my_ids = [];
-            my_ids.push(this.accData[0].Id);
-            this.preSelectedRows = my_ids;
-            this.prestdAcctId = this.accData[0].Id;
+            if(data !=null){
+                let my_ids = [];
+                my_ids.push(this.accData[0].recordId);
+                this.preSelectedRows = my_ids;
+                this.showLANForCustomer = true;
+                this.prestdAcctId = this.accData[0].recordId;
+                this.selectedCustomer = this.prestdAcctId;
+                //this.getAssetOnLoad(this.accData[0].recordId);
+            }
 
         } else if (error) {
             this.error = error;
+            console.log('error--'+JSON.stringify(error));
         }
     }
 
@@ -112,23 +173,22 @@ export default class Asf_CRNTagging extends LightningElement {
         data
     }) {
         if (data) {
-            this.asstData = data.asstList;
+                        this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
 
             let my_ids1 = [];
             my_ids1.push(this.FAId);
             this.preSelectedAsset = my_ids1;
-
-
         } else if (error) {
             this.error = error;
+            console.log('error--'+JSON.stringify(error));
         }
-    }
+    } 
 
     valChange(event) {
         this.inpValue = event.target.value;
-        if (this.inpValue && this.inpValue.length >= 3) {
+        if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
             this.prestdAcctId = '';
             this.asstData = [];
@@ -144,18 +204,24 @@ export default class Asf_CRNTagging extends LightningElement {
 
     SearchAccountHandler(event) {
         getMatchingAccount({
-            userInp: this.inpValue
+            userInp: this.inpValue,
+            accPreSelected: false
         })
             .then(result => {
                 this.accData = result;
-            })
+                            })
             .catch(error => {
             });
     }
 
     handleAccAction(event) {
         const row = event.detail.selectedRows;
-        this.selectedCustomer = row[0].Id;
+        this.selectedCustomer = row[0].recordId;
+        this.showLANForCustomer = false;
+        if(row[0].objectType == 'Customer'){
+            // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
+            this.showLANForCustomer = true;
+        }
 
         getMatchingContacts({
             accountId: this.selectedCustomer
@@ -163,20 +229,30 @@ export default class Asf_CRNTagging extends LightningElement {
             .then(result => {
                 this.asstData = result.asstList;
                 this.initialRecords = result.asstList;
-            })
+                            })
             .catch(error => {
             });
     }
+    handleAsstAction(event){
+        const row = event.detail.selectedRows;
+        this.selectedAsset = row[0];
+    }
 
     handleclick(event) {
-        let conTable = this.template.querySelector('[data-id="conTable"]');
+         /*let conTable = this.template.querySelector('[data-id="conTable"]');
         let asstTable = this.template.querySelector('[data-id="asstTable"]');
-        let selectedAsst = JSON.stringify(asstTable.getSelectedRows()).length > 2 ? asstTable.getSelectedRows() : undefined;
+        let selectedAsst = undefined;
+        if(asstTable != undefined && asstTable != null){
+            if(asstTable.getSelectedRows()>0){
+                selectedAsst = JSON.stringify(asstTable.getSelectedRows()).length > 2 ? asstTable.getSelectedRows() : undefined;
+            }
+            
+        } */
         let selectedAsstId = null;
         let selectedFANum = 'NA';
-        if (selectedAsst != undefined) {
-            selectedAsstId = selectedAsst[0].Id;
-            selectedFANum = selectedAsst[0].Card_or_Account_Number__c
+        if (this.selectedAsset != undefined) {
+            selectedAsstId = this.selectedAsset.Id;
+            selectedFANum = this.selectedAsset.LAN__c;
         }
 
         if (this.selectedCustomer) {
@@ -257,4 +333,4 @@ export default class Asf_CRNTagging extends LightningElement {
         }
     }
 
-}
+    }

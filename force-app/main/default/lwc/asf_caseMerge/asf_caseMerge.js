@@ -91,7 +91,8 @@ export default class Asf_caseMerge extends LightningElement {
             this.showToast();
         }
         else {
-            mergeCases({ selectedRec: this.selectedRec, masterRecId: this.recordId })
+            let caseIdList = this.selectedRec.map(caseRec => caseRec.Id);
+            mergeCases({ selectedRec: this.selectedRec, masterRecId: this.recordId, selectedCaseIdList: caseIdList})
                 .then((result) => {
                     this.error = undefined;
                     this.toastTitle = 'Merged Successfully';
@@ -111,7 +112,6 @@ export default class Asf_caseMerge extends LightningElement {
                     this.showError('Error', 'Failed to merge SR', error) 
                     this.data = undefined;
                 });
-
         }
 
     }

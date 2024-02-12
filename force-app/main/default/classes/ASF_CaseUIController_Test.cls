@@ -53,6 +53,8 @@ public class ASF_CaseUIController_Test {
         cs.Status = 'New';
         cs.Stage__c='New';
         insert cs;
+        
+
     }
     
     @isTest
@@ -62,7 +64,20 @@ public class ASF_CaseUIController_Test {
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         test.startTest();
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
+        test.stopTest();
+        system.assertEquals(wrapper.size(), 0);
+        }
+
+    @isTest
+    public static void checkAccountsTestwithParam(){
+        Account acc = [select id from account limit 1];
+        acc.Client_Code__c = 'abc1234';
+        update acc;
+        Id [] fixedSearchResults= new Id[1];
+        fixedSearchResults[0] = acc.Id;
+        test.startTest();
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('abc1234',false);
         test.stopTest();
         system.assertEquals(wrapper.size(), 0);
         }
@@ -71,7 +86,7 @@ public class ASF_CaseUIController_Test {
         Account acc = [select id from account limit 1];
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         system.assertEquals(wrapper.size(), 0);
         }
     
@@ -83,13 +98,13 @@ public class ASF_CaseUIController_Test {
         fixedSearchResults[0] = acc.Id;
         Test.setFixedSearchResults(fixedSearchResults);
         
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
         System.debug('@@@ass'+ass+' '+ wrapper);
-        ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].Id);
+        ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
         
-        ASF_CaseUIController.updateCRN(wrapper[0].Id,wrap.asstList[0].Id,cs.Id,'2333423');
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','');
         
@@ -110,5 +125,9 @@ public class ASF_CaseUIController_Test {
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
         System.assertEquals(null, relObjName);
+        //}
+        
     }
+    
+
 }
