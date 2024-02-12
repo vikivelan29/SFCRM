@@ -66,4 +66,46 @@ public class ABCL_IntegrationCommonUtilityTest {
         Test.stopTest();
     }
     
+    @IsTest
+    static void testTransferFilesToDMS(){
+        List<Case> caseRecords = [SELECT Id, CreatedById FROM Case LIMIT 1];
+        ContentVersion cv = new ContentVersion();
+        cv.VersionData = Blob.valueof('test');
+        cv.IsSTP__c = true;
+        cv.Title = 'Test.pdf';
+        cv.PathOnClient = 'Test.pdf';
+        insert cv;
+        Id contentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:cv.Id].ContentDocumentId;
+        ContentDocumentLink cdl = new ContentDocumentLink();
+        cdl.ContentDocumentId = ContentDocumentId;
+        cdl.LinkedEntityId = caseRecords[0].Id;
+        cdl.ShareType = 'V';
+        insert cdl;
+        Test.startTest();
+        ABCL_IntegrationCommonUtility.transferFilesToDMS(new List<String>{caseRecords[0].Id});
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testUpdateErrorMessage(){
+        List<Case> caseRecords = [SELECT Id, CreatedById FROM Case LIMIT 1];
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Request__c = JSON.serialize(new Case_Integration_Outbound__e(Integration_Name__c = 'Test'));
+        ABCL_IntegrationCommonUtility.stpResponseWrapper respWrapper = new ABCL_IntegrationCommonUtility.stpResponseWrapper();
+        respWrapper.operationStatus = '0';
+        respWrapper.operationMessage = 'Test';
+        caseInt.Response__c = JSON.serialize(respWrapper);
+        insert caseInt;
+        Test.startTest();
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
+        caseInt.Request__c = JSON.serialize(new Case_Integration_Outbound__e(Integration_Name__c = 'Sanction Letter'));
+        ABCL_IntegrationCommonUtility.reportingResponseWrapper responseWrapper = new ABCL_IntegrationCommonUtility.reportingResponseWrapper();
+        responseWrapper.returnCode = '0';
+        responseWrapper.returnMessage = 'Test';
+        caseInt.Response__c = JSON.serialize(responseWrapper);
+        update caseInt;
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
+        Test.stopTest();
+    }
+    
 }
