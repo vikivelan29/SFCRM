@@ -8,11 +8,46 @@
         <value>ABHFL,ABFL,Payments</value>
     </labels>
     <labels>
+        <fullName>ABCL_Integration_User_Nickname</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration User Nickname</shortDescription>
+        <value>ABFSGSFDC User</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
+        <value>Test Project Id</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_RESOLVED_STP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL RESOLVED STP</shortDescription>
+        <value>Resolved By STP</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Complaint_Investigation_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Complaint Investigation Details</shortDescription>
+        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Data_Service_Sections</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL Data Service Sections</shortDescription>
-        <value>repayment_detail,Disbursement_History</value>
+        <value>Disbursement_History</value>
     </labels>
     <labels>
         <fullName>ASF_CRN_Basis_Case</fullName>
@@ -58,6 +93,20 @@
         <value>You cannot assign to a Queue that is not of your BU</value>
     </labels>
     <labels>
+        <fullName>ASF_CloseCaseWithoutCustomer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CloseCaseWithoutCustomer</shortDescription>
+        <value>Close Case without Customer</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateCaseWithProspect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateCaseWithProspect</shortDescription>
+        <value>Create Case with Prospect</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -76,7 +125,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Customer_Mandatory</shortDescription>
-        <value>Please select Customer to process SR type search.</value>
+        <value>Please select Customer to process Case type search.</value>
     </labels>
     <labels>
         <fullName>ASF_Default_Reopen_Reason</fullName>
@@ -118,7 +167,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_FA_Validation_Message</shortDescription>
-        <value>Please select Loan Account Number to process SR type search</value>
+        <value>Please select Loan Account Number to process Case type search</value>
     </labels>
     <labels>
         <fullName>ASF_HiddenComps</fullName>
@@ -153,7 +202,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_No_Merge_Duplicates</shortDescription>
-        <value>No duplicate SRs found.</value>
+        <value>No duplicate Cases found.</value>
     </labels>
     <labels>
         <fullName>ASF_No_Record_Selected</fullName>
@@ -209,7 +258,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_SRButtonName</shortDescription>
-        <value>Create SR</value>
+        <value>Create Case</value>
     </labels>
     <labels>
         <fullName>ASF_SearchAPI</fullName>
@@ -230,14 +279,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Success_Case_Merge</shortDescription>
-        <value>SR has been merged successfully.</value>
+        <value>Case has been merged successfully.</value>
     </labels>
     <labels>
         <fullName>ASF_Whatsapp_No_Contacts_Available</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Whatsapp_No_Contacts_Available</shortDescription>
-        <value>No contacts are associated with this SR. Please contact the administrator.</value>
+        <value>No contacts are associated with this Case. Please contact the administrator.</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email</fullName>
@@ -264,7 +313,7 @@
         <fullName>Base_URL_for_bitly</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Base URL for bitly</shortDescription>
+        <shortDescription>Base URL For Bitly</shortDescription>
         <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
     </labels>
     <labels>
@@ -272,7 +321,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Case Closed Error Message</shortDescription>
-        <value>You are not allowed to edit a Closed SR.</value>
+        <value>You are not allowed to edit a Closed Case.</value>
     </labels>
     <labels>
         <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
@@ -308,6 +357,13 @@
         <protected>false</protected>
         <shortDescription>Change owner v2 target user not part of queue</shortDescription>
         <value>Selected user is not part of the Queue</value>
+    </labels>
+    <labels>
+        <fullName>Complaint_Investigation_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Complaint Investigation Fields</shortDescription>
+        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority</value>
     </labels>
     <labels>
         <fullName>EndUserProfiles</fullName>
@@ -356,14 +412,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incomplete Checklist Error Message</shortDescription>
-        <value>Incomplete Checklists found for the SR.</value>
+        <value>Incomplete Checklists found for the Case.</value>
     </labels>
     <labels>
         <fullName>Incomplete_Tasks_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incomplete Tasks Error Message</shortDescription>
-        <value>Tasks not complete for the SR.</value>
+        <value>Tasks not complete for the Case.</value>
     </labels>
     <labels>
         <fullName>LOB_for_masked_fields</fullName>
@@ -377,7 +433,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
-        <value>This user cannot be assigned as the user has worked on the SR in the Maker stage.</value>
+        <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
     </labels>
     <labels>
         <fullName>Masked_Subject_Email_Template_Ids</fullName>
@@ -420,6 +476,13 @@
         <protected>false</protected>
         <shortDescription>RecategorizationError</shortDescription>
         <value>The Case does not match the CTST configuration, please recategorize the case</value>
+    </labels>
+    <labels>
+        <fullName>Repeated_Indicator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Repeated Indicator</shortDescription>
+        <value>30</value>
     </labels>
     <labels>
         <fullName>STP_Flows</fullName>

@@ -9,8 +9,10 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
-
-   //Generic Constants
+    //NDC Subtype
+    public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
+       
+    //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
@@ -34,10 +36,16 @@ public with sharing class ABHFL_Constants {
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String STP_DOC_RETRIEVAL_FAILURE = 'STP Document Retrieval Failure';
     @auraEnabled public final String ABHFL = 'ABHFL';
+    public static final String BUSINESS_UNIT_ABHFL = 'ABHFL';
     public static final String API = 'API';
     public static final String OPEN = 'Open';
     public static final String CHANNEL_ID = 'CHA1002';
     public static final String ODP_ALERTS = 'ODP_Alerts';
+    public static final String SEND_LEAD_TO_CRM = 'Send_Lead_To_CRM';
+    public static final String INTERACTION_RECORD_TYPE = 'Interaction';
+    public static final String NEW_STATUS = 'New';
+    public static final String EMAIL_TECHNICAL_SOURCE = 'Email';
+    
     
     
     
@@ -56,6 +64,7 @@ public with sharing class ABHFL_Constants {
     public static final String PAYMENTLINK_INTEGRATION_METADATA = 'Payment_Link';
     public static final String PAYTMLINK_INTEGRATION_METADATA = 'Paytm_Link';
     public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
+    public static final String COMPLAINT_INVESTIGATION_INTEGRATION_METADATA = 'Complaint_investigation_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
     public static final String REPORTING_SERVICE = 'ReportingService';
@@ -64,8 +73,25 @@ public with sharing class ABHFL_Constants {
     public static final String IC_REPORT_NAME = 'InterestCertificate';
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
-    
-    
+    public static final String PAYMENT_BOUNCE_TEMPLATE = 'Payment_Bounced_1705034284521';
+    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_detail_1705035027022';
+    public static final String PAYMENT_BOUNCE_SMS = 'ABHFL_Payment_Bounce';
+    public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
+    public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
+    public static final String SHORTFALL_SMS = 'ABHFL_Shortfall_Amount_Part_Payment';
+    public static final String PAYMENT_RECEIVED_TEMPLATE = 'Payment_Received_Successfully_1705035361551';
+    public static final String PAYMENT_RECEIVED_SMS = 'ABHFL_Payment_Received_Successfully';
+    public static final String TRACKING_LINK_SMS = 'ABHFL_Stage_Mvmnt_Tracking_Link';
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_SMS = 'ABHFL_MultiLAN_Payment_Received';
+    public static final String MULTIPLELAN_PAYMENT_RECEIVED_EMAIL = 'Payment_acceptance_email_MultiLAN_VF';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_EMAIL ='Informing_customer_that_ROI_is_revised_Partailly_disbursed_loan_1706087796320';
+    public static final String MULTIPLELAN_AMORT_PARTIAL_SMS ='ABHFL_ROI_revision_partially_disbursed';
+    public static final String MULTIPLELAN_AMORT_FULL_EMAIL ='Informing_customer_that_ROI_is_revised_Fully_disbursed_loan_1706090167218';
+    public static final String MULTIPLELAN_AMORT_FULL_SMS ='ABHFL_ROI_revision_fully_disbursed';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL ='Foreclosure_letter_MultiLAN';
+    public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
+    public static final String PRECLS_LOANCLOSED_EMAIL ='Loan_Closed_share_property_papers_VF';
+    public static final String PRECLS_LOANCLOSED_SMS ='ABHFL_Loan_Closed_return_property_papers';
 
 
     // Constants for REKYC 
@@ -83,6 +109,17 @@ public with sharing class ABHFL_Constants {
     public static final String SOA_REQUEST_TYPE = 'View';
     public static final String SOA_REPORT_NAME = 'SOABinary';
     public static final String SOA_DOCUMENT_TYPE = 'BinaryData';
+
+    //Constants for EmailTemplates.
+    public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL = 'ROI_offer_shared_with_payment_Link';
+    public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_EMAIL = 'ROI_offer_shared_with_Single_Lan_VF';
+
+    //Constants for SMS.
+    public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
+    public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
+
+
+    
 
 
     

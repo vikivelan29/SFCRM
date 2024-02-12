@@ -1,0 +1,49 @@
+@IsTest
+public class ABHFL_ComplaintInvestigationTest {
+	@TestSetup
+    static void testData(){
+        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
+        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        //Create Account
+        Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
+        //Create BranchMaster
+        Branch_Master__c branchMstr = new Branch_Master__c();
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        insert branchMstr;
+        //Create Asset
+        Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec.LAN__c = 'Test';
+        astRec.Branch__c = branchMstr.Id;
+        astRec.Last_Disbursement_Date__c = Date.Today();
+        update astRec;
+        //Create Case Extension record
+        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+        caseDetail.STP_Request_Type__c = 'Email';
+        insert caseDetail;
+
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
+        caseRecList[0].AssetId = astRec.Id;
+        caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
+        caseRecList[0].Source__c = 'Welcome BOT';
+        caseRecList[0].AccountId = accRec.Id;
+        //caseRecList[0].Source__c = 'Welcome BOT';
+        update caseRecList;
+        ASF_TestDataFactory.createCaseCategoryConfig();
+    }
+    
+    @IsTest
+    static void testfetchDetails(){
+        ABHFL_ComplaintInvestigationController controller = new ABHFL_ComplaintInvestigationController();
+        Case caseRecord = [SELECT id,AccountId,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case WHERE Source__c ='Welcome BOT' LIMIT 1];
+        ABHFL_ComplaintInvestigationController.fetchDetails(caseRecord.Id);
+        List<Object> pdfContent = new List<Object>();
+        String response =ABHFL_ComplaintInvestigationController.generatePDF('pdfHeaderValue', pdfContent, caseRecord.Id);
+        String res = '?pdfHeader=pdfHeaderValue&pdfContent=<table border="1"><tr><td style="color:blue">Current cibil score</td><td>null</td></tr><tr><td style="color:blue">Applicant profile at a time of onboarding</td><td>null</td></tr><tr><td style="color:blue">Current cibil review</td><td>null</td></tr><tr><td style="color:blue">';
+        System.assertEquals(res.contains('pdfHeader'),response.contains('pdfHeader'));
+    }
+}
