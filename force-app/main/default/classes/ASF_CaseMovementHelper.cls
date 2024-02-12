@@ -634,6 +634,7 @@ public class ASF_CaseMovementHelper {
         Set<Id> caseIds = new Set<Id>();
         for(Case caseRec : currentCases){
             StageConfigWrapper resultWrapper = new StageConfigWrapper();
+            resultWrapper.status = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
             externalIds.add(caseRec.CCC_External_Id__c);
             caseIds.add(caseRec.Id);
