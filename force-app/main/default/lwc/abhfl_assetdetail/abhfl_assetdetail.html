@@ -40,4 +40,18 @@
             <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
         </div>
     </template>
+    <template if:true={showQuickAction}>
+        <div style="display:flex" class="slds-p-around_medium">
+            <div>
+                <lightning-input 
+                    type="file" 
+                    label="Attachment" 
+                    required 
+                    accept=".xlsx, .xls, .csv, .png, .jpg, .jpeg, .doc, .docx, .pdf, .zip"
+                    message-when-value-missing="Please upload a file"
+                    onchange={handleFilesChange}>
+                </lightning-input>
+            </div>
+        </div>
+    </template>
 </template>

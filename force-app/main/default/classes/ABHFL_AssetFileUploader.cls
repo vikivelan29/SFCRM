@@ -66,7 +66,7 @@ public with sharing class ABHFL_AssetFileUploader {
         ContentVersion cv = new ContentVersion();
         cv.VersionData = EncodingUtil.base64Decode(base64);
         cv.IsSTP__c = true;
-        List<Case> caseRecord = [Select id,CCC_External_Id__c from Case where ABHFL_Case_Detail__c =: recordId];
+        List<Case> caseRecord = [Select id,CCC_External_Id__c from Case where id =: recordId];
         string fileSearchTerm = '';
         if(caseRecord[0].CCC_External_Id__c == 'HFCRARGI'){
             fileSearchTerm = 'GST_Invoice_';

@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import uploadFile from '@salesforce/apex/ABHFL_AssetFileUploader.uploadFile';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+
 export default class ABHFL_AssetDetail_POC extends LightningElement {
 
     @track loanData=[];
@@ -17,6 +18,7 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api lan;
     @api isHyperlink;
     showIcon = true;
+    @api showQuickAction;
 
     connectedCallback(e){
         if(this.isHyperlink){
@@ -34,14 +36,13 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
 
     closeModal(event){
         this.showAddAttachmentModal = false;
-        if(this.isHyperlink){
-            this.closeWorkspace();
-        }
     }
     
     handleFilesChange(event){
         this.template.querySelector('lightning-input').disabled=true;
-        this.template.querySelector('.slds-button_neutral').disabled=true;
+        if(this.template.querySelector('.slds-button_neutral')){
+            this.template.querySelector('.slds-button_neutral').disabled=true;
+        }
         const file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = () => {
@@ -71,7 +72,9 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             this.toast(title);
             this.showAddAttachmentModal = false;
             if(this.isHyperlink){
-                this.closeWorkspace();
+                const selectEvent = new CustomEvent('close',{});
+                // Fire the custom event
+                this.dispatchEvent(selectEvent);
             }
         }).catch((error) => {
             console.log(error);
@@ -84,11 +87,6 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             variant:"success"
         });
         this.dispatchEvent(toastEvent);
-    }
-
-    closeWorkspace(){
-        const selectEvent = new CustomEvent('closeWorkSpace', {});
-       this.dispatchEvent(selectEvent);
     }
 
 }

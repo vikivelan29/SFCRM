@@ -14,7 +14,7 @@ public class ABHFL_AssetFileUploader_Test {
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         update caseRecList;
         string response = ABHFL_AssetFileUploader.uploadFile('test','TestDoc.txt',caseRecList[0].Id,assetDetail.Id,'.pdf');
-        string responseStr = ABHFL_AssetFileUploader.uploadFile('test','',caseDetail.Id,assetDetail.Id,'.pdf');
+        string responseStr = ABHFL_AssetFileUploader.uploadFile('test','',caseRecList[0].Id,assetDetail.Id,'.pdf');
         System.assertEquals(true,response!= null,'PASS');
     }
 }
