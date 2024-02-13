@@ -11,7 +11,7 @@
         <template if:false={sectionClosed}>
             <div style="overflow-x:auto;overflow-y:hidden">
                 <lightning-accordion onsectiontoggle={handleToggleSection} class="example-accordion" 
-                    allow-multiple-sections-open>
+                    allow-multiple-sections-open active-section-name={activeOuterSections}>
                     <template for:each={outerSections} for:item="sec">
                         <lightning-accordion-section name={sec.sectionName} label={sec.sectionLabel} key={sec.sectionName}>
                             <template if:false={ifCusAndAcc}>
