@@ -191,10 +191,13 @@ public with sharing class ABFL_EBOTCaseLogics {
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 
                     if(updateResult[0].getId() != null){
-                        //createPELoggerRecords(recCase,caseCategConfig);
-                        //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email. 
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
+                        if(isRegistered){
+                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c,null,false);
+                        }
+                        else if(!isRegistered){
+                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
 
+                        }
                      }
                 }
            }   
