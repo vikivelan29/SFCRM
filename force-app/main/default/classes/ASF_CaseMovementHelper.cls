@@ -297,19 +297,21 @@ public class ASF_CaseMovementHelper {
             }
 
             for(Case caseRec : currentCasesMap.values()){
-                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    if(config.StageName__c == requestedStageMap.get(caseRec.Id)){
-                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                        break;
+                if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                    for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                        if(config.StageName__c == requestedStageMap.get(caseRec.Id)){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            break;
+                        }
                     }
-                }
+           	 	}
             }
 
 
             // If movement to next Stage is valid
             for(Case caseRec : queriesCasesMap.values()){
                 CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, caseIdToNextStageConfigMap.get(caseRec.Id));
-                StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
+                StageWrapper resultWrapper = resultWrapperMap.containsKey(caseRec.Id) ? resultWrapperMap.get(caseRec.Id) : new StageWrapper();
                 if(beforeResult.status != 'Success'){
                     resultWrapper.errorMessage = beforeResult.errorMessage;
                     resultWrapper.status = 'Error';
@@ -545,12 +547,14 @@ public class ASF_CaseMovementHelper {
         }
 
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
-                    caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
-                    break;
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == currentStageMap.get(caseRec.Id)){
+                        caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
+                        break;
+                    }
                 }
-            }
+        	}
         }
 
         Map<Id, Boolean> areChecklistsCompletePerCase = ASF_CaseFrameworkValidator.validateChecklists(currentCases, currentStageMap);
