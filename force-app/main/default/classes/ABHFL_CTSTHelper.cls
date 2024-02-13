@@ -85,7 +85,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToPreferredBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,Address__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.Branch_Queue_Id__c != null) {
             caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
         }
@@ -236,6 +236,33 @@ public without sharing class ABHFL_CTSTHelper {
                                                                   false);
         }
     }
+    //Dhinesh - to send attachments with mail for GST Invoice Required, DSRA/Lien Document and Escrow Statement
+   public static void sendMailWithAttachments(Case caseRec) {
+    	Id caseId = caseRec.Id; 
+	    Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, Short_URL__c
+                    FROM Case WHERE Id = :caseId];
+	
+    	String emailTemplate;
+    	String smsTemplate;
+    	Boolean shouldInvokeCommPEevent = TRUE;
+
+    	if (caseRecord.CCC_External_Id__c == ABHFL_Constants.GST_INVOICE_ID) {
+        	emailTemplate = ABHFL_Constants.GST_INVOICE_EMAIL;
+        	smsTemplate = ABHFL_Constants.GST_INVOICE_SMS;
+    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.DSRA_LIEN_ID) {
+        	emailTemplate = ABHFL_Constants.DSRA_LIEN_EMAIL;
+        	smsTemplate = ABHFL_Constants.DSRA_LIEN_SMS;
+    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.ESCROW_STATEMENT_ID) {
+       	 emailTemplate = ABHFL_Constants.ESCROW_STATEMENT_EMAIL;
+        	smsTemplate = ABHFL_Constants.ESCROW_STATEMENT_SMS;
+    	} else {
+	        shouldInvokeCommPEevent = FALSE;
+    	}
+
+    	if (shouldInvokeCommPEevent) {
+        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, emailTemplate, smsTemplate, TRUE);
+    	}
+	}
     //Dhinesh - to store multi lan in a field and send payment confirmation mail
     public static void storeMultipleLANs(Case caseRec){
         Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
