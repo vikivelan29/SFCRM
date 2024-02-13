@@ -86,7 +86,7 @@ public class ASF_CaseStageSLA3TimeBasedAction {
             }
 
 
-            if(slaHistory.Stage_Violation_Start_Date__c != null && slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&(slaHistory.Case__r.Stage_SLA_3__c < currentTime)){
+            if(slaHistory.Stage_Violation_Start_Date__c != null && slaHistory.Case__r.Stage_SLA_3__c !=null &&(slaHistory.Case__r.Stage_SLA_3__c < currentTime)){
                 if(slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
                     slaHistory.Level__c = '3';
                     slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
