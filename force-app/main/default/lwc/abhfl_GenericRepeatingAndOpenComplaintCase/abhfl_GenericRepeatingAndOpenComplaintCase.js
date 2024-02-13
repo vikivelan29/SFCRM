@@ -95,7 +95,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     async story_330() {
         let iconAttrObjRI = {};
         let sobRecords = await getRecords({ fields: this.fieldArr, objectName: this.objectApiName, whereClause: this.whereClauseForRI});
-        if(sobRecords && sobRecords.length > 1) {
+        if(sobRecords && sobRecords.length > 0) {
             iconAttrObjRI.dataId = '[data-id="Repeated_Indicator"]';
             iconAttrObjRI.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjRI);

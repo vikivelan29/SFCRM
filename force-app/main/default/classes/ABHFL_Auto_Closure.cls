@@ -6,7 +6,7 @@
 *Description  :  Class for Auto Closure of Cases
 *********************************************************/
 
-global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObject> {
+global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObject>, Schedulable {
 
     public Map<String, ABHFL_Auto_Closure__mdt> cccExtIdToAutoClosureRecMap = new Map<String, ABHFL_Auto_Closure__mdt>();
 
@@ -84,5 +84,7 @@ global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObje
         return timFormatsToTimeVal;
     }
 
-
+    public void execute(SchedulableContext SC) {
+        // specify the task or method to be executed
+    }
 }
