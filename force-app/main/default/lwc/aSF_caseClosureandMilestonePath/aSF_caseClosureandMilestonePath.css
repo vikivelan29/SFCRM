@@ -11,3 +11,10 @@
     color: #54698d;
     margin-bottom: .25rem;
 }
+
+.breached-sla {
+    color: #AA0000;
+}
+.center-text{
+    text-align: center;
+}
