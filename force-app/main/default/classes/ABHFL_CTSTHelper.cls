@@ -20,7 +20,7 @@ public without sharing class ABHFL_CTSTHelper {
 
         // Check if the previous stage was not 'Open', the current stage is 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
             	assignCaseToQueue(caseRecord);
         	}
     	}
