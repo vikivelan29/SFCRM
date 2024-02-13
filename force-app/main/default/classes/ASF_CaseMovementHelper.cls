@@ -346,7 +346,7 @@ public class ASF_CaseMovementHelper {
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
 
                     // Fetch Owner Assignment for Stage
-                    if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
+                    if(nextStageConfig !=null && nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
                         caseIdToLastActionedStageMap.put(caseRec.Id, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
                     }
                 }
@@ -838,7 +838,7 @@ public class ASF_CaseMovementHelper {
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecords, caseRulesForStage);
         for(Id caseId : infos.keySet()){
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrapper = resultWrapperMap.get(caseId);
+            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrapper = resultWrapperMap.containsKey(caseId) ? resultWrapperMap.get(caseId) : new ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo();
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
 
@@ -1006,13 +1006,15 @@ public class ASF_CaseMovementHelper {
         }
 
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
-                    caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                    CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
-                    resultWrapper.manualApprovalStage = config.Manual_Approval__c;
-                    resultWrapperMap.put(caseRec.Id, resultWrapper);
-                    break;
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
+                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                        CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
+                        resultWrapper.manualApprovalStage = config.Manual_Approval__c;
+                        resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        break;
+                    }
                 }
             }
         }
@@ -1060,7 +1062,7 @@ public class ASF_CaseMovementHelper {
             resultWrapper.checklistToInsert = checklistToInsert.get(caseRec.Id);
             resultWrapper.tasksToInsert = tasksToInsert.get(caseRec.Id);
             resultWrapper.slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
-            resultWrapper.allIntegrations = caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r;
+            resultWrapper.allIntegrations = caseIdToNextStageConfigMap.containsKey(caseRec.Id) ? caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r : null;
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
