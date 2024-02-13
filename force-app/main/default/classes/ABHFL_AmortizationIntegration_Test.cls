@@ -93,6 +93,7 @@ public class ABHFL_AmortizationIntegration_Test {
     }
     @IsTest
     static void testProcessResponse(){
+        Test.startTest();
         ABHFL_AmortizationIntegration lodStp = new ABHFL_AmortizationIntegration();
         ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c limit 1];
         integRecord.Status__c = 'Success';
@@ -109,6 +110,7 @@ public class ABHFL_AmortizationIntegration_Test {
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
         //Assertion when a document isn't recieved
         System.assertEquals(csQueue.Id,caseRec.OwnerId,'Done');
+        Test.stopTest();
     }
     
 }
