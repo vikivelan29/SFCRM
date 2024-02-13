@@ -25,7 +25,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         result.response = 'Evaluation Failed, cannot retrieve Interest Certificate.';
 
         Case caseRecord = [
-            SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c 
+            SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
