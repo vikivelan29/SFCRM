@@ -15,6 +15,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     whereClauseForOC = '';
     riFlag;
     ocFlag;
+    isLoaded;
 
     customLabel = {
         Days_For_Repeated_Indicator
@@ -30,7 +31,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         this.getCaseRecord();
     }
 
-   async getCaseRecord() {  
+   async getCaseRecord() {
+
+        this.isLoaded = true;
         if(this.objectApiName == 'Case') {
 
             let fieldArray    = "id, AccountId, LAN__c, Nature__c, Type_Text__c, Sub_Type_Text__c";
@@ -85,17 +88,19 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             iconAttrObjOC.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjOC);
         }
+        this.isLoaded = false;
 
     }
 
     async story_330() {
         let iconAttrObjRI = {};
         let sobRecords = await getRecords({ fields: this.fieldArr, objectName: this.objectApiName, whereClause: this.whereClauseForRI});
-        if(sobRecords && sobRecords.length > 1) {
+        if(sobRecords && sobRecords.length > 0) {
             iconAttrObjRI.dataId = '[data-id="Repeated_Indicator"]';
             iconAttrObjRI.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjRI);
         }
+        this.isLoaded = false;
     }
 
     addAndChangeAttributes(attrbObj) {
