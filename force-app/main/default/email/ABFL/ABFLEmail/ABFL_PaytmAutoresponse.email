@@ -1,7 +1,7 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="format-detection" content="telephone=no"><meta name="x-apple-disable-message-reformatting">
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -128,19 +128,19 @@
 </head>
 <body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
 <table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
-	
+	<tbody>
 		<tr>
 			<td align="center" class="pc-email-body-inner" valign="top">
 			<table align="center" border="0" cellpadding="0" cellspacing="0" class="pc-email-container" style="margin: 0 auto; max-width: 620px;background: #fff;border: 1px solid;" width="100%">
-				
+				<tbody>
 					<tr>
 						<td align="left" style="padding:0px;" valign="top">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
-							
+							<tbody>
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
-										
+										<tbody>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
@@ -152,9 +152,9 @@
 												&nbsp;<br />
 												We request you to log into your Paytm Post Paid loan-related queries/requests on the below link for speedy resolution.<br />
 												<br />
-												https://m.paytm.me/paytm_post<br/>
-												<br/>
-												Our Digital Partner’s support team will be able to provide you with the required resolution, within the specified turn-around time (TAT). However, after raising a ticket, if you do not receive a resolution, within the specified TAT, kindly share the ticket number on our email ID care.digitalfinance@adityabirlacapital.com and we will be glad to assist you further. Request you to quote the PAYTM interaction ID on the subject line of your email, to enable us to expedite your query resolution.<br />
+												https://m.paytm.me/paytm_post<br />
+												<br />
+												Our Digital Partner&rsquo;s support team will be able to provide you with the required resolution, within the specified turn-around time (TAT). However, after raising a ticket, if you do not receive a resolution, within the specified TAT, kindly share the ticket number on our email ID care.digitalfinance@adityabirlacapital.com and we will be glad to assist you further. Request you to quote the PAYTM interaction ID on the subject line of your email, to enable us to expedite your query resolution.<br />
 												<br />
 												Thank you for reaching out to us. Assuring you of our best services always.<br />
 												<br />
@@ -164,19 +164,19 @@
 												<strong><span style="color:#ca1f34;">Aditya Birla Finance Limited</span></strong></div>
 												</td>
 											</tr>
-										
+										</tbody>
 									</table>
 									</td>
 								</tr>
-							
+							</tbody>
 						</table>
 						</td>
 					</tr>
-				
+				</tbody>
 			</table>
 			</td>
 		</tr>
-	
+	</tbody>
 </table>
 </body>
 </html>
