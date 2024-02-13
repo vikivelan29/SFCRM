@@ -31,7 +31,7 @@ public with sharing class ABHFL_ComplaintInvestigationController {
             Current_Report_RCU_R__c, Current_Report_RCU_O__c, Document_Verification_Remarks__c, Legal_report_at_onboarding__c,
             Current_Title_search_report__c, Valuation_technical_report_at_onboarding__c, Current_Valuation_Remark__c,
             OCR_Remark__c, Google_Search__c, Underwriting_Review__c, Lapses__c, Punitive_action__c, Case_Status__c,
-            Applicant_profile_at_time_of_onboarding__c, Current_cibil_review__c,/*Complaint_Investigation_PDF_HTML__c,*/
+            Applicant_profile_at_time_of_onboarding__c, Current_cibil_review__c,Complaint_Investigation_PDF_HTML__c,
             Credit_Deviation__c
             FROM ABHFL_Case_Detail__c
             WHERE Id=:c.ABHFL_Case_Detail__c];
@@ -55,8 +55,8 @@ public with sharing class ABHFL_ComplaintInvestigationController {
         pg.getParameters().put('pdfHeader', pdfHeaderValue);
         pg.getParameters().put('pdfContent', pdfContent);
         pg.getHeaders().put('content-disposition', 'inline; filename=Complaint_Investigation.pdf');
-        /*caseDetail[0].Complaint_Investigation_PDF_HTML__c = pdfContent;
-        update caseDetail[0];*/
+        caseDetail[0].Complaint_Investigation_PDF_HTML__c = pdfContent;
+        update caseDetail[0];
         //strPdfBody =  pg.getContent();
         /*Http h = new Http();
         HttpRequest req = new HttpRequest();
@@ -182,8 +182,39 @@ public with sharing class ABHFL_ComplaintInvestigationController {
     @AuraEnabled(cacheable=true)
     public static List<ComplaintInvestigationWrapper> fetchDetails(String caseId){
         Case c= [SELECT Id, AccountId, Asset.LAN__c FROM Case WHERE Id=:caseId LIMIT 1];
-        Account acc = [SELECT Id, PAN__c, PersonBirthdate, Full_Name__pc, BillingAddress FROM Account WHERE Id=:c.AccountId LIMIT 1];
-
+        Account acc = [SELECT Id, PAN__c, PersonBirthdate, Full_Name__pc, BillingAddress,
+            (SELECT Id, LAN__c, Sanction_Amount__c, Current_POS__c FROM Assets WHERE AccountId=:c.AccountId )
+            FROM Account WHERE Id=:c.AccountId LIMIT 1];
+        String allLansField='';
+        List<String> assetIds = new List<String>();
+        if(acc.Assets.size()>0){
+            for(Asset ast: acc.Assets){
+                assetIds.add(ast.Id);
+                String lan = ast.LAN__c!=null?ast.LAN__c:'N/A ';
+                String sanAmt = ast.Sanction_Amount__c!=null?String.valueOf(ast.Sanction_Amount__c):'N/A ';
+                String curPos = ast.Current_POS__c!=null?String.valueOf(ast.Current_POS__c):'N/A ';
+                allLansField += 'LAN No : '+lan+' Sanction Amt : '+sanAmt+' Current POS : '+curPos+'\n';
+            }   
+        }
+        String coAppField = '';
+        String priAppField = '';
+        for(LAN_Mapping__c lanMapping: [SELECT Id, Applicant_Type__c, Customer__c, LAN__c, Customer__r.Full_Name__pc,
+             Customer__r.PersonBirthdate, Customer__r.PAN__c FROM LAN_Mapping__c WHERE LAN__c IN :assetIds])
+        {   
+            String name = lanMapping.Customer__r.Full_Name__pc!=null?lanMapping.Customer__r.Full_Name__pc:' ';
+            String dob = lanMapping.Customer__r.PersonBirthdate!=null?lanMapping.Customer__r.PersonBirthdate.format():' ';
+            String pan = lanMapping.Customer__r.PAN__c!=null?lanMapping.Customer__r.PAN__c:' ';
+            if(lanMapping.Applicant_Type__c=='BORROWER'){
+                priAppField += name+', DOB : '
+                +dob+' PAN : '
+                +pan;
+            }
+            if(lanMapping.Applicant_Type__c=='COBORROWER'){
+                coAppField += name+', DOB : '
+                +dob+' PAN : '
+                +pan;
+            }
+        }
         String requestBody = JSON.serialize(new ComplaintInvestigationRequestWrapper(c.Asset.LAN__c));
         ABCL_IntegrationCallout.IntegrationResponseWrapper response = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.COMPLAINT_INVESTIGATION_INTEGRATION_METADATA,requestBody,null);
         ComplaintInvestigationResponseWrapper responseWrapper = new ComplaintInvestigationResponseWrapper();
@@ -226,6 +257,18 @@ public with sharing class ABHFL_ComplaintInvestigationController {
             }
             if(field.split(':')[0]=='Credit authority'){
                 ComplaintInvestigationWrapper wrapper = new ComplaintInvestigationWrapper(field.split(':')[0],field.split(':')[1],fieldMap.get('APPROVAL_BY')+' '+fieldMap.get('APPROVAL_BY_name'));
+                wrapperList.add(wrapper);
+            }
+            if(field.split(':')[0]=='All LANs'){
+                ComplaintInvestigationWrapper wrapper = new ComplaintInvestigationWrapper(field.split(':')[0],field.split(':')[1],allLansField);
+                wrapperList.add(wrapper);
+            }
+            if(field.split(':')[0]=='Applicant Type(COAPPL)'){
+                ComplaintInvestigationWrapper wrapper = new ComplaintInvestigationWrapper(field.split(':')[0],field.split(':')[1],coAppField);
+                wrapperList.add(wrapper);
+            }
+            if(field.split(':')[0]=='Applicant Type(PRAPPL)'){
+                ComplaintInvestigationWrapper wrapper = new ComplaintInvestigationWrapper(field.split(':')[0],field.split(':')[1],priAppField);
                 wrapperList.add(wrapper);
             }
             if(fieldMap.containsKey(field.split(':')[1])){
