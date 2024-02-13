@@ -120,7 +120,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
@@ -144,18 +144,6 @@
             <componentInstance>
                 <componentName>asf_Case360</componentName>
                 <identifier>c_asf_Case360</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultipleLan</componentName>
-                <identifier>c_abhfl_MultipleLan</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -547,6 +535,10 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>displayType</name>
+                    <value>Date</value>
+                </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
             </componentInstance>
