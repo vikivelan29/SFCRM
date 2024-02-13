@@ -107,7 +107,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
         update caseInteg;
         Case caseRec = [SELECT Id, ABHFL_Case_Detail__r.STP_Failure__c, MoveToNext__c, status FROM Case WHERE Id=:caseInteg.Case__c];
         System.assertEquals(false, caseRec.ABHFL_Case_Detail__r.STP_Failure__c);
-     
+        Test.startTest();
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: caseInteg.Id limit 1];
         DELETE conDoc;
         soa.processResponse(caseInteg);
@@ -115,5 +115,6 @@ public with sharing class ABHFL_SOAIntegration_Test {
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
         Test.stopTest();
         System.assertEquals(csQueue.Id,caseRec.OwnerId);
+        Test.stopTest();
     }
 }
