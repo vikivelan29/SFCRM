@@ -84,14 +84,12 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
 
         let currentSelectedRec;
         let checkboxAction = event.detail.config.action;
-        let selectedRows=event.detail.selectedRows;
-        let currentSelectedRow = event.detail.config.value;
 
-        let getRowNo = Number(currentSelectedRow.split("-")[1]);
-        let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
-        currentSelectedRec = this.assetRecords[selectedRowNo];
-        this.currentSelRecord = currentSelectedRec;
-
+        if(checkboxAction === "selectAllRows") {
+            this.deselectAllCheckboxes();
+            return;
+        }
+        
         if(checkboxAction == "rowSelect") {
             this.infoObject.isAsset = "true";
         }
@@ -99,15 +97,19 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             this.infoObject.isAsset = "false";
         }
 
-        if(checkboxAction === "selectAllRows") {
-            this.deselectAllCheckboxes();
-            return;
-        }
-
         if(checkboxAction === "rowDeselect" || checkboxAction === "deselectAllRows") {
             this.fieldToBeStampedOnCase = {};
             return;
         }
+        
+        let selectedRows=event.detail.selectedRows;
+        let currentSelectedRow = event.detail.config.value;
+        
+        let getRowNo = Number(currentSelectedRow.split("-")[1]);
+        let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
+        currentSelectedRec = this.assetRecords[selectedRowNo];
+        this.currentSelRecord = currentSelectedRec;
+
 
         if(selectedRows.length == 1){
             this.setFieldMaapingOnCase(selectedRows[0]);
