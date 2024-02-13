@@ -1066,7 +1066,7 @@ public class ASF_CaseMovementHelper {
             resultWrapper.checklistToInsert = checklistToInsert.get(caseRec.Id);
             resultWrapper.tasksToInsert = tasksToInsert.get(caseRec.Id);
             resultWrapper.slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
-            resultWrapper.allIntegrations = caseIdToNextStageConfigMap.containsKey(caseRec.Id) ? caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r : null;
+            resultWrapper.allIntegrations = caseIdToNextStageConfigMap.containsKey(caseRec.Id)?caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r:null;
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
