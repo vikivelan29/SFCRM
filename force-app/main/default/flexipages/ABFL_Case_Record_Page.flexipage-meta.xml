@@ -146,22 +146,10 @@
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-4836c3c9-53ef-4d84-81ab-fc3788f883e5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments2</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -535,6 +523,10 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>displayType</name>
+                    <value>Date</value>
+                </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
             </componentInstance>
@@ -547,12 +539,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer4</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
