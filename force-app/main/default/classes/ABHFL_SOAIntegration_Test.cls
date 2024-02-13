@@ -101,6 +101,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
     @IsTest
     static void testProcessResponse() {
         ABHFL_SOAIntegration soa = new ABHFL_SOAIntegration();
+        Test.startTest();
         ASF_Case_Integration__c caseInteg = [Select id, Status__c ,Case__c from ASF_Case_Integration__c limit 1];
         caseInteg.Status__c = 'Success';
         update caseInteg;
@@ -112,6 +113,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
         soa.processResponse(caseInteg);
         caseRec = [Select id,OwnerId from Case where id =: caseInteg.Case__c ];
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
+        Test.stopTest();
         System.assertEquals(csQueue.Id,caseRec.OwnerId);
     }
 }
