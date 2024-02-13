@@ -1,7 +1,7 @@
-<html style="overflow-y: hidden;">
+<html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="format-detection" content="telephone=no"><meta name="x-apple-disable-message-reformatting">
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -128,21 +128,21 @@
 </head>
 <body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
 <table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
-	<tbody>
+	
 		<tr>
 			<td align="center" class="pc-email-body-inner" valign="top">
 			<table align="center" border="0" cellpadding="0" cellspacing="0" class="pc-email-container" style="margin: 0 auto; max-width: 620px;background: #fff;border: 1px solid;" width="100%">
-				<tbody>
+				
 					<tr>
 						<td align="left" style="padding:0px;" valign="top">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>
+							
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
-										<tbody>
+										
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:'Anek Latin'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify"><br />
 												Dear Customer,<br />
 												<br />
@@ -162,19 +162,19 @@
 												<strong><span style="color:#ca1f34;">Aditya Birla Finance Limited</span></strong></div>
 												</td>
 											</tr>
-										</tbody>
+										
 									</table>
 									</td>
 								</tr>
-							</tbody>
+							
 						</table>
 						</td>
 					</tr>
-				</tbody>
+				
 			</table>
 			</td>
 		</tr>
-	</tbody>
+	
 </table>
 </body>
 </html>

@@ -48,4 +48,18 @@ public with sharing class ABHFL_MultiplePaymentsController {
         }
     }
 
+    @AuraEnabled
+    public static string deletePaymentRecord(String paymentId) {
+        try {
+            // Query the payment record by Id
+            ABHFL_Payment__c paymentToDelete = [SELECT Id FROM ABHFL_Payment__c WHERE Id = :paymentId LIMIT 1]; 
+            // Delete the payment record
+            delete paymentToDelete;
+            return 'deleted';
+        } catch (Exception ex) {
+            // Handle any exceptions and log the error
+            return 'Error deleting payment record: ' + ex.getMessage();
+        }
+    }
+
 }

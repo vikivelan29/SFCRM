@@ -2,6 +2,7 @@ import { LightningElement, api, wire, track } from 'lwc';
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getPaymentsForCase from '@salesforce/apex/ABHFL_MultiplePaymentsController.getPaymentsForCase';
+import deletePaymentRecord from '@salesforce/apex/ABHFL_MultiplePaymentsController.deletePaymentRecord';
 import savePayments from '@salesforce/apex/ABHFL_MultiplePaymentsController.savePayments';
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -42,7 +43,6 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 //if(this.record[i].Id)
                 console.log(records[i].Id);
                 records[i].key = `${records[i].Id}`;
-                records[i].isDeleteAllowed = false;
             }
             this.payments = records;
         }
@@ -102,13 +102,30 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         console.log(JSON.stringify(this.payments));
     }
 
-    remove(event) { 
-        let indexPosition = event.currentTarget.name;
-        const recId = event.currentTarget.dataset.id;  
-        if(this.payments.length > 1){
-            this.payments.splice(indexPosition, 1);
-        } 
-        this.error = undefined;
+    remove(event) {
+        const recId = event.currentTarget.dataset.id;
+    
+        // Find the index of the element to be removed
+        const indexToRemove = this.payments.findIndex(item => item.key === recId);
+    
+        if (indexToRemove !== -1) {
+            // Remove the element from the array
+            this.payments.splice(indexToRemove, 1);
+            this.error = undefined;
+    
+            // Call the Apex method to delete the payment record by its Id
+            deletePaymentRecord({ paymentId: recId })
+                .then((response ) => {
+                    // Success message after successful deletion
+                    console.error('deleted payment record:', response );
+                    this.showToast('Success', 'Payment deleted successfully', 'success');
+                })
+                .catch(error => {
+                    // Handle error during record deletion
+                    console.error('Error deleting payment record:', error);
+                    this.showToast('Error', 'Error deleting payment record', 'error');
+                });
+        }
     }
 
     handleSave() {
@@ -159,30 +176,35 @@ export default class Abhfl_MultiplePayments extends LightningElement {
     }
 
     setupFieldPermissions(stageName){
-
+        this.isSaveAllowed = false;
         this.isPaymentIdEditable = false;
         this.isPaymentAmountEditable = false;
         this.isPaymentModeEditable = false;
         this.isDateEditable = false;
         this.isRealizationEditable = false;
+        this.isDeleteAllowed = false;
         switch(stageName) {
             case 'Open':
                 this.isPaymentIdEditable = true;
                 this.isPaymentAmountEditable = true;
                 this.isPaymentModeEditable = true;
                 this.isDateEditable = true;
+                this.isSaveAllowed = true;
+                this.isDeleteAllowed = true;
                 break;
             case 'CPU Banking':
                 this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
                 break;
             case 'Pending CPU Banking':
                 this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
                 break;
             default:
                 break;
           }
         console.log('Setup Field Permissions' + this.isRealizationEditable);
 
-    }
+        }
 
 }

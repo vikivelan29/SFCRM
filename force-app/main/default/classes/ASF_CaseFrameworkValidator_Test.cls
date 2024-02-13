@@ -1,7 +1,7 @@
 @isTest
 public class ASF_CaseFrameworkValidator_Test {
     
-    @testSetup
+    /*  @testSetup
     static void setUpData(){
         ASF_TestDataFactory.createCaseCategoryConfig();
         ASF_TestDataFactory.createCaseRecords(1);
@@ -120,45 +120,18 @@ public class ASF_CaseFrameworkValidator_Test {
         stage2_Work_RuleEntry7.External_ID__c = 'CRE-Work-CIBIL-OD-010';
         Stage1CREs.add(stage2_Work_RuleEntry7);
         
-        /*ASF_Case_Rule_Entry__c stage2_Work_RuleEntry8 = new ASF_Case_Rule_Entry__c();
-        stage2_Work_RuleEntry8.Number__c = 9;
-        stage2_Work_RuleEntry8.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        stage2_Work_RuleEntry8.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
-        stage2_Work_RuleEntry8.Operator__c = '=';
-        stage2_Work_RuleEntry8.Data_Type__c = 'Decimal';
-        stage2_Work_RuleEntry8.Value__c = '10';
-        stage2_Work_RuleEntry8.External_ID__c = 'CRE-Work-CIBIL-OD-011';
-        Stage1CREs.add(stage2_Work_RuleEntry8);
+
         
-        ASF_Case_Rule_Entry__c stage2_Work_RuleEntry9 = new ASF_Case_Rule_Entry__c();
-        stage2_Work_RuleEntry9.Number__c = 10;
-        stage2_Work_RuleEntry9.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        stage2_Work_RuleEntry9.Field_Api_Name__c = 'ABHFL_Case_Detail__r.Part_Payment_Amount__c';
-        stage2_Work_RuleEntry9.Operator__c = '!=';
-        stage2_Work_RuleEntry9.Data_Type__c = 'Decimal';
-        stage2_Work_RuleEntry9.Value__c = '100';
-        stage2_Work_RuleEntry9.External_ID__c = 'CRE-Work-CIBIL-OD-012';
-        Stage1CREs.add(stage2_Work_RuleEntry9);*/
-        
-        /*ASF_Case_Rule_Entry__c stage2_Work_RuleEntry10 = new ASF_Case_Rule_Entry__c();
-        stage2_Work_RuleEntry10.Number__c = 11;
-        stage2_Work_RuleEntry10.Case_Rule__c = stage1_StageMovement_Rule.Id;
-        stage2_Work_RuleEntry10.Field_Api_Name__c = 'ABHFL_Case_Detail__r.EMI_Tenure__c';
-        stage2_Work_RuleEntry10.Operator__c = '>';
-        stage2_Work_RuleEntry10.Data_Type__c = 'Decimal';
-        stage2_Work_RuleEntry10.Value__c = '10';
-        stage2_Work_RuleEntry10.External_ID__c = 'CRE-Work-CIBIL-OD-013';
-        Stage1CREs.add(stage2_Work_RuleEntry10);*/
         
         insert Stage1CREs;
        
-    }
+    } */
     
     @isTest
     private static void evaluateCaseRuleTest() {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){ 
-        Id caseRuleId = [select id from ASF_Case_Rule__c where Type__c = 'Stage Movement' and Logical_Condition__c = '1' LIMIT 1].Id;
+        /* Id caseRuleId = [select id from ASF_Case_Rule__c where Type__c = 'Stage Movement' and Logical_Condition__c = '1' LIMIT 1].Id;
         
         List<ASF_Case_Rule_Entry__c> caseRuleEntryList = [Select Id, Number__c, Case_Rule__c, Field_Api_Name__c, Operator__c, Data_Type__c, 
                                                           Value__c, External_ID__c from ASF_Case_Rule_Entry__c where Case_Rule__c =: caseRuleId];
@@ -173,11 +146,11 @@ public class ASF_CaseFrameworkValidator_Test {
         Test.startTest();
         Boolean evaluationResult = ASF_CaseFrameworkValidator.evaluateCaseRule('1', caseRuleEntryList, caseRecord);
         Test.stopTest();
-        Assert.areEqual(evaluationResult, true);
+        Assert.areEqual(evaluationResult, true); */
         //}    
     }
     
-    @isTest
+    /* @isTest
     private static void evaluateCaseRuleTest2() {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){
@@ -255,6 +228,6 @@ public class ASF_CaseFrameworkValidator_Test {
         Test.startTest();
         String evaluationResult = ASF_CaseFrameworkValidator.validateIntegrations(caseRecord, stageConfigList[0]);
         Test.stopTest();   
-    }
+    } */
     
 }

@@ -26,8 +26,8 @@ public with sharing class ABFL_EBOTCaseLogics {
                 objABFL.IsSMT__c = objResponseBody.ISSMT == 'NO' ? FALSE : TRUE;
                 objABFL.IsMultipleLAN__c = objResponseBody.ISMULTIPLELAN == 'NO' ? FALSE : TRUE;
                 objABFL.IsAttachmentFlag__c = objResponseBody.ISATTACHMENTFLAG == 'NO' ? FALSE : TRUE;
-                objABFL.PAYTM_InteractionId__c = objResponseBody.PAYTMINTERACTIONID != null ? objResponseBody.PAYTMINTERACTIONID : '';
-                objABFL.CustomerNo__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';
+                objABFL.PayTmInteractionId__c = objResponseBody.PAYTMINTERACTIONID != null ? objResponseBody.PAYTMINTERACTIONID : '';
+                // objABFL.CustomerNo__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';
                 lstInsertAbflCaseDetail.add(objABFL);
             }  
               if(lstInsertAbflCaseDetail.size() > 0){
@@ -67,6 +67,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             objCase.Comments = objResponseBody.COMMENT;
             objCase.Case_Stage_Change_Date__c = system.now();
             objCase.LAN__c =  String.isNotBlank(objResponseBody.LAN)? objResponseBody.LAN : '';
+            objCase.Client_Code_Text__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';
             if(recAsset!=null && recAsset.size()>0){
                 objCase.AssetId = recAsset[0].Id;
             }
@@ -134,7 +135,7 @@ public with sharing class ABFL_EBOTCaseLogics {
     * @Description - Sends an email to contact if ISSMT response from ebot comes as YES
     *****************************************************************************************************************/ 
     public static void sendSmtFlagYes(Case recCase,String emailToAddress){
-        createPELogAndinvokeCommPEevent(recCase,'SMT_Escalation_Template',emailToAddress);
+        createPELogAndinvokeCommPEevent(recCase,'ABFL_SMT_Escalation_Template',emailToAddress);
     }  
     /****************************************************************************************************************
     * @param  - ASF_Case_Category_Config__c,Case,Boolean, Case ext Id
@@ -165,7 +166,7 @@ public with sharing class ABFL_EBOTCaseLogics {
                     //createPELoggerRecords(recCase,caseCategConfig);
                      //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
                      if(templateName){
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'Multiple_Lan_Template',null,false);
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_Multiple_Lan_Template',null,false);
                      }
                       else if(isLead){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_LEAD',null,false);
@@ -190,10 +191,13 @@ public with sharing class ABFL_EBOTCaseLogics {
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 
                     if(updateResult[0].getId() != null){
-                        //createPELoggerRecords(recCase,caseCategConfig);
-                        //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email. 
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Template__c,null,false);
+                        if(isRegistered){
+                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c,null,false);
+                        }
+                        else if(!isRegistered){
+                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
 
+                        }
                      }
                 }
            }   
@@ -407,6 +411,7 @@ public with sharing class ABFL_EBOTCaseLogics {
         peLogger.RecordID__c = caseRec.Id;
         peLogger.Retry_PE__c = true;
         peLogger.Status__c = 'Pending';
+        peLogger.LOB__c = 'ABFL';
         peLogger.Send_To_Specific_Emails__c = True;
         peLogger.Specific_To_Address__c = SpecificEmailId;
         peLogger.Email_Template_Name__c = emailTemplate;

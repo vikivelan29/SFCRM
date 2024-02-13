@@ -3,9 +3,7 @@
     <fullName>Last_Repricing_Date__c</fullName>
     <externalId>false</externalId>
     <label>Last Re-pricing &gt;= 6 months</label>
-    <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Date</type>
 </CustomField>

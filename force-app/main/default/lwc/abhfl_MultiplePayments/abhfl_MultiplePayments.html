@@ -2,6 +2,7 @@
     
     <lightning-card title="Payments">
         <lightning-button
+            if:true={isPaymentIdEditable}
             icon-name="utility:add" 
             slot="actions" 
             onclick={add} 
@@ -132,7 +133,7 @@
                             </div>
                         </td>
                         <td class="slds-size_2-of-14" data-label="Action">
-                            <template if:true={item.isDeleteAllowed}>
+                            <template if:true={isDeleteAllowed}>
                                 <a name={indexVar} data-id={item.key} onclick={remove}>
                                     <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
                                 </a>
@@ -153,6 +154,7 @@
         >
         </lightning-button> -->
         <lightning-button
+          if:true={isSaveAllowed}
           type="button"
           variant="brand"
           onclick={handleSave}

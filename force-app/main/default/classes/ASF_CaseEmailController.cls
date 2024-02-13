@@ -72,13 +72,15 @@ public class ASF_CaseEmailController {
         
         Pattern regex2 = Pattern.compile(regExpForSubQuery);
         Matcher matcher2 = regex2.matcher(inputText);
+
+        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL')?true:false;
         
         List<String> dynamicFieldsToReplace = new List<String>();
         Map<String,String> resultMap = new Map<String, String>();
         set<string> objectschemas = new set<string>();
 
         set<String> subQueriesToReplace = new set<String>();
-       if(caseObject.Business_Unit__c == 'ABHFL'){
+       if(isABHFL){
             while (matcher2.find()) {
                 String capturedString = matcher2.group(1);
                 subQueriesToReplace.add(capturedString);                      
@@ -111,6 +113,7 @@ public class ASF_CaseEmailController {
                 }
             }
         }
+
         if(!dynamicFieldsToReplace.isEmpty() || !subQueriesToReplace.isEmpty()){
             resultMap = getDynamicFields(dynamicFieldsToReplace, subQueriesToReplace, caseObjectId,objectschemas, dateFormat);
             resultMap.put('Today',Date.today().format());
@@ -120,7 +123,7 @@ public class ASF_CaseEmailController {
         System.debug(resultMap);
         System.debug(inputText);
 
-        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap);
+        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL);
         if (resultMap != null){
             for (String resKey : resultMap.keySet()) {
                 String resVal = resultMap.get(resKey);

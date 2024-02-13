@@ -22,4 +22,26 @@ public with sharing class ABFL_SOQL_Util {
              	endDate+' Order By StartDate ASC';
 		return Database.query(query);
     }
+
+    public static Map<String, ASF_Case_Category_Config__c> getCccIdToRecordMap(Set<String> cccIdSet) {
+      Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
+
+      if(cccIdSet?.size() > 0) {
+        for (ASF_Case_Category_Config__c cccRecord :[SELECT Id, CCC_External_Id__c, Litmus_Trigger__c, Litmus_Project__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccIdSet WITH SYSTEM_MODE]) {
+          cccIdToRecordsMap.put(cccRecord.CCC_External_Id__c, cccRecord);
+        }
+      }
+      return cccIdToRecordsMap;
+    }
+
+    private static List<User> userList;
+    public static List<User> getUserInfo(String nickName) {
+      if(userList == null) {
+        userList = [SELECT Id
+                      FROM User
+                      WHERE CommunityNickname LIKE :nickName 
+                      LIMIT 1];
+      }
+      return userList;
+    }
 }

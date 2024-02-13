@@ -47,9 +47,12 @@
                                 <lightning-button variant="brand" label="Create Case with new Prospect"
                             title="Create Case with new Prospect" onclick={handleCaseWithProspect}
                             class="slds-m-left_x-small"></lightning-button>
-                            <lightning-button variant="brand" label="Create Sales Prospect"
-                            title="Create Case with new Prospect" onclick={handleSalesProspet}
-                            class="slds-m-left_x-small"></lightning-button>
+                            <template if:true={isSalesProspectVisible}>
+                                <lightning-button variant="brand" label="Create Sales Prospect"
+                                title="Create Case with new Prospect" onclick={handleSalesProspet}
+                                class="slds-m-left_x-small"></lightning-button>
+                            </template>
+                            
                             <!--<lightning-button variant="brand" label="Create Internal Case"
                             title="Create Internal Case" onclick={handleInternalCaseCreation}
                             class="slds-m-left_x-small"></lightning-button>-->

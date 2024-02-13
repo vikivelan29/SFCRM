@@ -1,0 +1,28 @@
+/*********************************************************
+*Class        :  Abhfl_GenericRepeatingAndOpenComplntClas
+*Author       :  Anirudh Raturi
+*Created Date :  07/02/2024
+*Last Modified:  07/02/2024
+*Description  :  Controller class for abhfl_GenericRepeatingAndOpenComplaintCase LWC
+*********************************************************/
+
+public with sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
+   
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - genericFetchQuery
+    * @param fields - List of fields
+    * @param objectName - Object Name
+    * @param whereClause - WHERE cluase used in the query.
+    * @return - List<SObject>
+    * @Description - Generic query to fetch the sobject records.
+    *****************************************************************************************************************/
+    @AuraEnabled
+    public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
+
+        String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
+        system.debug('inside genericFetchQuery  '+query);
+        List<SObject> sobjList = Database.query(query);
+        return sobjList;
+    }
+}

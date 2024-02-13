@@ -17,15 +17,21 @@ public with sharing class ABHFL_ODPAlerts {
     *****************************************************************************************************************/
 
     @auraEnabled
-    public static List<ODPAlertResponse> getOdpAlerts(Id AccountId){
+    public static List<ODPAlertResponse> getOdpAlerts(Id AccountId, boolean isABFL){
         List<ODPAlertResponse> odpAlertResponseList = new List<ODPAlertResponse>();
+        String integrationName;
         try{
             Account accObj = [SELECT Id,Client_Code__c FROM Account WHERE Id =: AccountId];
-            
+            //New
+            if(isABFL){
+                integrationName = ABFL_Constants.ODP_ALERTS;
+            }else{
+                integrationName = ABHFL_Constants.ODP_ALERTS;
+            }
             If(accObj.Client_Code__c != null){
-                String payload = JSON.serialize(new payloadWrapper(accObj.Client_Code__c));
+                String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
                 
-                ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.ODP_ALERTS,payload,null);
+                ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
             }
         }catch(Exception e){
@@ -34,13 +40,13 @@ public with sharing class ABHFL_ODPAlerts {
         return odpAlertResponseList;
     }
     
-    public class payloadWrapper{
+    public class PayloadWrapper{
         public string clientId;
         public string channelId;
         
-        payloadWrapper(string clientId){
+        payloadWrapper(string clientId, boolean isAbfl){
             this.clientId = clientId;
-            this.channelId = ABHFL_Constants.CHANNEL_ID;
+            this.channelId = isAbfl ? ABFL_Constants.CHANNEL_ID : ABHFL_Constants.CHANNEL_ID; //New
         }
     }
 }

@@ -114,7 +114,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
                 ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                ASF_CaseMovementHelper.StageWrapper resultWrap = new ASF_CaseMovementHelper.StageWrapper();
+                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 //Update Case Int from Response
                 // Assume the following response from Integration
                 String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
@@ -134,7 +134,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     //Update Document URL on ABFL Case detail, proceed to next stage.
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c, Document_URL__c = jsonMap.documentURL,
-                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
+                                            Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP)
                     );
                     isUpdateCase = true;
                 }
@@ -143,18 +143,22 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     isUpdateCase = true;
                     caseDetailListToUpdate.add(
                         new ABFL_Case_Detail__c(Id=caseRecord.ABFL_Case_Detail__c,
-                                            Resolution_Comments__c = ABFL_Constants.RESOLVED_BY_BRE)
+                                            Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP)
                     );
                 }
 
 
-                if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
-                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(caseRecord, 'Resolved', 'Open');
-                    update resultWrap?.caseToBeUpdated;
-                }
                 if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable() && caseDetailListToUpdate.size() > 0){
                     update caseDetailListToUpdate;
                 }
+                if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
+                    resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
+                                                                           new Map<Id, String>{caseRecord.Id => 'Open'});
+                    System.debug('@@@resultWrap'+resultWrap);
+                    resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                    update resultWrap.get(caseRecord.Id)?.caseToBeUpdated;
+                }
+                
                 if(intg.STP_Config_External_Id__c != null && jsonMap.stpFlag == ABFL_Constants.BRESUCCESS)  {
                         createCase(intg.STP_Config_External_Id__c, caseRecord);
                 }

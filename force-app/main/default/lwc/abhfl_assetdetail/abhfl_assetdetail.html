@@ -1,7 +1,9 @@
 <template>
-    <a onclick={openAddAttachmentModal}>
-        <lightning-icon icon-name="utility:upload" alternative-text="Upload Documents"  size="x-small"></lightning-icon>
-    </a>
+    <template if:true={showIcon}>
+        <a onclick={openAddAttachmentModal}>
+            <lightning-icon icon-name="utility:upload" alternative-text="Upload Documents"  size="x-small"></lightning-icon>
+        </a>
+    </template>
     <template if:true={showAddAttachmentModal}>
         <div>
             <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
@@ -36,6 +38,20 @@
                 </div>
             </section>
             <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </div>
+    </template>
+    <template if:true={showQuickAction}>
+        <div style="display:flex" class="slds-p-around_medium">
+            <div>
+                <lightning-input 
+                    type="file" 
+                    label="Attachment" 
+                    required 
+                    accept=".xlsx, .xls, .csv, .png, .jpg, .jpeg, .doc, .docx, .pdf, .zip"
+                    message-when-value-missing="Please upload a file"
+                    onchange={handleFilesChange}>
+                </lightning-input>
+            </div>
         </div>
     </template>
 </template>

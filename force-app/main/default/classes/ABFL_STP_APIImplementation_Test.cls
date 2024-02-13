@@ -151,7 +151,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
@@ -241,7 +241,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
@@ -330,7 +330,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
@@ -419,7 +419,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
@@ -476,7 +476,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }
@@ -577,7 +577,7 @@ public class ABFL_STP_APIImplementation_Test{
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-            Assert.areEqual('Closed', caseRecord.Status, 'Case status should be closed');
+            Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
             Assert.areEqual(true, caseRecord.IsClosed, 'Is closed field should have been marked as True');
         }
     }

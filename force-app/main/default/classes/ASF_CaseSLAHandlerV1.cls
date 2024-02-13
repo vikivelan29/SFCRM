@@ -51,8 +51,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     Today it does not have SLA override rules. But logic needs to be added here.
     */
     private static map<String,long> getSLAFieldValues(ASF_SLAWrapper s, Case c,Case oldCase){
-        if(ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null){
-            } 
+        
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
         long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
@@ -71,8 +70,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             // }
         }
         else { 
-            map<String,long> slaValues = ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null ? 
-                                         ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues : null;
+            map<String,long> slaValues = (ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null && ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.containsKey(c.Id) &&
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id) != null) ? 
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id).slaCaseAndStageOverrideValues : null;
             
             if(slaValues != null){
                 //case SLA override
@@ -141,7 +141,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Integer index = 0;
         for(Case c: newCases){
             if(c.CCC_External_Id__c != null && c.stage__c != null){
-                if(externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
+                if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
                     if(!casesToUpdate.containsKey(c.Id)){
                         casesToUpdate.put(c.Id, new Case(Id=c.Id));
                     }
@@ -506,11 +506,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
                     resultMap.put(slaHistory.Case__c+'overallTimeSpent', c);
                 }
-                if(slaHistory.Stage_End_Date__c == null){
-                    slaHistory.Stage_End_Date__c = system.now();
-                }
                 long currentOverallSpent =  resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent;
-                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                Datetime endDate = slaHistory.Stage_End_Date__c == null ? System.now() : slaHistory.Stage_End_Date__c;
+                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, endDate);
                 currentOverallSpent += stageConsumedMilliSeconds;
                 resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent = currentOverallSpent;
             }
@@ -624,7 +622,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             if(String.valueOf(owner).startsWith('005')){
                 wrapper.ownerType = 'User';
                 String emailid = userIdToEmailMap.get(c.ownerId);
-                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailid);
+                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailId);
                 wrapper.ownerUserRecordorQueueOwnerEmailUserRecord =  userEmailMangerMap.get(emailId);     
             }
             else {
@@ -656,9 +654,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id i: newCases.keyset()){
             //Stage Change Loop or change in external Id. Recategrize changes external Id
             if(oldCases.containsKey(i) &&
-                (newCases.get(i).Stage__c != oldCases.get(i).Stage__c || 
+                (newCases.get(i).Stage__c != oldCases.get(i).Stage__c ||
+                newCases.get(i).OwnerId != oldCases.get(i).OwnerId || 
                 newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c)){
-                Case updatedCase = new Case(Id=newCases.get(i).Id);
+                Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
                 if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
@@ -777,7 +776,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                            if(caseStageSummarizedViewMap.containsKey(caseRec.Id+'overallTimeSpent')){
                                 overallTimeSpent = caseStageSummarizedViewMap.get(caseRec.Id+'overallTimeSpent').totalTimeSpent;
                            }
-                           
                            if(closeSlaSec != null){
                                 updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
                                 percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
@@ -854,7 +852,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
                     }
                     if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
                     }
                 }
                 index++;

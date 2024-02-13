@@ -6,7 +6,7 @@
 *Description  :  Class for NDC STP
 *********************************************************/
 public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocable {
-    List<String> sourceList = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
+    List<String> sourceList = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'CustomerPortal', 'Email'};
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate

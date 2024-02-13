@@ -28,9 +28,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
             ){
                 caseIds.add(recordAfter.Case__c);
                 caseIntegrationIds.add(recordAfter.Id);
-            } else if(recordAfter.Status__c == 'Pending' && String.isNotBlank(recordAfter.Case__c) && String.isNotBlank(recordAfter.Response__c)){
-                caseIntIds.add(recordAfter.Id);
-            }  
+            } 
         } 
         system.debug('****caseIntegrationIds:'+caseIntegrationIds);
         
@@ -57,14 +55,5 @@ public with sharing class ABCL_CaseIntegrationHelper {
             }      
         }
         
-        if(caseIntIds.size() > 0){
-            List<ASF_Case_Integration__c> caseIntRecords = [Select id,Response__c from ASF_Case_Integration__c where id in: caseIntIds];
-            for(ASF_Case_Integration__c caseInt : caseIntRecords){
-                caseInt.Acknowledgement__c = caseInt.Response__c;
-                caseInt.Response__c = null;
-            }
-            
-            update caseIntRecords;
-        }
     }
 }

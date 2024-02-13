@@ -3,6 +3,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import Id from '@salesforce/user/Id';
 import getOdpAlerts from '@salesforce/apex/ABHFL_ODPAlerts.getOdpAlerts';
 import getConstants from '@salesforce/apex/ABHFL_Constants.getAllConstants';
+import getConstantsABFL from '@salesforce/apex/ABFL_Constants.getAllConstants'; //new code for ABFL
 import businessUnitType from '@salesforce/schema/User.Business_Unit__c';
 
 export default class Abhfl_OdpAlerts extends LightningElement {
@@ -10,6 +11,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     showSpinner = false;
     showErrorMessage = false;
     isAbhflUser = false;
+    isAbflUser = false; //New
     userType;
     responseMessage;
     
@@ -27,6 +29,19 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             this.handleError(JSON.stringify(error));
             console.log('error=='+JSON.stringify(error));
         });
+        //New code for ABFL
+        getConstantsABFL().then(result => {
+            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
+            if(this.userType == result.lob_ABFL){
+                this.isAbflUser = true;
+                this.odpAlerts();
+            }else{
+                this.isAbflUser = false
+            }
+        }).catch(error => {
+            this.showSpinner = false;
+            this.handleError(JSON.stringify(error));
+        })
     }
 
     @wire(getRecord, { recordId: Id, fields: [businessUnitType]}) 
@@ -42,7 +57,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         this.showSpinner = true;
         this.showErrorMessage = false;
 
-        getOdpAlerts({'AccountId':this.recordId})
+        getOdpAlerts({'AccountId':this.recordId, isABFL:this.isAbflUser}) //new
         .then(result => {
             if(result[0].errorCode == undefined){
                 this.responseMessage = result;

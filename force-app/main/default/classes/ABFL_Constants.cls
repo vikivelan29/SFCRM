@@ -13,6 +13,7 @@ public with sharing class ABFL_Constants {
     public static final string ERROR = 'Error';  
     public static final string CANCELED = 'Canceled';
     public static final string PENDING = 'Pending';
+    public static final string RESOLVED = 'Resolved';
     public static final string RM_NO_EMAIL = 'RM-No email';
     public static final string IVR_NO_EMAIL = 'IVR-No email';
     public static final string EVALUATION_FAILED_LAN_ERROR = 'LAN can\'t be found on Case ';
@@ -22,15 +23,18 @@ public with sharing class ABFL_Constants {
     public static final string EVALUATION_SUCCESS = 'Evaluation Success';
     public static final string WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String EMAIL_ENTITY = 'Email';
+    public static final String LITMUS = 'Litmus';
     // public static final String NOT_EQUAL_TO = 'Not Equals To';
     // public static final String EQUAL_TO = 'Equals';
     public static final String BLANK_DATE_FIELD = 'Please add required date field values';
     public static final String ABFL = 'ABFL';
+    @auraEnabled public final String lob_ABFL = 'ABFL'; //for ODP alters
+    public static final String CHANNEL_ID = 'CHA1002'; //Needs to check what is channel Id?
+    public static final String ODP_ALERTS = 'ABFL_ODP_Alerts';
         
     public static final string WEALTHLOB = 'Wealth';
     public static final string API = 'API';
-    public static final string RESOLVED_BY_BRE = 'Resolved by BRE';
-    public static final string RESOLVED_BY_STP = 'Resolved by STP';
+    
     public static final string NO = 'no';
     public static final string DESCRIPTION_MSG = 'Auto created Case by BRE for loan closure of digital loan';
     public static final string SOURCE = 'SystemIntegration';
@@ -46,5 +50,10 @@ public with sharing class ABFL_Constants {
         get{
             return 'FAILURE';
         }
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static ABFL_Constants getAllConstants() {
+        return new ABFL_Constants();
     }
 }

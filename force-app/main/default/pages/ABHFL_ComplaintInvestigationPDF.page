@@ -1,0 +1,18 @@
+<apex:page renderAs="pdf" controller="ABHFL_ComplaintInvestigationController" applyHtmlTag="false" 
+           showHeader="false" cache="true" readOnly="true">
+    
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+            <style>
+                @page {
+                    size: a4 portrait;    
+                    padding-left: 2px;    
+                    padding-right: 2px;
+                }            
+            </style>
+        </head>
+        <b style="font-size:1rem"><apex:outputText value="{!pdfHeader}" escape="false"/></b><br/><br/>
+        <apex:outputText value="{!pdfContent}" escape="false"/>
+    </html>
+</apex:page>

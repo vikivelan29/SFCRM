@@ -40,7 +40,6 @@
                 <elementReference>TemplateDevName_Email</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -49,7 +48,6 @@
             <assignToReference>TemplateDevName_Email</assignToReference>
             <name>templateName</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <assignments>
@@ -205,7 +203,6 @@
         </rules>
     </decisions>
     <description>This flow is used to send the response to the customer when the case consumed 33% or 66% or it extends till 3 calendar days time</description>
-    <environments>Default</environments>
     <interviewLabel>ABFL Complaint Specific Holding Responses (33%,66%, 3Days) {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABFL Complaint Specific Holding Responses (33%,66%, 3Days)</label>
     <processMetadataValues>

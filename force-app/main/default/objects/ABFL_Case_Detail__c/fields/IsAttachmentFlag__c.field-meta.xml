@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Is attachment available against the email.</description>
     <externalId>false</externalId>
-    <label>IsAttachmentFlag</label>
+    <label>Attachment Flag</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

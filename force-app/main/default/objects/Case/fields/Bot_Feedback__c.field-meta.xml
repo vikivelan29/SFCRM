@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Business_Unit__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -38,5 +39,29 @@
                 <label>Change as per Customer Need</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Incorrect Classification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Manually case created</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Uncategorised</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Multiple Intent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Change as per Customer Need</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

@@ -28,6 +28,7 @@ public class ABFL_TestDataFactory {
         caseCatConfig.Nature__c = 'Request';
         caseCatConfig.Source__c = 'CEC';
         caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+        caseCatConfig.Litmus_Trigger__c = true;
         
         listCaseCatConfig.add(caseCatConfig);
         
@@ -153,7 +154,7 @@ public class ABFL_TestDataFactory {
         stage3.SLA_Target_3_Type__c = 'Manager';
         stage3.StageName__c  = 'Resolved';
         stage3.Gateway_Stage__c = true;
-        stage3.Status_Mapping__c = 'Closed';
+        stage3.Status_Mapping__c = 'Resolved';
         stage3.Query_Fields__c = 'Id,Stage__c';
         stageConfigList.add(stage3);
 
@@ -206,7 +207,8 @@ public class ABFL_TestDataFactory {
                                                                  REKYCURL__c= 'REKYCURL',
                                                                  KYCCOMPLIED__c='Some Text',
                                                                  IsRegisteredCustomer__c='Yes',
-                                                                 SUBSOURCE__c= 'SUBSOURCE'
+                                                                 SUBSOURCE__c= 'SUBSOURCE',
+                                                                 Lock_in_Period__c = 'No'
                                                                 );
         caseDetailList.add(caseDetail);
         if(isCreate) {
@@ -221,6 +223,8 @@ public class ABFL_TestDataFactory {
     public Static Account createAccount() {
         Account a = new Account();
         a.Name = '12345';
+        a.Office_Email__c = 'testAcc@123.com';
+        a.Phone = '444-010-4444';
         //a.CRN__c = '12344';
         insert a;
         
@@ -252,7 +256,7 @@ public class ABFL_TestDataFactory {
         for(Integer i=0;i<noOfCase;i++){
             
             Case newCase = new Case(Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator',
-            SLA_Target_1__c = 'test'+i+'@salesforce.com', CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
+            SLA_Target_1__c = 'test'+i+'@salesforce.com', CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30, Business_Unit__c = ABFL_Constants.ABFL);
             newCase.Stage_SLA_1__c = System.now();
             newCase.Stage_SLA_2__c = System.now()+1;
             newCase.Stage_SLA_3__c = System.now()+2;

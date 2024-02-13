@@ -180,6 +180,74 @@ public with sharing class ABCL_IntegrationCommonUtility {
 
     }
 
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - transferFilesToDMS
+    * @param recId - Case Record Id.
+    * @description - Initiates File Transfer to DMS
+    *****************************************************************************************************************/
+    @InvocableMethod
+    public static void transferFilesToDMS(List<Id> recIds){
+        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c from Case where Id =: recIds[0]];
+        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
+        if(contentDocumentList.size() > 0){
+            Set<Id> contentDocumentIds = new Set<Id>();
+            for(ContentDocumentLink docLink : contentDocumentList){
+                contentDocumentIds.add(docLink.ContentDocumentId);
+            }
+            List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber from ContentVersion where ContentDocumentId in: contentDocumentIds];
+            Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
+            for(ContentVersion version : contentVersionList){
+                Integer count = 0;
+                if(contentDocumentVersionMap.containsKey(version.ContentDocumentId)){
+                    count = contentDocumentVersionMap.get(version.ContentDocumentId);
+                }
+                count += 1;
+                contentDocumentVersionMap.put(version.ContentDocumentId,count);
+            }
+            List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
+            for(ContentVersion fileVersion : contentVersionList){
+                DMS_Files__c fileRec = new DMS_Files__c();
+                Integer versionCount = contentDocumentVersionMap.get(fileVersion.ContentDocumentId);
+                fileRec.ContentDocumentId__c = fileVersion.ContentDocumentId;
+                fileRec.Case__c = caseRecord.Id;
+                fileRec.ContentVersionId__c = fileVersion.Id;
+                fileRec.File_Name__c = fileVersion.Title;
+                fileRec.Has_Multiple_Versions__c = versionCount > 1 ? true : false;
+                fileRec.Is_Latest_Version__c = versionCount == Integer.valueof(fileVersion.VersionNumber) ? true : false;
+                fileRec.Status__c = ABHFL_Constants.PENDING;
+                fileRec.Version_Number__c = fileVersion.VersionNumber;
+                fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
+                fileRecList.add(fileRec);
+            }
+            if(fileRecList.size() > 0){
+                insert fileRecList;
+                Set<Id> dmsFileIds = new Set<Id>();
+                for(DMS_Files__c file : fileRecList){
+                    dmsFileIds.add(file.Id);
+                }
+                List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c from DMS_Files__c where id in: dmsFileIds];
+                List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
+                for(DMS_Files__c file : dmsFiles){
+                    //DMS_File_Transfer__e dmsEvent = new DMS_File_Transfer__e();
+                    dmsEventList.add(new DMS_File_Transfer__e(
+                        Business_Unit__c = file.Business_Unit__c,
+                        CaseNumber__c = caseRecord.CaseNumber,
+                        ContentVersionId__c = file.ContentVersionId__c,
+                        Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
+                        DMS_External_ID__c = file.Name,
+                        File_Name__c = file.File_Name__c,
+                        Is_Latest_Version__c = file.Is_Latest_Version__c,
+                        Version_Number__c = file.Version_Number__c
+                    ));
+                }
+                if(dmsEventList.size() > 0){
+                    List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
+                }
+            }
+        }
+    }
+
     public class stpResponseWrapper{
         public string operationStatus;
         public string operationMessage;

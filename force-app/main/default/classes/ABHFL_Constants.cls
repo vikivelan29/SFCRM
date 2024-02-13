@@ -9,6 +9,7 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
+
 	//NDC Subtype
 	public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
 	   
@@ -74,7 +75,9 @@ public with sharing class ABHFL_Constants {
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
     public static final String PAYMENT_BOUNCE_TEMPLATE = 'Payment_Bounced_1705034284521';
+
     public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_details_1705034679464';
+
     public static final String PAYMENT_BOUNCE_SMS = 'ABHFL_Payment_Bounce';
     public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
     public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
@@ -92,6 +95,10 @@ public with sharing class ABHFL_Constants {
     public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
     public static final String PRECLS_LOANCLOSED_EMAIL ='Loan_Closed_share_property_papers_VF';
     public static final String PRECLS_LOANCLOSED_SMS ='ABHFL_Loan_Closed_return_property_papers';
+
+    public static final String PRECLS_LOANCLOSED_EMAIL ='Loan_Closed_share_property_papers_VF';
+    public static final String PRECLS_LOANCLOSED_SMS ='ABHFL_Loan_Closed_return_property_papers';
+
 
 
     // Constants for REKYC 
@@ -120,13 +127,19 @@ public with sharing class ABHFL_Constants {
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
     public static String GST_INVOICE_SMS = 'Query_Case_Closure_1701081397834';
-	public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
+	  public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
+
+
+    //Constants for SMS.
+    public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
+    public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
+
 
 
     
