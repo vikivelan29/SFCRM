@@ -151,26 +151,37 @@
 												</style>
 												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												Dear Customer,<br />
-												<br />
+												Dear Customer<br />
 												Greetings from Aditya Birla Housing Finance Limited<br />
 												<br />
-												Pursuant to our discussion over call and with reference to your request towards change in rate of revision of your Loan Account Numbers&nbsp;-&nbsp; ##Asset_Details__r.lan__c##.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
-												Our current ARR is ##Asset_Details__r.Interest_Rate__c##,&nbsp;effective from March 1, 2023.<br />
+												This is with reference towards change in Rate of Interest of your Loan Account Numbers ##Asset_Details__r.lan__c##<br />
 												<br />
-												@@ We have agreed to reduce your rate of interest to ##Asset_Details__r.Revised_ROI__c##&nbsp;floating rates basis for your Home Loan Account - ##Asset_Details__r.lan__c##.<br />
+												Our current ARR is ##Asset_Details__r.Interest_Rate__c##, effective from March 1, 2023.<br />
+												<br />
+												@@We have agreed to reduce your rate of interest to ##Asset_Details__r.Revised_ROI__c##&nbsp;floating rates towards your Loan Account - ##Asset_Details__r.lan__c## .<br />
 												@@<br />
-												Effect of the same will be given on&nbsp;##Asset_Details__r.Impact__c##.<br />
+												As per your confirmation, the impact of revised Rate of Interest will be given on&nbsp;&nbsp;##Asset_Details__r.Impact__c##<br />
 												<br />
-												Please note the above-mentioned offer is subject to:<br />
-												1. In case of change in ARR, please be informed that the ROI will change accordingly.<br />
-												2. The proposed rate of interest will be effective from next EMI cycle date.<br />
-												3. This offer is subject to no overdue amount in the account and further EMI should clear on cycle date itself.<br />
-												4. All other Terms &amp; Conditions remain unchanged.<br />
+												Please note the above-mentioned offer is subject to the following conditions:<br />
+												1. Payment of Re-Pricing fee of INR $$ABHFL_Case_Detail__r.Payable_Charges__c$$+18% GST.<br />
+												2. Your preferred payment mode for Repricing fees is Auto debit of NACH / Online payment / Cheque Deposit at the branch.<br />
+												3. The proposed rate of interest will be effective from next EMI cycle date.<br />
+												4. In case of change in ARR, ROI will change accordingly.<br />
+												5. The offer is subject to clearance of PDD &amp; Over-Due amount as on date if any<br />
+												6. This offer will be valid for 3 business days. If we do not receive the payment/cheque from your side within this period, kindly note that we will be unable to proceed with making the necessary changes in the rate of interest.<br />
+												7. All other Terms &amp; Conditions of Sanction remain unchanged<br />
 												<br />
-												For further queries on this, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you.<br />
+												If Cheque:We would request you to make the payment of Re-pricing fees at our branch through cheque in favor of Aditya Birla Housing Finance Limited.<br />
+												<br />
+												If Online (Bank transfer):Kindly find the Bank details as mentioned below and we request you to provide with the UTR number once the funds are transferred.<br />
+												<br />
+												Beneficiary Name Aditya Birla Housing Finance Limited<br />
+												Beneficiary Account No ZABHFLPAL0059890<br />
+												Beneficiary bank &amp; branch IndusInd Bank, Ground floor, maker chambers IV, Nariman Point, Mumbai – 400021.<br />
+												IFSC Code INDB0000006<br />
+												Account Type Current Account<br />
+												<br />
+												For further queries on this, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you or call us at :- 18002707000<br />
 												Thank you for reaching out to Aditya Birla Housing Finance Limited.<br />
 												<br />
 												Regards,<br />
