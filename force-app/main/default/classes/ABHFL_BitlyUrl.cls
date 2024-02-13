@@ -52,7 +52,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
 
         caseRec = [SELECT Id, CaseNumber, Business_Unit__c FROM Case WHERE Id = :caseRec.Id WITH SECURITY_ENFORCED];
-		String longUrl = System.label.ABHFL_Base_URL_For_Bitly+ '/' +caseRec.CaseNumber;
+		String longUrl = System.label.ABHFL_Base_URL_For_Bitly + caseRec.CaseNumber;
         Integer expiryDay = Integer.valueOf(System.label.ExpiryDay_For_Bitly_URL);
         String lob = caseRec.Business_Unit__c;
 
