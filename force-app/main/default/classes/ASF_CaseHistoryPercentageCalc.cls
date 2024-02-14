@@ -42,7 +42,12 @@ public class ASF_CaseHistoryPercentageCalc {
                                long bufferDays)
     {
         long slaMulitplierInLong = 3600000;
+        
+        firstThreshold = firstThreshold != null ? firstThreshold : 0.0;
+        secondThreshold = secondThreshold != null ? secondThreshold : 0.0;
+        thirdThreshold = thirdThreshold != null ? thirdThreshold : 0.0;
         System.debug('@@@slaInMilliSec'+slaInMilliSec+' '+firstThreshold);
+        
         String sla50percentageHoursInMilli = String.ValueOf(slaInMilliSec * firstThreshold);
         String sla75percentageHoursInMilli = String.ValueOf(slaInMilliSec * secondThreshold);
         String sla90percentageHoursInMilli = String.ValueOf(slaInMilliSec * thirdThreshold);

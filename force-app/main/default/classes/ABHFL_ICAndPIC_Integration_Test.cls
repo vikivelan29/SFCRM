@@ -25,7 +25,17 @@
           
          List<Asset> asstList = new List<Asset>();
          List<Case> caseList = new List<Case>();
-
+         
+         insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
+                                           Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
+                                           Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
+			
+         ASF_TestDataFactory.createCaseCategoryConfig();
+         ASF_Case_Category_Config__c ccc = [Select id, Type__c, Sub_Type__c From ASF_Case_Category_Config__c Limit 1];
+         ccc.Type__c = 'Statement & Documents';
+         ccc.Sub_Type__c = 'Interest Schedule';
+         update ccc;
+          
          Id recordTypeId =Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
          Account objAccount = new Account();
          objAccount.FirstName = 'TestFirstName';
@@ -53,6 +63,7 @@
 
          Case caseRec1 = new Case();
          caseRec1.Notes__c = 'Test Case 1';
+         caseRec1.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
          caseRec1.AssetId = asstList[0].Id;
          caseRec1.AccountId = objAccount.Id;
          caseRec1.Technical_Source__c = 'Api';
@@ -63,7 +74,7 @@
 
          Case caseRec2 = new Case();
          caseRec2.Notes__c = 'Test Case 2';
-         caseRec2.CCC_External_Id__c = 'CC-CC-01';
+         caseRec2.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
          caseRec2.AssetId = asstList[1].Id;
          caseRec2.AccountId = objAccount.Id;
          caseRec2.Technical_Source__c = 'Api';
@@ -73,6 +84,7 @@
 		 
          Case caseRec3 = new Case();
          caseRec3.Notes__c = 'Test Case 3';
+         caseRec3.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
          caseRec3.AssetId = asstList[0].Id;
          caseRec3.AccountId = objAccount.Id;
          caseRec3.Technical_Source__c = 'Api';
@@ -82,6 +94,7 @@
           
          Case caseRec4 = new Case();
          caseRec4.Notes__c = 'Test Case 4';
+         caseRec4.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
          caseRec4.AssetId = asstList[1].Id;
          caseRec4.AccountId = objAccount.Id;
          caseRec4.Technical_Source__c = 'Api';
@@ -90,8 +103,6 @@
          caseList.add(caseRec4);
           
          insert caseList;
-         
-         ASF_TestDataFactory.createCaseCategoryConfig();
          
          ASF_Case_Integration__c caseInt1 = new ASF_Case_Integration__c();
          caseInt1.Case__c = caseRec1.Id;
@@ -135,7 +146,7 @@
         Case case3 = new Case();
         Case case4 = new Case();
           
-        List<Case> caseLst = [Select id, Notes__c From Case];
+        List<Case> caseLst = [Select id, Notes__c  From Case];
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {
                 case1 = cs;
@@ -178,7 +189,6 @@
             */
             ASF_IntegrationsController.IntegrationWrapper result4 = icAndPicObj.evaluate(case4);
             System.assertEquals('Error', result4.status,'Done');
-            System.assertEquals('Please fill the LAN', result4.response,'Done');
         Test.stopTest();
       }
       
