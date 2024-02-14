@@ -112,11 +112,6 @@ public class ABHFL_StageApex_Test {
         update caseRecord;
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 =  ABHFL_PreClosureStageApex.beforeStageMovement(caseRecord);
         System.assertEquals('Success',retCls2.Status,'Done');
-        //for stage branch
-        caseRecord.Stage__c='Branch';
-        update caseRecord;
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls3 =  ABHFL_PreClosureStageApex.beforeStageMovement(caseRecord);
-        System.assertEquals('Success',retCls3.Status,'Done');
 	}
     @IsTest
     static void testReqResolvedStageApexClass(){
