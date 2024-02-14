@@ -156,7 +156,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>ABHFL Payment</label>
     <nameField>
-        <label>ABFL Payment Name</label>
+        <label>ABHFL Payment Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>ABHFL Payments</pluralLabel>
