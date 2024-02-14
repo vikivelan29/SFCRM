@@ -447,6 +447,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_dataServiceDetails</componentName>
+                <identifier>c_abhfl_dataServiceDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0c45c987-3142-4956-b0c1-810806c371fe</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -475,6 +485,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0c45c987-3142-4956-b0c1-810806c371fe</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Loan Data</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
