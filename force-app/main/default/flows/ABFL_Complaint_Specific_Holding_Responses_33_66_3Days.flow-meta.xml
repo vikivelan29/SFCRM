@@ -56,7 +56,7 @@
         <description>Assigning the Email template and SMS template Dev Name</description>
         <name>Assign_Email_SMS_Template_Dev_Name_1</name>
         <label>Assign Email &amp; SMS Template Dev Name 1</label>
-        <locationX>204</locationX>
+        <locationX>248</locationX>
         <locationY>384</locationY>
         <assignmentItems>
             <assignToReference>TemplateDevName_Email</assignToReference>
@@ -87,7 +87,7 @@
         <description>Assigning the Email template Dev Name</description>
         <name>Assign_Email_SMS_Template_Dev_Name_2</name>
         <label>Assign Email &amp; SMS Template Dev Name 2</label>
-        <locationX>468</locationX>
+        <locationX>512</locationX>
         <locationY>384</locationY>
         <assignmentItems>
             <assignToReference>TemplateDevName_Email</assignToReference>
@@ -111,7 +111,7 @@
         <description>Assigning the Email template and SMS template Dev Name</description>
         <name>Assign_Email_SMS_Template_Dev_Name_4</name>
         <label>Assign Email &amp; SMS Template Dev Name 4</label>
-        <locationX>732</locationX>
+        <locationX>776</locationX>
         <locationY>384</locationY>
         <assignmentItems>
             <assignToReference>TemplateDevName_Email</assignToReference>
@@ -142,7 +142,7 @@
         <description>Check if the Email Template Dev Name is null. If Not null then proceed for the next actions.</description>
         <name>Is_Template_Dev_Null</name>
         <label>Is Template Dev Null?</label>
-        <locationX>336</locationX>
+        <locationX>380</locationX>
         <locationY>587</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -346,7 +346,7 @@
     <recordLookups>
         <name>Query_Case_Category_Config_1</name>
         <label>Query Case Category Config(1)</label>
-        <locationX>204</locationX>
+        <locationX>248</locationX>
         <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -367,7 +367,7 @@
     <recordLookups>
         <name>Query_Case_Category_Config_2</name>
         <label>Query Case Category Config(2)</label>
-        <locationX>468</locationX>
+        <locationX>512</locationX>
         <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -388,7 +388,7 @@
     <recordLookups>
         <name>Query_Case_Category_Config_4</name>
         <label>Query Case Category Config(4)</label>
-        <locationX>732</locationX>
+        <locationX>776</locationX>
         <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -407,10 +407,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>210</locationX>
+        <locationX>254</locationX>
         <locationY>0</locationY>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 AND 2 AND 3 AND 4 AND (5 OR 6 OR 7 OR 8 OR 9)</filterLogic>
         <filters>
             <field>IsClosed</field>
             <operator>EqualTo</operator>
@@ -437,6 +437,41 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Complaint</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LOB__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Retail - Unsecured</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LOB__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Retail - Secured</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LOB__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corporate</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LOB__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Digital</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LOB__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Not classified</stringValue>
             </value>
         </filters>
         <object>Case</object>
