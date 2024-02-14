@@ -9,20 +9,27 @@
             </div>
         </template>
         <template if:false={sectionClosed}>
-            <div style="overflow-x:auto;overflow-y:hidden">
-                <lightning-accordion onsectiontoggle={handleToggleSection} class="example-accordion" 
-                    allow-multiple-sections-open active-section-name={activeSections}>
-                        <lightning-accordion-section name="roiHistory" label="ROI History">
-                            <lightning-datatable
-                                key-field="id"
-                                show-row-number-column
-                                hide-checkbox-column
-                                data={roiData}
-                                columns={roiColumns}>
-                            </lightning-datatable>
-                        </lightning-accordion-section>
-                </lightning-accordion>
-            </div>
+            <template if:false={receivedResponse}>
+                <div>
+                    <h1 class="slds-align_absolute-center" style="color:red;font-weight:bold;text-transform:uppercase">{noResponseFromServer}</h1>
+                </div>
+            </template>
+            <template if:true={receivedResponse}>
+                <div style="overflow-x:auto;overflow-y:hidden">
+                    <lightning-accordion onsectiontoggle={handleToggleSection} class="example-accordion" 
+                        allow-multiple-sections-open active-section-name={activeSections}>
+                            <lightning-accordion-section name="roiHistory" label="ROI History">
+                                <lightning-datatable
+                                    key-field="id"
+                                    show-row-number-column
+                                    hide-checkbox-column
+                                    data={roiData}
+                                    columns={roiColumns}>
+                                </lightning-datatable>
+                            </lightning-accordion-section>
+                    </lightning-accordion>
+                </div>
+            </template>
             <div style="display:flex;margin-top:5px;margin-right:5px;justify-content: end;">
                 <lightning-button icon-name='utility:refresh' variant="brand" label="Refresh" title="Refresh" onclick={getRoiHistoryDetails}></lightning-button>
             </div>

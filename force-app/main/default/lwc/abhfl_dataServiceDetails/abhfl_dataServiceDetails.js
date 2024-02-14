@@ -17,6 +17,8 @@ export default class Abhfl_dataServiceDetails extends LightningElement {
     @track fieldsInInnerColumn2 = [];
     ifCusAndAcc = false;
     isLoading = false;
+    receivedResponse=true;
+    noResponseFromServer = '';
 
     getDataServiceDetails(){
         this.innerSections = [];
@@ -26,17 +28,24 @@ export default class Abhfl_dataServiceDetails extends LightningElement {
         this.isLoading = true;
         fetchSections({assetId:this.recordId})
             .then((result)=>{
-                for(let i of [...result]){
-                    if(i.type=='Outer'){
-                        this.outerSections.push(i);
+                if(result && result.length>0){
+                    for(let i of [...result]){
+                        if(i.type=='Outer'){
+                            this.outerSections.push(i);
+                        }
+                        else if(i.type=='Inner'){
+                            this.innerSections.push(i);
+                        }
                     }
-                    else if(i.type=='Inner'){
-                        this.innerSections.push(i);
+                    console.log('result length:'+result.length);
+                    if(result.length==1){
+                        this.activeOuterSections = result[0].sectionName;
                     }
-                }
-                console.log('result length:'+result.length);
-                if(result.length==1){
-                    this.activeOuterSections = result[0].sectionName;
+                    this.receivedResponse = true;
+                    this.noResponseFromServer = '';
+                }else{
+                    this.receivedResponse = false;
+                    this.noResponseFromServer = 'Could not get details. Please try again later.';
                 }
                 this.sectionClosed = false;
                 this.isLoading = false;

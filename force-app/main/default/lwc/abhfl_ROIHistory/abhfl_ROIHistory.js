@@ -9,6 +9,8 @@ export default class Abhfl_ROIHistory extends LightningElement {
     isLoading = false;
     @track roiData = [];
     @track roiColumns = [];
+    receivedResponse=true;
+    noResponseFromServer = '';
 
     getRoiHistoryDetails(){
         this.sectionClosed = true;
@@ -16,8 +18,16 @@ export default class Abhfl_ROIHistory extends LightningElement {
         fetchRoiHistory({assetId:this.recordId})
             .then((result)=>{
                 console.log('Response:'+JSON.stringify(result));
-                this.roiColumns = result.columns;
-                this.roiData = [...result.data];
+                console.log('result.data:'+JSON.stringify(result.data));
+                if(result && result.data){
+                    this.roiColumns = result.columns;
+                    this.roiData = [...result.data];
+                    this.receivedResponse = true;
+                    this.noResponseFromServer = '';
+                }else{
+                    this.receivedResponse = false;
+                    this.noResponseFromServer = 'Could not get details. Please try again later.';
+                }
                 this.sectionClosed = false;
                 this.isLoading = false;
             })
