@@ -304,7 +304,7 @@ public class ASF_CaseMovementHelper {
                             break;
                         }
                     }
-           	 	}
+                }
             }
 
 
@@ -345,12 +345,23 @@ public class ASF_CaseMovementHelper {
 
                     resultWrapper.caseToBeUpdated = updatedCase;
                     resultWrapper.nextStageConfig = nextStageConfig;
-                    resultWrapperMap.put(caseRec.Id, resultWrapper);
+                    
 
                     // Fetch Owner Assignment for Stage
-                    if(nextStageConfig !=null && nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
-                        caseIdToLastActionedStageMap.put(caseRec.Id, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
+                    if(nextStageConfig !=null){
+                        if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
+                            caseIdToLastActionedStageMap.put(caseRec.Id, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
+                        }else if(nextStageConfig.Default_Queue__c != null){
+                            resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
+                            resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
+                            resultWrapper.status = resultWrapper.ownerId != null?'Success':null;
+                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        }else{
+                            casesWithoutAssignment.add(caseRec);
+                            caseIdToStageMap.put(caseRec.Id, nextStageConfig.StageName__c);
+                        }
                     }
+                    resultWrapperMap.put(caseRec.Id, resultWrapper);
                 }
             }
             
@@ -458,7 +469,9 @@ public class ASF_CaseMovementHelper {
                 ASF_Case_Stage_Config__c nextStageConfig = caseIdToNextStageConfigMap.get(caseRec.Id);
                 // Run Stage Movement Rules to check if this is the Next Stage
                 List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
-                caseRulesForStage.addAll(stageConfigIdToCaseRules.get(nextStageConfig.Id));
+                if(stageConfigIdToCaseRules.containsKey(nextStageConfig.Id)){
+                    caseRulesForStage.addAll(stageConfigIdToCaseRules.get(nextStageConfig.Id));
+                }
 
                 Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(caseRec, caseRulesForStage);
                 if(isStageMovementValid){
@@ -554,7 +567,7 @@ public class ASF_CaseMovementHelper {
                         break;
                     }
                 }
-        	}
+            }
         }
 
         Map<Id, Boolean> areChecklistsCompletePerCase = ASF_CaseFrameworkValidator.validateChecklists(currentCases, currentStageMap);
@@ -726,13 +739,25 @@ public class ASF_CaseMovementHelper {
 
         // Once Next Stage is found, run Assignment Rules to get the Owner Information
         Map<Id, String> caseIdToLastActionedStageMap = new Map<Id,String>();
+        List<Case> casesWithoutAssignment = new List<Case>();
+        Map<Id, String> caseIdToStageMap = new Map<Id,String>();
         for(Case caseRec : currentCases){
             ASF_Case_Stage_Config__c nextStageConfig = caseIdToNextStageConfigMap.get(caseRec.Id);
             if(nextStageConfig != null){
                 if(nextStageConfig.Assign_To_Last_Actioned_Stage__c != null){
                     caseIdToLastActionedStageMap.put(caseRec.Id, nextStageConfig.Assign_To_Last_Actioned_Stage__c);
+                }else if(nextStageConfig.Default_Queue__c != null){
+                    StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
+                    resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
+                    resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
+                    resultWrapper.status = resultWrapper.ownerId != null?'Success':null;
+                    resultWrapperMap.put(caseRec.Id, resultWrapper);
+                }else{
+                    casesWithoutAssignment.add(caseRec);
+                    caseIdToStageMap.put(caseRec.Id, nextStageConfig.StageName__c);
                 }
-            }else{
+            }
+            else{
                 //next stage not found, throw error
                 StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                 resultWrapper.status = 'Error';
@@ -741,8 +766,8 @@ public class ASF_CaseMovementHelper {
             }
         }
 
-        List<Case> casesWithoutAssignment = new List<Case>();
-        Map<Id, String> caseIdToStageMap = new Map<Id,String>();
+        
+        
         if(!caseIdToLastActionedStageMap.isEmpty()){
             Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(caseIdToLastActionedStageMap);
             for(Case caseRec : currentCases){
