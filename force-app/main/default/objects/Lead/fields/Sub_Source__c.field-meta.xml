@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Source__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ABC Staff Loan</fullName>
+                <default>false</default>
+                <label>ABC Staff Loan</label>
+            </value>
+            <value>
+                <fullName>ABG Staff Loan</fullName>
+                <default>false</default>
+                <label>ABG Staff Loan</label>
+            </value>
+            <value>
+                <fullName>ABHFL_Commonfloor</fullName>
+                <default>false</default>
+                <label>ABHFL_Commonfloor</label>
+            </value>
+            <value>
+                <fullName>ABHFL_CRED</fullName>
+                <default>false</default>
+                <label>ABHFL_CRED</label>
+            </value>
+            <value>
+                <fullName>ABHFL_EasyPay</fullName>
+                <default>false</default>
+                <label>ABHFL_EasyPay</label>
+            </value>
+            <value>
+                <fullName>ABHFL_Khatabook</fullName>
+                <default>false</default>
+                <label>ABHFL_Khatabook</label>
+            </value>
+            <value>
+                <fullName>ABHFL_MyGate</fullName>
+                <default>false</default>
+                <label>ABHFL_MyGate</label>
+            </value>
+            <value>
+                <fullName>Asset Service Desk</fullName>
+                <default>false</default>
+                <label>Asset Service Desk</label>
+            </value>
+            <value>
+                <fullName>BD Central Team</fullName>
+                <default>false</default>
+                <label>BD Central Team</label>
+            </value>
+            <value>
+                <fullName>Branch</fullName>
+                <default>false</default>
+                <label>Branch</label>
+            </value>
+            <value>
+                <fullName>CF Projects</fullName>
+                <default>false</default>
+                <label>CF Projects</label>
+            </value>
+            <value>
+                <fullName>CIBIL Data</fullName>
+                <default>false</default>
+                <label>CIBIL Data</label>
+            </value>
+            <value>
+                <fullName>Co-Lending</fullName>
+                <default>false</default>
+                <label>Co-Lending</label>
+            </value>
+            <value>
+                <fullName>Corp DSA</fullName>
+                <default>false</default>
+                <label>Corp DSA</label>
+            </value>
+            <value>
+                <fullName>Corp RP</fullName>
+                <default>false</default>
+                <label>Corp RP</label>
+            </value>
+            <value>
+                <fullName>CRED</fullName>
+                <default>false</default>
+                <label>CRED</label>
+            </value>
+            <value>
+                <fullName>Cross Sell</fullName>
+                <default>false</default>
+                <label>Cross Sell</label>
+            </value>
+            <value>
+                <fullName>Customer Contact Centre</fullName>
+                <default>false</default>
+                <label>Customer Contact Centre</label>
+            </value>
+            <value>
+                <fullName>Customer Referral</fullName>
+                <default>false</default>
+                <label>Customer Referral</label>
+            </value>
+            <value>
+                <fullName>Customer Retention</fullName>
+                <default>false</default>
+                <label>Customer Retention</label>
+            </value>
+            <value>
+                <fullName>Data</fullName>
+                <default>false</default>
+                <label>Data</label>
+            </value>
+            <value>
+                <fullName>Digital Channel</fullName>
+                <default>false</default>
+                <label>Digital Channel</label>
+            </value>
+            <value>
+                <fullName>Direct</fullName>
+                <default>false</default>
+                <label>Direct</label>
+            </value>
+            <value>
+                <fullName>DSA</fullName>
+                <default>false</default>
+                <label>DSA</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Employee Refferal</fullName>
+                <default>false</default>
+                <label>Employee Refferal</label>
+            </value>
+            <value>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+                <label>Facebook</label>
+            </value>
+            <value>
+                <fullName>Google AdWords</fullName>
+                <default>false</default>
+                <label>Google AdWords</label>
+            </value>
+            <value>
+                <fullName>Grievance Desk</fullName>
+                <default>false</default>
+                <label>Grievance Desk</label>
+            </value>
+            <value>
+                <fullName>Instagram</fullName>
+                <default>false</default>
+                <label>Instagram</label>
+            </value>
+            <value>
+                <fullName>Marketing Campaign</fullName>
+                <default>false</default>
+                <label>Marketing Campaign</label>
+            </value>
+            <value>
+                <fullName>Mobile App</fullName>
+                <default>false</default>
+                <label>Mobile App</label>
+            </value>
+            <value>
+                <fullName>Offline Marketing</fullName>
+                <default>false</default>
+                <label>Offline Marketing</label>
+            </value>
+            <value>
+                <fullName>Online Marketing</fullName>
+                <default>false</default>
+                <label>Online Marketing</label>
+            </value>
+            <value>
+                <fullName>Open Market</fullName>
+                <default>false</default>
+                <label>Open Market</label>
+            </value>
+            <value>
+                <fullName>Outbound Campaign</fullName>
+                <default>false</default>
+                <label>Outbound Campaign</label>
+            </value>
+            <value>
+                <fullName>Phone Inbound</fullName>
+                <default>false</default>
+                <label>Phone Inbound</label>
+            </value>
+            <value>
+                <fullName>Phone Outbound</fullName>
+                <default>false</default>
+                <label>Phone Outbound</label>
+            </value>
+            <value>
+                <fullName>PIFA</fullName>
+                <default>false</default>
+                <label>PIFA</label>
+            </value>
+            <value>
+                <fullName>Pre-Approved TopUp</fullName>
+                <default>false</default>
+                <label>Pre-Approved TopUp</label>
+            </value>
+            <value>
+                <fullName>Proactive</fullName>
+                <default>false</default>
+                <label>Proactive</label>
+            </value>
+            <value>
+                <fullName>Promoter Calling</fullName>
+                <default>false</default>
+                <label>Promoter Calling</label>
+            </value>
+            <value>
+                <fullName>Property Expo</fullName>
+                <default>false</default>
+                <label>Property Expo</label>
+            </value>
+            <value>
+                <fullName>RP</fullName>
+                <default>false</default>
+                <label>RP</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
+            </value>
+            <value>
+                <fullName>Staff Loan</fullName>
+                <default>false</default>
+                <label>Staff Loan</label>
+            </value>
+            <value>
+                <fullName>Strategic Partnership</fullName>
+                <default>false</default>
+                <label>Strategic Partnership</label>
+            </value>
+            <value>
+                <fullName>UBS</fullName>
+                <default>false</default>
+                <label>UBS</label>
+            </value>
+            <value>
+                <fullName>Walk-in</fullName>
+                <default>false</default>
+                <label>Walk-in</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+            <value>
+                <fullName>WhatsApp</fullName>
+                <default>false</default>
+                <label>WhatsApp</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
