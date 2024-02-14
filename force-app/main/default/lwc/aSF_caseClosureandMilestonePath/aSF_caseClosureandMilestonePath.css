@@ -2,9 +2,23 @@
     border: 1px solid #d8dde6;
     margin: 10px 0 20px 0;
 }
-.header-column {
-    padding: 0 1.9rem;
+/* Adjust padding for smaller screens */
+@media only screen and (max-width: 600px) {
+    .header-column {
+        padding: 0 1rem;
+    }
 }
+@media only screen and (min-width: 1200px) and (max-width: 1440px) {
+    .header-column {
+        padding: 0 1.2rem;
+    }
+}
+@media only screen and (min-width: 1440px) {
+    .header-column {
+        padding: 0 1.5rem;
+    }
+}
+
 .field-title {
     font-size: .75rem;
     line-height: 1.25;
