@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -160,8 +160,10 @@
 												Pursuant to our discussion over call and with reference to your request towards change in rate of revision of your Loan Account Numbers&nbsp;-&nbsp; ##Asset_Details__r.lan__c##.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
 												Our current ARR is ##Asset_Details__r.Interest_Rate__c##,&nbsp;effective from March 1, 2023.<br />
 												<br />
-												@@ We have agreed to reduce your rate of interest to ##Asset_Details__r.Revised_ROI__c##&nbsp;floating rates basis for your Home Loan Account - ##Asset_Details__r.lan__c##.<br />@@
-												<br />
+
+												@@ We have agreed to reduce your rate of interest to ##Asset_Details__r.Revised_ROI__c##&nbsp;floating rates basis for your Home Loan Account - ##Asset_Details__r.lan__c##.<br />
+												@@<br />
+
 												Effect of the same will be given on&nbsp;##Asset_Details__r.Impact__c##.<br />
 												<br />
 												Please note the above-mentioned offer is subject to:<br />

@@ -13,7 +13,7 @@ public class ABCL_AssetTriggerHelper {
 *****************************************************************************************************************/
 	public static void updateRmAssignment(Map<Id,Asset> oldAssetMpa,Map<Id,Asset> newAssetMap){ 
         for(Asset  objAsset: newAssetMap.values()){
-            if(oldAssetMpa.get(objAsset.Id).RM_Code__c  != objAsset.RM_Code__c && objAsset.Business_Unit__c == 'ABFL' && objAsset.RM_Assignment__c == 'Processed'){
+            if((oldAssetMpa.get(objAsset.Id).RM_Code__c  != objAsset.RM_Code__c && objAsset.Business_Unit__c == 'ABFL' && objAsset.RM_Assignment__c == 'Processed')||oldAssetMpa.get(objAsset.Id).RM_Assignment__c  ==null && objAsset.Business_Unit__c == 'ABFL'){
             	objAsset.RM_Assignment__c = 'Pending';
         	}    
     	}

@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>SMT_Receiver_Address__c</field>
-        <value xsi:type="xsd:string">rsinghnagar@salesforce.com</value>
+        <value xsi:type="xsd:string">anemade@salesforce.com</value>
     </values>
     <values>
         <field>Sub_Type_Text_Lead__c</field>
@@ -52,6 +52,6 @@
     </values>
     <values>
         <field>ToAddress__c</field>
-        <value xsi:type="xsd:string">abflsit@gmail.com,abcl.abfl@gmail.com,care.digitalfinance@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">abfssl.uatcaredigitalfinance@adityabirlacapital.com,abfssl.uatgrievancefinance@adityabirlacapital.com,abflsit@gmail.com,abcl.abfl@gmail.com,care.digitalfinance@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>

@@ -218,7 +218,7 @@ public with sharing class ASF_CaseFrameworkValidator {
             if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Rule__c caseRule : externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c)){
                     ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
-                    if(caseRule.Case_Stage_Config__c == currentStageConfig.Id){
+                    if(currentStageConfig != null && caseRule.Case_Stage_Config__c == currentStageConfig.Id){
                         if(caseIdToCaseRulesForCurrentStage.containsKey(caseRec.Id)){
                             caseIdToCaseRulesForCurrentStage.get(caseRec.Id).add(caseRule);
                         }else{

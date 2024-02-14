@@ -120,6 +120,7 @@ public class ABHFL_CTSTHelper_Test {
     }
     @IsTest 
     static void testassignCaseToQueueCont(){
+        Test.startTest();
         Case caseRecord = [Select id,CreatedById from Case limit 1];
         caseRecord.CCC_External_Id__c='hfl060';
         caseRecord.Source__c='Branch';
@@ -137,6 +138,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.Source__c='Branch';
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
+        Test.stopTest();
     }
     static void testRequestInProgressApexClass(){
         Case caseRecord = [Select id from Case limit 1];
