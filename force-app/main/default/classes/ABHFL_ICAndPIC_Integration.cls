@@ -34,36 +34,34 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         financialYr = getFinancialYr(caseRecord);
         String lan   = caseRecord.Asset.LAN__c;
 
-        if(caseRecord.Technical_Source__c == 'Api' || caseRecord.Technical_Source__c == 'LWC') {
-                String stpRequestType = String.isNotBlank(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c) ? caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c  : '';
-                if(integrationName == 'Interest Certificate') {
-                    if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
-                        result.status = 'Success';
-                        result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
-                    }
-                    else if(String.isBlank(financialYr) && String.isBlank(lan)) {
-                        result.status = 'Error';
-                        result.response = 'Please fill the Financial Year and Loan Account Number';
-                    }
-                    else if(String.isBlank(financialYr)){
-                        result.status = 'Error';
-                        result.response = 'Please fill the Financial Year';
-                    }
-                    else if(String.isBlank(lan)){
-                        result.status = 'Error';
-                        result.response = 'Please fill the LAN';
-                    }
-                }
-                else if(integrationName == 'Provisional Interest Certificate') {
-                    if(String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
-                        result.status = 'Success';
-                        result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
-                    }
-                    else if(String.isBlank(lan)){
-                        result.status = 'Error';
-                        result.response = 'Please fill the LAN';
-                    }
-                }
+        String stpRequestType = String.isNotBlank(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c) ? caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c  : '';
+        if(integrationName == 'Interest Certificate') {
+            if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
+                result.status = 'Success';
+                result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+            }
+            else if(String.isBlank(financialYr) && String.isBlank(lan)) {
+                result.status = 'Error';
+                result.response = 'Please fill the Financial Year and Loan Account Number';
+            }
+            else if(String.isBlank(financialYr)){
+                result.status = 'Error';
+                result.response = 'Please fill the Financial Year';
+            }
+            else if(String.isBlank(lan)){
+                result.status = 'Error';
+                result.response = 'Please fill the LAN';
+            }
+        }
+        else if(integrationName == 'Provisional Interest Certificate') {
+            if(String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
+                result.status = 'Success';
+                result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+            }
+            else if(String.isBlank(lan)){
+                result.status = 'Error';
+                result.response = 'Please fill the LAN';
+            }
         }
         return result;
     }
