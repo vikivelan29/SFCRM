@@ -41,6 +41,8 @@ export default class Abhfl_dataServiceDetails extends LightningElement {
                     if(result.length==1){
                         this.activeOuterSections = result[0].sectionName;
                     }
+                    this.receivedResponse = true;
+                    this.noResponseFromServer = '';
                 }else{
                     this.receivedResponse = false;
                     this.noResponseFromServer = 'Could not get details. Please try again later.';
