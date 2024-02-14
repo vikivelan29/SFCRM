@@ -66,7 +66,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
     }
     @IsTest
     static void testValidateOnResolvedStage(){
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c from Case limit 1];
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_ComplaintsValidateOnResolvedStage.beforeStageMovement(caseRecord);
         ABHFL_ComplaintsValidateOnResolvedStage.afterStageMovement(caseRecord);
         System.assertEquals('Error',retCls.Status);
@@ -74,7 +74,12 @@ public class ABHFL_ComplaintsStageApexClassTest {
     }
     @IsTest
     static void testInProgressStageClass(){
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,CCC_External_Id__c from Case limit 1];
+        ASF_Case_Category_Config__c ccc = [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
+                                           WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c LIMIT 1];
+        ccc.New_Case_Email_Template__c='email_Template1,email_Template2';
+        ccc.New_Case_SMS_Metadata__c='sms_Template1,sms_Template2';
+        update ccc;
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_ComplaintInProgressCaseMovement.beforeStageMovement(caseRecord);
         ABHFL_ComplaintInProgressCaseMovement.afterStageMovement(caseRecord);
         System.assertEquals('Success',retCls.Status);
