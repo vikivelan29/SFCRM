@@ -14,7 +14,7 @@ public class ABHFL_AssignAccountsToCaseBatch implements Database.Batchable<sObje
         String businessUnit = ABHFL_Constants.BUSINESS_UNIT_ABHFL;
         
         String query = 'SELECT Id,SuppliedEmail FROM Case WHERE RecordType.Name =: recordTypeName '+
-        'AND Status =: status AND Technical_Source__c =: technicalSource '+ 
+        'AND (Status =: status OR Stage__c =: status) AND Technical_Source__c =: technicalSource '+ 
         'AND Business_Unit__c =: businessUnit AND AccountId = null '+
         'AND CreatedDate = LAST_N_DAYS:30';
 
