@@ -8,7 +8,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>enableActionsConfiguration</name>
+                    <name>enableActionsConfiguration</name>   
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
