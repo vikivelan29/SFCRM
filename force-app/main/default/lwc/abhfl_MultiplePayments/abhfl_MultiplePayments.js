@@ -155,7 +155,8 @@ export default class Abhfl_MultiplePayments extends LightningElement {
             })
             .catch((error) =>{
                 console.log(error);
-                this.showToast("Error", error?.body?.message, 'error');
+                let errorMessage = error?.body?.message.split(',')[1].split(':')[0];
+                this.showToast("Error", errorMessage, 'error');
             })
         }
     }
