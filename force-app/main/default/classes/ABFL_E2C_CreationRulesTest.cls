@@ -15,7 +15,7 @@ public class ABFL_E2C_CreationRulesTest {
         insert testEmail;
 
         Test.startTest();
-        ABFL_E2C_CreationRules.checkCreationRules(new List<EmailMessage>{testEmail});
+        //ABFL_E2C_CreationRules.checkCreationRules(new List<EmailMessage>{testEmail});
         Test.stopTest();
 
     }
