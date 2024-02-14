@@ -228,7 +228,7 @@ export default class Asf_CRNTagging extends LightningElement {
 
     valChange(event) {
         this.inpValue = event.target.value;
-        if (this.inpValue && this.inpValue.length >= 3) {
+        if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
             this.prestdAcctId = '';
             this.asstData = [];
@@ -414,7 +414,7 @@ export default class Asf_CRNTagging extends LightningElement {
         let caseRecord = {};
         leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
-        caseRecord["id"] = this.recordId;
+        caseRecord["Id"] = this.recordId;
 
         /* PASS CASERECORD WITH ID AND PROSPECTRECORD TO BE CREATED.
            IF THERE IS A DUPLICATE SERVICE PROSPECT ALREADY FOUND IN THE SYSTEM, IT WILL BE RETURNED
@@ -433,7 +433,7 @@ export default class Asf_CRNTagging extends LightningElement {
                     }
                 }
                 this.caseRecordId = result.Case.Id;
-                this[NavigationMixin.Navigate]({
+                /*this[NavigationMixin.Navigate]({
                     type: 'standard__recordPage',
                     attributes: {
                         recordId: this.caseRecordId,
@@ -442,9 +442,12 @@ export default class Asf_CRNTagging extends LightningElement {
                     state: {
                         mode: 'edit'
                     }
-                });
+                });*/
                 this.dispatchEvent(new CloseActionScreenEvent());
             })
+            .catch(error => {
+                console.log('@@@ERROR - '+error);
+            });
 
 
 

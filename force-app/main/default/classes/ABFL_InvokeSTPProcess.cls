@@ -1,6 +1,6 @@
 /*********************************************************
  *Class        :  ABFL_InvokeSTPProcess
- *Author       :  Aditee Churiwala
+ *Author       :  Udit Singhal
  *Description  :  Update STP Flow
  *********************************************************/
 public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
@@ -113,7 +113,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                     caseDetailRecord.Id = caseRecord.ABFL_Case_Detail__c;
                     caseDetailRecord.Closure_Time__c = System.now();
                     caseDetailRecord.Autoclosed__c = true;
-                    caseDetailRecord.Resolution_Comments__c = 'Resolved by STP';
+                    caseDetailRecord.Resolution_Comments__c = System.Label.ABFL_RESOLVED_STP;
                     if (Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable()){
                         update caseDetailRecord;
                     }
@@ -148,6 +148,8 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
                             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
+                            System.debug('@@@resultWrap'+resultWrap);
+                            resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
                             update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                         }
                     }
@@ -177,10 +179,16 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                WHERE ABFL_Case_Detail__c IN:caseDetailList AND IsClosed = FALSE
                                WITH SYSTEM_MODE];
 
+        List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);
+
         for (Case caseRecord : caseList){
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
+            System.debug('@@@resultWrap'+resultWrap);
+            if(userList != null && userList.size() > 0) {
+                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userList[0].Id;
+            }
             casesToUpdateList.add(resultWrap.get(caseRecord.Id).caseToBeUpdated);
         }
 

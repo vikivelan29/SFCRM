@@ -24,9 +24,14 @@ public class ABHFL_MultipleLANController_Test {
     static void testFetchAssetDetailsExt(){
         Case caseRecord = [Select id from Case limit 1];
         Asset assetRecord = [Select id,LAN__c from Asset limit 1];
-Test.startTest();
+        MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+        mock.setStaticResource(ABCL_Integrations__mdt.getInstance('Data_Service_Details').EndPoint__c,'DataServiceMockResponse');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, mock);
+        Test.startTest();
         ABHFL_Asset_Detail__c assetDetails = ABHFL_MultipleLANController.fetchAssetDetailsExt(assetRecord,caseRecord.Id);
-Test.stopTest();
+        Test.stopTest();
         System.assertEquals(true,assetDetails!=null,'PASS');
     } 
     @IsTest

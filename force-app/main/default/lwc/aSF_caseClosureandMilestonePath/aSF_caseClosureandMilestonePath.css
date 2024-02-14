@@ -3,11 +3,18 @@
     margin: 10px 0 20px 0;
 }
 .header-column {
-    padding: 0 2rem;
+    padding: 0 1.9rem;
 }
 .field-title {
     font-size: .75rem;
     line-height: 1.25;
     color: #54698d;
     margin-bottom: .25rem;
+}
+
+.breached-sla {
+    color: #AA0000;
+}
+.center-text{
+    text-align: center;
 }
