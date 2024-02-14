@@ -9,7 +9,8 @@ public class ABFL_E2C_CreationRulesTest {
         EmailMessage testEmail = new EmailMessage(
             Incoming = true,
             ToAddress = 'abcl.abfl@gmail.com',
-            Subject = 'Auto-Reply');
+            Subject = 'Auto-Reply',
+        	FromAddress = 'invalid@from.address');
         testEmail.ParentId = testCase.Id;
         insert testEmail;
 
