@@ -35,8 +35,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         String lan   = caseRecord.Asset.LAN__c;
 
         if(caseRecord.Technical_Source__c == 'Api' || caseRecord.Technical_Source__c == 'LWC') {
+                String stpRequestType = String.isNotBlank(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c) ? caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c  : '';
                 if(integrationName == 'Interest Certificate') {
-                    if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.EMAIL) {
+                    if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
                         result.status = 'Success';
                         result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
                     }
@@ -54,7 +55,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     }
                 }
                 else if(integrationName == 'Provisional Interest Certificate') {
-                    if(String.isNotBlank(lan)) {
+                    if(String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
                         result.status = 'Success';
                         result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
                     }
