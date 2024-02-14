@@ -103,7 +103,7 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>ABCL Service Console</label>
     <navType>Console</navType>
-    <profileActionOverrides>
+    <!--<profileActionOverrides>
         <actionName>View</actionName>
         <content>ABFL_Case_Record_Page</content>
         <formFactor>Small</formFactor>
@@ -118,7 +118,7 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>ABFL Base Profile</profile>
-    </profileActionOverrides>
+    </profileActionOverrides>-->
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>ABFL_Asset_Record_Page</content>
