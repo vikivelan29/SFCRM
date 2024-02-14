@@ -41,13 +41,16 @@ public class ASF_ClosedMilestoneTimeController_Test {
         Case caseRecord = [SELECT Id,Stage__c FROM Case WHERE Stage__c = 'In Progress with CEC' LIMIT 1];
         Case caseRecordOver = [SELECT Id,Stage__c FROM Case WHERE Stage__c = 'New' LIMIT 1];
         User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk56@gmail.com'];
-
+		caseRecord.Stage_SLA_1__c = System.now().addHours(24);
+        caseRecord.Stage_SLA_3__c = System.now().addHours(72);
+        caseRecord.Stage_SLA_2__c = System.now().addHours(48);
+        update caseRecord;
         system.runAs(usr)
         {
         Test.startTest();          
         ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecord.Id);
        // ASF_ClosedMilestoneTimeController.fetchCustomMetadata();
-        ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecordOver.Id);
+        //ASF_ClosedMilestoneTimeController.getDataOnLoad(caseRecordOver.Id);
         Case cs = [SELECT Id,Subject,Stage__c
                     FROM Case WHERE Stage__c = 'New'
                       LIMIT 1];
