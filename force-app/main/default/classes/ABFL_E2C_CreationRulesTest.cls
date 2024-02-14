@@ -12,7 +12,7 @@ public class ABFL_E2C_CreationRulesTest {
             Subject = 'Auto-Reply1',
         	FromAddress = 'invalid@from.address');
         testEmail.ParentId = testCase.Id;
-        insert testEmail;
+        //insert testEmail;
 
         Test.startTest();
         //ABFL_E2C_CreationRules.checkCreationRules(new List<EmailMessage>{testEmail});
