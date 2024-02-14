@@ -22,6 +22,13 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
     }
      public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+        retCls.status = ABHFL_Constants.SUCCESS;
+        retCls.updatedCase = caseRec;
+        retCls.isCaseUpdated = false;
+         //Send VAN email for ROI Revision
+         if(caseRec.CCC_External_Id__c == 'hfl069'){
+             ABHFL_CTSTHelper.sendCommunicationPayableCharges(caseRec);
+         }
         return retCls;
     }
 }

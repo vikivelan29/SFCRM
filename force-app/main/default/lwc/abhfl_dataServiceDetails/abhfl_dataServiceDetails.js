@@ -34,6 +34,10 @@ export default class Abhfl_dataServiceDetails extends LightningElement {
                         this.innerSections.push(i);
                     }
                 }
+                console.log('result length:'+result.length);
+                if(result.length==1){
+                    this.activeOuterSections = result[0].sectionName;
+                }
                 this.sectionClosed = false;
                 this.isLoading = false;
             })

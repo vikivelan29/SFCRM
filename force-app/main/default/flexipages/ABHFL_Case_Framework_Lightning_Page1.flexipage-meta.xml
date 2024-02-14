@@ -629,7 +629,11 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                                <componentName>aSF_caseClosureandMilestonePath</componentName>
+                <componentInstanceProperties>
+                    <name>displayType</name>
+                    <value>Date</value>
+                </componentInstanceProperties>
+                <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
             </componentInstance>
         </itemInstances>
