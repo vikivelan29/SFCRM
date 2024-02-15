@@ -14,15 +14,61 @@ public with sharing class ABHFL_MultipleLANController {
     * @Description - Invoked from the abhfl_MultipleLan LWC, this method fetches Asset Records related to the Case Customer.
     *****************************************************************************************************************/
     @AuraEnabled
-    public static MultipleLanWrapper getLanDataAndMetadata(string recId){
+    public static MultipleLanWrapper getLanDataAndMetadata(string recId, string loggedInUserId){
         try {
             MultipleLanWrapper lanWrapper = new MultipleLanWrapper();
-            Case caseRecord = [Select id,CCC_External_Id__c,AccountId from Case where id =: recId WITH SECURITY_ENFORCED];
+            Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId WITH SECURITY_ENFORCED];
             ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
             ABHFL_Multiple_LAN__mdt childLanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c+'_Detail');
+            Boolean validLoggedInUser = false;
+            if(caseRecord.OwnerId.getSObjectType().getDescribe().getName() == 'User'){
+                if(caseRecord.OwnerId == loggedInUserId){
+                    validLoggedInUser = true;
+                }
+            }else {
+                List<GroupMember> groupMember = [SELECT UserOrGroupId FROM GroupMember where GroupId =: caseRecord.OwnerId WITH SECURITY_ENFORCED];
+                if(groupMember.size() > 0 && groupMember[0].UserOrGroupId.getSObjectType().getDescribe().getName() != 'User'){
+                    List<GroupMember> userMember = [SELECT GroupId,Id,SystemModstamp,UserOrGroupId FROM GroupMember where GroupId =: groupMember[0].UserOrGroupId and UserOrGroupId =: loggedInUserId WITH SECURITY_ENFORCED];
+                    if(userMember.size() > 0){
+                        validLoggedInUser = true;
+                    }
+                }
+            }
             if(lanMetadata != null){
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
+                if(validLoggedInUser){
+                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Field_Edit__c)){
+                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Field_Edit__c.split(',');
+                        if(stagesAllowed.contains(caseRecord.Stage__c)){
+                            lanWrapper.disableFieldEdit = false;
+                        }
+                    }
+                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Add_Rows__c)){
+                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Add_Rows__c.split(',');
+                        if(stagesAllowed.contains(caseRecord.Stage__c)){
+                            lanWrapper.displayAddRows = true;
+                        }
+                    }
+                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Delete_Rows__c)){
+                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Delete_Rows__c.split(',');
+                        if(stagesAllowed.contains(caseRecord.Stage__c)){
+                            lanWrapper.displayDeleteRows = true;
+                        }
+                    }
+                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Fetch_All__c)){
+                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Fetch_All__c.split(',');
+                        if(stagesAllowed.contains(caseRecord.Stage__c)){
+                            lanWrapper.displayFetchAll = true;
+                        }
+                    }
+                    if(String.isNotBlank(lanMetadata.Stages_Allowing_File_Upload__c)){
+                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_File_Upload__c.split(',');
+                        if(stagesAllowed.contains(caseRecord.Stage__c)){
+                            lanWrapper.displayFileUpload = true;
+                        }
+                    }
+                }
                 if(childLanMetadata != null){
                     lanWrapper.childColumnData = getColumnData(childLanMetadata,true);
                 }
@@ -33,7 +79,14 @@ public with sharing class ABHFL_MultipleLANController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - getColumnData
+    * @param lanMetadata - Metadata Record for Parent Table Display.
+    * @param isChildTable - Boolean to check if its child table or parent table.
+    * @return - List<ColumnWrapper>.
+    * @Description - Fetches Column Level Data for Multiple LAN Component.
+    *****************************************************************************************************************/
     public static List<ColumnWrapper> getColumnData(ABHFL_Multiple_LAN__mdt lanMetadata, Boolean isChildTable){
         List<ColumnWrapper> columnList = new List<ColumnWrapper>();
         List<String> sfFieldList = new List<String>();
@@ -104,10 +157,25 @@ public with sharing class ABHFL_MultipleLANController {
         }
         return columnList;
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - getAssetDetailRecords
+    * @param lanMetadata - Metadata Record for Parent Table Display.
+    * @param childLanMetadata -  Metadata Record for Child Table Display.
+    * @param recId - Case record Id from Framework.
+    * @return - List<AssetDetailWrapper>.
+    * @Description - Fetches LAN data for Multiple LAN Component.
+    *****************************************************************************************************************/
     public static List<AssetDetailWrapper> getAssetDetailRecords(ABHFL_Multiple_LAN__mdt lanMetadata,ABHFL_Multiple_LAN__mdt childLanMetadata,String recId){
         List<AssetDetailWrapper> assetDetailRecords = new List<AssetDetailWrapper>();
-        string queryStr = 'Select id,Account.Client_Code__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) + ' from Asset where AccountId in (Select AccountId from Case where id =\''+String.escapeSingleQuotes(recId)+ '\')';
+        List<LAN_Mapping__c> lanMappingList = [Select LAN__c from LAN_Mapping__c where Customer__c in (Select AccountId from Case where id =: recId) WITH SECURITY_ENFORCED];
+        Set<String> lanIds = new Set<String>();
+        if(lanMappingList.size() > 0){
+            for(LAN_Mapping__c lanMap : lanMappingList){
+                lanIds.add(lanMap.LAN__c);
+            }
+        }
+        string queryStr = 'Select id,Account.Client_Code__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) + ' from Asset where Id in: lanIds';
         List<sObject> assetRecords = Database.Query(queryStr);
         string assetDetailQueryStr = 'Select id,Asset__c';
         if(String.isNotBlank(childlanMetadata.Asset_Detail_Fields__c)){
@@ -137,51 +205,124 @@ public with sharing class ABHFL_MultipleLANController {
         }
         return assetDetailRecords;
     }
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - fetchAssetDetailsExt
+    * @param assetRecord -  Asset Record.
+    * @param caseRecId - Case record Id from Framework.
+    * @return - ABHFL_Asset_Detail__c.
+    * @Description - Fetches Asset Detail for Multiple LAN Component from the DataService API.
+    *****************************************************************************************************************/
     @AuraEnabled
     public static ABHFL_Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
         try{
-            ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-            ABHFL_Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
+            //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+            ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
+            ABHFL_DataServiceDetailsController.DataServiceRequestWrapper dataServiceRequest = new ABHFL_DataServiceDetailsController.DataServiceRequestWrapper();
+            dataServiceRequest.CLIENT_CODE =assetRecord.Account.Client_Code__c;
+            dataServiceRequest.LAN = assetRecord.LAN__c;
+            String dataServiceRequestBody = JSON.serialize(dataServiceRequest);
+            ABCL_IntegrationCallout.IntegrationResponseWrapper dataServiceResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.DATASERVICE_INTEGRATION_METADATA,dataServiceRequestBody,null);
+            if(dataServiceResponse.statusCode == 200 && String.isNotBlank(dataServiceResponse.responseBody)){
+                ABHFL_DataServiceDetailsController.A3SSummaryData dataServiceResponseWrapper = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(dataServiceResponse.responseBody,ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                assetDetail = dataServiceConverter(dataServiceResponseWrapper,assetRecord,caseRecId);
+            }
             return assetDetail;
         }catch (Exception e) {
-            throw e;//new AuraHandledException(e.getMessage());
+            throw new AuraHandledException(e.getMessage());
         }
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - dataServiceConverter
+    * @param apiResponse -  DataService Response.
+    * @param assetRecord - Asset Record.
+    * @param caseRecId - Case record Id from Framework.
+    * @return - ABHFL_Asset_Detail__c.
+    * @Description - Transforms DataService Response into a wrapper
+    *****************************************************************************************************************/
     public static ABHFL_Asset_Detail__c dataServiceConverter(ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse,Asset assetRecord,String caseRecId){
         ABHFL_DataServiceDetailsController.LoanStatusRow loanStatusRow = apiResponse.Summary_Data[0].Loan_Status.rows[0];
         ABHFL_DataServiceDetailsController.LoanInfoRow loanInfoRow = apiResponse.Summary_Data[0].loan_info.rows[0];
         ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
         assetDetail.Product__c = loanStatusRow.PRODUCT;
-        assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING).daysBetween(System.Today()) < 180 ? 'Last repricing <6 months' : 'Last repricing >6 months';
+        assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING);
+        //assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING).daysBetween(System.Today()) < 180 ? 'Last repricing <6 months' : 'Last repricing >6 months';
         assetDetail.Is_Restructured__c = loanStatusRow.RESTRUCTURED == 'Yes'? 'Re-structured Not Done' : 'Re-structured Done';
-        assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE) > 0 ? 'Bounce > 0' : 'Bounce < 0';
+        assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE); 
+        //assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE) > 0 ? 'Bounce > 0' : 'Bounce < 0';
         assetDetail.Is_PDD__c = loanStatusRow.PDD == 'Yes'? 'PDD Pending' : 'PDD Not Pending';
         assetDetail.Is_NACH__c = loanStatusRow.NACH == 'Yes'? 'NACH Registered' : 'NACH Not Registered';
         assetDetail.Loan_Status__c = loanStatusRow.LOANSTATUS;
         assetDetail.Constitution__c = loanStatusRow.CONSTITUTION;
-        assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod) > 0 ? 'Fixed Period > 0' : '';
+        assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod);
+        //assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod) > 0 ? 'Fixed Period > 0' : '';
         assetDetail.VAN__c = loanStatusRow.VAN;
-        assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : 'MOB > 6 months';
-        assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS != 'Standard' ? 'Not Standard' : 'Standard';
+        assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB);
+        //assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : 'MOB > 6 months';
+        assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS;
+        //assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS != 'Standard' ? 'Not Standard' : 'Standard';
         assetDetail.Amount_Overdue__c = Decimal.valueof(loanInfoRow.AMOUNT_OVERDUE);
-        assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
+        //assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
         assetDetail.Current_Balance__c = Decimal.valueof(loanInfoRow.CURRENT_BALANCE);
         assetDetail.LAN__c = assetRecord.LAN__c;//loanInfoRow.LOAN_ACCOUNT_NUMBER;
         assetDetail.Interest_Rate__c = Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4));
         assetDetail.ARR__c = Decimal.valueof(loanStatusRow.BPLR.Left(4));
-        system.debug('assetRecord---->'+assetRecord);
         assetDetail.Asset__c = assetRecord.Id;
         assetDetail.Case__c = caseRecId;
+        assetDetail.Failure_Reason__c = failureReasonDetermination(assetDetail);
         return assetDetail;
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - failureReasonDetermination
+    * @param assetDetail -  Asset Detail Record.
+    * @return - string.
+    * @Description - Determines the Failure Reason based on logic.
+    *****************************************************************************************************************/
+    public static string failureReasonDetermination(ABHFL_Asset_Detail__c assetDetail){
+        string failureReason = '';
+        if(assetDetail.Account_Status__c != 'Standard'){
+            failureReason = 'Not Standard';
+        }
+        if(assetDetail.MOB__c.daysBetween(System.Today()) < 180){
+            failureReason = 'MOB < 6 months';
+        }
+        if(assetDetail.Last_Repricing_Date__c.daysBetween(System.Today()) < 180){
+            failureReason = 'Last repricing <6 months';
+        }
+        if(assetDetail.Is_NACH__c == 'NACH Not Registered'){
+            failureReason = 'NACH Not Registered';
+        }
+        if(assetDetail.Is_Restructured__c == 'Re-structured Not Done'){
+            failureReason = 'Re-structured Not Done';
+        }
+        if(assetDetail.Amount_Overdue__c > 0){
+            failureReason = 'Overdue Pending';
+        }
+        if(assetDetail.Bounce__c > 0){
+            failureReason = 'Bounce > 0';
+        }
+        if(assetDetail.Fixed_Period__c > 0){
+            failureReason = 'Fixed Period > 0';
+        }
+        if(assetDetail.Is_PDD__c == 'PDD Pending'){
+            failureReason = 'PDD Pending';
+        }
+        return failureReason;
+    }
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - upsertRecords
+    * @param assetDetails -  Serialized Asset Detail Record.
+    * @param recId - Case record Id from Framework.
+    * @return - List<ABHFL_Asset_Detail__c>.
+    * @Description - Upsert Asset Detail Record.
+    *****************************************************************************************************************/
     @AuraEnabled
     public static List<ABHFL_Asset_Detail__c> upsertRecords(String assetDetails,String recId){
         try {
-            system.debug(assetDetails);
             List<ABHFL_Asset_Detail__c> assetRecords = (List<ABHFL_Asset_Detail__c>)JSON.deserialize(assetDetails,List<ABHFL_Asset_Detail__c>.class);
-            system.debug(assetRecords);
             for(ABHFL_Asset_Detail__c rec : assetRecords){
                 rec.Case__c = recId;
             }
@@ -193,10 +334,16 @@ public with sharing class ABHFL_MultipleLANController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - fetchAllLANDetails
+    * @param assetDetails -  List of Asset Detail Record.
+    * @param caseRecId - Case record Id from Framework.
+    * @return - Object.
+    * @Description - Fetch LAN Details from DataService API.
+    *****************************************************************************************************************/
     @AuraEnabled(continuation=true cacheable=true)
     public static Object fetchAllLANDetails(List<Asset> assetList,String caseRecId){
-        system.debug('assetList'+assetList);
             Continuation con = new Continuation(60);
             con.continuationMethod='continuationChaining';
             integer requestSize = 3;
@@ -222,8 +369,15 @@ public with sharing class ABHFL_MultipleLANController {
             continuationWrapper.counter = requestSize;
             con.state = continuationWrapper;
             return con;
-
     }
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - continuationChaining
+    * @param labels -  List of Labels for Continuation Response Handling.
+    * @param state - Variable to store stateful data.
+    * @return - Object.
+    * @Description - Fetch LAN Details from DataService API.
+    *****************************************************************************************************************/
     @AuraEnabled(continuation=true cacheable=true)
     public static Object continuationChaining(List<String> labels, Object state){
         DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
@@ -231,18 +385,19 @@ public with sharing class ABHFL_MultipleLANController {
         Integer counter = continuationWrapper.counter;
         List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
         for(Integer i=0; i<labels.size() ; i++){
-          system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
           ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
           if(response.getStatusCode() == 200){
-            apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-          }else{
-            apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-          }          
-          String indexStr = labels[i].split('-')[1];
-          Integer index = Integer.valueOf(indexStr) - 1;
-          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          responseList.add(detailRecord);
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }  
+        }
           //responseList.add(response.getBody());
         }
         Continuation con = new Continuation(60);
@@ -272,7 +427,14 @@ public with sharing class ABHFL_MultipleLANController {
         con.state = continuationResponse;
         return con;
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - chainingContinuation
+    * @param labels -  List of Labels for Continuation Response Handling.
+    * @param state - Variable to store stateful data.
+    * @return - Object.
+    * @Description - Fetch LAN Details from DataService API.
+    *****************************************************************************************************************/
     @AuraEnabled(continuation=true cacheable=true)
     public static Object chainingContinuation(List<String> labels, Object state){
         DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
@@ -280,18 +442,19 @@ public with sharing class ABHFL_MultipleLANController {
         Integer counter = continuationWrapper.counter;
         List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
         for(Integer i=0; i<labels.size() ; i++){
-          system.debug('labels[i]'+labels[i]);
           HttpResponse response = Continuation.getResponse(labels[i]);
           ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
           if(response.getStatusCode() == 200){
-            apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-          }else{
-            apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-          }          
-          String indexStr = labels[i].split('-')[1];
-          Integer index = Integer.valueOf(indexStr) - 1;
-          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          responseList.add(detailRecord);
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }  
+          } 
           //responseList.add(response.getBody());
         }
         Continuation con = new Continuation(60);
@@ -320,28 +483,38 @@ public with sharing class ABHFL_MultipleLANController {
         con.state = continuationResponse;
         return con;
     }
-
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - processResponse
+    * @param labels -  List of Labels for Continuation Response Handling.
+    * @param state - Variable to store stateful data.
+    * @return - Object.
+    * @Description - Fetch LAN Details from DataService API.
+    *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static Object processResponse(List<String> labels, Object state) {
-	  System.debug(' CurrState ' +state);
       DataServiceContinuationWrapper continuationWrapper = (DataServiceContinuationWrapper)state;
       List<ABHFL_Asset_Detail__c> responseList = new List<ABHFL_Asset_Detail__c>();
       for(Integer i=0; i<labels.size() ; i++){
-        system.debug('labels[i]'+labels[i]);
         HttpResponse response = Continuation.getResponse(labels[i]);
         ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
+        system.debug('response' + response);
+        system.debug('response.getBody()' + response.getBody());
         if(response.getStatusCode() == 200){
-          apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-        }else{
-          apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-        }          
-        String indexStr = labels[i].split('-')[1];
-        Integer index = Integer.valueOf(indexStr) - 1;
-        ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-        responseList.add(detailRecord);
-        //responseList.add(response.getBody());
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }      
+        }
       }
-      responseList.addAll(continuationWrapper.responseList);
+      if(continuationWrapper != null && continuationWrapper.responseList != null && continuationWrapper.responseList.size() > 0){
+        responseList.addAll(continuationWrapper.responseList);
+      }
       return responseList;
     }
     public class MultipleLanWrapper{
@@ -353,6 +526,25 @@ public with sharing class ABHFL_MultipleLANController {
         public List<ColumnWrapper> childColumnData;
         @AuraEnabled
         public Boolean displayMultipleLan;
+        @AuraEnabled
+        public Boolean disableFieldEdit;
+        @AuraEnabled
+        public Boolean displayFetchAll;
+        @AuraEnabled
+        public Boolean displayAddRows;
+        @AuraEnabled
+        public Boolean displayDeleteRows;
+        @AuraEnabled
+        public Boolean displayFileUpload;
+
+        public MultipleLanWrapper(){
+            this.displayMultipleLan = false;
+            this.disableFieldEdit = true;
+            this.displayFetchAll = false;
+            this.displayAddRows = false;
+            this.displayDeleteRows = false;
+            this.displayFileUpload = false;
+        }
     }
 
     public class ColumnWrapper{

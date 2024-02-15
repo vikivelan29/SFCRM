@@ -107,7 +107,7 @@
                         <valueListItems>
                             <value>Case.Upload_File</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Allow_file_upload__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -117,6 +117,16 @@
                                     <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Pending CPU FC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Pending CPU Banking</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

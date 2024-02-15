@@ -196,6 +196,16 @@
                 <default>false</default>
                 <label>Pending for Business / Credit Approval</label>
             </value>
+            <value>
+                <fullName>Pending CPU Banking</fullName>
+                <default>false</default>
+                <label>Pending CPU Banking</label>
+            </value>
+            <value>
+                <fullName>Pending CPU FC</fullName>
+                <default>false</default>
+                <label>Pending CPU FC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
