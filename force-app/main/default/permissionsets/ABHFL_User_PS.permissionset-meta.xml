@@ -5,7 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-
+        <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_DataServiceClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -509,6 +512,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Department_dependency__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

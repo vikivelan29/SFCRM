@@ -21,33 +21,32 @@
             </div>
         </div>
         
-        
-        <div class="background" style="height: 100%;width: 100%;background-size: cover;filter: blur(10px);transition: filter 0.5s ease;">
-            <lightning-card>
-                <!--<h3 class="slds-align_absolute-center" style="border-bottom: 1px rgb(201,201,201) solid;border-top: 1px rgb(201,201,201) solid;padding-bottom: 10px;padding-top: 10px;margin-bottom: 20px;">
-                    
-                </h3>-->
-                <div class="outer-form-container" style="display:flex;justify-content: space-between;padding-left:1.5rem">
-                    <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
-                        <template for:each={fieldsInColumn1} for:item="field">
-                            <div key={field.fieldName}>
-                                <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
-                                <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
-                                </br>
-                            </div>
-                        </template>
+        <template if:true={openSection}>
+            <!--filter: blur(10px);transition: filter 0.5s ease-->
+            <div style="height: 100%;width: 100%;background-size: cover;">
+                <lightning-card>
+                    <div class="outer-form-container" style="display:flex;justify-content: space-between;padding-left:1.5rem">
+                        <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                            <template for:each={fieldsInColumn1} for:item="field">
+                                <div key={field.fieldName}>
+                                    <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
+                                    <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
+                                    </br>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                            <template for:each={fieldsInColumn2} for:item="field">
+                                <div key={field.fieldName}>
+                                    <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
+                                    <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
+                                    </br>
+                                </div>
+                            </template>
+                        </div>
                     </div>
-                    <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
-                        <template for:each={fieldsInColumn2} for:item="field">
-                            <div key={field.fieldName}>
-                                <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
-                                <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
-                                </br>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            </lightning-card>
-        </div>
+                </lightning-card>
+            </div>
+        </template>
     </div>
 </template>
