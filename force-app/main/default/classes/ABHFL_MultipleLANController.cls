@@ -18,7 +18,11 @@ public with sharing class ABHFL_MultipleLANController {
         try {
             MultipleLanWrapper lanWrapper = new MultipleLanWrapper();
             Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId WITH SECURITY_ENFORCED];
-            ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
+            //ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
+            ABHFL_Multiple_LAN__mdt lanMetadata = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label, QualifiedApiName, SystemModstamp, 
+                                                    Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c, 
+                                                    Stages_Allowing_Fetch_All__c, Stages_Allowing_Add_Rows__c, Stages_Allowing_Delete_Rows__c, Stages_Allowing_File_Upload__c 
+                                                    FROM ABHFL_Multiple_LAN__mdt where DeveloperName =: caseRecord.CCC_External_Id__c];
             ABHFL_Multiple_LAN__mdt childLanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c+'_Detail');
             Boolean validLoggedInUser = false;
             if(caseRecord.OwnerId.getSObjectType().getDescribe().getName() == 'User'){
@@ -117,16 +121,18 @@ public with sharing class ABHFL_MultipleLANController {
 
         List<String> intFieldList = new List<String>();
         intFieldList = String.isNotBlank(lanMetadata.Asset_Detail_Fields__c) ? lanMetadata.Asset_Detail_Fields__c.split(',') : intFieldList;
-        fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
-        if(intFieldList != null && intFieldList.size() > 0){
+                fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
+                if(intFieldList != null && intFieldList.size() > 0){
             for(String field : intFieldList){
-                ColumnWrapper column = new ColumnWrapper();
-                Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
-                column.label = fieldResult.getLabel();
-                column.name = field;
-                column.type = String.valueof(fieldResult.getType());
-                column.isEditable = false;
-                columnList.add(column);       
+                if(fieldSchemaMap.containsKey(field)){
+                    ColumnWrapper column = new ColumnWrapper();
+                    Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
+                    column.label = fieldResult.getLabel();
+                    column.name = field;
+                    column.type = String.valueof(fieldResult.getType());
+                    column.isEditable = false;
+                    columnList.add(column);       
+                }
             }
         }
 
