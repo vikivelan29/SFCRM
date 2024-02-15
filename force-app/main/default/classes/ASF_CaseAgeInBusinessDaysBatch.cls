@@ -1,6 +1,6 @@
 global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Batchable<sObject>, Database.Stateful {
     
-    private Map<Id, Double> BusinessHoursTohoursPerDay = new Map<Id, Double>();
+    private Map<Id, Decimal> BusinessHoursTohoursPerDay = new Map<Id, Decimal>();
     
     global Database.QueryLocator start(Database.BatchableContext BC) {
               
@@ -42,7 +42,10 @@ global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Bat
     private void calculateBusinessHoursPerDay(){
                 
         for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours]){
-			  Double hoursPerDay = (BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute() - BhRec.MondayStartTime.hour() * 60 - BhRec.MondayStartTime.minute()) / 60;
+
+            Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
+            Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
+            Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
             BusinessHoursTohoursPerDay.put(BhRec.Id, hoursPerDay);
         }
     }
