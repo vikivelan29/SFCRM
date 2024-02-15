@@ -278,7 +278,6 @@ public without sharing class ABHFL_CTSTHelper {
     public void prePopulateFields(List<Case> newCaseList) {
 
         prePopulateABHFL_Case_Detail_Fields(newCaseList);
-        prepopulateCaseFlds(newCaseList);
     }
 
     public void prePopulateABHFL_Case_Detail_Fields(List<Case> newCaseList) {
@@ -322,28 +321,6 @@ public without sharing class ABHFL_CTSTHelper {
 
         if(abhfl_CaseDetail_List.size() > 0) {
             update abhfl_CaseDetail_List;    
-        }
-    }
-
-    public void prepopulateCaseFlds(List<Case> newCaseList) {
-
-        Map<String, BusinessHours> mapOf_BusinessHrId_To_BusinessHr = new Map<String, BusinessHours>();
-    
-        List<BusinessHours> bhList = [SELECT id, name FROM businesshours WITH SECURITY_ENFORCED];
-    
-        for(BusinessHours bh : bhList) {
-            mapOf_BusinessHrId_To_BusinessHr.put(bh.Name, bh);
-        }
-    
-        for(Case csRec : newCaseList) {
-            
-            String bussUnit = csRec.Business_Unit__c;
-            BusinessHours businessHrs = mapOf_BusinessHrId_To_BusinessHr.get(bussUnit);
-            String busHrId = businessHrs != null ? businessHrs.Id : null;
-    
-            if(String.isNotBlank(busHrId)) {
-                csRec.BusinessHoursId = busHrId;
-            }
         }
     }
 
