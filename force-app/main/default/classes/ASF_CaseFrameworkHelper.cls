@@ -278,7 +278,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                     caseRule.Case_Rule_Entries__r,
                     caseRec);
 
-                if(result == true){
+                if(result == false){
                     break;
                 }
             }
