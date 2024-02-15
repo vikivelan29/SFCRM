@@ -305,8 +305,12 @@ public with sharing class ABHFL_ComplaintInvestigationController {
             }else{
                 return 'error';
             }
+        }else{
+            ABHFL_Case_Detail__c caseDetail = [SELECT Id, Complaint_Investigation_Response_Json__c FROM ABHFL_Case_Detail__c WHERE Id=:c.ABHFL_Case_Detail__c LIMIT 1];
+            caseDetail.Complaint_Investigation_Response_Json__c = null;
+            Database.SaveResult result = Database.update(caseDetail,true);
+            return 'error';
         }
-        return 'error';
     }
 
     public class ComplaintInvestigationWrapper{
