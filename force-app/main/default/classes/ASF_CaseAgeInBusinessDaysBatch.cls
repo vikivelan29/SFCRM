@@ -14,7 +14,7 @@ global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Bat
         for (Case caseRec : scope) {
         	caseRec.Ageing_Business_Days__c = calculateBusinesAge(caseRec);
         }
-        
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
         Database.SaveResult[] updateResult = Database.update(scope,false); 
 
         for (Database.SaveResult sr : updateResult) {
