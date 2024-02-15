@@ -216,8 +216,17 @@ public with sharing class ABHFL_MultipleLANController {
     @AuraEnabled
     public static ABHFL_Asset_Detail__c fetchAssetDetailsExt(Asset assetRecord,String caseRecId){
         try{
-            ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-            ABHFL_Asset_Detail__c assetDetail = dataServiceConverter(apiResponse,assetRecord,caseRecId);
+            //ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
+            ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
+            ABHFL_DataServiceDetailsController.DataServiceRequestWrapper dataServiceRequest = new ABHFL_DataServiceDetailsController.DataServiceRequestWrapper();
+            dataServiceRequest.CLIENT_CODE =assetRecord.Account.Client_Code__c;
+            dataServiceRequest.LAN = assetRecord.LAN__c;
+            String dataServiceRequestBody = JSON.serialize(dataServiceRequest);
+            ABCL_IntegrationCallout.IntegrationResponseWrapper dataServiceResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.DATASERVICE_INTEGRATION_METADATA,dataServiceRequestBody,null);
+            if(dataServiceResponse.statusCode == 200 && String.isNotBlank(dataServiceResponse.responseBody)){
+                ABHFL_DataServiceDetailsController.A3SSummaryData dataServiceResponseWrapper = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(dataServiceResponse.responseBody,ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                assetDetail = dataServiceConverter(dataServiceResponseWrapper,assetRecord,caseRecId);
+            }
             return assetDetail;
         }catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -379,14 +388,16 @@ public with sharing class ABHFL_MultipleLANController {
           HttpResponse response = Continuation.getResponse(labels[i]);
           ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
           if(response.getStatusCode() == 200){
-            apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-          }else{
-            apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-          }          
-          String indexStr = labels[i].split('-')[1];
-          Integer index = Integer.valueOf(indexStr) - 1;
-          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          responseList.add(detailRecord);
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }  
+        }
           //responseList.add(response.getBody());
         }
         Continuation con = new Continuation(60);
@@ -434,14 +445,16 @@ public with sharing class ABHFL_MultipleLANController {
           HttpResponse response = Continuation.getResponse(labels[i]);
           ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
           if(response.getStatusCode() == 200){
-            apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-          }else{
-            apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-          }          
-          String indexStr = labels[i].split('-')[1];
-          Integer index = Integer.valueOf(indexStr) - 1;
-          ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-          responseList.add(detailRecord);
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }  
+          } 
           //responseList.add(response.getBody());
         }
         Continuation con = new Continuation(60);
@@ -485,18 +498,23 @@ public with sharing class ABHFL_MultipleLANController {
       for(Integer i=0; i<labels.size() ; i++){
         HttpResponse response = Continuation.getResponse(labels[i]);
         ABHFL_DataServiceDetailsController.A3SSummaryData apiResponse = new ABHFL_DataServiceDetailsController.A3SSummaryData();
+        system.debug('response' + response);
+        system.debug('response.getBody()' + response.getBody());
         if(response.getStatusCode() == 200){
-          apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
-        }else{
-          apiResponse = ABHFL_DataServiceDetailsController.executeDataServiceCallout();
-        }          
-        String indexStr = labels[i].split('-')[1];
-        Integer index = Integer.valueOf(indexStr) - 1;
-        ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
-        responseList.add(detailRecord);
-        //responseList.add(response.getBody());
+            try{
+                apiResponse = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(response.getBody(),ABHFL_DataServiceDetailsController.A3SSummaryData.class);
+                String indexStr = labels[i].split('-')[1];
+                Integer index = Integer.valueOf(indexStr) - 1;
+                ABHFL_Asset_Detail__c detailRecord = dataServiceConverter(apiResponse,continuationWrapper.assetRecords[index],continuationWrapper.caseRecId);
+                responseList.add(detailRecord); 
+            }catch(Exception ex){
+                system.debug(ex);
+            }      
+        }
       }
-      responseList.addAll(continuationWrapper.responseList);
+      if(continuationWrapper != null && continuationWrapper.responseList != null && continuationWrapper.responseList.size() > 0){
+        responseList.addAll(continuationWrapper.responseList);
+      }
       return responseList;
     }
     public class MultipleLanWrapper{

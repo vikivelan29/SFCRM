@@ -1,3 +1,6 @@
+/**
+ * Test class: ASF_CaseStageSLA2TimeBasedActionTest
+ */
 public class ASF_CaseStageSLA2TimeBasedAction {
     @InvocableMethod(label='Send Stage 1 SLA 2 Broken Email Reminders')
     public static void sendEmailSLA2Broke(List<String> scope){
@@ -179,7 +182,21 @@ public class ASF_CaseStageSLA2TimeBasedAction {
         }
 
         if(!slaHistoryList.isEmpty()){ 
-            UPDATE slaHistoryList;
+            try{
+                UPDATE slaHistoryList;
+            } catch(DmlException dmle){
+                String errorMsg = dmle.getDmlMessage(0);
+                errorMsg += dmle.getStackTraceString();
+                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                String[] toAddresses = new String[] {'005Bl000002hUMgIAM'};
+                mail.setToAddresses(toAddresses);
+                mail.setSubject('Error in SLA2 '+scope);
+                mail.setPlainTextBody(errorMsg);
+                // Pass this email message to the built-in sendEmail method 
+                // of the Messaging class
+                Messaging.SendEmailResult[] results = Messaging.sendEmail(
+                                 new Messaging.SingleEmailMessage[] { mail });
+            }
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

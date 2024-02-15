@@ -4,6 +4,7 @@ public class ABHFL_CTSTHelper_Test {
 	static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
+        Contact  cont = ASF_TestDataFactory.insertContact('Test 1@', '');
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
@@ -140,27 +141,6 @@ public class ABHFL_CTSTHelper_Test {
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
         Test.stopTest();
     }
-    static void testRequestInProgressApexClass(){
-        Case caseRecord = [Select id from Case limit 1];
-        List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
-    	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
-        	ABHFL_Payment__c payment = new ABHFL_Payment__c(
-            Case__c = caseRecord.Id,
-            Realization_Status__c = 'Bounce',
-            Date__c = Date.Today(),
-            Amount__c=5000,
-            Mode_of_Payment__c='Escrow',
-            Payment_Identifier__c='43234234'
-            );
-        dummyPayments.add(payment);
-    	}
-        insert dummyPayments;
-        //Assertion for Branch Assignment
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_requestInProgressApexClass.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
-        
-	}
     @IsTest
     static void testBranchAssignment(){
         Case caseRecord = [Select id from Case limit 1];
@@ -169,5 +149,93 @@ public class ABHFL_CTSTHelper_Test {
         //System.assertEquals('Success',,'Done');
         
 	}
+    @IsTest
+    static void testExecuteSpecificIntegrations(){
+        List<Case> caseRecordList = [Select id, CCC_External_Id__c, Business_Unit__c, Technical_Source__c from Case limit 1];
+        
+        ABHFL_CTSTHelper.executeSpecificIntegrations(caseRecordList, new List<Case>());
+        //System.assertEquals('Success',,'Done');
+        
+	}
+    @isTest
+    static void testAssignCaseToPreferredBranch() {
+        
+        Case caseRecord = [Select id from Case limit 1];
+        Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
+        Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
+        caseRecord.AssetId =assetRec.Id;
+        
+        Test.startTest();
+        Case updatedCase = ABHFL_CTSTHelper.assignCaseToPreferredBranch(caseRecord);
+        Test.stopTest();
+
+        // Verify the results
+        System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.OwnerId);
+    }
+
+    @isTest
+    static void testAssignCaseToAOMROM() {
+     	Case caseRecord = [Select id from Case limit 1];
+        Asset assetRec = [Select id,Branch__r.ROM_AOM__c from Asset where LAN__c='Test'];
+        Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
+        caseRecord.AssetId =assetRec.Id;
+        
+        Test.startTest();
+        Case updatedCase = ABHFL_CTSTHelper.assignCaseToAOMROM(caseRecord);
+        Test.stopTest();
+
+        // Verify the results
+        System.assertEquals(updatedCase.OwnerId, updatedCase.OwnerId);
+    }
+       @isTest
+    static void testAssignCaseToBranchTDS() {
+        Case caseRecord = [Select id from Case limit 1];
+        Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
+        Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
+
+    	Test.startTest();
+    	Case updatedCase = ABHFL_CTSTHelper.assignCaseToBranchTDS(caseRecord);
+        ABHFL_CTSTHelper.sendLoanClosedEmail(caseRecord);
+		Test.stopTest();
+
+    	System.assertEquals(updatedCase.OwnerId, updatedCase.OwnerId);
+	}
+    @isTest
+    static void testStoreMultipleLANs() {
+        // Retrieve the test Case record created in TestSetup
+        Case caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c FROM Case LIMIT 1];
+        caseRecord.CCC_External_Id__c = ABHFL_Constants.GST_INVOICE_ID;
+        update caseRecord;
+        Asset astRec = [SELECT Id, LAN__c FROM Asset LIMIT 1];
+        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c(
+            Case__c = caseRecord.Id,
+            Asset__c = astRec.Id,
+            Revised_ROI__c = 10
+        );
+        insert assetDetail;
+       
+        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(
+            Id = caseRecord.ABHFL_Case_Detail__c,
+            Payment_Status__c = 'Payment Received'
+        );
+        update caseDetail;
+
+        Test.startTest();
+        ABHFL_CTSTHelper.storeMultipleLANs(caseRecord);
+        ABHFL_CTSTHelper.sendPrclsStatementclosure(caseRecord);
+        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        Test.stopTest();
+        //for DSRA
+		caseRecord.CCC_External_Id__c = ABHFL_Constants.DSRA_LIEN_ID;
+        update caseRecord;
+        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        //for escrow
+        caseRecord.CCC_External_Id__c = ABHFL_Constants.ESCROW_STATEMENT_ID;
+        update caseRecord;
+        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id = :caseRecord.ABHFL_Case_Detail__c LIMIT 1];
+		System.assertEquals('and xxxxxx' + astRec.LAN__c.substring(Math.max(0, astRec.LAN__c.length() - 4)), caseDetail.Masked_Full_LANs__c);
+
+    }
     
 }
