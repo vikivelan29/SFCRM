@@ -23,7 +23,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     renderedCallback() {
         if(this.objectApiName == 'Account') {
-            this.showOrHideIcon("[data-id='Repeated_Indicator_div']", 'slds-hide');
+            this.addIconClass("[data-id='Repeated_Indicator_div']", 'slds-hide');
         }
     }
 
@@ -49,7 +49,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             }
         }
         else if(this.objectApiName == 'Account') {
-            this.showOrHideIcon("[data-id='Repeated_Indicator']", 'slds-hide');
+            this.addIconClass("[data-id='Repeated_Indicator']", 'slds-hide');
+            this.removeIconClass("[data-id='Open_Complaint_Indicator_div']", 'slds-hide');
             this.initializeWhereClause();
             this.objectApiName = 'Case';
             this.story_328_329();
@@ -58,7 +59,14 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     }
 
     story_328_329_330() {
-        this.story_328_329();
+
+        let caseNature = this.caseRecord.Nature__c;
+        if(caseNature == "Complaint") {
+            this.story_328_329();
+        }
+        else {
+            this.addIconClass("[data-id='Open_Complaint_Indicator_div']", 'slds-hide');
+        }
         this.story_330();
     }
 
@@ -108,10 +116,17 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         getLightningIcon.variant = attrbObj.variant;
     }
 
-    showOrHideIcon(dataId, iconClass) {
+    addIconClass(dataId, iconClass) {
         let getLightningIcon = this.template.querySelector(dataId);
         if(getLightningIcon) {
             getLightningIcon.classList.add(iconClass);
+        }
+    }
+
+    removeIconClass(dataId, iconClass) {
+        let getLightningIcon = this.template.querySelector(dataId);
+        if(getLightningIcon) {
+            getLightningIcon.classList.remove(iconClass);
         }
     }
 }
