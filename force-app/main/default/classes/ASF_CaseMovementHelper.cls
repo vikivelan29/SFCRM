@@ -59,6 +59,9 @@ public class ASF_CaseMovementHelper {
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                 if(nextStage.status != 'Error'){
                     resultWrapper.status = 'Success';
+                    Case updatedCase = new Case(Id = caseId);
+                    updatedCase.Pending_Clarification__c = false;
+                    resultWrapper.caseToBeUpdated = updatedCase;
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
                 }
                 else{
@@ -324,7 +327,7 @@ public class ASF_CaseMovementHelper {
                     updatedCase.Stage__c = requestedStageMap.get(caseRec.Id);
                     updatedCase.Status = nextStageConfig!=null?nextStageConfig.Status_Mapping__c:null;
                     updatedCase.Is_Manual_Stage_Visited__c = true;
-
+                    
                     // If Validation Layer Returned any fields in Case, append the same
                     // This is returned from Custom Apex Class Run After the Stage Movement
                     CaseStageValidationWrapper validationResult = validationResults.get(caseRec.Id);
@@ -998,7 +1001,7 @@ public class ASF_CaseMovementHelper {
             StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
             resultWrapper.ownerId = info.defaultOwnerId;
             resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
-            resultWrapper.isPreviousStage = false;
+            resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
             resultWrapperMap.put(caseId, resultWrapper);
         }
         
