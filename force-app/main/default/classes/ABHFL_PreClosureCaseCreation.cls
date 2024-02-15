@@ -21,7 +21,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         
         List<ABHFL_Asset_Detail__c> assetDetailRecords = [SELECT Id, Asset__c, Name, Account_Status__c, Amount_Overdue__c, LAN__C,
         Asset__r.Lan__c, Case__c, Current_Balance__c, Loan_Status__c
-        FROM ABHFL_Asset_Detail__c WHERE Case__c=:caseRec.Id WITH SECURITY_ENFORCED];
+        FROM ABHFL_Asset_Detail__c WHERE Case__c=:caseRec.Id];
         List<Case> newCaseList = new List<Case>();
 
         caseRec = [SELECT AssetId, AccountId, Account.Client_Code__c, Asset.LAN__c, Source__c, Technical_Source__c,  Nature__c FROM Case WHERE Id =: caseRec.Id];
