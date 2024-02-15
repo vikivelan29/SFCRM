@@ -27,6 +27,18 @@ public class ABHFL_ComplaintInvestigationTest {
         astRec.Branch__c = branchMstr.Id;
         astRec.Last_Disbursement_Date__c = Date.Today();
         update astRec;
+        
+        LAN_Mapping__c lmp = new LAN_Mapping__c();
+        lmp.LAN__c = astRec.Id;
+        lmp.Applicant_Type__c = 'BORROWER';
+        lmp.Customer__c = accRec.Id;
+        insert lmp;
+        LAN_Mapping__c lmp1 = new LAN_Mapping__c();
+        lmp1.LAN__c = astRec.Id;
+        lmp1.Applicant_Type__c = 'COBORROWER';
+        lmp1.Customer__c = accRec.Id;
+        insert lmp1;
+        
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
@@ -55,6 +67,7 @@ public class ABHFL_ComplaintInvestigationTest {
         
         Test.startTest();
         ABHFL_ComplaintInvestigationController.fetchDetails(caseRecord.Id);
+        ABHFL_ComplaintInvestigationController.fetchDetailsOnLoad(caseRecord.Id);
         Test.stopTest();
         List<Object> pdfContent = new List<Object>();
         String response =ABHFL_ComplaintInvestigationController.generatePDF('pdfHeaderValue', pdfContent, caseRecord.Id);

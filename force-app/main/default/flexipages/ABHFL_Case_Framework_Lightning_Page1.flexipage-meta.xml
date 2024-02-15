@@ -172,6 +172,19 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_complaintInvestigation</componentName>
+                <identifier>c_abhfl_complaintInvestigation</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CCC_External_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>risk001</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>asf_IntegrationsPanel</componentName>
                 <identifier>c_asf_IntegrationsPanel</identifier>
                 <visibilityRule>
