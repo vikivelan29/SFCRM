@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import fetchDetails from '@salesforce/apex/ABHFL_ComplaintInvestigationController.fetchDetails';
 import fetchDetailsOnLoad from '@salesforce/apex/ABHFL_ComplaintInvestigationController.fetchDetailsOnLoad';
 import generatePDF from '@salesforce/apex/ABHFL_ComplaintInvestigationController.generatePDF';
+
 export default class Abhfl_complaintInvestigation extends LightningElement {
 
     @api recordId;
@@ -12,6 +13,8 @@ export default class Abhfl_complaintInvestigation extends LightningElement {
     @track fieldsInColumn2=[];
     iconName = "utility:ban";
     openSection = false;
+    errorResponse='Unable to fetch details. Please try again later.';
+    isError = false;
 
     connectedCallback(){
         this.complaintDetails();
@@ -26,13 +29,14 @@ export default class Abhfl_complaintInvestigation extends LightningElement {
         console.log('inside top of complaint details aditya');
         fetchDetailsOnLoad({caseId:this.recordId})
             .then(result=>{
-                console.log('result:'+JSON.stringify(result));
+                console.log('result complaint:'+JSON.stringify(result));
                 if(result){
                     this.fields = [...result];
-                    console.log('Result:'+JSON.stringify(result));
+                    console.log('Result complaint:'+JSON.stringify(result));
                     this.fieldsInColumn1 = this.fields.slice(0, Math.ceil(this.fields.length / 2));
                     this.fieldsInColumn2 = this.fields.slice(Math.ceil(this.fields.length / 2));
                     this.iconName = "utility:success";
+                    this.isError = false;
                     this.openSection = true;
                 }else{
                     this.openSection = false;
@@ -40,6 +44,8 @@ export default class Abhfl_complaintInvestigation extends LightningElement {
             })
             .catch(error=>{
                 this.iconName = "utility:error";
+                this.isError = true;
+                this.openSection = true;
                 console.error('Error:'+error.body.message);
             })
 
@@ -79,6 +85,8 @@ export default class Abhfl_complaintInvestigation extends LightningElement {
                     this.complaintDetails();
                 }
                 else{
+                    this.isError = true;
+                    this.openSection = true;
                     console.error('error error');
                 }
                 /*this.fields = [...result];
@@ -89,6 +97,8 @@ export default class Abhfl_complaintInvestigation extends LightningElement {
             })
             .catch(error=>{
                 this.iconName = "utility:error";
+                this.isError = true;
+                this.openSection = true;
                 console.error('Error:'+error.body.message);
             })
     }
