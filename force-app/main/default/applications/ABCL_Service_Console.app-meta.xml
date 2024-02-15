@@ -84,24 +84,7 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>ABCL Service Console</label>
-    <navType>Console</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABFL Base Profile</profile>
-    </profileActionOverrides>
-    
+    <navType>Console</navType>    
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>ABFL_LAN_Page</content>
