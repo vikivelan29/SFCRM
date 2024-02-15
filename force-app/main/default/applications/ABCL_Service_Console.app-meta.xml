@@ -72,6 +72,24 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Account</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
         <logo>ABC_Primary_Logo_For_Reference</logo>
@@ -87,6 +105,22 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>ABFL_Case_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABFL_Case_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABFL_Asset_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
@@ -157,7 +191,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Sales</recordType>
@@ -166,7 +200,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Sales</recordType>
@@ -211,7 +245,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Service</recordType>
@@ -220,7 +254,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Service</recordType>
@@ -486,6 +520,22 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Interaction</recordType>
+        <type>Flexipage</type>
+        <profile>ABHFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHFL_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHFL_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
