@@ -1,13 +1,10 @@
 public with sharing class ASF_BulkCsvController {
    
     @AuraEnabled(cacheable=true)
-    public static Boolean hasCustomPermission() {
-        return FeatureManagement.checkPermission('Bulk_Case_Access');
-    }
+    public static MetadataWrapper getMetadataDetails() {
+        MetadataWrapper resultWrapper = new MetadataWrapper();
 
-    @AuraEnabled(cacheable=true)
-    public static List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> getMetadataDetails(String businessUnit) {
-        Boolean boolSelected = false;
+        String businessUnit = [select Id, Business_Unit__c from User where Id=: userInfo.getUserId()].Business_Unit__c;
         List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> configMetaRec = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
 
         configMetaRec = [Select Id, MasterLabel,DeveloperName, Display_Label__c, SObject_Name__c,
@@ -15,7 +12,10 @@ public with sharing class ASF_BulkCsvController {
                 FROM ASF_Bulk_Row_to_Record_Converter_Config__mdt
                 WHERE Active__c = true AND SObject_Name__c = 'Case' AND Business_Unit__c =:businessUnit ORDER BY Order__c];
 
-        return configMetaRec;  
+        resultWrapper.allMetadata =  configMetaRec;
+        resultWrapper.hasCustomPermission = FeatureManagement.checkPermission('Bulk_Case_Access');
+        
+        return resultWrapper;  
     }  
 
     @AuraEnabled
@@ -70,6 +70,15 @@ public with sharing class ASF_BulkCsvController {
             totalRecords = 0.0;
             failedRecords = 0.0;
             processedRecords = 0.0;
+        }
+    }    
+    public class MetadataWrapper {
+        @AuraEnabled public List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> allMetadata;
+        @AuraEnabled public Boolean hasCustomPermission;
+
+        public MetadataWrapper(){
+            allMetadata = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
+            hasCustomPermission = false;
         }
     }    
 }
