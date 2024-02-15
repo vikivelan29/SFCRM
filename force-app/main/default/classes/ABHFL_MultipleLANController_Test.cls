@@ -17,13 +17,13 @@ public class ABHFL_MultipleLANController_Test {
 	@IsTest
     static void testGetLanDataAndMetadata(){
         Case caseRecord = [Select id from Case limit 1];
-        ABHFL_MultipleLANController.MultipleLanWrapper lanResponse = ABHFL_MultipleLANController.getLanDataAndMetadata(caseRecord.Id,userInfo.getUserId());
+        ABHFL_MultipleLANController.MultipleLanWrapper lanResponse = ABHFL_MultipleLANController.getLanDataAndMetadata(caseRecord.Id);
         System.assertEquals(true,lanResponse!=null,'PASS');
     }
 	@IsTest
     static void testFetchAssetDetailsExt(){
         Case caseRecord = [Select id from Case limit 1];
-        Asset assetRecord = [Select id,LAN__c,Account.Client_Code__c from Asset limit 1];
+        Asset assetRecord = [Select id,LAN__c from Asset limit 1];
         MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
         mock.setStaticResource(ABCL_Integrations__mdt.getInstance('Data_Service_Details').EndPoint__c,'DataServiceMockResponse');
         mock.setStatusCode(200);
