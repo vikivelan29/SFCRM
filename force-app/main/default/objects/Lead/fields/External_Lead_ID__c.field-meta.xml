@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>External_Lead_ID__c</fullName>
+    <displayFormat>SFL-{000000000}</displayFormat>
+    <externalId>true</externalId>
+    <label>External Lead ID</label>
+    <type>AutoNumber</type>
+</CustomField>

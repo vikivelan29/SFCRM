@@ -12,7 +12,8 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserializeUntyped(eachJSON);
+            System.debug('eachJSON'+eachJSON);
+            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             caseNumbers.add(keyValueMap.get('Case number'));
             rows.put(lineItemId, keyValueMap);
         }
@@ -65,18 +66,18 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
-            'LAN__c'=>'Loan Account No',
-            'CCC_External_Id__c'=>'Issue Type Code',
-            'Source__c'=>'Source',
-            'Description'=>'Description',
-            'No_Auto_Communication__c'=>'Block Customer Communication'
+            'CaseNumber'=>'Case number',
+            'Resolution_Comments__c'=>'Resolution Comments',
+            'Stage__c'=>'Stage',
+            'Rejection_Reason__c'=>'Close Unresolved Reason',
+            'Rejected_Reason__c'=>'Close Unresolved Details'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
-            'Loan Account No'=>'LAN__c',
-            'Issue Type Code'=>'CCC_External_Id__c',
-            'Source'=>'Source__c',
-            'Description'=>'Description',
-            'Block Customer Communication'=>'No_Auto_Communication__c'
+            'Case number'=>'CaseNumber',
+            'Resolution Comments'=>'Resolution_Comments__c',
+            'Stage'=>'Stage__c',
+            'Close Unresolved Reason'=>'Rejection_Reason__c',
+            'Close Unresolved Details'=>'Rejected_Reason__c'
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
@@ -84,9 +85,9 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
-
+        System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
-        if(selectedRecordIds != null){
+        if(!selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;

@@ -44,6 +44,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Ageing_Business_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.AmIOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -99,17 +104,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.UniqueKey__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Customer_Since__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Line_of_Business__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

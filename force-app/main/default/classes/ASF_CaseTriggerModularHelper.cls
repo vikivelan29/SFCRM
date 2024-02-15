@@ -517,10 +517,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                     Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                     caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                    caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                    //caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                     Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
+                    }
+                    if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
+                        caseRecFromMap.Pending_Clarification__c = false;
                     }
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{

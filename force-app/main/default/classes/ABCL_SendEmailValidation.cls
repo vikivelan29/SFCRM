@@ -54,7 +54,7 @@ public with sharing class ABCL_SendEmailValidation {
                 allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed__c.split(',');
                 String loggedInUserEmail = UserInfo.getUserEmail();
                 for (String domain : allowedFromAddress) {
-                    if (selectedFromAddress.contains(domain.trim())) {
+                    if (selectedFromAddress.contains(domain.toLowerCase())) {
                         isAllowedFromAddress = true;
                         system.debug('isAllowedFromAddressValue '+isAllowedFromAddress);
                     }

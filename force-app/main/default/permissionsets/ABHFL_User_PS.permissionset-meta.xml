@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
-        <apexClass>Abhfl_GenericRepeatingAndOpenComplntClas</apexClass>
+        <apexClass>ABCL_EBotFeedback</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -14,6 +14,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_EBotFeedback</apexClass>
+
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -25,7 +26,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHFL_BalanceConfLetterIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_CTSTHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_CloneCase</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -37,6 +46,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_ComplaintsStageApexClassTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -45,7 +58,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHFL_Constants</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_DataServiceClass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_LODIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_LeadCreationAPI</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -61,6 +86,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHFL_ODPAlerts</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_SanctionLetterIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseEditPageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CaseUIController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -69,19 +106,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_RelateDuplicateCaseController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Abhfl_GenericRepeatingAndOpenComplntClas</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>FrameworkFunctionalityExtender</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-<classAccesses>
-        <apexClass>ASF_CaseEditPageController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_RelateDuplicateCaseController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <customMetadataTypeAccesses>
@@ -105,6 +142,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.AmmortApiStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Beneficiary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Refund_Amount_TDS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Refund_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -135,6 +187,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Current_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHFL_Asset_Detail__c.Failure_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -224,7 +281,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Asset_Detail__c.Failure_Reason__c</field>
+        <field>ABHFL_Case_Detail__c.AWB_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -239,7 +296,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Address_Change_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Applicant_profile_at_time_of_onboarding__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Approval_Attached__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Approval_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -250,6 +327,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.As_On_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Attachment_in_DMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Bank_Account_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Bank_IFSC_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -265,6 +357,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Callback_Timeslot_EZGO__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Case_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -343,13 +440,58 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Credit_Deviation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Credit_in_Repayment_Accounts__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Current_Financial_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_Report_RCU_O__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_Report_RCU_R__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_Title_search_report__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_Valuation_Remark__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_cibil_review__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Current_cibil_score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Customer_Contacted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Customer_Verified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -399,6 +541,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Document_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Document_Refiled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Document_Verification_Remarks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -419,7 +576,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.FI_Report_O__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.FI_Report_R__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.File_Bar_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Financial_Year_TDS_Refund__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -443,8 +615,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Google_Search__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Grievance_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Hub_Location_Zone_Wise__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -584,7 +766,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Lapses__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Last_Rekyc_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Legal_report_at_onboarding__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -604,12 +796,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Mode_of_Change_of_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Name_or_type_of_policy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.New_Email_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.OCR_Remark__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -635,6 +837,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.OneABC_Owner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.PAN_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -714,7 +921,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Punitive_action__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Purpose__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Quarter__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Query_From_InteralFlow__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Query_From_Others__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -744,6 +971,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Reason_for_Retrieval_Others__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Reason_for_Retrieval__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Reason_for_delay__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -769,227 +1006,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Rescheduling_Done__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Resolution_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Resolution_Remarks__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.PAN_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Credit_in_Repayment_Accounts__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.AWB_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Quarter__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.UTR_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Mode_of_Change_of_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Address_Change_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Rekyc_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Bank_Account_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Bank_IFSC_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Financial_Year_TDS_Refund__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_cibil_score__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.FI_Report_R__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.FI_Report_O__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_Report_RCU_R__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_Report_RCU_O__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Document_Verification_Remarks__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Legal_report_at_onboarding__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_Title_search_report__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Valuation_technical_report_at_onboarding__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_Valuation_Remark__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.OCR_Remark__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Google_Search__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Underwriting_Review__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Lapses__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Case_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Applicant_profile_at_time_of_onboarding__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Current_cibil_review__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Source_InternalFlow__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Query_From_InteralFlow__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Query_From_Others__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Reason_for_Retrieval__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Reason_for_Retrieval_Others__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Approval_Attached__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Approval_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Customer_Verified__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Document_Category__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Attachment_in_DMS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Hub_Location_Zone_Wise__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Document_Refiled__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Rescheduling_Done__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Credit_Deviation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Punitive_action__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1049,6 +1076,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Source_InternalFlow__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Source_of_Funds__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1084,17 +1116,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.UTR_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Underwriting_Review__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Valuation_technical_report_at_onboarding__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Waiver_Refund_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Waiver_Refund_Done__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Asset_Detail__c.Failure_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1105,71 +1147,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Payment__c.Realization_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Business_Unit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.ContentDocumentId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.ContentVersionId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.DMS_Link__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.DocumentID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Error_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Error_Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.File_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Has_Multiple_Versions__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Is_Latest_Version__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.Version_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1879,7 +1856,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Ageing_Business_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Ageing_Number_Of_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Bot_Feedback__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1888,8 +1880,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Is_Duplicate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.Is_Reopen_Allowed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1907,34 +1909,9 @@
         <field>Case.Multiple_Child_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Bot_Feedback__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-<field>Case.Business_Unit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Is_Duplicate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.LAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.No_Auto_Communication__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-<fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Sent_to_EBOT__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1944,7 +1921,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PE_Logger__c.No_Auto_Communication__c</field>
+        <field>Case.Sent_to_EBOT__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1994,17 +1971,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.GenderIdentity</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Full_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-		<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Preferred_Name__c</field>
+        <field>Contact.GenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2064,6 +2036,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Preferred_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Ration_Card_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2090,6 +2067,71 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Voter_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentVersionId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DMS_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DocumentID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Has_Multiple_Versions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Is_Latest_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Version_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2144,6 +2186,136 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>LOS_Details__c.CPH_Deal_Owner_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.CPH_Deal_Owner_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Credit_Owner_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Credit_Owner_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Creation_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Disbursement_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Disbursement_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Disbursement_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Disbursement_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Rejection_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Rejection_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Rejection_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Requested_Loan_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Sanction_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Sanction_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Sanctioned_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_SubVariant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Deal_Variant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Disb_Officer_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Disb_Officer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.FTR_FTNR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.SF_Lead_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Total_Disbursement_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>LOS_Details__c.Tranches__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Address</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2164,12 +2336,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Distributer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.DoNotCall</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Email</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Employment_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.External_Lead_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2239,6 +2426,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Preferred_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Pronouns</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2254,7 +2451,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Requested_Loan_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Sales_Prospect__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Source_System_API__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Source_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sourcing_Branch__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sub_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sub_Variant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2264,7 +2491,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Variant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Website</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.No_Auto_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2344,15 +2581,6 @@
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>DMS_Files__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
@@ -2406,15 +2634,6 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>DMS_File_Transfer__e</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
@@ -2433,6 +2652,24 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>DMS_File_Transfer__e</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>DMS_Files__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
@@ -2440,6 +2677,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>LAN_Mapping__c</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>LOS_Details__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2467,7 +2713,7 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-<userPermissions>
+    <userPermissions>
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>

@@ -153,8 +153,23 @@ public class ASF_CaseStageSLA3TimeBasedAction {
     
         }
 
-        if(!slaHistoryList.isEmpty()){ 
-            UPDATE slaHistoryList;
+        if(!slaHistoryList.isEmpty()){
+            try{
+                UPDATE slaHistoryList;
+            } catch(DmlException dmle){
+                String errorMsg = dmle.getDmlMessage(0);
+                errorMsg += dmle.getStackTraceString();
+                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                String[] toAddresses = new String[] {'005Bl000002hUMgIAM'};
+                mail.setToAddresses(toAddresses);
+                mail.setSubject('Error in SLA3 '+scope);
+                mail.setPlainTextBody(errorMsg);
+                // Pass this email message to the built-in sendEmail method 
+                // of the Messaging class
+                Messaging.SendEmailResult[] results = Messaging.sendEmail(
+                                 new Messaging.SingleEmailMessage[] { mail });
+            }
+            
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);
