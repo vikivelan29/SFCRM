@@ -176,7 +176,7 @@ public class ABHFL_CTSTHelper_Test {
     @isTest
     static void testAssignCaseToAOMROM() {
      	Case caseRecord = [Select id from Case limit 1];
-        Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
+        Asset assetRec = [Select id,Branch__r.ROM_AOM__c from Asset where LAN__c='Test'];
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
         caseRecord.AssetId =assetRec.Id;
         
