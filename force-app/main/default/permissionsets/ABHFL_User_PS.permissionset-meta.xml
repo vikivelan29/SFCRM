@@ -2703,10 +2703,10 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <pageAccesses>
+    <!--<pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
-    </pageAccesses>
+    </pageAccesses>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
