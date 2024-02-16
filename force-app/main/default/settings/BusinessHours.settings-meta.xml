@@ -5,9 +5,7 @@
         <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
-        <mondayEndTime>18:30:00.000Z</mondayEndTime>
-        <mondayStartTime>09:30:00.000Z</mondayStartTime>
-        <name>ABHFL Business Hours</name>
+        <name>ABHFL</name>
         <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
         <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
@@ -25,7 +23,7 @@
         <fridayStartTime>09:00:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
         <mondayStartTime>09:00:00.000Z</mondayStartTime>
-        <name>Default</name>
+        <name>ABCL</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
         <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
@@ -35,57 +33,233 @@
         <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
     </businessHours>
     <holidays>
+        <activityDate>2024-04-06</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday APR</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday APR</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-08-03</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday AUG</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday AUG</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-12-07</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday DEC</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday DEC</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-02-03</activityDate>
+        <description>1st Saturday FEB</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday FEB</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-01-06</activityDate>
+        <description>1st Saturday JAN</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday JAN</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-07-06</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday JUL</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday JUL</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-06-01</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday JUN</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday JUN</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-03-02</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday MAR</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday MAR</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-05-04</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday MAY</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday MAY</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-11-02</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday NOV</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday NOV</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-10-05</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday OCT</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday OCT</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-09-07</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>1st Saturday SEP</description>
+        <isRecurring>false</isRecurring>
+        <name>1st Saturday SEP</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-04-13</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday APR</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday APR</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-08-10</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday AUG</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday AUG</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-12-14</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday DEC</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday DEC</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-02-10</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday FEB</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday FEB</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-01-13</activityDate>
+        <description>2nd Saturday JAN</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday JAN</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-07-13</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday JUL</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday JUL</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-06-08</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday JUN</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday JUN</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-03-09</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday MAR</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday MAR</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-05-11</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday MAY</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday MAY</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-11-09</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday NOV</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday NOV</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-10-12</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday OCT</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday OCT</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-09-14</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <description>2nd Saturday SEP</description>
+        <isRecurring>false</isRecurring>
+        <name>2nd Saturday SEP</name>
+    </holidays>
+    <holidays>
         <activityDate>2024-06-17</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Bakri Id</name>
     </holidays>
     <holidays>
         <activityDate>2024-12-25</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Christmas</name>
     </holidays>
     <holidays>
         <activityDate>2024-11-01</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Diwali Amavasya (Laxmi Pujan)</name>
     </holidays>
     <holidays>
         <activityDate>2024-04-09</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Gudhi Padwa</name>
     </holidays>
     <holidays>
         <activityDate>2024-11-15</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Guru Nanak Jayanti</name>
     </holidays>
     <holidays>
         <activityDate>2024-03-25</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Holi (Second Day)</name>
     </holidays>
     <holidays>
         <activityDate>2024-08-15</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Independence Day/Parsi New Year</name>
     </holidays>
     <holidays>
         <activityDate>2024-05-01</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Maharashtra Din</name>
     </holidays>
     <holidays>
         <activityDate>2024-03-08</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Mahashivratri</name>
     </holidays>
     <holidays>
         <activityDate>2024-10-02</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Mahatma Gandhi Jayanti</name>
     </holidays>
     <holidays>
         <activityDate>2024-07-17</activityDate>
+        <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Muharram</name>
     </holidays>
@@ -93,5 +267,11 @@
         <activityDate>2024-01-26</activityDate>
         <isRecurring>false</isRecurring>
         <name>Republic Day</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-02-12</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Test Holiday</name>
     </holidays>
 </BusinessHoursSettings>
