@@ -1,8 +1,10 @@
 public with sharing class ASF_BulkCaseProcessorUtility {
 
+    public static Boolean isBulkProcessing = false;
+
     private List<ASF_Bulk_Upload_Line_Item__c> lineItemsToProcess = new List<ASF_Bulk_Upload_Line_Item__c>();
     private Map<Id, String> headIdToTemplateNameMap = new Map<Id,String>();
-    private Boolean isQueueableProcessing = false;
+    //private Boolean isQueueableProcessing = false;
     //Constructor for handling platform events
     public ASF_BulkCaseProcessorUtility(List<ASF_Bulk_Case_Processor__e> peRecords) {
         Set<Id> recordIds = new Set<Id>();
@@ -10,18 +12,17 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             recordIds.addAll((List<Id>)peRecord.Record_IDs__c.split(';'));
             this.headIdToTemplateNameMap.put(peRecord.Header_Row_Id__c, peRecord.Template_Name__c);
         }
-        if(!recordIds.isEmpty() && recordIds.size() < 50000){
-            //Risk of hitting Max SOQL Rows - 1000 Ids per PE * 2000 PEs(worst case)
+        if(!recordIds.isEmpty()){
             this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, OwnerId from ASF_Bulk_Upload_Line_Item__c where Id IN :recordIds];
         }
     }
 
     //Constructor for handling Queueable apex
-    public ASF_BulkCaseProcessorUtility(List<ASF_Bulk_Upload_Line_Item__c> lineItemsToProcess, Map<Id, String> headIdToTemplateNameMap) {
-        this.isQueueableProcessing = true;
-        this.lineItemsToProcess = lineItemsToProcess;
-        this.headIdToTemplateNameMap = headIdToTemplateNameMap;
-    }
+    // public ASF_BulkCaseProcessorUtility(List<ASF_Bulk_Upload_Line_Item__c> lineItemsToProcess, Map<Id, String> headIdToTemplateNameMap) {
+    //     this.isQueueableProcessing = true;
+    //     this.lineItemsToProcess = lineItemsToProcess;
+    //     this.headIdToTemplateNameMap = headIdToTemplateNameMap;
+    // }
 
     public void process() {
         Map<String, String> templateNameToApexClassMap = new Map<String,String>();
@@ -58,20 +59,25 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         for(Id lineItemId : newCaseRecords.keySet()){
             indexToLineItemIdMap.put(index, lineItemId);
             SObject record = newCaseRecords.get(lineItemId);
-            record.put('OwnerId', lineItemToOwnerId.get(lineItemId));
+            if(record.Id == null){
+                record.put('OwnerId', lineItemToOwnerId.get(lineItemId));
+            }
             recordsForDML.add(record);
             index++;
         }
+
+        ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
         List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
+        ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
         index = 0;
         for(Database.UpsertResult sr : srList){
             Id lineItemId = indexToLineItemIdMap.get(index);
             Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
             if(sr.isSuccess()){
-                jsonMap.put('Result', 'TRUE');
+                jsonMap.put('Result', 'SUCCESS');
                 jsonMap.put('Message', sr.isCreated()?sr.getId():'Case Updated');
             }else{
-                jsonMap.put('Result', 'FALSE');
+                jsonMap.put('Result', 'FAILURE');
                 String errorMessage = '';
                 for(Database.Error err : sr.getErrors()) {
                     System.debug('The following error has occurred.');                    
@@ -112,11 +118,12 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             headObj.Id = headId;
             headObj.Status__c = 'Processed';
             headersToUpdate.add(headObj);
-            areLineItemsPending = false;
+            //areLineItemsPending = false;
         }
         update headersToUpdate;
         //TODO: For completed headers, send email
 
+        /*
         if(this.isQueueableProcessing == true && areLineItemsPending){
             for(Id headId : headIdToTemplateNameMap.keySet()){
                 //Only one head row Id and template name is passed for Queueable mode, so this loop will execute only one and enqueue only one Queueable.
@@ -124,6 +131,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
                 System.enqueueJob(processor);
             }
         }
+        */
     }
 
     public class ConvertionResult{
