@@ -113,10 +113,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Holding_Response_Email_Template_3__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Holding_Response_Email_Template_4__c</field>
             </layoutItems>
             <layoutItems>

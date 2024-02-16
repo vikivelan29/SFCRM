@@ -517,10 +517,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                     Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                     caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                    caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                    //caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                     Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
+                    }
+                    if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
+                        caseRecFromMap.Pending_Clarification__c = false;
                     }
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
@@ -632,27 +635,31 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
                     addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
                 }
-                for(ASF_Checklist__c checkRec : dataWrapper.get(caseRec.Id).checklistToInsert){
-                    if(!checklistMap.containsKey(caseRec.Id+checkRec.Checklist_External_Id__c)){
-                        if(addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert == null){
-                            addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert = new List<ASF_Checklist__c>();
-                        }
-                        addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert.add(checkRec);
+                if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).checklistToInsert != null){
+                    for(ASF_Checklist__c checkRec : dataWrapper.get(caseRec.Id).checklistToInsert){
+                        if(!checklistMap.containsKey(caseRec.Id+checkRec.Checklist_External_Id__c)){
+                            if(addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert == null){
+                                addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert = new List<ASF_Checklist__c>();
+                            }
+                            addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert.add(checkRec);
+                        }   
                     }
                 }
 
-                for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
-                    if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
-                        if(addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert == null){
-                            addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert = new List<Task>();
+                if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).tasksToInsert != null){
+                    for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
+                        if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
+                            if(addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert == null){
+                                addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert = new List<Task>();
+                            }
+                            addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                        addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
-                    }
+                    }                
+                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
-                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
 
             List<Case> integCaseList = new List<Case>();

@@ -113,7 +113,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToAOMROM(Case caseRecord){
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.ROM_AOM__c != null) {
             caseRec.OwnerId = prefBranch.ROM_AOM__c;
         }

@@ -154,6 +154,9 @@ public class ABHFL_StageApex_Test {
         //Assertion
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_requestInProgressApexClass.afterStageMovement(caseRecord);
+        caseRecord.CCC_External_Id__c = 'hfl003';
+        update caseRecord;
+        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls3 =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
         System.assertEquals('Success',retCls.Status,'Done');
         
 	}

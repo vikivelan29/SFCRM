@@ -85,8 +85,9 @@
 
                 <!--VIRENDRA  : Moved the Expand Collapse at the top.-->
                 <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    <lightning-icon icon-name={iconName} alternative-text="expand"
-                        title="xx-small size" onclick={openAllPanels}></lightning-icon>
+                    <lightning-button-icon icon-name={iconName}  alternative-text="expand" class="slds-m-left_xx-small" title="expand" onclick={openAllPanels} style="float:inline-end;padding-inline-end:1rem"></lightning-button-icon>
+                    <!--<lightning-icon icon-name={iconName} alternative-text="expand"
+                        title="xx-small size" onclick={openAllPanels}></lightning-icon>-->
                     <!--<a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne"
                         onclick={openAllPanels}>
                         {expandCollapseLbl}

@@ -1,3 +1,6 @@
+/**
+ * Test class: ASF_CaseStageSLA2TimeBasedActionTest
+ */
 public class ASF_CaseStageSLA2TimeBasedAction {
     @InvocableMethod(label='Send Stage 1 SLA 2 Broken Email Reminders')
     public static void sendEmailSLA2Broke(List<String> scope){
@@ -79,7 +82,7 @@ public class ASF_CaseStageSLA2TimeBasedAction {
                                                 FROM  ASF_Case_SLA_History__c 
                                                 WHERE Case__c IN: casesList 
                                                 AND Stage_End_Date__c = null 
-                                                AND is_Running_Record__c = true ]){
+                                                AND is_Running_Record__c = true FOR UPDATE]){
             if(slaHistory.Stage_Violation_Start_Date__c == null ){
                 slaHistory.Stage_Violation_Start_Date__c = slaHistory.Case__r.Stage_SLA_1__c;
                 slaHistory.Status__c = 'Violated';
@@ -179,7 +182,11 @@ public class ASF_CaseStageSLA2TimeBasedAction {
         }
 
         if(!slaHistoryList.isEmpty()){ 
-            UPDATE slaHistoryList;
+            try{
+                UPDATE slaHistoryList;
+            } catch(DmlException dmle){
+                
+            }
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

@@ -268,7 +268,7 @@ public with sharing class ASF_CaseFrameworkHelper {
      */
     public static Boolean runStageMovementRules(Case caseRec, List<ASF_Case_Rule__c> allCaseRules){
         
-        Boolean result = false;
+        Boolean result = true;
         for (ASF_Case_Rule__c caseRule : allCaseRules){
             System.debug('@@Logic'+caseRule.Logical_Condition__c);
             if(caseRule.Type__c == 'Stage Movement'){
@@ -278,7 +278,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                     caseRule.Case_Rule_Entries__r,
                     caseRec);
 
-                if(result == true){
+                if(result == false){
                     break;
                 }
             }
