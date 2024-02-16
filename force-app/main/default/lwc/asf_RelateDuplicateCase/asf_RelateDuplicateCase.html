@@ -1,25 +1,31 @@
 <template>
     <lightning-card title="Relate / Duplicate" icon-name="custom:custom63">
-        <div class="slds-m-around_medium">
-            <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsuccess={handleSuccess} onerror={handleError}
-            onsubmit={onSubmitHandler}>
-            <div class="slds-col slds-size_4-of-7">
-                <div class="slds-p-top_x-small">
-                    <lightning-input-field field-name="ParentId" class="slds-p-top_x-small" required onchange={handleParentChange}></lightning-input-field>
+        <template if:true={loaded}>
+            <template if:true={showPage}>
+                <div class="slds-m-around_medium">
+                    <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsubmit={onSubmitHandler}>
+                    <div class="slds-col slds-size_4-of-7">
+                        <div class="slds-p-top_x-small">
+                            <lightning-input-field field-name="ParentId" class="slds-p-top_x-small" required onchange={handleParentChange}></lightning-input-field>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_4-of-7">
+                        <div class="slds-p-top_x-small">
+                            <lightning-input-field field-name="Is_Duplicate__c" class="slds-p-top_x-small"></lightning-input-field>
+                        </div>
+                    </div>
+                    <div class="slds-p-top_large slds-align_absolute-center">
+                        <lightning-button type="submit" variant="brand" label="Save"></lightning-button>
+                        <div class="slds-p-left_medium"><lightning-button type="cancel" variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button></div>
+                    </div>
+                    </lightning-record-edit-form>
                 </div>
-            </div>
-            <div class="slds-col slds-size_4-of-7">
-                <div class="slds-p-top_x-small">
-                    <lightning-input-field field-name="Is_Duplicate__c" class="slds-p-top_x-small"></lightning-input-field>
-                </div>
-            </div>
-            <div class="slds-p-top_large slds-align_absolute-center">
-                <lightning-button type="submit" variant="brand" label="Save"></lightning-button>
-                <div class="slds-p-left_medium"><lightning-button type="cancel" variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button></div>
-            </div>
-            </lightning-record-edit-form>
-
-        </div>
+            </template>
+            <template if:false={showPage}>
+                <div class="slds-align_absolute-center slds-text-body_small slds-text-color_error">{errorMessage}</div>
+            </template>
+        </template>
         <template if:false={loaded}>
             <lightning-spinner alternative-text="Loading"></lightning-spinner>
         </template>
