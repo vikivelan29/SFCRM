@@ -221,7 +221,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         // adding below line to disable the save button once clicked by User 
         this.isClicked = true;
         let isValid = this.validateFields();
-        const fields = event.detail.fields;
+        const fields = JSON.parse(JSON.stringify(event.detail.fields).replace(/<p>/g, '').replace(/<\/p>/g, ''));
         fields.SR__c = this.recordId;
         if (this.caseNumber != '') {
             fields.Name = this.caseNumber;
