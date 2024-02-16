@@ -635,6 +635,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
                     addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
                 }
+            if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).checklistToInsert != null){
                 for(ASF_Checklist__c checkRec : dataWrapper.get(caseRec.Id).checklistToInsert){
                     if(!checklistMap.containsKey(caseRec.Id+checkRec.Checklist_External_Id__c)){
                         if(addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert == null){
@@ -643,7 +644,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert.add(checkRec);
                     }
                 }
+            }
 
+            if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).tasksToInsert != null){
                 for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
                     if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
                         if(addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert == null){
@@ -652,10 +655,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                     }
                 }
-                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+            }
+            addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+            addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+            addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+            addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
 
             List<Case> integCaseList = new List<Case>();
