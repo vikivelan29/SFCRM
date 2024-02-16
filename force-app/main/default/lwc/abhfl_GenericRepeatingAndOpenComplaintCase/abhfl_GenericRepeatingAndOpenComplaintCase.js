@@ -76,7 +76,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         let commonForOC = `WHERE Stage__c = \'Open\' AND Nature__c = \'Complaint\'`;
 
         if(this.objectApiName == 'Case') {
-            this.whereClauseForRI = `WHERE AccountId = \'${this.caseRecord.AccountId}\' AND Stage__c = \'Resolved\' AND LAN__c = \'${this.caseRecord.LAN__c}\'
+            this.whereClauseForRI = `WHERE id != \'${this.recordId}\' AND AccountId = \'${this.caseRecord.AccountId}\' AND Stage__c = \'Resolved\' AND LAN__c = \'${this.caseRecord.LAN__c}\'
                                 AND Nature__c = \'${this.caseRecord.Nature__c}\' AND Type_Text__c = \'${this.caseRecord.Type_Text__c}\' 
                                 AND Sub_Type_Text__c = \'${this.caseRecord.Sub_Type_Text__c}\' AND CreatedDate = LAST_N_DAYS:${this.customLabel.Days_For_Repeated_Indicator} 
                                  ${withSecEnforced} LIMIT 2`; 
