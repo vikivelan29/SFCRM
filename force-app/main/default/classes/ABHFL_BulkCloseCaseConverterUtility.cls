@@ -87,7 +87,7 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         }
         System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
-        if(!selectedRecordIds.isEmpty()){
+        if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;
