@@ -68,16 +68,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>showLosDetailsRecord</componentName>
-                <identifier>c_showLosDetailsRecord</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-aabf8026-ecb7-4a98-a4aa-8ca488112fd7</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>asf_CreateCaseWithProspect</componentName>
                 <identifier>c_asf_CreateCaseWithProspect2</identifier>
             </componentInstance>
@@ -98,20 +88,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>detailTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-aabf8026-ecb7-4a98-a4aa-8ca488112fd7</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>LOS Details</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
