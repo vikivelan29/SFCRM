@@ -145,6 +145,8 @@ public with sharing class ABFL_EBOTCaseLogics {
        public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String ABFLCaseExtId,Boolean templateName,Boolean isRegistered,Boolean isLead,Boolean isPaytm){
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
+        List<ASF_Checklist__c> lstUpdateChecklist = new List<ASF_Checklist__c>();
+        List<Task> lstUpdateTask = new List<Task>();
         if(closed){
             //List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id LIMIT 1];
             //commenting the below line as we need to send the closure email
@@ -152,11 +154,31 @@ public with sharing class ABFL_EBOTCaseLogics {
             objUpdateCaseExt.Id = ABFLCaseExtId;
             objUpdateCaseExt.Resolution_Comments__c = 'ebotclosed';
             update objUpdateCaseExt;*/
+            List<ASF_Checklist__c > objCheckList = [SELECT ID, Status__c ,Case__c from ASF_Checklist__c WHERE Case__c =:recCase.ID AND Status__c !='Completed'];
+            List<Task > objTask = [SELECT ID,Status,WhatId from Task WHERE WhatId =:recCase.ID AND Status !='Completed'];
+            if(!objCheckList.isEmpty()){
+                for(ASF_Checklist__c checklist : objCheckList){
+                    checklist.Status__c= 'Completed';
+                	lstUpdateChecklist.add(checklist);   
+                }
+            }
+              if(!objTask.isEmpty()){
+                for(Task tsk : objTask){
+                    tsk.Status= 'Completed';
+                	lstUpdateTask.add(tsk);   
+                }
+            }
             Case objCase = new Case();
             objCase.Id = recCase.Id;
-            //objCase.OnCreateCloseSR__c  = True;
+            objCase.OwnerId  = Userinfo.getuserId();
             objCase.Stage__c = 'Resolved';
             lstUpdateCase.add(objCase);
+            if(!lstUpdateChecklist.isEmpty()){
+                Database.SaveResult[] updateResultCheck = Database.update(lstUpdateChecklist,false); 
+            }
+            if(!lstUpdateTask.isEmpty()){
+                Database.SaveResult[] updateResultTask = Database.update(lstUpdateTask,false); 
+            }
              if(!lstUpdateCase.isEmpty()){
                 Database.SaveResult[] updateResult = Database.update(lstUpdateCase,false); 
                   System.debug('updatedcase'+updateResult);      
