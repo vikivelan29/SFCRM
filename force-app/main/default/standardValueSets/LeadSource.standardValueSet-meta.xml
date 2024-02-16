@@ -52,63 +52,13 @@
         <label>Website</label>
     </standardValue>
     <standardValue>
-        <fullName>ABCD</fullName>
-        <default>false</default>
-        <label>ABCD</label>
-    </standardValue>
-    <standardValue>
-        <fullName>ABC SELECT</fullName>
-        <default>false</default>
-        <label>ABC SELECT</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Alternate</fullName>
-        <default>false</default>
-        <label>Alternate</label>
-    </standardValue>
-    <standardValue>
-        <fullName>APF</fullName>
-        <default>false</default>
-        <label>APF</label>
-    </standardValue>
-    <standardValue>
         <fullName>Branch Ops</fullName>
         <default>false</default>
         <label>Branch Ops</label>
     </standardValue>
     <standardValue>
-        <fullName>CF Retail</fullName>
-        <default>false</default>
-        <label>CF Retail</label>
-    </standardValue>
-    <standardValue>
         <fullName>Customer Service</fullName>
         <default>false</default>
         <label>Customer Service</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Data Upload</fullName>
-        <default>false</default>
-        <label>Data Upload</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Distributor</fullName>
-        <default>false</default>
-        <label>Distributor</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Marketing</fullName>
-        <default>false</default>
-        <label>Marketing</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Self Sourced</fullName>
-        <default>false</default>
-        <label>Self Sourced</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Ultratech</fullName>
-        <default>false</default>
-        <label>Ultratech</label>
     </standardValue>
 </StandardValueSet>
