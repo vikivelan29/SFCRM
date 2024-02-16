@@ -1,11 +1,10 @@
 import { LightningElement, api, wire} from 'lwc';
 import updateCaseParent from '@salesforce/apex/ASF_RelateDuplicateCaseController.updateCaseParent';
 import { CloseActionScreenEvent } from "lightning/actions";
-import { getRecordNotifyChange, getRecords, getRecord, getFieldValue } from "lightning/uiRecordApi";
+import { getRecordNotifyChange, getRecord, getFieldValue } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { refreshApex } from '@salesforce/apex';
-import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
-import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
+import { CurrentPageReference } from 'lightning/navigation';
+import { fireEventNoPageRef } from 'c/asf_pubsub';
 
 import ISCLOSED_FIELD from '@salesforce/schema/Case.IsClosed';
 import LAN_FIELD from '@salesforce/schema/Case.LAN__c';
@@ -13,16 +12,21 @@ import PARENTCASEID_FIELD from '@salesforce/schema/Case.ParentId';
 import CATEGORY_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
 import TYPE_FIELD from '@salesforce/schema/Case.Sub_Type_Text__c';
 import SUBTYPE_FIELD from '@salesforce/schema/Case.Type_Text__c';
+import OWNER_FIELD from '@salesforce/schema/Case.OwnerId';
+import USER_ID from '@salesforce/user/Id';
 
 export default class Asf_RelateDeduplicateCase extends LightningElement {
     @api recordId;
     @api objectApiName = 'Case';
-    loaded = true;
+    loaded = false;
+    showPage = false;
     @api parentCaseId;
     @wire(CurrentPageReference) pageRef;
     wiredParentRec;
     wiredCurrentRec;
-    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD];
+    userId = USER_ID;
+    errorMessage = 'You do not have access. Only case owner is allowed to mark the case as Relate/ Duplicate';
+    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD];
     
     @wire(getRecord, { recordId: '$recordId', fields: '$caseFields' })
     wiredRecord({ error, data }) {
@@ -32,9 +36,11 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                     IsClosed: getFieldValue(data, ISCLOSED_FIELD),
                     Category: getFieldValue(data, CATEGORY_FIELD),
                     Type: getFieldValue(data, TYPE_FIELD),
-                    SubType: getFieldValue(data, SUBTYPE_FIELD)
+                    SubType: getFieldValue(data, SUBTYPE_FIELD),
+                    Owner: getFieldValue(data, OWNER_FIELD)
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
+            this.ownerValidation();
         } else if (error) {
             console.error('Error loading record', error);
         }
@@ -53,7 +59,12 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             console.error('Error loading parent record', error);
         }
     }  
-  
+    ownerValidation(){
+        this.loaded = true;
+        if(this.wiredCurrentRec.Owner === this.userId){
+            this.showPage = true;
+        }
+    }
     handleSuccess() {
         this.showToastMessage('Success!', 'Changes Saved Successfully', 'success');
     }
@@ -80,6 +91,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
 
     validateDuplicateCase(){
         let isValid = true;
+
         if(this.wiredParentRec.IsClosed){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a closed case as parent', 'error');
