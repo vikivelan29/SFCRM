@@ -93,10 +93,11 @@
                         {expandCollapseLbl}
                     </a>-->
                 </lightning-layout-item>
+            </lightning-layout>
 
-
-
-                <!-- VIRENDRA -->
+            <!-- VIRENDRA -->
+            <lightning-layout multiple-rows="true">
+                
                 <template if:true={showAdditionalSLA}>
 
                     <lightning-layout-item  class="center-text slds-p-vertical_medium"><!--padding="around-small" -->
@@ -150,9 +151,7 @@
                     </lightning-layout-item>
 
                 </template>
-
             </lightning-layout>
-
             <!-- VIRENDRA - ADDED FOR EXPANDED AND COLLAPSE SLA.-->
             <!--<lightning-layout multiple-rows="true">
                 <lightning-layout-item padding="around-small" size="10" alignment-bump="right">
