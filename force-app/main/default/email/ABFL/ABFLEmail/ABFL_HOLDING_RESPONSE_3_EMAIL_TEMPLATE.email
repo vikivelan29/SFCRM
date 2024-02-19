@@ -152,7 +152,7 @@
 												<br />
 												While our endeavor would have been to get your request resolved by {{{Case.Overall_Case_Closure_SLA__c}}}, we request you to allow us 7 more days to review your case and provide an appropriate response.<br />
 												<br />
-												Your case will be resolved by {{{Case.Overall_Case_Closure_SLA__c}}} + 7days.<br />
+												Your case will be resolved by {{{Case.Overall_SLA_plus_X_days__c}}}.<br />
 												<br />
 												We regret any inconvenience caused to you and appreciate your patience.<br />
 												<br />

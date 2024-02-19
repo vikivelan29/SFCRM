@@ -155,7 +155,7 @@
 												<br />
 												We anticipate completing the necessary steps within the specified 7 days.<br />
 												<br />
-												Your case will be resolved by {{{Case.Overall_Case_Closure_SLA__c}}} + 7days.<br />
+												Your case will be resolved by {{{Case.Overall_SLA_plus_X_days__c}}}.<br />
 												<br />
 												Our commitment to providing you with a comprehensive and satisfactory resolution remains unwavering.<br />
 												<br />
