@@ -6,28 +6,6 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
-
-    /****************************************************************************************************************
-    * @LOB - Common
-    * @Function - fetchStpTemplates
-    * @param templateString - Resolved and rejected templates string
-    * @return - Map<String, String> .
-    * @description - Get a map of template type and template value
-    *****************************************************************************************************************/       
-    public static Map<String, String> fetchStpTemplates(String templateString){
-    
-        Map<String, String> templateMap = new Map<String, String>();
-        if(String.isNotBlank(templateString)) {
-            List<String> pairs = templateString.split(',');
-            for(String pair : pairs) {
-                List<String> keyValue = pair.split(':');
-                if(keyValue.size() == 2) {
-                    templateMap.put(keyValue[0].trim(), keyValue[1].trim());
-                }
-            }
-        }
-        return templateMap;
-    }
     
     /****************************************************************************************************************
     * @LOB - Common
