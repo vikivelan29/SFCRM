@@ -236,7 +236,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                         CaseNumber__c = caseRecord.CaseNumber,
                         ContentVersionId__c = file.ContentVersionId__c,
                         Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
-                        DMS_External_ID__c = file.Name,
+                        DMS_External_ID__c = file.ContentVersionId__c,
                         File_Name__c = file.File_Name__c,
                         Is_Latest_Version__c = file.Is_Latest_Version__c,
                         Version_Number__c = file.Version_Number__c,
