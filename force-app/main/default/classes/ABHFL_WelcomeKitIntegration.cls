@@ -59,13 +59,18 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
-                                                                  Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                  Rejected_Case_SMS_Metadata__c, Additional_Email_Templates__c,
+                                                       			  Additional_SMS_Metadata__c FROM ASF_Case_Category_Config__c
                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+        
         if(String.isNotBlank(caseRecord.Source__c) && digitalSources.contains(caseRecord.Source__c))
        	{
+            Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+            Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+            
            	//Send standard email template and close the case
-            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                    cccRecord[0].Rejected_Case_SMS_Metadata__c, false);
+            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                    emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
             caseRecord.MoveToNext__c = true;
             if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
             {
@@ -172,12 +177,15 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     }
     
     private void handleTransferSuccess(Case caseRec){
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                   Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,Additional_Email_Templates__c,
+                                                       			   Additional_SMS_Metadata__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
                                                                    WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    
-      	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                    											cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
+        
+        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+      	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,
+                                                                emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), true);
         caseRec.MoveToNext__c = true;
         if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
         {
@@ -195,7 +203,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         caseRec.OwnerId = csQueue.Id;
         if(Schema.sObjectType.Case.isUpdateable())
         {
-          	update caseRec; 
+          	update caseRec;    
         }
     }
     

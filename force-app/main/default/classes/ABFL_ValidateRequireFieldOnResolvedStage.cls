@@ -29,7 +29,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
             Set<String> blankRCA_Fields = ABFL_ComplaintsValidateOnResolvedStage.validateRCAfields(caseRec);
                 
                 // setting the Error Message if RCA fields found blank
-                if(blankRCA_Fields.size() > 0){   
+                if( blankRCA_Fields?.size() > 0){   
                     
                     retCls.status = 'Error';
                     retCls.errorMessage = 'Please fill the RCA fields on Verification Stage';
