@@ -1,5 +1,6 @@
 <template>
-    <lightning-card title="Bulk Data Upload Progress"> <br>
+    <lightning-card title=""> 
+        <div class="slds-text-heading_small heading">Bulk Data Upload Progress</div><br>
         <template if:false={errorOccured}>
             <p>Please click on the link below to know more about the status of the Bulk Data Upload. Clicking this on the link will not affect the current upload, the operation shall execute in the background.
                 <lightning-button variant="base" class="slds-button" 
@@ -10,7 +11,7 @@
             <p>Failed Records: {failedRecords}</p>
             <p>Records Processed: {processedRecords}</p>
             <p>Progress: {percentageValue}%</p><br/> 
-                <lightning-progress-bar value={percentageValue} variant="circular" size="medium" style={progressStyle}>
+                <lightning-progress-bar value={percentageValue} variant="circular" size="medium">
                 </lightning-progress-bar>
         </template>
         <template if:true={errorOccured}>
