@@ -26,15 +26,17 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
             if(!caseNumberToCaseMap.containsKey(keyValueMap.get('Case number'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             if(caseNumberToCaseMap.get(keyValueMap.get('Case number')).IsClosed == true){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case is already '+caseNumberToCaseMap.get(keyValueMap.get('Case number')).Stage__c);
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             Case caseRec = caseNumberToCaseMap.get(keyValueMap.get('Case number'));
@@ -49,10 +51,11 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
                 caseRec.Reject_Case__c = true;
                 caseRec.Rejected_Reason__c = keyValueMap.get('Close Unresolved Details');
                 caseRec.Rejection_Reason__c = keyValueMap.get('Close Unresolved Reason');
-            }else{
-                keyValueMap.put('Result', 'FALSE');
+            }else{ 
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Stage');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             //Any other BU specific checks - add here
@@ -87,7 +90,7 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         }
         System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
-        if(!selectedRecordIds.isEmpty()){
+        if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;

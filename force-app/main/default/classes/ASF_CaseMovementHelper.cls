@@ -1079,8 +1079,9 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         
         Map<Id, List<ASF_Case_Approv__c>> approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecords, caseIdToCaseRuleMap);

@@ -79,7 +79,7 @@ public class ASF_CaseStageSLA3TimeBasedAction {
                                                 FROM  ASF_Case_SLA_History__c 
                                                 WHERE Case__c IN: casesList 
                                                 AND Stage_End_Date__c = null 
-                                                AND is_Running_Record__c = true ]){
+                                                AND is_Running_Record__c = true FOR UPDATE]){
             if(slaHistory.Stage_Violation_Start_Date__c == null ){
                 slaHistory.Stage_Violation_Start_Date__c = slaHistory.Case__r.Stage_SLA_1__c;
                 slaHistory.Status__c = 'Violated';
@@ -157,17 +157,7 @@ public class ASF_CaseStageSLA3TimeBasedAction {
             try{
                 UPDATE slaHistoryList;
             } catch(DmlException dmle){
-                String errorMsg = dmle.getDmlMessage(0);
-                errorMsg += dmle.getStackTraceString();
-                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-                String[] toAddresses = new String[] {'005Bl000002hUMgIAM'};
-                mail.setToAddresses(toAddresses);
-                mail.setSubject('Error in SLA3 '+scope);
-                mail.setPlainTextBody(errorMsg);
-                // Pass this email message to the built-in sendEmail method 
-                // of the Messaging class
-                Messaging.SendEmailResult[] results = Messaging.sendEmail(
-                                 new Messaging.SingleEmailMessage[] { mail });
+                
             }
             
         }

@@ -14,7 +14,8 @@ global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Bat
         for (Case caseRec : scope) {
         	caseRec.Ageing_Business_Days__c = calculateBusinesAge(caseRec);
         }
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        
+        ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
         Database.SaveResult[] updateResult = Database.update(scope,false); 
 
         for (Database.SaveResult sr : updateResult) {
@@ -42,11 +43,21 @@ global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Bat
     private void calculateBusinessHoursPerDay(){
                 
         for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours]){
+            
+            if(BhRec.MondayStartTime == null){
+                BusinessHoursTohoursPerDay.put(BhRec.Id, 9);
+                continue;
+            } 
 
             Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
             Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
             Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
-            BusinessHoursTohoursPerDay.put(BhRec.Id, hoursPerDay);
+            
+            if(hoursPerDay == 0){
+                BusinessHoursTohoursPerDay.put(BhRec.Id, 24);     
+            }else{
+                BusinessHoursTohoursPerDay.put(BhRec.Id, hoursPerDay);
+            }
         }
     }
     

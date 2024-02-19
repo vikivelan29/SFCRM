@@ -111,16 +111,34 @@ public with sharing class ASF_BulkUploadUtilityController {
                 peList.add(chunkPE);
                 index = 0;
             }
-            if(!lineItemsToUpdate.isEmpty()){
-                update lineItemsToUpdate; //Updates status to Event fired
-            }
+            
             if(!peList.isEmpty()){
-                EventBus.publish(peList);
+                index = 0;
+                List<Database.SaveResult> results = EventBus.publish(peList);
+                for (Database.SaveResult sr : results) {
+                    if (sr.isSuccess()) {
+                        System.debug('Successfully published event.');
+                    } else {
+                        lineItemsToUpdate[index].Status__c = 'Pending';
+                        for(Database.Error err : sr.getErrors()) {
+                            System.debug('Error returned: ' +
+                                        err.getStatusCode() +
+                                        ' - ' +
+                                        err.getMessage());
+                        }
+                    }  
+                    index++;     
+                }
+                
                 returnWrap.isSuccess = true;
                 returnWrap.successMessageIfAny = 'Upload completed, processing started';
             }else{
                 returnWrap.isSuccess = false;
                 returnWrap.errorMessage = 'No row pending for processing';
+            }
+
+            if(!lineItemsToUpdate.isEmpty()){
+                update lineItemsToUpdate; //Updates status to Event fired
             }
         }
         return returnWrap;
