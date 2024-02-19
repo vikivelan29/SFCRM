@@ -218,6 +218,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
                 fileRec.Version_Number__c = fileVersion.VersionNumber;
                 fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
+                fileRec.DMS_External_ID__c = fileVersion.Id + caseRecord.CaseNumber;
                 fileRecList.add(fileRec);
             }
             if(fileRecList.size() > 0){
