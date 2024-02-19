@@ -143,12 +143,14 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
             this.overallStyle = 'breached-sla slds-text-body_small';
         }
 
-        if(this.sla3Wrap && this.sla3Wrap.slaMilliseconds > new Date()){
-            this.sla3TAT = 'Within TAT';
-            this.sla3Style = 'slds-text-body_small';
-        }else{
-            this.sla3TAT = 'Outside TAT';
-            this.sla3Style = 'breached-sla slds-text-body_small';
+        if(this.sla3Wrap && this.overallWrap.caseObj.Stage_SLA_3__c){
+            if(this.sla3Wrap.slaMilliseconds > new Date()){
+                this.sla3TAT = 'Within TAT';
+                this.sla3Style = 'slds-text-body_small';
+            }else{
+                this.sla3TAT = 'Outside TAT';
+                this.sla3Style = 'breached-sla slds-text-body_small';
+            }
         }
 
         if(this.sla1Wrap && this.sla1Wrap.slaMilliseconds > new Date()){
