@@ -13,49 +13,64 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserializeUntyped(eachJSON);
+            System.debug('eachJSON'+eachJSON);
+            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             lans.add(keyValueMap.get('Loan Account No'));
             cccExtIds.add(keyValueMap.get('Issue Type Code'));
             rows.put(lineItemId, keyValueMap);
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
-        Set<String> extIdFoundSet = new Set<String>();
-       /* for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
+        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
             
         }
 
-       
+        Set<String> extIdFoundSet = new Set<String>();
         for(ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccExtIds]){
             extIdFoundSet.add(config.CCC_External_Id__c);
-        } */
+        }
 
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
+            Boolean blockCommunicationFlag = false;
             if(!extIdFoundSet.contains(keyValueMap.get('Issue Type Code'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             if(!lanToAccountIdMap.containsKey(keyValueMap.get('Loan Account No'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-           /* Case caseRec = new Case();
+            if(keyValueMap.get('Block Customer Communication') != null && String.isNotBlank(keyValueMap.get('Block Customer Communication'))){
+                try{
+                    blockCommunicationFlag = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
+                }catch(Exception e){
+                    keyValueMap.put('Result', 'FAILURE');
+                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                    continue;
+                }
+            }
+            Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            //Do we need to populate Asset lookup?? - Ask Manasa
+            //Do we need to populate Asset lookup?? - Ask Selwyn
+            //Map Sub Source - field not present
             caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
             caseRec.Source__c = keyValueMap.get('Source');
             caseRec.Description = keyValueMap.get('Description');
-            Boolean commValue = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
-            caseRec.No_Auto_Communication__c = commValue?'SMS;Email':null;
-            
+            caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
+            caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+            caseRec.Technical_Source__c = 'LWC';
             resultWrapper.resultRecords.put(lineItemId, caseRec);
-            resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap); */
+            resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }
 
         return resultWrapper;
@@ -85,7 +100,7 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
         }
 
         String strFinalQuery;
-        if(selectedRecordIds != null){
+        if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;

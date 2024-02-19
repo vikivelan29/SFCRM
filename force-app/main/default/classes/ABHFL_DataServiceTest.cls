@@ -22,8 +22,17 @@ public class ABHFL_DataServiceTest {
         List<ABHFL_DataServiceClass.DataServiceWrapper> wrapperList = new List<ABHFL_DataServiceClass.DataServiceWrapper>();
         List<ABHFL_DataServiceDetailsController.DataServiceWrapper> wrapperList1 = new List<ABHFL_DataServiceDetailsController.DataServiceWrapper>();
         Asset ast = [SELECT Id, LAN__c,Loan_Disbursement_Status__c FROM Asset LIMIT 1];
+        
+        MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+        mock.setStaticResource(ABCL_Integrations__mdt.getInstance('Data_Service_Details').EndPoint__c,'DataServiceMockResponse');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, mock);
+        
+        Test.startTest();
         wrapperList = ABHFL_DataServiceClass.fetchSections(ast.Id);
         wrapperList1 = ABHFL_DataServiceDetailsController.fetchAllSections();
+        Test.stopTest();
         System.assertEquals('Test12345',ast.LAN__c);
     }
     

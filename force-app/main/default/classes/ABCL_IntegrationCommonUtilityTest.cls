@@ -67,6 +67,15 @@ public class ABCL_IntegrationCommonUtilityTest {
     }
     
     @IsTest
+    static void testFetchStpTemplates(){
+        String templateString = 'Resolved:template_1,Rejected:template_2';
+        Test.startTest();
+        	Map<String, String> templateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(templateString);
+        Test.stopTest();
+        system.assertEquals(templateMap.get('Resolved'),'template_1');
+    }
+    
+    @IsTest
     static void testTransferFilesToDMS(){
         List<Case> caseRecords = [SELECT Id, CreatedById FROM Case LIMIT 1];
         ContentVersion cv = new ContentVersion();

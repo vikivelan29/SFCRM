@@ -1,8 +1,12 @@
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
+
+        ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
+
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
         ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
+        commonCLssObj.prepopulateCaseFlds(newItems);
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
 
@@ -14,7 +18,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI((List<Case>)newItems);
         }
-        
     }
 
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){

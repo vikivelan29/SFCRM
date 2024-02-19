@@ -1,0 +1,38 @@
+<template>
+    <div style="background:white;padding:10px">
+        <div class="slds-align_absolute-center" style="vertical-align: middle;white-space: nowrap;position:relative">
+            <lightning-spinner if:true={isLoading} variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+        <template if:true={sectionClosed}>
+            <div style="display:flex;height:50px">
+                <lightning-button class="slds-align--absolute-center" variant="brand" label="Get ROI History" title="Get ROI History" onclick={getRoiHistoryDetails}></lightning-button>
+            </div>
+        </template>
+        <template if:false={sectionClosed}>
+            <template if:false={receivedResponse}>
+                <div>
+                    <h1 class="slds-align_absolute-center" style="color:red;font-weight:bold;text-transform:uppercase">{noResponseFromServer}</h1>
+                </div>
+            </template>
+            <template if:true={receivedResponse}>
+                <div style="overflow-x:auto;overflow-y:hidden">
+                    <lightning-accordion onsectiontoggle={handleToggleSection} class="example-accordion" 
+                        allow-multiple-sections-open active-section-name={activeSections}>
+                            <lightning-accordion-section name="roiHistory" label="ROI History">
+                                <lightning-datatable
+                                    key-field="id"
+                                    show-row-number-column
+                                    hide-checkbox-column
+                                    data={roiData}
+                                    columns={roiColumns}>
+                                </lightning-datatable>
+                            </lightning-accordion-section>
+                    </lightning-accordion>
+                </div>
+            </template>
+            <div style="display:flex;margin-top:5px;margin-right:5px;justify-content: end;">
+                <lightning-button icon-name='utility:refresh' variant="brand" label="Refresh" title="Refresh" onclick={getRoiHistoryDetails}></lightning-button>
+            </div>
+        </template>
+    </div>
+</template>

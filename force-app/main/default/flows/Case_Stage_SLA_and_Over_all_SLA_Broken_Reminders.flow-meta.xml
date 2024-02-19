@@ -75,6 +75,23 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>Send_SLA2_Broken_Email</name>
+        <label>Send SLA2 Broken Email</label>
+        <locationX>1370</locationX>
+        <locationY>276</locationY>
+        <actionName>ASF_CaseStageSLA2TimeBasedAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>scope</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ASF_CaseStageSLA2TimeBasedAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Send_Stage_1_SLA_Broken_Email</name>
         <label>Send Stage 1 SLA Broken Email</label>
         <locationX>50</locationX>
@@ -89,6 +106,23 @@
             </value>
         </inputParameters>
         <nameSegment>ASF_CaseStageSLATimeBasedAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SLA_3_Broken_Email</name>
+        <label>SLA 3 Broken Email</label>
+        <locationX>1634</locationX>
+        <locationY>276</locationY>
+        <actionName>ASF_CaseStageSLA3TimeBasedAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>scope</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ASF_CaseStageSLA3TimeBasedAction</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
@@ -358,7 +392,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>221</locationX>
+        <locationX>584</locationX>
         <locationY>0</locationY>
         <filterLogic>1 AND ((2 AND 3) OR (4 AND 5))</filterLogic>
         <filters>
@@ -429,6 +463,28 @@
             <offsetNumber>-1</offsetNumber>
             <offsetUnit>Hours</offsetUnit>
             <recordField>Overall_Case_Closure_SLA__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>SLA2_Broken</name>
+            <connector>
+                <targetReference>Send_SLA2_Broken_Email</targetReference>
+            </connector>
+            <label>SLA2 Broken</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <recordField>Stage_SLA_2__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>SLA3_Broken</name>
+            <connector>
+                <targetReference>SLA_3_Broken_Email</targetReference>
+            </connector>
+            <label>SLA3 Broken</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <recordField>Stage_SLA_3__c</recordField>
             <timeSource>RecordField</timeSource>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>

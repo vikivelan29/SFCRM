@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <externalId>false</externalId>
+    <label>Product</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>COMMERCIAL PROPERTY PURCHASE_AHF</fullName>
+                <default>false</default>
+                <label>COMMERCIAL PROPERTY PURCHASE_AHF</label>
+            </value>
+            <value>
+                <fullName>CPP_PRIME</fullName>
+                <default>false</default>
+                <label>CPP_PRIME</label>
+            </value>
+            <value>
+                <fullName>HOME LOAN</fullName>
+                <default>false</default>
+                <label>HOME LOAN</label>
+            </value>
+            <value>
+                <fullName>HOME LOAN_AHF</fullName>
+                <default>false</default>
+                <label>HOME LOAN_AHF</label>
+            </value>
+            <value>
+                <fullName>HOME LOAN_INFORMAL</fullName>
+                <default>false</default>
+                <label>HOME LOAN_INFORMAL</label>
+            </value>
+            <value>
+                <fullName>HOME LOAN_PLUS</fullName>
+                <default>false</default>
+                <label>HOME LOAN_PLUS</label>
+            </value>
+            <value>
+                <fullName>LAP_AHF</fullName>
+                <default>false</default>
+                <label>LAP_AHF</label>
+            </value>
+            <value>
+                <fullName>LEASE RENTAL DISCOUNTING</fullName>
+                <default>false</default>
+                <label>LEASE RENTAL DISCOUNTING</label>
+            </value>
+            <value>
+                <fullName>LEASE RENTAL DISCOUNTING_INST</fullName>
+                <default>false</default>
+                <label>LEASE RENTAL DISCOUNTING_INST</label>
+            </value>
+            <value>
+                <fullName>LOAN AGAINST PROPERTY</fullName>
+                <default>false</default>
+                <label>LOAN AGAINST PROPERTY</label>
+            </value>
+            <value>
+                <fullName>LOAN AGAINST PROPERTY_INFORMAL</fullName>
+                <default>false</default>
+                <label>LOAN AGAINST PROPERTY_INFORMAL</label>
+            </value>
+            <value>
+                <fullName>MICRO CONSTRUCTION FINANCE</fullName>
+                <default>false</default>
+                <label>MICRO CONSTRUCTION FINANCE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

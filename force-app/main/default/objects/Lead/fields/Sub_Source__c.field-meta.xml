@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Source__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>LeadSource</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Walk-in</fullName>
+                <default>false</default>
+                <label>Walk-in</label>
+            </value>
+            <value>
+                <fullName>Cross Sell</fullName>
+                <default>false</default>
+                <label>Cross Sell</label>
+            </value>
+            <value>
+                <fullName>Phone Inbound</fullName>
+                <default>false</default>
+                <label>Phone Inbound</label>
+            </value>
+            <value>
+                <fullName>Phone Outbound</fullName>
+                <default>false</default>
+                <label>Phone Outbound</label>
+            </value>
+            <value>
+                <fullName>Asset Service Desk</fullName>
+                <default>false</default>
+                <label>Asset Service Desk</label>
+            </value>
+            <value>
+                <fullName>Customer Contact Centre</fullName>
+                <default>false</default>
+                <label>Customer Contact Centre</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Grievance Desk</fullName>
+                <default>false</default>
+                <label>Grievance Desk</label>
+            </value>
+            <value>
+                <fullName>Customer Retention</fullName>
+                <default>false</default>
+                <label>Customer Retention</label>
+            </value>
+            <value>
+                <fullName>CIBIL Data</fullName>
+                <default>false</default>
+                <label>CIBIL Data</label>
+            </value>
+            <value>
+                <fullName>Strategic Partnership</fullName>
+                <default>false</default>
+                <label>Strategic Partnership</label>
+            </value>
+            <value>
+                <fullName>Proactive</fullName>
+                <default>false</default>
+                <label>Proactive</label>
+            </value>
+            <value>
+                <fullName>Promoter Calling</fullName>
+                <default>false</default>
+                <label>Promoter Calling</label>
+            </value>
+            <value>
+                <fullName>Digital Channel</fullName>
+                <default>false</default>
+                <label>Digital Channel</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Walk-in</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Cross Sell</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Phone Inbound</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Phone Outbound</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Asset Service Desk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Customer Contact Centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Grievance Desk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Customer Retention</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>CIBIL Data</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Strategic Partnership</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Proactive</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Promoter Calling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Service</controllingFieldValue>
+            <valueName>Digital Channel</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField> 
