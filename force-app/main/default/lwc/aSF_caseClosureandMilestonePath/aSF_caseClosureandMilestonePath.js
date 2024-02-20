@@ -144,7 +144,7 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
         }
 
         if(this.sla3Wrap && this.overallWrap.caseObj.Stage_SLA_3__c){
-            if(this.sla3Wrap.slaMilliseconds > new Date()){
+            if(this.sla3Wrap && this.sla3Wrap.slaMilliseconds > new Date()){
                 this.sla3TAT = 'Within TAT';
                 this.sla3Style = 'slds-text-body_small';
             }else{
@@ -152,23 +152,25 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
                 this.sla3Style = 'breached-sla slds-text-body_small';
             }
         }
-
-        if(this.sla1Wrap && this.sla1Wrap.slaMilliseconds > new Date()){
-            this.sla1TAT = 'Within TAT';
-            this.sla1Style = 'slds-text-body_small';
-        }else{
-            this.sla1TAT = 'Outside TAT';
-            this.sla1Style = 'breached-sla slds-text-body_small';
+        if(this.sla1Wrap && this.overallWrap.caseObj.Stage_SLA_1__c){
+            if(this.sla1Wrap && this.sla1Wrap.slaMilliseconds > new Date()){
+                this.sla1TAT = 'Within TAT';
+                this.sla1Style = 'slds-text-body_small';
+            }else{
+                this.sla1TAT = 'Outside TAT';
+                this.sla1Style = 'breached-sla slds-text-body_small';
+            }
         }
 
-        if(this.sla2Wrap && this.sla2Wrap.slaMilliseconds > new Date()){
-            this.sla2TAT = 'Within TAT';
-            this.sla2Style = 'slds-text-body_small';
-        }else{
-            this.sla2TAT = 'Outside TAT';
-            this.sla2Style = 'breached-sla slds-text-body_small';
+        if(this.sla2Wrap && this.overallWrap.caseObj.Stage_SLA_2__c){
+            if(this.sla2Wrap && this.sla2Wrap.slaMilliseconds > new Date()){
+                this.sla2TAT = 'Within TAT';
+                this.sla2Style = 'slds-text-body_small';
+            }else{
+                this.sla2TAT = 'Outside TAT';
+                this.sla2Style = 'breached-sla slds-text-body_small';
+            }
         }
-
     }
     
     start() {
