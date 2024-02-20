@@ -18,5 +18,9 @@
 				description="Pass the page's record id to the component variable"
 				default="{!recordId}" />
 		</targetConfig>
+		<targetConfig targets="lightning__RecordPage">
+			<property name="displayType" label="Display Type" type="String"
+			datasource="Timer,Date" description="Timer will display how much business hours/mins left for each SLA, Date will display the SLA dates only"/>
+		</targetConfig>
 	</targetConfigs>
 </LightningComponentBundle>

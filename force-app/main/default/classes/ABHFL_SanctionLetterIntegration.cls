@@ -26,7 +26,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         
         
         //Checking for mandatory API conditions
-        if(String.isNotBlank(caseRecord.Asset.LAN__c)){
+        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             result.status = ABHFL_Constants.SUCCESS;
             result.response = Custom_Messages__mdt.getInstance('SL_Evaluation_Success_Response').Message__c;
         }else{

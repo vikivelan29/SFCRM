@@ -5,6 +5,7 @@
 *Description  :  This class is created to change the owner of case wrt to location code of LAN 
 *********************************************************/
 public with sharing class ABFL_OwnerChangeWithLocation {
+        private static boolean firstrunInsert = true;
  /****************************************************************************************************************
 * @param  - List<CASE> & Map of Old Cases
 * @return - void .
@@ -15,7 +16,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         List<Case> filteredCase = new List<Case>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
         system.debug('mRecordTypeCase '+mRecordTypeVsCases);
-        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+        if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
             Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case objCase : newCaseMap.Values()){
@@ -83,6 +84,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
          if(!insertFinalUpdateCase.isEmpty()){
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            firstrunInsert = false;
         	update insertFinalUpdateCase;
         }
     }
@@ -137,6 +139,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
         if(!insertFinalUpdateCase.isEmpty()){
            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
+           	firstrunInsert = false;
         	update insertFinalUpdateCase;
         }
     }
@@ -174,7 +177,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         List<Case> filteredCase = new List<Case>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
-        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+        if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
             Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
             List<Case> afterCases = [SELECT ID,OwnerId,LAN__c,Business_Unit__c FROM Case WHERE ID IN :lstCase AND OWNERID =: queueRecord.ID ];
             if(!afterCases.isEmpty()){
@@ -230,6 +233,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
 		if(!insertFinalUpdateCase.isEmpty()){
            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            firstrunInsert = false;
         	update insertFinalUpdateCase;
      	}
     }
@@ -264,6 +268,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
         if(!insertFinalUpdateCase.isEmpty()){
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            firstrunInsert = false;
         	update insertFinalUpdateCase;
      	}
     }

@@ -15,6 +15,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     whereClauseForOC = '';
     riFlag;
     ocFlag;
+    isLoaded;
 
     customLabel = {
         Days_For_Repeated_Indicator
@@ -22,7 +23,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     renderedCallback() {
         if(this.objectApiName == 'Account') {
-            this.showOrHideIcon("[data-id='Repeated_Indicator_div']", 'slds-hide');
+            this.addIconClass("[data-id='Repeated_Indicator_div']", 'slds-hide');
         }
     }
 
@@ -30,7 +31,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         this.getCaseRecord();
     }
 
-   async getCaseRecord() {  
+   async getCaseRecord() {
+
+        this.isLoaded = true;
         if(this.objectApiName == 'Case') {
 
             let fieldArray    = "id, AccountId, LAN__c, Nature__c, Type_Text__c, Sub_Type_Text__c";
@@ -46,7 +49,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             }
         }
         else if(this.objectApiName == 'Account') {
-            this.showOrHideIcon("[data-id='Repeated_Indicator']", 'slds-hide');
+            this.addIconClass("[data-id='Repeated_Indicator']", 'slds-hide');
+            this.removeIconClass("[data-id='Open_Complaint_Indicator_div']", 'slds-hide');
             this.initializeWhereClause();
             this.objectApiName = 'Case';
             this.story_328_329();
@@ -55,7 +59,14 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     }
 
     story_328_329_330() {
-        this.story_328_329();
+
+        let caseNature = this.caseRecord.Nature__c;
+        if(caseNature == "Complaint") {
+            this.story_328_329();
+        }
+        else {
+            this.addIconClass("[data-id='Open_Complaint_Indicator_div']", 'slds-hide');
+        }
         this.story_330();
     }
 
@@ -65,7 +76,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         let commonForOC = `WHERE Stage__c = \'Open\' AND Nature__c = \'Complaint\'`;
 
         if(this.objectApiName == 'Case') {
-            this.whereClauseForRI = `WHERE AccountId = \'${this.caseRecord.AccountId}\' AND Stage__c = \'Resolved\' AND LAN__c = \'${this.caseRecord.LAN__c}\'
+            this.whereClauseForRI = `WHERE id != \'${this.recordId}\' AND AccountId = \'${this.caseRecord.AccountId}\' AND Stage__c = \'Resolved\' AND LAN__c = \'${this.caseRecord.LAN__c}\'
                                 AND Nature__c = \'${this.caseRecord.Nature__c}\' AND Type_Text__c = \'${this.caseRecord.Type_Text__c}\' 
                                 AND Sub_Type_Text__c = \'${this.caseRecord.Sub_Type_Text__c}\' AND CreatedDate = LAST_N_DAYS:${this.customLabel.Days_For_Repeated_Indicator} 
                                  ${withSecEnforced} LIMIT 2`; 
@@ -85,17 +96,19 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             iconAttrObjOC.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjOC);
         }
+        this.isLoaded = false;
 
     }
 
     async story_330() {
         let iconAttrObjRI = {};
         let sobRecords = await getRecords({ fields: this.fieldArr, objectName: this.objectApiName, whereClause: this.whereClauseForRI});
-        if(sobRecords && sobRecords.length > 1) {
+        if(sobRecords && sobRecords.length > 0) {
             iconAttrObjRI.dataId = '[data-id="Repeated_Indicator"]';
             iconAttrObjRI.variant = 'error';
             this.addAndChangeAttributes(iconAttrObjRI);
         }
+        this.isLoaded = false;
     }
 
     addAndChangeAttributes(attrbObj) {
@@ -103,10 +116,17 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         getLightningIcon.variant = attrbObj.variant;
     }
 
-    showOrHideIcon(dataId, iconClass) {
+    addIconClass(dataId, iconClass) {
         let getLightningIcon = this.template.querySelector(dataId);
         if(getLightningIcon) {
             getLightningIcon.classList.add(iconClass);
+        }
+    }
+
+    removeIconClass(dataId, iconClass) {
+        let getLightningIcon = this.template.querySelector(dataId);
+        if(getLightningIcon) {
+            getLightningIcon.classList.remove(iconClass);
         }
     }
 }

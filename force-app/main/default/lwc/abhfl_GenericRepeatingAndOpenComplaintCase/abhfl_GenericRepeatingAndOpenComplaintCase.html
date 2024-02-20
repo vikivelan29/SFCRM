@@ -1,5 +1,10 @@
 <template>
-    <lightning-card title="Indicator">
+    <lightning-card variant="narrow">
+        <template if:true={isLoaded}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <h2 slot="title">Indicator</h2>
+        <div>
             <div class="slds-form slds-m-left_x-small" role="list">
                 <div class="slds-form__row">
                     <div class="slds-form__item" role="listitem">
@@ -8,9 +13,9 @@
                             <span class="slds-form-element__label">Repeated</span>
                             <div class="slds-form-element__control">
                                 <div class="slds-form-element__static slds-text-longform">
-                                        <lightning-icon class="" data-id="Repeated_Indicator" icon-name="utility:priority" variant=""
-                                            size="small">
-                                        </lightning-icon>
+                                    <lightning-icon class="" data-id="Repeated_Indicator" icon-name="utility:priority"
+                                        variant="" size="small">
+                                    </lightning-icon>
                                     <br />
                                 </div>
                             </div>
@@ -21,14 +26,14 @@
             <div class="slds-form slds-m-top_xx-small slds-m-left_x-small" role="list">
                 <div class="slds-form__row">
                     <div class="slds-form__item" role="listitem">
-                        <div
+                        <div data-id="Open_Complaint_Indicator_div"
                             class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent slds-form-element_1-col">
                             <span class="slds-form-element__label">Open Complaint</span>
                             <div class="slds-form-element__control">
                                 <div class="slds-form-element__static slds-text-longform">
-                                        <lightning-icon data-id="Open_Complaint_Indicator" icon-name="utility:priority"
-                                            variant="" size="small">
-                                        </lightning-icon>
+                                    <lightning-icon data-id="Open_Complaint_Indicator" icon-name="utility:priority"
+                                        variant="" size="small">
+                                    </lightning-icon>
                                     <br />
                                 </div>
                             </div>
@@ -36,5 +41,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div slot="actions">
+            <lightning-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="x-small"
+                onclick={getCaseRecord}></lightning-icon>
+        </div>
     </lightning-card>
 </template>

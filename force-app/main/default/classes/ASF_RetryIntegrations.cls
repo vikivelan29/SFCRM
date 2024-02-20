@@ -54,7 +54,7 @@ public without sharing class ASF_RetryIntegrations {
         List<ASF_Case_Integration__c> oldCaseInetegrationRecords = new List<ASF_Case_Integration__c> ();
         
         if(ASF_Case_Integration__c.SObjectType.getDescribe().isAccessible()){
-            oldCaseInetegrationRecords = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =:caseIds AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
+            oldCaseInetegrationRecords = [SELECT ID,Case__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c =:caseIds AND Case__r.IsClosed = False AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
         }
         
         for(ASF_Case_Integration__c oldInt : oldCaseInetegrationRecords){

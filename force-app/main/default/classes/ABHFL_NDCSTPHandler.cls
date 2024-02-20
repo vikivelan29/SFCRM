@@ -28,7 +28,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             	result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationSuccess').Message__c;
             } else {
-                if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
+                if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.Source__c == ABHFL_Constants.BRANCH){
                     caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                     if(Schema.sObjectType.Case.isUpdateable()){
                         update caseRecord;
@@ -36,13 +36,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedBranchAssignment').Message__c;                                                                                                                               
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c,Additional_Email_Templates__c,Additional_SMS_Metadata__c
+                                                                    FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
                     if(cccRecord.size() > 0){
-                    	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                            cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                                                                            cccRecord[0].Rejected_Case_SMS_Metadata__c,
-                                                                                                                            false);
+                        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+                
+                        Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
+                                                                                emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
                     }
                     //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
@@ -125,13 +126,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         if(caseRecord!=null){
             if(isTransferred){
                 integrationFailure = false;
-                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,Additional_Email_Templates__c,Additional_SMS_Metadata__c
+                                                                FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
                 if(cccRecord.size() > 0){
-                	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                        cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                        cccRecord[0].Resolved_Case_SMS_Metadata__c, 
-                                                                                                                        isTransferred);           
+                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+            
+                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
+                                                                            emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);          
                 }
                 caseRecord.MoveToNext__c = true;
                 update caseRecord;        
@@ -152,7 +154,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
 
     private static void handleFailure(Case caseRecord){
         if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
-            if(caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
+            if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                 update caseRecord;
                 ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,ABHFL_Constants.NDC_STP_NAME,null);

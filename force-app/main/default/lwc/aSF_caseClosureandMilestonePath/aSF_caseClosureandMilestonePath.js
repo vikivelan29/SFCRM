@@ -13,222 +13,227 @@ import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class ASF_caseClosureandMilestonePath extends NavigationMixin(LightningElement) {
     @api recordId;
     timer;
-    wiredData;
     timerId;
     slaTimer;
     totalLeftMilliseconds;
-    totalOverdueMilliseconds;       
-    wiredData1;
+    totalOverdueMilliseconds;
     timerId1;
     totalLeftMilliseconds1;
     totalOverdueMilliseconds1;
-    caseObj1;
     within;
     outside;
     stageWithin;
     stageOutside;
-    
-    // @wire(getRecord, { recordId: '$recordId', fields })
-    // caseObj;
-    // get caseStage() {
-    //     return getFieldValue(this.caseObj.data, CASE_STAGE);
-    // } 
-    // get caseCloseSLA() {
-    //     return getFieldValue(this.caseObj.data, CASE_CLOSE_SLA);
-    // } 
-    // get caseStageSLA1() {
-    //     return getFieldValue(this.caseObj.data, CASE_STAGE_SLA_1);
-    // } 
-    // get numberCase(){
-    //     return getFieldValue(this.caseObj.data, fetchCase);
-    // }
+    showAdditionalSLA = false;
+    expandCollapseLbl = 'Expand';
 
-    async loadData(){
-        let slaMap = await getDataOnLoad({caseId: this.recordId}).catch(error=>{console.log(error)});
-        if(slaMap){
-            if(slaMap.overall){
-                let data = slaMap.overall;
-                if( data.leftTotalSec && data.leftTotalSec > 0){
-                    this.totalLeftMilliseconds = data.leftTotalSec;
-                }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-                    this.totalOverdueMilliseconds = data.overdueTotalSec;
+    //Overall
+    overallWrap;
+    overallStyle;
+    overallTAT;
+    
+    //SLA1
+    sla1Wrap;
+    sla1Style;
+    sla1TAT;
+
+    //SLA2
+    sla2Wrap;
+    sla2Style;
+    sla2TAT;
+
+    //SLA3
+    sla3Wrap;
+    sla3Style;
+    sla3TAT;
+
+    iconName = "utility:expand_all";
+    
+    
+
+    caseObj;
+    @api displayType;
+    get showTimer() {
+        //default display type is Timer
+        return this.displayType == undefined || this.displayType == 'Timer';
+    }
+
+    async loadData() {
+        let slaMap = await getDataOnLoad({ caseId: this.recordId }).catch(error => { console.log(error) });
+        if (slaMap) {
+            if (this.showTimer) {
+                if (slaMap.overall) {
+                    let data = slaMap.overall;
+                    if (data.leftTotalSec && data.leftTotalSec > 0) {
+                        this.totalLeftMilliseconds = data.leftTotalSec;
+                    } else if (data.overdueTotalSec && data.overdueTotalSec > 0) {
+                        this.totalOverdueMilliseconds = data.overdueTotalSec;
+                    }
+
+                    clearInterval(this.timerId);
+
+                    if (data.businessHourWorking && data.isClosed == false) {
+                        this.start();
+                    } else {
+                        if (this.totalLeftMilliseconds >= 1000) {
+                            this.timer = this.msToTime(this.totalLeftMilliseconds);
+                            this.timer = this.timer + 'left';
+                            this.within = true;
+                            this.outside = false;
+                        } else if (this.totalOverdueMilliseconds >= 1000) {
+                            this.timer = this.msToTime(this.totalOverdueMilliseconds);
+                            this.timer = this.timer + 'overdue';
+                            this.outside = true;
+                            this.within = false;
+                        }
+                    }
                 }
-                
-                clearInterval(this.timerId);
-                
-                if(data.businessHourWorking && data.isClosed == false){
-                    this.start();
-                }else{
-                    if(this.totalLeftMilliseconds >= 1000){
-                        this.timer = this.msToTime(this.totalLeftMilliseconds);
-                        this.timer = this.timer + 'left';
-                        this.within = true;
-                    this.outside = false;
-                    }else if(this.totalOverdueMilliseconds >= 1000){
-                        this.timer = this.msToTime(this.totalOverdueMilliseconds);
-                        this.timer = this.timer + 'overdue';
-                        this.outside = true;
-                        this.within = false;
-                    } 
+                if (slaMap.sla1) {
+                    let data = slaMap.sla1;
+                    if (data.leftTotalSec && data.leftTotalSec > 0) {
+                        this.totalLeftMilliseconds1 = data.leftTotalSec;
+                    } else if (data.overdueTotalSec && data.overdueTotalSec > 0) {
+                        this.totalOverdueMilliseconds1 = data.overdueTotalSec;
+                    }
+
+                    clearInterval(this.timerId1);
+                    if (data.businessHourWorking && data.isClosed == false) {
+                        this.start1();
+                    } else {
+                        if (this.totalLeftMilliseconds1 >= 1000) {
+                            this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
+                            this.slaTimer = this.slaTimer + 'left';
+                            this.stageWithin = true;
+                            this.stageOutside = false;
+                        } else if (this.totalOverdueMilliseconds1 >= 1000) {
+                            this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
+                            this.slaTimer = this.slaTimer + 'overdue';
+                            this.stageOutside = true;
+                            this.stageWithin = false;
+                        }
+                    }
                 }
             }
-            if(slaMap.stage){
-                let data = slaMap.stage;
-                if( data.leftTotalSec && data.leftTotalSec > 0){
-                    this.totalLeftMilliseconds1 = data.leftTotalSec;
-                }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-                    this.totalOverdueMilliseconds1 = data.overdueTotalSec;
-                }
-                
-                clearInterval(this.timerId1);
-                if(data.businessHourWorking && data.isClosed == false){
-                    this.start1();
+            else{
+                this.caseObj = slaMap.overall.caseObj;
+                console.log('caseobj', this.caseObj);
+                this.overallWrap = slaMap.overall;
+                this.sla1Wrap = slaMap.sla1;
+                this.sla2Wrap = slaMap.sla2;
+                this.sla3Wrap = slaMap.sla3;
+                if(this.overallWrap.isClosed == false){
+                    this.startNewTimer();
                 }else{
-                    if(this.totalLeftMilliseconds1 >= 1000){
-                        this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
-                        this.slaTimer = this.slaTimer + 'left';
-                        this.stageWithin = true;
-                        this.stageOutside = false; 
-                    }else if(this.totalOverdueMilliseconds1 >= 1000){
-                        this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
-                        this.slaTimer = this.slaTimer + 'overdue';
-                        this.stageOutside = true;  
-                        this.stageWithin = false;
-                    } 
-                }
+                    this.evaluateSLAs();
+                }   
             }
         }
     }
 
-    // @wire(getDataOnLoad, {caseId: '$recordId',caseStage:'$caseStage'}) 
-    // wiredData(result){
-    //     this.wiredData = result;
-    //     if(result.data){
-    //         var data = result.data;
-    //         console.log('data==',data);
-    //         if( data.leftTotalSec && data.leftTotalSec > 0){
-    //             this.totalLeftMilliseconds = data.leftTotalSec;
-    //         }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-    //             this.totalOverdueMilliseconds = data.overdueTotalSec;
-    //         }
-            
-    //         clearInterval(this.timerId);
-            
-    //         if(data?.businessHourWorking){
-    //             this.start();
-    //         }else{
-    //             if(this.totalLeftMilliseconds >= 1000){
-    //                 this.timer = this.msToTime(this.totalLeftMilliseconds);
-    //                 this.timer = this.timer + 'left';
-    //                 this.within = true;
-    //                this.outside = false;
-    //             }else if(this.totalOverdueMilliseconds >= 1000){
-    //                 this.timer = this.msToTime(this.totalOverdueMilliseconds);
-    //                 this.timer = this.timer + 'overdue';
-    //                 this.outside = true;
-    //                 this.within = false;
-    //             } 
-    //         }
-    //     }
-    //     if(result.error){
-    //         console.log(result.error);
-    //     }
-    // } 
+    startNewTimer() {
+        this.timerId = setInterval(()=>{this.evaluateSLAs();}, 1000);
+    }
+
+    evaluateSLAs(){
+        if(this.overallWrap && this.overallWrap.slaMilliseconds > new Date()){
+            this.overallTAT = 'Within TAT';
+            this.overallStyle = 'slds-text-body_small';
+        }else{
+            this.overallTAT = 'Outside TAT';
+            this.overallStyle = 'breached-sla slds-text-body_small';
+        }
+
+        if(this.sla3Wrap && this.overallWrap.caseObj.Stage_SLA_3__c){
+            if(this.sla3Wrap && this.sla3Wrap.slaMilliseconds > new Date()){
+                this.sla3TAT = 'Within TAT';
+                this.sla3Style = 'slds-text-body_small';
+            }else{
+                this.sla3TAT = 'Outside TAT';
+                this.sla3Style = 'breached-sla slds-text-body_small';
+            }
+        }
+        if(this.sla1Wrap && this.overallWrap.caseObj.Stage_SLA_1__c){
+            if(this.sla1Wrap && this.sla1Wrap.slaMilliseconds > new Date()){
+                this.sla1TAT = 'Within TAT';
+                this.sla1Style = 'slds-text-body_small';
+            }else{
+                this.sla1TAT = 'Outside TAT';
+                this.sla1Style = 'breached-sla slds-text-body_small';
+            }
+        }
+
+        if(this.sla2Wrap && this.overallWrap.caseObj.Stage_SLA_2__c){
+            if(this.sla2Wrap && this.sla2Wrap.slaMilliseconds > new Date()){
+                this.sla2TAT = 'Within TAT';
+                this.sla2Style = 'slds-text-body_small';
+            }else{
+                this.sla2TAT = 'Outside TAT';
+                this.sla2Style = 'breached-sla slds-text-body_small';
+            }
+        }
+    }
+    
     start() {
-        this.timerId = setInterval(()=> {
-            if(this.totalLeftMilliseconds < 1000 && this.totalLeftMilliseconds > 0){
-                this.timer =  '0 sec left';
-                this.totalLeftMilliseconds = this.totalLeftMilliseconds-1000;
+        this.timerId = setInterval(() => {
+            if (this.totalLeftMilliseconds < 1000 && this.totalLeftMilliseconds > 0) {
+                this.timer = '0 sec left';
+                this.totalLeftMilliseconds = this.totalLeftMilliseconds - 1000;
                 this.totalOverdueMilliseconds = this.totalLeftMilliseconds + 1000;
                 this.within = true;
                 this.outside = false;
             }
-            
-            if(this.totalLeftMilliseconds >= 1000){
+
+            if (this.totalLeftMilliseconds >= 1000) {
                 this.timer = this.msToTime(this.totalLeftMilliseconds);
                 this.timer = this.timer + 'left';
                 this.totalLeftMilliseconds = this.totalLeftMilliseconds - 1000;
                 this.within = true;
                 this.outside = false;
-            }else if(this.totalOverdueMilliseconds > 1000){
+            } else if (this.totalOverdueMilliseconds > 1000) {
                 this.timer = this.msToTime(this.totalOverdueMilliseconds);
                 this.timer = this.timer + 'overdue';
-                this.totalOverdueMilliseconds = this.totalOverdueMilliseconds  + 1000;
+                this.totalOverdueMilliseconds = this.totalOverdueMilliseconds + 1000;
                 this.outside = true;
                 this.within = false;
 
-            } 
-            if(this.totalOverdueMilliseconds < 1000 && this.totalOverdueMilliseconds > 0){
+            }
+            if (this.totalOverdueMilliseconds < 1000 && this.totalOverdueMilliseconds > 0) {
                 this.totalOverdueMilliseconds = this.totalOverdueMilliseconds + 1000;
             }
-            
+
         }, 1000);
     }
-    // @wire(getDataOnLoadSLA, {caseId: '$recordId',caseStageSLA1:'$caseStageSLA1'}) 
-    // wiredData1(result){
-    //     console.log('entered');
-    //     this.wiredData1 = result;
-    //     if(result.data){
-    //         console.log('entered?');
-    //         var data = result.data;
-           
-    //         if( data.leftTotalSec && data.leftTotalSec > 0){
-    //             this.totalLeftMilliseconds1 = data.leftTotalSec;
-    //         }else if(data.overdueTotalSec && data.overdueTotalSec > 0){
-    //             this.totalOverdueMilliseconds1 = data.overdueTotalSec;
-    //         }
-            
-    //         clearInterval(this.timerId1);
-    //         if(data.businessHourWorking){
-    //             this.start1();
-    //         }else{
-    //             if(this.totalLeftMilliseconds1 >= 1000){
-    //                 this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
-    //                 this.slaTimer = this.slaTimer + 'left';
-    //                 this.stageWithin = true;
-    //                 this.stageOutside = false; 
-    //             }else if(this.totalOverdueMilliseconds1 >= 1000){
-    //                 this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
-    //                 this.slaTimer = this.slaTimer + 'overdue';
-    //                 this.stageOutside = true;  
-    //                 this.stageWithin = false;
-    //             } 
-    //         }
-    //     }
-    //     if(result.error){
-    //         console.log(result.error);
-    //     }
-    // }
+
     start1() {
-        this.timerId1 = setInterval(()=> {
-            if(this.totalLeftMilliseconds1 < 1000 && this.totalLeftMilliseconds1 > 0){
-                this.slaTimer =  '0 sec left';
-                this.totalLeftMilliseconds1 = this.totalLeftMilliseconds1-1000;
+        this.timerId1 = setInterval(() => {
+            if (this.totalLeftMilliseconds1 < 1000 && this.totalLeftMilliseconds1 > 0) {
+                this.slaTimer = '0 sec left';
+                this.totalLeftMilliseconds1 = this.totalLeftMilliseconds1 - 1000;
                 this.totalOverdueMilliseconds1 = this.totalLeftMilliseconds1 + 1000;
                 this.stageWithin = true;
-                this.stageOutside = false; 
+                this.stageOutside = false;
             }
-            
-            if(this.totalLeftMilliseconds1 >= 1000){
+
+            if (this.totalLeftMilliseconds1 >= 1000) {
                 this.slaTimer = this.msToTime(this.totalLeftMilliseconds1);
                 this.slaTimer = this.slaTimer + 'left';
                 this.totalLeftMilliseconds1 = this.totalLeftMilliseconds1 - 1000;
                 this.stageWithin = true;
-                this.stageOutside = false; 
-            }else if(this.totalOverdueMilliseconds1 > 1000){
+                this.stageOutside = false;
+            } else if (this.totalOverdueMilliseconds1 > 1000) {
                 this.slaTimer = this.msToTime(this.totalOverdueMilliseconds1);
                 this.slaTimer = this.slaTimer + 'overdue';
-                this.totalOverdueMilliseconds1 = this.totalOverdueMilliseconds1  + 1000;
+                this.totalOverdueMilliseconds1 = this.totalOverdueMilliseconds1 + 1000;
                 this.stageOutside = true;
                 this.stageWithin = false;
-            } 
-            if(this.totalOverdueMilliseconds1 < 1000 && this.totalOverdueMilliseconds1 > 0){
+            }
+            if (this.totalOverdueMilliseconds1 < 1000 && this.totalOverdueMilliseconds1 > 0) {
                 this.totalOverdueMilliseconds1 = this.totalOverdueMilliseconds1 + 1000;
             }
-            
+
         }, 1000);
     }
-    connectedCallback(){
+    connectedCallback() {
         //Currently refreshing through the casePath1 component using refreshView
         registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
         console.log('in SLA connected callback');
@@ -242,32 +247,41 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
             this.loadData();
         }
     }
-    disconnectedCallback(){
+    disconnectedCallback() {
         clearInterval(this.timerId1);
     }
     msToTime(s) {
-        var ms = s % 1000;      
+        var ms = s % 1000;
         s = (s - ms) / 1000;
         var secs = s % 60;
 
         s = (s - secs) / 60;
         var mins = s % 60;
 
-       
+
         var hrs = (s - mins) / 60;
 
-       
+
         var timer = '';
-        
-        if(hrs && hrs>0){
-            timer = timer + hrs +' hr ';
+
+        if (hrs && hrs > 0) {
+            timer = timer + hrs + ' hr ';
         }
-        if(mins && mins>0){
-            timer = timer + mins +' min ';
+        if (mins && mins > 0) {
+            timer = timer + mins + ' min ';
         }
-        if(secs && secs>0){
-            timer = timer + secs +' sec ';
+        if (secs && secs > 0) {
+            timer = timer + secs + ' sec ';
         }
         return timer;
-      }
+    }
+
+    openAllPanels(event) {
+        this.showAdditionalSLA = !this.showAdditionalSLA;
+        this.expandCollapseLbl = this.showAdditionalSLA ? 'Collapse' : 'Expand';
+        this.iconName = this.showAdditionalSLA ? 'utility:collapse_all' : 'utility:expand_all';
+        //$(aId + ' .panel-collapse:not(".in")').collapse('show');
+
+    }
+
 }

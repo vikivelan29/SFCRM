@@ -29,6 +29,13 @@
         <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Complaint_Investigation_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Complaint Investigation Details</shortDescription>
+        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority,All LANs:All LANs,Applicant Type(COAPPL):Applicant Type(COAPPL),Applicant Type(PRAPPL):Applicant Type(PRAPPL)</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Data_Service_Sections</fullName>
         <language>en_US</language>
         <protected>false</protected>
