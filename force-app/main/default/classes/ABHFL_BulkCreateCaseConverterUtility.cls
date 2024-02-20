@@ -1,7 +1,7 @@
 public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'Loan Account No':'LAN1234','Issue Type Code':'ABFL1234', 'Source':'Email', 'Description':'DescriptionXYZ', 'Block Customer Communication':TRUE}
+        //{'Loan Account No':'LAN1234','Issue Type Code':'ABFL1234', 'Source':'Email', 'Sub Source':'Test', 'Description':'DescriptionXYZ', 'Block Customer Communication':TRUE}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -20,9 +20,10 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
+        Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
-            
+            lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
@@ -60,10 +61,10 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             }
             Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            //Do we need to populate Asset lookup?? - Ask Selwyn
-            //Map Sub Source - field not present
+            caseRec.AssetId = lanToAssetIdMap.get(keyValueMap.get('Loan Account No'));
             caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
             caseRec.Source__c = keyValueMap.get('Source');
+            caseRec.Sub_Source__c = keyValueMap.get('Sub Source');
             caseRec.Description = keyValueMap.get('Description');
             caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
@@ -81,6 +82,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             'LAN__c'=>'Loan Account No',
             'CCC_External_Id__c'=>'Issue Type Code',
             'Source__c'=>'Source',
+            'Sub_Source__c'=>'Sub Source',
             'Description'=>'Description',
             'No_Auto_Communication__c'=>'Block Customer Communication'
         };
@@ -88,6 +90,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             'Loan Account No'=>'LAN__c',
             'Issue Type Code'=>'CCC_External_Id__c',
             'Source'=>'Source__c',
+            'Sub Source'=>'Sub_Source__c',
             'Description'=>'Description',
             'Block Customer Communication'=>'No_Auto_Communication__c'
         };

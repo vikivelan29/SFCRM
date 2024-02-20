@@ -103,6 +103,10 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
                     String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    //Hack - to display the leading 0s of case number in excel 
+                    if(fieldName == 'CaseNumber'){
+                        fieldValue = ' '+fieldValue;
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

@@ -165,6 +165,62 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
 
+    //Creates extension record for Case, if case is created from Bulk page
+    public static void createCaseExtnRecordForBulk(List<Case> newList) {
+        
+        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+
+        Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
+        Integer index = 0;
+        for(Case caseRec : newList){
+            cccExtIdToCaseIndex.put(caseRec.CCC_External_Id__c, index);
+            index++;
+        }
+
+        Map<String, String> cccExtIdToExtnObjectAPI  = new Map<String, String>();
+        for(ASF_Case_Field_Config__c fieldconfig : [SELECT Id,ObjectAPIName__c, Case_Category_Config__c FROM ASF_Case_Field_Config__c WHERE Case_Category_Config__c IN :cccExtIdToCaseIndex.keySet() AND ObjectAPIName__c != 'Case'])
+        {
+            if(!cccExtIdToExtnObjectAPI.containsKey(fieldconfig.Case_Category_Config__c)){
+                cccExtIdToExtnObjectAPI.put(fieldconfig.Case_Category_Config__c, fieldconfig.ObjectAPIName__c);
+            }
+        }
+        index = 0;
+        Map<Integer, SObject> extnRecords = new Map<Integer, SObject>();
+        for(Case caseRec : newList){
+            if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
+                String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                SObject newInstance = createObject(sObjectType);
+                if(newInstance != null){
+                    extnRecords.put(index, newInstance);
+                }
+            }
+            index++;
+        }
+
+        if(!extnRecords.isEmpty()){
+            insert extnRecords.values();
+            index = 0;
+            for(Case caseRec : newList){
+                if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c) && extnRecords.containsKey(index)){
+                    String fieldAPIName = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                    caseRec.put(fieldAPIName, extnRecords.get(index).Id);
+                }
+                index++;
+            }
+        }
+    }
+
+    private static sObject createObject(String typeName) {
+        Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+        if (targetType == null) {
+            // throw an exception
+            return null;
+        }
+        // Instantiate an sObject with the type passed in as an argument
+        //  at run time.
+        return targetType.newSObject(); 
+    }
+
     /**
      * Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
      */
