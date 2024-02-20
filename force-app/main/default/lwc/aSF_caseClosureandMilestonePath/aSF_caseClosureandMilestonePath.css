@@ -24,6 +24,7 @@
     line-height: 1.25;
     color: #54698d;
     margin-bottom: .25rem;
+    font-weight: 500;
 }
 
 .breached-sla {
@@ -31,4 +32,8 @@
 }
 .center-text{
     text-align: center;
+    padding: 1% 1% 1% 1%;
+}
+.inline-display{
+    display: inline-flex;
 }
