@@ -142,7 +142,8 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
                                                            // cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
             
           caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
-          caseRec.Stage__c = ABHFL_Constants.RESOLVED;
+          //caseRec.Stage__c = ABHFL_Constants.RESOLVED;
+          caseRec.MoveToNext__c = true;
           
         if(Schema.sObjectType.Case.isUpdateable()){
             UPDATE caseRec;
