@@ -96,7 +96,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             lineItem.Id = lineItemId;
             lineItem.Result_JSON_Data__c = jsonResults.get(lineItemId);
             lineItem.Error_Message__c = jsonMapResults.get(lineItemId).get('Message');
-            lineItem.Status__c = Boolean.valueOf(jsonMapResults.get(lineItemId).get('Result'))?'Success':'Failure';
+            lineItem.Status__c = jsonMapResults.get(lineItemId).get('Result') == 'SUCCESS'?'Success':'Failure';
             lineItemsToUpdate.add(lineItem);
         }
 
