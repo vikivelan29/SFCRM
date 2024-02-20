@@ -92,7 +92,7 @@ public class ABHFL_SanctionLetterIntegration_Test {
         System.assertEquals('Resolved',caseRec.Stage__c);
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: integRecord.Id limit 1];
         DELETE conDoc;
-        
+         
         sLI.processResponse(integRecord);
         caseRec = [Select id,OwnerId,createdByid,MoveToNext__c from Case where id =: integRecord.Case__c ];
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
