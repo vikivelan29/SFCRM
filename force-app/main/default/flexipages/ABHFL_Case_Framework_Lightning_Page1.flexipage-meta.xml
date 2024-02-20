@@ -107,7 +107,7 @@
                         <valueListItems>
                             <value>Case.Upload_File</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Allow_file_upload__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -117,6 +117,16 @@
                                     <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Pending CPU FC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Pending CPU Banking</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -160,6 +170,19 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_complaintInvestigation</componentName>
+                <identifier>c_abhfl_complaintInvestigation</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CCC_External_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>risk001</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>asf_IntegrationsPanel</componentName>

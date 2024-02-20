@@ -46,6 +46,46 @@
                 <default>false</default>
                 <label>Webform</label>
             </value>
+<value>
+                <fullName>WhatsApp</fullName>
+                <default>false</default>
+                <label>WhatsApp</label>
+            </value>
+            <value>
+                <fullName>Customer Portal</fullName>
+                <default>false</default>
+                <label>Customer Portal</label>
+            </value>
+            <value>
+                <fullName>Payment Link</fullName>
+                <default>false</default>
+                <label>Payment Link</label>
+            </value>
+            <value>
+                <fullName>Voice Bot</fullName>
+                <default>false</default>
+                <label>Voice Bot</label>
+            </value>
+            <value>
+                <fullName>Welcome BOT</fullName>
+                <default>false</default>
+                <label>Welcome BOT</label>
+            </value>
+            <value>
+                <fullName>Social Media</fullName>
+                <default>false</default>
+                <label>Social Media</label>
+            </value>
+            <value>
+                <fullName>Internal Usage</fullName>
+                <default>false</default>
+                <label>Internal Usage</label>
+            </value>
+            <value>
+                <fullName>Call Centre</fullName>
+                <default>false</default>
+                <label>Call Centre</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

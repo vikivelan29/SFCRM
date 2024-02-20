@@ -79,7 +79,7 @@ public class ASF_CaseStageSLA3TimeBasedAction {
                                                 FROM  ASF_Case_SLA_History__c 
                                                 WHERE Case__c IN: casesList 
                                                 AND Stage_End_Date__c = null 
-                                                AND is_Running_Record__c = true ]){
+                                                AND is_Running_Record__c = true FOR UPDATE]){
             if(slaHistory.Stage_Violation_Start_Date__c == null ){
                 slaHistory.Stage_Violation_Start_Date__c = slaHistory.Case__r.Stage_SLA_1__c;
                 slaHistory.Status__c = 'Violated';
@@ -153,8 +153,13 @@ public class ASF_CaseStageSLA3TimeBasedAction {
     
         }
 
-        if(!slaHistoryList.isEmpty()){ 
-            UPDATE slaHistoryList;
+        if(!slaHistoryList.isEmpty()){
+            try{
+                UPDATE slaHistoryList;
+            } catch(DmlException dmle){
+                
+            }
+            
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

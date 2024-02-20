@@ -8,6 +8,10 @@
     <columns>Amount__c</columns>
     <columns>Charge_Code__c</columns>
     <columns>CCC_External_Id__c</columns>
+    <columns>Call_Payment_Link__c</columns>
+    <columns>Payment_Code__c</columns>
+    <columns>Email_Template__c</columns>
+    <columns>SMS_Template__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

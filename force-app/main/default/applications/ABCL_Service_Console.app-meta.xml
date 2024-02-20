@@ -84,10 +84,10 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>ABCL Service Console</label>
-    <navType>Console</navType>
+    <navType>Console</navType>    
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
+        <content>ABFL_LAN_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
@@ -95,7 +95,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
+        <content>ABFL_LAN_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
@@ -103,7 +103,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -112,7 +112,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -121,7 +121,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
@@ -130,7 +130,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
@@ -338,24 +338,6 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
         <type>Flexipage</type>
-        <profile>ABFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Framework</recordType>
-        <type>Flexipage</type>
-        <profile>ABFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Framework</recordType>
-        <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -488,6 +470,24 @@
         <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABFL_Case_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABFL_Case_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABFL Base Profile</profile>
     </profileActionOverrides>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>

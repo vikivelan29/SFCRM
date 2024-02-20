@@ -3,7 +3,7 @@
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
 **/
-public without sharing class  ASF_CaseUIController {
+public with sharing class  ASF_CaseUIController {
         //get Asset Records for the time of selection while creating Case
     @AuraEnabled(Cacheable=true)
     public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected) {
