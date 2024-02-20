@@ -8,7 +8,7 @@ public with sharing class ASF_BulkCsvController {
         List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> configMetaRec = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
 
         configMetaRec = [Select Id, MasterLabel,DeveloperName, Display_Label__c, SObject_Name__c,
-                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c
+                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c, Fields_Name__c
                 FROM ASF_Bulk_Row_to_Record_Converter_Config__mdt
                 WHERE Active__c = true AND SObject_Name__c = 'Case' AND Business_Unit__c =:businessUnit ORDER BY Order__c];
 
