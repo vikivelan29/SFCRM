@@ -2,13 +2,7 @@
 public class ABHFL_ComplaintInvestigationTest {
 	@TestSetup
     static void testData(){
-        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
-        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
-        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
-        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
-        LocaleSidKey='en_US', ProfileId = p.Id,
-        TimeZoneSidKey='America/Los_Angeles',
-         UserName=uniqueUserName);
+
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         
