@@ -54,6 +54,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
 
+        if(ebotResponse.ISREGISTRED == 'Yes' && ebotResponse.ISREPEAT == 'Yes'){
+            caseRecord.Technical_Source__c = 'LWC';
+        }
+        
        //Added By Vishal
         Map<String,Id> lanWithAssetIdMap = new Map<String,Id>();
         if(ebotResponse.LAN_NOS != null && ebotResponse.LAN_NOS.size() > 0){
@@ -67,7 +71,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             }            
         }
        //End
-
+       if(ebotResponse.ISREGISTRED == 'Yes'){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            caseRecord.Stage__c = 'Resolved';
+        }
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }
