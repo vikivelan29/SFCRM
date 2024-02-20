@@ -23,88 +23,84 @@ export function validateFile(inputData) {
 }
 
 function abhflCreateValidation(inputData){
-    let result = 'Success';
-    let index = 0;
+    let index = 1;
     for (let item of inputData.csvData) {
         console.log('each item--'+JSON.stringify(item));
         if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === '' || item["Loan Account No"].trim() === 'NA'){
-            result = 'Loan Account No is not present/valid on row '+index;
+            return 'Loan Account No is not present/valid on row '+index;
         }
         else if(item["Issue Type Code"] === undefined || item["Issue Type Code"].trim() === '' || item["Issue Type Code"].trim() === 'NA'){
-            result = 'Issue Type Code is not present/valid on row '+index;
+            return 'Issue Type Code is not present/valid on row '+index;
         }
         else if(item["Source"] === undefined || item["Source"].trim() === '' || item["Source"].trim() === 'NA'){
-            result = 'Source is not present/valid on row '+index;
+            return 'Source is not present/valid on row '+index;
         }
         else if(item["Sub Source"] === undefined || item["Sub Source"].trim() === ''){
-            result = 'Sub Source is not present/valid on row '+index;
+            return 'Sub Source is not present/valid on row '+index;
         }
         else if(item["Description"] === undefined || item["Description"].trim() === ''){
-            result = 'Description is not present/valid on row '+index;
+            return 'Description is not present/valid on row '+index;
         }
         index ++;
     }
 
-    return result;
+    return 'Success';
 }
 
 function abhflCloseValidation(inputData){
-    let result = 'Success';
-    let index = 0;
+    let index = 1;
     for (let item of inputData.csvData) {
         if(item["Case number"] === undefined || item["Case number"].trim() === '' || item["Case number"].trim() === 'NA'){
-            result = 'Case number is not present/valid on row '+index;
+            return 'Case number is not present/valid on row '+index;
         }
         else if(item["Resolution Comments"] === undefined || item["Resolution Comments"].trim() === ''){
-            result = 'Resolution Comments is not present on row '+index;
+            return 'Resolution Comments is not present on row '+index;
         }
         else if(item["Stage"] === undefined || item["Stage"].trim() === '' || (item["Stage"].trim() != 'Resolved' && item["Stage"].trim() != 'Unresolved')){
-            result = 'Stage is not present/valid on row '+index;
+            return 'Stage is not present/valid on row '+index;
         }
         else if(item["Stage"].trim() === 'Unresolved' && (item["Close Unresolved Details"] === undefined || item["Close Unresolved Details"].trim() === '')){
-            result = 'Close Unresolved Details is not present on row '+index;
+            return 'Close Unresolved Details is not present on row '+index;
         }
         index ++;
     }
-    return result;
+    return 'Success';
 }
 
 function abflCreateValidation(inputData){
-    let result = 'Success';
-    let index = 0;
+    let index = 1;
     for (let item of inputData.csvData) {
-        console.log('each item--'+JSON.stringify(item));
+        console.log('each item--'+JSON.stringify(item)+'--'+index);
         if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === '' || item["Loan Account No"].trim() === 'NA'){
-            result = 'Loan Account No is not present/valid on row '+index;
+            return 'Loan Account No is not present/valid on row '+index;
         }
         else if(item["Issue Type Code"] === undefined || item["Issue Type Code"].trim() === '' || item["Issue Type Code"].trim() === 'NA'){
-            result = 'Issue Type Code is not present/valid on row '+index;
+            return 'Issue Type Code is not present/valid on row '+index;
         }
         else if(item["Source"] === undefined || item["Source"].trim() === '' || item["Source"].trim() === 'NA'){
-            result = 'Source is not present/valid on row '+index;
+            return 'Source is not present/valid on row '+index;
         }
         else if(item["Description"] === undefined || item["Description"].trim() === ''){
-            result = 'Description is not present on row '+index;
+            return 'Description is not present on row '+index;
         }
         index ++;
     }
 
-    return result;
+    return 'Success';
 }
 
 function abflCloseValidation(inputData){
-    let result = 'Success';
-    let index = 0;
+    let index = 1;
     for (let item of inputData.csvData) {
         if(item["Case number"] === undefined || item["Case number"].trim() === '' || item["Case number"].trim() === 'NA'){
-            result = 'Case number is not present/valid on row '+index;
+            return 'Case number is not present/valid on row '+index;
         }
         else if(item["Resolution Comment"] === undefined || item["Resolution Comment"].trim() === ''){
-            result = 'Resolution Comment is not present on row '+index;
+            return 'Resolution Comment is not present on row '+index;
         }
         index ++;
     }
-    return result;
+    return 'Success';
 }
 
 // Function to check if each object has the exact same properties as the reference list
