@@ -136,19 +136,25 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     }
     
      private void handleSuccessfullTransfer(Case caseRec){
-         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                      Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,Additional_Email_Templates__c, 
+                                                                      Additional_SMS_Metadata__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
                                                                       WHERE CCC_External_Id__c =: caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                
-           ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
+           
+           Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+           Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+           
+           Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,
+                                                                emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), true);
+            
+           //ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
+                                                        //    cccRecord[0].Resolved_Case_SMS_Metadata__c,true);
             
           caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
           caseRec.MoveToNext__c = true;
           
           if(Schema.sObjectType.Case.isUpdateable()){
             UPDATE caseRec;
-          }
+          } 
      }
      
      private void handleUnsuccessfullTransfer(Case caseRec,ASF_Case_Integration__c caseInteg){
