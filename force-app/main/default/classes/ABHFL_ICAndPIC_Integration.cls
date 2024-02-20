@@ -153,11 +153,16 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             if(caseRecord!=null){
                 if(isTransferred){
                     integrationFailure = false;
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, Additional_Email_Templates__c, Additional_SMS_Metadata__c
+                                                                   FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                    
+                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
-                                                                                                                            cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,
+                                                                                                                            emailTemplateMap.get('Resolved'), 
+                                                                                                                            smsMetadataMap.get('Resolved'),
                                                                                                                             true); 
 
                     caseRecord.MoveToNext__c = true;
