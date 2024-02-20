@@ -1,7 +1,7 @@
 <template>
     <lightning-card>
         <div class="c-container">
-            <lightning-layout multiple-rows="true">
+            <lightning-layout multiple-rows="true" >
                 <lightning-layout-item class="center-text"> <!--padding="around-small" -->
                     <div class="header-column">
                         <strong>
@@ -69,7 +69,7 @@
                         </strong>
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item class="center-text"><!--padding="around-small" -->
+                <lightning-layout-item class="center-text" ><!--padding="around-small" -->
                     <div class="header-column">
                         <div class="slds-text-heading_medium">
                             <strong>
@@ -84,8 +84,11 @@
                 </lightning-layout-item>
 
                 <!--VIRENDRA  : Moved the Expand Collapse at the top.-->
-                <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    <lightning-button-icon icon-name={iconName}  alternative-text="expand" class="slds-m-left_xx-small" title="expand" onclick={openAllPanels} style="float:inline-end;padding-inline-end:1rem"></lightning-button-icon>
+                <lightning-layout-item padding="around-small" size="1" alignment-bump="right">
+
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-p-top_small slds-p-bottom_small slds-p-left_small" size="1" alignment-bump="right">
+                    <lightning-button-icon icon-name={iconName}  alternative-text="expand" class="slds-m-left_xx-small" title="expand" onclick={openAllPanels} style="float:inline-end;"></lightning-button-icon>
                     <!--<lightning-icon icon-name={iconName} alternative-text="expand"
                         title="xx-small size" onclick={openAllPanels}></lightning-icon>-->
                     <!--<a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne"
@@ -93,6 +96,7 @@
                         {expandCollapseLbl}
                     </a>-->
                 </lightning-layout-item>
+                
             </lightning-layout>
 
             <!-- VIRENDRA -->
