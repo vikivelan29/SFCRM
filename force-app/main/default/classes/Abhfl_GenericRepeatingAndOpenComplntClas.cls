@@ -6,7 +6,7 @@
 *Description  :  Controller class for abhfl_GenericRepeatingAndOpenComplaintCase LWC
 *********************************************************/
 
-public with sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
+public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
    
     /****************************************************************************************************************
     * @LOB - ABHFL
