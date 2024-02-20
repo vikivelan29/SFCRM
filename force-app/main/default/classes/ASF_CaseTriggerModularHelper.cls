@@ -1007,7 +1007,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) && !Test.isRunningTest()){
+        if(bypassProfileId.contains(UserInfo.getProfileId()) && ASF_BulkCaseProcessorUtility.isBulkProcessing){
             return;
         }
             
