@@ -103,10 +103,11 @@
             <lightning-layout multiple-rows="true">
                 
                 <template if:true={showAdditionalSLA}>
-                    <lightning-layout-item  class="center-text" size="3"><!--padding="around-small" -->
-                        <div >
-                            <div>
-                                <p class="field-title" title="Case Closure SLA">Level 1 Stage SLA
+
+                    <lightning-layout-item  class="center-text slds-p-vertical_medium"><!--padding="around-small" -->
+                        <div class="header-column">
+                            <strong>
+                                <p class="field-title" title="Case Closure SLA">Stage 1 Case SLA &nbsp;
                                     <!-- <lightning-icon icon-name="standard:today" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
                             </strong><strong>
@@ -127,11 +128,10 @@
                     </lightning-layout-item>
                     
 
-
-                    <lightning-layout-item class="center-text" size="3"><!--padding="around-small" -->
-                        <div >
-                            <div>
-                                <p class="field-title" title="Stage Case SLA">Level 2 Stage SLA
+                    <lightning-layout-item class="center-text slds-p-vertical_medium"><!--padding="around-small" -->
+                        <div class="header-column">
+                            <strong>
+                                <p class="field-title" title="Stage Case SLA">Stage 2 Case SLA &nbsp;
                                     <!-- <lightning-icon icon-name="standard:stage" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
                             </strong> <strong>
@@ -150,7 +150,7 @@
                                 </strong>
                         </div>
                     </lightning-layout-item>
-                    <lightning-layout-item padding="around-small" size="3">
+                    <lightning-layout-item padding="around-small">
                         
                     </lightning-layout-item>
 
