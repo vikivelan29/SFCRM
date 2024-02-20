@@ -11,6 +11,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
 
@@ -192,7 +193,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                //this.showError('error', 'Oops! Error occured', error);
+                this.showError('error', 'Oops!', error);
             });
     }
     
