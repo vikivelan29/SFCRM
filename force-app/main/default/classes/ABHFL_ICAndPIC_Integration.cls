@@ -22,7 +22,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Error';
-        result.response = 'Evaluation Failed, cannot retrieve Interest Certificate.';
+        result.response = Custom_Messages__mdt.getInstance('IC_EVALUATION_FAILED').Message__c;
 
         Case caseRecord = [
             SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
@@ -38,29 +38,29 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         if(integrationName == 'Interest Certificate') {
             if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
                 result.status = 'Success';
-                result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+                result.response = Custom_Messages__mdt.getInstance('IC_EVALUATION_SUCCESS_RESPONSE').Message__c;
             }
             else if(String.isBlank(financialYr) && String.isBlank(lan)) {
                 result.status = 'Error';
-                result.response = 'Please fill the Financial Year and Loan Account Number';
+                result.response = Custom_Messages__mdt.getInstance('IC_EVALUATE_FAILED_FINAN_YEAR_AND_LAN').Message__c;
             }
             else if(String.isBlank(financialYr)){
                 result.status = 'Error';
-                result.response = 'Please fill the Financial Year';
+                result.response = Custom_Messages__mdt.getInstance('IC_EVALUATE_FAILED_FILL_FINAN_YEAR').Message__c;
             }
             else if(String.isBlank(lan)){
                 result.status = 'Error';
-                result.response = 'Please fill the LAN';
+                result.response = Custom_Messages__mdt.getInstance('IC_EVALUATE_FAILED_FILL_LAN').Message__c;
             }
         }
         else if(integrationName == 'Provisional Interest Certificate') {
             if(String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
                 result.status = 'Success';
-                result.response = 'Evaluation Success, Submit to get the Interest Certificate.';
+                result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_SUCCESS_RESPONSE').Message__c;
             }
             else if(String.isBlank(lan)){
                 result.status = 'Error';
-                result.response = 'Please fill the LAN';
+                result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
             }
         }
         return result;
@@ -153,11 +153,16 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             if(caseRecord!=null){
                 if(isTransferred){
                     integrationFailure = false;
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, Additional_Email_Templates__c, Additional_SMS_Metadata__c
+                                                                   FROM ASF_Case_Category_Config__c 
                                                                    WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                    
+                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
-                                                                                                                            cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,
+                                                                                                                            emailTemplateMap.get('Resolved'), 
+                                                                                                                            smsMetadataMap.get('Resolved'),
                                                                                                                             true); 
 
                     caseRecord.MoveToNext__c = true;
