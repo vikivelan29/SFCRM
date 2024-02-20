@@ -4,8 +4,8 @@
         <description>This apex class is for checking the BU Specific logic.</description>
         <name>Additional_Checks_for_Email_Templates</name>
         <label>Additional Checks for Email Templates</label>
-        <locationX>974</locationX>
-        <locationY>2171</locationY>
+        <locationX>842</locationX>
+        <locationY>2363</locationY>
         <actionName>ASF_CustomerEmailInvocable</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -54,7 +54,7 @@
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
-        <locationX>2041</locationX>
+        <locationX>2255</locationX>
         <locationY>755</locationY>
         <actionName>Case.Case_creator_when_the_case_is_closed</actionName>
         <actionType>emailAlert</actionType>
@@ -74,7 +74,7 @@
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
         <label>Case owner when the case is assigned</label>
-        <locationX>1997</locationX>
+        <locationX>2211</locationX>
         <locationY>1139</locationY>
         <actionName>Case.Case_owner_when_the_case_is_assigned</actionName>
         <actionType>emailAlert</actionType>
@@ -93,10 +93,40 @@
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
+        <name>Assign_Recategorisation_Templates</name>
+        <label>Assign Recategorisation Templates</label>
+        <locationX>578</locationX>
+        <locationY>1871</locationY>
+        <assignmentItems>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Recategorisation_Email_Template__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Recategorisation_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSCustomMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.Recategorisation_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Email_Template_Found</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Closed_Email_Template</name>
         <label>Resolved Email Template</label>
-        <locationX>842</locationX>
-        <locationY>1871</locationY>
+        <locationX>1106</locationX>
+        <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -125,8 +155,8 @@
     <assignments>
         <name>Duplicate_Email_Template</name>
         <label>Duplicate Email Template</label>
-        <locationX>1370</locationX>
-        <locationY>1871</locationY>
+        <locationX>1634</locationX>
+        <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -155,8 +185,8 @@
     <assignments>
         <name>Open_Email_Template</name>
         <label>New Email Template</label>
-        <locationX>578</locationX>
-        <locationY>1871</locationY>
+        <locationX>842</locationX>
+        <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -185,8 +215,8 @@
     <assignments>
         <name>Rejection_Email_Template</name>
         <label>Unresolved Email Template</label>
-        <locationX>1106</locationX>
-        <locationY>1871</locationY>
+        <locationX>1370</locationX>
+        <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -215,7 +245,7 @@
     <decisions>
         <name>By_pass_flow</name>
         <label>By pass flow</label>
-        <locationX>470</locationX>
+        <locationX>524</locationX>
         <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Check_if_case_is_from_email</targetReference>
@@ -237,7 +267,7 @@
     <decisions>
         <name>Check_case_category_config</name>
         <label>Check case category config</label>
-        <locationX>1832</locationX>
+        <locationX>1997</locationX>
         <locationY>1547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -259,7 +289,7 @@
     <decisions>
         <name>Check_case_creator_if_case_closed</name>
         <label>Check case creator if case closed</label>
-        <locationX>2129</locationX>
+        <locationX>2343</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Check_Case_Owner_is_changed</targetReference>
@@ -312,7 +342,7 @@
     <decisions>
         <name>Check_Case_Owner_is_changed</name>
         <label>Check Case Owner is changed</label>
-        <locationX>2129</locationX>
+        <locationX>2343</locationX>
         <locationY>1031</locationY>
         <defaultConnector>
             <targetReference>Check_Case_status</targetReference>
@@ -358,7 +388,7 @@
     <decisions>
         <name>Check_Case_status</name>
         <label>Check Case status</label>
-        <locationX>2129</locationX>
+        <locationX>2343</locationX>
         <locationY>1331</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -457,8 +487,8 @@
     <decisions>
         <name>Check_for_contact_or_account</name>
         <label>Check for contact or account</label>
-        <locationX>1106</locationX>
-        <locationY>2363</locationY>
+        <locationX>974</locationX>
+        <locationY>2555</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Con_Acc_exists</name>
@@ -564,7 +594,7 @@
     <decisions>
         <name>Check_if_case_is_from_email</name>
         <label>Check if case is from email</label>
-        <locationX>1155</locationX>
+        <locationX>1262</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Check_case_creator_if_case_closed</targetReference>
@@ -589,7 +619,7 @@
     <decisions>
         <name>Check_if_the_Origin_is_Email</name>
         <label>Check if the Origin is Email</label>
-        <locationX>1953</locationX>
+        <locationX>2167</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Case_creator_when_the_case_is_closed</targetReference>
@@ -621,7 +651,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1502</locationX>
+        <locationX>1568</locationX>
         <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -655,8 +685,15 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_case_config.Send_Recategorisation_Communication__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Custom_metadata_names</targetReference>
+                <targetReference>Is_Case_Recategorised</targetReference>
             </connector>
             <label>Create communication record</label>
         </rules>
@@ -664,8 +701,8 @@
     <decisions>
         <name>Custom_metadata_names</name>
         <label>Custom metadata names</label>
-        <locationX>1106</locationX>
-        <locationY>1763</locationY>
+        <locationX>1370</locationX>
+        <locationY>1871</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
@@ -759,8 +796,8 @@
     <decisions>
         <name>Email_Template_Found</name>
         <label>Email Template Found?</label>
-        <locationX>1106</locationX>
-        <locationY>2063</locationY>
+        <locationX>974</locationX>
+        <locationY>2255</locationY>
         <defaultConnector>
             <targetReference>Check_for_contact_or_account</targetReference>
         </defaultConnector>
@@ -779,6 +816,45 @@
                 <targetReference>Additional_Checks_for_Email_Templates</targetReference>
             </connector>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Case_Recategorised</name>
+        <label>Is Case Recategorised</label>
+        <locationX>974</locationX>
+        <locationY>1763</locationY>
+        <defaultConnector>
+            <targetReference>Custom_metadata_names</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Recategorised</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CCC_External_Id__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.CCC_External_Id__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Recategorisation_Date__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_case_config.Send_Recategorisation_Communication__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Recategorisation_Templates</targetReference>
+            </connector>
+            <label>Yes Recategorised</label>
         </rules>
     </decisions>
     <description>added condition to send an email for ABFL when case is categorized .
@@ -813,8 +889,8 @@ Added condition to send email/sms when case status is Closed Duplicate</descript
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>974</locationX>
-        <locationY>2471</locationY>
+        <locationX>842</locationX>
+        <locationY>2663</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
         </connector>
@@ -908,8 +984,8 @@ Added condition to send email/sms when case status is Closed Duplicate</descript
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>974</locationX>
-        <locationY>2579</locationY>
+        <locationX>842</locationX>
+        <locationY>2771</locationY>
         <inputAssignments>
             <field>CCCExternalId__c</field>
             <value>
@@ -946,7 +1022,7 @@ Added condition to send email/sms when case status is Closed Duplicate</descript
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1832</locationX>
+        <locationX>1997</locationX>
         <locationY>1439</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -965,7 +1041,7 @@ Added condition to send email/sms when case status is Closed Duplicate</descript
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>344</locationX>
+        <locationX>398</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>By_pass_flow</targetReference>
