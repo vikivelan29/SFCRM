@@ -108,6 +108,19 @@ public without sharing class ABHFL_CTSTHelper {
     	}
         return caseRec;
     }
+    //Dhinesh - Collateral Documents case owner Assignment.
+    public static Case assignCaseCollateralDocs(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c,ABHFL_Case_Detail__c  FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        if (caseRec.Source__c == 'Branch') {
+            caseRec.OwnerId = caseDetail.CreatedById;
+        }
+        if (caseRec.Source__c != 'Branch'){
+            caseRec.OwnerId = emailNonFinancialQueue.Id;
+    	}
+        return caseRec;
+    }
     
     //Dhinesh - Used for assigning case to AOM/ROM
     public static Case assignCaseToAOMROM(Case caseRecord){
