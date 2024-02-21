@@ -1,7 +1,7 @@
 public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'Case number':'00005150','Resolution Comments':'', 'Description':'Unresolved'}
+        //{'Case number':'00005150','Resolution Comment':'', 'Description':'Unresolved'}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -12,7 +12,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserializeUntyped(eachJSON);
+            Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             caseNumbers.add(keyValueMap.get('Case number'));
             rows.put(lineItemId, keyValueMap);
         }
@@ -25,15 +25,17 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
             if(!caseNumberToCaseMap.containsKey(keyValueMap.get('Case number'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             if(caseNumberToCaseMap.get(keyValueMap.get('Case number')).IsClosed == true){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case is already '+caseNumberToCaseMap.get(keyValueMap.get('Case number')).Stage__c);
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             Case caseRec = caseNumberToCaseMap.get(keyValueMap.get('Case number'));
@@ -55,18 +57,14 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
-            'LAN__c'=>'Loan Account No',
-            'CCC_External_Id__c'=>'Issue Type Code',
-            'Source__c'=>'Source',
-            'Description'=>'Description',
-            'No_Auto_Communication__c'=>'Block Customer Communication'
+            'CaseNumber'=>'Case number',
+            'Resolution_Comments__c'=>'Resolution Comment',
+            'Description'=>'Description'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
-            'Loan Account No'=>'LAN__c',
-            'Issue Type Code'=>'CCC_External_Id__c',
-            'Source'=>'Source__c',
-            'Description'=>'Description',
-            'Block Customer Communication'=>'No_Auto_Communication__c'
+            'Case number'=>'CaseNumber',
+            'Resolution Comment'=>'Resolution_Comments__c',
+            'Description'=>'Description'
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
@@ -76,7 +74,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         String strFinalQuery;
-        if(selectedRecordIds != null){
+        if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;
@@ -105,6 +103,10 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
                     String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    //Hack - to display the leading 0s of case number in excel 
+                    if(fieldName == 'CaseNumber'){
+                        fieldValue = ' '+fieldValue;
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

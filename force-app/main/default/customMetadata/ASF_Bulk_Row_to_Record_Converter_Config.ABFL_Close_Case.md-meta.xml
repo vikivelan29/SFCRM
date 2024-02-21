@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Apex_Class_Name__c</field>
-        <value xsi:type="xsd:string">ABFL_BulkCreateCaseConverterUtility</value>
+        <value xsi:type="xsd:string">ABFL_BulkCloseCaseConverterUtility</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">CaseNumber,Resolution_Comments__c,Description</value>
+        <value xsi:type="xsd:string">Case number,Resolution Comment,Description</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>

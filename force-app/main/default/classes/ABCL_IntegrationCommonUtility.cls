@@ -6,6 +6,28 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
+
+    /****************************************************************************************************************
+    * @LOB - Common
+    * @Function - fetchStpTemplates
+    * @param templateString - Resolved and rejected templates string
+    * @return - Map<String, String> .
+    * @description - Get a map of template type and template value
+    *****************************************************************************************************************/       
+    public static Map<String, String> fetchStpTemplates(String templateString){
+
+        Map<String, String> templateMap = new Map<String, String>();
+        if(String.isNotBlank(templateString)) {
+            List<String> pairs = templateString.split(',');
+            for(String pair : pairs) {
+                List<String> keyValue = pair.split(':');
+                if(keyValue.size() == 2) {
+                    templateMap.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+        }
+        return templateMap;
+    }
     
     /****************************************************************************************************************
     * @LOB - Common
@@ -188,14 +210,14 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
-        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c from Case where Id =: recIds[0]];
+        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,CreatedDate,Asset.LAN__c from Case where Id =: recIds[0]];
         List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
         if(contentDocumentList.size() > 0){
             Set<Id> contentDocumentIds = new Set<Id>();
             for(ContentDocumentLink docLink : contentDocumentList){
                 contentDocumentIds.add(docLink.ContentDocumentId);
             }
-            List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber from ContentVersion where ContentDocumentId in: contentDocumentIds];
+            List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber,FileExtension from ContentVersion where ContentDocumentId in: contentDocumentIds];
             Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
             for(ContentVersion version : contentVersionList){
                 Integer count = 0;
@@ -218,6 +240,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
                 fileRec.Version_Number__c = fileVersion.VersionNumber;
                 fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
+                fileRec.DMS_External_ID__c = fileVersion.Id + '' + caseRecord.createdDate.getTime();
+                fileRec.File_Extension__c = fileVersion.FileExtension;
                 fileRecList.add(fileRec);
             }
             if(fileRecList.size() > 0){
@@ -226,19 +250,21 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 for(DMS_Files__c file : fileRecList){
                     dmsFileIds.add(file.Id);
                 }
-                List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c from DMS_Files__c where id in: dmsFileIds];
+                List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
                 for(DMS_Files__c file : dmsFiles){
-                    //DMS_File_Transfer__e dmsEvent = new DMS_File_Transfer__e();
                     dmsEventList.add(new DMS_File_Transfer__e(
                         Business_Unit__c = file.Business_Unit__c,
                         CaseNumber__c = caseRecord.CaseNumber,
                         ContentVersionId__c = file.ContentVersionId__c,
                         Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
-                        DMS_External_ID__c = file.Name,
+                        DMS_External_ID__c = file.DMS_External_ID__c,
                         File_Name__c = file.File_Name__c,
                         Is_Latest_Version__c = file.Is_Latest_Version__c,
-                        Version_Number__c = file.Version_Number__c
+                        Version_Number__c = file.Version_Number__c,
+                        Application_ID__c = caseRecord.Asset.LAN__c,
+                        Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
+                        File_Extension__c = file.File_Extension__c
                     ));
                 }
                 if(dmsEventList.size() > 0){

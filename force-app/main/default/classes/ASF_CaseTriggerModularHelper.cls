@@ -165,6 +165,62 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
 
+    //Creates extension record for Case, if case is created from Bulk page
+    public static void createCaseExtnRecordForBulk(List<Case> newList) {
+        
+        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+
+        Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
+        Integer index = 0;
+        for(Case caseRec : newList){
+            cccExtIdToCaseIndex.put(caseRec.CCC_External_Id__c, index);
+            index++;
+        }
+
+        Map<String, String> cccExtIdToExtnObjectAPI  = new Map<String, String>();
+        for(ASF_Case_Field_Config__c fieldconfig : [SELECT Id,ObjectAPIName__c, Case_Category_Config__c FROM ASF_Case_Field_Config__c WHERE Case_Category_Config__c IN :cccExtIdToCaseIndex.keySet() AND ObjectAPIName__c != 'Case'])
+        {
+            if(!cccExtIdToExtnObjectAPI.containsKey(fieldconfig.Case_Category_Config__c)){
+                cccExtIdToExtnObjectAPI.put(fieldconfig.Case_Category_Config__c, fieldconfig.ObjectAPIName__c);
+            }
+        }
+        index = 0;
+        Map<Integer, SObject> extnRecords = new Map<Integer, SObject>();
+        for(Case caseRec : newList){
+            if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
+                String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                SObject newInstance = createObject(sObjectType);
+                if(newInstance != null){
+                    extnRecords.put(index, newInstance);
+                }
+            }
+            index++;
+        }
+
+        if(!extnRecords.isEmpty()){
+            insert extnRecords.values();
+            index = 0;
+            for(Case caseRec : newList){
+                if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c) && extnRecords.containsKey(index)){
+                    String fieldAPIName = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                    caseRec.put(fieldAPIName, extnRecords.get(index).Id);
+                }
+                index++;
+            }
+        }
+    }
+
+    private static sObject createObject(String typeName) {
+        Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+        if (targetType == null) {
+            // throw an exception
+            return null;
+        }
+        // Instantiate an sObject with the type passed in as an argument
+        //  at run time.
+        return targetType.newSObject(); 
+    }
+
     /**
      * Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
      */
@@ -517,10 +573,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                     Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                     caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                    caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                    //caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                     Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
+                    }
+                    if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
+                        caseRecFromMap.Pending_Clarification__c = false;
                     }
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
@@ -632,27 +691,31 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
                     addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
                 }
-                for(ASF_Checklist__c checkRec : dataWrapper.get(caseRec.Id).checklistToInsert){
-                    if(!checklistMap.containsKey(caseRec.Id+checkRec.Checklist_External_Id__c)){
-                        if(addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert == null){
-                            addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert = new List<ASF_Checklist__c>();
-                        }
-                        addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert.add(checkRec);
+                if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).checklistToInsert != null){
+                    for(ASF_Checklist__c checkRec : dataWrapper.get(caseRec.Id).checklistToInsert){
+                        if(!checklistMap.containsKey(caseRec.Id+checkRec.Checklist_External_Id__c)){
+                            if(addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert == null){
+                                addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert = new List<ASF_Checklist__c>();
+                            }
+                            addlDataFromStageMovementMethods.get(caseRec.Id).checklistToInsert.add(checkRec);
+                        }   
                     }
                 }
 
-                for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
-                    if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
-                        if(addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert == null){
-                            addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert = new List<Task>();
+                if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).tasksToInsert != null){
+                    for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
+                        if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
+                            if(addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert == null){
+                                addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert = new List<Task>();
+                            }
+                            addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                        addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
-                    }
+                    }                
+                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
-                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
 
             List<Case> integCaseList = new List<Case>();
@@ -1000,7 +1063,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) && !Test.isRunningTest()){
+        if(bypassProfileId.contains(UserInfo.getProfileId()) && ASF_BulkCaseProcessorUtility.isBulkProcessing){
             return;
         }
             

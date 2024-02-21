@@ -53,6 +53,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 this.displaySpinner = false;
             }).catch((error) => {
                 console.log(error);
+                this.displaySpinner = false;
+                this.showToast({
+                    title: "Error",
+                    message: "Something went wrong. Please try again later.",
+                    variant: "error",
+                });
             })
         }
     }
@@ -86,6 +92,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
+            this.displaySpinner = false;
+            this.showToast({
+                title: "Error",
+                message: "We could not fetch the LAN Details. Please try again later.",
+                variant: "error",
+            });
         })
     }
 
@@ -173,6 +185,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.displayChildTable = true;
                 }).catch((error) => {
                     console.log(error);
+                    this.displaySpinner = false;
+                    this.showToast({
+                        title: "Error",
+                        message: "We could add Records. Please try again later.",
+                        variant: "error",
+                    });
                 })
             } else if(this.selectedRows){
                 this.displayChildTable = false;
@@ -294,6 +312,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
+            this.displaySpinner = false;
+            this.showToast({
+                title: "Error",
+                message: "We could not fetch the LAN Details. Please try again later.",
+                variant: "error",
+            });
         })       
     }
 

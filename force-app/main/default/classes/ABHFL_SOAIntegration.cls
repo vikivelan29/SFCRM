@@ -22,13 +22,13 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_FAILED_DATE_ERROR').Message__c;
 
         Case caseRecord = [
-            SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c
+            SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ];
 
          //Checking for mandatory API conditions
-        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null){
+        if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             result.status = ABHFL_Constants.SUCCESS;
             result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
          }

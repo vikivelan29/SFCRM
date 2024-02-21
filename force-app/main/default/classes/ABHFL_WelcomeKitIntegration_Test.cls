@@ -5,13 +5,13 @@ public class ABHFL_WelcomeKitIntegration_Test {
     static void testData(){
 
         // Create a unique UserName
-        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
+        /*String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
         User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
         EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
         LocaleSidKey='en_US', ProfileId = p.Id,
         TimeZoneSidKey='America/Los_Angeles',
-         UserName=uniqueUserName);
+         UserName=uniqueUserName);*/
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
@@ -30,6 +30,11 @@ public class ABHFL_WelcomeKitIntegration_Test {
         insert caseDetail;
         
         ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_Case_Category_Config__c config = [SELECT Id, Additional_Email_Templates__c, Additional_SMS_Metadata__c
+                                             FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c ='CCC-CC-CCLTD-01' LIMIT 1];
+        config.Additional_Email_Templates__c = 'Resolved:dev_03,Rejected:dev_04';
+        config.Additional_SMS_Metadata__c = 'Resolved:Dev_05,Rejected:Dev_06';
+        update config;
         insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
                                           Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
                                           Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
@@ -90,14 +95,15 @@ public class ABHFL_WelcomeKitIntegration_Test {
             ASF_IntegrationsController.IntegrationWrapper evaluateFailure1 = wcStp.evaluate(caseRecord1);
         	
             System.assertEquals('Success',successfulEvaluate.status);
-            System.assertEquals('Error',evaluateFailure1.status);   
+            System.assertEquals('Error',evaluateFailure1.status); 
+        	System.assertEquals('Error',evaluateFailure.status);  
     }
     
     @IsTest
     static void testRun(){
             ABHFL_WelcomeKitIntegration wcStp = new ABHFL_WelcomeKitIntegration();
             Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c, Asset.Lan__c from Case limit 1];
-            ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper wrap = new ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c);
+            //ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper wrap = new ABHFL_WelcomeKitIntegration.WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c);
             ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
             ASF_IntegrationsController.IntegrationWrapper integrationResponse = wcStp.run(integRecord,caseRecord);
             System.assertEquals('Success',integrationResponse.Status);

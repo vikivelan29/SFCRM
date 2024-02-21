@@ -1,7 +1,7 @@
 public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'Loan Account No':'LAN1234','Issue Type Code':'ABFL1234', 'Source':'Email', 'Description':'DescriptionXYZ', 'Block Customer Communication':TRUE}
+        //{'Loan Account No':'LAN1234','Issue Type Code':'ABFL1234', 'Source':'Email', 'Sub Source':'Test', 'Description':'DescriptionXYZ', 'Block Customer Communication':TRUE}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -20,9 +20,10 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
+        Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
-            
+            lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
@@ -32,28 +33,40 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
 
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
+            Boolean blockCommunicationFlag = false;
             if(!extIdFoundSet.contains(keyValueMap.get('Issue Type Code'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             if(!lanToAccountIdMap.containsKey(keyValueMap.get('Loan Account No'))){
-                keyValueMap.put('Result', 'FALSE');
+                keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(keyValueMap.get('Block Customer Communication') != null && String.isNotBlank(keyValueMap.get('Block Customer Communication'))){
+                try{
+                    blockCommunicationFlag = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
+                }catch(Exception e){
+                    keyValueMap.put('Result', 'FAILURE');
+                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                    continue;
+                }
+            }
             Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            //Do we need to populate Asset lookup?? - Ask Selwyn
-            //Map Sub Source - field not present
+            caseRec.AssetId = lanToAssetIdMap.get(keyValueMap.get('Loan Account No'));
             caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
             caseRec.Source__c = keyValueMap.get('Source');
+            caseRec.Sub_Source__c = keyValueMap.get('Sub Source');
             caseRec.Description = keyValueMap.get('Description');
-            caseRec.No_Auto_Communication__c = keyValueMap.get('Block Customer Communication');
+            caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             caseRec.Technical_Source__c = 'LWC';
             resultWrapper.resultRecords.put(lineItemId, caseRec);
@@ -69,6 +82,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             'LAN__c'=>'Loan Account No',
             'CCC_External_Id__c'=>'Issue Type Code',
             'Source__c'=>'Source',
+            'Sub_Source__c'=>'Sub Source',
             'Description'=>'Description',
             'No_Auto_Communication__c'=>'Block Customer Communication'
         };
@@ -76,6 +90,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             'Loan Account No'=>'LAN__c',
             'Issue Type Code'=>'CCC_External_Id__c',
             'Source'=>'Source__c',
+            'Sub Source'=>'Sub_Source__c',
             'Description'=>'Description',
             'Block Customer Communication'=>'No_Auto_Communication__c'
         };
@@ -87,7 +102,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         }
 
         String strFinalQuery;
-        if(selectedRecordIds != null){
+        if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;

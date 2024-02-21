@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intimation_Date_3_Future_Date_Validation</fullName>
+    <active>true</active>
+    <description>Intimation Date 3 should not be the future date</description>
+    <errorConditionFormula>Intimation_Date3__c &gt; TODAY()</errorConditionFormula>
+    <errorMessage>Intimation Date 3 should not be the future date</errorMessage>
+</ValidationRule>

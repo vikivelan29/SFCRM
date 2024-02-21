@@ -1,6 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
-import hasCustomPermission from '@salesforce/apex/ASF_BulkCsvController.hasCustomPermission';
-import getCSV2MetadataDetails from '@salesforce/apex/ASF_BulkCsvController.getMetadataDetails';
+import getMetadataDetails from '@salesforce/apex/ASF_BulkCsvController.getMetadataDetails';
 import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVFileWithData';
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
@@ -8,22 +7,20 @@ import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityControll
 import insertLastLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLastLineItemsChunk';
 import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityController.startProcessingChunks';
 
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import USER_ID from '@salesforce/user/Id';
-import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import { loadScript } from 'lightning/platformResourceLoader';
 import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
+import { validateFile } from "./bulkUploadBUValidationUtil";
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
-    @api strURL = 'https://adityabirlafinancialsharedservices--bulkcode--c.sandbox.vf.force.com/apex/ASF_BulkDownloadCSV_VF?clc=1&isdtp=p1&ltn_app_id=06mBl00000016RaIAI&nonce=3f3abb451e573f25368a80358f551df8ffc1c2fd9810b38d5a64cad0da54ae41&sfdcIFrameHost=web&sfdcIFrameOrigin=https%3A%2F%2Fadityabirlafinancialsharedservices--bulkcode.sandbox.lightning.force.com&tour=&use307redirect=true&vfRetURLInSFX=https%3A%2F%2Fadityabirlafinancialsharedservices--bulkcode.sandbox.lightning.force.com%2Flightning%2Fo%2FCase%2Flist%3FfilterName%3DRecent&wrapMassAction=1';
-    @api strButtonName = 'UploadCSVButton';
+    @api strURL = '';
+    @api strButtonName = '';
     @api selectedCases= '';
     cmpTitle = 'Welcome to the Bulk Data Uploader';
     @track UploadFile = 'Upload CSV';
-    @track strDownloadTemplate = 'Download CSV Template';
+    @track strDownloadTemplate = 'Download Template';
     strActionLabel = 'Please choose the action you wish to perform on the CSV.';
     strSelectionPlaceholder = '--Please choose an Operation--';
     strAdminError = 'An unexpected error occured please connect with the system admininistrator.';
@@ -82,23 +79,31 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         return false;
     }
 
-    @wire(hasCustomPermission)
-    wiredHasCustomPermission({ error, data }) {
+    @wire(getMetadataDetails)
+    wiredMetaResult({ error, data }) {
         if (data) {
-            this.hasPermission = data;
-            this.hasLoaded = true;
-        } else if (error) {
-            console.error('Error retrieving permission:', error);
-        }
-    }
+            console.log('inside on load meta method--'+JSON.stringify(data));
 
-    @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
-    wiredRecord({ error, data }) {
-        if (data) {
-           this.businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
-           this.getCSV2Metadata();
+            let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
+            if(data && data != null){
+                data.allMetadata.map(item => {
+                    const option = {
+                        label: item.Display_Label__c,
+                        value: item.Template_Name__c
+                    };
+                    this.optionActions = [ ...this.optionActions, option ];
+                });
+                this.allConfigMetaList = data.allMetadata;
+                this.hasPermission = data.hasCustomPermission;
+                this.hasLoaded = true;
+            }
+
+            else{
+                this.optionActions = [ ...this.optionActions, objErrorPicklist ];
+            }
+
         } else if (error) {
-            console.error('Error loading record', error);
+            console.error('Error retrieving metadata:', error);
         }
     }
 
@@ -134,43 +139,15 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     }
 
     onChangeOperationRecordTypeChange(event){
-        try{
-            this.operationRecordTypeValue = event.target.value;
-            this.allConfigMetaList.forEach((element) => {
-                if(element.Template_Name__c == this.operationRecordTypeValue){
-                    this.selectedConfigRec = element;
-                }
-            });
-            console.log('selected config--'+JSON.stringify(this.selectedConfigRec));
-            }catch( error){
-                console.log('error occured ' );
+        this.operationRecordTypeValue = event.target.value;
+        this.allConfigMetaList.forEach((element) => {
+            if(element.Template_Name__c == this.operationRecordTypeValue){
+                this.selectedConfigRec = element;
             }
+        });
+        console.log('selected config--'+JSON.stringify(this.selectedConfigRec));
     }
 
-    /**Description - this method fetches the Custom Metadata and displays them as Picklist**/
-    getCSV2Metadata(){
-        var objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
-        getCSV2MetadataDetails({businessUnit: this.businessUnitValue})
-        .then(result => {
-            if(result && result != null){
-                result.map(item => {
-                    const option = {
-                        label: item.Display_Label__c,
-                        value: item.Template_Name__c
-                    };
-                    this.optionActions = [ ...this.optionActions, option ];
-                });
-                this.allConfigMetaList = result;
-            }
-            else{
-                this.optionActions = [ ...this.optionActions, objErrorPicklist ];
-            }
-        })
-        .catch(error => {
-            this.optionActions = [ ...this.optionActions, objErrorPicklist ];
-        });
-    }
-    
     /**Description - Method to Download Record CSV*/
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
@@ -211,7 +188,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             quotes: true,
             escapeChar: '"'
         });
-
+        //Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
+        if(this.operationRecordTypeValue.includes('Close')){
+            csvString = csvString.replaceAll('\n', '\n=');
+        }
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
@@ -246,13 +226,12 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 }
             });
         });
-        return parsedArray;
     }
     /**Description - Method that works on Upload of CSV*/
     async handleFilesChange(event) {
         this.foundFileWithNotAllowedExtn = false;
         if(event.target.files.length > 0) {
-            this.filesUploaded = event.target.files;
+            this.filesUploaded = event.target.files[0];
             this.fileName = event.target.files[0].name; 
             let strFileExt = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length) || this.fileName;
 
@@ -274,7 +253,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 if(strFileExt!= null && strFileExt.toLowerCase()=='csv'){
                     this.boolCSVCheck = true;
                     this.strCSVFileError = '';
-                    const parsedData = await this.parseCsv(event.target.files[0]);
+                    let parsedData = await this.parseCsv(event.target.files[0]);
                     this.processedCsvData = parsedData;
                     this.rowCount = this.processedCsvData.length;
                 }
@@ -297,9 +276,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
      /**Description - this method handles logic of 'Go Back' Button**/
      handleListViewNavigation() {
-        const baseURL = window.location.origin;
-        const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
-        window.open(listViewUrl,"_self");
+        //const baseURL = window.location.origin;
+        //const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
+        //window.locat(listViewUrl,"_self");
+        history.back();
     }
 
     /**Description - this method Opens Help Modal**/
@@ -315,7 +295,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
     validateUploadFile(){
         if(this.filesUploaded.length <= 0){
-            this.strErrorMessage = 'Please select a CSV file to upload';
+            this.strErrorMessage = 'Please select a valid .CSV file to upload';
             this.uploadValidationSuccess = false;
             return;
         }
@@ -324,18 +304,25 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.uploadValidationSuccess = false;
             return;
         }
-        this.file = this.filesUploaded[0];
+        this.file = this.filesUploaded;
         if (this.file.size > this.selectedConfigRec.Max_File_Size__c) {
             this.strErrorMessage = 'Max file size exceeded. Max file size is 20.0 MB';
             this.uploadValidationSuccess = false;
             return;
         } 
+        if (!this.processedCsvData || this.processedCsvData.length === 0){
+            this.strErrorMessage = 'The selected file is Empty';
+            this.uploadValidationSuccess = false;
+            return;
+        }
         const inputData = {
             csvData: this.processedCsvData,
             processName: this.operationRecordTypeValue,
+            configData: this.selectedConfigRec
         };
-        let buValResult = bulkUploadBUValidation.validateFile(inputData);
-
+        console.log('processed data--'+JSON.stringify(this.processedCsvData));
+        let buValResult = validateFile(inputData);
+        console.log('val result--'+buValResult);
         if(buValResult != 'Success'){
             this.strErrorMessage = buValResult;
             this.uploadValidationSuccess = false;
@@ -348,6 +335,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.boolShowFileUploadButton = false;
         this.boolCSVCheck= false;
         this.boolShowUploadButton = false;
+        this.uploadValidationSuccess = true;
         this.validateUploadFile();
         this.showLoadingSpinner = false;
         

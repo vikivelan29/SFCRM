@@ -20,7 +20,7 @@ public without sharing class ABHFL_CTSTHelper {
 
         // Check if the previous stage was not 'Open', the current stage is 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
             	assignCaseToQueue(caseRecord);
         	}
     	}
@@ -132,7 +132,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToAOMROM(Case caseRecord){
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.ROM_AOM__c != null) {
             caseRec.OwnerId = prefBranch.ROM_AOM__c;
         }

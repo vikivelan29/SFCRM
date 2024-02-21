@@ -308,7 +308,7 @@
                 <identifier>RecordCheque_Bounce_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-895fc714-39f2-4da9-a846-2d96053b124d</name>
+                <name>Facet-895fc714-39f2-4da9-a846-2d96053b124d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -447,6 +447,23 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_dataServiceDetails</componentName>
+                <identifier>c_abhfl_dataServiceDetails</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0c45c987-3142-4956-b0c1-810806c371fe</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -477,6 +494,20 @@
                 <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0c45c987-3142-4956-b0c1-810806c371fe</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Loan Data</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
@@ -490,6 +521,19 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_ROIHistory</componentName>
+                <identifier>c_abhfl_ROIHistory</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -510,13 +554,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Framework_Snapshot</value>
-                        </valueListItems>
+                                                </valueListItems>
                         <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
+                                                </valueListItems>
                         <valueListItems>
                             <value>MassChangeOwner</value>
                         </valueListItems>
@@ -609,7 +653,7 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
+                <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
