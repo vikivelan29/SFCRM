@@ -188,7 +188,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             quotes: true,
             escapeChar: '"'
         });
-
+        //Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
+        if(this.operationRecordTypeValue.includes('Close')){
+            csvString = csvString.replaceAll('\n', '\n=');
+        }
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
