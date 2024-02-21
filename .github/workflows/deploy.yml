@@ -7,9 +7,8 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
-          - sit1-sandbox
-          - sit-sandbox
-        default: 'sit1-sandbox'
+          - uat-sandbox
+        default: 'uat-sandbox'
         required: true
       validateOnly:
         description: 'Run the deployment as validation only'
