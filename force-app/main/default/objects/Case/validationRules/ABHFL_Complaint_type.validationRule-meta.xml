@@ -13,7 +13,7 @@ ISPICKVAL(Source__c, &apos;Branch&apos;),
 NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), &apos;Branch Walkin&apos;))
 ) ||AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = &apos;&apos;), ISNEW()),
 AND(
-ISPICKVAL(Source__c, &apos;Call Centre&apos;),
+ISPICKVAL(Source__c, &apos;Call Center&apos;),
 NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), &apos;Phone Inbound&apos;))
 ) || AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = &apos;&apos;), ISNEW() )
 )
