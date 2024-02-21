@@ -300,7 +300,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>No Reply Address</value>
     </labels>
     <labels>
         <fullName>Allowed_Domain</fullName>
