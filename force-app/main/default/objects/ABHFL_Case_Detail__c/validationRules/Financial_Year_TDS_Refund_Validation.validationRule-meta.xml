@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Financial_Year_TDS_Refund_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>If(ISNUMBER(Financial_Year_TDS_Refund__c),If(LEN(Financial_Year_TDS_Refund__c) &gt; 4,True,False),False)</errorConditionFormula>
+    <errorMessage>Please fill correct Financial Year TDS Refund</errorMessage>
+</ValidationRule>
