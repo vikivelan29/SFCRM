@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ABFL_Internal_Ombudsman_Queue_Case</fullName>
+    <fullName>ABFL_TDS_TEAM_Case</fullName>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>NAME</columns>
     <columns>CASES.SUBJECT</columns>
@@ -9,9 +9,9 @@
     <columns>CASES.CREATED_DATE</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Queue</filterScope>
-    <label>ABFL Internal Ombudsman</label>
-    <queue>ABFL_Internal_Ombudsman</queue>
+    <label>ABFL TDS TEAM</label>
+    <queue>ABFL_TDS_TEAM</queue>
     <sharedTo>
-        <group>ABFL_Internal_Ombudsman_Queue_G</group>
+        <group>ABFL_TDS_TEAM_G</group>
     </sharedTo>
 </ListView>
