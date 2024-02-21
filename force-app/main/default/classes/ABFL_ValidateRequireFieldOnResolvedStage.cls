@@ -7,7 +7,7 @@
 **/
 public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageClassInvocable {
     
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
+    public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
 
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         retCls.status = 'Success';
@@ -39,7 +39,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         return retCls;        
     }
     
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
+    public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         
         return retCls;
