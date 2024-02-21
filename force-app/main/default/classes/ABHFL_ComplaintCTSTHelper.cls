@@ -40,7 +40,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
                                                                       false);
             }            
         }
-
+    	
 	}
      /****************************************************************************************************************
     * @LOB - ABHFL
@@ -89,7 +89,9 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
                          ABHFL_Case_Detail__r.Gap_People__c, 
                          ABHFL_Case_Detail__r.Gap_Process__c,
                          ABHFL_Case_Detail__r.Gap_Product__c,
-                         ABHFL_Case_Detail__r.Regulator_Initiated__c 
+                         ABHFL_Case_Detail__r.Regulator_Initiated__c,
+						 ABHFL_Case_Detail__r.Final_resolution__c,
+						 ABHFL_Case_Detail__r.Repeat_interaction__c 
                   	  FROM Case 
                   	  WHERE Id = :caseId WITH SECURITY_ENFORCED];
 
@@ -97,6 +99,8 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
     	Schema.DescribeFieldResult caseCategorizationField = caseDetailFields.get('Case_Categorization__c').getDescribe();
     	Schema.DescribeFieldResult actionTakenField = caseDetailFields.get('Action_Taken__c').getDescribe();
     	Schema.DescribeFieldResult voiceOfCustomerField = caseDetailFields.get('Voice_of_Customer__c').getDescribe();
+        Schema.DescribeFieldResult finalResolutionField = caseDetailFields.get('Final_resolution__c').getDescribe();
+        Schema.DescribeFieldResult repeatInterationField = caseDetailFields.get('Repeat_interaction__c').getDescribe();
 
     	if(String.isBlank(caseR.ABHFL_Case_Detail__r.Case_Categorization__c)) {
         	validation.blankFields.add(caseCategorizationField.getLabel());
@@ -108,6 +112,14 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
     	}
     	if(String.isBlank(caseR.ABHFL_Case_Detail__r.Voice_of_Customer__c)) {
         	validation.blankFields.add(voiceOfCustomerField.getLabel());
+        	validation.result = true;
+    	}
+        if(String.isBlank(caseR.ABHFL_Case_Detail__r.Final_resolution__c)) {
+        	validation.blankFields.add(finalResolutionField.getLabel());
+        	validation.result = true;
+    	}
+        if(String.isBlank(caseR.ABHFL_Case_Detail__r.Repeat_interaction__c)) {
+        	validation.blankFields.add(repeatInterationField.getLabel());
         	validation.result = true;
     	}
          if(!caseR.ABHFL_Case_Detail__r.Gap_IT__c && 
