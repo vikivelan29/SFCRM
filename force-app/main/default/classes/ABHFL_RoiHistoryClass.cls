@@ -25,9 +25,15 @@ public with sharing class ABHFL_RoiHistoryClass {
             RoiColumnWrapper col = new RoiColumnWrapper(field.split(':')[0],field.split(':')[1]);
             columnWrapperList.add(col);
         }
-        if(response.data.size()>0){
+
+        if(response.success==true){
             response.columns = columnWrapperList;
             return response;
+        }else if(response.success==false){
+            RoiHistoryResponseWrapper noResponse = new RoiHistoryResponseWrapper();
+            noResponse.success = false;
+            noResponse.data = null;
+            return noResponse;
         }else{
             return null;
         }
