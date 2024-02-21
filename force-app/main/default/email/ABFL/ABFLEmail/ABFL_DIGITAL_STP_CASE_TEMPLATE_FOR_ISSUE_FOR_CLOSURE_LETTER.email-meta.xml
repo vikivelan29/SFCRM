@@ -2,7 +2,7 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Digital STP Case Template for Issue Fore-Closure Letter</name>
+    <name>DIGITAL STP CASE TEMPLATE FOR ISSUE FOR CLOSURE LETTER Not in Use</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Foreclosure of  Loan account: {{{Case.LAN__c}}}</subject>
