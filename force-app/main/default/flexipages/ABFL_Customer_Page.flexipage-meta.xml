@@ -20,6 +20,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Account.Update_Fields_ViaFlow</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Non_Individual</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -103,6 +110,16 @@
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NPS_Score__c</fieldItem>
+                <identifier>RecordNPS_Score_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -155,6 +172,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Company_Name__c</fieldItem>
                 <identifier>RecordCompany_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NPS_Result__c</fieldItem>
+                <identifier>RecordNPS_Result_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
