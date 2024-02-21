@@ -7,7 +7,7 @@
 *********************************************************/
 public with sharing class ABHFL_RoiHistoryClass {
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static RoiHistoryResponseWrapper fetchRoiHistory(String assetId){
         Asset at = [SELECT Id, LAN__c FROM Asset WHERE Id=:assetId LIMIT 1];
         RoiHistoryRequestWrapper roiHistoryRequest = new RoiHistoryRequestWrapper(at.LAN__c);
