@@ -276,10 +276,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
      /**Description - this method handles logic of 'Go Back' Button**/
      handleListViewNavigation() {
-        //const baseURL = window.location.origin;
-        //const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
+        const baseURL = window.location.origin;
+        const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
         //window.locat(listViewUrl,"_self");
-        history.back();
+        window.location.href = listViewUrl;
+        //history.back();
     }
 
     /**Description - this method Opens Help Modal**/
