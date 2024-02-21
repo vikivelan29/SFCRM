@@ -449,6 +449,13 @@
             <componentInstance>
                 <componentName>abhfl_dataServiceDetails</componentName>
                 <identifier>c_abhfl_dataServiceDetails</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-0c45c987-3142-4956-b0c1-810806c371fe</name>
@@ -516,6 +523,19 @@
                 <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_ROIHistory</componentName>
+                <identifier>c_abhfl_ROIHistory</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>
@@ -534,14 +554,14 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Framework_Snapshot</value>
-                        </valueListItems>
-                                                <valueListItems>
+                                                </valueListItems>
+                        <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                                                <valueListItems>
+                                                </valueListItems>
+                        <valueListItems>
                             <value>MassChangeOwner</value>
                         </valueListItems>
                         <valueListItems>
