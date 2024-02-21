@@ -35,7 +35,7 @@
                 <!-- READ ONLY CORE FORMS -->
                 <template if:false={openEditMode}>
                     <lightning-record-edit-form object-api-name="Case" record-id={recordId} data-id="caseROForm"
-                        onload={handleCaseRecordLoadReadOnly}>
+                        onload={handleCaseRecordLoadReadOnly} density="compact">
                         <lightning-layout horizontal-align="space" multiple-rows>
                             <template if:true={caseFieldsMetadata}>
                                 <template for:each={caseFieldsMetadata} for:item="ccfield">
@@ -72,7 +72,7 @@
 
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
-                            data-id="caseRelObjROForm" onload={handleRecordLoadReadOnly}>
+                            data-id="caseRelObjROForm" onload={handleRecordLoadReadOnly} density="compact">
                             <lightning-layout horizontal-align="space" multiple-rows>
                                 <template if:true={caseFieldsMetadata}>
                                     <template for:each={caseFieldsMetadata} for:item="ccfield">
@@ -123,7 +123,7 @@
                 <template if:true={openEditMode}>
                     <!-- CASE CORE FORM -->
                     <lightning-record-edit-form object-api-name="Case" record-id={recordId} onsubmit={handleSubmit2}
-                        data-id="caseEditForm" onload={handleCaseRecordLoad}>
+                        data-id="caseEditForm" onload={handleCaseRecordLoad} density="compact">
                         <!-- Virendra : 6th March 2023 : Added onload event for handling rendering of all the field correctly.-->
                         <!--<lightning-layout horizontal-align="space" multiple-rows>-->
                         <div class="slds-grid slds-wrap">
@@ -188,7 +188,7 @@
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
                             onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad}
-                            data-id="caseRelObjEditForm">
+                            data-id="caseRelObjEditForm" density="compact">
                             <!--<lightning-layout horizontal-align="space" multiple-rows>-->
                             <div class="slds-grid slds-wrap">
                                 <template if:true={caseFieldsMetadata}>
