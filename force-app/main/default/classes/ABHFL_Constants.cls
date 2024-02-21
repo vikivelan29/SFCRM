@@ -61,6 +61,7 @@ public with sharing class ABHFL_Constants {
     public static final String PAYTMLINK_INTEGRATION_METADATA = 'Paytm_Link';
     public static final String DATASERVICE_INTEGRATION_METADATA = 'Data_Service_Details';
     public static final String COMPLAINT_INVESTIGATION_INTEGRATION_METADATA = 'Complaint_investigation_Details';
+    public static final String ROIHISTORY_INTEGRATION_METADATA = 'ROI_History_Details';
     public static final String PAYTM_REQUEST_TYPE = 'Coll';
     public static final String REASON_FOR_PAYMENT = 'Repricing related charges';
     public static final String REPORTING_SERVICE = 'ReportingService';

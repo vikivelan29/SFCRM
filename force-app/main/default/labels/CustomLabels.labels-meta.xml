@@ -57,6 +57,13 @@
         <value>TRUE</value>
     </labels>
     <labels>
+        <fullName>ABHFL_ROI_HIstory_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL ROI HIstory Fields</shortDescription>
+        <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Loan ID:LOAN_ID,Loan No:LOAN_NO,Old Rate:OLD_RATE,New Rate:new_rate</value>
+    </labels>
+    <labels>
         <fullName>ASF_CaseEndStatuses</fullName>
         <language>en_US</language>
         <protected>false</protected>

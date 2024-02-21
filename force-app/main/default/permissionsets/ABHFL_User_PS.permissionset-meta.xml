@@ -80,6 +80,10 @@
         <apexClass>FrameworkFunctionalityExtender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_RoiHistoryClass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 <classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
         <enabled>true</enabled>
