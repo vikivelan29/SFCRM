@@ -48,6 +48,7 @@ import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
+import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension' 
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -593,7 +594,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     updateCaseExtensionRecord(caseExtensionRecId) {
         if(this.complaintType) {
-            const fields = {};
+            /*const fields = {};
 
             fields[CASE_EXTENSION_ID_FIELD.fieldApiName] = caseExtensionRecId;
             fields[COMPLAINT_TYPE_FIELD.fieldApiName] = this.complaintType;
@@ -604,7 +605,15 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
             updateRecord(recordInput).then((record) => {
                 console.log('Record--> '+record);
+            });*/
+            updateCaseExtension({caseextensionId: caseExtensionRecId, complainttype : this.complaintType})
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log("Error inside updateCaseExtension "+JSON.stringify(error));
             });
+  
         }
     }
 
