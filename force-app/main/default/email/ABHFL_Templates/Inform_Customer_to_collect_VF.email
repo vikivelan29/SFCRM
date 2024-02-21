@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Collect the collateral document" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Inform Customer to collect property paper"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

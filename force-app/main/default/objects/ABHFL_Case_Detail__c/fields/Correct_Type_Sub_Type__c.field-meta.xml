@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Correct_Type_Sub_Type__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Correct Type Sub Type</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$User.Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </filterItems>
+        <filterItems>
+            <field>ASF_Case_Category_Config__c.Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>ASF_Case_Category_Config__c</referenceTo>
+    <relationshipLabel>ABHFL Case Details</relationshipLabel>
+    <relationshipName>ABHFL_Case_Details</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

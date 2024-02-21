@@ -86,18 +86,21 @@ public class ASF_CasePathController {
     }
     
     @AuraEnabled
-    public static list<StageWrapper> getCasePath1(string recordId){
+    public static CaseWithStageWrapper getCasePath1(string recordId){
+        CaseWithStageWrapper returnWrap = new CaseWithStageWrapper();
+
         list<StageWrapper> result = new list<StageWrapper>();
         
         Integer lastActiveStageNumber = 100;
         Integer activeOrder = 100;
         
         try {
-            case currentCase = [Select Id,CCC_External_Id__c, Stage__c,Nature__c FROM Case where Id=:recordId].get(0);
+            case currentCase = [Select Id,CCC_External_Id__c, Stage__c,Nature__c, 
+                            typeSubTypeMismatch__c, Type_Sub_Type_Mismatch_Reason__c 
+                            FROM Case where Id=:recordId].get(0);
+            returnWrap.typeSubTypeMismatch = currentCase.typeSubTypeMismatch__c;
+            returnWrap.typeSubTypeMismatchReason = currentCase.Type_Sub_Type_Mismatch_Reason__c;
             
-            //else{//Non Rejection stage logic
-             
-
             list<ASF_Case_Stage_Config__c> caseStages = [Select Id, Order__c,Manual_Stage__c,Stage_Help_Text__c, Optional_Stage__c,StageName__c FROM ASF_Case_Stage_Config__c where Parent_C3_Record__c =:currentCase.CCC_External_Id__c order by Order__c];
             for(ASF_Case_Stage_Config__c csc: caseStages){
                 StageWrapper tempWrapper = new StageWrapper();
@@ -120,11 +123,11 @@ public class ASF_CasePathController {
                     
                     //Logic to remove Manual Stages from path
                     /*
-if(csc.Manual_Stage__c != true){
-result.add(tempWrapper);
-//tempWrapper.isManual = true;
-} 
-*/
+                    if(csc.Manual_Stage__c != true){
+                    result.add(tempWrapper);
+                    //tempWrapper.isManual = true;
+                    } 
+                    */
                     
                     result.add(tempWrapper);
                     
@@ -149,11 +152,11 @@ result.add(tempWrapper);
                     
                     //Logic to remove Manual Stages from path
                     /*
-if(csc.Manual_Stage__c != true){
-result.add(tempWrapper);
-//tempWrapper.isManual = true;
-} 
-*/
+                    if(csc.Manual_Stage__c != true){
+                    result.add(tempWrapper);
+                    //tempWrapper.isManual = true;
+                    } 
+                    */
                     
                     
                     result.add(tempWrapper);
@@ -161,7 +164,7 @@ result.add(tempWrapper);
                 
                 //Adding logic for Reject stage for Request/Query Nature
                 if((ASF_Constants.REJECTIONSTATUSES.contains(currentCase.Stage__c)) && (csc.StageName__c=='Closed' || csc.StageName__c=='Resolved')){
-                    tempWrapper.stageName = ASF_Constants.REJECTIONSTATUS; 
+                    tempWrapper.stageName = currentCase.Stage__c; 
                     tempWrapper.Order = Integer.valueOf(csc.Order__c);
                     tempWrapper.className = '';
                     activeOrder = Integer.valueOf(csc.Order__c);
@@ -169,8 +172,10 @@ result.add(tempWrapper);
                 }
             }
             
-            if(result.isEmpty())
-                return result;
+            if(result.isEmpty()){
+                returnWrap.stageList = result;
+                return returnWrap;
+            }
             
             List<string> pastStages = new List<string>();
             for(ASF_Case_SLA_History__c  caseHist : [SELECT id,Case__c, Stage__c, Status__c from ASF_Case_SLA_History__c  WHERE Case__c =: recordId]){
@@ -214,9 +219,15 @@ result.add(tempWrapper);
             system.debug('aura error--->'+e.getLineNumber()+'------->'+e.getMessage());
             throw new AuraHandledException(e.getMessage());
         }
-        return result;
+        returnWrap.stageList = result;
+        return returnWrap;
     }
     
+    public class CaseWithStageWrapper{
+        @AuraEnabled public Boolean typeSubTypeMismatch{get;set;}
+        @AuraEnabled public String typeSubTypeMismatchReason{get;set;}
+        @AuraEnabled public List<StageWrapper> stageList{get;set;}
+    }
     
     public class StageWrapper{
         

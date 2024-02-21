@@ -161,7 +161,19 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Case Category Configs</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <profileSearchLayouts>
+        <fields>Sub_Type__c</fields>
+        <fields>Type__c</fields>
+        <fields>Nature__c</fields>
+        <fields>NAME</fields>
+        <profileName>System Administrator</profileName>
+    </profileSearchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Sub_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Nature__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Business_Unit__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

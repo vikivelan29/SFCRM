@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_CaseDeDupeCheckLWC</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_SuppressEmailHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_ValidateRequireFieldOnResolvedStage</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerAndProspectSearch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_FieldSetController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -13,7 +37,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
+        <apexClass>ASF_customPicklistUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -29,7 +53,27 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABFL_CreateCaseProspectHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_CreateCaseProspectHelperTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_CaseIntegrationHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_EbotWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_ApprovalDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -98,6 +142,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseE2CHelper_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseEmailController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseEmailController_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -249,6 +301,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_CaseTriggerBUSpecificHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CaseTriggerHandler2</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -341,6 +397,22 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_CustomerAndProspectSearch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailBUTemplateInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailInvocable_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_DelegatedApproverUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -350,6 +422,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_EmailMessageHelperTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_FieldSetController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -366,6 +442,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_IntegrationInvocableTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_IntegrationInvocableTest1</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -396,10 +476,7 @@
         <apexClass>ASF_OwnerShipChange</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_OwnerShipChangeTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
+    
     <classAccesses>
         <apexClass>ASF_PreFrameworkSLA</apexClass>
         <enabled>true</enabled>
@@ -422,6 +499,22 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_QueueNotificationJob_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_RecategoriseCaseController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_RecategoriseCaseControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_RelateDuplicateCaseController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_RelateDuplicateCaseControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -489,6 +582,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_TriggerCustomEventHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_TriggerSkipperUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -510,6 +607,22 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_commLogProcessingBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_customPicklistUtility</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_customPicklistUtilityTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_FetchAssetRelatedToAccountCntrl_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -578,13 +691,33 @@
     </customMetadataTypeAccesses>
     <description>Create and Update Case record</description>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_6__c</field>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Litmus_Project__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Litmus_Trigger__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
+        <field>ASF_Case_Category_Config__c.Additional_Email_Templates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Additional_SMS_Metadata__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.isSTP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.is_Attachment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -938,6 +1071,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Allow_file_upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Checklist_External_Id__c</field>
         <readable>true</readable>
@@ -1059,6 +1197,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Integration__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Retry_Attempt__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Integration__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1080,6 +1238,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Integration__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Acknowledgement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2199,6 +2367,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Integration__c.STP_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Integration__c.Case_Stage_Config__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2225,6 +2398,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Integration__c.Processing_Class__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Integration__c.STP_API_Identifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2588,6 +2766,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Ageing_Number_Of_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.ABHFL_Case_Detail__c</field>
         <readable>true</readable>
@@ -2854,6 +3037,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.No_Auto_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Language</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2910,6 +3103,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Overall_Case_Closure_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Overall_SLA_plus_X_days__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3179,8 +3377,28 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Allow_file_upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.AccountId</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.UniqueKey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Full_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+		<fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Preferred_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3424,6 +3642,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PE_Logger__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.No_Auto_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>PE_Logger__c.PE_JSON__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3591,6 +3819,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>ASF_Case_Approv__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>PE_Logger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_delay__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason for delay</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BT Banker Unavailable</fullName>
+                <default>false</default>
+                <label>BT Banker Unavailable</label>
+            </value>
+            <value>
+                <fullName>You&apos;re Unavailable</fullName>
+                <default>false</default>
+                <label>You&apos;re Unavailable</label>
+            </value>
+            <value>
+                <fullName>Inability to contact you</fullName>
+                <default>false</default>
+                <label>Inability to contact you</label>
+            </value>
+            <value>
+                <fullName>Delay by our courier partner</fullName>
+                <default>false</default>
+                <label>Delay by our courier partner</label>
+            </value>
+            <value>
+                <fullName>Documents are in transit</fullName>
+                <default>false</default>
+                <label>Documents are in transit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

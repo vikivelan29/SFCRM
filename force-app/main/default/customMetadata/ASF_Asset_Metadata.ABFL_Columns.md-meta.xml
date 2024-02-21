@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABFL Columns</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Mapping__c</field>
+        <value xsi:type="xsd:string">Id:AssetId</value>
+    </values>
+    <values>
+        <field>Fields_to_Fetch__c</field>
+        <value xsi:type="xsd:string">Loan #:LAN__c:url,Loan Start Date:Loan_Start_Date__c:date,Loan End Date:Loan_End_Date__c:date,RM Code:RM_Code__c,Loan Amount:Loan_Amount__c:currency,LOB:LOB__c,Loan Type:Loan_Type__c</value>
+    </values>
+    <values>
+        <field>Line_Of_Business__c</field>
+        <value xsi:type="xsd:string">ABFL</value>
+    </values>
+</CustomMetadata>

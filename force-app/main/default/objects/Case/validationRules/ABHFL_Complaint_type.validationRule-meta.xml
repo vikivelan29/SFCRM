@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHFL_Complaint_type</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(AND(
+    ISPICKVAL(Business_Unit__c, &apos;ABHFL&apos;),
+    ISPICKVAL(Nature__c,&apos;Complaint&apos;),
+    ISPICKVAL(Source__c, &apos;Branch&apos;),
+    NOT(ISPICKVAL(ABHFL_Case_Detail__r.Complaint_Type__c, &apos;Branch Walkin&apos;)),
+    Owner:User.Assigned_Team__c &lt;&gt; &apos;Grievance Team&apos;,
+    NOT(ISNEW()) 
+),
+  AND(
+    ISPICKVAL(Business_Unit__c, &apos;ABHFL&apos;),
+    ISPICKVAL(Source__c, &apos;Call Centre&apos;),
+    ISPICKVAL(Nature__c,&apos;Complaint&apos;),
+    NOT(ISPICKVAL(ABHFL_Case_Detail__r.Complaint_Type__c, &apos;Phone Inbound&apos;)),
+    Owner:User.Assigned_Team__c &lt;&gt; &apos;Grievance Team&apos;,
+    NOT(ISNEW()) 
+))</errorConditionFormula>
+    <errorMessage>Only Grievance members can change complaint type.
+Branch Users please select &apos;Branch Walkin&apos;, Call Center Users please select &apos;Phone Inbound&apos;.</errorMessage>
+</ValidationRule>

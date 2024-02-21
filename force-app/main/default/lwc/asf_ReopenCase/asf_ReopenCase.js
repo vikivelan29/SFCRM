@@ -59,12 +59,8 @@ export default class Asf_ReopenCase extends NavigationMixin(LightningElement) {
             //     }
             // });
             console.log('Firing pubsub from Reopen!!!!!!');
-            // let payload = {'source':'reopencase', 'recordId':this.recordId};
-            // fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
-            setTimeout(()=>{
-                console.log('refreshing view');
-                eval("$A.get('e.force:refreshView').fire();");
-            }, 500);
+            let payload = {'source':'reopencase', 'recordId':this.recordId};
+            fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);
             this.closeAction();
 
         })

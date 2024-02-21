@@ -401,10 +401,7 @@
         <apexClass>ASF_OwnerShipChange</apexClass>
         <enabled>false</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_OwnerShipChangeTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
+    
     <classAccesses>
         <apexClass>ASF_PreFrameworkSLA</apexClass>
         <enabled>false</enabled>
@@ -622,12 +619,7 @@
         <editable>false</editable>
         <field>ABFL_Case_Detail__c.Contact_Details__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABFL_Case_Detail__c.CustomerNo__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>ABFL_Case_Detail__c.Customer_Type__c</field>
@@ -736,16 +728,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Creator_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_6__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3500,11 +3482,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Unique_Key__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LOBMappingDetails__mdt.CCValue__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4420,10 +4397,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ExportReport</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>IsSsoEnabled</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

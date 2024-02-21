@@ -16,6 +16,9 @@ import Case_Status from '@salesforce/schema/Case.Status';
 import Case_Stage from '@salesforce/schema/Case.Stage__c';
 const fields = [Case_Owner, Case_Status, Case_Stage];
 
+
+import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE, REFRESH_COMPLETE_WITH_ERRORS, REFRESH_ERROR } from 'lightning/refresh'
+
 export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(LightningElement) {
     @api recordId;
     accData;
@@ -65,12 +68,15 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
     }
     connectedCallback() {
-        this.event2 = setInterval(() => {
-            refreshApex(this.wiredAccountsResult);
-        }, 1000);
+        // this.event2 = setInterval(() => {
+        //     refreshApex(this.wiredAccountsResult);
+        // }, 1000);
+
+        this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
     }
     disconnectedCallback() {
         clearInterval(this.event2);
+        unregisterRefreshContainer(this.refreshContainerID);
     }
     handleInputChange(event) {
         if (this.areDetailsVisible == true) {
@@ -116,6 +122,26 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
             });
             this.dispatchEvent(event);
         });
+    }
+
+
+
+    refreshContainer(refreshPromise) {
+        if (refreshPromise) {
+            return refreshPromise
+                .then((status) => {
+                    if (status === REFRESH_COMPLETE) {
+                        refreshApex(this.wiredAccountsResult);
+                    } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
+                        console.warn("Done, with issues refreshing some components");
+                    } else if (status === REFRESH_ERROR) {
+                        console.error("Major error with refresh.");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
  
 }

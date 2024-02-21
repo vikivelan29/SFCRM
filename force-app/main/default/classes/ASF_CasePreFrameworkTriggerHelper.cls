@@ -14,14 +14,15 @@ public class ASF_CasePreFrameworkTriggerHelper {
         {
             mapSLA_Owner.put(m.Queue_Name__c,m.SLA_In_Minutes__c);
         }
-        system.debug('mapSLA_Owner::'+mapSLA_Owner);
+        
         for(Group g : [SELECT Id, DeveloperName FROM Group where DeveloperName in:mapSLA_Owner.keyset() and Type = 'Queue'])
             mapGroupsByName.put(g.Id,g.DeveloperName );
-        system.debug('mapGroupsByName::'+mapGroupsByName);
+        
         for(Case cs : newItems){
             if(cs.RecordTypeId == interactionId){
                 cs.Source__c = 'Email';
                 cs.Channel__c = 'Email';
+                cs.Technical_Source__c = 'Email';
                 cs.BusinessHoursId = bh.Id;
                 Long sla1Sec;
                 if( mapGroupsByName.get(cs.OwnerId) != NULL && mapSLA_Owner.get(mapGroupsByName.get(cs.OwnerId)) != NULL ){
@@ -34,8 +35,19 @@ public class ASF_CasePreFrameworkTriggerHelper {
                 
                 cs.Pre_framework_SLA__c = BusinessHours.add(cs.BusinessHoursId, system.now(), sla1Sec);
                 
-                if(cs.Origin == 'Payments Email')
-                    cs.Business_Unit__c = 'Payments';
+                ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
+                percntCls.setOverallPercSLAFields(sla1Sec,cs.BusinessHoursId,system.now(),cs);
+                
+                /*
+                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+                 */
+                String caseOrigin = cs.Origin;
+                if(caseOrigin != null){
+                    if(ASF_Constants.mCaseOriginVsBusinessUnit.containsKey(caseOrigin)){
+                        cs.Business_Unit__c = ASF_Constants.mCaseOriginVsBusinessUnit.get(caseOrigin);
+                    }
+                }
                 
                 if(String.isNotBlank(cs.suppliedEmail)){
                     domainNames.add(cs.suppliedEmail.split('@')[1]);
@@ -114,49 +126,16 @@ public class ASF_CasePreFrameworkTriggerHelper {
     }
     public void populateStageFields(list<case> caseList){
         Id interactionId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Interaction').getRecordTypeId();
+        List<String> closedStatuses = new List<String>();
+        
+        for(CaseStatus cstatus : [SELECT ID,MasterLabel FROM CaseStatus WHERE isClosed = true]){
+            closedStatuses.add(cstatus.MasterLabel);
+        }
         for(Case cs : caseList){
             if(cs.RecordTypeId == interactionId){
-                cs.Stage__c = (cs.status == 'New' || cs.status == 'Rejected' || cs.status == 'Closed' || cs.status == 'Merged' || cs.status == 'Resolved') ? cs.status : 'In Progress';
+                cs.Stage__c = (cs.status == 'New' || closedStatuses.contains(cs.status)) ? cs.status : 'In Progress';
             }
         }
     }
-    public void caseSLAHistoryAfterInsert(map<Id, Case> newCases){
-        
-        List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
-        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c,Bulk_Action__c FROM Case WHERE Id IN: newCases.values()]){
-            ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
-            slaHistory.Current_Owner__c = c.Owner.Name;
-            slaHistory.Current_Owner_Id__c = c.OwnerId;
-            slaHistory.Case__c = c.Id;
-            slaHistory.Stage__c = c.Stage__c;
-            slaHistory.Status__c = c.Status;
-            //if stage is blank , then probbaly email2Case
-            if(String.isBlank(slaHistory.Stage__c)){
-                slaHistory.Stage__c = slaHistory.Status__c;    
-            }
-            slaHistory.Stage_Start_Date__c = system.now();
-            slaHistory.is_Running_Record__c = true;
-            slaHistory.BusinessHoursId__c = c.BusinessHoursId;
-            
-            if(Schema.sObjectType.Case.fields.Bulk_Action__c.isAccessible()){
-                if(String.isNotBlank(c.Bulk_Action__c )){
-                    slaHistory.Is_Bulk_Updated__c = true;
-                    slaHistory.Bulk_Movement_User_Id__c = c.Bulk_Action__c.substringBetween('Logged in User Id : ',' 4.');
-                    slaHistory.Bulk_Movement_User__c = c.Bulk_Action__c.substringBetween('Logged-in User Name : ',' 3.');
-                    slaHistory.Bulk_Operation__c = c.Bulk_Action__c.substringBetween('Latest Bulk Operation : ',' 2.') + ' on ' + c.Bulk_Action__c.substringAfter('Date and Time of Operation : ') ;
-                }
-            }
-            
-            slaHistoryList.add(slaHistory);
-        }
-        
-        if(!slaHistoryList.isEmpty()){
-            
-            insert slaHistoryList;
-            
-        }
-        
-        
-    }
-    
+       
 }

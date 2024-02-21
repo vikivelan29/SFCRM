@@ -1,8 +1,8 @@
 import getCaseRelatedObjNameApex from '@salesforce/apex/ASF_CaseUIController.getCaseRelatedObjName';
-import { createRecord, updateRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
+import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import updateCase from '@salesforce/apex/ASF_CaseUIController.updateCase';
+import createCaseExtension from '@salesforce/apex/ASF_CaseUIController.createCaseExtension';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
 
 //Fields
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
@@ -34,50 +34,62 @@ import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no
 
 export class asf_Utility {
 
-    createRelObjJS(selected, source, recTypeId, rejectDetails, contact, parentJS) {
-        console.log('##1111##' + JSON.stringify(selected));
-        if (!parentJS.rejectCase) {
-            getCaseRelatedObjNameApex({ cccId: selected.CCC_External_Id__c })
-                .then(result => {
-                    var caseRelObjName = result;
-                    console.log('##a##' + JSON.stringify(caseRelObjName));
-                    const fields = {};
+     createRelObjJS(selected,source,recTypeId,rejectDetails,contact,parentJS) {
+        console.log('##1111##'+JSON.stringify(selected));
+        if(!parentJS.rejectCase){
+            getCaseRelatedObjNameApex({cccId : selected.CCC_External_Id__c})
+            .then(async result => {
+                var caseRelObjName = result;
+                console.log('##a##'+JSON.stringify(caseRelObjName));
+                const fields = {};
+                if(parentJS.isTransactionRelated){
+                    fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
+                }
 
-                    if (parentJS.isTransactionRelated) {
-                        fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
-                    }
+                let cccRecToPass = {...selected};
+                cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
 
-                    const caseRecord = { apiName: caseRelObjName, fields: fields };
-                    createRecord(caseRecord)
-                        .then(result => {
-                            console.log('##2222##' + JSON.stringify(selected));
-                            var caseExtensionRecordId = result.id;
-                            var retObj = { objName: caseRelObjName, caseExtRecId: caseExtensionRecordId };
-                            console.log('##b##' + JSON.stringify(retObj));
-
-                            this.setFields(selected, retObj, source, recTypeId, rejectDetails, contact, parentJS);
-                        })
-                        .catch(error => {
-                            console.log('Error2: ' + JSON.stringify(error));
-                        })
-                })
-                .catch(error => {
-                    console.log('Error1: ' + JSON.stringify(error));
+                const caseExtnRecord = { sobjectType: caseRelObjName, ...fields };
+                let caseExtensionRecordId = await createCaseExtension({
+                    record : caseExtnRecord,
+                    cccRec: cccRecToPass
+                }).catch(error=>{
+                    console.error(error);
                 });
-        } else {
-            this.setFields(selected, null, source, recTypeId, rejectDetails, contact, parentJS);
+                
+                let retObj = {objName : caseRelObjName, caseExtRecId : caseExtensionRecordId};
+                this.setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS);
+                
+                // createRecord(caseRecord)
+                // .then(result => {
+                //  console.log('##2222##'+JSON.stringify(selected));
+                //     var caseExtensionRecordId = result.id;
+                //     var retObj = {objName : caseRelObjName, caseExtRecId : caseExtensionRecordId};
+                //     console.log('##b##'+JSON.stringify(retObj));
+                    
+                //     this.setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS);
+                // })
+                // .catch(error => {
+                //     console.log('Error2: '+JSON.stringify(error));
+                // })
+            })
+            .catch(error =>{
+                console.log('Error1: '+JSON.stringify(error));
+            });
+        }else{
+            this.setFields(selected,null,source,recTypeId,rejectDetails,contact,parentJS);
         }
+       
+   }
 
-    }
-
-    setFields(selected, retObj, source, recTypeId, rejectDetails, contact, parentJS) {
-        const fields = {};
+    setFields(selected,retObj,source,recTypeId,rejectDetails,contact,parentJS){
+       const fields = {};
         var caseRelObjName;
 
-        if (!parentJS.rejectCase) {
+        if(!parentJS.rejectCase){       
             fields[STAGE_FIELD.fieldApiName] = selected.First_Stage__c;
             caseRelObjName = retObj.objName;
-            if (caseRelObjName) {
+            if(caseRelObjName){
                 fields[caseRelObjName] = retObj.caseExtRecId;
             }
         }
@@ -85,89 +97,87 @@ export class asf_Utility {
         fields[ID_FIELD.fieldApiName] = parentJS.recordId;
         fields[NEW_STAGE.fieldApiName] = true;
 
-        if (!parentJS.rejectCase) {
-            if (source != 'Email') {
-                fields[SUBJECT_FIELD.fieldApiName] = 'SR : ' + selected.Type__c;
-            }
+       if(!parentJS.rejectCase){
+        if(source != 'Email'){
+           fields[SUBJECT_FIELD.fieldApiName] = 'SR : '+selected.Type__c;
         }
-        fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
-        fields[TYPETXT_FIELD.fieldApiName] = selected.Type__c;
-        fields[SUBTYPETXT_FIELD.fieldApiName] = selected.Sub_Type__c;
-
-        fields[NATURE_FIELD.fieldApiName] = parentJS.natureVal;
-        //fields[PRODUCT_FIELD.fieldApiName] = parentJS.productVal;
-        fields[SOURCE_FIELD.fieldApiName] = source;
-        //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
-        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
-        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue;
-        //fields[CASE_PRODUCT_FIELD.fieldApiName] = parentJS.assetProductName; 
-        if (!parentJS.closeCase && !parentJS.rejectCase)
-            fields['recordTypeId'] = recTypeId;
-
-        if (parentJS.closeCase) {
-            fields[CASE_STAGE_FIELD.fieldApiName] = 'Resolved';
-            fields[CASE_STATUS_FIELD.fieldApiName] = 'Resolved';
-        }
-        if (parentJS.rejectCase) {
-            fields[CASE_REJECTFLAG.fieldApiName] = true;
-            fields[REJECTION_DETAILS.fieldApiName] = rejectDetails;
-            fields[REJECTION_REASON.fieldApiName] = parentJS.selectedReason;
-        }
-        if (parentJS.complaintSelected) {
+       }
+           fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
+           fields[TYPETXT_FIELD.fieldApiName] = selected.Type__c;
+           fields[SUBTYPETXT_FIELD.fieldApiName] = selected.Sub_Type__c;
+       
+       fields[NATURE_FIELD.fieldApiName] = parentJS.natureVal;
+       //fields[PRODUCT_FIELD.fieldApiName] = parentJS.productVal;
+       fields[SOURCE_FIELD.fieldApiName] = source;
+       //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
+       fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
+       fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 
+       //fields[CASE_PRODUCT_FIELD.fieldApiName] = parentJS.assetProductName; 
+       if(!parentJS.closeCase && !parentJS.rejectCase)
+           fields['recordTypeId'] = recTypeId;
+           
+       if(parentJS.closeCase){
+           fields[CASE_STAGE_FIELD.fieldApiName] = 'Resolved';
+           fields[CASE_STATUS_FIELD.fieldApiName] = 'Resolved'; 
+       }
+       if(parentJS.rejectCase){
+           fields[CASE_REJECTFLAG.fieldApiName] = true; 
+           fields[REJECTION_DETAILS.fieldApiName] = rejectDetails;
+           fields[REJECTION_REASON.fieldApiName] = parentJS.selectedReason;
+       }
+       if(parentJS.complaintSelected){
             //fields[SR_CATEGORY.fieldApiName] = parentJS.selectedSRCategory;            
-        }
-        if (selected && selected.hasOwnProperty("Complaint_Level__c")) {
-            if (parentJS.subsourceSelected) {
+       }
+       if(selected && selected.hasOwnProperty("Complaint_Level__c")){
+            if(parentJS.subsourceSelected){
                 //fields[SUB_SOURCE.fieldApiName] = parentJS.subsourceSelected;
             }
-
+                
 
             //fields[COMP_LEVEL.fieldApiName] = selected['Complaint_Level__c'];
-        } else {
-            //fields[COMP_LEVEL.fieldApiName] = 'L1';
+        }else{
+        //fields[COMP_LEVEL.fieldApiName] = 'L1';
         }
+       
+       if(contact){
+           fields[CASE_CONTACT_FIELD.fieldApiName] = contact;
+       }
+       console.log('####Fields##'+JSON.stringify(fields));
+       this.updateCaseJS(fields,parentJS);
+   }
 
-        if (contact) {
-            fields[CASE_CONTACT_FIELD.fieldApiName] = contact;
-        }
-        console.log('####Fields##' + JSON.stringify(fields));
-        this.updateCaseJS(fields, parentJS);
-    }
+    updateCaseJS(fields,parentJS){
+       const caseRecord = JSON.stringify(fields);
+       updateCase({fields:caseRecord,isAsset:parentJS.withoutAsset})
+           .then(result => {   
+                
+            parentJS.caseRecordId = result.Id;
+               parentJS.dispatchEvent(
+                   new ShowToastEvent({
+                       title: 'Success',
+                       message: 'SR Updated ',
+                       variant: 'success',
+                   }),
+               );
+               parentJS.loaded = true;
+               
+               parentJS.navigateToRecordEditPage(result.Id);
+                 
+               
+           })
+           .catch(error => {
 
-    updateCaseJS(fields, parentJS) {
-        const caseRecord = JSON.stringify(fields);
-        updateCase({ fields: caseRecord, isAsset: parentJS.withoutAsset })
-            .then(result => {
-
-                parentJS.caseRecordId = result.Id;
-                parentJS.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'SR Updated ',
-                        variant: 'success',
-                    }),
-                );
-                parentJS.loaded = true;
-
-                getRecordNotifyChange([{ recordId: result.Id }]);
-
-                parentJS.navigateToRecordEditPage(result.Id);
-
-
-            })
-            .catch(error => {
-
-                parentJS.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error Updating record',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-                parentJS.loaded = true;
-                parentJS.isNotSelected = true;
-                parentJS.showRejetedReason = false;
-            })
-    }
+            parentJS.dispatchEvent(
+                   new ShowToastEvent({
+                       title: 'Error Updating record',
+                       message: error.body.message,
+                       variant: 'error',
+                   }),
+               );
+               parentJS.loaded = true;
+               parentJS.isNotSelected = true;
+               parentJS.showRejetedReason = false;
+           })   
+   } 
 
 }

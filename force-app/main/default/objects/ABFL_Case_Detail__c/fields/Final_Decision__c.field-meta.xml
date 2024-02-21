@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Final_Decision__c</fullName>
+    <externalId>false</externalId>
+    <label>Final Decision</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IO decision is Uphold</fullName>
+                <default>false</default>
+                <label>IO decision is Uphold</label>
+            </value>
+            <value>
+                <fullName>IO decision is Over-ruled</fullName>
+                <default>false</default>
+                <label>IO decision is Over-ruled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

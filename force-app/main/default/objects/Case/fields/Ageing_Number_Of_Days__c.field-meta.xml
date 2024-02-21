@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ageing_Number_Of_Days__c</fullName>
+    <description>&quot;Ageing here is calculated on calendar days from 
+Open cases - Today() - created date
+Closed case - resolved date - created date&quot;</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    NOT(ISPICKVAL(Status, &quot;Resolved&quot;)),
+    TODAY() - DATEVALUE(CreatedDate),
+    IF(
+        ISPICKVAL(Status, &quot;Resolved&quot;),
+        IF(
+            NOT(ISBLANK(ClosedDate)),
+            DATEVALUE(ClosedDate) - DATEVALUE(CreatedDate),
+            0 
+        ),
+        0  
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Ageing (Number Of Days)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

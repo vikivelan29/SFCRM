@@ -82,7 +82,7 @@ public without sharing class ASF_CaseManualStageController {
             }
             Decimal currentStageOrder = [Select Order__c,Parent_C3_Record__c FROM ASF_Case_Stage_Config__c WHERE Parent_C3_Record__c =:case1.CCC_External_Id__c AND StageName__c=:case1.Stage__c ].get(0).Order__c;
             for(ASF_Case_Stage_Config__c csc:[select Id,StageName__c,Case_Category_Config__r.CCC_External_Id__c,Default_Queue__c,Is_Approval_Stage__c,(Select Id from Case_Rules__r where Type__c ='Assignment') from ASF_Case_Stage_Config__c
-                                              WHERE Case_Category_Config__r.CCC_External_Id__c =:case1.CCC_External_Id__c AND Manual_Stage__c=true WITH SECURITY_ENFORCED] ) {
+                                              WHERE Case_Category_Config__r.CCC_External_Id__c =:case1.CCC_External_Id__c AND Manual_Stage__c=true and Order__c > :currentStageOrder WITH SECURITY_ENFORCED] ) {
                                                   if(csc.StageName__c != case1.Stage__c){
                                                       ManualStagesWrapper temp = new ManualStagesWrapper();
                                                       temp.label = csc.StageName__c;
@@ -217,7 +217,7 @@ public without sharing class ASF_CaseManualStageController {
             
         } catch (Exception e) {
 			System.debug('@@Mess'+e.getMessage());
-            throw new AuraHandledException(e.getMessage());
+            // throw new AuraHandledException(e.getMessage());
         }
         return result;
     }
@@ -237,7 +237,7 @@ public without sharing class ASF_CaseManualStageController {
             }
             queueList =[select Id,Name, Type from Group Where Type ='queue'];
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw new AuraHandledException(e.getMessage()); 
         }
         return queueList;
     }

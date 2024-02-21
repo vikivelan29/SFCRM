@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NSM APPROVAL FOR RELEASE OF FCL &amp; LOD Not in Use</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Approval for FCL &amp; LOD {{{Case.Account}}} {{{Case.LAN__c}}} {{{Case.CaseNumber}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

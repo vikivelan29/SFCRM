@@ -1,0 +1,121 @@
+<template>
+    <div>
+        <template if:true={displaySpinner}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+    </div>
+    <template lwc:if={displayMultipleLan}>
+        <lightning-card title="Multiple LAN">
+            <template lwc:if={recordsToDisplay}>
+                <div class="slds-p-around_x-small slds-scrollable_x">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr>
+                                <th>Fetch Details</th>
+                                <th>Select</th>
+                                <template for:each={columns} for:item="column">
+                                    <th scope="col" key={column.name}>
+                                        <div>{column.label}</div>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={recordsToDisplay} for:item = "item" for:index="indexVar">
+                                <tr key={item.asset.Id} data-id={item.asset.Id}>
+                                    <td scope="col">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                            <a name={indexVar} data-id={item.asset.Id} onclick={fetchAssetDetails}>
+                                                <lightning-icon icon-name="utility:download" alternative-text="Fetch Details"  size="x-small"></lightning-icon>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td scope="col">
+                                        <lightning-input type="checkbox" onchange={handleSelection} name={item.asset.Id}> </lightning-input>
+                                    </td>   
+                                    <template for:each={columns} for:item="column">
+                                        <td scope="col" key={column.name}>
+                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} data-id={item.asset.id} column-type={column.type}></c-abhfl_fielddisplay>
+                                        </td>
+                                    </template>                       
+                                </tr>
+                            </template>   
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-align_absolute-center" style="height:3rem">
+                <lightning-button 
+                    onclick={addRecords} 
+                    label="Add"
+                    variant="brand"
+                    disabled={disableAdd} >
+                </lightning-button>
+                &nbsp;
+                <lightning-button 
+                    onclick={fetchAllAsset} 
+                    label="Fetch All"
+                    variant="brand" >
+                </lightning-button>
+                </div>
+                <div class="slds-align_absolute-center" style="height:3rem">
+                    <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
+                    <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={previousPage}></lightning-button>
+                    &nbsp;
+                    <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)</span>
+                    &nbsp;
+                    <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                    <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right" label="Last" alternative-text="last page" onclick={lastPage} icon-position="right"></lightning-button>
+                </div>
+                
+        </template>
+            <div class="slds-p-around_x-small slds-scrollable_x">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <template lwc:if={childColumns}>
+                        <thead>
+                            <tr>
+                                <template for:each={childColumns} for:item="column">
+                                    <th scope="col" key={column.name}>
+                                        <div>{column.label}</div>
+                                    </th>
+                                </template>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </template>
+                    <template lwc:if={displayChildTable}>
+                        <tbody>
+                            <template for:each={childTableRecords} for:item = "item" for:index="indexVar">
+                                <tr key={item.asset.Id} data-childid={item.asset.Id}>
+                                    <template for:each={childColumns} for:item="column">
+                                        <td scope="col" key={column.name}>
+                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} column-type={column.type} column-editable={column.isEditable} options={column.options} onselection={updateAssetDetail}></c-abhfl_fielddisplay>
+                                        </td>
+                                    </template>
+                                    <td scope="col">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                            <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId} lan={item.asset.LAN__c}></c-abhfl_assetdetail>
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_2-of-14" data-label="Action">
+                                        <a name={indexVar} data-id={item.asset.Id} onclick={removeRecord}>
+                                            <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
+                                        </a>
+                                    </td>                      
+                                </tr>
+                            </template>   
+                        </tbody>
+                    </template>
+                </table>
+            </div>
+            <div class="slds-align_absolute-center" style="height:3rem">
+                <lightning-button 
+                    onclick={saveRecords} 
+                    label="Save"
+                    variant="brand" 
+                    disabled={disableSave}>
+                </lightning-button>
+                </div>
+        </lightning-card>
+    </template>
+</template>

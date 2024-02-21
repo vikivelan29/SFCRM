@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Descripency__c</fullName>
+    <externalId>false</externalId>
+    <label>Type of Descripency</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Limit Insufficient</fullName>
+                <default>false</default>
+                <label>Limit Insufficient</label>
+            </value>
+            <value>
+                <fullName>DRL Revised Request</fullName>
+                <default>false</default>
+                <label>DRL Revised Request</label>
+            </value>
+            <value>
+                <fullName>Missing attachment</fullName>
+                <default>false</default>
+                <label>Missing attachment</label>
+            </value>
+            <value>
+                <fullName>Overdue</fullName>
+                <default>false</default>
+                <label>Overdue</label>
+            </value>
+            <value>
+                <fullName>Grace Period</fullName>
+                <default>false</default>
+                <label>Grace Period</label>
+            </value>
+            <value>
+                <fullName>Interest pending</fullName>
+                <default>false</default>
+                <label>Interest pending</label>
+            </value>
+            <value>
+                <fullName>Mail received from unregistered email id</fullName>
+                <default>false</default>
+                <label>Mail received from unregistered email id</label>
+            </value>
+            <value>
+                <fullName>Anchor Approval Pending</fullName>
+                <default>false</default>
+                <label>Anchor Approval Pending</label>
+            </value>
+            <value>
+                <fullName>Mismatch in Amount</fullName>
+                <default>false</default>
+                <label>Mismatch in Amount</label>
+            </value>
+            <value>
+                <fullName>Add New Beneficiary details</fullName>
+                <default>false</default>
+                <label>Add New Beneficiary details</label>
+            </value>
+            <value>
+                <fullName>Bank Updation</fullName>
+                <default>false</default>
+                <label>Bank Updation</label>
+            </value>
+            <value>
+                <fullName>Reconciliation</fullName>
+                <default>false</default>
+                <label>Reconciliation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>Can be blank for Framework Type if Integrations. Need to be populated for generic integrations like eBot</description>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>eBOT</fullName>
+                <default>false</default>
+                <label>eBOT</label>
+            </value>
+            <value>
+                <fullName>eBOTFeedback</fullName>
+                <default>false</default>
+                <label>eBOTFeedback</label>
+            </value>
+            <value>
+                <fullName>Log</fullName>
+                <default>false</default>
+                <label>Log</label>
+            </value>
+            <value>
+                <fullName>BRE</fullName>
+                <default>false</default>
+                <label>BRE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

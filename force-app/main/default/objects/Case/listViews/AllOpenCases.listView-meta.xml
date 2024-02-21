@@ -4,7 +4,7 @@
     <columns>CASES.CASE_NUMBER</columns>
     <columns>CASES.SUBJECT</columns>
     <columns>CASES.STATUS</columns>
-    <columns>CASES.PRIORITY</columns>
+    <columns>Vertical__c</columns>
     <columns>CASES.CREATED_DATE</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>SR_TAT_elapsed__c</columns>

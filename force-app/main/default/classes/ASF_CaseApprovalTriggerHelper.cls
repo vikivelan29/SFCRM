@@ -12,18 +12,15 @@ public class ASF_CaseApprovalTriggerHelper {
         
         for(ASF_Case_Approv__c v:newStageList){
             //if (v.TypeOfApproval__c == 'Auto'){
-            if(v.Approval_Type__c != null){
-                submitForApprovalList.add(v);
-                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();          
-                req.setComments(v.Requestor_Comments__c);        
-                req.setObjectId(v.id);
-                requestLIst.add(req);
-                
-                if(!mCaseApprovToCaseId.containsKey(v.Id)){
-                    mCaseApprovToCaseId.put(v.Id,v.SR__c);
-                }  
-            }
+            submitForApprovalList.add(v);
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();          
+            req.setComments(v.Requestor_Comments__c);        
+            req.setObjectId(v.id);
+            requestLIst.add(req);
             
+            if(!mCaseApprovToCaseId.containsKey(v.Id)){
+                mCaseApprovToCaseId.put(v.Id,v.SR__c);
+            }
             
             
             // }
@@ -65,7 +62,13 @@ public class ASF_CaseApprovalTriggerHelper {
             if(String.isBlank(c.Approver_03__c)){
                 c.Approver_03__c = c.Approver_01__c;
             }
-            
+            if(String.isBlank(c.Approver_04__c)){
+                c.Approver_04__c = c.Approver_01__c;
+            }
+            if(String.isBlank(c.Approver_05__c)){
+                c.Approver_05__c = c.Approver_01__c;
+            }
+             
         } 
     }
     
@@ -95,9 +98,9 @@ public class ASF_CaseApprovalTriggerHelper {
                         ASF_TriggerSkipperUtility.markTriggerRun('Case');
                         update s;
                     } 
-                    
+
                     Case cas = new Case(Id =newRecord.SR__c);
-                    
+
                     ASF_TriggerSkipperUtility.markTriggerRun('Case');
                     update cas;
                     
@@ -141,7 +144,7 @@ public class ASF_CaseApprovalTriggerHelper {
             if(newApproveMap.get(c.Id).Approval_Status__c != oldApproveMap.get(c.Id).Approval_Status__c && newApproveMap.get(c.Id).Approval_Status__c=='Approved'){
                 case caseRecord = new Case();
                 caseRecord.Id = c.SR__c;
-                
+
                 if(c.SuccessStageMovement__c != null){
                     caseRecord.Stage__c = c.SuccessStageMovement__c;
                 }
@@ -155,11 +158,11 @@ public class ASF_CaseApprovalTriggerHelper {
             if(newApproveMap.get(c.Id).Approval_Status__c != oldApproveMap.get(c.Id).Approval_Status__c && newApproveMap.get(c.Id).Approval_Status__c=='Rejected'){
                 case caseRecord = new Case();
                 caseRecord.Id = c.SR__c;
-                
+
                 if(c.Case_RejectedStageMovement__c != null){
                     caseRecord.Stage__c = c.Case_RejectedStageMovement__c;
                 }
-                
+
                 if(IsApprovalPendingToUpdate.contains(c.SR__c)){
                     caseRecord.Is_Approval_Pending__c = false;
                 }
@@ -189,6 +192,7 @@ public class ASF_CaseApprovalTriggerHelper {
     private void checkIfApprovalProcessCommentPresent(Map<Id,ASF_Case_Approv__c> oldApproveMap,Map<Id,ASF_Case_Approv__c> newApproveMap){
         Set<Id> caseApprId = new Set<Id>();
         for(ASF_Case_Approv__c ca : newApproveMap.values()){
+            System.debug(ca.Approval_Status__c + ' - '+oldApproveMap.get(ca.Id).Approval_Status__c);
             if(ca.Approval_Status__c == 'Rejected' && (ca.Approval_Status__c != oldApproveMap.get(ca.Id).Approval_Status__c)){
                 caseApprId.add(ca.Id);
             }
@@ -198,7 +202,7 @@ public class ASF_CaseApprovalTriggerHelper {
                                   WHERE TargetObjectId =: caseApprId ORDER BY CreatedDate DESC])
         {
             if((pi.Steps[0].comments == null || pi.Steps[0].Comments.trim().length()==0)){
-                newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
+                //newApproveMap.get(pi.TargetObjectId).addError('Operation Cancelled : Please provide a rejection reason !');
             }
         }
     }
