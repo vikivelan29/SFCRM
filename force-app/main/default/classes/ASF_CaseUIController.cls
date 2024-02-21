@@ -69,7 +69,7 @@ public with sharing class  ASF_CaseUIController {
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
                     Contact (Id, AccountId WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
-                    Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp),
+                    Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
                     Asset (Id, AccountId WHERE Name  LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
                     ]; 
@@ -226,7 +226,7 @@ public with sharing class  ASF_CaseUIController {
         insert record;
         return record.Id;
     }
-    
+  
     
     public class resWrapper{
         @AuraEnabled
