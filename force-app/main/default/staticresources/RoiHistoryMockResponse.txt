@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "message": "Data Fetched succesfully",
+  "data": [
+    {
+      "RESCH_ID": 134,
+      "RESCH_TYPE": "R",
+      "REQUEST_DATE": null,
+      "RESCH_DATE": "2018-05-01",
+      "RESCH_EFF_DATE": "2018-05-01",
+      "LOAN_ID": 1,
+      "LOAN_NO": "LNCHA0HL-09170000001",
+      "OLD_RATE": "8.3500",
+      "new_rate": "8.5700"
+    },
+    {
+      "RESCH_ID": 10268,
+      "RESCH_TYPE": "R",
+      "REQUEST_DATE": "2018-07-01",
+      "RESCH_DATE": "2018-07-01",
+      "RESCH_EFF_DATE": "2018-07-01",
+      "LOAN_ID": 1,
+      "LOAN_NO": "LNCHA0HL-09170000001",
+      "OLD_RATE": "8.5700",
+      "new_rate": "8.7200"
+    },
+    {
+      "RESCH_ID": 22608,
+      "RESCH_TYPE": "R",
+      "REQUEST_DATE": "2018-08-09",
+      "RESCH_DATE": "2018-08-09",
+      "RESCH_EFF_DATE": "2018-08-09",
+      "LOAN_ID": 1,
+      "LOAN_NO": "LNCHA0HL-09170000001",
+      "OLD_RATE": "8.7200",
+      "new_rate": "8.9700"
+    },
+    {
+      "RESCH_ID": 35089,
+      "RESCH_TYPE": "R",
+      "REQUEST_DATE": "2018-10-15",
+      "RESCH_DATE": "2018-10-15",
+      "RESCH_EFF_DATE": "2018-10-15",
+      "LOAN_ID": 1,
+      "LOAN_NO": "LNCHA0HL-09170000001",
+      "OLD_RATE": "8.9700",
+      "new_rate": "9.4700"
+    }
+  ]
+}
