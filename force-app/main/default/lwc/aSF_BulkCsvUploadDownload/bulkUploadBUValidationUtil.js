@@ -26,7 +26,7 @@ function abhflCreateValidation(inputData){
     let index = 1;
     for (let item of inputData.csvData) {
         console.log('each item--'+JSON.stringify(item));
-        if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === '' || item["Loan Account No"].trim() === 'NA'){
+        if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === ''){
             return 'Loan Account No is not present/valid on row '+index;
         }
         else if(item["Issue Type Code"] === undefined || item["Issue Type Code"].trim() === '' || item["Issue Type Code"].trim() === 'NA'){
@@ -71,7 +71,7 @@ function abflCreateValidation(inputData){
     let index = 1;
     for (let item of inputData.csvData) {
         console.log('each item--'+JSON.stringify(item)+'--'+index);
-        if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === '' || item["Loan Account No"].trim() === 'NA'){
+        if(item["Loan Account No"] === undefined || item["Loan Account No"].trim() === ''){
             return 'Loan Account No is not present/valid on row '+index;
         }
         else if(item["Issue Type Code"] === undefined || item["Issue Type Code"].trim() === '' || item["Issue Type Code"].trim() === 'NA'){
