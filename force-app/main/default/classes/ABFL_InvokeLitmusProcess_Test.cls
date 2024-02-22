@@ -150,7 +150,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     }
     
     @isTest
-    static void testCallLitmusAPICall_In(){
+    static void testCallLitmusAPICallIn(){
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
@@ -160,7 +160,7 @@ public class ABFL_InvokeLitmusProcess_Test{
                             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                             LIMIT 1];
             
-            caseRec.Source__c = 'Call-in';
+            caseRec.Source__c = 'Call- in';
             update caseRec;
             
             Test.startTest();
@@ -257,7 +257,8 @@ public class ABFL_InvokeLitmusProcess_Test{
         Test.stopTest();
         
         List<ABCLLogRecording__c> abclLogsList = [SELECT Id
-                                                  FROM ABCLLogRecording__c]; 
+                                                  FROM ABCLLogRecording__c];
+        Assert.isTrue(abclLogsList.size() > 0, 'ABCL Log Recording records should have been created');
     }
     
     @isTest
@@ -270,5 +271,6 @@ public class ABFL_InvokeLitmusProcess_Test{
         
         List<ABCLLogRecording__c> abclLogsList = [SELECT Id
                                                   FROM ABCLLogRecording__c]; 
+        Assert.isTrue(abclLogsList.size() > 0, 'ABCL Log Recording records should have been created');
     }
 }
