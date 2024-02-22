@@ -345,6 +345,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseExtnRecord["sobjectType"] = this.caseRelObjName;
 
         }
+        else{
+            caseExtnRecord = null;
+        }
 
         caseRecord[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
         caseRecord[ORIGIN_FIELD.fieldApiName] = 'Phone';

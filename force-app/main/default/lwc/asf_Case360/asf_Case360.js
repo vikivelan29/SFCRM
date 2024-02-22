@@ -1026,7 +1026,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         console.log('in handlePublishedMessage!!!!!');
         if (payload.source != 'case360' && this.recordId == payload.recordId) {
             console.log('Refreshing now');
-            this.loadReady = false;
+            //this.loadReady = false;
             refreshApex(this.processApexReturnValue);
         }
     }

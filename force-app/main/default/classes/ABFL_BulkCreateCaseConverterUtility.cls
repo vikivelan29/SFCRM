@@ -21,9 +21,10 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
+        Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
-            
+            lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
@@ -61,8 +62,7 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
             }
             Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            //Do we need to populate Asset lookup?? - Ask Selwyn
-            //Map Sub Source - field not present
+            caseRec.AssetId = lanToAssetIdMap.get(keyValueMap.get('Loan Account No'));
             caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
             caseRec.Source__c = keyValueMap.get('Source');
             caseRec.Description = keyValueMap.get('Description');

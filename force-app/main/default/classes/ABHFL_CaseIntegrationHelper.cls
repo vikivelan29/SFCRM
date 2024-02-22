@@ -10,6 +10,7 @@
  Vishal Gangwar      05/01/2024            MultiLAN - eBot response processing(PR970457-271)
 *********************************************************/
 public with sharing class ABHFL_CaseIntegrationHelper {
+    public static Set<String> stpList = new Set<String>{'QLOANDUSNDC','hfl004','hfl042','hfl037','hfl078','hfl071','hfl005','hfl073','QLOANDRSTAWEITHFCUSNDC'};
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - eBotHandler
@@ -54,6 +55,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
 
+        if((ebotResponse.ISREGISTRED == 'Yes' || ebotResponse.ISREPEAT == 'Yes') && stpList.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.Technical_Source__c = 'LWC';
+        }
+        
        //Added By Vishal
         Map<String,Id> lanWithAssetIdMap = new Map<String,Id>();
         if(ebotResponse.LAN_NOS != null && ebotResponse.LAN_NOS.size() > 0){
@@ -67,7 +72,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             }            
         }
        //End
-
+       if(ebotResponse.ISREGISTRED == 'Yes'){
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            caseRecord.Stage__c = 'Resolved';
+        }
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }

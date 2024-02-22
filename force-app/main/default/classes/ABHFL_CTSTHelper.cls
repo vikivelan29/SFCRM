@@ -25,7 +25,7 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
-
+    
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
@@ -94,7 +94,13 @@ public without sharing class ABHFL_CTSTHelper {
         update caseDetail;
         return caseRec;
     }
-    
+    //Dhinesh - updateComplaintType
+    @AuraEnabled
+    public static void updateCaseExtension(String caseextensionId, String complainttype){
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Complaint_Type__c FROM ABHFL_Case_Detail__c WHERE Id =:caseextensionId LIMIT 1];
+        caseDetail.Complaint_Type__c = complainttype;
+        update caseDetail;
+    }
     //Dhinesh - TDS Refund BRANCH assignment
     public static Case assignCaseToBranchTDS(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
@@ -104,6 +110,19 @@ public without sharing class ABHFL_CTSTHelper {
             caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
         }
         if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch'){
+            caseRec.OwnerId = emailNonFinancialQueue.Id;
+    	}
+        return caseRec;
+    }
+    //Dhinesh - Collateral Documents case owner Assignment.
+    public static Case assignCaseCollateralDocs(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c,ABHFL_Case_Detail__c  FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        if (caseRec.Source__c == 'Branch') {
+            caseRec.OwnerId = caseDetail.CreatedById;
+        }
+        if (caseRec.Source__c != 'Branch'){
             caseRec.OwnerId = emailNonFinancialQueue.Id;
     	}
         return caseRec;

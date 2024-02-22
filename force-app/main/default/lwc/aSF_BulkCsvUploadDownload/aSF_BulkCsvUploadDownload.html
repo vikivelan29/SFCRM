@@ -6,32 +6,16 @@
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Need help?</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <lightning-tabset>
-                        <lightning-tab label="Standard User">
-                            <p><b>Steps to use this tool:</b></p>
-                            <ol class="slds-list_ordered slds-p-around_small" >
-                                <li>Ensure that the Custom Metadata called as "CSV Upload Details" contains correct Sobject name and Fields.</li>
-                                <li>Drag and Drop or click 'Upload Files'</li>
-                                <li>Select your CSV file with the data you wish to insert - Columns are fields, rows are records</li>
-                                <li>Click the blue 'Upload CSV File' button</li>
-                            </ol>
-                            <!--<p><em>Top Tip - The column headers in your CSV MUST match the API names of the field you are trying to populate.</em></p>-->
-                        </lightning-tab>
-                        <lightning-tab label="Admin User">
-                            <p><b>Steps to configure:</b></p>
-                            <ol class="slds-list_ordered slds-p-around_small">
-                                <li>Edit this page</li>
-                                <li>Click on this component</li>
-                                <li>Place the component on any Lightning page</li>
-                                <li>Use the Custom Metadata called "CSV Upload Config Detail" to configure the Sobject and fields associated with it</li>
-                                <li>Save and Activate the page</li>
-                            </ol>
-                            <p><em>Top Tip - The default sObject must match the objects API name.</em></p>
-                        </lightning-tab>
-                    </lightning-tabset>
+                    <p><b>Steps to use this tool:</b></p>
+                    <ol class="slds-list_ordered slds-p-around_small" >
+                        <li>Select the action that you would like to perform</li>
+                        <li>Drag and Drop or click on 'Upload Files'</li>
+                        <li>Select your CSV file with the data you wish to insert</li>
+                        <li>Click on 'Upload CSV' button</li>
+                    </ol>
                 </div>
                 <footer class="slds-modal__footer">
-                    <button class="slds-button slds-button_neutral" onclick={closeHelp} title="Close">Close <span class="slds-assistive-text">Close</span></button>
+                    <lightning-button label="Close" title="Close" onclick={closeHelp} variant="brand"></lightning-button>
                 </footer>
             </div>
         </section>
@@ -80,7 +64,7 @@
                                 <lightning-button class="slds-m-left_x-small" label={strDownloadTemplate} onclick={getTemplateData} variant="brand"></lightning-button>
                             </template>
                             <template lwc:if={boolShowDownloadButton}>  
-                                <lightning-button label="Download Records" title="Download action" onclick={downloadTemplate} icon-name="utility:download" class="slds-m-left_x-small"></lightning-button>
+                                <lightning-button label={strDownloadTemplate} title="Download action" onclick={downloadTemplate} variant="brand"></lightning-button>
                             </template>            
                         </lightning-button-group>
                         </div>

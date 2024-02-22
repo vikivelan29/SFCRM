@@ -27,7 +27,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Case caseRecord = [
             SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
 		
         integrationName = getIntegrationName(caseRecord.Sub_Type_Text__c);
@@ -83,12 +83,12 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 		List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:integ.External_Id__c ];
         
         Case caseRecord = [
             SELECT Id, Sub_Type_Text__c, Technical_Source__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
 
         if(existingCaseIntRecords.size()>0){
@@ -143,7 +143,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         Boolean isTransferred = False;
         Boolean previousStatus;
         Case caseRecord = [SELECT Id,AccountId,ContactId,Source__c,Sub_Type_Text__c,CCC_External_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
-                           FROM Case WHERE Id =: caseInt.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseInt.Case__c ];
         
         String caseSubType = caseRecord.Sub_Type_Text__c;
         String integrationName = getIntegrationName(caseSubType);
@@ -153,11 +153,16 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             if(caseRecord!=null){
                 if(isTransferred){
                     integrationFailure = false;
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, Additional_Email_Templates__c, Additional_SMS_Metadata__c
+                                                                   FROM ASF_Case_Category_Config__c 
+                                                                   WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c ];
+                    
+                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
-                                                                                                                            cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                            cccRecord[0].Resolved_Case_SMS_Metadata__c,
+                                                                                                                            emailTemplateMap.get('Resolved'), 
+                                                                                                                            smsMetadataMap.get('Resolved'),
                                                                                                                             true); 
 
                     caseRecord.MoveToNext__c = true;
@@ -186,7 +191,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             caseRecord.OwnerId = caseRecord.CreatedById;
             ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,integrationName,null);
         } else {
-            Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED Limit 1];
+            Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team'  Limit 1];
             caseRecord.OwnerId = csQueue.Id;
         }
         if(Schema.sObjectType.Case.isUpdateable()){

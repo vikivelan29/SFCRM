@@ -95,8 +95,10 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             ASF_Bulk_Upload_Line_Item__c lineItem = new ASF_Bulk_Upload_Line_Item__c();
             lineItem.Id = lineItemId;
             lineItem.Result_JSON_Data__c = jsonResults.get(lineItemId);
-            lineItem.Error_Message__c = jsonMapResults.get(lineItemId).get('Message');
-            lineItem.Status__c = Boolean.valueOf(jsonMapResults.get(lineItemId).get('Result'))?'Success':'Failure';
+            String errorMessage = jsonMapResults.get(lineItemId).get('Message');
+            errorMessage = errorMessage.length() > 255 ? errorMessage.substring(0,255):errorMessage;
+            lineItem.Error_Message__c = errorMessage;
+            lineItem.Status__c = jsonMapResults.get(lineItemId).get('Result') == 'SUCCESS'?'Success':'Failure';
             lineItemsToUpdate.add(lineItem);
         }
 
