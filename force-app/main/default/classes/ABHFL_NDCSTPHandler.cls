@@ -18,7 +18,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,No_Auto_Communication__c
-                           FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseRec.Id];
         
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.ERROR;
@@ -28,7 +28,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             	result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationSuccess').Message__c;
             } else {
-                if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
+                if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.Source__c == ABHFL_Constants.BRANCH){
                     caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                     if(Schema.sObjectType.Case.isUpdateable()){
                         update caseRecord;
@@ -36,13 +36,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedBranchAssignment').Message__c;                                                                                                                               
 
                 } else if(sourceList.contains(caseRecord.Source__c)) {
-                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Rejected_Case_Email_Template__c,Rejected_Case_SMS_Metadata__c,Additional_Email_Templates__c,Additional_SMS_Metadata__c
+                                                                    FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID];
                     if(cccRecord.size() > 0){
-                    	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                            cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                                                                            cccRecord[0].Rejected_Case_SMS_Metadata__c,
-                                                                                                                            false);
+                        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+                
+                        Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
+                                                                                emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
                     }
                     //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
@@ -68,7 +69,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c intSpec, Case caseRec){
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
                 caseInt.Status__c = ABHFL_Constants.CANCELED;
@@ -125,13 +126,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         if(caseRecord!=null){
             if(isTransferred){
                 integrationFailure = false;
-                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID WITH SECURITY_ENFORCED];
+                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,Additional_Email_Templates__c,Additional_SMS_Metadata__c
+                                                                FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:ABHFL_Constants.NDC_CCC_EXTERNALID];
                 if(cccRecord.size() > 0){
-                	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                        cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                                                                        cccRecord[0].Resolved_Case_SMS_Metadata__c, 
-                                                                                                                        isTransferred);           
+                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+            
+                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
+                                                                            emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);          
                 }
                 caseRecord.MoveToNext__c = true;
                 update caseRecord;        
@@ -152,13 +154,13 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
 
     private static void handleFailure(Case caseRecord){
         if(caseRecord.Source__c == ABHFL_Constants.BRANCH){
-            if(caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
+            if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.OwnerId != caseRecord.Asset.Branch__r.Branch_Queue_Id__c){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                 update caseRecord;
                 ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,ABHFL_Constants.NDC_STP_NAME,null);
             }
         } else {
-            Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+            Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
             caseRecord.OwnerId = csQueue.Id;
             update caseRecord;                
         }  

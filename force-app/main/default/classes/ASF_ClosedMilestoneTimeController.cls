@@ -53,7 +53,7 @@ public with sharing class ASF_ClosedMilestoneTimeController {
                         overallwrpcls.isBreached = false;
                     }
                 }
-                overallwrpcls.slaMilliseconds = caseObj.Overall_Case_Closure_SLA__c.getTime();
+                overallwrpcls.slaMilliseconds = caseObj.Overall_Case_Closure_SLA__c!=null?caseObj.Overall_Case_Closure_SLA__c.getTime():0;
                 wrapperMap.put('overall', overallwrpcls );
 
                 //SLA 1
@@ -70,7 +70,7 @@ public with sharing class ASF_ClosedMilestoneTimeController {
                         sla1wrpcls.isBreached = false;
                     }
                 }
-                sla1wrpcls.slaMilliseconds = caseObj.Stage_SLA_1__c.getTime();
+                sla1wrpcls.slaMilliseconds = caseObj.Stage_SLA_1__c!=null?caseObj.Stage_SLA_1__c.getTime():0;
                 wrapperMap.put('sla1', sla1wrpcls );
 
                 //SLA 2 and SLA 3
@@ -88,7 +88,7 @@ public with sharing class ASF_ClosedMilestoneTimeController {
                         sla2wrpcls.isBreached = false;
                     }
                 }
-                sla2wrpcls.slaMilliseconds = caseObj.Stage_SLA_2__c.getTime();
+                sla2wrpcls.slaMilliseconds = caseObj.Stage_SLA_2__c!=null?caseObj.Stage_SLA_2__c.getTime():0;
                 wrapperMap.put('sla2', sla2wrpcls );
 
                 TimerWrapperClass sla3wrpcls = wrapperMap.get('sla3');
@@ -105,7 +105,7 @@ public with sharing class ASF_ClosedMilestoneTimeController {
                         sla3wrpcls.isBreached = false;
                     }
                 }
-                sla3wrpcls.slaMilliseconds = caseObj.Stage_SLA_3__c.getTime();
+                sla3wrpcls.slaMilliseconds = caseObj.Stage_SLA_3__c!=null?caseObj.Stage_SLA_3__c.getTime():0;
                 wrapperMap.put('sla3', sla3wrpcls );
             //}
             return wrapperMap;
