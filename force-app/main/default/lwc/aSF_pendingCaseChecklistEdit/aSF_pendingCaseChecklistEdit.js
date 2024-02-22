@@ -33,6 +33,18 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     listRecords = [];
     hasRecord = false;
     isDisabled = true;
+    get isAnyStageMatchChecklistPresent(){
+        let output = false;
+        if(this.accData){
+            let matches = this.accData.find(item=>{
+                return item.Stage_Matched__c == true;
+            });
+            if(matches){
+                output = true;
+            }
+        }
+        return output;
+    }
     @api realFormData;
     @wire(getObjectInfo, { objectApiName: CHECKLIST_OBJECT })
     checkListInfo;

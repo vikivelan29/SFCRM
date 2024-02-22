@@ -80,14 +80,15 @@
                  </template>
               </tbody>
           </table>
-         
-          <div if:true={areDetailsVisible} slot="footer">
-              <template if:false={isClosed}>
-                            <div class="slds-align_absolute-center">
-                                <lightning-button label="Save" variant="brand" type="submit" onclick={handleSave} disabled={isDisabled}></lightning-button>
-                            </div>
-              </template>
-          </div>          
+          <template if:true={isAnyStageMatchChecklistPresent}>
+            <div if:true={areDetailsVisible} slot="footer">
+                <template if:false={isClosed}>
+                                <div class="slds-align_absolute-center">
+                                    <lightning-button label="Save" variant="brand" type="submit" onclick={handleSave} disabled={isDisabled}></lightning-button>
+                                </div>
+                </template>
+            </div>    
+        </template>      
       </lightning-card>
       </template>
 </template>
