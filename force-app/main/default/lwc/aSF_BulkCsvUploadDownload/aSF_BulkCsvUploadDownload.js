@@ -282,8 +282,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
      handleListViewNavigation() {
         const baseURL = window.location.origin;
         const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
-        //window.locat(listViewUrl,"_self");
-        window.location.href = listViewUrl;
+        //window.location.assign(listViewUrl,"_self");
+        window.open(listViewUrl,"_self");
         //history.back();
     }
 
