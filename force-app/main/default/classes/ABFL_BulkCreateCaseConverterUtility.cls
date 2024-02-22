@@ -50,6 +50,13 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                 continue;
             }
             if(keyValueMap.get('Block Customer Communication') != null && String.isNotBlank(keyValueMap.get('Block Customer Communication'))){
+                if(!keyValueMap.get('Block Customer Communication').equalsIgnoreCase('TRUE') && !keyValueMap.get('Block Customer Communication').equalsIgnoreCase('FALSE')){
+                    keyValueMap.put('Result', 'FAILURE');
+                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                    continue;
+                }
                 try{
                     blockCommunicationFlag = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
                 }catch(Exception e){
@@ -59,6 +66,12 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                     resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                     continue;
                 }
+            }else{
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
             }
             Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
