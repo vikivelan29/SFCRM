@@ -90,7 +90,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
         caseInteg.Status__c = ABHFL_Constants.PENDING;
-        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInteg;    
         }
@@ -100,7 +100,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
