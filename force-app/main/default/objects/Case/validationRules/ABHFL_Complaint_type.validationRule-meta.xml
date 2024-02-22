@@ -3,19 +3,19 @@
     <fullName>ABHFL_Complaint_type</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-ISPICKVAL(Business_Unit__c, &apos;ABHFL&apos;),
-ISPICKVAL(Nature__c, &apos;Complaint&apos;),
-Owner:User.Assigned_Team__c &lt;&gt; &apos;Grievance Team&apos;,
-ISPICKVAL(Stage__c, &apos;Open&apos;) || ISPICKVAL(Stage__c, &apos;In Progress&apos;),
+ISPICKVAL(Business_Unit__c, 'ABHFL'),
+ISPICKVAL(Nature__c, 'Complaint'),
+Owner:User.Assigned_Team__c <> 'Grievance Team',
+ISPICKVAL(Stage__c, 'Open') || ISPICKVAL(Stage__c, 'In Progress'),
 OR(
 AND(
-ISPICKVAL(Source__c, &apos;Branch&apos;),
-NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), &apos;Branch Walkin&apos;))
-) ||AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = &apos;&apos;), ISNEW()),
+ISPICKVAL(Source__c, 'Branch'),
+NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), 'Branch Walkin'))
+) ||AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = ''), ISNEW()),
 AND(
-ISPICKVAL(Source__c, &apos;Call Centre&apos;),
-NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), &apos;Phone Inbound&apos;))
-) || AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = &apos;&apos;), ISNEW() )
+ISPICKVAL(Source__c, 'Call Centre'),
+NOT(CONTAINS(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c), 'Phone Inbound'))
+) || AND(NOT(TEXT(ABHFL_Case_Detail__r.Complaint_Type__c) = ''), ISNEW() )
 )
 )</errorConditionFormula>
     <errorMessage>Only Grievance members can change complaint type.
