@@ -14,8 +14,12 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
-            lans.add(keyValueMap.get('Loan Account No'));
-            cccExtIds.add(keyValueMap.get('Issue Type Code'));
+            if(String.isNotBlank(keyValueMap.get('Loan Account No'))){
+                lans.add(keyValueMap.get('Loan Account No').trim());
+            }
+            if(String.isNotBlank(keyValueMap.get('Issue Type Code'))){
+                cccExtIds.add(keyValueMap.get('Issue Type Code').trim());
+            }
             rows.put(lineItemId, keyValueMap);
         }
 
@@ -34,22 +38,29 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
             Boolean blockCommunicationFlag = false;
-            if(!extIdFoundSet.contains(keyValueMap.get('Issue Type Code'))){
+            String issueTypeCode = keyValueMap.get('Issue Type Code').trim();
+            String lan = keyValueMap.get('Loan Account No').trim();
+            String blockCommString = String.isNotBlank(keyValueMap.get('Block Customer Communication'))?keyValueMap.get('Block Customer Communication').trim():keyValueMap.get('Block Customer Communication');
+            String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
+            String subsource = String.isNotBlank(keyValueMap.get('Sub Source'))?keyValueMap.get('Sub Source').trim():keyValueMap.get('Sub Source');
+            String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
+
+            if(!extIdFoundSet.contains(issueTypeCode)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(!lanToAccountIdMap.containsKey(keyValueMap.get('Loan Account No'))){
+            if(!lanToAccountIdMap.containsKey(lan)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(keyValueMap.get('Block Customer Communication') != null && String.isNotBlank(keyValueMap.get('Block Customer Communication'))){
-                if(!keyValueMap.get('Block Customer Communication').equalsIgnoreCase('TRUE') && !keyValueMap.get('Block Customer Communication').equalsIgnoreCase('FALSE')){
+            if(String.isNotBlank(blockCommString)){
+                if(!blockCommString.equalsIgnoreCase('TRUE') && !blockCommString.equalsIgnoreCase('FALSE')){
                     keyValueMap.put('Result', 'FAILURE');
                     keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
                     resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
@@ -57,7 +68,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
                     continue;
                 }
                 try{
-                    blockCommunicationFlag = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
+                    blockCommunicationFlag = Boolean.valueOf(blockCommString);
                 }catch(Exception e){
                     keyValueMap.put('Result', 'FAILURE');
                     keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
@@ -73,12 +84,12 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
                 continue;
             }
             Case caseRec = new Case();
-            caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            caseRec.AssetId = lanToAssetIdMap.get(keyValueMap.get('Loan Account No'));
-            caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
-            caseRec.Source__c = keyValueMap.get('Source');
-            caseRec.Sub_Source__c = keyValueMap.get('Sub Source');
-            caseRec.Description = keyValueMap.get('Description');
+            caseRec.AccountId = lanToAccountIdMap.get(lan);
+            caseRec.AssetId = lanToAssetIdMap.get(lan);
+            caseRec.CCC_External_Id__c = issueTypeCode;
+            caseRec.Source__c = source;
+            caseRec.Sub_Source__c = subsource;
+            caseRec.Description = description;
             caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             caseRec.Technical_Source__c = 'LWC';
