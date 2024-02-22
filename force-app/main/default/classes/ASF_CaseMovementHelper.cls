@@ -267,10 +267,10 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCasesMap.keySet());
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
-
+        ASF_CaseQueryHandler.refreshRecords = false;
         //Run validation on current Stage
         Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecords, currentStageMap);
         for(Id caseId : validationResults.keySet()){
