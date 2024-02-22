@@ -32,8 +32,6 @@ public class ABFL_E2C_CreationRules {
                 if (!abflCaseIds.isEmpty()) {
                     // Get rules from E2C_Creation_Rules__mdt records - Entity => List<CreationRules>
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
-					System.debug('metadataMap###--'+metadataMap);
-                    System.debug('emailMessages###--'+emailMessages);
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
                         if (metadataMap.containsKey(emailMsg.ToAddress)) {
@@ -85,9 +83,11 @@ public class ABFL_E2C_CreationRules {
     // Method to check the condition based on the operator
     private static Boolean creationNotAllowed(String operator, String expectedValue, String actualValue) {
         Boolean retVal=false;
+        actualValue=actualValue.toLowerCase();
+        expectedValue=expectedValue.toLowerCase();
         switch on operator {
             when 'Does Not Contain'{
-                retVal = actualValue.contains(expectedValue);
+                retVal = actualValue.equals(expectedValue);
             }
             when 'Not Equals To'{
                 retVal = actualValue == expectedValue;
