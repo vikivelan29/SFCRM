@@ -50,11 +50,10 @@ public with sharing class ABHFL_ComplaintInvestigationController {
        
         pdfContent = ABHFL_ComplaintInvestigationController.constructHTML(contentList, caseDetail[0]);
         
-        //Blob strPdfBody = null;
         Pagereference pg = Page.ABHFL_ComplaintInvestigationPDF;
         pg.getParameters().put('pdfHeader', pdfHeaderValue);
         pg.getParameters().put('pdfContent', pdfContent);
-        pg.getHeaders().put('content-disposition', 'inline; filename=Complaint_Investigation.pdf');
+        pg.setRedirect(true);
         /*caseDetail[0].Complaint_Investigation_PDF_HTML__c = pdfContent;
         update caseDetail[0];*/
         //strPdfBody =  pg.getContent();
@@ -79,7 +78,8 @@ public with sharing class ABHFL_ComplaintInvestigationController {
         objDocumentLink.shareType = 'V';
         insert objDocumentLink;*/
             
-        return '?pdfHeader='+pdfHeaderValue+'&pdfContent='+pdfContent;
+        //return '?pdfHeader='+pdfHeaderValue+'&pdfContent='+pdfContent;
+        return pg.getUrl();
     }
     
     public static String constructHTML(List<ComplaintInvestigationWrapper> wrapList,ABHFL_Case_Detail__c caseDetail){
