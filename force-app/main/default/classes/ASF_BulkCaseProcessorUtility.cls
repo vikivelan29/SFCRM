@@ -75,7 +75,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
             if(sr.isSuccess()){
                 jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?sr.getId():'Case Updated');
+                jsonMap.put('Message', sr.isCreated()?String.valueOf(sr.getId()):'Case Updated');
             }else{
                 jsonMap.put('Result', 'FAILURE');
                 String errorMessage = '';
