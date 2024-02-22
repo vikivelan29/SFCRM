@@ -69,7 +69,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c intSpec, Case caseRec){
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
                 caseInt.Status__c = ABHFL_Constants.CANCELED;
@@ -160,7 +160,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecord,ABHFL_Constants.NDC_STP_NAME,null);
             }
         } else {
-            Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+            Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
             caseRecord.OwnerId = csQueue.Id;
             update caseRecord;                
         }  
