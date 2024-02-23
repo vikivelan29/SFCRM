@@ -16,7 +16,7 @@
             <field>Approver_03__c</field>
             <type>userLookup</type>
         </recipients>
-        <senderAddress>virendra.patil@salesforce.com</senderAddress>
+        <senderAddress>vabctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Approver_when_the_case_is_recalled</template>
     </alerts>
@@ -27,7 +27,7 @@
         <recipients>
             <type>owner</type>
         </recipients>
-        <senderAddress>virendra.patil@salesforce.com</senderAddress>
+        <senderAddress>vabctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Communication_templates/Case_Owner_when_the_Case_is_approved</template>
     </alerts>
@@ -38,7 +38,7 @@
         <recipients>
             <type>creator</type>
         </recipients>
-        <senderAddress>virendra.patil@salesforce.com</senderAddress>
+        <senderAddress>vabctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Communication_templates/Case_Owner_when_the_Case_is_rejected</template>
     </alerts>
