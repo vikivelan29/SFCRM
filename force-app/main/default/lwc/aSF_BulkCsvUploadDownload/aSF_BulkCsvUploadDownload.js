@@ -31,7 +31,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     MAX_CHUNK_SIZE = 9000;
 
     helpMessage = false;
-    @track showLoadingSpinner = false;
+    @track showLoadingSpinner = true;
     boolShowDownloadButton = false;
     boolShowUploadButton = false;
     boolDisplayLoadingText = false;
@@ -118,6 +118,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
         this.listViewId = this.strURL.split('filterName%3D')[1].split('&')[0];
         this.loadValidationFile();
+        this.showLoadingSpinner = false;
     }
 
     renderedCallback() {
@@ -191,7 +192,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         //Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
         if(this.operationRecordTypeValue.includes('Close')){
             csvString = csvString.replaceAll('\n', '\n=');
-        }
+        } 
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
@@ -254,7 +255,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     this.boolCSVCheck = true;
                     this.strCSVFileError = '';
                     let parsedData = await this.parseCsv(event.target.files[0]);
-                    this.processedCsvData = parsedData;
+                    //this.processedCsvData = parsedData;
+                    this.processedCsvData = parsedData.filter(obj => {
+                        return Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
+                    });
+                    console.log('parsed data--'+JSON.stringify(this.processedCsvData))
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{
@@ -276,10 +281,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
      /**Description - this method handles logic of 'Go Back' Button**/
      handleListViewNavigation() {
-        //const baseURL = window.location.origin;
-        //const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
-        //window.locat(listViewUrl,"_self");
-        history.back();
+        const baseURL = window.location.origin;
+        const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
+        //window.location.assign(listViewUrl,"_self");
+        window.open(listViewUrl,"_self");
+        //history.back();
     }
 
     /**Description - this method Opens Help Modal**/
@@ -320,7 +326,6 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             processName: this.operationRecordTypeValue,
             configData: this.selectedConfigRec
         };
-        console.log('processed data--'+JSON.stringify(this.processedCsvData));
         let buValResult = validateFile(inputData);
         console.log('val result--'+buValResult);
         if(buValResult != 'Success'){

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cibil_Score_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Current_cibil_score__c &lt; 300,Current_cibil_score__c &gt; 900)</errorConditionFormula>
+    <errorMessage>Please enter correct cibil score</errorMessage>
+</ValidationRule>
