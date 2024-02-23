@@ -665,6 +665,69 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Rejection_Reason__c</fieldItem>
+                <identifier>RecordRejection_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Rejected_Reason__c</fieldItem>
+                <identifier>RecordRejected_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-4d04e505-8a41-497f-af4b-6fed8aa3e18f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-4d04e505-8a41-497f-af4b-6fed8aa3e18f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2cf86671-0d81-436b-b18a-0a31ee8e8607</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-2cf86671-0d81-436b-b18a-0a31ee8e8607</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Unresolved Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Status}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Unresolved</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>createQuickActionName</name>
