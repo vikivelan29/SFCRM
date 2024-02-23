@@ -277,8 +277,8 @@ public class ASF_GetCaseRelatedDetails_Test {
         ASF_GetCaseRelatedDetails.updateChecklistComment(chk1.Id,'comments');
         ASF_GetCaseRelatedDetails.updateTaskRecordsComment(task1.Id, 'comments');
         //ASF_GetCaseRelatedDetails.changeOwnership(task1.Id);
-        ASF_GetCaseRelatedDetails.updateCheckList(lstCheck);
-        ASF_GetCaseRelatedDetails.updateTask(lstTask);
+        ASF_GetCaseRelatedDetails.updateCheckList(new Map<Id,ASF_Checklist__c>(lstCheck));
+        ASF_GetCaseRelatedDetails.updateTask(new Map<Id, Task>(lstTask));
 		System.assertEquals('CCC-CC-RC-01', caseRecord.CCC_External_Id__c);
         //GetCaseRelatedDetails.getLatestApprovalRecord(caseRecord.Id);
        

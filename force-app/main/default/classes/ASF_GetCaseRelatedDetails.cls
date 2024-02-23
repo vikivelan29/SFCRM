@@ -341,12 +341,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateCheckList(List<ASF_Checklist__c> recordUpdate){
-        Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateChecklistRecords.putall(recordUpdate);         
-        }
+    public static void updateCheckList(Map<Id,ASF_Checklist__c> updateChecklistRecords){
+        //Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
+        system.debug('receivedPara '+ updateChecklistRecords);
+        // if(!recordUpdate.isEmpty()){
+        //     updateChecklistRecords.putall(recordUpdate);         
+        // }
         if(updateChecklistRecords.size()>0){
             update updateChecklistRecords.values();
         }
@@ -354,12 +354,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateTask(List<Task> recordUpdate){
-        Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateTaskRecords.putall(recordUpdate);         
-        }
+    public static void updateTask(Map<Id,Task> updateTaskRecords){
+        // Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
+        // system.debug('receivedPara '+ recordUpdate);
+        // if(!recordUpdate.isEmpty()){
+        //     updateTaskRecords.putall(recordUpdate);         
+        // }
         if(updateTaskRecords.size()>0){
             update updateTaskRecords.values();
         }
