@@ -41,6 +41,9 @@ function abhflCreateValidation(inputData){
         else if(item["Description"] === undefined || item["Description"].trim() === ''){
             return 'Description is not present/valid on row '+index;
         }
+        else if(item["Block Customer Communication"] === undefined || (item["Block Customer Communication"].trim().toUpperCase() != "TRUE" && item["Block Customer Communication"].trim().toUpperCase() != "FALSE")){
+            return 'Invalid Block Customer Communication value provided on row '+index +' - Accepted value - TRUE/FALSE';
+        }
         index ++;
     }
 
@@ -53,16 +56,16 @@ function abhflCloseValidation(inputData){
         if(item["Case number"] === undefined || item["Case number"].trim() === '' || item["Case number"].trim() === 'NA'){
             return 'Case number is not present/valid on row '+index;
         }
-        else if(item["Stage"].trim() === 'Resolved' && (item["Resolution Comments"] === undefined || item["Resolution Comments"].trim() === '')){
+        else if(item["Stage"] === undefined || item["Stage"].trim() === '' || (item["Stage"].trim().toUpperCase() != 'RESOLVED' && item["Stage"].trim().toUpperCase() != 'UNRESOLVED')){
+            return 'Stage is not present/valid on row '+index +' - Accepted value - Resolved/Unresolved';
+        }
+        else if(item["Stage"].trim().toUpperCase() === 'RESOLVED' && (item["Resolution Comments"] === undefined || item["Resolution Comments"].trim() === '')){
             return 'Resolution Comments is not present on row '+index;
         }
-        else if(item["Stage"] === undefined || item["Stage"].trim() === '' || (item["Stage"].trim() != 'Resolved' && item["Stage"].trim() != 'Unresolved')){
-            return 'Stage is not present/valid on row '+index;
-        }
-        else if(item["Stage"].trim() === 'Unresolved' && (item["Close Unresolved Reason"] === undefined || item["Close Unresolved Reason"].trim() === '')){
+        else if(item["Stage"].trim().toUpperCase() === 'UNRESOLVED' && (item["Close Unresolved Reason"] === undefined || item["Close Unresolved Reason"].trim() === '')){
             return 'Close Unresolved Reason is not present on row '+index;
         }
-        else if(item["Stage"].trim() === 'Unresolved' && (item["Close Unresolved Details"] === undefined || item["Close Unresolved Details"].trim() === '')){
+        else if(item["Stage"].trim().toUpperCase() === 'UNRESOLVED' && (item["Close Unresolved Details"] === undefined || item["Close Unresolved Details"].trim() === '')){
             return 'Close Unresolved Details is not present on row '+index;
         }
         index ++;
@@ -85,6 +88,9 @@ function abflCreateValidation(inputData){
         }
         else if(item["Description"] === undefined || item["Description"].trim() === ''){
             return 'Description is not present on row '+index;
+        }
+        else if(item["Block Customer Communication"] === undefined || (item["Block Customer Communication"].trim().toUpperCase() != "TRUE" && item["Block Customer Communication"].trim().toUpperCase() != "FALSE")){
+            return 'Invalid Block Customer Communication value provided on row '+index +' - Accepted value - TRUE/FALSE';
         }
         index ++;
     }
