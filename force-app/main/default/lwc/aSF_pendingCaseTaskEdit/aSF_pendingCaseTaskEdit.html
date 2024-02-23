@@ -1,92 +1,94 @@
-<template>  
+<template>
     <template if:true={hasRecord}>
         <div slot="title" class="slds-page-header">
-            <lightning-card  title="Tasks" icon-name="standard:task">  
-                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
-                        <thead>
-                        <tr class="slds-text-title_caps"> 
+            <lightning-card title="Tasks" icon-name="standard:task">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-text-title_caps">
                             <th scope="col">
                                 <div class="slds-truncate" title="Task Type"></div>
                             </th>
-                            <th scope="col" > 
-                            <div class="slds-truncate" title="Subject">Subject</div> 
-                        </th>
-            
-                        <th scope="col">
-                            <div class="slds-truncate" title="Status"> Status</div>
-                        </th>
                             <th scope="col">
-                            <div class="slds-truncate" title="Comments">Comments</div>
-                        </th>
-                <th scope="col">
-                    <div class="slds-truncate" title="Comments">Task Owner</div>
-                </th>
+                                <div class="slds-truncate" title="Subject">Subject</div>
+                            </th>
+
+                            <th scope="col">
+                                <div class="slds-truncate" title="Status"> Status</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Comments">Comments</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Comments">Task Owner</div>
+                            </th>
                             <!-- th scope="col">
                                 <div class="slds-truncate" title="Comments">Task Created By</div>
                             </th -->
-                    </tr>
+                        </tr>
                     </thead>
-                        <tbody> 
+                    <tbody>
                         <template for:each={accData} for:item="accItem">
-                            <tr style= "height:40px" key={accItem.Id}> 
+                            <tr style="height:40px" key={accItem.Id}>
                                 <td>
                                     <template if:false={accItem.Manual_Tasks__c}>
-                                        <lightning-icon  icon-name="utility:automate" style="width:5px" title="Automatic Task" size="small"></lightning-icon> 
+                                        <lightning-icon icon-name="utility:automate" style="width:5px"
+                                            title="Automatic Task" size="small"></lightning-icon>
                                         <!-- <img src ={autoIcon}/>  -->
 
                                     </template>
                                     <template if:true={accItem.Manual_Tasks__c}>
-                                    <!--- <img src ={manualIcon}/> -->
-                                    <lightning-icon icon-name="utility:user" style="width:5px" title="Manual Task" size="small"></lightning-icon>
+                                        <!--- <img src ={manualIcon}/> -->
+                                        <lightning-icon icon-name="utility:user" style="width:5px" title="Manual Task"
+                                            size="small"></lightning-icon>
                                     </template>
                                 </td>
                                 <td data-label="Subject">
                                     <!--<div class="slds-truncate" style = "width:100px" title={accItem.Subject}>{accItem.Subject}</div> -->
-                                <!--- <lightning-button variant="base" label={accItem.Subject} class="slds-truncate" style = "width:90px; height:60px;" title={accItem.Subject} onclick={handleClick}  data-id={accItem.Id}></lightning-button> -->
-                                    <p class="slds-truncate" style="width:180px" title={accItem.Subject}><a data-id={accItem.Id}
-                                        onclick={handleClick}>{accItem.Subject} </a></p>
-                                    </td>
-                                    <td data-label="Status">
+                                    <!--- <lightning-button variant="base" label={accItem.Subject} class="slds-truncate" style = "width:90px; height:60px;" title={accItem.Subject} onclick={handleClick}  data-id={accItem.Id}></lightning-button> -->
+                                    <p class="slds-truncate" style="width:180px" title={accItem.Subject}><a
+                                            data-id={accItem.Id} onclick={handleClick}>{accItem.Subject} </a></p>
+                                </td>
+                                <td data-label="Status">
                                     <!--- <div style="height:40px;"> -->
-                                        <template if:false={isCompleted}>
-                                        <lightning-combobox
-                                            value={accItem.Status}
-                                            options={options}
-                                            data-id={accItem.Id}
-                                            data-field="Status"
-                                            onchange={handleChange}>
-                                        </lightning-combobox>
-                                        </template>
-                                        <template if:true={isCompleted}>
-                                            <div class="slds-truncate" title="">{accItem.Status}</div>
-                                            </template>
-                                    </td>
-                                <td data-label="Comments">
                                     <template if:false={isCompleted}>
-                                        
-                            <lightning-input type="text" style="width:120px" data-id={accItem.Id} onchange={handleInputChange}
-                                            value={accItem.Description}></lightning-input>
-                                        
+                                        <lightning-combobox value={accItem.Status} options={options}
+                                            data-id={accItem.Id} data-field="Status" onchange={handleChange}>
+                                        </lightning-combobox>
                                     </template>
                                     <template if:true={isCompleted}>
-                                        <div class="slds-truncate" style="width:100px" title={accItem.Description}>{accItem.Description}</div>
-                                        
+                                        <div class="slds-truncate" title="">{accItem.Status}</div>
                                     </template>
                                 </td>
-                    <td><p class="slds-truncate" style="width:100px" >{accItem.Owner.Name}</p></td>
+                                <td data-label="Comments">
+                                    <template if:false={isCompleted}>
+
+                                        <lightning-input type="text" style="width:120px" data-id={accItem.Id}
+                                            data-field="Description" onchange={handleChange}
+                                            value={accItem.Description}></lightning-input>
+
+                                    </template>
+                                    <template if:true={isCompleted}>
+                                        <div class="slds-truncate" style="width:100px" title={accItem.Description}>
+                                            {accItem.Description}</div>
+
+                                    </template>
+                                </td>
+                                <td>
+                                    <p class="slds-truncate" style="width:100px">{accItem.Owner.Name}</p>
+                                </td>
                             </tr>
-                        </template>                 
-                        </tbody>
-                    </table><br/> 
+                        </template>
+                    </tbody>
+                </table><br />
                 <template if:false={isCompleted}>
                     <div slot="footer">
                         <div class="slds-align_absolute-center">
-                            <lightning-button label="Save" variant="brand" class="slds-align_absolute-center" type="submit"
-                                onclick={handleSave} disabled={isDisabled}></lightning-button>
+                            <lightning-button label="Save" variant="brand" class="slds-align_absolute-center"
+                                type="submit" onclick={handleSave} disabled={isDisabled}></lightning-button>
                         </div>
                     </div>
                 </template>
-            </lightning-card> 
-            </div>
-         </template>
+            </lightning-card>
+        </div>
+    </template>
 </template>
