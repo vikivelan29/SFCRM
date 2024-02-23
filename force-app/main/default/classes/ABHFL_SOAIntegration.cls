@@ -131,11 +131,15 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
 
 
     private void handleSuccessfullTransfer(Case caserec){
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c, 
         Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
         WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
+        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplateMap.get('Resolved'), 
+        smsMetadataMap.get('Resolved'), true);
+        // ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
+                //         cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
         caseRec.MoveToNext__c = true;
         caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
         caseRec.Stage__c = ABHFL_Constants.RESOLVED;
