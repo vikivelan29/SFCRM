@@ -10,9 +10,10 @@ import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityControl
 import { loadScript } from 'lightning/platformResourceLoader';
 import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
-import { validateFile } from "./bulkUploadBUValidationUtil";
+//import { validateFile } from "./bulkUploadBUValidationUtil";
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
@@ -28,7 +29,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     strCSVGeneration = 'Please wait. The CSV generation is in progress...';
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
-    MAX_CHUNK_SIZE = 1000;
+    MAX_CHUNK_SIZE = CHUNK_SIZE;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -132,11 +133,13 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     }
 
     async loadValidationFile() {
-        try {
-            await loadScript(this, ASF_BulkUploadBUValidation);
-        } catch (error) {
-            console.error('Error loading Validation file:', error);
-        }
+        await loadScript(this, ASF_BulkUploadBUValidation)
+        .then(() => {
+            console.log('validation file loaded successfully');
+        })
+        .catch(error => {
+            console.error('Error loading validateFile.js: '+ error);
+        });
     }
 
     onChangeOperationRecordTypeChange(event){
@@ -318,7 +321,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             processName: this.operationRecordTypeValue,
             configData: this.selectedConfigRec
         };
-        let buValResult = validateFile(inputData);
+        let buValResult = window.validateFile(inputData);
         console.log('val result--'+buValResult);
         if(buValResult != 'Success'){
             this.strErrorMessage = buValResult;
