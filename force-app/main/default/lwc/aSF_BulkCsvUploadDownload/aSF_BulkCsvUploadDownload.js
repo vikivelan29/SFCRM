@@ -31,7 +31,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     MAX_CHUNK_SIZE = 9000;
 
     helpMessage = false;
-    @track showLoadingSpinner = false;
+    @track showLoadingSpinner = true;
     boolShowDownloadButton = false;
     boolShowUploadButton = false;
     boolDisplayLoadingText = false;
@@ -118,6 +118,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
         this.listViewId = this.strURL.split('filterName%3D')[1].split('&')[0];
         this.loadValidationFile();
+        this.showLoadingSpinner = false;
     }
 
     renderedCallback() {
@@ -191,7 +192,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         //Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
         if(this.operationRecordTypeValue.includes('Close')){
             csvString = csvString.replaceAll('\n', '\n=');
-        }
+        } 
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }

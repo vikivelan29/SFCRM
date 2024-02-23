@@ -53,11 +53,14 @@ function abhflCloseValidation(inputData){
         if(item["Case number"] === undefined || item["Case number"].trim() === '' || item["Case number"].trim() === 'NA'){
             return 'Case number is not present/valid on row '+index;
         }
-        else if(item["Resolution Comments"] === undefined || item["Resolution Comments"].trim() === ''){
+        else if(item["Stage"].trim() === 'Resolved' && (item["Resolution Comments"] === undefined || item["Resolution Comments"].trim() === '')){
             return 'Resolution Comments is not present on row '+index;
         }
         else if(item["Stage"] === undefined || item["Stage"].trim() === '' || (item["Stage"].trim() != 'Resolved' && item["Stage"].trim() != 'Unresolved')){
             return 'Stage is not present/valid on row '+index;
+        }
+        else if(item["Stage"].trim() === 'Unresolved' && (item["Close Unresolved Reason"] === undefined || item["Close Unresolved Reason"].trim() === '')){
+            return 'Close Unresolved Reason is not present on row '+index;
         }
         else if(item["Stage"].trim() === 'Unresolved' && (item["Close Unresolved Details"] === undefined || item["Close Unresolved Details"].trim() === '')){
             return 'Close Unresolved Details is not present on row '+index;
