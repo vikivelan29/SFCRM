@@ -34,7 +34,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
               Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
                 Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
 
-                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
+                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(cccRecord,  emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
 
       		// Set wrapper response and status if evaluation is failure
             result.status = ABHFL_Constants.ERROR;
