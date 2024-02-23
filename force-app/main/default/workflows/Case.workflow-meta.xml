@@ -7,7 +7,7 @@
         <recipients>
             <type>creator</type>
         </recipients>
-        <senderAddress>vabctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
+        <senderAddress>abctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Internal_Email_Templates/Case_creator_when_the_case_is_closed</template>
     </alerts>
@@ -18,7 +18,7 @@
         <recipients>
             <type>owner</type>
         </recipients>
-        <senderAddress>vabctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
+        <senderAddress>abctsl.crmteam-noreply@adityabirlacapital.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Internal_Email_Templates/Case_owner_when_the_case_is_assigned</template>
     </alerts>
