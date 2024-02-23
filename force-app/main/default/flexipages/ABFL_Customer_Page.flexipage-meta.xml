@@ -894,16 +894,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(116, 116, 116);&quot;&gt;Christmas Bonanza - Claim your 0 fee insurance policy by 31st Dec&lt;/span&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentName>abhfl_OdpAlerts</componentName>
+                <identifier>c_abhfl_OdpAlerts</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-skk0o714yed</name>
