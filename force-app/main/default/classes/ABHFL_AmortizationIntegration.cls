@@ -28,16 +28,14 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.Asset.Loan_Disbursement_Status__c != null && caseRecord.Asset.Loan_Disbursement_Status__c == 'Partially') {
         
         
-          List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
-                                                               Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+          List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
                                                                WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
           if(!cccRecord.isEmpty()) {
-              Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-                    caseRecord,
-                    cccRecord[0].Rejected_Case_Email_Template__c,
-                    cccRecord[0].Rejected_Case_SMS_Metadata__c,
-                    false
-              );
+              Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
+
       		// Set wrapper response and status if evaluation is failure
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('AMORT_Evaluate_Disbursed_Partially').Message__c;
@@ -129,11 +127,14 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
       if(isTransferred){
                  integrationFailure = false;
                  List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                      Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                      Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
                                                                       WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                 
-                 ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
+                 Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+                                                      
+
+                 ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
                  caseRec.MoveToNext__c = true;
                  update caseRec;        
             }else if(caseRec.Source__c != ABHFL_Constants.BRANCH){

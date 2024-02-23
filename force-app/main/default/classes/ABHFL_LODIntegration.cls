@@ -131,11 +131,13 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         	Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 			if(isTransferred){
                   List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                        Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                        Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c  FROM ASF_Case_Category_Config__c
                                                                         WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                 
-                  ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
+                  Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
                   caseRec.MoveToNext__c = true;
                 if(Schema.sObjectType.Case.isUpdateable()){
                   	update caseRec;          
