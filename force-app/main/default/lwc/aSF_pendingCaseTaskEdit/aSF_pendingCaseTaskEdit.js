@@ -19,23 +19,12 @@ export default class ASF_pendingCaseTaskEdit extends NavigationMixin(LightningEl
     recordCheckId;
     wiredAccountsResult;
     hasRecord = false;
-    listRecords = [];
+    listRecords = {};
     isCompleted = false;
     loggedInUser = userId;
     isDisabled = true;
     isManual = false;
     autoIcon = false;
-
-    /*@wire(getObjectInfo, { objectApiName: TASK_OBJECT })
-       taskInfo;
-    
-       @wire(getPicklistValues,
-           {
-               recordTypeId: '$taskInfo.data.defaultRecordTypeId',
-               fieldApiName: taskStatus
-           }
-       )
-       options; */
 
     get options() {
         return [
@@ -70,9 +59,9 @@ export default class ASF_pendingCaseTaskEdit extends NavigationMixin(LightningEl
         }
     }
     connectedCallback() {
-        this.event2 = setInterval(() => {
-            refreshApex(this.wiredAccountsResult);
-        }, 5000);
+        // this.event2 = setInterval(() => {
+        //     refreshApex(this.wiredAccountsResult);
+        // }, 5000);
     }
 
     disconnectedCallback() {
@@ -80,16 +69,79 @@ export default class ASF_pendingCaseTaskEdit extends NavigationMixin(LightningEl
     }
 
     handleChange(event) {
-        this.value = event.detail.value;
-        const selectedRecordId = event.target.dataset.id;
+        let value = event.detail.value;
+        let selectedRecordId = event.target.dataset.id;
+        let fieldAPI = event.target.dataset.field;
         this.isDisabled = false;
-        console.log("inputno", this.value);
-        console.log("record", selectedRecordId);
-        this.listRecords.push({ Id: event.target.dataset.id, [event.target.dataset.field]: event.detail.value })
+        if(Object.hasOwn(this.listRecords, selectedRecordId)){
+            let taskRec = this.listRecords[selectedRecordId];
+            taskRec[fieldAPI] = value;
+            this.listRecords[selectedRecordId] = taskRec;
+        }else{
+            let taskRec = {};
+            taskRec['Id'] = selectedRecordId;
+            taskRec[fieldAPI] = value;
+            this.listRecords[selectedRecordId] = taskRec;
+        }
         console.log("newrealform", this.listRecords);
-
-
     }
+    
+    handleSave() {
+        console.log('Refresh ApexTASK called');
+        updateTaskObj({ updateTaskRecords: this.listRecords }).then(() => {
+            console.log('Refresh Apexsuccess called');
+            refreshApex(this.wiredAccountsResult);
+
+            const event = new ShowToastEvent({
+                title: 'Success',
+                message: 'Records are updated sucessfully',
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+        }).catch(error => {
+            this.error = error.message;
+
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: "Error updating record",
+                    message: error.body.pageErrors[0].message,
+                    variant: "error"
+                })
+            );
+        });
+    }
+    updateRecordView() {
+        setTimeout(() => {
+            eval("$A.get('e.force:refreshView').fire();");
+        }, 1000);
+    }
+    handleClick(event) {
+        this.selectTaskID = event.target.dataset.id;
+        console.log("clicked", this.selectTaskID);
+        this[NavigationMixin.Navigate]({
+            type: "standard__recordPage",
+            attributes: {
+                recordId: this.selectTaskID,
+                actionName: 'view',
+            },
+        }).then(url => {
+            //2. Assign it to the prop
+            this.recordPageUrl = url;
+        });
+    }
+    getOwnerTaskOwnerShip() {
+
+        getOwnerTaskOwnerShip({ userId: this.loggedInUser, caseId: this.recordId })
+            .then(result => {
+                this.isCompleted = result == true ? false : true;
+            })
+            .catch(error => {
+                this.error = error.message;
+            });
+    }
+
+    /*
     handleInputChange(event) {
         this.textValue = event.detail.value;
         console.log("inputno", this.textValue);
@@ -128,62 +180,5 @@ export default class ASF_pendingCaseTaskEdit extends NavigationMixin(LightningEl
                 );
             });
     }
-    handleSave() {
-        console.log('Refresh ApexTASK called');
-        updateTaskObj({ recordUpdate: this.listRecords }).then(() => {
-            console.log('Refresh Apexsuccess called');
-            refreshApex(this.wiredAccountsResult);
-
-            const event = new ShowToastEvent({
-                title: 'Success',
-                message: 'Records are updated sucessfully',
-                variant: 'success',
-                mode: 'dismissable'
-            });
-            this.dispatchEvent(event);
-        }).catch(error => {
-            this.error = error.message;
-
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: "Error updating record",
-                    message: error.body.pageErrors[0].message,
-                    variant: "error"
-                })
-            );
-        });
-
-
-
-    }
-    updateRecordView() {
-        setTimeout(() => {
-            eval("$A.get('e.force:refreshView').fire();");
-        }, 1000);
-    }
-    handleClick(event) {
-        this.selectTaskID = event.target.dataset.id;
-        console.log("clicked", this.selectTaskID);
-        this[NavigationMixin.Navigate]({
-            type: "standard__recordPage",
-            attributes: {
-                recordId: this.selectTaskID,
-                actionName: 'view',
-            },
-        }).then(url => {
-            //2. Assign it to the prop
-            this.recordPageUrl = url;
-        });
-    }
-    getOwnerTaskOwnerShip() {
-
-        getOwnerTaskOwnerShip({ userId: this.loggedInUser, caseId: this.recordId })
-            .then(result => {
-                this.isCompleted = result == true ? false : true;
-            })
-            .catch(error => {
-                this.error = error.message;
-            });
-    }
-
+    */
 }

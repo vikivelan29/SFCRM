@@ -68,7 +68,8 @@
                                         </lightning-output-field>
                                     </template>
                                     <template if:true={areDetailsVisible}>
-                                        <lightning-input type="text" data-id={accItem.Id} onchange={handleInputChange} value={accItem.Comments__c}>
+                                        <lightning-input type="text" data-id={accItem.Id}
+                                        data-field="Comments__c" onchange={handleChange} value={accItem.Comments__c}>
                                         </lightning-input>
                                     </template>
                               </template>
