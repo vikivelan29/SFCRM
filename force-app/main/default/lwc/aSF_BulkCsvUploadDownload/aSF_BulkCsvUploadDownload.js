@@ -28,7 +28,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     strCSVGeneration = 'Please wait. The CSV generation is in progress...';
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
-    MAX_CHUNK_SIZE = 9000;
+    MAX_CHUNK_SIZE = 1000;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -206,12 +206,6 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         downloadElement.click(); 
 
     }
-    /*handleDownloadresult(event){
-        const csvString = event.detail.value;
-        console.log('csv--'+csvString);
-        const fileName = 'BulkUploadResult' +'-' + Date.now();
-        this.getCSVClick(csvString, fileName);
-    } */
     parseCsv(file){
         return new Promise((resolve, reject) => {
             Papa.parse(file, {
@@ -283,9 +277,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
      handleListViewNavigation() {
         const baseURL = window.location.origin;
         const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
-        //window.location.assign(listViewUrl,"_self");
         window.open(listViewUrl,"_self");
-        //history.back();
     }
 
     /**Description - this method Opens Help Modal**/
