@@ -21,7 +21,7 @@ public with sharing class ASF_CaseQueryHandler {
     private static List<ASF_Case_Category_Config__c> caseCategoryConfigs = null;
     private static List<Asset> caseRelatedAssets = null;
     private static Map<String, Boolean> caseStatusMap = null;
-    private static Case caseWithConfigQueryFields = null;
+    private static List<Case> casesWithConfigQueryFields = null;
     public static boolean refreshRecords = false;
     
     
@@ -31,8 +31,8 @@ public with sharing class ASF_CaseQueryHandler {
                      Previous_Stage__c,ClosedDate, PAY_Payment_Detail__c, SLA_Target_1__c, CSAT__c, DB_Hours__c,
                      has_CheckLists__c, Has_Open_Tasks__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,Technical_Source__c,
                      ABFL_Case_Detail__r.Resolution_Comments__c, Source__c,Nature__c,Description,
-                     (Select Id, Checklist_External_Id__c, Status__c from Checklists__r),
-                     (Select Id, Work_Item_External_ID__c from Tasks)
+                     (Select Id, Checklist_External_Id__c, Status__c, Case__c from Checklists__r),
+                     (Select Id, Work_Item_External_ID__c, WhatId from Tasks)
                      FROM Case
                      WHERE Id = :recordIds];
         }
@@ -79,7 +79,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     public static List<ASF_Integration__c> getIntegrationsFromConfig(Set<Id> caseStageConfigIds){
         if(cccIntegrations == null){
-            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c
+            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c
                                FROM ASF_Integration__c
                                WHERE Mandatory_At_Stage_Movement__c = true
                                AND Case_Stage_Config__c =: caseStageConfigIds];
@@ -104,7 +104,7 @@ public with sharing class ASF_CaseQueryHandler {
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,
                                 Optional_Stage__c,Default_Queue__c,Default_Error_Queue__c, Gateway_Stage__c,
-                                AfterStageApexClass__c, BeforeStageApexClass__c,Assign_To_Last_Actioned_Stage__c,
+                                AfterStageApexClass__c, BeforeStageApexClass__c,Assign_To_Last_Actioned_Stage__c,Case_Category_Config__c,
                                 (SELECT ID,Order__c,Type__c,Logical_Condition__c,Name,Assigned_Queue_Id__c,Validation_Message__c,Stage_Name__c,Step_1_Approver_1__c,
                                  Step_1_Approver_2__c,Step_2_Approver_1__c,Step_2_Approver_2__c,Approval_Success_Fields_to_Update__c,
                                  Approval_Rejected_Fields_to_Update__c,Approval_Style__c,Approval_SuccessStageMovement__c FROM Case_Rules__r),
@@ -113,13 +113,13 @@ public with sharing class ASF_CaseQueryHandler {
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
                                 WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId
-                                ORDER BY Order__c];        
+                                ORDER BY Case_Category_Config__c, Order__c];        
         }
         return caseStageConfigs;
         
     }
         
-    public static list<ASF_Case_Rule__c> getCaseRuleWithHierarchy(Set<String> caseCCCExternalId){
+    public static list<ASF_Case_Rule__c> getCaseRuleWithHierarchy(Set<String> caseCCCExternalIds){
         if(caseRulesWithHierarchy == null){
             caseRulesWithHierarchy = [
                 SELECT
@@ -131,6 +131,7 @@ public with sharing class ASF_CaseQueryHandler {
                 Assigned_Queue_Id__c,
                 Assigned_Error_Queue_Id__c,
                 Validation_Message__c,
+                C3ExternalId__c,
                 Stage_Name__c,
                 Case_Stage_Config__c,
                 (
@@ -183,8 +184,8 @@ public with sharing class ASF_CaseQueryHandler {
                     'Validation',
                     'SLA Override'
                 )
-                AND C3ExternalId__c = :caseCCCExternalId
-                ORDER BY Case_Stage_Config__r.Order__c, Order__c];
+                AND C3ExternalId__c = :caseCCCExternalIds
+                ORDER BY C3ExternalId__c,Case_Stage_Config__r.Order__c, Order__c];
         }
         return caseRulesWithHierarchy;
     }
@@ -232,7 +233,7 @@ public with sharing class ASF_CaseQueryHandler {
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
-                                    Is_Recategorise_Allowed__c
+                                    Is_Recategorise_Allowed__c,Allow_file_upload__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
                                     
@@ -247,20 +248,18 @@ public with sharing class ASF_CaseQueryHandler {
         return caseRelatedAssets;
     }
 
-    public static Case getCaseRecordWithQueryFields(Set<String> queryFields, Id caseId) {
-        if(caseWithConfigQueryFields == null || refreshRecords){
-            caseWithConfigQueryFields = (Case) Database.query(
+    public static List<Case> getCaseRecordWithQueryFields(Set<String> queryFields, Set<Id> caseIdList) {
+        if(casesWithConfigQueryFields == null || refreshRecords){
+            casesWithConfigQueryFields = (List<Case>) Database.query(
                 'SELECT ' +
                 String.join(queryFields, ',') +
-                ' FROM Case Where Id=\'' +
-                caseId +
-                '\''
+                ' FROM Case WHERE Id IN :caseIdList'
             );
 
         }
-        return caseWithConfigQueryFields;
+        return casesWithConfigQueryFields;
     }
-    
+
     // Virendra - This method is used to get the IntegrationRecords in retry mechanism
     public static List<ASF_Integration__c> getASFIntegrationRecordsForRetry(Set<String> integrationExtnId){
         return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,

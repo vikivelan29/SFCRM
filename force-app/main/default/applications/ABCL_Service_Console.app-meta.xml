@@ -72,6 +72,24 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Account</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
         <logo>ABC_Primary_Logo_For_Reference</logo>
@@ -87,7 +105,7 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
+        <content>ABFL_LAN_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
@@ -95,7 +113,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Asset_Record_Page</content>
+        <content>ABFL_LAN_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
@@ -103,7 +121,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -112,7 +130,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -121,7 +139,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
@@ -130,7 +148,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABFL_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
@@ -157,7 +175,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Sales</recordType>
@@ -166,7 +184,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Sales</recordType>
@@ -211,7 +229,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Service</recordType>
@@ -220,7 +238,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ASF_Lead_Record_Page</content>
+        <content>ABHFL_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
         <recordType>Lead.Service</recordType>
@@ -297,7 +315,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page</content>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -306,7 +324,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page</content>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.Individual</recordType>
@@ -315,7 +333,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page</content>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
@@ -324,16 +342,16 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Account_Record_Page</content>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
+    </profileActionOverrides>    
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
+        <content>ABFL_Case_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
@@ -342,7 +360,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Framework_Lightning_Page</content>
+        <content>ABFL_Case_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
@@ -489,13 +507,33 @@
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
-    <tabs>standard-Account</tabs>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHFL_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHFL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHFL_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHFL Base Profile</profile>
+    </profileActionOverrides>
+    <tabs>standard-Account</tabs>    
+    <tabs>Customer_Prospect_Search</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>standard-Case</tabs>
     <tabs>Payment_Customer_Search</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
-    <workspaceConfig>
+    <workspaceConfig>    
+        <mappings>
+            <tab>Customer_Prospect_Search</tab>
+        </mappings>
         <mappings>
             <tab>Payment_Customer_Search</tab>
         </mappings>

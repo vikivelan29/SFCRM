@@ -1,10 +1,11 @@
-import { LightningElement,track,api } from 'lwc';
+import { LightningElement,wire,api } from 'lwc';
 import getAssetRecordsandMetadata from '@salesforce/apex/ABHFL_MultipleLANController.getLanDataAndMetadata';
 import fetchAssetDetailsExt from '@salesforce/apex/ABHFL_MultipleLANController.fetchAssetDetailsExt';
 import upsertRecords from '@salesforce/apex/ABHFL_MultipleLANController.upsertRecords';
 import fetchAll from '@salesforce/apexContinuation/ABHFL_MultipleLANController.fetchAllLANDetails';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import Id from "@salesforce/user/Id";
 
 export default class Abhfl_MultipleLan extends LightningElement {
     @api recordId;
@@ -22,10 +23,17 @@ export default class Abhfl_MultipleLan extends LightningElement {
     displayMultipleLan;
     disableSave = true;
     displaySpinner = true;
+    enableRowSelection = true;
+    enableFetchAll = true;
+    enableUpload = true;
+    enableDelete = true;
+    disableEditField = false;
+    userId = Id;
+    enableSave = true;
 
     connectedCallback(){
         if(this.recordId){
-            getAssetRecordsandMetadata({recId : this.recordId}).then((result) => {
+            getAssetRecordsandMetadata({recId : this.recordId,loggedInUserId : this.userId}).then((result) => {
                 console.log(result);
                 if(result && result.columnData){
                     this.columns = result.columnData;
@@ -35,11 +43,22 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.paginationHelper(); // call helper menthod to update pagination logic
                     this.displayMultipleLan = true;
                     this.childTableDisplay();
-                    
+                    this.enableRowSelection = result.displayAddRows;
+                    this.enableFetchAll = result.displayFetchAll;
+                    this.enableDelete = result.displayDeleteRows;
+                    this.enableUpload = result.displayFileUpload;
+                    this.disableEditField = result.disableFieldEdit;
+                    this.enableSave = !result.disableFieldEdit;
                 } 
                 this.displaySpinner = false;
             }).catch((error) => {
                 console.log(error);
+                this.displaySpinner = false;
+                this.showToast({
+                    title: "Error",
+                    message: "Something went wrong. Please try again later.",
+                    variant: "error",
+                });
             })
         }
     }
@@ -73,6 +92,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
+            this.displaySpinner = false;
+            this.showToast({
+                title: "Error",
+                message: "We could not fetch the LAN Details. Please try again later.",
+                variant: "error",
+            });
         })
     }
 
@@ -160,6 +185,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.displayChildTable = true;
                 }).catch((error) => {
                     console.log(error);
+                    this.displaySpinner = false;
+                    this.showToast({
+                        title: "Error",
+                        message: "We could add Records. Please try again later.",
+                        variant: "error",
+                    });
                 })
             } else if(this.selectedRows){
                 this.displayChildTable = false;
@@ -281,6 +312,12 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = false;
         }).catch((error) => {
             console.log(error);
+            this.displaySpinner = false;
+            this.showToast({
+                title: "Error",
+                message: "We could not fetch the LAN Details. Please try again later.",
+                variant: "error",
+            });
         })       
     }
 

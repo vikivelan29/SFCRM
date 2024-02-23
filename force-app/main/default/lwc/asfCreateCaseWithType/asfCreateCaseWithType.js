@@ -48,6 +48,7 @@ import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
+import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension' 
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -121,13 +122,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     complaintType;
     uniqueId;
     businessUnit;
-    
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
+    cols;
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
@@ -151,6 +146,20 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
+            if(this.businessUnit === 'ABHFL'){
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }else{
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
@@ -166,15 +175,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         console.log('assestid ---> ' + this.uniqueId);
         this.getAccountRecord();
         console.log('business ---> ' + this.businessUnit);
-        if(this.businessUnit === 'ABHFL'){
-            this.cols = [
-                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-            ]
-        }
-       
-
     }
     @wire(getRecord, { recordId: '$uniqueId', fields: [Business_Unit_LOB] })
     asset;
@@ -593,7 +593,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     updateCaseExtensionRecord(caseExtensionRecId) {
         if(this.complaintType) {
-            const fields = {};
+            /*const fields = {};
 
             fields[CASE_EXTENSION_ID_FIELD.fieldApiName] = caseExtensionRecId;
             fields[COMPLAINT_TYPE_FIELD.fieldApiName] = this.complaintType;
@@ -604,7 +604,15 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
             updateRecord(recordInput).then((record) => {
                 console.log('Record--> '+record);
+            });*/
+            updateCaseExtension({caseextensionId: caseExtensionRecId, complainttype : this.complaintType})
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log("Error inside updateCaseExtension "+JSON.stringify(error));
             });
+  
         }
     }
 

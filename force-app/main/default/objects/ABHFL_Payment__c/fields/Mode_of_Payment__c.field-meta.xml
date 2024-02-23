@@ -50,6 +50,11 @@
                 <default>false</default>
                 <label>POS-UPI</label>
             </value>
+            <value>
+                <fullName>Payment Link</fullName>
+                <default>false</default>
+                <label>Payment Link</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

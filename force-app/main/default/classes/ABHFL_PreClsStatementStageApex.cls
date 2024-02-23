@@ -11,8 +11,10 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
            caseRec.Stage__c == 'Pending Ammortization') {
                ABHFL_CTSTHelper.sendTrackingLink(caseRec);
          }
-	 	//send FCL issuance closure email as 
-        if(caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c == 'RRSDPRSHFC01'){
+	 	//send FCL issuance closure email for PreCls Statement/Precls Statement ret/rej. /Reissuance of FCL 
+        if((caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
+           (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
+           (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'REFCL001') ){
             ABHFL_CTSTHelper.sendPrclsStatementclosure(caseRec);
         }
         
@@ -20,6 +22,13 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
     }
      public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+        retCls.status = ABHFL_Constants.SUCCESS;
+        retCls.updatedCase = caseRec;
+        retCls.isCaseUpdated = false;
+         //Send VAN email for ROI Revision
+         if(caseRec.CCC_External_Id__c == 'hfl069'){
+             ABHFL_CTSTHelper.sendCommunicationPayableCharges(caseRec);
+         }
         return retCls;
     }
 }

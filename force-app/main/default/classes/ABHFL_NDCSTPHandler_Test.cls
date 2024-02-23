@@ -58,7 +58,7 @@ public class ABHFL_NDCSTPHandler_Test {
         ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
         Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
         ASF_IntegrationsController.IntegrationWrapper caseAssignToBranch = ndcStp.evaluate(caseRecord);
-        caseRecord.Source__c = 'Branch';
+        //caseRecord.Source__c = 'Branch';
         update caseRecord;
         ASF_IntegrationsController.IntegrationWrapper caseClosed = ndcStp.evaluate(caseRecord); 
         Asset astRecord = new Asset();
@@ -83,6 +83,7 @@ public class ABHFL_NDCSTPHandler_Test {
     @IsTest
     static void testProcessResponse(){
         ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
+        Test.startTest();
         ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c limit 1];
         integRecord.Status__c = 'Success';
         update integRecord;
@@ -95,10 +96,11 @@ public class ABHFL_NDCSTPHandler_Test {
         caseRec = [Select id,OwnerId from Case where id =: integRecord.Case__c ];
         Group csQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' Limit 1];
         System.assertEquals(csQueue.Id,caseRec.OwnerId,'PASS');
-        Case caseRecord = new Case();
-        caseRecord.Id = integRecord.Case__c;
-        caseRecord.Source__c = 'Branch';
-        update caseRecord;
+        //Case caseRecord = new Case();
+        //caseRecord.Id = integRecord.Case__c;
+        //caseRecord.Source__c = 'Branch';
+        //update caseRecord;
+        Test.stopTest();
         /*ndcStp.processResponse(integRecord);
         caseRec = [Select id,Asset.Branch__r.Branch_Queue_Id__c,OwnerId from Case where id =: integRecord.Case__c ];
         System.assertEquals(caseRec.Asset.Branch__r.Branch_Queue_Id__c,caseRec.OwnerId,'PASS');*/

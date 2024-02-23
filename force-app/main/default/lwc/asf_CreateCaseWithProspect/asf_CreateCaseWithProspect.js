@@ -21,6 +21,7 @@ import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import CASE_BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c';
 
 import CASE_OBJECT from '@salesforce/schema/Case';
 
@@ -344,6 +345,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseExtnRecord["sobjectType"] = this.caseRelObjName;
 
         }
+        else{
+            caseExtnRecord = null;
+        }
 
         caseRecord[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
         caseRecord[ORIGIN_FIELD.fieldApiName] = 'Phone';
@@ -354,6 +358,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         caseRecord[TRACK_ID.fieldApiName] = this.trackId;
         caseRecord[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
+        caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
         
 

@@ -11,16 +11,6 @@
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
-        <approvalActions>
-            <action>
-                <name>Approval_Status_to_Approved</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
-                <name>Case_Owner_when_the_Case_is_approved</name>
-                <type>Alert</type>
-            </action>
-        </approvalActions>
         <assignedApprover>
             <approver>
                 <name>Approver_02__c</name>
@@ -54,16 +44,6 @@
         <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>
         <label>Step 1 - Parallel - First to approve</label>
         <name>Step_1_Parallel_First_to_approve</name>
-        <rejectionActions>
-            <action>
-                <name>Case_Owner_when_the_Case_is_rejected</name>
-                <type>Alert</type>
-            </action>
-            <action>
-                <name>Rejected_Status</name>
-                <type>FieldUpdate</type>
-            </action>
-        </rejectionActions>
     </approvalStep>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
@@ -91,29 +71,9 @@
         <rejectBehavior>
             <type>RejectRequest</type>
         </rejectBehavior>
-        <rejectionActions>
-            <action>
-                <name>Case_Owner_when_the_Case_is_rejected</name>
-                <type>Alert</type>
-            </action>
-            <action>
-                <name>Rejected_Status</name>
-                <type>FieldUpdate</type>
-            </action>
-        </rejectionActions>
     </approvalStep>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
-        <approvalActions>
-            <action>
-                <name>Approval_Status_to_Approved_1</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
-                <name>Case_Owner_when_the_Case_is_approved</name>
-                <type>Alert</type>
-            </action>
-        </approvalActions>
         <assignedApprover>
             <approver>
                 <name>Approver_02__c</name>
@@ -150,16 +110,6 @@
         <rejectBehavior>
             <type>RejectRequest</type>
         </rejectBehavior>
-        <rejectionActions>
-            <action>
-                <name>Case_Owner_when_the_Case_is_rejected</name>
-                <type>Alert</type>
-            </action>
-            <action>
-                <name>Rejected_Status</name>
-                <type>FieldUpdate</type>
-            </action>
-        </rejectionActions>
     </approvalStep>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
@@ -244,16 +194,6 @@
     </approvalStep>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
-        <approvalActions>
-            <action>
-                <name>Approval_Status_to_Approved</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
-                <name>Case_Owner_when_the_Case_is_approved</name>
-                <type>Alert</type>
-            </action>
-        </approvalActions>
         <assignedApprover>
             <approver>
                 <name>Approver_05__c</name>
@@ -277,16 +217,6 @@
         <rejectBehavior>
             <type>RejectRequest</type>
         </rejectBehavior>
-        <rejectionActions>
-            <action>
-                <name>Case_Owner_when_the_Case_is_rejected</name>
-                <type>Alert</type>
-            </action>
-            <action>
-                <name>Rejected_Status</name>
-                <type>FieldUpdate</type>
-            </action>
-        </rejectionActions>
     </approvalStep>
     <emailTemplate>Communication_templates/Approver_when_the_Approval_is_requested</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>

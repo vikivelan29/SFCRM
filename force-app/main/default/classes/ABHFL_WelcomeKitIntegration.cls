@@ -26,7 +26,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
             	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
         
         //Checking for mandatory API conditions
@@ -59,13 +59,18 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
-                                                                  Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                  WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                                  Rejected_Case_SMS_Metadata__c, Additional_Email_Templates__c,
+                                                       			  Additional_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                  WHERE CCC_External_Id__c =:caseRecord.CCC_External_Id__c ];
+        
         if(String.isNotBlank(caseRecord.Source__c) && digitalSources.contains(caseRecord.Source__c))
        	{
+            Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+            Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+            
            	//Send standard email template and close the case
-            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, cccRecord[0].Rejected_Case_Email_Template__c, 
-                                                                    cccRecord[0].Rejected_Case_SMS_Metadata__c, false);
+            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                                                                    emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
             caseRecord.MoveToNext__c = true;
             if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
             {
@@ -95,7 +100,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 		List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:integ.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
                 cInt.Status__c = ABHFL_Constants.CANCELED;
@@ -105,7 +110,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             }
         }
         
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id ];
                 
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Case__c  = caseRec.Id;
@@ -117,7 +122,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         	insert caseInteg;    
         }
         
-        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
+        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id ];
                 
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
@@ -143,7 +148,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         Boolean integrationFailure = true;
         Case caseRec =[SELECT Id,Source__c,CreatedById,AccountId,OwnerId,ContactId,CCC_External_Id__c,Asset.Branch__r.Branch_Queue_Id__c,
                            MoveToNext__c,Attachment_Status__c,ABHFL_Case_Detail__r.STP_Failure__c ,No_Auto_Communication__c
-                           FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id=:caseInteg.Case__c ];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
             if(isTransferred)
@@ -172,12 +177,15 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     }
     
     private void handleTransferSuccess(Case caseRec){
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                   Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                   WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                    
-      	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                    											cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,Additional_Email_Templates__c,
+                                                       			   Additional_SMS_Metadata__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+                                                                   WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c ];
+        
+        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+      	Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,
+                                                                emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), true);
         caseRec.MoveToNext__c = true;
         if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
         {
@@ -191,11 +199,11 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     }
     
     private void assignCaseToCSteam(Case caseRec){
-        Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName =:ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+        Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName =:ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
         caseRec.OwnerId = csQueue.Id;
         if(Schema.sObjectType.Case.isUpdateable())
         {
-          	update caseRec; 
+          	update caseRec;    
         }
     }
     

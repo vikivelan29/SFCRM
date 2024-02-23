@@ -2,12 +2,13 @@ import { LightningElement, api, track, wire } from 'lwc';
 import uploadFile from '@salesforce/apex/ABHFL_AssetFileUploader.uploadFile';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+
 export default class ABHFL_AssetDetail_POC extends LightningElement {
 
     @track loanData=[];
     error;
     rowOffset;
-    showAddAttachmentModal = false;
+    @api showAddAttachmentModal = false;
     selectedLan;
     @track lanOptions=[];
     isLoanSelected = false;
@@ -15,7 +16,15 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api recordId;
     @api detailId;
     @api lan;
+    @api isHyperlink;
+    showIcon = true;
+    @api showQuickAction;
 
+    connectedCallback(e){
+        if(this.isHyperlink){
+            this.showIcon = false;
+        }
+    }
     get modalHeader(){
         return 'Upload Documents';
     }
@@ -31,7 +40,9 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     
     handleFilesChange(event){
         this.template.querySelector('lightning-input').disabled=true;
-        this.template.querySelector('.slds-button_neutral').disabled=true;
+        if(this.template.querySelector('.slds-button_neutral')){
+            this.template.querySelector('.slds-button_neutral').disabled=true;
+        }
         const file = event.target.files[0];
         var reader = new FileReader();
         reader.onload = () => {
@@ -60,6 +71,13 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             let title = `File uploaded successfully!!`;
             this.toast(title);
             this.showAddAttachmentModal = false;
+            if(this.isHyperlink){
+                const selectEvent = new CustomEvent('close',{});
+                // Fire the custom event
+                this.dispatchEvent(selectEvent);
+            }
+        }).catch((error) => {
+            console.log(error);
         });
     }
 

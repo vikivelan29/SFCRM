@@ -7,16 +7,102 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>FeedItem.TextPost</value>
+                            <value>Case.Manual_Approval</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.is_Manual_Approval__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.LogACall</value>
+                            <value>Case.ASF_Clone_SR</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.SocialPublisher</value>
+                            <value>Case.Send_SMS</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Edit</value>
+                            <value>Case.Reopen</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.EscalateCase</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsEscalated}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ChangeOwnerOne</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Relate_Duplicate</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.ReCategorize</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -34,7 +120,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
@@ -42,6 +128,12 @@
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>asf_CasePath1</componentName>
+                <identifier>c_asf_CasePath1</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -60,34 +152,10 @@
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultipleLan</componentName>
-                <identifier>c_abhfl_MultipleLan</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-4836c3c9-53ef-4d84-81ab-fc3788f883e5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultiplePayments</componentName>
-                <identifier>c_abhfl_MultiplePayments2</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -227,53 +295,21 @@
                 <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer2</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-1ad9be0c-f1fc-4176-883c-ebb9df86e695</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer3</identifier>
+                <componentInstanceProperties>
+                    <name>context</name>
+                    <value>RECORD</value>
+                </componentInstanceProperties>
+                <componentName>forceChatter:publisher</componentName>
+                <identifier>forceChatter_publisher</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-xszrtr3u12</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>ABFL_Case_Details__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ab45b376-c9fc-4d31-94ca-2f6b59149ab3</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -284,6 +320,28 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Case.ABFL_Case_Detail__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                    <value>Ebot Snapshot</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>ABFL_Case_Detail__c.ABFL_Ebot_Classification</value>
+                </componentInstanceProperties>
+                <componentName>console:relatedRecord</componentName>
+                <identifier>console_relatedRecord3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1792b509-ba78-4af0-b759-76b177be3c52</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -383,20 +441,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ab45b376-c9fc-4d31-94ca-2f6b59149ab3</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Case Comments</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -405,6 +449,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1792b509-ba78-4af0-b759-76b177be3c52</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Ebot</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -455,12 +513,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_CasePath1</componentName>
-                <identifier>c_asf_CasePath1</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
+                <componentInstanceProperties>
+                    <name>displayType</name>
+                    <value>Date</value>
+                </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
             </componentInstance>
@@ -477,8 +533,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer4</identifier>
+                <componentInstanceProperties>
+                    <name>context</name>
+                    <value>RECORD</value>
+                </componentInstanceProperties>
+                <componentName>forceChatter:exposedFeed</componentName>
+                <identifier>forceChatter_exposedFeed</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
@@ -493,7 +553,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>lookupFieldName</name>
-                    <value>Case.Id</value>
+                    <value>Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
@@ -509,27 +569,60 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Case.ABFL_Case_Detail__c</value>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Ebot Snapshot</value>
+                    <name>relatedListApiName</name>
+                    <value>AttachedContentDocuments</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>ABFL_Case_Detail__c.ABFL_Ebot_Classification</value>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
                 </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABFL</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>CaseComments</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer5</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

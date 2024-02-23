@@ -51,8 +51,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     Today it does not have SLA override rules. But logic needs to be added here.
     */
     private static map<String,long> getSLAFieldValues(ASF_SLAWrapper s, Case c,Case oldCase){
-        if(ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null){
-            } 
+        
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
         long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
@@ -71,8 +70,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             // }
         }
         else { 
-            map<String,long> slaValues = ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null ? 
-                                         ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.slaCaseAndStageOverrideValues : null;
+            map<String,long> slaValues = (ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null && ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.containsKey(c.Id) &&
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id) != null) ? 
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id).slaCaseAndStageOverrideValues : null;
             
             if(slaValues != null){
                 //case SLA override
@@ -136,31 +136,31 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         
         Map<Integer,ASF_SLABusinessHoursWrapper> businesssHrsMap = getCaseOwnerBusinessHours(null,newCases);
-        String defaultBusinessHrs = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1].id;
+        //String defaultBusinessHrs = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1].id;
         
         Integer index = 0;
         for(Case c: newCases){
             if(c.CCC_External_Id__c != null && c.stage__c != null){
-                if(externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
+                if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
                     if(!casesToUpdate.containsKey(c.Id)){
                         casesToUpdate.put(c.Id, new Case(Id=c.Id));
                     }
                     Case updatedCase = casesToUpdate.get(c.Id);
                     map<string,long> slaMap = getSLAFieldValues(s,c,null);
                     long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
-                    updatedCase.BusinessHoursId = defaultBusinessHrs;
+                    updatedCase.BusinessHoursId = c.BusinessHoursId;
                     if(businesssHrsMap.containsKey(index)){
-                        if(string.valueOf(c.OwnerId).startsWith('005')){
-                            if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
-                                updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap;
-                            }
-                        }
-                        //queue
-                        else {
-                            if(businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap != null){
-                                updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap;
-                            }
-                        }
+                        // if(string.valueOf(c.OwnerId).startsWith('005')){
+                        //     if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
+                        //         updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap;
+                        //     }
+                        // }
+                        // //queue
+                        // else {
+                        //     if(businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap != null){
+                        //         updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap;
+                        //     }
+                        // }
                         if( businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord != null){
                             if(businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
                                 updatedCase.SLA_Target_1__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
@@ -506,11 +506,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
                     resultMap.put(slaHistory.Case__c+'overallTimeSpent', c);
                 }
-                if(slaHistory.Stage_End_Date__c == null){
-                    slaHistory.Stage_End_Date__c = system.now();
-                }
                 long currentOverallSpent =  resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent;
-                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                Datetime endDate = slaHistory.Stage_End_Date__c == null ? System.now() : slaHistory.Stage_End_Date__c;
+                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, endDate);
                 currentOverallSpent += stageConsumedMilliSeconds;
                 resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent = currentOverallSpent;
             }
@@ -624,7 +622,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             if(String.valueOf(owner).startsWith('005')){
                 wrapper.ownerType = 'User';
                 String emailid = userIdToEmailMap.get(c.ownerId);
-                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailid);
+                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailId);
                 wrapper.ownerUserRecordorQueueOwnerEmailUserRecord =  userEmailMangerMap.get(emailId);     
             }
             else {
@@ -656,9 +654,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id i: newCases.keyset()){
             //Stage Change Loop or change in external Id. Recategrize changes external Id
             if(oldCases.containsKey(i) &&
-                (newCases.get(i).Stage__c != oldCases.get(i).Stage__c || 
+                (newCases.get(i).Stage__c != oldCases.get(i).Stage__c ||
+                newCases.get(i).OwnerId != oldCases.get(i).OwnerId || 
                 newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c)){
-                Case updatedCase = new Case(Id=newCases.get(i).Id);
+                Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
                 if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
@@ -681,7 +680,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         casesToUpdate.put(caseId, new Case(Id=caseId));
                     }
                     Case updatedCase = casesToUpdate.get(caseId);
-                    updatedCase.BusinessHoursId  = bh.Id;
+                    updatedCase.BusinessHoursId  = caseRec.BusinessHoursId;
                     System.debug('BH'+updatedCase.BusinessHoursId);
                     if(resultMap.containsKey(index)){
                         //only if owner is changing , touch business hrs. else not need. 
@@ -691,22 +690,22 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         Concept is , in parking stages , there is no owner change. but stage change.
                         owner change can be to user or queue. and then business hrs changes
                         */
-                        if(newCases.get(caseId).ownerId != oldCases.get(caseId).ownerId ){
-                            if(String.valueOf(newCases.get(caseId).ownerId).startsWith('005')){
-                                String userBusinessHrs = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                                if(userBusinessHrs!=null){
-                                    updatedCase.BusinessHoursId = userBusinessHrs;
-                                    System.debug('BH'+updatedCase.BusinessHoursId);
-                                } 
-                            }
-                            else {
-                                String queueBusinessHrs = resultMap.get(index).caseQueueOwnerBusinessHourMap;
-                                if(queueBusinessHrs!=null){
-                                    updatedCase.BusinessHoursId = queueBusinessHrs;
-                                    System.debug('BH'+updatedCase.BusinessHoursId);
-                                }
-                            }
-                        }
+                        // if(newCases.get(caseId).ownerId != oldCases.get(caseId).ownerId ){
+                        //     if(String.valueOf(newCases.get(caseId).ownerId).startsWith('005')){
+                        //         String userBusinessHrs = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                        //         if(userBusinessHrs!=null){
+                        //             updatedCase.BusinessHoursId = userBusinessHrs;
+                        //             System.debug('BH'+updatedCase.BusinessHoursId);
+                        //         } 
+                        //     }
+                        //     else {
+                        //         String queueBusinessHrs = resultMap.get(index).caseQueueOwnerBusinessHourMap;
+                        //         if(queueBusinessHrs!=null){
+                        //             updatedCase.BusinessHoursId = queueBusinessHrs;
+                        //             System.debug('BH'+updatedCase.BusinessHoursId);
+                        //         }
+                        //     }
+                        // }
                     }
                     index++;
                 }
@@ -749,22 +748,22 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(caseStageSummarizedViewMap.isEmpty() || !caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c)
                    || (sla1Sec != null && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent < sla1Sec)){
                        if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c || newCases.get(i).OwnerId != oldCases.get(i).OwnerId || newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c  ){
-                           if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){
-                               if(String.valueOf(newCases.get(i).ownerId).startsWith('005')){
-                                   businessHrsusedForcalcuation = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                                   System.debug('BH'+businessHrsusedForcalcuation);
-                               }else{
-                                   businessHrsusedForcalcuation = resultMap.get(index).caseQueueOwnerBusinessHourMap;
-                                   System.debug('BH'+businessHrsusedForcalcuation);
-                               }
-                           } 
-                           else {
-                               businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
-                               System.debug('BH'+businessHrsusedForcalcuation);
-                           }
-                           if(businessHrsusedForcalcuation == null){
-                                businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
-                           }
+                            // if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){
+                            //    if(String.valueOf(newCases.get(i).ownerId).startsWith('005')){
+                            //        businessHrsusedForcalcuation = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                            //        System.debug('BH'+businessHrsusedForcalcuation);
+                            //    }else{
+                            //        businessHrsusedForcalcuation = resultMap.get(index).caseQueueOwnerBusinessHourMap;
+                            //        System.debug('BH'+businessHrsusedForcalcuation);
+                            //    }
+                        //    } 
+                        //    else {
+                        //        businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
+                        //        System.debug('BH'+businessHrsusedForcalcuation);
+                        //    }
+                        //    if(businessHrsusedForcalcuation == null){
+                        //         businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
+                        //    }
                            String timeSpent = '0';
                            long timeSpentInLong = 0;
                            long overallTimeSpent = 0;
@@ -777,20 +776,19 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                            if(caseStageSummarizedViewMap.containsKey(caseRec.Id+'overallTimeSpent')){
                                 overallTimeSpent = caseStageSummarizedViewMap.get(caseRec.Id+'overallTimeSpent').totalTimeSpent;
                            }
-                           
                            if(closeSlaSec != null){
                                 updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
-                                percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
+                                percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                            }
                            if(sla1Sec != null){
-                                updatedCase.Stage_SLA_1__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
-                                percntCls.setStagePercSLAFields(sla1Sec,businessHrsusedForcalcuation,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
+                                updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
+                                percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
                            } 
                            if(sla2Sec != null){
-                                updatedCase.Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
+                                updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
                            }
                            if(sla3Sec != null){
-                                updatedCase.Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation, updatedCase.Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
+                                updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
                            }      
                        }
                    }
@@ -802,15 +800,15 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         percntCls.setStagePercSLAFields(sla1Sec,caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c,newCases.get(i).Stage_SLA_1__c,updatedCase);
                         //To check if stage is same and owner is changed
                         if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId && sla2Sec != null && sla3Sec != null){
-                            string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                            if (businessHrsusedForcalcuation1 == null){
-                                businessHrsusedForcalcuation1 = bh.id; 
-                            }
+                            // string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                            // if (businessHrsusedForcalcuation1 == null){
+                            //     businessHrsusedForcalcuation1 = bh.id; 
+                            // }
                             if(sla2Sec != null){
-                                updatedCase.Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation1, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
+                                updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
                             }
                             if(sla3Sec != null){
-                                updatedCase.Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation1, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
+                                updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
                             } 
                         }
                         else if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c){
@@ -854,7 +852,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
                     }
                     if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
                     }
                 }
                 index++;

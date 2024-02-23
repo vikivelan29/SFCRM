@@ -11,7 +11,6 @@
 public class ABFL_E2C_CreationRules {
     // Main entry point to handle blocked email  messages
     public static void checkCreationRules(List<EmailMessage> emailMessages) {
-        System.debug('***emailMessages:' + emailMessages);
         if(!emailMessages.isEmpty()){
             // Find eligible records
             Set<Id> caseIds = new Set<Id>();
@@ -19,14 +18,11 @@ public class ABFL_E2C_CreationRules {
                 // Check if the email is related to a case and is incoming
                 caseIds.add(email.ParentId);
             }
-            System.debug('***caseIds:' + caseIds);
 
             if (!caseIds.isEmpty()){
                 // Set to store Case Ids related to ABFL Email
                 Set<Id> abflCaseIds = new Set<Id>();
-                //Comments as causing Dependent Class Failure. Rajender Kumar to check this. 31-Jan-2024 
                 for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
-                    System.debug('***c:' + c);
                     // Check if the case origin is 'ABFL Email'
                     if (c.origin == 'ABFL Email') {
                         abflCaseIds.add(c.Id);
@@ -36,29 +32,23 @@ public class ABFL_E2C_CreationRules {
                 if (!abflCaseIds.isEmpty()) {
                     // Get rules from E2C_Creation_Rules__mdt records - Entity => List<CreationRules>
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
-                    System.debug('***metadataMap:' + metadataMap);
-
-                    // Map to store ToAddress__c and corresponding Error_Message__c from E2C_Creation_Scenarios__mdt
-                // Map<String, String> mailboxErrorMap = buildMailboxErrorMap();
-                    //System.debug('***mailboxErrorMap:' + mailboxErrorMap);
-
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
-                        System.debug('***emailMsg.ToAddress:' + emailMsg.ToAddress);
                         if (metadataMap.containsKey(emailMsg.ToAddress)) {
-                            System.debug('***emailMsg.ToAddress:' + emailMsg.ToAddress);
                             // Get creation rules for the mailbox and check conditions
                             for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.ToAddress)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
-                                System.debug('***metadata.Field__c:' + metadata.Field__c);
                                 switch on metadata.Field__c {
                                     when  'Sender','To Recipients'{
                                         creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.FromAddress);
-                                        System.debug('***Sender:' + creationNotAllowed);
                                     }
                                     when  'Subject'{
-                                        creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Name);
+                                        if(emailMsg.Subject != null){
+                                        	creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Subject);    
+
+                                        }
+                                        
                                     }
                                 }
                                 if (creationNotAllowed) {
@@ -92,11 +82,12 @@ public class ABFL_E2C_CreationRules {
 
     // Method to check the condition based on the operator
     private static Boolean creationNotAllowed(String operator, String expectedValue, String actualValue) {
-        System.debug('***creationNotAllowed:' +':'+operator+':'+expectedValue+':'+actualValue);
         Boolean retVal=false;
+        actualValue=actualValue.toLowerCase();
+        expectedValue=expectedValue.toLowerCase();
         switch on operator {
             when 'Does Not Contain'{
-                retVal = actualValue.contains(expectedValue);
+                retVal = actualValue.equals(expectedValue);
             }
             when 'Not Equals To'{
                 retVal = actualValue == expectedValue;

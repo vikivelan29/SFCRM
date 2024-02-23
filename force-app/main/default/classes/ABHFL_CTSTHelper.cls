@@ -20,12 +20,12 @@ public without sharing class ABHFL_CTSTHelper {
 
         // Check if the previous stage was not 'Open', the current stage is 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
             	assignCaseToQueue(caseRecord);
         	}
     	}
 	}
-
+    
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
@@ -69,6 +69,7 @@ public without sharing class ABHFL_CTSTHelper {
     	if (slaHistory.size() > 0) {
         	delete slaHistory;
     	}
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
 	}
     //Dhinesh
@@ -85,11 +86,45 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToPreferredBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,Address__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.Branch_Queue_Id__c != null) {
             caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
         }
-
+        caseDetail.Address__c = prefBranch.Address__c;
+        update caseDetail;
+        return caseRec;
+    }
+    //Dhinesh - updateComplaintType
+    @AuraEnabled
+    public static void updateCaseExtension(String caseextensionId, String complainttype){
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Complaint_Type__c FROM ABHFL_Case_Detail__c WHERE Id =:caseextensionId LIMIT 1];
+        caseDetail.Complaint_Type__c = complainttype;
+        update caseDetail;
+    }
+    //Dhinesh - TDS Refund BRANCH assignment
+    public static Case assignCaseToBranchTDS(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
+        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c == 'Branch') {
+            caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
+        }
+        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch'){
+            caseRec.OwnerId = emailNonFinancialQueue.Id;
+    	}
+        return caseRec;
+    }
+    //Dhinesh - Collateral Documents case owner Assignment.
+    public static Case assignCaseCollateralDocs(Case caseRecord) {
+        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c,ABHFL_Case_Detail__c  FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        if (caseRec.Source__c == 'Branch') {
+            caseRec.OwnerId = caseDetail.CreatedById;
+        }
+        if (caseRec.Source__c != 'Branch'){
+            caseRec.OwnerId = emailNonFinancialQueue.Id;
+    	}
         return caseRec;
     }
     
@@ -97,7 +132,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToAOMROM(Case caseRecord){
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.ROM_AOM__c != null) {
             caseRec.OwnerId = prefBranch.ROM_AOM__c;
         }
@@ -118,6 +153,13 @@ public without sharing class ABHFL_CTSTHelper {
         return true; // All payment records have Realization_Status__c as 'Cleared'
     }
     
+    //Dhinesh - 2/8 Send Preclosure loan closed email.
+	public static void sendLoanClosedEmail(Case caseRecord){
+    	Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PRECLS_LOANCLOSED_EMAIL, 
+                                                                ABHFL_Constants.PRECLS_LOANCLOSED_SMS, False);
+    }
     //Dhinesh - 1/29 Backward Movement Email Communication
     public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
@@ -214,6 +256,33 @@ public without sharing class ABHFL_CTSTHelper {
                                                                   false);
         }
     }
+    //Dhinesh - to send attachments with mail for GST Invoice Required, DSRA/Lien Document and Escrow Statement
+   public static void sendMailWithAttachments(Case caseRec) {
+    	Id caseId = caseRec.Id; 
+	    Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, Short_URL__c
+                    FROM Case WHERE Id = :caseId];
+	
+    	String emailTemplate;
+    	String smsTemplate;
+    	Boolean shouldInvokeCommPEevent = TRUE;
+
+    	if (caseRecord.CCC_External_Id__c == ABHFL_Constants.GST_INVOICE_ID) {
+        	emailTemplate = ABHFL_Constants.GST_INVOICE_EMAIL;
+        	smsTemplate = ABHFL_Constants.GST_INVOICE_SMS;
+    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.DSRA_LIEN_ID) {
+        	emailTemplate = ABHFL_Constants.DSRA_LIEN_EMAIL;
+        	smsTemplate = ABHFL_Constants.DSRA_LIEN_SMS;
+    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.ESCROW_STATEMENT_ID) {
+       	 emailTemplate = ABHFL_Constants.ESCROW_STATEMENT_EMAIL;
+        	smsTemplate = ABHFL_Constants.ESCROW_STATEMENT_SMS;
+    	} else {
+	        shouldInvokeCommPEevent = FALSE;
+    	}
+
+    	if (shouldInvokeCommPEevent) {
+        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, emailTemplate, smsTemplate, TRUE);
+    	}
+	}
     //Dhinesh - to store multi lan in a field and send payment confirmation mail
     public static void storeMultipleLANs(Case caseRec){
         Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
@@ -397,6 +466,20 @@ ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }
+    }
+
+    public static void sendCommunicationPayableCharges(Case caseRecord){
+        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, ABHFL_Case_Detail__c
+                       FROM Case WHERE Id = :caseRecord.Id];
+        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Payable_Charges__c FROM ABHFL_Case_Detail__c WHERE Id =:queriedCase.ABHFL_Case_Detail__c LIMIT 1];
+        if(Integer.valueOf(caseDetail.Payable_Charges__c) > 0){
+            System.debug('greater then 0');
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS, false);
+        }else{
+            System.debug(' equals zero');
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS, false);
+        }
+
     }
     
 }

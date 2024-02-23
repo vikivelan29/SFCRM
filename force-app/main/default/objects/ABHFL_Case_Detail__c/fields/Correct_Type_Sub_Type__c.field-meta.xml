@@ -4,6 +4,20 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Correct Type Sub Type</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$User.Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </filterItems>
+        <filterItems>
+            <field>ASF_Case_Category_Config__c.Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>ASF_Case_Category_Config__c</referenceTo>
     <relationshipLabel>ABHFL Case Details</relationshipLabel>
     <relationshipName>ABHFL_Case_Details</relationshipName>
