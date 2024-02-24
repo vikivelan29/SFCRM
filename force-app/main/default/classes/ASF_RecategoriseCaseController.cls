@@ -6,8 +6,8 @@ public with sharing class ASF_RecategoriseCaseController {
     Hence this method 
     */
     @AuraEnabled(Cacheable = true)
-    public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId) {
-        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,'');
+    public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId, String assetLOB) {
+        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB);
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
             if (ccc.CCC_External_Id__c != currentCCCId ){
@@ -24,7 +24,7 @@ public with sharing class ASF_RecategoriseCaseController {
         return originalList;
     }    
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled(Cacheable = false)
     public static Map<String,Object> getCaseRecordDetails( String recId){
         map<String,object> resultMap = new map<String,object>();
 		
@@ -36,6 +36,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                         account.recordtype.name,
                                         accountId,
                                         assetId,
+                                        asset.LOB__c,
                                			Lead__c,
                                			Lead__r.Business_Unit__c,
                                			Lead__r.recordType.name,

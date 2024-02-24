@@ -61,6 +61,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     rejectionReasonVal;
     botFeedbackVal;
 
+    assetLOB;
     assetId;
     isasset;
     accountId;
@@ -167,7 +168,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.boolChannelVisible = false;
         this.isNotSelected = true;
  
-        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId  })
+        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -674,7 +675,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             //this will be true. 
             this.isasset = 'true';
             if (caseparsedObject.AssetId != undefined && caseparsedObject.AssetId != null){
-                //this.assetId = caseparsedObject.AssetId; 
+                //this.assetId = caseparsedObject.AssetId;
+                this.assetLOB = caseparsedObject.Asset.LOB__c; 
                 //once case is associated to asset, reset this
                 this.isasset = 'false';
             }
