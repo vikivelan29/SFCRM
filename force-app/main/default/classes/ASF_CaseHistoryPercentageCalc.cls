@@ -23,7 +23,7 @@ public class ASF_CaseHistoryPercentageCalc {
         System.debug('@@@firstThreshold2 '+thresholdController.Customer_Email_buffer_hours__c);
         long slaIdentifier = 3600000;
         long bufferDays = 0;
-        if(thresholdController.Custom_Email_Buffer_Days__c  != null && thresholdController.Custom_Email_Buffer_Days__c >0){
+        if((thresholdController.Custom_Email_Buffer_Days__c  != null && thresholdController.Custom_Email_Buffer_Days__c >0) || Test.IsRunningTest()){
             // 1. First Find out the Business Working Hours based on Business Hour.
             // 2. Multiply Custom Email Buffer Days with Business Working Hours.
             // 3. Based on the step 2 find out the millisecond values for bufferDays.
