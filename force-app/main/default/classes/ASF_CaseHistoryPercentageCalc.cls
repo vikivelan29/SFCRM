@@ -6,6 +6,7 @@
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseHistoryPercentageCalc {
+    private Static Map<Id, Decimal> BusinessHoursTohoursPerDay = new Map<Id, Decimal>();
     public void setOverallPercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
         SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
         System.debug('@@@thresholdController '+thresholdController);
@@ -22,8 +23,22 @@ public class ASF_CaseHistoryPercentageCalc {
         System.debug('@@@firstThreshold2 '+thresholdController.Customer_Email_buffer_hours__c);
         long slaIdentifier = 3600000;
         long bufferDays = 0;
-        if(thresholdController.Customer_Email_buffer_hours__c != null && thresholdController.Customer_Email_buffer_hours__c >0){
-            bufferDays = Integer.valueOf(thresholdController.Customer_Email_buffer_hours__c) * slaIdentifier;
+        if(thresholdController.Custom_Email_Buffer_Days__c  != null && thresholdController.Custom_Email_Buffer_Days__c >0){
+            // 1. First Find out the Business Working Hours based on Business Hour.
+            // 2. Multiply Custom Email Buffer Days with Business Working Hours.
+            // 3. Based on the step 2 find out the millisecond values for bufferDays.
+            if(BusinessHoursTohoursPerDay.keySet().size()<=0){
+                calculateBusinessHoursPerDay();
+            }
+            if(BusinessHoursTohoursPerDay.containsKey(bh)){
+                decimal workingHours = BusinessHoursTohoursPerDay.get(bh);
+                bufferDays = Integer.ValueOf(workingHours * thresholdController.Custom_Email_Buffer_Days__c) * slaIdentifier;
+            }
+            else{
+                bufferDays = 0;
+            }
+            
+            
         }
         setFieldValue(slaInMilliSec,bh,startTime,c,firstThreshold,secondThreshold,thirdThreshold,'Case_SLA_Threshold_1__c','Case_SLA_Threshold_2__c','Case_SLA_Threshold_3__c', bufferDays);
     }
@@ -69,6 +84,27 @@ public class ASF_CaseHistoryPercentageCalc {
         c.put(thirdFieldApiName,dt90Percentage);
         if(bufferDays != null && c.Overall_Case_Closure_SLA__c != null){
             c.Overall_SLA_plus_X_days__c = BusinessHours.add(c.BusinessHoursId,c.Overall_Case_Closure_SLA__c, bufferDays);
+        }
+    }
+    
+    private Static void calculateBusinessHoursPerDay(){
+                
+        for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours]){
+            
+            if(BhRec.MondayStartTime == null){
+                BusinessHoursTohoursPerDay.put(BhRec.Id, 9);
+                continue;
+            } 
+
+            Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
+            Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
+            Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
+            
+            if(hoursPerDay == 0){
+                BusinessHoursTohoursPerDay.put(BhRec.Id, 24);     
+            }else{
+                BusinessHoursTohoursPerDay.put(BhRec.Id, hoursPerDay);
+            }
         }
     }
     
