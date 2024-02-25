@@ -19,9 +19,9 @@ public class ASF_BulkCaseProcessorTrigger_Test {
         Test.startTest();
         List<String> recordIds = new List<String> {caseList[0].Id, caseList[0].Id};
             ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
-            chunkPE.Template_Name__c = 'ABHFL_Create_Case';
+            //chunkPE.Template_Name__c = 'ABHFL_Create_Case';
             chunkPE.Record_IDs__c = String.valueOf(caseList[0].Id);
-            chunkPE.Header_Row_Id__c = headObj.Id;
+            //chunkPE.Header_Row_Id__c = headObj.Id;
         EventBus.publish(chunkPE);
         Test.stopTest();
     }
