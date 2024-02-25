@@ -519,4 +519,11 @@
         <shortDescription>STP Flows</shortDescription>
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
+    <labels>
+        <fullName>ASF_BulkThresholdForQueueable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
+        <value>9000</value>
+    </labels>
 </CustomLabels>
