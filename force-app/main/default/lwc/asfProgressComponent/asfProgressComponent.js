@@ -20,6 +20,7 @@ export default class AsfProgressComponent extends LightningElement {
         this.pollProgress();       
     }
     
+    //Polls the uplaod progress from Apex every 3 seconds
     pollProgress(){
         this.intervalId = setInterval(() => {
             this.fetchProgress();
@@ -30,6 +31,7 @@ export default class AsfProgressComponent extends LightningElement {
         }, 3000);
     }
 
+    //Fetches the progress to display the result in UI
     fetchProgress() {
         fetchCSVUploadProgress({bulkHeaderId: this.uploadId})
             .then(result => {
@@ -52,15 +54,18 @@ export default class AsfProgressComponent extends LightningElement {
             });
     }
 
+    //Stops the polling
     disconnectedCallback() {
         // Clear the interval when the component is removed from the DOM
         clearInterval(this.intervalId);
     }
 
+    //Stops the polling
     stopCallingApex(){
         clearInterval(this.intervalId);
     }
 
+    //Navigates to the current header record to view the progress
     navigateToRecord(event){
         let strNavigate = "/lightning/r/ASF_Bulk_Upload_Header__c/"+  this.uploadId +"/view";
         window.open(strNavigate,"_blank");
