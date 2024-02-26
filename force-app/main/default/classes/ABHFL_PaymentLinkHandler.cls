@@ -15,7 +15,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
+        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
                            FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
         
         //Check for mandatory API conditions
@@ -34,6 +34,21 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         if(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c == null){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_PayableChargeMissing').Message__c;              
+        }
+
+        if(String.isBlank(caseRecord.Asset.Loan_ID__c)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Payment_Link_Loan_Id_is_Blank').Message__c;
+        }
+        
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL && String.isBlank(caseRecord.Account.Phone)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Phone_cannot_be_blank').Message__c;
+        }
+        
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonMobilePhone)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Mobile_cannot_be_blank').Message__c;
         }
         
         return result;
@@ -56,7 +71,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         result.status = ABHFL_Constants.ERROR;
 
         
-        Case caseRecord = [SELECT Id,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
+        Case caseRecord = [SELECT Id,Account.PersonMobilePhone,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.Loan_ID__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
@@ -111,8 +126,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 update caseDetail;
             }
-            List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                    WHERE CCC_External_Id__c =:cccExternalId WITH SECURITY_ENFORCED];
+
             Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
                                                                                                                     emailTemplate, 
                                                                                                                     smsTemplate, 
@@ -180,9 +194,9 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
 
         public PaytmRequestWrapper(Case caseRecord){
             this.custname = caseRecord.Customer_name_formula__c;
-            this.LAN = caseRecord.Asset.LAN__c;
+            this.LAN = caseRecord.Asset.Loan_ID__c;
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Office_Email__c:caseRecord.Account.PersonEmail;
-            this.mobileNumber = caseRecord.Account.Phone;
+            this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
             this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
         }

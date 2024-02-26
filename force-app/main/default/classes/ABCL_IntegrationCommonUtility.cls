@@ -103,11 +103,17 @@ public with sharing class ABCL_IntegrationCommonUtility {
         peLogger.Email_Template_Name__c = emailTemplate;
         peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
         Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
-        if(!caseFieldValMap.containsKey('Business_Unit__c')){
-            Case caseRecord = [Select id,Business_Unit__c from Case where id =: caseRec.Id];
-            peLogger.LOB__c = caseRecord.Business_Unit__c;            
+        if(!caseFieldValMap.containsKey('Business_Unit__c') || !caseFieldValMap.containsKey('Lead__c')){
+            Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id];
+            peLogger.LOB__c = caseRecord.Business_Unit__c;
+            peLogger.Lead__c = caseRecord.Lead__c;              
         } else {
-            peLogger.LOB__c = caseRec.Business_Unit__c;        
+            if(!caseFieldValMap.containsKey('Business_Unit__c')){
+                peLogger.LOB__c = caseRec.Business_Unit__c;    
+            }
+            if(!caseFieldValMap.containsKey('Lead__c')){
+                peLogger.LOB__c = caseRec.Lead__c;    
+            }
         }
         if(isTransferred){
             peLogger.Is_Attachment__c = true;
@@ -273,7 +279,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             }
         }
     }
-
+      
     public class stpResponseWrapper{
         public string operationStatus;
         public string operationMessage;
