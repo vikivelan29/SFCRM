@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:type="xsd:string">Swap_Mandates_Process_Payment_VF</value>
+        <value xsi:type="xsd:string">Swap_Mandate_Payment_Link_VF</value>
     </values>
     <values>
         <field>Payment_Code__c</field>
@@ -32,6 +32,6 @@
     </values>
     <values>
         <field>SMS_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABHFL_Swap_Mandate_Payment_Link</value>
     </values>
 </CustomMetadata>
