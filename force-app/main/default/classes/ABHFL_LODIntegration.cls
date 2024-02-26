@@ -25,13 +25,11 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             FROM Case
             WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
         ]; 
-        Calendar_Year__mdt cY =[SELECT Id, Current_Calendar_Year__c
-								FROM Calendar_Year__mdt WITH SECURITY_ENFORCED
-								LIMIT  1];
+        String cY = System.Label.ABHFL_LOD_Calendar_Year;
         //Check for mandatory API conditions
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             //Check for Disbursement Date > Current Calendar Year
-            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= cY.Current_Calendar_Year__c){
+            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= Date.valueOf(cY)){
                   result.status = ABHFL_Constants.SUCCESS;
                   result.response = Custom_Messages__mdt.getInstance('LOD_EvaluateSuccess').Message__c;
             }
@@ -82,26 +80,27 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             	update existingCaseIntRecords;                
             }
         }
-
         Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
         response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
         caseInteg.Status__c = ABHFL_Constants.PENDING;
-        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseInteg.Request__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.LAN__c));
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInteg;    
         }
         
         ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
-         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+        
+        
+        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
         caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
-        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
             response.status = ABHFL_Constants.SUCCESS;
@@ -130,25 +129,27 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             integrationFailure = false;
         	Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 			if(isTransferred){
-                  List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                        Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-                
-                  ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
-                  caseRec.MoveToNext__c = true;
+                List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
+                Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c  FROM ASF_Case_Category_Config__c
+                WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+
+                Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
+                caseRec.MoveToNext__c = true;
                 if(Schema.sObjectType.Case.isUpdateable()){
                   	update caseRec;          
                 }
                   
             }else if(caseRec.OwnerId != caseRec.Asset.Branch__r.Branch_Queue_Id__c){
-                            caseRec.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
-                            if(Schema.sObjectType.Case.isUpdateable()){
-                            	update caseRec;    
-                            }			
-                            
-                    		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
-                  }
+                    caseRec.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
+                    if(Schema.sObjectType.Case.isUpdateable()){
+                        update caseRec;    
+                    }			
+                    
+                    ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+            }
             
         }
         if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
@@ -162,7 +163,6 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             		ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.LOD_NAME, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
         	}
         }
-        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
     /****************************************************************************************************************
     * @LOB - ABHFL
