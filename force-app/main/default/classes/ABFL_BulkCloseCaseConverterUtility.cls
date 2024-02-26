@@ -46,6 +46,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
             }
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             caseRec.Stage__c = 'Resolved';
+            caseRec.Status = 'Resolved';
             caseRec.Pending_Clarification__c = false;
             caseRec.moved_back__c = false;
             caseRec.Is_Manual_Moved__c = true;
