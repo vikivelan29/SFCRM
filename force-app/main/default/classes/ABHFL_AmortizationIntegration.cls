@@ -22,22 +22,20 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRecord = [
             SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
         //Check for mandatory API conditions & Check for Loan Disbursement Status
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.Asset.Loan_Disbursement_Status__c != null && caseRecord.Asset.Loan_Disbursement_Status__c == 'Partially') {
         
         
-          List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
-                                                               Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                               WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+          List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
+                                                               WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c];
           if(!cccRecord.isEmpty()) {
-              Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-                    caseRecord,
-                    cccRecord[0].Rejected_Case_Email_Template__c,
-                    cccRecord[0].Rejected_Case_SMS_Metadata__c,
-                    false
-              );
+              Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+                Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,  emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
+
       		// Set wrapper response and status if evaluation is failure
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('AMORT_Evaluate_Disbursed_Partially').Message__c;
@@ -65,7 +63,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
      public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c intSpec, Case caseRec){
          List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
           for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
                 if(caseInt.Status__c == ABHFL_Constants.PENDING){
@@ -78,7 +76,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
             }
                        
         }
-		Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+		Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
         response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
@@ -91,7 +89,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
             insert caseInteg; 
         }
         
-        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
+        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id ];
         
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
@@ -122,23 +120,26 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
               FROM Case
-              WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
+              WHERE Id =: caseInteg.Case__c 
            ]; 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
           Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
       if(isTransferred){
                  integrationFailure = false;
                  List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                      Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                      WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                                      Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
+                                                                      WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c];
                 
-                 ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
+                 Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+                                                      
+
+                 ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
                  caseRec.MoveToNext__c = true;
                  update caseRec;        
             }else if(caseRec.Source__c != ABHFL_Constants.BRANCH){
                         ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
-                      Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  WITH SECURITY_ENFORCED Limit 1];
+                      Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
                         caseRec.OwnerId = csQueue.Id;
                         
                         if(Schema.sObjectType.Case.isUpdateable()){
@@ -149,7 +150,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
         if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
               caseRec.ABHFL_Case_Detail__r.STP_Failure__c = integrationFailure;
               if(caseRec.Source__c != ABHFL_Constants.BRANCH){
-                 Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  WITH SECURITY_ENFORCED Limit 1];
+                 Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
                         caseRec.OwnerId = csQueue.Id;
                         
                         if(Schema.sObjectType.Case.isUpdateable()){

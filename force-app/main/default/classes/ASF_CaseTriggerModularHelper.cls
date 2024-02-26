@@ -108,10 +108,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(appliedCCC != null){
                 //Fill all common fields irrespective of source
-                if(!isUpdate){
+                //if(!isUpdate){
                     // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                }
+                //}
                 caseRec.Stage__c = appliedCCC.First_Stage__c;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
@@ -643,7 +643,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
-            triggerEncounteredError.clear();
+            triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
@@ -793,7 +793,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase;
                     Boolean supressErrors = false;
-                    
                     if(combinedList[i] instanceof ASF_Case_Approv__c){
                         ASF_Case_Approv__c approvalRec = (ASF_Case_Approv__c)combinedList[i];
                         failedCase = newMap.get(approvalRec.SR__c);
@@ -818,6 +817,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
         }
+        //This reset is important for bulk processing as static variables dont get reset between every 200 records chunk in trigger execution
+        addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
     }
 
     public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
@@ -868,7 +869,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
-        caseFinalDMLMap = null;
+        caseFinalDMLMap = new Map<Id, Case>();
     }
 
     public static void onCreateCloseServiceRequest(List<Case> newList){
@@ -1063,7 +1064,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) && ASF_BulkCaseProcessorUtility.isBulkProcessing){
+        if(bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing){
             return;
         }
             

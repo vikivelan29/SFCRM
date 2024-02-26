@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>User with this custom permission will be able to perform Bulk Operation</description>
+    <description>User with this custom permission will be able to perform Bulk Close Operation</description>
     <isLicensed>false</isLicensed>
-    <label>Bulk Case Access</label>
+    <label>Bulk Case Close</label>
 </CustomPermission>

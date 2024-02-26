@@ -61,12 +61,6 @@ export default class Asf_CRNTagging extends LightningElement {
         initialWidth: 180
     },
     {
-        label: 'Product Code',
-        fieldName: 'Product_Code__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
         label: 'LAN Number',
         fieldName: 'LAN__c',
         type: 'text',

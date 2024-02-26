@@ -66,4 +66,39 @@ public with sharing class ABCL_CommonCLass {
             }
         }
     }
+
+    /****************************************************************************************************************
+    * @Function - populateResolutionCommentOnCaseDetail
+    * @param newItems oldMap -  list of sobject records. map of trigger.oldMap
+    * @return - void .
+    * @Description - Updates the resolution comment/remarks field on Case Detail object 
+    * when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
+    *****************************************************************************************************************/
+    public static void populateResolutionCommentOnCaseDetail(List<Case> newItems, Map<Id, Case> oldMap) {
+        
+        //if not bulk processing, do nothing, return;
+        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+
+        List<SObject> recordsToUpdate = new List<SObject>();
+        for(Case caseRec : newItems){
+            if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
+                if(caseRec.ABFL_Case_Detail__c != null){
+                    ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
+                    detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
+                    recordsToUpdate.add(detRec);
+                }
+                if(caseRec.ABHFL_Case_Detail__c != null){
+                    ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
+                    detRec.Resolution_Remarks__c = caseRec.Resolution_Comments__c;
+                    recordsToUpdate.add(detRec);
+                }
+            }
+        }
+        
+        if(!recordsToUpdate.isEmpty()){
+            
+            update recordsToUpdate;
+        }
+        
+    }
 }

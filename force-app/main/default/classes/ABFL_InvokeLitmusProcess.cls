@@ -88,13 +88,16 @@ public without sharing class ABFL_InvokeLitmusProcess{
                                                                   WHERE Case__c 
                                                                   IN :caseList
                                                                   AND Type__c = :ABFL_Constants.LITMUS
-                                                                  AND Status__c = :ABFL_Constants.PENDING];
+                                                                  AND Status__c = :ABFL_Constants.PENDING
+                                                                  WITH SYSTEM_MODE];
             if(pendingLitmusIntList.size() > 0){
                 for(ASF_Case_Integration__c intRec :pendingLitmusIntList) {
                     intRec.Status__c = 'Canceled';
                 }
 
-                update pendingLitmusIntList;
+                if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()) {
+                    update pendingLitmusIntList;
+                }
             }
             
             List<ASF_Case_Integration__c> caseIntList = new List<ASF_Case_Integration__c>();
@@ -191,7 +194,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 when 'Branch', 'Internal RM - Collection', 'RM', 'RM-No Email', 'Walkin'{
                     this.tag_source = 'Branch';
                 }
-                when 'Call-in', 'Inbound Nodal Desk', 'Phone-Inbound', 'Phone-Outbound'{
+                when 'Call- in', 'Inbound Nodal Desk', 'Phone-Inbound', 'Phone-Outbound'{
                     this.tag_source = 'Call Center';
                 }
                 when 'Chatbot', 'Customer Portal', 'IVR', 'IVR-No Email', 'MOBILEAPP', 'Social Media', 'WhatsApp'{

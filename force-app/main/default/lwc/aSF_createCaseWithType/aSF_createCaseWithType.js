@@ -26,6 +26,7 @@ import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
+import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -40,6 +41,7 @@ import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRe
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import LightningConfirm from 'lightning/confirm';
+import USER_ID from '@salesforce/user/Id';
 
 
 // VIRENDRA - Updating component for Prospect Requirement.
@@ -143,6 +145,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
 
     lobAsset ='';
+    businessUnit; 
+
+    cols; 
 
     get stageOptions() {
         return [
@@ -246,6 +251,28 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     }
 
+    @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
+    user({ error, data}) {
+        if (data){
+           this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
+            if(this.businessUnit === 'ABHFL'){
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }else{
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
@@ -432,16 +459,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
              window.location.reload();          
          }, 1000) */
     }
-
-
-
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        //{ label: 'Product', fieldName: 'Product__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
 
     handleNatureVal(event) {
         this.natureVal = event.target.value;

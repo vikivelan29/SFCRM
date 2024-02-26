@@ -24,7 +24,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         Case caseRecord = [
             SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
 
          //Checking for mandatory API conditions
@@ -47,7 +47,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 		List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:integ.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
                 cInt.Status__c = ABHFL_Constants.CANCELED;
@@ -57,7 +57,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             }       
         }
 
-        Case caseRecord = [SELECT Id, caseNumber, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, caseNumber, Business_Unit__c, Asset.LAN__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.From_Date__c  FROM Case where Id =: caseRec.Id ];
         
 
         String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
@@ -108,7 +108,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         }
 
         Case caseRec =[SELECT Id, No_Auto_Communication__c, CreatedById, Source__c, OwnerId, status,  AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c, ABHFL_Case_Detail__r.STP_Failure__c   
-                           FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id=:caseInteg.Case__c ];
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec != null && isTransferred ){  
             handleSuccessfullTransfer(caseRec);
@@ -131,11 +131,16 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
 
 
     private void handleSuccessfullTransfer(Case caserec){
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c, 
         Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                cccRecord[0].Resolved_Case_SMS_Metadata__c, true);
+        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c ];
+
+        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), true);
+
         caseRec.MoveToNext__c = true;
         caseRec.Attachment_Status__c = ABHFL_Constants.COMPLETED;
         caseRec.Stage__c = ABHFL_Constants.RESOLVED;
@@ -153,7 +158,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
                 ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec,'SOA',null);
             }
         } else {
-            Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName =:ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+            Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName =:ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
             caseRec.OwnerId = csQueue.Id;
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRec;

@@ -1,5 +1,18 @@
+/**
+* @description       : This is the controller method for aSF_BulkCsvUploadDownload lwc
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
+* @last modified on  : 23-Feb-24
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public with sharing class ASF_BulkCsvController {
-   
+
+    /**
+     * Description : This method is called during the component load to fetch the access
+     * and operation details based on the logged In user's business Unit
+     * Input : NA
+     * Output : Wrapper class with access and metadata details
+     */
     @AuraEnabled(cacheable=true)
     public static MetadataWrapper getMetadataDetails() {
         MetadataWrapper resultWrapper = new MetadataWrapper();
@@ -13,16 +26,22 @@ public with sharing class ASF_BulkCsvController {
                 WHERE Active__c = true AND SObject_Name__c = 'Case' AND Business_Unit__c =:businessUnit ORDER BY Order__c];
 
         resultWrapper.allMetadata =  configMetaRec;
-        resultWrapper.hasCustomPermission = FeatureManagement.checkPermission('Bulk_Case_Access');
-        
+        resultWrapper.hasCreateAccess = FeatureManagement.checkPermission('Bulk_Case_Create');
+        resultWrapper.hasCloseAccess = FeatureManagement.checkPermission('Bulk_Case_Close');
+                
         return resultWrapper;  
     }  
-
+    
+    /**
+     * Description : This method returns the fields that is required for the selected template
+     * Input : Config Row metadata name that user has chosen
+     * Output : field names that needs to be added to chosen the template
+     */
     @AuraEnabled
     public static string getCSVTemplate(String strConfigName){
         String strCSVFields = '';
         ASF_Bulk_Row_to_Record_Converter_Config__mdt configMetaRec = ASF_Bulk_Row_to_Record_Converter_Config__mdt.getInstance(strConfigName);
-        if(String.isNotBlank(configMetaRec.Fields_Name__c)){
+        if(configMetaRec != null && String.isNotBlank(configMetaRec.Fields_Name__c)){
             strCSVFields = configMetaRec.Fields_Name__c;
         }
         else{
@@ -31,11 +50,23 @@ public with sharing class ASF_BulkCsvController {
         return strCSVFields;       
     }
     
+    /**
+     * Description : This method is called when user clicks on the Download CSV for upload button
+     * Input : operation name that user wishes to perform, current page url passed from VF, list of selected case IDs from list view,
+     * 		   User's current list view ID
+     * Output : List of case field with values as per the chosen template to generate the csv file
+     */
     @AuraEnabled(cacheable=false)
     public static Object generateCSVFileWithData(String strConfigName, String strURL, String strSelectedRecords, String listViewId) {
      	return ASF_BulkCsvDownloadHelper.generateCSVFileWithData(strConfigName,strURL,strSelectedRecords,listViewId);  
     }
     
+    /**
+     * Description : This method is called from the asfProgressComponent component and is polled every 3 seconds 
+     * 				 until success to show the upload progress
+     * Input : current header ID
+     * Output : Wrapper class with Success and Progress count Details
+     */
     @AuraEnabled(cacheable=false)
     public static CSVProgressWrapper fetchCSVUploadProgress(Id bulkHeaderId) {
         CSVProgressWrapper resultWrapper = new CSVProgressWrapper();
@@ -55,7 +86,12 @@ public with sharing class ASF_BulkCsvController {
 
      	return resultWrapper;  
     }
-
+    
+    /**
+     * Description : This method is used to display the final upload result
+     * Input : current header ID
+     * Output : List of bulk header line items results to generate the csv file
+     */
     @AuraEnabled(cacheable=true)
     public static Object downloadUploadResults(Id bulkHeaderId) {
         return ASF_BulkCsvDownloadHelper.downloadUploadResults(bulkHeaderId);
@@ -74,11 +110,13 @@ public with sharing class ASF_BulkCsvController {
     }    
     public class MetadataWrapper {
         @AuraEnabled public List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> allMetadata;
-        @AuraEnabled public Boolean hasCustomPermission;
+        @AuraEnabled public Boolean hasCreateAccess;
+        @AuraEnabled public Boolean hasCloseAccess;
 
         public MetadataWrapper(){
             allMetadata = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
-            hasCustomPermission = false;
+            hasCreateAccess = false;
+            hasCloseAccess = false;
         }
     }    
 }
