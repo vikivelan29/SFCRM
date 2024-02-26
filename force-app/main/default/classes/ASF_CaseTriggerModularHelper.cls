@@ -108,10 +108,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(appliedCCC != null){
                 //Fill all common fields irrespective of source
-                if(!isUpdate){
+                //if(!isUpdate){
                     // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                }
+                //}
                 caseRec.Stage__c = appliedCCC.First_Stage__c;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
