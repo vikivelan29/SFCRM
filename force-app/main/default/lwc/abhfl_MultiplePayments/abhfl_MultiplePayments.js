@@ -201,6 +201,10 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 this.isRealizationEditable = true;
                 this.isSaveAllowed = true;
                 break;
+            case 'Payment Confirmation':
+                this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
+                break;
             default:
                 break;
           }
