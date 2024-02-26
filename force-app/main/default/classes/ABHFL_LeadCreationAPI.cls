@@ -151,6 +151,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         public String ErrorCode;
         public String Status;
         public String Message;
+        public List<String> Fileds;
         
         public ResponseWrapper parse(String json) {
             return (ResponseWrapper) System.JSON.deserialize(json, ResponseWrapper.class);
