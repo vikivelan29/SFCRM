@@ -25,13 +25,11 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             FROM Case
             WHERE Id =: caseRec.Id 
         ]; 
-        Calendar_Year__mdt cY =[SELECT Id, Current_Calendar_Year__c
-								FROM Calendar_Year__mdt 
-								LIMIT  1];
+        String cY = System.Label.ABHFL_LOD_Calendar_Year;
         //Check for mandatory API conditions
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             //Check for Disbursement Date > Current Calendar Year
-            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= cY.Current_Calendar_Year__c){
+            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= Date.valueOf(cY)){
                   result.status = ABHFL_Constants.SUCCESS;
                   result.response = Custom_Messages__mdt.getInstance('LOD_EvaluateSuccess').Message__c;
             }
