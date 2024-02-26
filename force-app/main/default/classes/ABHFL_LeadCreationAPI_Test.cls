@@ -41,7 +41,7 @@ public class ABHFL_LeadCreationAPI_Test {
 
         Test.startTest();
 
-        String result = ABHFL_LeadCreationAPI.sendLead(testLead.Id);
+        String result = ABHFL_LeadCreationAPI.sendLead(testLead.Id, true);
         
         Test.stopTest();
     }

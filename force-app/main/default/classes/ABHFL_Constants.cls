@@ -117,21 +117,23 @@ public with sharing class ABHFL_Constants {
     public static String GST_INVOICE_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
+    public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
     public static String GST_INVOICE_SMS = 'Query_Case_Closure_1701081397834';
-
-
-	  public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
-
-
+    public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
+    public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
+    public static String NOC_REQUIRED_ID = 'hfl050';
+
+
+    
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
