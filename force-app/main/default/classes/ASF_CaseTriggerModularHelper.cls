@@ -6,12 +6,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     /****************************************************************************************************************
-    * @Function - populateFrameworkFieldsForCase
-    * @param newList -  list of cases from trigger.new.
-    * @param oldMap -  map of cases from trigger.oldMap.
-    * @return - void .
-    * @Description - Invoked from BeforeInsert & BeforeUpdate method, this method pre-populates fields on Case from related CCC record and Asset record.
-    *****************************************************************************************************************/
+* @Function - populateFrameworkFieldsForCase
+* @param newList -  list of cases from trigger.new.
+* @param oldMap -  map of cases from trigger.oldMap.
+* @return - void .
+* @Description - Invoked from BeforeInsert & BeforeUpdate method, this method pre-populates fields on Case from related CCC record and Asset record.
+*****************************************************************************************************************/
     public static void populateFrameworkFieldsForCase(List<Case> newList, Map<Id, Case> oldMap) {
         //1. Assuming Issue Code will be provided on Case, fetch CCC based on the Issue Code, populate case fields from CCC.
         //2. Expectation is that the caller system will create the Extension record along with Case with all required fields populated. No prepopulation required on Extension record.
@@ -28,7 +28,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
-        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo;
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+        
+        Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+        
+        // updFrameworkCases - To store the Cases those are not Converted from Preframework to Framework Only.
+        List<Case> updFrameworkCases = new List<Case>();
         
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
@@ -40,24 +46,36 @@ public without sharing class ASF_CaseTriggerModularHelper {
             
             if(isUpdate){
                 if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                    && caseRec.CCC_External_Id__c != null){
-                        //Only in case of interaction to framework conversion
-                        //or recategorization
-                        cccExternalIds.add(caseRec.CCC_External_Id__c);
-                }
+                   && caseRec.CCC_External_Id__c != null){
+                       //Only in case of interaction to framework conversion
+                       //or recategorization
+                       cccExternalIds.add(caseRec.CCC_External_Id__c);
+                       
+                       
+                       // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
+                       if(!(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && 
+                            oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeId &&
+                            caseRec.Technical_Source__c != oldMap.get(caseRec.Id).Technical_Source__c &&
+                            oldMap.get(caseRec.Id).Technical_Source__c =='Email' && 
+                            caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                       {
+                           updFrameworkCases.add(caseRec);
+                       }
+                   }
                 
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
                 }
+                
             }else{
                 if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API') && String.isNotBlank(caseRec.CCC_External_Id__c)){
                     cccExternalIds.add(caseRec.CCC_External_Id__c);
                 }
                 
                 //Check if any Case from API has blank Source, needs to be defaulted then.
-              /* SP  if(!blankSourcePresent && String.isBlank(caseRec.Source__c)){
-                    blankSourcePresent = true;
-                } */
+                /* SP  if(!blankSourcePresent && String.isBlank(caseRec.Source__c)){
+blankSourcePresent = true;
+} */
                 //Collect the Asset Id, to prepopulate case fields from Asset record.
                 if(caseRec.AssetId != null){
                     caseIndexToAssetIdMap.add(caseRec.AssetId);
@@ -85,10 +103,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         //Fetch Source from LOBMappingDetails__mdt - beforeinsert only
         //SP if(blankSourcePresent){
-            objCaseDetailsWrapper = ASF_CreateCaseWithTypeController.getUserDetails();
+        objCaseDetailsWrapper = ASF_CreateCaseWithTypeController.getUserDetails();
         //}
-        if(isUpdate){
-            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(newList, nextStageMap);
+        if(isUpdate && updFrameworkCases.size()>0){
+            // CHECK IF THE CASE IF UPDATED FROM PREFRAMEWORK TO FRAMEWORK.
+            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(updFrameworkCases, nextStageMap);
         }
         
         //index = 0;
@@ -96,9 +115,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             ASF_Case_Category_Config__c appliedCCC;
             if(isUpdate){
                 if(String.isNotBlank(caseRec.CCC_External_Id__c) 
-                && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
-                    appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
-                }
+                   && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
+                       appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+                   }
             }else{
                 if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API') && String.isNotBlank(caseRec.CCC_External_Id__c)){
                     if(cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
@@ -108,11 +127,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(appliedCCC != null){
                 //Fill all common fields irrespective of source
-                if(!isUpdate){
-                    // beforeinsert only
-                    caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                //if(!isUpdate){
+                // beforeinsert only
+                caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                //}
+                
+                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                    caseRec.Stage__c = appliedCCC.First_Stage__c;
                 }
-                caseRec.Stage__c = appliedCCC.First_Stage__c;
+                
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
                 caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
@@ -130,17 +154,17 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
                     caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
                     (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
-                }
+                        }
             }
-
+            
             //Populate always
             //During insert - STP+API+Attachment Status = NA => Move to next stage
             //During update - STP+API+Attachment Status = Completed => Move to next stage
             if(((!isUpdate && caseRec.Attachment_Status__c == 'NA') || 
                 (isUpdate && caseRec.Attachment_Status__c != oldMap.get(caseRec.Id).Attachment_Status__c && caseRec.Attachment_Status__c == 'Completed'))
-                && caseRec.Is_STP__c == true && caseRec.Technical_Source__c == 'API' ){
-                caseRec.MoveToNext__c = true;
-            }
+               && caseRec.Is_STP__c == true && caseRec.Technical_Source__c == 'API' ){
+                   caseRec.MoveToNext__c = true;
+               }
             system.debug('caseRec--'+caseRec);
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
@@ -154,9 +178,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //Check if the source is API - do API specific population - beforeinsert only
             if(caseRec.Technical_Source__c == 'API'
-            && String.isBlank(caseRec.Source__c) && objCaseDetailsWrapper != null){
-                caseRec.Source__c = objCaseDetailsWrapper.strSource;
-            }
+               && String.isBlank(caseRec.Source__c) && objCaseDetailsWrapper != null){
+                   caseRec.Source__c = objCaseDetailsWrapper.strSource;
+               }
             if(caseRec.Technical_Source__c == 'API' && String.isBlank(caseRec.Channel__c)){
                 caseRec.Channel__c = 'API';
             }
@@ -164,19 +188,19 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         
     }
-
+    
     /**
-     * Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
-     */
+* Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
+*/
     public static void validateRecategorizationParameters(List<Case> newList, Map<Id, Case> oldMap) {
         for(Case caseRec : newList){
             if(caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
-            && caseRec.Stage__c != ASF_Constants.DUPLICATESTAGE 
-            && caseRec.Stage__c != ASF_Constants.REJECTIONSTATUS){
-                if(caseRec.typeSubTypeMismatch__c == true){
-                	caseRec.addError(Label.RecategorizationError);
-                }
-            }
+               && caseRec.Stage__c != ASF_Constants.DUPLICATESTAGE 
+               && caseRec.Stage__c != ASF_Constants.REJECTIONSTATUS){
+                   if(caseRec.typeSubTypeMismatch__c == true){
+                       caseRec.addError(Label.RecategorizationError);
+                   }
+               }
         }
     }
     
@@ -186,16 +210,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Set<String> cccExternalIds = new Set<String>();
         Boolean isUpdate = oldMap!=null?true:false;
-
+        
         for(Case caseRec : newList){
             if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API') 
-                && (!isUpdate 
-                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
-                && caseRec.CCC_External_Id__c != null))){
-                eligibleRecords.add(caseRec);
-                cccExternalIds.add(caseRec.CCC_External_Id__c);
-            }
+               && (!isUpdate 
+                   || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                       && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
+                       && caseRec.CCC_External_Id__c != null))){
+                           eligibleRecords.add(caseRec);
+                           cccExternalIds.add(caseRec.CCC_External_Id__c);
+                       }
         }
         List<ASF_Case_Stage_Config__c> allStageConfigs;
         if(!cccExternalIds.isEmpty()){
@@ -206,9 +230,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 ASF_Case_Stage_Config__c currentStageConfig;
                 for(ASF_Case_Stage_Config__c stageConfig : allStageConfigs){
                     if(stageConfig.StageName__c == caseRec.Stage__c 
-                    && stageConfig.Case_Category_Config__r.CCC_External_Id__c == caseRec.CCC_External_Id__c){
-                        currentStageConfig = stageConfig;
-                    }
+                       && stageConfig.Case_Category_Config__r.CCC_External_Id__c == caseRec.CCC_External_Id__c){
+                           currentStageConfig = stageConfig;
+                       }
                 }
                 if(currentStageConfig != null){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
@@ -226,7 +250,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
-
+    
     //Detects the Reopen request and sets the Stage__c on trigger.new for other methods to consume
     public static void findNextStageAndSetOnTriggerNewForReopenRequest(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
@@ -263,9 +287,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
-
-
-//Detects the Reopen request and processes it based on reopen style
+    
+    
+    //Detects the Reopen request and processes it based on reopen style
     //Moved to after  trigger context
     public static void checkAndProcessReopenCase(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
@@ -291,7 +315,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             {
                 cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
             }
-		
+            
             for(Case caseRec : eligibleRecords){
                 ASF_Case_Category_Config__c appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
                 if(caseRec.Reopen_Style__c == 'Move To First Stage'){
@@ -307,16 +331,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 backResultWrap = ASF_CaseMovementHelper.moveToBackwardStage(backwardCases, backwardStageMap);
             }
             if(!forwardStageMap.isEmpty()){
-              	fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
+                fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
             }
             
             for(Case caseRec : eligibleRecords){
-            
+                
                 switch on caseRec.Reopen_Style__c {
                     when 'Move To First Stage' {
                         ASF_CaseMovementHelper.StageWrapper resultWrap = backResultWrap.containsKey(caseRec.Id) ? backResultWrap.get(caseRec.Id) : null;
                         if(resultWrap !=null && resultWrap.status == 'Success'){
-
+                            
                             caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                             if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                                 Case caseObj = new Case(Id = caseRec.Id);
@@ -326,7 +350,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.Stage__c = resultWrap.caseToBeUpdated.Stage__c;
                             caseRecFromMap.Status = resultWrap.caseToBeUpdated.Status;
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                            caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
@@ -345,7 +369,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                            caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
@@ -357,9 +381,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
-
-     //Method to get the next eligible stage for moveToNextStage and set on trigger.new
-     public static void findNextStageAndSetOnTriggerNew(List<Case> newList, Map<Id, Case> oldMap) {
+    
+    //Method to get the next eligible stage for moveToNextStage and set on trigger.new
+    public static void findNextStageAndSetOnTriggerNew(List<Case> newList, Map<Id, Case> oldMap) {
         Boolean isUpdate = oldMap!=null?true:false;
         List<Case> eligibleRecords = new List<Case>();
         
@@ -367,7 +391,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //Boolean supressErrors = (newList[0].Technical_Source__c == 'API' && oldMap == null)?true:false;
         for(Case caseRec : newList){
             System.debug('caseRec.MoveToNext__c'+caseRec.MoveToNext__c);
-           // System.debug('oldMap.get(caseRec.Id).MoveToNext__c'+oldMap.get(caseRec.Id).MoveToNext__c);
+            // System.debug('oldMap.get(caseRec.Id).MoveToNext__c'+oldMap.get(caseRec.Id).MoveToNext__c);
             //If update, is MoveToNext changed to true, else if insert, MoveToNext is true
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
@@ -375,11 +399,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                    currentStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
                }
             if(caseRec.Technical_Source__c == 'API' && oldMap == null){
-                       supressErrors.put(caseRec.Id, true);
+                supressErrors.put(caseRec.Id, true);
             }
         }
         if(!eligibleRecords.isEmpty()){
-
+            
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrapMap = ASF_CaseMovementHelper.findNextStageForMoveToNextStage(eligibleRecords, currentStageMap);
             for(Case caseRec : eligibleRecords){
                 ASF_CaseMovementHelper.StageWrapper resultWrap = resultWrapMap.containsKey(caseRec.Id) ? resultWrapMap.get(caseRec.Id) : null;
@@ -387,17 +411,17 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
-                       triggerEncounteredError.put(caseRec.Id, true);
+                        triggerEncounteredError.put(caseRec.Id, true);
                     }else{
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
-					}
+                    }
                 }
             }
         }
-     }
+    }
     
     //Method checks whether move to next stage is changed to true, if yes, calls the right modular methods to process it
-//Moved to after trigger context
+    //Moved to after trigger context
     public static void checkAndProcessMoveToNextStage(List<Case> newList, Map<Id, Case> oldMap){
         Boolean isUpdate = oldMap!=null?true:false;
         Map<Id, Case> eligibleRecords = new Map<Id, Case>();
@@ -421,7 +445,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrapMap = ASF_CaseMovementHelper.moveToNextStage(eligibleRecords.values(), caseStageMap);
             List<Case> caseToUpdate = new List<Case>();
             for(Id caseId : eligibleRecords.keySet()){
-
+                
                 case caseRec = eligibleRecords.get(caseId);
                 ASF_CaseMovementHelper.StageWrapper resultWrap = resultWrapMap.containsKey(caseId) ? resultWrapMap.get(caseId) : null;
                 
@@ -434,7 +458,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                        caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                            caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                         Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                         for(String fieldName : populatedFieldMap.keySet()){
                             caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
@@ -453,7 +477,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                         }
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                        caseRecFromMap.MoveToNext__c = false;
+                            caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
@@ -488,22 +512,22 @@ public without sharing class ASF_CaseTriggerModularHelper {
             //5. If stage updated
             if((caseRec.MoveToNext__c == oldMap.get(caseRec.Id).MoveToNext__c 
                 && caseRec.MoveToNext__c == false)
-                && (caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c )
-                && (caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c)
-                && (caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c)
-               	&&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
+               && (caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c )
+               && (caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c)
+               && (caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c)
+               &&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
-
-                String movement = caseRec.pending_clarification__c==true?'backward':'forward';
-                if(movement == 'forward'){
-                    forwardCases.add(caseRec);
-                    forwardStageMap.put(caseRec.Id, caseRec.Stage__c);
-                    oldforwardStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
-                }else if(movement == 'backward'){
-                    backwardCases.add(caseRec);
-                    backwardStageMap.put(caseRec.Id, caseRec.Stage__c);
-                }
-            }
+                   
+                   String movement = caseRec.pending_clarification__c==true?'backward':'forward';
+                   if(movement == 'forward'){
+                       forwardCases.add(caseRec);
+                       forwardStageMap.put(caseRec.Id, caseRec.Stage__c);
+                       oldforwardStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
+                   }else if(movement == 'backward'){
+                       backwardCases.add(caseRec);
+                       backwardStageMap.put(caseRec.Id, caseRec.Stage__c);
+                   }
+               }
         }
         if(!forwardCases.isEmpty()){
             Map<Id, ASF_CaseMovementHelper.StageWrapper> wrapToReturn = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, oldforwardStageMap);
@@ -517,8 +541,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                     Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                     caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
-                    //caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
-                    Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
+                        //caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                        Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                     }
@@ -549,7 +573,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         caseRecFromMap.put(fieldName, wrapToReturn.caseToBeUpdated.get(fieldName));
                     }
                     caseRecFromMap.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
-                    caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
                 else{
                     //Error scenario
@@ -599,25 +623,25 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
-		Map<Id, case> newMap = new Map<Id, case>();
+        Map<Id, case> newMap = new Map<Id, case>();
         
         for(Case caseRec : newList){
             //Insert case
             if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null
-                && (!isUpdate 
-                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
-                (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
-                eligibleRecords.add(caseRec);
-                newMap.put(caseRec.Id, caseRec);
-                caseStageMap.put(caseRec.Id, caseRec.Stage__c);
-            }
+               && (!isUpdate 
+                   || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                       && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
+                   (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
+                       eligibleRecords.add(caseRec);
+                       newMap.put(caseRec.Id, caseRec);
+                       caseStageMap.put(caseRec.Id, caseRec.Stage__c);
+                   }
         }
         if(!caseStageMap.isEmpty()){
             Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
             //addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
             //addlDataFromStageMovementMethods = dataWrapper;
-
+            
             List<Case> casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(caseStageMap.keySet());
             Map<String, Boolean> checklistMap = new Map<String, Boolean>();
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
@@ -645,7 +669,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }   
                     }
                 }
-
+                
                 if(dataWrapper.containsKey(caseRec.Id) && dataWrapper.get(caseRec.Id).tasksToInsert != null){
                     for(Task taskRec : dataWrapper.get(caseRec.Id).tasksToInsert){
                         if(!taskMap.containsKey(caseRec.Id+taskRec.Work_Item_External_ID__c)){
@@ -661,19 +685,19 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
             }
-
+            
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
             for(Id caseId : caseStageMap.keySet()){
                 if(addlDataFromStageMovementMethods.containsKey(caseId)){
                     if(addlDataFromStageMovementMethods.get(caseId).allIntegrations != null 
-                    && newMap.get(caseId).Technical_Source__c == 'API' || newMap.get(caseId).Technical_Source__c == 'Email'){
-                        integCaseList.add(newMap.get(caseId));
-                        //TO DOO:check on the data type of allintegrations wrapper
-                        runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
-                    }
-
+                       && newMap.get(caseId).Technical_Source__c == 'API' || newMap.get(caseId).Technical_Source__c == 'Email'){
+                           integCaseList.add(newMap.get(caseId));
+                           //TO DOO:check on the data type of allintegrations wrapper
+                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
+                       }
+                    
                     if(addlDataFromStageMovementMethods.get(caseId).manualApprovalStage != null){
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                         Case caseToUpdate;
@@ -708,8 +732,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
-
-
+            
+            
         }
     }
     //Creates Checklist, Tasks, Approvals
@@ -718,7 +742,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         if(!addlDataFromStageMovementMethods.isEmpty()){
             for(Id caseId : addlDataFromStageMovementMethods.keySet()){
-
+                
                 if(addlDataFromStageMovementMethods.get(caseId).approvalsToInsert != null && !addlDataFromStageMovementMethods.get(caseId).approvalsToInsert.isEmpty()){
                     combinedList.addAll(addlDataFromStageMovementMethods.get(caseId).approvalsToInsert);
                 }
@@ -763,7 +787,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
-
+    
     public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
         //SLA calculation method - from JT's class
         Map<Id, Case> casesToUpdate = new Map<Id, Case>();
@@ -789,7 +813,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }   
         }
     }
-
+    
     public static void updateCasesFinally() {
         //This method invokes a DML on the caseFinalDMLMap map, 
         //which is accumulation of all field updates on current from After trigger
@@ -797,7 +821,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(caseFinalDMLMap != null){
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
-                
+            
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase = caseFinalDMLMap.values()[i];
@@ -814,7 +838,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         caseFinalDMLMap = null;
     }
-
+    
     public static void onCreateCloseServiceRequest(List<Case> newList){
         List<Case> onCreateCloseCases = new List<Case>();
         
@@ -831,7 +855,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         for(Case caseRec : newList){
             if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
-	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
+                caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
             else if(caseRec.Is_Duplicate__c != oldMap.get(caseRec.Id).Is_Duplicate__c && caseRec.Is_Duplicate__c == true){
@@ -857,35 +881,35 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Set<Id> rejectedCaseIds = new Set<Id>();
         for(Case c : newMap.values()){
             if((c.Reject_Case__c != oldMap.get(c.Id).Reject_Case__c && c.Reject_Case__c == true) ||
-              (c.Is_Duplicate__c != oldMap.get(c.Id).Is_Duplicate__c && c.Is_Duplicate__c == true)){
-                rejectedCaseIds.add(c.Id);
-            }
+               (c.Is_Duplicate__c != oldMap.get(c.Id).Is_Duplicate__c && c.Is_Duplicate__c == true)){
+                   rejectedCaseIds.add(c.Id);
+               }
         }
         if(rejectedCaseIds.size()>0){
             list<ASF_Checklist__c> checklists = [
-            SELECT Id, Case__c, Rejected_Reason__c, Status__c
-            FROM ASF_Checklist__c
-            WHERE Case__c = :rejectedCaseIds AND Status__c = 'Pending'
-        ];
-        for (ASF_Checklist__c c : checklists) {
-            c.Status__c = 'Rejected';
-            c.Rejected_Reason__c = newMap.containsKey(c.Id)? newMap.get(c.Id).Rejected_Reason__c : 'Rejected';
-        }
-        
-        list<Task> tasks = [
-            SELECT Id, Status, WhatId, Case_Stage__c
-            FROM Task
-            WHERE Status = 'Open' AND WhatId = :rejectedCaseIds
-        ];
-        for (task t : tasks) {
-            t.Status = 'Rejected';
-            t.Rejected_Reason__c = newMap.get(t.WhatId).Rejected_Reason__c;
-        }
-        List<sObject> toUpdateList = new List<sObject>();
-        toUpdateList.addAll(tasks);
-        toUpdateList.addAll(checklists);        
-        
-        Database.SaveResult[] results = Database.update(toUpdateList,false);
+                SELECT Id, Case__c, Rejected_Reason__c, Status__c
+                FROM ASF_Checklist__c
+                WHERE Case__c = :rejectedCaseIds AND Status__c = 'Pending'
+            ];
+            for (ASF_Checklist__c c : checklists) {
+                c.Status__c = 'Rejected';
+                c.Rejected_Reason__c = newMap.containsKey(c.Id)? newMap.get(c.Id).Rejected_Reason__c : 'Rejected';
+            }
+            
+            list<Task> tasks = [
+                SELECT Id, Status, WhatId, Case_Stage__c
+                FROM Task
+                WHERE Status = 'Open' AND WhatId = :rejectedCaseIds
+            ];
+            for (task t : tasks) {
+                t.Status = 'Rejected';
+                t.Rejected_Reason__c = newMap.get(t.WhatId).Rejected_Reason__c;
+            }
+            List<sObject> toUpdateList = new List<sObject>();
+            toUpdateList.addAll(tasks);
+            toUpdateList.addAll(checklists);        
+            
+            Database.SaveResult[] results = Database.update(toUpdateList,false);
         }
         
     }
@@ -910,7 +934,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
         }
     }
-
+    
     /** OLD METHODS STARTS- NEEDS TO BE OPTIMIZED */
     public static void validateOwnerCheckerStage(Map<Id, sObject> oldItems,map<Id, sObject> newItems){
         Boolean boolSameOwnerError = false;
@@ -999,29 +1023,29 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         //return boolSameOwnerError;
     }
-
+    
     //Validation Method added for restricting non queue member to change owner from list view
     public static void caseOwnerChangeValidation(list<Case> newList,Map<Id, Case> oldMap){
-                List<Id> bypassProfileId = new List<Id>();
+        List<Id> bypassProfileId = new List<Id>();
         for(Profile profRec : [select Id, Name from profile where Name IN ('System Administrator','Salesforce API Only System Integrations')]){
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) && !Test.isRunningTest()){
+        if(bypassProfileId.contains(UserInfo.getProfileId()) && ASF_BulkCaseProcessorUtility.isBulkProcessing){
             return;
         }
-            
+        
         Set<String> queueIds = new Set<String>();
         Map<String,String> GrpVsQueIds = new Map<String,String>();
         Map<String,List<String>> queVsmembersIds = new Map<String,List<String>>();
-
+        
         //check if the running user has custom permission access
         Boolean hasPermission = FeatureManagement.checkPermission('Case_Ownership_Management');
-      
+        
         Set<Id> caseOwnerIdSet = new Set<Id>();
         Set<Id> oldCaseOwnerQueueIdset = new Set<Id>();
         Set<Id> newCaseOwnerQueueIdset = new Set<Id>();
-Set<Id> newCaseOwnerUserIdset = new Set<Id>();
+        Set<Id> newCaseOwnerUserIdset = new Set<Id>();
         Map<Id, Group> queueIdNameMap = new Map<Id, Group>();
         Map<Id, user> newCaseOwnerMap;
         for(Case c : newList){
@@ -1036,7 +1060,7 @@ Set<Id> newCaseOwnerUserIdset = new Set<Id>();
             if(oldOwnerId != newOwnerId && newOwnerId.startsWith('00G')){
                 newCaseOwnerQueueIdset.add(newOwnerId);
             }
-if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
+            if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 newCaseOwnerUserIdset.add(newOwnerId);
             }
             //ADO-131839 Making the Queue Checked Disabled for Queue to Queue Assignment
@@ -1054,7 +1078,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                                                        manager.manager.manager.manager.manager.id 
                                                        from user where id IN: caseOwnerIdSet]);
             Map<Id, Id> caseOwnerGroupIdMap = new Map<Id, Id>();
-                        Map<Id, String> newOwnerQueueIdNameMap = new Map<Id, String>();
+            Map<Id, String> newOwnerQueueIdNameMap = new Map<Id, String>();
             Map<Id, List<Id>> oldQueueAndMemberMap = new Map<Id, List<Id>>();
             Set<Id> groupIdset = new Set<Id>();
             Map<Id, List<Id>> oldgroupAndMemberMap = new Map<Id, List<Id>>();
@@ -1069,25 +1093,25 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 }
                 if(newCaseOwnerQueueIdset.contains(queueRec.Id)){
                     newOwnerQueueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
-}
+                }
             }
             //Query case owner's Queue members
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where 
                                        Group.Type = 'Queue' and UserOrGroupId != null and 
                                        (groupId IN :caseOwnerGroupIdMap.values() OR groupId IN :queueIdNameMap.keySet())]){
-
-                    if(!oldQueueAndMemberMap.containsKey(gmember.GroupId))
-                        oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
-                    oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
-                    if(((String)gmember.UserOrGroupId).startsWith('00G')){
-                        groupIdset.add(gmember.UserOrGroupId);
-                    }  
-            } 
+                                           
+                                           if(!oldQueueAndMemberMap.containsKey(gmember.GroupId))
+                                               oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
+                                           oldQueueAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                                           if(((String)gmember.UserOrGroupId).startsWith('00G')){
+                                               groupIdset.add(gmember.UserOrGroupId);
+                                           }  
+                                       } 
             //Query public group members that are part of above queues
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where UserOrGroupId != null and groupId IN :groupIdset]){
                 if(!oldgroupAndMemberMap.containsKey(gmember.GroupId))
-                        oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
-                    oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
+                    oldgroupAndMemberMap.put(gmember.GroupId,new List<Id>());
+                oldgroupAndMemberMap.get(gmember.GroupId).add(gmember.UserOrGroupId);  
             }
             //Add all the public group members to the map
             for(Id queueId : oldQueueAndMemberMap.keySet()){
@@ -1104,25 +1128,25 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 
                 if(oldOwnerId.startsWith('00G') && 
                    !(oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
-                  !(queueIdNameMap.get(oldOwnerId).Email != null && queueIdNameMap.get(oldOwnerId).Email == newCaseOwnerMap.get(userInfo.getUserId()).Email && 
-                   (oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
-                  !hasPermission){
-                    c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
-                    
-                }else if(!oldOwnerId.startsWith('00G') && !hasPermission && oldOwnerId != userInfo.getUserId() && 
-                         ownerMap.get(oldOwnerId).managerId != userInfo.getUserId() &&
-                         ownerMap.get(oldOwnerId).manager.manager.Id != userInfo.getUserId() && 
-                         ownerMap.get(oldOwnerId).manager.manager.manager.Id != userInfo.getUserId() &&
-                         ownerMap.get(oldOwnerId).manager.manager.manager.manager.Id != userInfo.getUserId() &&
-                         ownerMap.get(oldOwnerId).manager.manager.manager.manager.manager.Id != userInfo.getUserId() &&
-                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
-                        ){
-                            c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
-                        }
-                 else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
-                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
-                 }
-else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
+                   !(queueIdNameMap.get(oldOwnerId).Email != null && queueIdNameMap.get(oldOwnerId).Email == newCaseOwnerMap.get(userInfo.getUserId()).Email && 
+                     (oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
+                   !hasPermission){
+                       c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
+                       
+                   }else if(!oldOwnerId.startsWith('00G') && !hasPermission && oldOwnerId != userInfo.getUserId() && 
+                            ownerMap.get(oldOwnerId).managerId != userInfo.getUserId() &&
+                            ownerMap.get(oldOwnerId).manager.manager.Id != userInfo.getUserId() && 
+                            ownerMap.get(oldOwnerId).manager.manager.manager.Id != userInfo.getUserId() &&
+                            ownerMap.get(oldOwnerId).manager.manager.manager.manager.Id != userInfo.getUserId() &&
+                            ownerMap.get(oldOwnerId).manager.manager.manager.manager.manager.Id != userInfo.getUserId() &&
+                            !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
+                           ){
+                               c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
+                           }
+                else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
+                    c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                }
+                else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
                 else if(!Test.isRunningTest() && oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).DeveloperName.startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
@@ -1130,9 +1154,9 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                 }
             }
         }
-                
+        
         if(!queueIds.isEmpty()){
-
+            
             for(GroupMember gm : [SELECT GroupId, UserOrGroupId 
                                   FROM GroupMember 
                                   WHERE GroupId IN :queueIds]){
@@ -1163,13 +1187,13 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                     //ADO-131839 Making the Queue Checked Disabled for Bulk Upload
                     if(memberList!=null && !memberList.isEmpty() && !memberList.contains(c.OwnerId) && !hasPermission && !Test.isRunningTest() && 
                        queueIdNameMap.get(oldOwnerId).Email != newCaseOwnerMap.get(userInfo.getUserId()).Email){
-                        c.addError(System.Label.Owner_Change_Validation_Message);
-                    }
+                           c.addError(System.Label.Owner_Change_Validation_Message);
+                       }
                 }
             }
         }
     }
-
+    
     public static void checkisApprovalStage(map<Id,Case> newCaseMap,map<Id,Case> oldCaseMap){
         //Virendra : 9th March 2023 : Starts Here: Check if Approval Stage and the latest Case Approval Record is Approved, Rejected or Recalled, If yes, allow navigation to steps.
         Set<Id> idsToCheckIfApprovalRequestPending = new Set<Id>();
@@ -1184,7 +1208,7 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                 isCaseEscalationFromUI.add(i);
             }
         }
-
+        
         if(!idsToCheckIfApprovalRequestPending.isEmpty()){
             Map<Id,boolean> bCaseWithPendingApprovalRequest = CheckIfPendingApprovalRequest(idsToCheckIfApprovalRequestPending);
             for(Id i: newCaseMap.keyset()){
@@ -1202,7 +1226,7 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
             }
         }
     }
-
+    
     private static Map<Id,boolean> CheckIfPendingApprovalRequest(Set<Id> caseIds){
         Map<Id,boolean> mCaseIsPendingApprovalRequest = new Map<Id,Boolean>();
         List<String> nonPendingStatuses = new List<String>{'APPROVED','REJECTED','RECALLED'};
@@ -1219,23 +1243,23 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         }
         return mCaseIsPendingApprovalRequest;
     }
-
+    
     //Validates whether Create Case request is invoked without CCC_External_Id__c parameter
     public static void validateIfCCCInAPIRequest(List<Case> newList, Map<Id, Case> oldMap){
-            for(Case caseRec : newList){
-                if((caseRec.CCC_External_Id__c == null || caseRec.CCC_External_Id__c == '') && caseRec.Technical_Source__c == 'API'){
-                    caseRec.addError('Create Case request is invoked without CCC_External_Id__c parameter.');
-                }
+        for(Case caseRec : newList){
+            if((caseRec.CCC_External_Id__c == null || caseRec.CCC_External_Id__c == '') && caseRec.Technical_Source__c == 'API'){
+                caseRec.addError('Create Case request is invoked without CCC_External_Id__c parameter.');
             }
+        }
     }
     
-     /*
-        Bot stamps account , type and sub type. but for given account , 
-        type sub type may not be valid. we cannot block bot and STOP transaction.
-        hence mark typeSubtypeInvalid = true.
-        If this flag is enable , then users cannot edit case except API and Email user
-        User will now be forced to go recategorize. 
-    */
+    /*
+Bot stamps account , type and sub type. but for given account , 
+type sub type may not be valid. we cannot block bot and STOP transaction.
+hence mark typeSubtypeInvalid = true.
+If this flag is enable , then users cannot edit case except API and Email user
+User will now be forced to go recategorize. 
+*/
     public static void validateCCCOnUpdate(List<Case> newList, Map<Id, Case> oldMap){  
         list<Case> modifiedCases= new List<Case>();
         List<String> cccIds= new List<String>();
@@ -1243,15 +1267,15 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         Map<String,ASF_Case_Category_Config__c> cccExternalIdCategoryMap = new Map<String,ASF_Case_Category_Config__c>();
         for(Case caseRec : newList){
             if(oldMap != null && oldMap.get(caseRec.Id).CCC_External_Id__c != null 
-                && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
-                || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
-                || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
-                    modifiedCases.add(caseRec);  
-                    cccIds.add(caseRec.CCC_External_Id__c);
-                    if(caseRec.accountId != oldMap.get(caseRec.Id).accountId){
-                        accountIds.add(caseRec.accountId);
-                    }
-            }
+               && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
+                   || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
+                   || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
+                       modifiedCases.add(caseRec);  
+                       cccIds.add(caseRec.CCC_External_Id__c);
+                       if(caseRec.accountId != oldMap.get(caseRec.Id).accountId){
+                           accountIds.add(caseRec.accountId);
+                       }
+                   }
         }
         if(!cccIds.isEmpty()){ 
             ASF_CaseQueryHandler.refreshRecords = true;
@@ -1281,10 +1305,10 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Case category Configured Priority and case Priority is Mis match';
                     } 
                     if(configuredCurrentCCC.Custom_Segment__c != null && accountMap.containsKey(caseRec.AccountId) 
-                        && accountMap.get(caseRec.AccountId).RecordType.Name != configuredCurrentCCC.Custom_Segment__c ){
-                            caseRec.typeSubTypeMismatch__c = true; 
-                            caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Case category Configured Customer segment and Account record typ is Mis match';
-                    } 
+                       && accountMap.get(caseRec.AccountId).RecordType.Name != configuredCurrentCCC.Custom_Segment__c ){
+                           caseRec.typeSubTypeMismatch__c = true; 
+                           caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Case category Configured Customer segment and Account record typ is Mis match';
+                       } 
                 }
             }
         }
