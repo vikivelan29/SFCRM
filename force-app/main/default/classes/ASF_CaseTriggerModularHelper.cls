@@ -29,7 +29,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo;
-        
+        Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
         }
@@ -112,7 +112,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
                 //}
-                caseRec.Stage__c = appliedCCC.First_Stage__c;
+                
+                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                    caseRec.Stage__c = appliedCCC.First_Stage__c;
+                }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
                 caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
