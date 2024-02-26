@@ -270,7 +270,9 @@ public with sharing class ABCL_IntegrationCommonUtility {
                         Version_Number__c = file.Version_Number__c,
                         Application_ID__c = caseRecord.Asset.LAN__c,
                         Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
-                        File_Extension__c = file.File_Extension__c
+                        File_Extension__c = file.File_Extension__c,
+                        Type__c = caseRecord.Type_Text__c,
+                        Subtype__c = caseRecord.Sub_Type_Text__c
                     ));
                 }
                 if(dmsEventList.size() > 0){

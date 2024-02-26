@@ -231,11 +231,18 @@ export default class Abhfl_MultipleLan extends LightningElement {
     removeRecord(e){
         this.displaySpinner = true;
         let deleteIndex = e.currentTarget.name;
+        let deleteId = this.childTableRecords[e.currentTarget.name].detail.Id;
         deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
         .then(() => {
             this.displayChildTable = false;
             this.childTableRecords.splice(deleteIndex,1);
             this.displayChildTable = true;
+            for(let rec in this.selectedRows){
+                if(this.selectedRows[rec].detail.Id == deleteId){
+                    this.selectedRows[rec].detail.Id = null;
+                    break;
+                }
+            }
             if(!this.childTableRecords.length){
                 this.disableSave = true;
             } 
@@ -252,6 +259,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 message: error.body.message,
                 variant: "error",
             });
+            this.displaySpinner = false;
         });
     }
 
