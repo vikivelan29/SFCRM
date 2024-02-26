@@ -50,12 +50,14 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             if(stage == 'Resolved'){
                 caseRec.Stage__c = stage;
+                caseRec.Status = stage;
                 caseRec.Pending_Clarification__c = false;
                 caseRec.moved_back__c = false;
                 caseRec.Is_Manual_Moved__c = true;
                 caseRec.Resolution_Comments__c = resolutionComments;
             }else if(stage == 'Unresolved'){
                 caseRec.Stage__c = stage;
+                caseRec.Status = stage;
                 caseRec.Reject_Case__c = true;
                 caseRec.Rejected_Reason__c = unresolvedDetails;
                 caseRec.Rejection_Reason__c = unresolvedReason;
