@@ -31,7 +31,7 @@ public without sharing class ABCL_InvokeOneABC {
     * @Function - oneAbcCallout
     * @param caseRec - Case record from the framework.
     * @return - void
-    * @Description - 
+    * @Description - callout method
     *****************************************************************************************************************/
     public static void oneAbcCallout(List<Case> caseRecord){
     	try{
