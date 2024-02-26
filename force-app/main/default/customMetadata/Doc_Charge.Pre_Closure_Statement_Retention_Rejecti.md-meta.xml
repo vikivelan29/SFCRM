@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Pre_Closure_Statement_Ret_Rej_VF</value>
     </values>
     <values>
         <field>Payment_Code__c</field>
