@@ -8,13 +8,17 @@ export default class Abhfl_SendLeadToCRM extends LightningElement {
     @api invoke() {
          console.log(this.recordId);
 
-         sendLead({leadId: this.recordId})
+         sendLead({leadId: this.recordId, executingFromTrigger: false})
          .then(result => {
             this.showToast('Success', result, 'Success');
           })
 
         .catch(error => {
-            this.showToast('Error', error, 'Error');
+            let errorMessage = 'Send lead to CRM failed';
+            if ( error.body.message) {
+                errorMessage = error.body.message;
+            }
+            this.showToast('Error', errorMessage, 'Error');
         });
 
         
