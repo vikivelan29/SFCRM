@@ -680,7 +680,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>SR Snapshot</value>
+                    <value>Case Snapshot</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
