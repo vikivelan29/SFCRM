@@ -1,6 +1,6 @@
 public with sharing class PAY_CaseTriggerHelper {
 
-    public static final Schema.SObjectField ACCOUNT_EXTERNAL_ID = Account.Fields.Client_Code__c;
+    public static final Schema.SObjectField ACCOUNT_EXTERNAL_ID = Account.Fields.LOB_Client_Code__c;
     public static final List<String> lineOfBusinesses = new List<String>{'Payments'};
 
     public static void createCustomerForCreateCaseAPI(List<SObject> newItems){
@@ -19,6 +19,10 @@ public with sharing class PAY_CaseTriggerHelper {
                         customer.RecordTypeId = getRecordTypeId('Non-Individual');
                         customer.PAY_Doing_Business_As__c = customWrapper.DBA;
                         customer.Client_Code__c = customWrapper.ClientCode;
+                        
+                        String customerKey = individualCase.Business_Unit__c + '_'+customWrapper.ClientCode;
+                        customer.LOB_Client_Code__c = customerKey;
+                        
                         customer.Name = customWrapper.CompanyName;
                         customer.Line_of_Business__c = individualCase.Business_Unit__c;
                         customer.Business_Unit__c = individualCase.Business_Unit__c;
@@ -33,6 +37,10 @@ public with sharing class PAY_CaseTriggerHelper {
                     } else {
                         customer.RecordTypeId = getRecordTypeId('Individual');
                         customer.Client_Code__c = customWrapper.ClientCode;
+                        
+                        String customerKey = individualCase.Business_Unit__c + '_'+customWrapper.ClientCode;
+                        customer.LOB_Client_Code__c = customerKey;
+                        
                         if(String.isNotBlank(customWrapper.PersonMobilePhone)){
                             customer.PersonMobilePhone = customWrapper.PersonMobilePhone;
                         }
