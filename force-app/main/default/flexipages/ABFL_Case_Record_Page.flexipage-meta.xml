@@ -551,16 +551,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Rejection_Reason__c</fieldItem>
-                <identifier>RecordRejection_Reason_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Rejected_Reason__c</fieldItem>
                 <identifier>RecordRejected_Reason_cField</identifier>
             </fieldInstance>
