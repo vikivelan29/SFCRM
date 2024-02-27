@@ -74,10 +74,7 @@ public with sharing class ASF_BulkUploadUtilityController {
             ASF_BulkCaseProcessorQueueable processor = new ASF_BulkCaseProcessorQueueable(headRowId, templateName);
             System.enqueueJob(processor);
             returnWrap.isSuccess = true;
-            returnWrap.successMessageIfAny = 'Upload completed, processing started';
-            headRow = new ASF_Bulk_Upload_Header__c();
-            headRow.Id = headRowId;
-            headRow.Status__c = 'Processing';
+            returnWrap.successMessageIfAny = 'Upload completed, processing will start soon';
         }else{
             //else starts PE processing
             Integer index = 0;

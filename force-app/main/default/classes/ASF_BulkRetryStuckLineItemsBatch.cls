@@ -21,7 +21,7 @@ public class ASF_BulkRetryStuckLineItemsBatch implements Database.Batchable<SObj
         Map<Id, ASF_Bulk_Upload_Header__c> headersToUpdate = new Map<Id, ASF_Bulk_Upload_Header__c>();
         
         for(ASF_Bulk_Upload_Line_Item__c lineItem : (List<ASF_Bulk_Upload_Line_Item__c>)scope){
-            if(index == 999 || lineItem.Bulk_Upload_Header__r.Template_Name__c != currentTemplate){
+            if(index == 999 || (currentTemplate != '' && lineItem.Bulk_Upload_Header__r.Template_Name__c != currentTemplate)){
                 ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
                 chunkPE.Record_IDs__c = recordIds;
                 peList.add(chunkPE);
