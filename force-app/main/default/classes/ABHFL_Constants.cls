@@ -11,6 +11,8 @@
 public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
+    //Amortization Subtype External Id
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';
        
     //Generic Constants
     public static final String SUCCESS = 'Success';
@@ -45,6 +47,12 @@ public with sharing class ABHFL_Constants {
     public static final String INTERACTION_RECORD_TYPE = 'Interaction';
     public static final String NEW_STATUS = 'New';
     public static final String EMAIL_TECHNICAL_SOURCE = 'Email';
+    public static final String SUB_VARIANT = 'GENERAL PURPOSE LOAN';
+    public static final String VARIANT = 'HOME CONSTRUCTION LOAN';
+    public static final String SOURCE_TYPE = 'Internal';
+    public static final String SOURCE_SYSTEM_API = 'SFDC';
+    public static final String EXTERNAL_RECORD_TYPE = 'External';
+    
     
     
     
@@ -117,6 +125,7 @@ public with sharing class ABHFL_Constants {
     public static String GST_INVOICE_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
+    public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
@@ -127,11 +136,16 @@ public with sharing class ABHFL_Constants {
 
 
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
+    public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
+    public static String NOC_REQUIRED_ID = 'hfl050';
+
+
+    
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {

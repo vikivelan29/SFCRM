@@ -29,7 +29,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
           
           
             List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
-                                                                 WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c];
+                                                                 WHERE CCC_External_Id__c = :ABHFL_Constants.Amort_CCC_EXTERNALID];
             if(!cccRecord.isEmpty()) {
                 Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
                   Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
@@ -128,7 +128,7 @@ public with sharing  class ABHFL_AmortizationIntegration implements ASF_Integrat
                    integrationFailure = false;
                    List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
                                                                         Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
-                                                                        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c];
+                                                                        WHERE CCC_External_Id__c =:ABHFL_Constants.Amort_CCC_EXTERNALID];
                   
                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
                   Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
