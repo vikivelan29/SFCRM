@@ -28,14 +28,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
-        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
-        
+
         // updFrameworkCases - To store the Cases those are not Converted from Preframework to Framework Only.
         List<Case> updFrameworkCases = new List<Case>();
-        
-        
+
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
         }
@@ -50,8 +50,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
-                        
-                        
+
                         // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
                        if(!(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && 
                             oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeId &&
@@ -666,7 +665,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
-            triggerEncounteredError.clear();
+            triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
@@ -816,7 +815,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase;
                     Boolean supressErrors = false;
-                    
                     if(combinedList[i] instanceof ASF_Case_Approv__c){
                         ASF_Case_Approv__c approvalRec = (ASF_Case_Approv__c)combinedList[i];
                         failedCase = newMap.get(approvalRec.SR__c);
@@ -841,6 +839,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
         }
+        //This reset is important for bulk processing as static variables dont get reset between every 200 records chunk in trigger execution
+        addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
     }
 
     public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
@@ -891,7 +891,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
-        caseFinalDMLMap = null;
+        caseFinalDMLMap = new Map<Id, Case>();
     }
 
     public static void onCreateCloseServiceRequest(List<Case> newList){
