@@ -11,24 +11,39 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Agra</fullName>
+                <fullName>2/507 # MEERUT</fullName>
                 <default>false</default>
-                <label>Agra</label>
+                <label>2/507 # MEERUT</label>
             </value>
             <value>
-                <fullName>Ahmedabad</fullName>
+                <fullName>AGRA - SANJAY PLACE</fullName>
                 <default>false</default>
-                <label>Ahmedabad</label>
+                <label>AGRA - SANJAY PLACE</label>
             </value>
             <value>
-                <fullName>Aurangabad</fullName>
+                <fullName>AHMEDABAD</fullName>
                 <default>false</default>
-                <label>Aurangabad</label>
+                <label>AHMEDABAD</label>
             </value>
             <value>
-                <fullName>Bangalore</fullName>
+                <fullName>AHMEDABAD SAMUDRA ANNEXE</fullName>
                 <default>false</default>
-                <label>Bangalore</label>
+                <label>AHMEDABAD SAMUDRA ANNEXE</label>
+            </value>
+            <value>
+                <fullName>AKHIL PLAZA # ERODE</fullName>
+                <default>false</default>
+                <label>AKHIL PLAZA # ERODE</label>
+            </value>
+            <value>
+                <fullName>BADLAPUR</fullName>
+                <default>false</default>
+                <label>BADLAPUR</label>
+            </value>
+            <value>
+                <fullName>BANGALORE STAR AVENUES</fullName>
+                <default>false</default>
+                <label>BANGALORE STAR AVENUES</label>
             </value>
             <value>
                 <fullName>Baroda</fullName>
@@ -36,24 +51,14 @@
                 <label>Baroda</label>
             </value>
             <value>
-                <fullName>Bhopal</fullName>
+                <fullName>BROADWAY HEIGHTS # ODISHA</fullName>
                 <default>false</default>
-                <label>Bhopal</label>
+                <label>BROADWAY HEIGHTS # ODISHA</label>
             </value>
             <value>
-                <fullName>Bhubaneswar</fullName>
+                <fullName>CHENNAI_SIDCO INDUSTRIAL_ESTATE</fullName>
                 <default>false</default>
-                <label>Bhubaneswar</label>
-            </value>
-            <value>
-                <fullName>Chandigarh</fullName>
-                <default>false</default>
-                <label>Chandigarh</label>
-            </value>
-            <value>
-                <fullName>Chennai</fullName>
-                <default>false</default>
-                <label>Chennai</label>
+                <label>CHENNAI_SIDCO INDUSTRIAL_ESTATE</label>
             </value>
             <value>
                 <fullName>Coimbatore</fullName>
@@ -61,19 +66,14 @@
                 <label>Coimbatore</label>
             </value>
             <value>
-                <fullName>Dehradun</fullName>
+                <fullName>Delhi - (Barakhamba)</fullName>
                 <default>false</default>
-                <label>Dehradun</label>
+                <label>Delhi - (Barakhamba)</label>
             </value>
             <value>
-                <fullName>Delhi - Janakpuri</fullName>
+                <fullName>DELHI GURGAON_GB</fullName>
                 <default>false</default>
-                <label>Delhi - Janakpuri</label>
-            </value>
-            <value>
-                <fullName>Delhi - Nehru place</fullName>
-                <default>false</default>
-                <label>Delhi - Nehru place</label>
+                <label>DELHI GURGAON_GB</label>
             </value>
             <value>
                 <fullName>Delhi-1 (Gurgaon)</fullName>
@@ -81,39 +81,54 @@
                 <label>Delhi-1 (Gurgaon)</label>
             </value>
             <value>
-                <fullName>Delhi-Parliament House</fullName>
+                <fullName>GENESIS SQUARE # NAGPUR</fullName>
                 <default>false</default>
-                <label>Delhi-Parliament House</label>
+                <label>GENESIS SQUARE # NAGPUR</label>
             </value>
             <value>
-                <fullName>Hyderabad</fullName>
+                <fullName>GROVER PLAZA # KHANDWA</fullName>
                 <default>false</default>
-                <label>Hyderabad</label>
+                <label>GROVER PLAZA # KHANDWA</label>
             </value>
             <value>
-                <fullName>Indore</fullName>
+                <fullName>GWALIOR</fullName>
                 <default>false</default>
-                <label>Indore</label>
+                <label>GWALIOR</label>
             </value>
             <value>
-                <fullName>Jaipur</fullName>
+                <fullName>GWALIOR_GB</fullName>
                 <default>false</default>
-                <label>Jaipur</label>
+                <label>GWALIOR_GB</label>
             </value>
             <value>
-                <fullName>Jodhpur</fullName>
+                <fullName>HYD_Secunderabad</fullName>
                 <default>false</default>
-                <label>Jodhpur</label>
+                <label>HYD_Secunderabad</label>
             </value>
             <value>
-                <fullName>Kolkata</fullName>
+                <fullName>IRWIN SQUARE # AMRAVATI</fullName>
                 <default>false</default>
-                <label>Kolkata</label>
+                <label>IRWIN SQUARE # AMRAVATI</label>
             </value>
             <value>
-                <fullName>Lucknow</fullName>
+                <fullName>JODHPUR</fullName>
                 <default>false</default>
-                <label>Lucknow</label>
+                <label>JODHPUR</label>
+            </value>
+            <value>
+                <fullName>KALYAN</fullName>
+                <default>false</default>
+                <label>KALYAN</label>
+            </value>
+            <value>
+                <fullName>KOLHAPUR</fullName>
+                <default>false</default>
+                <label>KOLHAPUR</label>
+            </value>
+            <value>
+                <fullName>KOLKATA WEST BENGAL</fullName>
+                <default>false</default>
+                <label>KOLKATA WEST BENGAL</label>
             </value>
             <value>
                 <fullName>Ludhiana</fullName>
@@ -121,69 +136,124 @@
                 <label>Ludhiana</label>
             </value>
             <value>
-                <fullName>Mangalore</fullName>
+                <fullName>MEHSANA</fullName>
                 <default>false</default>
-                <label>Mangalore</label>
+                <label>MEHSANA</label>
             </value>
             <value>
-                <fullName>Mumbai - Borivali</fullName>
+                <fullName>MUMBAI - 7 (GOREGAON)</fullName>
                 <default>false</default>
-                <label>Mumbai - Borivali</label>
+                <label>MUMBAI - 7 (GOREGAON)</label>
             </value>
             <value>
-                <fullName>Mumbai - Kalyan</fullName>
+                <fullName>NABHA GATE # PATIALA</fullName>
                 <default>false</default>
-                <label>Mumbai - Kalyan</label>
+                <label>NABHA GATE # PATIALA</label>
             </value>
             <value>
-                <fullName>Mumbai -Andheri</fullName>
+                <fullName>NASHIK</fullName>
                 <default>false</default>
-                <label>Mumbai -Andheri</label>
+                <label>NASHIK</label>
             </value>
             <value>
-                <fullName>Mumbai-Vashi</fullName>
+                <fullName>NAVARATNA # VISHAKHAPATTNAM</fullName>
                 <default>false</default>
-                <label>Mumbai-Vashi</label>
+                <label>NAVARATNA # VISHAKHAPATTNAM</label>
             </value>
             <value>
-                <fullName>Nagpur</fullName>
+                <fullName>NISHA BAFNA # AURANGABAD</fullName>
                 <default>false</default>
-                <label>Nagpur</label>
+                <label>NISHA BAFNA # AURANGABAD</label>
             </value>
             <value>
-                <fullName>Nasik</fullName>
+                <fullName>NOIDA</fullName>
                 <default>false</default>
-                <label>Nasik</label>
+                <label>NOIDA</label>
             </value>
             <value>
-                <fullName>Noida</fullName>
+                <fullName>PALGHAR</fullName>
                 <default>false</default>
-                <label>Noida</label>
+                <label>PALGHAR</label>
             </value>
             <value>
-                <fullName>Pune</fullName>
+                <fullName>PANIPAT_GB</fullName>
                 <default>false</default>
-                <label>Pune</label>
+                <label>PANIPAT_GB</label>
             </value>
             <value>
-                <fullName>Raipur</fullName>
+                <fullName>PREM KAMLA # BHOPAL</fullName>
                 <default>false</default>
-                <label>Raipur</label>
+                <label>PREM KAMLA # BHOPAL</label>
             </value>
             <value>
-                <fullName>Rajkot</fullName>
+                <fullName>PRIDE ICON # KHARADI</fullName>
                 <default>false</default>
-                <label>Rajkot</label>
+                <label>PRIDE ICON # KHARADI</label>
             </value>
             <value>
-                <fullName>Surat</fullName>
+                <fullName>PUJIT PLAZA #  BELAPUR</fullName>
                 <default>false</default>
-                <label>Surat</label>
+                <label>PUJIT PLAZA #  BELAPUR</label>
             </value>
             <value>
-                <fullName>Udaipur</fullName>
+                <fullName>PUNE</fullName>
                 <default>false</default>
-                <label>Udaipur</label>
+                <label>PUNE</label>
+            </value>
+            <value>
+                <fullName>PUNE_PIMPRI_GB</fullName>
+                <default>false</default>
+                <label>PUNE_PIMPRI_GB</label>
+            </value>
+            <value>
+                <fullName>RAIPUR - SKY PARK</fullName>
+                <default>false</default>
+                <label>RAIPUR - SKY PARK</label>
+            </value>
+            <value>
+                <fullName>RAJKOT H YOGI COMPLEX</fullName>
+                <default>false</default>
+                <label>RAJKOT H YOGI COMPLEX</label>
+            </value>
+            <value>
+                <fullName>RANCHI</fullName>
+                <default>false</default>
+                <label>RANCHI</label>
+            </value>
+            <value>
+                <fullName>RATLAM</fullName>
+                <default>false</default>
+                <label>RATLAM</label>
+            </value>
+            <value>
+                <fullName>RISHI NAGAR # UJJAIN</fullName>
+                <default>false</default>
+                <label>RISHI NAGAR # UJJAIN</label>
+            </value>
+            <value>
+                <fullName>SALEM</fullName>
+                <default>false</default>
+                <label>SALEM</label>
+            </value>
+            <value>
+                <fullName>SILIGURI GANAPATI PLAZA</fullName>
+                <default>false</default>
+                <label>SILIGURI GANAPATI PLAZA</label>
+            </value>
+            <value>
+                <fullName>SURAT</fullName>
+                <default>false</default>
+                <label>SURAT</label>
+            </value>
+            <value>
+                <fullName>URBANAC BUSINESS # LUCKNOW</fullName>
+                <default>false</default>
+                <label>URBANAC BUSINESS # LUCKNOW</label>
+            </value>
+            <value>
+                <fullName>VAPI</fullName>
+                <default>false</default>
+                <label>VAPI</label>
             </value>
             <value>
                 <fullName>Vijayawada</fullName>
@@ -191,14 +261,20 @@
                 <label>Vijayawada</label>
             </value>
             <value>
-                <fullName>Vishakapatnam</fullName>
+                <fullName>VIRAR</fullName>
                 <default>false</default>
-                <label>Vishakapatnam</label>
+                <label>VIRAR</label>
             </value>
             <value>
-                <fullName>Zirakpur</fullName>
+                <fullName>ZIRAKPUR</fullName>
                 <default>false</default>
-                <label>Zirakpur</label>
+                <label>ZIRAKPUR</label>
+            </value>
+            <value>
+                <fullName>Agra</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Agra</label>
             </value>
         </valueSetDefinition>
     </valueSet>
