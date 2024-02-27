@@ -2562,6 +2562,11 @@
         <field>Account.Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    fieldPermissions>
+        <editable>false</editable>
+        <field>Account.LOB_Client_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Description</field>
