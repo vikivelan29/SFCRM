@@ -135,9 +135,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(frameworkRecordTypeId == caseRec.RecordTypeId){
                     caseRec.Stage__c = appliedCCC.First_Stage__c;
                 }
+                caseRec.Business_Unit__c = objCaseDetailsWrapper.userBu;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
+                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
