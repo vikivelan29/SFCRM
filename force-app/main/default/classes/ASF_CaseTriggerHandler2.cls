@@ -86,6 +86,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             // caseSLA.calculateSLAOnCaseUpdate(newCaseMap,(map<Id,Case>)oldItems);
             caseHelper.populateStageFields(mRecordTypeVsCases.get(interactionRTId));
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
+
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);

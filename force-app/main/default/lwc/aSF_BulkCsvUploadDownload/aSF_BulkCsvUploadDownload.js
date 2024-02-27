@@ -10,9 +10,10 @@ import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityControl
 import { loadScript } from 'lightning/platformResourceLoader';
 import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
-import { validateFile } from "./bulkUploadBUValidationUtil";
+//import { validateFile } from "./bulkUploadBUValidationUtil";
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
@@ -28,7 +29,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     strCSVGeneration = 'Please wait. The CSV generation is in progress...';
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
-    MAX_CHUNK_SIZE = 9000;
+    MAX_CHUNK_SIZE = CHUNK_SIZE;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -71,7 +72,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     currentChunkIndex = 0;
 
    
-    /**Description - Disable Upload Button*/
+    //Disable Upload Button
     get noOperationTypeValue(){
         if(!this.operationRecordTypeValue ){
             return true;
@@ -79,22 +80,24 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         return false;
     }
 
+    //Fetches the access and operation details based on the logged In user's business Unit
     @wire(getMetadataDetails)
     wiredMetaResult({ error, data }) {
         if (data) {
-            console.log('inside on load meta method--'+JSON.stringify(data));
-
             let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
             if(data && data != null){
                 data.allMetadata.map(item => {
-                    const option = {
-                        label: item.Display_Label__c,
-                        value: item.Template_Name__c
-                    };
-                    this.optionActions = [ ...this.optionActions, option ];
+                    if((item.Template_Name__c.includes('Close') && data.hasCloseAccess) || 
+                    (item.Template_Name__c.includes('Create') && data.hasCreateAccess)){
+                        const option = {
+                            label: item.Display_Label__c,
+                            value: item.Template_Name__c
+                        };
+                        this.optionActions = [ ...this.optionActions, option ];
+                    } 
                 });
                 this.allConfigMetaList = data.allMetadata;
-                this.hasPermission = data.hasCustomPermission;
+                this.hasPermission = (data.hasCreateAccess || data.hasCloseAccess) ? true : false;
                 this.hasLoaded = true;
             }
 
@@ -107,6 +110,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
     }
 
+    /*Loads the BU specific validation file from Static Resource and show/hide the components based on
+    current user request */
     connectedCallback(){
         
         if(this.strButtonName== 'DownloadCSVButton'){
@@ -121,6 +126,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.showLoadingSpinner = false;
     }
 
+    //Initializes PapaParser from Static Resource
     renderedCallback() {
         if(!this.parserInitialized){
             loadScript(this, PapaParser)
@@ -131,14 +137,17 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
     }
 
+    //Initializes the BU Specific validation from Static Resource
     async loadValidationFile() {
-        try {
-            await loadScript(this, ASF_BulkUploadBUValidation);
-        } catch (error) {
-            console.error('Error loading Validation file:', error);
-        }
+        await loadScript(this, ASF_BulkUploadBUValidation)
+        .then(() => {
+        })
+        .catch(error => {
+            console.error('Error loading validateFile.js: '+ error);
+        });
     }
 
+    //This method executes when user selects an operation to perform
     onChangeOperationRecordTypeChange(event){
         this.operationRecordTypeValue = event.target.value;
         this.allConfigMetaList.forEach((element) => {
@@ -146,10 +155,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.selectedConfigRec = element;
             }
         });
-        console.log('selected config--'+JSON.stringify(this.selectedConfigRec));
     }
 
-    /**Description - Method to Download Record CSV*/
+    //Method to Download CSV template along with records
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
@@ -174,7 +182,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.strErrorMessage = this.strAdminError + ' Following technical Error occured.  ' ;
         });
     }
-    /**Description - this method validates the dataCSV and creates the csv file to download**/
+    //This method validates the dataCSV and creates the csv file to download
     async downloadCSVFile() {   
         let csvString = '';
 
@@ -197,7 +205,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
 
-    /**Description - this method downloads CSV**/
+    //This method downloads CSV
     getCSVClick(objData,strCSVFileName){
         let downloadElement = document.createElement('a');
         downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(objData);
@@ -206,12 +214,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         downloadElement.click(); 
 
     }
-    /*handleDownloadresult(event){
-        const csvString = event.detail.value;
-        console.log('csv--'+csvString);
-        const fileName = 'BulkUploadResult' +'-' + Date.now();
-        this.getCSVClick(csvString, fileName);
-    } */
+    //This method parses the CSV to Object using papa parser
     parseCsv(file){
         return new Promise((resolve, reject) => {
             Papa.parse(file, {
@@ -228,7 +231,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             });
         });
     }
-    /**Description - Method that works on Upload of CSV*/
+    //Method that executes on Upload of CSV and parses the CSV to object
     async handleFilesChange(event) {
         this.foundFileWithNotAllowedExtn = false;
         if(event.target.files.length > 0) {
@@ -255,11 +258,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     this.boolCSVCheck = true;
                     this.strCSVFileError = '';
                     let parsedData = await this.parseCsv(event.target.files[0]);
-                    //this.processedCsvData = parsedData;
                     this.processedCsvData = parsedData.filter(obj => {
-                        return Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
+                        const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
+                        return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
-                    console.log('parsed data--'+JSON.stringify(this.processedCsvData))
+                    console.log('parsed data--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{
@@ -270,7 +273,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
     }
 
-    /**Description - this method fetchs Tempplate**/
+    //this method fetches the Template header without data
     getTemplateData(){
         getCSVTemplate({strConfigName: this.selectedConfigRec.DeveloperName})
         .then(result => {
@@ -279,26 +282,24 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         .catch(error => { });
     }
 
-     /**Description - this method handles logic of 'Go Back' Button**/
+     //This method handles logic of 'Go Back' Button
      handleListViewNavigation() {
         const baseURL = window.location.origin;
         const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
-        //window.location.assign(listViewUrl,"_self");
         window.open(listViewUrl,"_self");
-        //history.back();
     }
 
-    /**Description - this method Opens Help Modal**/
+    //This method Opens Help Modal
     openHelp(){
         this.helpMessage = true;
     }
     
-    /**Description - this method Closes Help Modal**/
-
+    //This method Closes Help Modal
     closeHelp(){
         this.helpMessage = false;
     }
 
+    //This method validates the uploaded CSV on click of upload button
     validateUploadFile(){
         if(this.filesUploaded.length <= 0){
             this.strErrorMessage = 'Please select a valid .CSV file to upload';
@@ -326,7 +327,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             processName: this.operationRecordTypeValue,
             configData: this.selectedConfigRec
         };
-        let buValResult = validateFile(inputData);
+        let buValResult = window.validateFile(inputData);
         console.log('val result--'+buValResult);
         if(buValResult != 'Success'){
             this.strErrorMessage = buValResult;
@@ -334,7 +335,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             return;
         }
     }
-     /**Description - this method uploads the CSV **/
+    /*This method performs CSV upload operation. When the data is more than the MAX CHUNK size (e.g., 1000),
+     The records are chunked as per MAX CHUNK size and then sent to the apex class for further processing 
+    */
     handleSave() {
         this.showLoadingSpinner = true;
         this.boolShowFileUploadButton = false;
@@ -371,20 +374,20 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
     }
     
+    //Insert middle chunks to database
     async insertMiddleChunk(lineItems){
         await insertLineItemsChunk({lineItems: lineItems})
         .then(result => {
-            console.log('middle chunk result');
         })
         .catch(error => {
             console.error(error);
         });
     }
 
+    //Inserts last chunk to database
     async insertLastChunk(lineItems){
         await insertLastLineItemsChunk({lineItems: lineItems, headRowId: this.uploadId})
         .then(result => {
-            console.log('last chunk result');
             this.startProcessingChunks();
             this.boolShowUploadProgress = false;
             this.showLoadingSpinner = false;
@@ -395,10 +398,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
     }
 
+    //Starts the processing of upload once all the records are inserted to the database.
     startProcessingChunks(){
         startProcessingChunks({headRowId: this.uploadId, totalRowCount: this.rowCount, templateName: this.operationRecordTypeValue})
         .then(result => {
-            console.log('processing chunk result--'+JSON.stringify(result));
             this.boolShowUploadProgress = false;
             this.showLoadingSpinner = false;
             this.boolDisplayProgressbar = true;
@@ -408,7 +411,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
     }
 
-    /**Description - this method Process the CSV Uploaded**/
+    //Inserts the first chunk. This method is also used when the total uploaded records are less than MAC CHUNK size.
     insertFirstChunk(lineItems) {
         insertHeaderRowWithLineItems({ lineItems: lineItems, totalRowCount: this.rowCount, templateName: this.operationRecordTypeValue})
         .then(result => {
@@ -465,12 +468,14 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }); 
     }
 
+    //Shows the Downlaod Result Button once the Upload is complete
     handleUploadComplete(event){
         if(event.detail.value === 100){
             this.showDownloadResult = true;
         }
     }
 
+    //Chunks the uploaded csv data if the count is more than MAX CHUNK size
     chunkArray(array, size) {
         // Function to split an array into chunks of the given size
         const chunkedArray = [];
@@ -480,6 +485,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         return chunkedArray;
     }
 
+    //Utility method to Display Toast Message
     showToastMessage(title, message, variant){
         const evt = new ShowToastEvent({
             title: title,
