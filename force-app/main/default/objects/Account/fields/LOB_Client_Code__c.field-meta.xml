@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Client_Code__c</fullName>
+    <fullName>LOB_Client_Code__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>This is unique key for all the LOB specific Client Code.</description>
     <externalId>true</externalId>
-    <label>Client Code</label>
+    <label>LOB+Client Code</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>
-    <unique>false</unique>
+    <unique>true</unique>
 </CustomField>
