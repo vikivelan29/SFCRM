@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>ABWM AUTO ACK</name>
+    <name>Blank Email Template - Wealth</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Aditya Birla Finance- Wealth  case:  {{{Case.CaseNumber}}}</subject>
+    <subject>Aditya Birla Finance- Wealth Case {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
