@@ -994,15 +994,16 @@ public class ASF_CaseMovementHelper {
                 resultWrapperMap.put(caseRec.Id, resultWrapper);
             }
         }
-
-        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseMovementHelper.getAssignmentForStage(casesForAssignment, caseIdToStageNameMap);
-        for(Id caseId : infos.keySet()){
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
-            StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
-            resultWrapper.ownerId = info.defaultOwnerId;
-            resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
-            resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
-            resultWrapperMap.put(caseId, resultWrapper);
+        if(!casesForAssignment.isEmpty()){
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseMovementHelper.getAssignmentForStage(casesForAssignment, caseIdToStageNameMap);
+            for(Id caseId : infos.keySet()){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
+                StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
+                resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
+                resultWrapperMap.put(caseId, resultWrapper);
+            }
         }
         
         return resultWrapperMap;
