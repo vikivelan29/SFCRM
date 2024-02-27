@@ -486,7 +486,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
                    eligibleRecords.put(caseRec.Id, caseRec);
-                   caseStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
+                   caseStageMap.put(caseRec.Id, isUpdate?oldMap.get(caseRec.Id).Stage__c:caseRec.Stage__c);
                    if(caseRec.Technical_Source__c == 'API' && oldMap == null){
                        supressErrors.put(caseRec.Id, true);
                    }
