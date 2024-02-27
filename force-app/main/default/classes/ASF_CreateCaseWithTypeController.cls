@@ -207,7 +207,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         @AuraEnabled public Boolean boolNoData;
         @AuraEnabled public String strErrorMessage;
         private list<string> exclusionBus;
-        private string userBu;
+        @AuraEnabled public string userBu;
         
         public CaseDetailsWrapper(){
             lstCCCrecords = new List<ASF_Case_Category_Config__c>();
