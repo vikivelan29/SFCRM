@@ -11,6 +11,7 @@ export default class AsfGenerateResultCsv extends LightningElement {
     parserInitialized;
     csvString;
 
+    //This component is called from ASF_BulkCSVuploadDownload and also from the quick action button on Bulk Header Object
     @wire(downloadUploadResults, { bulkHeaderId: '$recordId'})
     wiredRecord({ error, data }) {
         if (data) {
@@ -22,6 +23,7 @@ export default class AsfGenerateResultCsv extends LightningElement {
         }
     }
 
+    //Initializes PapaParser from Static Resource
     renderedCallback() {
         if(!this.parserInitialized){
             loadScript(this, PapaParser)
@@ -31,6 +33,8 @@ export default class AsfGenerateResultCsv extends LightningElement {
                 .catch(error => console.error(error));
         }
     }
+
+    //Unparses the Result JSON field to generate csv
     async processData(data){
         let resultList = [];
         data.forEach(item => {
@@ -42,7 +46,8 @@ export default class AsfGenerateResultCsv extends LightningElement {
             this.downloadCsv();
         }
     }
-
+    
+    // Unparses the json object to string using papa parser
     async unparseCSV(JsonVal) {
         const csvData = await Papa.unparse(JsonVal, {
             header: true,
@@ -51,6 +56,7 @@ export default class AsfGenerateResultCsv extends LightningElement {
         return csvData;
     }
 
+    //Auto downloads the csv when the request is from quick action on header object
     downloadCsv(){
         this.downloadSuccess = true;
             let downloadElement = document.createElement('a');
@@ -61,11 +67,6 @@ export default class AsfGenerateResultCsv extends LightningElement {
 
         if(!this.reqfromLwc){
             this.dispatchEvent(new CloseActionScreenEvent());
-        }else{
-           /* const downloadCompleteEvent = new CustomEvent('downloadcomplete', {
-                detail: { value: csvString }
-            });
-            this.dispatchEvent(downloadCompleteEvent); */
         }
     }
 }

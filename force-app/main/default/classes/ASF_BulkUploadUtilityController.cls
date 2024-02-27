@@ -24,13 +24,6 @@ public with sharing class ASF_BulkUploadUtilityController {
     }
 
     @AuraEnabled
-    public static ChunkLoadWrapper insertHeaderRowWithLineItems2(List<ASF_Bulk_Upload_Line_Item__c> lineItems, Integer totalRowCount, String templateName){
-        ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
-       
-        return returnWrap;
-    }
-
-    @AuraEnabled
     public static ChunkLoadWrapper insertLineItemsChunk(List<ASF_Bulk_Upload_Line_Item__c> lineItems){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
         returnWrap = validateChunk(lineItems);
@@ -74,28 +67,31 @@ public with sharing class ASF_BulkUploadUtilityController {
     @AuraEnabled
     public static ChunkLoadWrapper startProcessingChunks(Id headRowId, Integer totalRowCount, String templateName){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
+        ASF_Bulk_Upload_Header__c headRow;
         //Initiate next step
-        if(totalRowCount > 10000){
+        if(totalRowCount > Integer.valueOf(Label.ASF_BulkThresholdForQueueable)){
             //If num_rows is >10K, start Queueable Chain
             ASF_BulkCaseProcessorQueueable processor = new ASF_BulkCaseProcessorQueueable(headRowId, templateName);
             System.enqueueJob(processor);
             returnWrap.isSuccess = true;
             returnWrap.successMessageIfAny = 'Upload completed, processing started';
+            headRow = new ASF_Bulk_Upload_Header__c();
+            headRow.Id = headRowId;
+            headRow.Status__c = 'Processing';
         }else{
             //else starts PE processing
             Integer index = 0;
             String recordIds = '';
             List<ASF_Bulk_Case_Processor__e> peList = new List<ASF_Bulk_Case_Processor__e>();
-            List<ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new List<ASF_Bulk_Upload_Line_Item__c>();
+            Map<Id, ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new Map<Id, ASF_Bulk_Upload_Line_Item__c>();
             for(ASF_Bulk_Upload_Line_Item__c lineItem : [Select Id, Name from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name]){
                 recordIds += lineItem.Id+';';
                 lineItem.Status__c = 'Event fired';
-                lineItemsToUpdate.add(lineItem);
+                lineItem.Event_Fired_Date__c = System.now();
+                lineItemsToUpdate.put(lineItem.Id, lineItem);
                 if(index == 999){
                     ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
-                    chunkPE.Template_Name__c = templateName;
                     chunkPE.Record_IDs__c = recordIds;
-                    chunkPE.Header_Row_Id__c = headRowId;
                     peList.add(chunkPE);
                     recordIds = '';
                     index = 0;
@@ -105,21 +101,24 @@ public with sharing class ASF_BulkUploadUtilityController {
             if(index != 0){
                 //Few line items are left to be added to PE
                 ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
-                chunkPE.Template_Name__c = templateName;
                 chunkPE.Record_IDs__c = recordIds;
-                chunkPE.Header_Row_Id__c = headRowId;
                 peList.add(chunkPE);
                 index = 0;
             }
             
             if(!peList.isEmpty()){
                 index = 0;
+                Boolean anySuccess = false;
                 List<Database.SaveResult> results = EventBus.publish(peList);
                 for (Database.SaveResult sr : results) {
                     if (sr.isSuccess()) {
                         System.debug('Successfully published event.');
+                        anySuccess = true;
                     } else {
-                        lineItemsToUpdate[index].Status__c = 'Pending';
+                        recordIds = peList[index].Record_IDs__c;
+                        for(String recordId : recordIds.split(';')){
+                            lineItemsToUpdate.remove(recordId);
+                        }
                         for(Database.Error err : sr.getErrors()) {
                             System.debug('Error returned: ' +
                                         err.getStatusCode() +
@@ -129,16 +128,26 @@ public with sharing class ASF_BulkUploadUtilityController {
                     }  
                     index++;     
                 }
-                
-                returnWrap.isSuccess = true;
-                returnWrap.successMessageIfAny = 'Upload completed, processing started';
+                if(anySuccess){
+                    returnWrap.isSuccess = true;
+                    returnWrap.successMessageIfAny = 'Upload completed, processing started';
+                    headRow = new ASF_Bulk_Upload_Header__c();
+                    headRow.Id = headRowId;
+                    headRow.Status__c = 'Processing';
+                }else{
+                    returnWrap.isSuccess = false;
+                    returnWrap.successMessageIfAny = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
+                }
             }else{
                 returnWrap.isSuccess = false;
                 returnWrap.errorMessage = 'No row pending for processing';
             }
 
             if(!lineItemsToUpdate.isEmpty()){
-                update lineItemsToUpdate; //Updates status to Event fired
+                update lineItemsToUpdate.values(); //Updates status to Event fired
+            }
+            if(headRow != null){
+                update headRow; //updates header's status to Processing
             }
         }
         return returnWrap;

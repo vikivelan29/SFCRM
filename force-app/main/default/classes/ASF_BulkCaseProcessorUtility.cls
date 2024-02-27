@@ -10,10 +10,14 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         Set<Id> recordIds = new Set<Id>();
         for(ASF_Bulk_Case_Processor__e peRecord : peRecords){
             recordIds.addAll((List<Id>)peRecord.Record_IDs__c.split(';'));
-            this.headIdToTemplateNameMap.put(peRecord.Header_Row_Id__c, peRecord.Template_Name__c);
         }
         if(!recordIds.isEmpty()){
-            this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, OwnerId from ASF_Bulk_Upload_Line_Item__c where Id IN :recordIds];
+            this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, OwnerId, Bulk_Upload_Header__r.Template_Name__c from ASF_Bulk_Upload_Line_Item__c where Id IN :recordIds];
+            for(ASF_Bulk_Upload_Line_Item__c lineItem : this.lineItemsToProcess){
+                if(!this.headIdToTemplateNameMap.containsKey(lineItem.Bulk_Upload_Header__c)){
+                    this.headIdToTemplateNameMap.put(lineItem.Bulk_Upload_Header__c, lineItem.Bulk_Upload_Header__r.Template_Name__c);
+                }
+            }
         }
     }
 

@@ -71,6 +71,13 @@
         <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Loan ID:LOAN_ID,Loan No:LOAN_NO,Old Rate:OLD_RATE,New Rate:new_rate</value>
     </labels>
     <labels>
+        <fullName>ASF_BulkThresholdForQueueable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
+        <value>9000</value>
+    </labels>
+    <labels>
         <fullName>ASF_Bulk_Chunk_Size</fullName>
         <language>en_US</language>
         <protected>false</protected>
