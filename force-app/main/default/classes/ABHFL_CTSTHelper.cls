@@ -25,7 +25,7 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
-    
+
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
@@ -69,7 +69,7 @@ public without sharing class ABHFL_CTSTHelper {
     	if (slaHistory.size() > 0) {
         	delete slaHistory;
     	}
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
 	}
     //Dhinesh
@@ -117,7 +117,7 @@ public without sharing class ABHFL_CTSTHelper {
     //Dhinesh - Collateral Documents case owner Assignment.
     public static Case assignCaseCollateralDocs(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c,ABHFL_Case_Detail__c  FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+		ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
         Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
         if (caseRec.Source__c == 'Branch') {
             caseRec.OwnerId = caseDetail.CreatedById;
@@ -236,13 +236,18 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
-            for(Case cs : newCases){
-                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
-                }
+            executeSpecificIntegrations(newCases, uiCardIntegrationMap);
+        }
+    }
+
+    public static void executeSpecificIntegrations(List<Case> newCases, Map<String, List<ASF_Integration__c>> uiCardIntegrationMap){
+        for(Case cs : newCases){
+            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
             }
         }
     }
+
     //Dhinesh - to Send Tracking Links
     public static void sendTrackingLink(Case caseRec){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
@@ -273,9 +278,9 @@ public without sharing class ABHFL_CTSTHelper {
         	emailTemplate = ABHFL_Constants.DSRA_LIEN_EMAIL;
         	smsTemplate = ABHFL_Constants.DSRA_LIEN_SMS;
     	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.ESCROW_STATEMENT_ID) {
-       	 emailTemplate = ABHFL_Constants.ESCROW_STATEMENT_EMAIL;
-        	smsTemplate = ABHFL_Constants.ESCROW_STATEMENT_SMS;
-    	} else {
+       	 				emailTemplate = ABHFL_Constants.ESCROW_STATEMENT_EMAIL;
+        	smsTemplate = ABHFL_Constants.ESCROW_STATEMENT_SMS;            
+        } else {
 	        shouldInvokeCommPEevent = FALSE;
     	}
 
@@ -355,7 +360,7 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, Doc_Charge__mdt> mapOf_CCCExternalId_To_DocChargeRec = new Map<String, Doc_Charge__mdt>();
 
         for(Case csRec : newCaseList) {
-
+            
             String bussUnit = csRec.Business_Unit__c;
             String cccExtId = csRec.CCC_External_Id__c;
             String abflCasDetId = csRec.ABHFL_Case_Detail__c;
