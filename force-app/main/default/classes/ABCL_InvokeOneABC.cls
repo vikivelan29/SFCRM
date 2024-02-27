@@ -11,8 +11,8 @@ public without sharing class ABCL_InvokeOneABC {
             List<Case> lstOneABCCases = new List<Case>();
             for (Case caseRecord : newCaseMap.values()){ 
                 if(oldCaseMap.get(caseRecord.Id).Stage__c != caseRecord.Stage__c && caseRecord.Stage__c == 'Resolved' && caseRecord.Source__c == 'OneABC'){
-                    System.debug('stage-->: '+caseRecord.OwnerText__c );
-                	System.debug('Source-->: '+caseRecord.Resolution_Comments__c);
+                    // System.debug('stage-->: '+caseRecord.OwnerText__c );
+                	// System.debug('Source-->: '+caseRecord.Resolution_Comments__c);
                     lstOneABCCases.add(caseRecord);
                 }
             }
@@ -35,22 +35,32 @@ public without sharing class ABCL_InvokeOneABC {
     *****************************************************************************************************************/
     public static void oneAbcCallout(List<Case> caseRecord){
     	try{
+            // logic to insert case integration record
             List<ASF_Case_Integration__c> lstAsfCaseInteg = new List<ASF_Case_Integration__c>();
-            List<Case_Integration_Outbound__e> caseOutEvntList = new List<Case_Integration_Outbound__e>();
             for (Case caseRecordRef : caseRecord){
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                 caseInt.Case__c = caseRecordRef.Id;
                 caseInt.Status__c = ABFL_Constants.PENDING;
                 //caseInt.Type__c = 'OneABC';
                 lstAsfCaseInteg.add(caseInt);
-             }
-                
-            if (!lstAsfCaseInteg.isEmpty()){
-                Database.SaveResult[] insertResult = Database.insert(lstAsfCaseInteg,false); 
             }
+            
+            List<Id> ciIds = new List<Id>();
+            if (!lstAsfCaseInteg.isEmpty()){
+                Database.SaveResult[] srList = Database.insert(lstAsfCaseInteg,false); 
+                // Iterate through each returned result
+                for (Database.SaveResult sr : srList) {
+                    if (sr.isSuccess()) {
+                        // Operation was successful, so get the ID of the record that was processed
+                        // System.debug('Successfully inserted account. Account ID: ' + sr.getId());
+                        ciIds.add(sr.getId());
+                    }
+                }
+            }
+            
+            List<Case_Integration_Outbound__e> caseOutEvntList = new List<Case_Integration_Outbound__e>();
             Map<Id, ASF_Case_Integration__c> caseIdToCaseIntMap = new Map<Id, ASF_Case_Integration__c>();
-            for(ASF_Case_Integration__c caseIntRecord :[SELECT ID, Name,Status__c,Type__c ,Case__c FROM ASF_Case_Integration__c WHERE Case__c IN :caseRecord 
-                                                        AND Status__c = :ABFL_Constants.PENDING AND Type__c = NULL WITH SECURITY_ENFORCED LIMIT 1]){
+            for(ASF_Case_Integration__c caseIntRecord :ABFL_SOQL_Integration.getCaseIntegrationInfos(ciIds, ABFL_Constants.PENDING)){
                 caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
             }    
             if(!caseIdToCaseIntMap.isEmpty()){
@@ -74,7 +84,7 @@ public without sharing class ABCL_InvokeOneABC {
                 }  
             }
             if (!caseOutEvntList.isEmpty()){
-               	system.debug('enterePE '+caseOutEvntList);
+               	// system.debug('enterePE '+caseOutEvntList);
                 List<Database.SaveResult> results = EventBus.publish(caseOutEvntList);
             }
     	}
