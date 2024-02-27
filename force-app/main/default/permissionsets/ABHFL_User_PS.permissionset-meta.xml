@@ -2767,4 +2767,8 @@
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>
+    <tabSettings>
+        <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
