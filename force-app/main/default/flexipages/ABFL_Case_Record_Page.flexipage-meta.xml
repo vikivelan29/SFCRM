@@ -584,6 +584,36 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
+                <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.ABFL_Case_Detail__r.Document_URL__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-b32ebae5-26e0-4004-b53d-a54955855129</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-b32ebae5-26e0-4004-b53d-a54955855129</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2da0c06b-1c0f-45cd-aa1b-ec0ed7a9299d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -634,6 +664,30 @@
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-2da0c06b-1c0f-45cd-aa1b-ec0ed7a9299d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Document URL</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>force:recordDetailPanelMobile</componentName>
+                <identifier>force_recordDetailPanelMobile</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
