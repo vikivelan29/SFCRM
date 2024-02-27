@@ -107,7 +107,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.isSensitive = config.Sensitive_field__c;
             item.FieldLabelName = getLabelfromAPIName(config.ObjectAPIName__c,config.FieldAPIName__c);
             // System.debug(config.Update__c + config.Update__c.contains(status));
-            
+            item.ReadOnly = false;
             if(item.UpdateAtList != null && item.UpdateAtList.size() > 0 ){ 
                 if(item.UpdateAtList.contains(status) && config.Controlling_field__c == null){
                     item.ReadOnly = false;
@@ -116,7 +116,9 @@ public without sharing class ASF_GetCaseRelatedDetails {
                     item.ReadOnly = true;
                 }
             }
-            
+            Schema.DescribeFieldResult dfr = Schema.getGlobalDescribe().get(config.ObjectAPIName__c).getDescribe().fields.getMap().get(config.FieldAPIName__c).getDescribe();
+            item.ReadOnly = item.ReadOnly?item.ReadOnly:!dfr.isUpdateable();
+
             if(item.RequiredAtList != null && item.RequiredAtList.size() >0 ){   
                 if(item.RequiredAtList.contains(status) && config.Controlling_field__c == null){
                     item.Required = true;
