@@ -117,6 +117,7 @@ public without sharing class PAY_CustomerSearchController {
                         
                     }
                     accountToInsert.Client_Code__c = customerData.ClientCode;
+                    accountToInsert.LOB_Client_Code__c = customerData.LineOfBusiness+'_'+customerData.ClientCode;
                     system.debug(customerData);
                     List<RecordType> recordType = [SELECT Id FROM RecordType where SObjectType = 'Account' and DeveloperName =: customerData.CustomerType];
                     if(recordType.size() > 0){
@@ -134,14 +135,15 @@ public without sharing class PAY_CustomerSearchController {
                         contactToInsert.LastName = customerData.ContactLastName;
                         contactToInsert.MobilePhone = customerData.Phone;
                         contactToInsert.Email = customerData.Email;
-                        contactToInsert.Account = New Account(Client_Code__c=customerData.ClientCode);
+                        String tempCustomerSearchKey = customerData.LineOfBusiness+'_'+customerData.ClientCode;
+                        contactToInsert.Account = New Account(LOB_Client_Code__c=tempCustomerSearchKey);
                         contactList.add(contactToInsert);
                     } 
                 }
             }
             
             if (!accountList.isEmpty()) {
-                upsert accountList Client_Code__c;
+                upsert accountList LOB_Client_Code__c;
             }
             
             if (!contactList.isEmpty()) {
