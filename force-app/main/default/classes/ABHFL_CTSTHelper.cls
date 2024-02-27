@@ -236,13 +236,18 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
-            for(Case cs : newCases){
-                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
-                }
+            executeSpecificIntegrations(newCases, uiCardIntegrationMap);
+        }
+    }
+
+    public static void executeSpecificIntegrations(List<Case> newCases, Map<String, List<ASF_Integration__c>> uiCardIntegrationMap){
+        for(Case cs : newCases){
+            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
             }
         }
     }
+    
     //Dhinesh - to Send Tracking Links
     public static void sendTrackingLink(Case caseRec){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
