@@ -225,8 +225,8 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
                             if (caseFieldsMetadata[item].UpdateAt) {
                                 if (caseFieldsMetadata[item].UpdateAt.includes(currentStep)) {
                                     if (caseFieldsMetadata[item].ControllingField == null && !caseFieldsMetadata[item].useControllingFormula) {
-                                        field.disabled = false;
-                                        hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
+                                        // field.disabled = false;
+                                        // hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
                                     }
                                     else{
                                         var controllingField = caseFieldsMetadata.find(item1 => item1.FieldAPINAme == caseFieldsMetadata[item].ControllingField);
