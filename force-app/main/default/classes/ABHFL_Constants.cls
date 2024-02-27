@@ -11,6 +11,8 @@
 public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
+    //Amortization Subtype External Id
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';
        
     //Generic Constants
     public static final String SUCCESS = 'Success';
