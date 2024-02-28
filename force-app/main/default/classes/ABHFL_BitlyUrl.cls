@@ -103,7 +103,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             handleSuccessResponse(sendCommunication, caseRec, cccRecord[0], caseInteg);
-        }else if(sendCommunication){
+        }else if(sendCommunication && caseInteg.Status__c != ABHFL_Constants.PENDING){
             handleErrorResponse(sendCommunication, caseRec, cccRecord[0]); 
         }
 
@@ -119,11 +119,15 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
 
     private static Boolean shouldSendCommunication(ASF_Integration__c asfInteg, ASF_Case_Category_Config__c cccRecord) {
-        return !(asfInteg.Case_Stage_Config__r.SLA_Override_Enabled__c && cccRecord.Nature__c == 'Complaint' 
-                && !cccRecord.Send_open_stage_communications__c == false);
+        if(cccRecord.Send_open_stage_communications__c == true && cccRecord.Nature__c == 'Complaint' && asfInteg.Case_Stage_Config__r.SLA_Override_Enabled__c == false){
+            return false;
+        }
+        return true;
     }
 
+
     private static void handleSuccessResponse(Boolean sendCommunication,  Case caseRec, ASF_Case_Category_Config__c cccRecord, ASF_Case_Integration__c caseInteg){
+        System.debug('insiede handle success --  ');
         List<String> emailTemplates = (cccRecord.New_Case_Email_Template__c).split(',');
         List<String> smsMetadata = (cccRecord.New_Case_SMS_Metadata__c).split(',');
         
