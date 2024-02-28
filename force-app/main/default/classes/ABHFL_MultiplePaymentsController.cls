@@ -29,18 +29,20 @@ public with sharing class ABHFL_MultiplePaymentsController {
             }
             upsert payments;
             Case caseRec = [SELECT Id,Stage__c FROM Case WHERE Id =: caseId];
-            if(caseRec.Stage__c == 'Open'){
-                ASF_Checklist__c paymentChecklist = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseId AND Label__c = 'Create Payment' LIMIT 1];
-                if(paymentChecklist != null){
-                    // Update checklist status to 'Completed'
-                    paymentChecklist.Status__c = 'Completed';
-                    try {
-                        update paymentChecklist;
-                    } catch(Exception e) {
-                        throw new AuraHandledException('Error updating checklist: ' + e.getMessage());
-                    }
-                } 
-            }
+            if (caseRec.Stage__c == 'Open') {
+            List<ASF_Checklist__c> paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseId AND Label__c = 'Create Payment' LIMIT 1];
+
+            if (!paymentChecklists.isEmpty()) {
+                // Checklist found, update checklist status to 'Completed'
+                ASF_Checklist__c paymentChecklist = paymentChecklists[0];
+                paymentChecklist.Status__c = 'Completed';
+
+                try {
+                    update paymentChecklist;
+                } catch (Exception e) {
+                    throw new AuraHandledException('Error updating checklist: ' + e.getMessage());
+                }
+            } 
             return result;
             
         } catch (Exception e) {
