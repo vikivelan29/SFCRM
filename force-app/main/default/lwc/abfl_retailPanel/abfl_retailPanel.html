@@ -1,0 +1,44 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 02-27-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  * Ver      Date           Author                            Modification
+  * 1.0      28-12-2023     rsinghnagar@salesforce.com        Initial Version
+  * 2.0      28-02-2024     udit.singhal@salesforce.com       updated logic for the real time API
+-->
+<template>
+  <lightning-card>
+    <lightning-vertical-navigation onselect={handleSelect} selected-item={selectedItem}>
+      <lightning-vertical-navigation-section label="Real Time Details">
+        <template lwc:if={isSourceSystemFINNRTL}>
+          <lightning-layout>
+            <lightning-layout-item padding="around-small">
+              <template for:each={navItemLeftList} for:item="item">
+                <lightning-vertical-navigation-item key={item.name} label={item.label}
+                  name={item.name}></lightning-vertical-navigation-item>
+              </template>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small">
+              <template for:each={navItemRightList} for:item="item">
+                <lightning-vertical-navigation-item key={item.name} label={item.label}
+                  name={item.name}></lightning-vertical-navigation-item>
+              </template>
+            </lightning-layout-item>
+          </lightning-layout>
+        </template>
+        <template lwc:elseif={isSourceSystemA3S}>
+          <lightning-vertical-navigation-item label="Customer and Account Details"
+            name="Customer_and_Account_Details"></lightning-vertical-navigation-item>
+        </template>
+        <template lwc:else>
+          <div class="slds-m-left_large">
+            <p>Source is not valid</p>
+          </div>
+        </template>
+      </lightning-vertical-navigation-section>
+    </lightning-vertical-navigation>
+  </lightning-card>
+</template>
