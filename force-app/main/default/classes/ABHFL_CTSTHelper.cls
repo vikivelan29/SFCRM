@@ -69,7 +69,7 @@ public without sharing class ABHFL_CTSTHelper {
     	if (slaHistory.size() > 0) {
         	delete slaHistory;
     	}
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        //ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
 	}
     //Dhinesh
