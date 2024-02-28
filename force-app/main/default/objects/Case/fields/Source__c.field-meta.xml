@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -46,7 +47,7 @@
                 <default>false</default>
                 <label>Webform</label>
             </value>
-<value>
+            <value>
                 <fullName>WhatsApp</fullName>
                 <default>false</default>
                 <label>WhatsApp</label>
