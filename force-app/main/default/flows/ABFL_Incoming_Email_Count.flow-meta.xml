@@ -2,6 +2,7 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>60.0</apiVersion>
     <description>This Flow is developed as part of PR970457-373 to rollup incoming email count to Case object.</description>
+    <environments>Default</environments>
     <formulas>
         <name>IncrementIncomingCount</name>
         <dataType>Number</dataType>
@@ -40,6 +41,13 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.ParentId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsClosed</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <inputAssignments>
