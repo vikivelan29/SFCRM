@@ -588,20 +588,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-d9ed0c5b-85f8-473f-9225-a0b65d5323ea</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-67ab0c4a-41dd-4b75-baf8-8125ad15450e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
                 <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
