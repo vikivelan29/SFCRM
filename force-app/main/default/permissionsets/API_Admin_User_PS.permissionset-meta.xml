@@ -381,6 +381,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Product_List__c</field>
+        <readable>true</readable>
+	</fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.RBI_Complaint_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3027,6 +3032,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Client_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.LOB_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

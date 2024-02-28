@@ -20,7 +20,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -40,6 +40,14 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
             if(caseNumberToCaseMap.get(caseNumber).IsClosed == true){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case is already '+caseNumberToCaseMap.get(caseNumber).Stage__c);
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(caseNumberToCaseMap.get(caseNumber).RecordTypeId == ASF_Constants.RT_INTERACTION 
+            && (caseNumberToCaseMap.get(caseNumber).AccountId == null || caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case does not have Account tagged or Issue Type Code tagged');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
