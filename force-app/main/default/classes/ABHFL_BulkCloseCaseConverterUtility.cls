@@ -21,7 +21,7 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -47,15 +47,25 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(caseNumberToCaseMap.get(caseNumber).RecordTypeId == ASF_Constants.RT_INTERACTION 
+            && (caseNumberToCaseMap.get(caseNumber).AccountId == null || caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case does not have Account tagged or Issue Type Code tagged');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             if(stage == 'Resolved'){
                 caseRec.Stage__c = stage;
+                caseRec.Status = stage;
                 caseRec.Pending_Clarification__c = false;
                 caseRec.moved_back__c = false;
                 caseRec.Is_Manual_Moved__c = true;
                 caseRec.Resolution_Comments__c = resolutionComments;
             }else if(stage == 'Unresolved'){
                 caseRec.Stage__c = stage;
+                caseRec.Status = stage;
                 caseRec.Reject_Case__c = true;
                 caseRec.Rejected_Reason__c = unresolvedDetails;
                 caseRec.Rejection_Reason__c = unresolvedReason;

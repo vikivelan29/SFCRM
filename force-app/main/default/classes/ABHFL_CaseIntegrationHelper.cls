@@ -10,7 +10,7 @@
  Vishal Gangwar      05/01/2024            MultiLAN - eBot response processing(PR970457-271)
 *********************************************************/
 public with sharing class ABHFL_CaseIntegrationHelper {
-    public static Set<String> stpList = new Set<String>{'QLOANDUSNDC','hfl004','hfl042','hfl037','hfl078','hfl071','hfl005','hfl073','QLOANDRSTAWEITHFCUSNDC'};
+    //public static Set<String> stpList = new Set<String>{'QLOANDUSNDC','hfl004','hfl042','hfl037','hfl078','hfl071','hfl005','hfl073','QLOANDRSTAWEITHFCUSNDC'};
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - eBotHandler
@@ -26,11 +26,11 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Confidence_Score__c  = ebotResponse.CONFIDENCESCORE != null ? Decimal.valueof(ebotResponse.CONFIDENCESCORE) : 0;
        
        //Added By Vishal
-        caseDetails.As_On_Date__c = ebotResponse.ASONDATE != null ? Date.valueof(ebotResponse.ASONDATE) : null;
-        caseDetails.From_Date__c = ebotResponse.FROMDATE != null ? Date.valueof(ebotResponse.FROMDATE) : null;
-        caseDetails.From_Year__c = ebotResponse.FROMYEAR != null ? String.valueof(ebotResponse.FROMYEAR) : '';
-        caseDetails.To_Date__c = ebotResponse.TODATE != null ? Date.valueof(ebotResponse.TODATE) : null;
-        caseDetails.To_Year__c = ebotResponse.TOYEAR != null ? String.valueof(ebotResponse.TOYEAR) : '';
+        caseDetails.As_On_Date__c = String.isNotBlank(ebotResponse.ASONDATE) ? Date.valueof(ebotResponse.ASONDATE) : null;
+        caseDetails.From_Date__c = String.isNotBlank(ebotResponse.FROMDATE) ? Date.valueof(ebotResponse.FROMDATE) : null;
+        caseDetails.From_Year__c = ebotResponse.FROMYEAR;
+        caseDetails.To_Date__c = String.isNotBlank(ebotResponse.TODATE)? Date.valueof(ebotResponse.TODATE) : null;
+        caseDetails.To_Year__c = ebotResponse.TOYEAR;
         caseDetails.Disburstment_Type__c = ebotResponse.DISBURSTMENTTYPE;
         caseDetails.Is_Corrupted__c = ebotResponse.ISCORRUPTED;
         caseDetails.Is_Multilan__c = ebotResponse.ISMULTILAN;
@@ -55,19 +55,19 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
 
-        if((ebotResponse.ISREGISTRED == 'Yes' || ebotResponse.ISREPEAT == 'Yes') && stpList.contains(caseRecord.CCC_External_Id__c)){
+        if( ebotResponse.ISREPEAT == 'Yes'){
             caseRecord.Technical_Source__c = 'LWC';
         }
         
        //Added By Vishal
         Map<String,Id> lanWithAssetIdMap = new Map<String,Id>();
-        if(ebotResponse.LAN_NOS != null && ebotResponse.LAN_NOS.size() > 0){
-            for(Asset ast : [SELECT Id,LAN__c FROM Asset WHERE LAN__c IN: ebotResponse.LAN_NOS WITH SECURITY_ENFORCED]){
+        if(ebotResponse.EBOTLAN != null && ebotResponse.EBOTLAN.size() > 0){
+            for(Asset ast : [SELECT Id,LAN__c FROM Asset WHERE LAN__c IN: ebotResponse.EBOTLAN WITH SECURITY_ENFORCED]){
                 if(caseRecord.AssetId != null){
                     lanWithAssetIdMap.put(ast.LAN__c,ast.Id);
                 }else{
                     caseRecord.AssetId = ast.Id;
-                    ebotResponse.LAN_NOS.remove(ebotResponse.LAN_NOS.indexOf(ast.LAN__c));
+                    ebotResponse.EBOTLAN.remove(ebotResponse.EBOTLAN.indexOf(ast.LAN__c));
                 }
             }            
         }
@@ -86,7 +86,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             update caseRecord;
         }*/
 
-        if(ebotResponse.LAN_NOS != null && ebotResponse.LAN_NOS.size() > 0){
+        if(ebotResponse.EBOTLAN != null && ebotResponse.EBOTLAN.size() > 0){
             createMultipleCaseWithLAN(caseRecord.Id,caseDetails.Id,lanWithAssetIdMap,ebotResponse);
         }
     }

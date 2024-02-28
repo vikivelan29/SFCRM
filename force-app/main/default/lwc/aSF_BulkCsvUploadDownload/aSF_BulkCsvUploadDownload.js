@@ -259,7 +259,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     this.strCSVFileError = '';
                     let parsedData = await this.parseCsv(event.target.files[0]);
                     this.processedCsvData = parsedData.filter(obj => {
-                        return Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
+                        const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
+                        return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
                     console.log('parsed data--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;

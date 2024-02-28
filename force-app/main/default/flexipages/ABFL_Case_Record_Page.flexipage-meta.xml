@@ -620,11 +620,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>SR Snapshot</value>
+                    <value>Case Snapshot</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
-                    <value>Case.ABFL_SR_Snapshot</value>
+                    <value>Case.ABFL_Case_Snapshot</value>
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>

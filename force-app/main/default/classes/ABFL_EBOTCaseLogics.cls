@@ -65,6 +65,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             objCase.ABFL_Case_Detail__c = caseDetailId;
             objCase.CCC_External_Id__c = objResponseBody.CASESUBTYPE;
             objCase.Comments = objResponseBody.COMMENT;
+            objCase.Sent_to_EBOT__c  = TRUE;
             objCase.Case_Stage_Change_Date__c = system.now();
             objCase.LAN__c =  String.isNotBlank(objResponseBody.LAN)? objResponseBody.LAN : '';
             objCase.Client_Code_Text__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';

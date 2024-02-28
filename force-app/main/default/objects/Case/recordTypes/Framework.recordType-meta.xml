@@ -20,7 +20,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+        <picklistValues>
         <picklist>Business_Unit__c</picklist>
         <values>
             <fullName>ABFL</fullName>
@@ -141,7 +141,39 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Closed as Exception</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complaint Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient%2Fincomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partially Resolved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -167,7 +199,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bureau</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call- in</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -175,11 +223,87 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>IVR</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IVR Inbound</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Walk-In</fullName>
+            <fullName>IVR-No Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Nodal Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal RM - Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal Usage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter %2F Snail Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone-Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone-Outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RA Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RM-No Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SystemIntegration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Voice Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Webform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -191,6 +315,45 @@
         </values>
         <values>
             <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Source__c</picklist>
+        <values>
+            <fullName>Cibil Trigger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Detractor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incoming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One ABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pro-active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin</fullName>
             <default>false</default>
         </values>
     </picklistValues>

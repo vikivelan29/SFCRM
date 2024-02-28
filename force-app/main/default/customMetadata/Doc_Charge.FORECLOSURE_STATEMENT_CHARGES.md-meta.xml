@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Re_issuance_of_FCL_VF</value>
     </values>
     <values>
         <field>Payment_Code__c</field>
@@ -32,6 +32,6 @@
     </values>
     <values>
         <field>SMS_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Re_issuance_of_FCL_SMS_Template</value>
     </values>
 </CustomMetadata>

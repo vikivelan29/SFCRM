@@ -12,8 +12,7 @@ public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
-    public static final String Amort_CCC_EXTERNALID = 'hfl004';
-       
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';   
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
@@ -47,6 +46,12 @@ public with sharing class ABHFL_Constants {
     public static final String INTERACTION_RECORD_TYPE = 'Interaction';
     public static final String NEW_STATUS = 'New';
     public static final String EMAIL_TECHNICAL_SOURCE = 'Email';
+    public static final String SUB_VARIANT = 'GENERAL PURPOSE LOAN';
+    public static final String VARIANT = 'HOME CONSTRUCTION LOAN';
+    public static final String SOURCE_TYPE = 'Internal';
+    public static final String SOURCE_SYSTEM_API = 'SFDC';
+    public static final String EXTERNAL_RECORD_TYPE = 'External';
+    
     
     
     
@@ -77,7 +82,7 @@ public with sharing class ABHFL_Constants {
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
     public static final String PAYMENT_BOUNCE_TEMPLATE = 'Payment_Bounced_1705034284521';
-    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_detail_1705035027022';
+    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_details_1705034679464';
     public static final String PAYMENT_BOUNCE_SMS = 'ABHFL_Payment_Bounce';
     public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
     public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
@@ -95,6 +100,7 @@ public with sharing class ABHFL_Constants {
     public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
     public static final String PRECLS_LOANCLOSED_EMAIL ='Loan_Closed_share_property_papers_VF';
     public static final String PRECLS_LOANCLOSED_SMS ='ABHFL_Loan_Closed_return_property_papers';
+    
 
 
     // Constants for REKYC 
@@ -119,21 +125,23 @@ public with sharing class ABHFL_Constants {
     public static String GST_INVOICE_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
+    public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
     public static String GST_INVOICE_SMS = 'Query_Case_Closure_1701081397834';
-
-
-	  public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
-
-
+    public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
+    public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
     public static String DSRA_LIEN_ID = 'AC123470';
     public static String ESCROW_STATEMENT_ID = 'hfl029';
+    public static String NOC_REQUIRED_ID = 'hfl050';
+
+
+    
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {

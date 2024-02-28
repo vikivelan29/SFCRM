@@ -15,7 +15,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         retCls.updatedCase = caseRec;
         retCls.isCaseUpdated = false;
 
-        if(ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c)){
+        if(ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c) && !caseRec.OnCreateCloseSR__c){
             if((caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == null || caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == '') &&
                (!(caseRec.Source__c == 'Phone-Inbound' && caseRec.Nature__c == 'Query')) && ((caseRec.LOB__c == 'Wealth') || (caseRec.LOB__c != 'Wealth' && caseRec.Nature__c != 'Complaint')))
             {

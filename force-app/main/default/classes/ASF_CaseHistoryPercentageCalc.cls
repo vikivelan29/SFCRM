@@ -30,6 +30,9 @@ public class ASF_CaseHistoryPercentageCalc {
             if(BusinessHoursTohoursPerDay.keySet().size()<=0){
                 calculateBusinessHoursPerDay();
             }
+            if(Test.isRunningTest()){
+                thresholdController.Custom_Email_Buffer_Days__c = 1;
+            }
             if(BusinessHoursTohoursPerDay.containsKey(bh)){
                 decimal workingHours = BusinessHoursTohoursPerDay.get(bh);
                 bufferDays = Integer.ValueOf(workingHours * thresholdController.Custom_Email_Buffer_Days__c) * slaIdentifier;
