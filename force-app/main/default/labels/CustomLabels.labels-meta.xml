@@ -533,4 +533,11 @@
         <shortDescription>STP Flows</shortDescription>
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
+    <labels>
+        <fullName>ASF_BulkProcessorBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
 </CustomLabels>
