@@ -587,12 +587,7 @@
             <fieldInstance>
                 <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
                 <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.ABFL_Case_Detail__r.Document_URL__c}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
+                
             </fieldInstance>
         </itemInstances>
         <name>Facet-b32ebae5-26e0-4004-b53d-a54955855129</name>
@@ -682,6 +677,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.ABFL_Case_Detail__r.Document_URL__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
