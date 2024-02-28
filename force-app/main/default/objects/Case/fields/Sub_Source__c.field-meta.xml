@@ -60,30 +60,9 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
             <controllingFieldValue>Email</controllingFieldValue>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Outbound</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
-            <valueName>Inbound</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
-            <valueName>Detractor</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
-            <valueName>Pro-active</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
-            <valueName>Cibil Trigger</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
-            <valueName>One ABC</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Email</controllingFieldValue>
@@ -96,6 +75,26 @@
         <valueSettings>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>Inbound</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>Detractor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>Pro-active</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>Cibil Trigger</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>One ABC</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
