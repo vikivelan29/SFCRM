@@ -31,6 +31,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Payment_Required__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>SMS_Template__c</field>
         <value xsi:type="xsd:string">ABHFL_Swap_Mandate_Payment_Link</value>
     </values>
