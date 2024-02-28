@@ -12,8 +12,7 @@ public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
-    public static final String Amort_CCC_EXTERNALID = 'hfl004';
-       
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';   
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
@@ -47,6 +46,12 @@ public with sharing class ABHFL_Constants {
     public static final String INTERACTION_RECORD_TYPE = 'Interaction';
     public static final String NEW_STATUS = 'New';
     public static final String EMAIL_TECHNICAL_SOURCE = 'Email';
+    public static final String SUB_VARIANT = 'GENERAL PURPOSE LOAN';
+    public static final String VARIANT = 'HOME CONSTRUCTION LOAN';
+    public static final String SOURCE_TYPE = 'Internal';
+    public static final String SOURCE_SYSTEM_API = 'SFDC';
+    public static final String EXTERNAL_RECORD_TYPE = 'External';
+    
     
     
     
@@ -95,6 +100,7 @@ public with sharing class ABHFL_Constants {
     public static final String MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS ='ABHFL_FCL_issued_to_customer';
     public static final String PRECLS_LOANCLOSED_EMAIL ='Loan_Closed_share_property_papers_VF';
     public static final String PRECLS_LOANCLOSED_SMS ='ABHFL_Loan_Closed_return_property_papers';
+    
 
 
     // Constants for REKYC 
