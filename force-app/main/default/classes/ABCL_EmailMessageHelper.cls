@@ -20,6 +20,7 @@ public with sharing class ABCL_EmailMessageHelper {
         // Find eligible records
         Map<Id, EmailMessage> caseEmailsMap = new Map<Id, EmailMessage>();
         Set<Id> caseIds = new Set<Id>();
+        List<Case> csList  = new List<Case>();
         
         for (EmailMessage email : (List<EmailMessage>) newEmails.values()) {
             if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||( email.Headers != null && 
@@ -55,7 +56,14 @@ public with sharing class ABCL_EmailMessageHelper {
                 fieldsMap.put('Email_Message_ID__c', email.Id);
                 // Invoke Internal PE - This is required as content documents information is not persisted in initial transaction
                 Database.SaveResult eventResult = ABCL_CasePlatformEventHandler.publishPlatformEvent('EBOT_Internal_Event__e', fieldsMap);
+                c.Sent_to_EBOT__c = true;
+                csList.add(c);
             }
+        }
+
+        if(csList.size() > 0) {
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            update csList;
         }
     }
 
