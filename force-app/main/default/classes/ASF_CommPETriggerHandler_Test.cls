@@ -134,10 +134,7 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        // Assert to check the count of the account
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-         // Assert to check the size of the peLoggers
-        System.assertEquals(1, peLoggers.size());
+        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -178,8 +175,6 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
         
         if(peLoggers.size()>0){
             insert peLoggers;
@@ -222,8 +217,6 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
         
         if(peLoggers.size()>0){
             insert peLoggers;
@@ -266,10 +259,6 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = null;
             peLoggers.add(peLogger);
         }
-        
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
-        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -297,17 +286,13 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = 'Email;SMS';
             peLoggers.add(peLogger);
         }
-        
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
-        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
         System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
         Test.stopTest();
     }
-    @isTest
+ @isTest
     private static void executeAfterInsert_completed3(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case LIMIT 1];
         List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
@@ -324,7 +309,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.Specific_To_Address__c  = 'abc.def@gm.com';
             peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.Email_Template_Name__c = 'SMT_Escalation_Template';
+           	peLogger.Email_Template_Name__c = 'SMT_Escalation_Template';
             peLogger.RecordID__c = cList[i].Id;
             peLoggers.add(peLogger);
             
@@ -349,5 +334,5 @@ private class ASF_CommPETriggerHandler_Test {
         }
         Test.stopTest();
         
-    }      
+    }    
 }

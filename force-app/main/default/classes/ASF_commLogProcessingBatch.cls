@@ -15,7 +15,7 @@ public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,S
         }
         else{
             return Database.getQueryLocator([SELECT ID,RecordID__c,CustomMetadataName__c,Case__c,AccountId__c,ContactId__c,Email_Template_Name__c,
-                                             SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c  FROM PE_Logger__c WHERE Status__c='Processing' AND CreatedDate = Today ORDER BY CreatedDate ASC]);
+                                             SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c  FROM PE_Logger__c WHERE Status__c='Processing' AND CreatedDate = Today ORDER BY CreatedDate ASC]);
         }
     }
     public void execute(Database.BatchableContext bc, List<PE_Logger__c> scope){
@@ -26,7 +26,8 @@ public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,S
         
         // Get the latest Status of PE_Logger__c record, if during the start and execute method, if the status is changed, don't process PE_Logger__c record.
         Map<Id,PE_Logger__c> mPELoggerLatestStatus = new Map<Id,PE_Logger__c>([SELECT ID,RecordID__c,CustomMetadataName__c,Case__c,AccountId__c,ContactId__c,Email_Template_Name__c,
-                                             SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c FROM PE_Logger__c WHERE Id =: mIncomingScopeIds.keySet()]);
+                                             SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c
+                                                                               FROM PE_Logger__c WHERE Id =: mIncomingScopeIds.keySet()]);
         
         
         List<PE_Logger__c> toProcessingClass = new List<PE_Logger__c>();
