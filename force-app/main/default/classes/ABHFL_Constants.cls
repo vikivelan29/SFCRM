@@ -82,7 +82,7 @@ public with sharing class ABHFL_Constants {
     public static final String PIC_REPORT_NAME = 'ProvisionalCertificateBinary';
     public static final String ABHFL_PaymentLink = 'Payment_Link_VF';
     public static final String PAYMENT_BOUNCE_TEMPLATE = 'Payment_Bounced_1705034284521';
-    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_detail_1705035027022';
+    public static final String PAYMENT_NOTRECEIVED_TEMPLATE = 'Payment_Unable_to_trace_payment_details_1705034679464';
     public static final String PAYMENT_BOUNCE_SMS = 'ABHFL_Payment_Bounce';
     public static final String PAYMENT_NOTRECEIVED_SMS = 'ABHFL_Payment_Unable_to_trace_payment';
     public static final String SHORTFALL_TEMPLATE = 'Shortfall_Amount_VF';
