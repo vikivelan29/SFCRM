@@ -43,6 +43,8 @@ public with sharing class ABHFL_MultiplePaymentsController {
                     throw new AuraHandledException('Error updating checklist: ' + e.getMessage());
                 }
             } 
+        }
+
             return result;
             
         } catch (Exception e) {
