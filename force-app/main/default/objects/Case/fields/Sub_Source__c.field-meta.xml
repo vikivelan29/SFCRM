@@ -60,12 +60,12 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Call Centre</controllingFieldValue>
+<controllingFieldValue>Call Centre</controllingFieldValue>
             <controllingFieldValue>Email</controllingFieldValue>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Outbound</valueName>
         </valueSettings>
-        <valueSettings>
+<valueSettings>
             <controllingFieldValue>Call Centre</controllingFieldValue>
             <valueName>Inbound</valueName>
         </valueSettings>
