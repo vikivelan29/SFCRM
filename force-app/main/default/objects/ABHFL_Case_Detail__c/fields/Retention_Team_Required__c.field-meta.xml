@@ -3,6 +3,7 @@
     <fullName>Retention_Team_Required__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>Only applicable for Branch Users.</inlineHelpText>
     <label>Retention Team Required</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
