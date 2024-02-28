@@ -134,7 +134,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(frameworkRecordTypeId == caseRec.RecordTypeId){
                     caseRec.Stage__c = appliedCCC.First_Stage__c;
                 }
-                caseRec.Business_Unit__c = objCaseDetailsWrapper.userBu;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
                 caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
