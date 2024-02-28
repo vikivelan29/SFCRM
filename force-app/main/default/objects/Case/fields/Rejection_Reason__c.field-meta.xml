@@ -22,6 +22,41 @@
                 <default>false</default>
                 <label>Closed as Exception</label>
             </value>
+            <value>
+                <fullName>Insufficient/incomplete details from customer</fullName>
+                <default>false</default>
+                <label>Insufficient/incomplete details from customer</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Pending Customer Confirmation/documentation</fullName>
+                <default>false</default>
+                <label>Pending Customer Confirmation/documentation</label>
+            </value>
+            <value>
+                <fullName>Out-of-Scope Request</fullName>
+                <default>false</default>
+                <label>Out-of-Scope Request</label>
+            </value>
+            <value>
+                <fullName>Customer Non Contactable</fullName>
+                <default>false</default>
+                <label>Customer Non Contactable</label>
+            </value>
+            <value>
+                <fullName>Partially Resolved</fullName>
+                <default>false</default>
+                <label>Partially Resolved</label>
+            </value>
+            <value>
+                <fullName>Complaint Rejected</fullName>
+                <default>false</default>
+                <label>Complaint Rejected</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
