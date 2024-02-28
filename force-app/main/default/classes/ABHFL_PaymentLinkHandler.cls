@@ -15,12 +15,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
+        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
+                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
                            FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
-        
+
+        List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
+
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('PaymentLink_EvaluationSuccessful').Message__c; 
+
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
@@ -49,6 +53,17 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonMobilePhone)) {
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('Mobile_cannot_be_blank').Message__c;
+        }
+
+        for(Doc_Charge__mdt dcChrgeRec : docChargMdtLst) {
+            String docCCCExternalId = dcChrgeRec.CCC_External_Id__c;
+            String caseRecCCCExtId = caseRecord.CCC_External_Id__c;
+            String paymentRequired = caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c;
+            if(docCCCExternalId == caseRecCCCExtId && paymentRequired == 'No') {
+                result.status = ABHFL_Constants.ERROR;
+                result.response = Custom_Messages__mdt.getInstance('Payment_Required_Message').Message__c;
+                break;
+            }
         }
         
         return result;
