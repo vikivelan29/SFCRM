@@ -94,12 +94,10 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
-        
-        ASF_Integration__c  asf_integ = [SELECT id, Case_Stage_Config__r.SLA_Override_Enabled__c from ASF_Integration__c WHERE External_Id__c = :caseInteg.Integration_Ext_Id__c LIMIT 1];
-
         Case caseRec =[SELECT Id, AccountId, No_Auto_Communication__c, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
-        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c, Nature__c, Send_open_stage_communications__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
-        Boolean sendCommunication = shouldSendCommunication(asf_integ, cccRecord[0]);
+        List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c, Nature__c, Send_open_stage_communications__c, 
+                            (select id, Status_Mapping__c, SLA_Override_Enabled__c from Case_Stage_Configs__r where Status_Mapping__c = 'In Progress')  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+        Boolean sendCommunication = shouldSendCommunication(cccRecord[0]);
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
             handleSuccessResponse(sendCommunication, caseRec, cccRecord[0], caseInteg);
@@ -118,8 +116,12 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     }
 
 
-    private static Boolean shouldSendCommunication(ASF_Integration__c asfInteg, ASF_Case_Category_Config__c cccRecord) {
-        if(cccRecord.Send_open_stage_communications__c == true && cccRecord.Nature__c == 'Complaint' && asfInteg.Case_Stage_Config__r.SLA_Override_Enabled__c == false){
+    private static Boolean shouldSendCommunication(ASF_Case_Category_Config__c cccRecord) {
+
+
+        if(cccRecord.Send_open_stage_communications__c == true){
+            return false;
+        }else if(cccRecord.Nature__c == 'Complaint' && !(cccRecord.Case_Stage_Configs__r).isEmpty() && (cccRecord.Case_Stage_Configs__r)[0].SLA_Override_Enabled__c == true){
             return false;
         }
         return true;
