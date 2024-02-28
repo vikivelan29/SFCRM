@@ -478,6 +478,13 @@
         <value>00X9I000000A8VlUAK</value>
     </labels>
     <labels>
+        <fullName>ODP_Client_Code_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ODP_Client_Code_Msg</shortDescription>
+        <value>Customer&apos;s Client Code is blank.</value>
+    </labels>
+    <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
