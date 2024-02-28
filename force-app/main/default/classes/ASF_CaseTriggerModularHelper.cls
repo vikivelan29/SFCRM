@@ -33,8 +33,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
 
-        // updFrameworkCases - To store the Cases those are not Converted from Preframework to Framework Only.
-        List<Case> updFrameworkCases = new List<Case>();
 
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
@@ -50,18 +48,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
-
-                        // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
-                       if(!(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && 
-                       oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeId &&
-                       caseRec.Technical_Source__c != oldMap.get(caseRec.Id).Technical_Source__c &&
-                       oldMap.get(caseRec.Id).Technical_Source__c =='Email' && 
-                       caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
-                        {
-                            updFrameworkCases.add(caseRec);
-                        }
                 }
-                
+                 
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
                 }
@@ -103,10 +91,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //SP if(blankSourcePresent){
             objCaseDetailsWrapper = ASF_CreateCaseWithTypeController.getUserDetails();
         //}
-        if(isUpdate && updFrameworkCases.size()>0){
-            // CHECK IF THE CASE IF UPDATED FROM PREFRAMEWORK TO FRAMEWORK.
-            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(updFrameworkCases, nextStageMap);
-        }
         
         //index = 0;
         for(Case caseRec : newList){
@@ -123,12 +107,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
-            if(appliedCCC != null){
+            if(appliedCCC != null){ 
                 //Fill all common fields irrespective of source
-                //if(!isUpdate){
-                    // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                //}
                 
                 // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
                 if(frameworkRecordTypeId == caseRec.RecordTypeId){
@@ -145,12 +126,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
-                //from interaction to framework RT. So run assignment rule for first stage of framework
-                //Update 1: This assignment rules should run for recategoriasation too.
-                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
-                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
-                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
+                
+                //VIRENDRA - Added check to update the stage Map. 
+                if(nextStageMap.containsKey(caseRec.Id)){
+                    nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
             }
 
@@ -183,6 +162,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
+        
+        //VIRENDRA - MOVED QUEUE Assignment Logic below.
+        if(isUpdate){
+            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+        }
+        
+        
         
     }
 
