@@ -83,7 +83,7 @@
                 <label>Internal Usage</label>
             </value>
             <value>
-                <fullName>Call Centre</fullName>
+                <fullName>Call Center</fullName>
                 <default>false</default>
                 <label>Call Center</label>
             </value>
