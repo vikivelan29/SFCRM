@@ -10,10 +10,14 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         Set<Id> recordIds = new Set<Id>();
         for(ASF_Bulk_Case_Processor__e peRecord : peRecords){
             recordIds.addAll((List<Id>)peRecord.Record_IDs__c.split(';'));
-            this.headIdToTemplateNameMap.put(peRecord.Header_Row_Id__c, peRecord.Template_Name__c);
         }
         if(!recordIds.isEmpty()){
-            this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, OwnerId from ASF_Bulk_Upload_Line_Item__c where Id IN :recordIds];
+            this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, OwnerId, Bulk_Upload_Header__r.Template_Name__c from ASF_Bulk_Upload_Line_Item__c where Id IN :recordIds];
+            for(ASF_Bulk_Upload_Line_Item__c lineItem : this.lineItemsToProcess){
+                if(!this.headIdToTemplateNameMap.containsKey(lineItem.Bulk_Upload_Header__c)){
+                    this.headIdToTemplateNameMap.put(lineItem.Bulk_Upload_Header__c, lineItem.Bulk_Upload_Header__r.Template_Name__c);
+                }
+            }
         }
     }
 
@@ -35,6 +39,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         Map<Id, String> jsonResults = new Map<Id, String>();
         Map<String, Map<Id, String>> templateNameToJSONRows = new Map<String, Map<Id, String>>();
         Map<Id, Id> lineItemToOwnerId = new Map<Id, Id>();
+        Map<Id, String> ownerIdToBUMap = new Map<Id,String>();
 
         for(ASF_Bulk_Upload_Line_Item__c lineItem : lineItemsToProcess){
             lineItemToOwnerId.put(lineItem.Id, lineItem.OwnerId);
@@ -43,6 +48,14 @@ public with sharing class ASF_BulkCaseProcessorUtility {
                 templateNameToJSONRows.put(templateName, new Map<Id, String>());
             }
             templateNameToJSONRows.get(templateName).put(lineItem.Id, lineItem.JSON_Data__c);
+        }
+
+        if(!lineItemToOwnerId.isEmpty()){
+            Set<Id> ownerIds = new Set<Id>(lineItemToOwnerId.values());
+            for(User user : [Select Id, Business_Unit__c from User where Id IN :ownerIds]){
+                ownerIdToBUMap.put(user.Id, user.Business_Unit__c);
+            }
+            ownerIds = null;
         }
 
         for(String templateName : templateNameToJSONRows.keySet()){
@@ -61,6 +74,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             SObject record = newCaseRecords.get(lineItemId);
             if(record.Id == null){
                 record.put('OwnerId', lineItemToOwnerId.get(lineItemId));
+                record.put('Business_Unit__c', ownerIdToBUMap.get(lineItemToOwnerId.get(lineItemId)));
             }
             recordsForDML.add(record);
             index++;
@@ -75,7 +89,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
             if(sr.isSuccess()){
                 jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?sr.getId():'Case Updated');
+                jsonMap.put('Message', sr.isCreated()?String.valueOf(sr.getId()):'Case Updated');
             }else{
                 jsonMap.put('Result', 'FAILURE');
                 String errorMessage = '';

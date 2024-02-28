@@ -28,8 +28,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
-        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo;
-        
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+
+        Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+
+
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
         }
@@ -45,7 +49,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         //or recategorization
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
                 }
-                
+                 
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
                 }
@@ -87,9 +91,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //SP if(blankSourcePresent){
             objCaseDetailsWrapper = ASF_CreateCaseWithTypeController.getUserDetails();
         //}
-        if(isUpdate){
-            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(newList, nextStageMap);
-        }
         
         //index = 0;
         for(Case caseRec : newList){
@@ -106,16 +107,17 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
-            if(appliedCCC != null){
+            if(appliedCCC != null){ 
                 //Fill all common fields irrespective of source
-                if(!isUpdate){
-                    // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                
+                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                    caseRec.Stage__c = appliedCCC.First_Stage__c;
                 }
-                caseRec.Stage__c = appliedCCC.First_Stage__c;
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
+                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
@@ -124,12 +126,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
-                //from interaction to framework RT. So run assignment rule for first stage of framework
-                //Update 1: This assignment rules should run for recategoriasation too.
-                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
-                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
-                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
+                
+                //VIRENDRA - Added check to update the stage Map. 
+                if(nextStageMap.containsKey(caseRec.Id)){
+                    nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
             }
 
@@ -162,6 +162,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
+        
+        //VIRENDRA - MOVED QUEUE Assignment Logic below.
+        if(isUpdate){
+            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+        }
+        
+        
         
     }
 
@@ -465,7 +472,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
                    eligibleRecords.put(caseRec.Id, caseRec);
-                   caseStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
+                   caseStageMap.put(caseRec.Id, isUpdate?oldMap.get(caseRec.Id).Stage__c:caseRec.Stage__c);
                    if(caseRec.Technical_Source__c == 'API' && oldMap == null){
                        supressErrors.put(caseRec.Id, true);
                    }
@@ -643,7 +650,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
-            triggerEncounteredError.clear();
+            triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
@@ -793,7 +800,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase;
                     Boolean supressErrors = false;
-                    
                     if(combinedList[i] instanceof ASF_Case_Approv__c){
                         ASF_Case_Approv__c approvalRec = (ASF_Case_Approv__c)combinedList[i];
                         failedCase = newMap.get(approvalRec.SR__c);
@@ -818,6 +824,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
         }
+        //This reset is important for bulk processing as static variables dont get reset between every 200 records chunk in trigger execution
+        addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
     }
 
     public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
@@ -868,7 +876,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
-        caseFinalDMLMap = null;
+        caseFinalDMLMap = new Map<Id, Case>();
     }
 
     public static void onCreateCloseServiceRequest(List<Case> newList){

@@ -13,38 +13,53 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
-            caseNumbers.add(keyValueMap.get('Case number'));
+            if(String.isNotBlank(keyValueMap.get('Case number'))){
+                caseNumbers.add(keyValueMap.get('Case number').trim());
+            }
             rows.put(lineItemId, keyValueMap);
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
-            if(!caseNumberToCaseMap.containsKey(keyValueMap.get('Case number'))){
+            String caseNumber = String.isNotBlank(keyValueMap.get('Case number'))?keyValueMap.get('Case number').trim():keyValueMap.get('Case number');
+            String resolutionComments = String.isNotBlank(keyValueMap.get('Resolution Comment'))?keyValueMap.get('Resolution Comment').trim():keyValueMap.get('Resolution Comment');
+            String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
+
+            if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(caseNumberToCaseMap.get(keyValueMap.get('Case number')).IsClosed == true){
+            if(caseNumberToCaseMap.get(caseNumber).IsClosed == true){
                 keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Case is already '+caseNumberToCaseMap.get(keyValueMap.get('Case number')).Stage__c);
+                keyValueMap.put('Message', 'Case is already '+caseNumberToCaseMap.get(caseNumber).Stage__c);
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            Case caseRec = caseNumberToCaseMap.get(keyValueMap.get('Case number'));
+            if(caseNumberToCaseMap.get(caseNumber).RecordTypeId == ASF_Constants.RT_INTERACTION 
+            && (caseNumberToCaseMap.get(caseNumber).AccountId == null || caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case does not have Account tagged or Issue Type Code tagged');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            Case caseRec = caseNumberToCaseMap.get(caseNumber);
             caseRec.Stage__c = 'Resolved';
+            caseRec.Status = 'Resolved';
             caseRec.Pending_Clarification__c = false;
             caseRec.moved_back__c = false;
             caseRec.Is_Manual_Moved__c = true;
-            caseRec.Resolution_Comments__c = keyValueMap.get('Resolution Comment');
-            caseRec.Description = keyValueMap.get('Description');
+            caseRec.Resolution_Comments__c = resolutionComments;
+            caseRec.Description = description;
             
             //Any other BU specific checks - add here
             resultWrapper.resultRecords.put(lineItemId, caseRec);
@@ -103,10 +118,6 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
                     String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
-                    //Hack - to display the leading 0s of case number in excel 
-                    if(fieldName == 'CaseNumber'){
-                        fieldValue = ' '+fieldValue;
-                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

@@ -29,8 +29,10 @@ Public class ABFL_validateResolveStageTest {
              List<Case> caseList = ABFL_TestDataFactory.createCaseRecords(2, caseDetailId, true);
               caseList[0].Nature__c = 'Request';
               caseList[0].Technical_Source__c = 'LWC';
+              caseList[0].OnCreateCloseSR__c = False;
               caseList[1].Nature__c = 'Complaint';
               caseList[1].Technical_Source__c = 'API';
+              caseList[1].OnCreateCloseSR__c = False;
               update caseList;
 }
 
@@ -39,7 +41,7 @@ Public class ABFL_validateResolveStageTest {
 @isTest
  static void testValidateOnResolvedStage(){
         List<Case> caseRecord = [SELECT Id,Nature__c,Technical_Source__c,LOB__c,Source__c,Business_Unit__c,CCC_External_Id__c,
-                           ABFL_Case_Detail__r.Resolution_Comments__c,ABFL_Case_Detail__r.Case_Categorisation__c,
+                           ABFL_Case_Detail__r.Resolution_Comments__c,ABFL_Case_Detail__r.Case_Categorisation__c,OnCreateCloseSR__c,
                            ABFL_Case_Detail__r.Correct_Category__c,ABFL_Case_Detail__r.Correct_Call_Type__c,
                            ABFL_Case_Detail__r.Correct_Sub_Type__c,ABFL_Case_Detail__r.Voice_of_Customer__c,
                            ABFL_Case_Detail__r.Primary_Erring_Unit__c,ABFL_Case_Detail__r.Financial_Impact__c,

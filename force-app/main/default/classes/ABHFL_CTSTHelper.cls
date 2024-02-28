@@ -62,14 +62,14 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
+        	updatedCase.OwnerId = emailFinancialQueue.Id;
     	}
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
     	if (slaHistory.size() > 0) {
         	delete slaHistory;
     	}
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        //ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
 	}
     //Dhinesh
@@ -86,7 +86,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static Case assignCaseToPreferredBranch(Case caseRecord) {
         Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,Address__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
+		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,Address__c FROM Branch_Master__c WHERE UniqueKey__c =: caseDetail.Preferred_Branch__c LIMIT 1];
         if (prefBranch.Branch_Queue_Id__c != null) {
             caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
         }
@@ -236,13 +236,18 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
-            for(Case cs : newCases){
-                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
-                }
+            executeSpecificIntegrations(newCases, uiCardIntegrationMap);
+        }
+    }
+
+    public static void executeSpecificIntegrations(List<Case> newCases, Map<String, List<ASF_Integration__c>> uiCardIntegrationMap){
+        for(Case cs : newCases){
+            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
             }
         }
     }
+    
     //Dhinesh - to Send Tracking Links
     public static void sendTrackingLink(Case caseRec){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};

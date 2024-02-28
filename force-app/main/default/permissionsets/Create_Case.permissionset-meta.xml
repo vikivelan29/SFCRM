@@ -2564,6 +2564,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.LOB_Client_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2865,6 +2870,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ASF_Is_Clone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Preframework_to_Framework_FromUI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

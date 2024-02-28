@@ -118,7 +118,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 .then((response ) => {
                     // Success message after successful deletion
                     console.error('deleted payment record:', response );
-                    this.showToast('Success', 'Payment deleted successfully', 'success');
+                    this.showToast('Success', 'Payment record deleted successfully', 'success');
                 })
                 .catch(error => {
                     // Handle error during record deletion
@@ -155,16 +155,33 @@ export default class Abhfl_MultiplePayments extends LightningElement {
             })
             .catch((error) =>{
                 console.log(error);
-                let errorMessage = error?.body?.message.split(',')[1].split(':')[0];
-                this.showToast("Error", errorMessage, 'error');
+                let finalErrorMessage = '';
+                let errorMessage = error?.body?.message;
+                if(errorMessage) {
+                    let errorInLowerCase = errorMessage.toLowerCase();
+                    if(errorInLowerCase.includes('required_field_missing')) {
+                        finalErrorMessage = errorMessage.split(':')[2];
+                        finalErrorMessage = errorMessage.split(':')[1].split(',')[1] + ': ' + finalErrorMessage.substring(2, finalErrorMessage.length-1);
+                    }
+                    else if(errorInLowerCase.includes('field_custom_validation_exception')) {
+                        finalErrorMessage = errorMessage.split(':')[1].split(',')[1];
+                    }
+                    else if(!this.containsSpecialChars()) {
+                        finalErrorMessage = errorMessage;
+                    }
+                    else {
+                        finalErrorMessage = errorMessage.split(',')[1].split(':')[0];
+                    }
+                }
+                this.showToast("Error", finalErrorMessage, 'error');
             })
         }
     }
 
    
-
-    handleCancel() {
-       
+    containsSpecialChars(str) {
+        const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        return specialChars.test(str);
     }
 
     showToast(title, message, variant) {
@@ -198,6 +215,10 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 this.isSaveAllowed = true;
                 break;
             case 'Pending CPU Banking':
+                this.isRealizationEditable = true;
+                this.isSaveAllowed = true;
+                break;
+            case 'Payment Confirmation':
                 this.isRealizationEditable = true;
                 this.isSaveAllowed = true;
                 break;
