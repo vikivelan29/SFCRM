@@ -85,7 +85,7 @@
             <value>
                 <fullName>Call Centre</fullName>
                 <default>false</default>
-                <label>Call Centre</label>
+                <label>Call Center</label>
             </value>
         </valueSetDefinition>
     </valueSet>
