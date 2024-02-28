@@ -167,7 +167,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bureau</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Call Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call- in</fullName>
             <default>false</default>
         </values>
         <values>
@@ -183,7 +191,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>IVR</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR-No Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Nodal Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal RM - Collection</fullName>
             <default>false</default>
         </values>
         <values>
@@ -191,7 +215,35 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Letter %2F Snail Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone-Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone-Outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RA Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RM-No Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -207,7 +259,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Walk-In</fullName>
+            <fullName>Walkin</fullName>
             <default>false</default>
         </values>
         <values>
