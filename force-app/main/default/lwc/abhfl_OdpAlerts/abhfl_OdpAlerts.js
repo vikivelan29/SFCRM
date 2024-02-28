@@ -26,13 +26,13 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
+            this.handleError(error);
+            console.log('error==',JSON.stringify(error));
         });
         //New code for ABFL
         getConstantsABFL().then(result => {
-            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
-            if(this.userType == result.lob_ABFL){
+            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_Abfl);
+            if(this.userType == result.lob_Abfl){
                 this.isAbflUser = true;
                 this.odpAlerts();
             }else{
@@ -40,7 +40,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }
         }).catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
+            this.handleError(error);
         })
     }
 
@@ -49,7 +49,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         if (data) {
             this.userType = data.fields.Business_Unit__c.value;
         } else if (error) {
-            this.handleError(JSON.stringify(error));
+            this.handleError(error);
         }
     }
 
@@ -64,13 +64,12 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }else{
                 this.handleError(result[0].message);
             }
-            
             this.showSpinner = false;
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
+            this.handleError(error);
+            console.log('error==>',JSON.stringify(error));
         });
     }
 
