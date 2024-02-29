@@ -98,9 +98,14 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
     }
     
     public override void afterUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
+        
+
+        if(ASF_CaseTriggerModularHelper.isRecursiveUpdate){
+            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,(Map<Id, Case>)newItemsCase);
+        }
         if(isTriggerDisabled()){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'After')){return;}
-        
+
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());

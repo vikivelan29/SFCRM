@@ -684,7 +684,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
 
-    public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
+    public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId, id recordTypeId ) {
         Case caseRecord = new Case();
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
@@ -692,6 +692,7 @@ public without sharing class ABHFL_CTSTHelper {
         caseRecord.Technical_Source__c = techSource;
         caseRecord.CCC_External_Id__c = ccc;
         caseRecord.LAN__C = lan;
+        caseRecord.RecordTypeId = recordTypeId;
         caseRecord.parentId = parentCaseId;
         return caseRecord;
     }

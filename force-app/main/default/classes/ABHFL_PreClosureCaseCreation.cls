@@ -63,7 +63,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
             if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
                 List<ABHFL_Case_Detail__c> abhflCaseDetailList = caseIdToAbhflCaseDetailMap.get(caseRec.Id);
                 for(Integer i=0; i<caseIdToRelatedAssets.get(caseRec.Id).size(); i++){
-                    Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, caseIdToRelatedAssets.get(caseRec.Id)[i].LAN__c, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id);
+                    Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, caseIdToRelatedAssets.get(caseRec.Id)[i].LAN__c, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, ASF_Constants.RT_FRAMEWORK);
                     newCase.AccountId = caseRec.AccountId;
                     newCase.ABHFL_Case_Detail__c = abhflCaseDetailList[i].Id;
                     newCase.Nature__c = caseRec.Nature__c;
