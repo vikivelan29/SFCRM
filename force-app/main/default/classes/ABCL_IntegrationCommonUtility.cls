@@ -159,9 +159,9 @@ public with sharing class ABCL_IntegrationCommonUtility {
     public static void branchAssignmentNotification(Case caseRec,String stpName,String title){
         Set<String> recepientIds = new Set<String>();
         recepientIds.add(caseRec.CreatedById);
-        Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id];
         CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
-                                                            WHERE DeveloperName = 'Case_Assignment_Change' WITH SECURITY_ENFORCED Limit 1];
+                                                            WHERE DeveloperName = 'Case_Assignment_Change' Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
         }
@@ -216,7 +216,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
-        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,CreatedDate,Asset.LAN__c from Case where Id =: recIds[0]];
+        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,
+                           Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0]];
         List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
         if(contentDocumentList.size() > 0){
             Set<Id> contentDocumentIds = new Set<Id>();
@@ -246,8 +247,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
                 fileRec.Version_Number__c = fileVersion.VersionNumber;
                 fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
-                fileRec.DMS_External_ID__c = fileVersion.Id + '' + caseRecord.createdDate.getTime();
+                DateTime currentDateTime = System.now();
+                fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = fileVersion.FileExtension;
+                fileRec.Next_Retry__c = System.now().addMinutes(15);
                 fileRecList.add(fileRec);
             }
             if(fileRecList.size() > 0){
@@ -256,9 +259,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 for(DMS_Files__c file : fileRecList){
                     dmsFileIds.add(file.Id);
                 }
-                List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
+                //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
-                for(DMS_Files__c file : dmsFiles){
+                //string mobile = '';
+                for(DMS_Files__c file : fileRecList){
                     dmsEventList.add(new DMS_File_Transfer__e(
                         Business_Unit__c = file.Business_Unit__c,
                         CaseNumber__c = caseRecord.CaseNumber,
@@ -271,8 +275,11 @@ public with sharing class ABCL_IntegrationCommonUtility {
                         Application_ID__c = caseRecord.Asset.LAN__c,
                         Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
                         File_Extension__c = file.File_Extension__c,
-                        Type__c = caseRecord.Type_Text__c,
-                        Subtype__c = caseRecord.Sub_Type_Text__c
+                        Doc_SubType__c = caseRecord.Sub_Type_Text__c,
+                        Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
+                        Lead_ID__c = String.isNotBlank(caseRecord.Asset.Lead_Id__c) ? caseRecord.Asset.Lead_Id__c : String.isNotBlank(caseRecord.Lead__c) ? caseRecord.Lead__c : caseRecord.CaseNumber,
+                        Contact_No__c = ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL == caseRecord.Account.RecordType.Name ? caseRecord.Account.Phone : caseRecord.Account.PersonMobilePhone,
+                        Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
                     ));
                 }
                 if(dmsEventList.size() > 0){
@@ -281,7 +288,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             }
         }
     }
-      
+
     public class stpResponseWrapper{
         public string operationStatus;
         public string operationMessage;
