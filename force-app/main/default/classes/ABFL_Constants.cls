@@ -24,6 +24,13 @@ public with sharing class ABFL_Constants {
     public static final string WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String EMAIL_ENTITY = 'Email';
     public static final String LITMUS = 'Litmus';
+
+    public static final String NO_SECTION = 'NO_SECTION';
+    public static final String RTL_LOANDETAILS_INTEGRATION_METADATA = 'RTL_RealTime_LoanDetails';
+    public static final String RTL_BASICCUSTINFO_INTEGRATION_METADATA = 'RTL_RealTime_BasicCustInfo';
+    public static final String RTL_GCCPROPERTYDETAILS_INTEGRATION_METADATA = 'RTL_RealTIme_GCCPropertyDetails';
+    public static final String RTL_LOANMIS_INTEGRATION_METADATA = 'RTL_RealTime_LoanMIS';
+    public static final String RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA = 'RTL_RealTime_InstallPmntDtls';
     // public static final String NOT_EQUAL_TO = 'Not Equals To';
     // public static final String EQUAL_TO = 'Equals';
     public static final String BLANK_DATE_FIELD = 'Please add required date field values';

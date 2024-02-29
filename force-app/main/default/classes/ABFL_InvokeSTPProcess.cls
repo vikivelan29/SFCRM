@@ -3,6 +3,7 @@
  *Author       :  Udit Singhal
  *Description  :  Update STP Flow
  *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity', 'PMD.AvoidDeeplyNestedIfStmts')
 public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
     public enum Response{
         STP_SUCCESS, 

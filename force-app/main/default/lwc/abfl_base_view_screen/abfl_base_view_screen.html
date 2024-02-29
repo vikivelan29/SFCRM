@@ -1,0 +1,88 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 01-07-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  * Ver      Date           Author                     		Modification
+  * 1.0      01-01-2024     rsinghnagar@salesforce.com     	Initial Version
+  * 2.0      28-02-2024     udit.singhal@salesforce.com     updated logic for the real time API
+-->
+<template>
+	<div class="slds-align--absolute-center slds-p-top_small slds-text-heading--medium">
+		{title}
+	</div>
+	<div class="slds-p-around_small">
+		<div class="slds-form" role="list">
+				<template lwc:if={show}>
+					<template for:each={screenjson} for:item="section">
+						<div key={section.label} class="c-container">
+							<template if:true={section.showSection}>
+								<div class="slds-section slds-is-open">
+									<h3 class="slds-section__title slds-theme_shade">
+									<span class="slds-truncate slds-p-horizontal_small" title="Section Title">{section.label}</span>
+									</h3>
+								</div>
+							</template>
+							<lightning-layout horizontal-align="space">
+								<lightning-layout-item padding="around-small">
+									<div class="header-column" style="width: 436px;">
+										<template for:each={section.fieldsLeft} for:item="field">
+											<div key={field.label}>
+												<!-- <div class="slds-form" role="list"> -->
+													<!-- <div class="slds-form__row"> -->
+													<div class="slds-form__item" role="listitem">
+														<div class="slds-form-element slds-form-element_edit slds-form-element_horizontal slds-hint-parent">
+														<span class="slds-form-element__label" title={field.Name} style="display: flex;">
+															{field.label}
+														</span>
+														<div class="slds-form-element__control">
+															<span class="slds-form-element__label" style="display: contents;">
+																{field.value}
+															</span>
+														</div>
+														</div>
+													<!-- </div> -->
+												<!-- </div> -->
+												</div>
+											</div>
+										</template>
+									</div>
+								</lightning-layout-item>
+								<lightning-layout-item padding="around-small">
+									<div class="header-column" style="width: 436px;">
+										<template for:each={section.fieldsRight} for:item="field">
+											<div key={field.label}>
+												<!-- <div class="slds-form" role="list"> -->
+													<!-- <div class="slds-form__row"> -->
+													<div class="slds-form__item" role="listitem">
+														<div class="slds-form-element slds-form-element_edit slds-form-element_horizontal slds-hint-parent">
+														<span class="slds-form-element__label" title={field.Name} style="display: flex;">
+															{field.label}
+														</span>
+														<div class="slds-form-element__control">
+															<span class="slds-form-element__label" style="display: contents;">
+																{field.value}
+															</span>
+														</div>
+														</div>
+													<!-- </div> -->
+												<!-- </div> -->
+												</div>
+											</div>
+										</template>
+									</div>
+								</lightning-layout-item>
+							</lightning-layout>
+							<template for:each={section.lTables} for:item="table">
+								<template if:true={table.isRenderDatatable}>
+									<c-abfl_-data-table-with-pagination columns={table.label} table-data={table.value} page-size={table.pageSize} key={table.label}></c-abfl_-data-table-with-pagination>
+								</template>
+							</template>
+						</div>
+					</template>
+				</template>
+		</div>
+	</div>
+</template>

@@ -44,4 +44,23 @@ public with sharing class ABFL_SOQL_Util {
       }
       return userList;
     }
+
+    /********************************************************************************************************
+    * @author           Udit Singhal
+    * @date             21/02/2024
+    * @description      SOQL method for getting Asset details for an given asset Id
+    * @Paramters        String
+    * @return           Asset
+    *********************************************************************************************************/
+    private static Asset assetRec;
+    public static Asset getAssetInfo(string assetid) {
+      if(assetRec ==  null) {
+        assetRec = [SELECT Id, LAN__c, Account.PAN__c
+                    FROM Asset 
+                    WHERE Id =:assetid 
+                    WITH SYSTEM_MODE
+                    LIMIT 1];
+      }
+      return assetRec;
+    }
 }
