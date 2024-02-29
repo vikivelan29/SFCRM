@@ -66,7 +66,7 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailFinancialQueue.Id;
+        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
     	}
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
@@ -97,10 +97,9 @@ public without sharing class ABHFL_CTSTHelper {
         List<Case> eligibleCases = new List<Case>();
         Map<String, Id> uniqueKeyToCaseId = new Map<String, Id>();
         for(Case caseRec : caseRecords){
-            if (prefBranch.Branch_Queue_Id__c != null) {
-                eligibleCases.add(caseRec);
-                uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
-            }
+            eligibleCases.add(caseRec);
+            uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
+            
         }
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>();
@@ -111,9 +110,11 @@ public without sharing class ABHFL_CTSTHelper {
                 caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
-                Case blankCase = new Case(Id = caseRec.Id);
-                blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
-                updatedCasesMap.put(blankCase.Id, blankCase);
+                if(caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c != null){
+                    Case blankCase = new Case(Id = caseRec.Id);
+                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
+                    updatedCasesMap.put(blankCase.Id, blankCase);
+                }
                 ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
                 caseDetail.Address__c = prefBranch.Address__c;
                 caseDetailsToUpdate.add(caseDetail);
@@ -371,14 +372,10 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
-            executeSpecificIntegrations(newCases, uiCardIntegrationMap);
-        }
-    }
-
-    public static void executeSpecificIntegrations(List<Case> newCases, Map<String, List<ASF_Integration__c>> uiCardIntegrationMap){
-        for(Case cs : newCases){
-            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+            for(Case cs : newCases){
+                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                }
             }
         }
     }
@@ -593,7 +590,7 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, Doc_Charge__mdt> mapOf_CCCExternalId_To_DocChargeRec = new Map<String, Doc_Charge__mdt>();
 
         for(Case csRec : newCaseList) {
-
+            
             String bussUnit = csRec.Business_Unit__c;
             String cccExtId = csRec.CCC_External_Id__c;
             String abflCasDetId = csRec.ABHFL_Case_Detail__c;
@@ -736,7 +733,6 @@ ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!typeTwoCases.isEmpty()){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeTwoCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
-
     }
     
 }
