@@ -77,11 +77,6 @@
                 <label>In Progress with Disbursement Ops</label>
             </value>
             <value>
-                <fullName>In Progress with Outbound</fullName>
-                <default>false</default>
-                <label>In Progress with Outbound</label>
-            </value>
-            <value>
                 <fullName>In Progress with Partner</fullName>
                 <default>false</default>
                 <label>In Progress with Partner</label>
@@ -175,6 +170,26 @@
                 <fullName>In Progress with Retention Team</fullName>
                 <default>false</default>
                 <label>In Progress with Retention Team</label>
+            </value>
+            <value>
+                <fullName>In Progress with Branch Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Branch Ops</label>
+            </value>
+            <value>
+                <fullName>Pending for ROI Approval</fullName>
+                <default>false</default>
+                <label>Pending for ROI Approval</label>
+            </value>
+            <value>
+                <fullName>Pending for Business / Credit Approval</fullName>
+                <default>false</default>
+                <label>Pending for Business / Credit Approval</label>
+            </value>
+            <value>
+                <fullName>In Progress with Revenue &amp; Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Revenue &amp; Retention</label>
             </value>
         </valueSetDefinition>
     </valueSet>
