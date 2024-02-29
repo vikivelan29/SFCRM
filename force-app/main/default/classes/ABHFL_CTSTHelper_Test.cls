@@ -111,7 +111,7 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         System.assertEquals(caseRecord.CreatedById,caseRecord.CreatedById,'Done');
         caseRecord.CCC_External_Id__c='hfl060';
-        caseRecord.Source__c='Call Centre';
+        caseRecord.Source__c='Call Center';
 		update caseRecord;
         ABHFL_CTSTHelper.assignCaseToQueue(caseRecord);
         caseRecord.CCC_External_Id__c='hfl061';
