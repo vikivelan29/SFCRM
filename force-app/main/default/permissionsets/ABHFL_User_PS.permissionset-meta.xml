@@ -11,6 +11,9 @@
     <classAccesses>
         <apexClass>ABCL_EBotFeedback</apexClass>
         <enabled>true</enabled>
+    </classAccesses><classAccesses>
+        <apexClass>ABFL_Constants</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
