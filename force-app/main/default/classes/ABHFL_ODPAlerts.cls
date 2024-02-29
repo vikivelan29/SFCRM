@@ -32,10 +32,17 @@ public with sharing class ABHFL_ODPAlerts {
                 String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
-                odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
+            
+                if(odpResponseWrp.responseBody == '[]'){
+                    odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
+                }else{
+                    odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
+                }
+            }else{
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"errorCode\":\"401\",\"message\":\"There is client code missing\"}]');
             }
         }catch(Exception e){
-            
+            system.debug('Error=='+e.getMessage()+ ' Line no=='+e.getLineNumber());
         }
         return odpAlertResponseList;
     }

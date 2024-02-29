@@ -93,7 +93,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
 						 ABHFL_Case_Detail__r.Final_resolution__c,
 						 ABHFL_Case_Detail__r.Repeat_interaction__c 
                   	  FROM Case 
-                  	  WHERE Id = :caseId WITH SECURITY_ENFORCED];
+                  	  WHERE Id = :caseId];
 
     	Map<String, Schema.SObjectField> caseDetailFields = Schema.SObjectType.ABHFL_Case_Detail__c.fields.getMap();
     	Schema.DescribeFieldResult caseCategorizationField = caseDetailFields.get('Case_Categorization__c').getDescribe();

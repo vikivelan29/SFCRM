@@ -438,6 +438,12 @@ export default class Asf_CRNTagging extends LightningElement {
                     }
                 });*/
                 this.dispatchEvent(new CloseActionScreenEvent());
+
+                getRecordNotifyChange([{ recordId: this.recordId }]);
+
+                    setTimeout(() => {
+                        eval("$A.get('e.force:refreshView').fire();");
+                    }, 1000);
             })
             .catch(error => {
                 console.log('@@@ERROR - '+error);

@@ -7,6 +7,22 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Case.Customer_Tagging</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Open</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABHFL</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>
@@ -169,7 +185,7 @@
         <name>subheader</name>
         <type>Region</type>
     </flexiPageRegions>
-    <flexiPageRegions>
+        <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentName>abhfl_complaintInvestigation</componentName>
@@ -213,7 +229,7 @@
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
+                <itemInstances>
             <componentInstance>
                 <componentName>abhfl_MultiplePayments</componentName>
                 <identifier>c_abhfl_MultiplePayments</identifier>
@@ -719,7 +735,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
                 <visibilityRule>
-                    <criteria>
+                                        <criteria>
                         <leftValue>{!Record.Status}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Unresolved</rightValue>
@@ -749,7 +765,7 @@
                 <identifier>console_relatedRecord2</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
+                <itemInstances>
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
@@ -866,6 +882,6 @@
             <name>enablePageActionConfig</name>
             <value>false</value>
         </properties>
-    </template>
+            </template>
     <type>RecordPage</type>
 </FlexiPage>
