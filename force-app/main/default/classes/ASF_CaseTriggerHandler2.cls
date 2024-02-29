@@ -26,7 +26,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.validateIfCCCInAPIRequest(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.onCreateCloseServiceRequest(mRecordTypeVsCases.get(frameworkRTId));
-            ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
+            //ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.createCaseExtnRecordForBulk(mRecordTypeVsCases.get(frameworkRTId));
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));

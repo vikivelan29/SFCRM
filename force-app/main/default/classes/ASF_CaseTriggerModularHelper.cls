@@ -246,7 +246,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //Applicable only for UI cases, 
     //validates the before rules of entering first stage during case creation and recategorisation
     public static void checkAndValidateFirstStageEntry(List<Case> newList, Map<Id, Case> oldMap) {
-        List<Case> eligibleRecords = new List<Case>();
+        Map<Id, Case> eligibleRecords = new Map<Id, Case>();
         Set<String> cccExternalIds = new Set<String>();
         Boolean isUpdate = oldMap!=null?true:false;
 
@@ -256,7 +256,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
                 && caseRec.CCC_External_Id__c != null))){
-                eligibleRecords.add(caseRec);
+                eligibleRecords.put(caseRec.Id, caseRec);
                 cccExternalIds.add(caseRec.CCC_External_Id__c);
             }
         }
@@ -264,24 +264,48 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(!cccExternalIds.isEmpty()){
             allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(cccExternalIds);
         }
-        if(!eligibleRecords.isEmpty() && allStageConfigs != null){
-            for(Case caseRec : eligibleRecords){
-                ASF_Case_Stage_Config__c currentStageConfig;
+        if(allStageConfigs != null && !eligibleRecords.isEmpty()){
+
+            // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
+                if(config.Query_Fields__c != null){
+                    allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+                }
+            }
+            List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, eligibleRecords.keySet());
+
+            Map<Id,ASF_Case_Stage_Config__c> currentStageConfigMap = new Map<Id,ASF_Case_Stage_Config__c>();
+            for(Case caseRec : eligibleRecords.values()){
                 for(ASF_Case_Stage_Config__c stageConfig : allStageConfigs){
                     if(stageConfig.StageName__c == caseRec.Stage__c 
                     && stageConfig.Case_Category_Config__r.CCC_External_Id__c == caseRec.CCC_External_Id__c){
-                        currentStageConfig = stageConfig;
+                        currentStageConfigMap.put(caseRec.Id, stageConfig);
                     }
                 }
-                if(currentStageConfig != null){
-                    ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
-                    if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                    }else{
-                        if(wrap.isCaseUpdated == true){
-                            Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
-                            for(String fieldName : populatedFieldMap.keySet()){
-                                caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
+            }
+            if(!currentStageConfigMap.isEmpty()){
+                Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> validateResultMap = ASF_CaseMovementHelper.validateNextStageEntry(queriedCaseRecords, currentStageConfigMap);
+            
+                for(Case caseRec : eligibleRecords.values()){
+                    ASF_Case_Stage_Config__c currentStageConfig = currentStageConfigMap.get(caseRec.Id);
+                    if(currentStageConfig != null){
+                        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = validateResultMap.get(caseRec.Id);
+                        if(wrap.status == 'Error'){
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }else{
+                            if(wrap.isCaseUpdated == true){
+                                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                                    Case caseObj = new Case(Id = caseRec.Id);
+                                    caseFinalDMLMap.put(caseObj.Id, caseObj);
+                                }
+                                Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                                Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
+                                for(String fieldName : populatedFieldMap.keySet()){
+                                    caseRecFromMap.put(fieldName, wrap.updatedCase.get(fieldName));
+                                }
+                                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                             }
                         }
                     }
