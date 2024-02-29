@@ -41,6 +41,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
 
         List<Case> newCaseList = new List<Case>();
 
+
         //caseRec = [SELECT AssetId, AccountId, Account.Client_Code__c, Asset.LAN__c, Source__c, Technical_Source__c,  Nature__c FROM Case WHERE Id =: caseRec.Id];
         Map<Id, List<ABHFL_Case_Detail__c>> caseIdToAbhflCaseDetailMap = new Map<Id, List<ABHFL_Case_Detail__c>>();
         List<ABHFL_Case_Detail__c> detailList = new List<ABHFL_Case_Detail__c>();
@@ -59,6 +60,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         if(!detailList.isEmpty()){
             insert detailList;
         }
+
         for(Case caseRec : caseRecords){
             if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
                 List<ABHFL_Case_Detail__c> abhflCaseDetailList = caseIdToAbhflCaseDetailMap.get(caseRec.Id);

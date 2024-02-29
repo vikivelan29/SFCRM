@@ -698,7 +698,6 @@ public without sharing class ABHFL_CTSTHelper {
     }
     
     public static void insertCases(List<Case> caseList) {
-ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }

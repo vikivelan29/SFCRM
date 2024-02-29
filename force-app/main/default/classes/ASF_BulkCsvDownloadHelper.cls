@@ -1,8 +1,21 @@
+/**
+* @description       : This is the controller method for aSF_BulkCsvUploadDownload lwc
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
+* @last modified on  : 23-Feb-24
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ASF_BulkCsvDownloadHelper {
 
     public static List<String> selectedRecIdList = new List<String>();
     public static ASF_Bulk_Row_to_Record_Converter_Config__mdt configMetaRec = new ASF_Bulk_Row_to_Record_Converter_Config__mdt();
     
+    /**
+     * Description : This method is called when user clicks on the Download CSV for upload button
+     * Input : operation name that user wishes to perform, current page url passed from VF, list of selected case IDs from list view,
+     * 		   User's current list view ID
+     * Output : List of case field with values as per the chosen template to generate the csv file
+     */
     public static Object generateCSVFileWithData(String strConfigName, String strURL, String strSelectedRecords, String strListViewId) {
        
         String strCSVFields = '';
@@ -20,17 +33,6 @@ public class ASF_BulkCsvDownloadHelper {
             strListViewId = getRecentViewID(configMetaRec.SObject_Name__c);
         }
 
-        /*
-        // Query on Basis of Selected record id
-        if(selectedRecIdList !=null && !selectedRecIdList.isEmpty()){
-            resultSobjectList = performSOQL(configMetaRec,'',selectedRecIdList);
-        }
-        // Get the query of the List View
-        else if(String.isNotBlank(strListViewId)){
-            resultSobjectList = getListViewSOQL(configMetaRec.SObject_Name__c,strListViewId,strCSVFields);
-        }
-        */
-
         Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
         ASF_BulkCSVToRecordConverter converter = (ASF_BulkCSVToRecordConverter)customType.newInstance();
         resultSobjectList = converter.prepareDownloadTemplate(columnNames, configMetaRec.SObject_Name__c, strListViewId, selectedRecIdList);
@@ -44,8 +46,12 @@ public class ASF_BulkCsvDownloadHelper {
        
         return resultSobjectList; 
     }
-    
-    /** Return the SOQL query for a given List view and Object Name */
+
+    /**
+     * Description : Returns the SOQL query for a given List view and Object Name
+     * Input : Object API name and List View ID
+     * Output : Returns the SOQL query for a given List view
+     */
     public static String getListViewSOQL(String strObjectName, String strListViewId){
         String query;
         List<Sobject> resultSobjectList = new List<Sobject>();
@@ -63,131 +69,12 @@ public class ASF_BulkCsvDownloadHelper {
         }
         return query;
     }
-
-    /*
-    public static List<Sobject> getListViewSOQL(String strObjectName, String strListViewId, String strCSVFields){
-        List<Sobject> resultSobjectList = new List<Sobject>();
-        HttpRequest req = new HttpRequest();
-        String baseUrl = URL.getOrgDomainURL().toExternalForm();
-        String endPoinURL = baseUrl+'/services/data/v50.0/sobjects/'+ strObjectName +'/listviews/'+ strListViewId +'/describe';
-        req.setEndpoint(endPoinURL);
-        req.setMethod('GET');
-        req.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
-        Http http = new Http();
-        HttpResponse response = http.send(req);
-        if( response.getStatusCode() == 200 ) {
-            Map<String, Object> tokenResponse = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            String query = (String) tokenResponse.get('query');
-            if(String.isNotBlank(query)){
-                system.debug('Original Query --> '+query);
-                List<Sobject> lstSobject=performSOQL(configMetaRec,query,selectedRecIdList);
-                if(lstSobject!= null && !lstSobject.isEmpty()){
-                    resultSobjectList = lstSobject;
-                }
-                else{
-                    resultSobjectList = null;
-                }
-            }
-        }
-        return resultSobjectList;
-    }
-    */
-    
-    public static List<Sobject> performSOQL(ASF_Bulk_Row_to_Record_Converter_Config__mdt objMdt, String strQuery, 
-                                            List<String> selectedRecIdList){
-        String strFinalQuery = '';
-        String strAddFilterCriteria = '';
-        String strScope = '';
-        String baseUrl = URL.getOrgDomainURL().toExternalForm();
-        String strFields = objMdt.Fields_Name__c ;
-        String strObjectName = objMdt.SObject_Name__c;
-        String strUserID = UserInfo.getUserId();
-        String UserID = UserInfo.getUserId();
-        List<String> fieldsList = new List<String>();
-        List<Sobject> resultSobjectList = new  List<Sobject>();
-        
-        if(String.IsNotBlank(strFields)){
-            fieldsList = strFields.split(',');
-        }
-        
-        if(String.isNotBlank(objMdt.SOQL_Where_Clause__c)){
-            strAddFilterCriteria = objMdt.SOQL_Where_Clause__c;
-        } 
-        system.debug('inside soql method');
-        
-        // If IDs are selected
-        if(selectedRecIdList!=null && !selectedRecIdList.isEmpty()){
-            String strWhereClause = ' WHERE ID IN:selectedRecIdList';
-            if(String.isNotBlank(strAddFilterCriteria)){
-                strWhereClause = strWhereClause + ' AND ' + strAddFilterCriteria;
-            }
-            strFinalQuery = 'Select '+ strFields + ' FROM ' + strObjectName + strWhereClause;
-        }
-        // If List view has filter condition
-        else if(strQuery.contains('WHERE') ){
-            String strWhereClause = '';
-            //check filter criteria
-            if(String.isNotBlank(strAddFilterCriteria)){
-                strWhereClause =  strAddFilterCriteria;
-            }
-
-            //check list view query
-            String strWhere2 = strQuery.substringAfter('WHERE');
-
-            //add list view query and filter criteria 
-            if(String.isNotBlank(strWhereClause)){
-                strWhereClause = strWhereClause + ' AND '  + strWhere2  ;
-            }
-
-            //if no filter query just add list view query
-            else{
-                strWhereClause =  strWhere2;
-            }
-            if(strQuery.contains('USING SCOPE')){
-                strScope = ' USING SCOPE ' + strQuery.substringBetween('SCOPE ',' ') + ' ';
-            }
-            strFinalQuery = 'Select '+ strFields + ' FROM ' + strObjectName + strScope + ' WHERE '+ strWhereClause ;     
-        } 
-        // If List view has no filter condition
-        else{
-        	String strFromClause = strQuery.substringAfter('FROM');
-            String strQueryAfter = strFromClause.substringAfter(strObjectName);
-            //String strScope = '';
-            String strWhereClause= '';
-            String strOrderBy = '';
-           
-            if(strQueryAfter.contains('SCOPE') && strQueryAfter.contains('ORDER BY')){
-                strScope = ' USING SCOPE ' + strQueryAfter.substringBetween('USING SCOPE','ORDER BY');
-                strOrderBy = ' ORDER BY ' + strQueryAfter.substringAfter('ORDER BY');
-            }
-            //Check Filter Query
-            if(String.isNotBlank(strAddFilterCriteria)){
-                strWhereClause =  ' WHERE '+strAddFilterCriteria + ' ' ;
-            }
-            
-            // Forming Query Select <Fields> FROM <Sobject> USING SCOPE <strScope> WHERE <strWhereClause> ORDER BY <strOrderBy>
-            strFinalQuery = 'Select '+ strFields + ' FROM ' + strObjectName + strScope + strWhereClause + strOrderBy;
-        }
-       
-        // Assigns the Field value 
-        resultSobjectList = Database.query(strFinalQuery);
-        if(resultSobjectList != null && !resultSobjectList.isEmpty()){
-            for(Sobject obj:resultSobjectList){
-
-                //Assigns the Space for the  SOQL field whose value is Null so that the field is visible in CSV
-                if(fieldsList!= null && !fieldsList.isEmpty()){
-                    for(String strField : fieldsList){
-                        strField = strField.trim();
-                        if(obj.get(strField) == null /*&& !strField.containsIgnoreCase('date')*/){
-                            obj.put(strField, ' ');
-                        }
-                    }
-                }
-            }
-        }
-        return resultSobjectList;
-    }
-
+	
+    /**
+     * Description : This method is used to display the final upload result
+     * Input : current header ID
+     * Output : List of bulk header line items results to generate the csv file
+     */
     public static List<Sobject> downloadUploadResults(Id bulkHeaderId) {
         List<Sobject> resultSobjectList = new List<Sobject>();
         if(bulkHeaderId != null){
@@ -197,7 +84,12 @@ public class ASF_BulkCsvDownloadHelper {
         return resultSobjectList;
     }
     
-    private static String getRecentViewID(String strSobjectName){
+    /**
+     * Description : This method returns the 'Recent' listView ID
+     * Input : Object API name
+     * Output : List View ID
+     */
+    public static String getRecentViewID(String strSobjectName){
         String strListViewId = '';
         List<ListView> lstRecentView = [SELECT Id, DeveloperName, SobjectType FROM ListView Where SobjectType =: strSobjectName 
                                        AND DeveloperName LIKE 'RecentlyViewed%'];

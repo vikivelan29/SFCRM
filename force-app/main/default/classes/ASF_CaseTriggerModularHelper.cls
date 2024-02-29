@@ -918,7 +918,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, String> caseStageMap = new Map<Id, String>();
         
         for(Case caseRec : newList){
-            if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
+                        if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
 	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
@@ -1091,11 +1091,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //Validation Method added for restricting non queue member to change owner from list view
     public static void caseOwnerChangeValidation(list<Case> newList,Map<Id, Case> oldMap){
                 List<Id> bypassProfileId = new List<Id>();
-        for(Profile profRec : [select Id, Name from profile where Name IN ('System Administrator','Salesforce API Only System Integrations')]){
+        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing){
+        if((bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing) && !Test.isRunningTest()){
             return;
         }
             
