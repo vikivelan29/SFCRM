@@ -261,7 +261,20 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 }
                 //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
-                //string mobile = '';
+                string leadId = '';
+                string mobile = '';
+                if(caseRecord.Asset.Lead_Id__c != null){
+                    leadId = caseRecord.Asset.Lead_Id__c;
+                } else if(caseRecord.Lead__c != null){
+                    leadId = caseRecord.Lead__c;
+                } else {
+                    leadId = caseRecord.CaseNumber;
+                }
+                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL == caseRecord.Account.RecordType.Name){
+                    mobile = caseRecord.Account.PersonMobilePhone;
+                }else {
+                    mobile = caseRecord.Account.Phone;
+                }
                 for(DMS_Files__c file : fileRecList){
                     dmsEventList.add(new DMS_File_Transfer__e(
                         Business_Unit__c = file.Business_Unit__c,
@@ -277,8 +290,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
                         File_Extension__c = file.File_Extension__c,
                         Doc_SubType__c = caseRecord.Sub_Type_Text__c,
                         Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
-                        Lead_ID__c = String.isNotBlank(caseRecord.Asset.Lead_Id__c) ? caseRecord.Asset.Lead_Id__c : String.isNotBlank(caseRecord.Lead__c) ? caseRecord.Lead__c : caseRecord.CaseNumber,
-                        Contact_No__c = ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL == caseRecord.Account.RecordType.Name ? caseRecord.Account.Phone : caseRecord.Account.PersonMobilePhone,
+                        Lead_ID__c = leadId,
+                        Contact_No__c = mobile,
                         Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
                     ));
                 }
