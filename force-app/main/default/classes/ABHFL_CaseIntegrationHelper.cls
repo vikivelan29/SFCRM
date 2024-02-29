@@ -43,7 +43,9 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Lan_Comment__c = ebotResponse.LANCOMMENT;
         caseDetails.Unregistered_Category__c = ebotResponse.UNREGISTEREDCATEGORY;
        //End
-
+       if(ebotResponse.ISREGISTRED == 'No'){
+            caseDetails.Is_FTR__c = true;
+        }
         if(Schema.sObjectType.ABHFL_Case_Detail__c.isCreateable()){
             insert caseDetails;
         }
@@ -72,9 +74,9 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             }            
         }
        //End
-       if(ebotResponse.ISREGISTRED == 'Yes'){
-            ASF_TriggerSkipperUtility.markTriggerRun('Case');
-            caseRecord.Stage__c = 'Resolved';
+       if(ebotResponse.ISREGISTRED == 'No'){
+            caseRecord.Attachment_Status__c ='Completed';
+            caseRecord.Technical_Source__c = 'API';
         }
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
