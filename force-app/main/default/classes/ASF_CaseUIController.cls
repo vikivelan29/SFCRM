@@ -77,9 +77,9 @@ public with sharing class  ASF_CaseUIController {
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
-                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
                     Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp),
-                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
                 System.debug(searchList[3]);
@@ -172,9 +172,11 @@ public with sharing class  ASF_CaseUIController {
             Id entityId = Id.ValueOf(accountId);
             if(entityId.getSObjectType() == Account.sObjectType){
                 cs.AccountId = accountId;
+                cs.Lead__c = null;
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
+                cs.AccountId = null;
             }
             
         }
