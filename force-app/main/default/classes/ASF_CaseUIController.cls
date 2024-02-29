@@ -177,6 +177,7 @@ public with sharing class  ASF_CaseUIController {
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
                 cs.AccountId = null;
+                cs.AssetId = null;
             }
             
         }
