@@ -1,15 +1,22 @@
 public class ABHFL_ReqResolvedStageApex implements ASF_CaseStageClassInvocable {
-	public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        retCls.status = ABHFL_Constants.SUCCESS;
-        retCls.updatedCase = caseRec;
-        retCls.isCaseUpdated = false;
-        ABHFL_CTSTHelper.sendMailWithAttachments(caseRec);
-        return retCls;
+	public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecords);
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = ABHFL_Constants.SUCCESS;
+            retCls.updatedCase = caseRec;
+            retCls.isCaseUpdated = false;
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
-     public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        
-        return retCls;
+    public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
 }

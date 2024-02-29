@@ -252,13 +252,18 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         // for(Case c : newCases.values()){
         //without query, owner.name will not come  . hence this query is needed 
-        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c,Bulk_Action__c FROM Case WHERE Id IN: newCases.values()]){
+        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
             slaHistory.Current_Owner__c = c.Owner.Name;
             slaHistory.Current_Owner_Id__c = c.OwnerId;
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
+            slaHistory.Actioned_By__c = UserInfo.getName();
+            if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
+                slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
+            }
+            
             //if stage is blank , then probbaly email2Case
             if(String.isBlank(slaHistory.Stage__c)){
                 slaHistory.Stage__c = slaHistory.Status__c;    
