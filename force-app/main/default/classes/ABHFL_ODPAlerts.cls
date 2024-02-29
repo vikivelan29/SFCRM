@@ -20,20 +20,29 @@ public with sharing class ABHFL_ODPAlerts {
     public static List<ODPAlertResponse> getOdpAlerts(Id AccountId, boolean isABFL){
         List<ODPAlertResponse> odpAlertResponseList = new List<ODPAlertResponse>();
         String integrationName;
-        Account accObj = [SELECT Id,Client_Code__c, Business_Unit__c FROM Account WHERE Id =: AccountId];
-        //New
-        if(isABFL){
-            integrationName = ABFL_Constants.ODP_ALERTS;
-        }else{
-            integrationName = ABHFL_Constants.ODP_ALERTS;
-        }
-        If(accObj.Client_Code__c != null){
-            String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
-            
-            ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
-            odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
-        }else{
-            throw new AuraHandledException(label.ODP_Client_Code_Msg);
+        try{
+            Account accObj = [SELECT Id,Client_Code__c FROM Account WHERE Id =: AccountId];
+            //New
+            if(isABFL){
+                integrationName = ABFL_Constants.ODP_ALERTS;
+            }else{
+                integrationName = ABHFL_Constants.ODP_ALERTS;
+            }
+            If(accObj.Client_Code__c != null){
+                String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
+                
+                ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
+                
+                if(odpResponseWrp.responseBody == '[]'){
+                    odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
+                }else{
+                    odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
+                }
+            }else{
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"Clinet code is not avalible\"}]');
+            }
+        }catch(Exception e){
+            system.debug('Error=='+e.getMessage()+ ' Line no=='+e.getLineNumber());
         }
         return odpAlertResponseList;
     }
