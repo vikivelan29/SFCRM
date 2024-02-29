@@ -41,4 +41,9 @@
         <default>false</default>
         <label>ABHFL Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABFL WM CHAT</fullName>
+        <default>false</default>
+        <label>ABFL WM CHAT</label>
+    </standardValue>
 </StandardValueSet>

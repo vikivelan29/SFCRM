@@ -39,6 +39,10 @@ public with sharing class ABFL_Constants {
     public static final string DESCRIPTION_MSG = 'Auto created Case by BRE for loan closure of digital loan';
     public static final string SOURCE = 'SystemIntegration';
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};
+        
+    public static final string WMCHATCASEORIGIN = 'ABFL WM CHAT';
+    public static final string WMEMAILTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_EMAIL';
+    public static final string WMSMSTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_SMS_TEMPLA';
 
     // BRE flag values such as “SUCCESS”,” FAILURE”,”VALIDATION ERROR”,”IN_PROCESS”,” Closure In Process” will be passed in this parameter.
     public static final String BRESUCCESS {
