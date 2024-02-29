@@ -24,6 +24,8 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         FROM ABHFL_Asset_Detail__c WHERE Case__c=:caseRec.Id];
         List<Case> newCaseList = new List<Case>();
 
+        Id caseFramworkRecordTypeId = [select id from recordType where SobjectType = 'Case' and DeveloperName = 'Framework'].Id;
+
         caseRec = [SELECT AssetId, AccountId, Account.Client_Code__c, Asset.LAN__c, Source__c, Technical_Source__c,  Nature__c FROM Case WHERE Id =: caseRec.Id];
         List<ABHFL_Case_Detail__c> abhflCaseDetailList = new List<ABHFL_Case_Detail__c>();
         for(ABHFL_Asset_Detail__c asset : assetDetailRecords){
@@ -35,7 +37,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         }
 
         for(Integer i=0; i<assetDetailRecords.size(); i++){
-            case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, assetDetailRecords[i].LAN__c, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id);
+            case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, assetDetailRecords[i].LAN__c, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, caseFramworkRecordTypeId);
             newCase.AccountId = caseRec.AccountId;
             newCase.ABHFL_Case_Detail__c = abhflCaseDetailList[i].Id;
             newCase.Nature__c = caseRec.Nature__c;
