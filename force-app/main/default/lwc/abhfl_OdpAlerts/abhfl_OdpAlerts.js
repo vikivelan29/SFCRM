@@ -53,7 +53,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         }
     }
 
-    odpAlerts(){
+    odpAlerts(){ 
         this.showSpinner = true;
         this.showErrorMessage = false;
 
