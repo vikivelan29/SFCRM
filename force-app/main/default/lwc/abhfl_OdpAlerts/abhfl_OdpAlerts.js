@@ -18,7 +18,6 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     connectedCallback(){
        getConstants()
         .then(result => {
-            console.log('this.userType =='+this.userType +' result.ABHFL=='+result.ABHFL);
             if(this.userType == result.ABHFL){
                 this.isAbhflUser = true;
                 this.odpAlerts();
@@ -27,8 +26,8 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         .catch(error => {
             this.showSpinner = false;
             this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
         });
+       
         //New code for ABFL
         getConstantsABFL().then(result => {
             console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
@@ -42,6 +41,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             this.showSpinner = false;
             this.handleError(JSON.stringify(error));
         })
+       
     }
 
     @wire(getRecord, { recordId: Id, fields: [businessUnitType]}) 
@@ -70,7 +70,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         .catch(error => {
             this.showSpinner = false;
             this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
+            
         });
     }
 
