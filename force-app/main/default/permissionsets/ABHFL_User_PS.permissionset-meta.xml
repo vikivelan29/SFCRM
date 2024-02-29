@@ -1166,7 +1166,7 @@
         <field>ABHFL_Payment__c.Realization_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+<fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Integration__c.Next_Retry__c</field>
         <readable>true</readable>
@@ -1181,7 +1181,7 @@
         <field>ASF_Case_Integration__c.Retry__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+        <fieldPermissions>
         <editable>false</editable>
         <field>Account.Active_Date__c</field>
         <readable>true</readable>
@@ -2141,6 +2141,11 @@
         <field>DMS_Files__c.Error_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Extension__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.File_Name__c</field>
@@ -2158,17 +2163,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>DMS_Files__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry_Attempt__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>DMS_Files__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Version_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.File_Extension__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
