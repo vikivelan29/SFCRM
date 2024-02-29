@@ -39,7 +39,7 @@ public with sharing class ABHFL_ODPAlerts {
                     odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
                 }
             }else{
-                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"Clinet code is not avalible\"}]');
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"errorCode\":\"401\",\"message\":\"There is client code missing\"}]');
             }
         }catch(Exception e){
             system.debug('Error=='+e.getMessage()+ ' Line no=='+e.getLineNumber());
