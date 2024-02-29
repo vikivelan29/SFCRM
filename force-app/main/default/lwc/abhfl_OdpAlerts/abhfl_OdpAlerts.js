@@ -18,7 +18,6 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     connectedCallback(){
        getConstants()
         .then(result => {
-            console.log('this.userType =='+this.userType +' result.ABHFL=='+result.ABHFL);
             if(this.userType == result.ABHFL){
                 this.isAbhflUser = true;
                 this.odpAlerts();
@@ -26,13 +25,13 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(error);
-            console.log('error==',JSON.stringify(error));
+            this.handleError(JSON.stringify(error));
         });
+       
         //New code for ABFL
         getConstantsABFL().then(result => {
-            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_Abfl);
-            if(this.userType == result.lob_Abfl){
+            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
+            if(this.userType == result.lob_ABFL){
                 this.isAbflUser = true;
                 this.odpAlerts();
             }else{
@@ -40,8 +39,9 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }
         }).catch(error => {
             this.showSpinner = false;
-            this.handleError(error);
+            this.handleError(JSON.stringify(error));
         })
+       
     }
 
     @wire(getRecord, { recordId: Id, fields: [businessUnitType]}) 
@@ -49,7 +49,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         if (data) {
             this.userType = data.fields.Business_Unit__c.value;
         } else if (error) {
-            this.handleError(error);
+            this.handleError(JSON.stringify(error));
         }
     }
 
@@ -64,12 +64,13 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }else{
                 this.handleError(result[0].message);
             }
+            
             this.showSpinner = false;
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(error);
-            console.log('error==>',JSON.stringify(error));
+            this.handleError(JSON.stringify(error));
+            
         });
     }
 
