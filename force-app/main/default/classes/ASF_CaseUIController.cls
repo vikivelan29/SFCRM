@@ -172,9 +172,11 @@ public with sharing class  ASF_CaseUIController {
             Id entityId = Id.ValueOf(accountId);
             if(entityId.getSObjectType() == Account.sObjectType){
                 cs.AccountId = accountId;
+                cs.Lead__c = null;
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
+                cs.AccountId = null;
             }
             
         }
