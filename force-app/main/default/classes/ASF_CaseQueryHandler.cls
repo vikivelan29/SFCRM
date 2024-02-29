@@ -99,7 +99,7 @@ public with sharing class ASF_CaseQueryHandler {
     }
     //15/02/2023: Added ABFL_BRE_CalloutClass__c field on ASF_Integration for BRE callout - AC
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
-        if(caseStageConfigs == null){
+        if(caseStageConfigs == null || refreshRecords){
             caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,

@@ -827,7 +827,9 @@ public class ASF_CaseMovementHelper {
         Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
         Map<String, List<ASF_Case_Stage_Config__c>> externalIdToStageConfigsMap = new Map<String, List<ASF_Case_Stage_Config__c>>();
         
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(!externalIdToStageConfigsMap.containsKey(config.Case_Category_Config__r.CCC_External_Id__c)){
                 externalIdToStageConfigsMap.put(config.Case_Category_Config__r.CCC_External_Id__c, new List<ASF_Case_Stage_Config__c>());
@@ -859,7 +861,9 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
         for(Case caseRec : currentCases){
             if(caseIdToCurrentStageConfigMap.containsKey(caseRec.Id) && stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
