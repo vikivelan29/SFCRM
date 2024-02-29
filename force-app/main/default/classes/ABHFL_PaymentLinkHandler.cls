@@ -15,12 +15,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
+        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
+                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
                            FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
-        
+
+        List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
+
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('PaymentLink_EvaluationSuccessful').Message__c; 
+
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
@@ -34,6 +38,32 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         if(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c == null){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_PayableChargeMissing').Message__c;              
+        }
+
+        if(String.isBlank(caseRecord.Asset.Loan_ID__c)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Payment_Link_Loan_Id_is_Blank').Message__c;
+        }
+        
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL && String.isBlank(caseRecord.Account.Phone)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Phone_cannot_be_blank').Message__c;
+        }
+        
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonMobilePhone)) {
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('Mobile_cannot_be_blank').Message__c;
+        }
+
+        for(Doc_Charge__mdt dcChrgeRec : docChargMdtLst) {
+            String docCCCExternalId = dcChrgeRec.CCC_External_Id__c;
+            String caseRecCCCExtId = caseRecord.CCC_External_Id__c;
+            String paymentRequired = caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c;
+            if(docCCCExternalId == caseRecCCCExtId && paymentRequired == 'No') {
+                result.status = ABHFL_Constants.ERROR;
+                result.response = Custom_Messages__mdt.getInstance('Payment_Required_Message').Message__c;
+                break;
+            }
         }
         
         return result;
@@ -56,19 +86,27 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         result.status = ABHFL_Constants.ERROR;
 
         
-        Case caseRecord = [SELECT Id,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
+        Case caseRecord = [SELECT Id,Account.PersonMobilePhone,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.Loan_ID__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
-        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c 
-                                                FROM Doc_Charge__mdt
-                                                WHERE CCC_External_Id__c =:cccExternalId];
-        
-        String chargeReason = docChargeMdtLst[0].Charges__c;
-        String chargeCode = docChargeMdtLst[0].Charge_Code__c;
+        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
+                                                FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
+        Boolean callPaymentLink = false;        
+        string smsTemplate = '';    
+        String emailTemplate = '';   
+        String paymentCode = '';           
+        if(docChargeMdtLst.size() > 0){
+            emailTemplate = docChargeMdtLst[0].Email_Template__c;
+            smsTemplate = docChargeMdtLst[0].SMS_Template__c;
+            callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
+            paymentCode = docChargeMdtLst[0].Payment_Code__c;
+        }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
         PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
+        paytmRequestWrapper.paymentCode = paymentCode;
+        paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
         system.debug('paytmRequestBody'+paytmRequestBody);
         PaytmResponseWrapper paytmResponseWrapper = new PaytmResponseWrapper() ;
@@ -78,31 +116,24 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             system.debug('paytmResponse.responseBody'+paytmResponse.responseBody);
             paytmResponseWrapper = (PaytmResponseWrapper)JSON.deserialize(paytmResponse.responseBody,PaytmResponseWrapper.class);
             system.debug('paytmResponse Parsed'+paytmResponseWrapper);
-            if(paytmResponseWrapper.operationStatus == '1'){
-                PaymentRequestWrapper paymentRequestWrapper = new PaymentRequestWrapper(caseRecord,paytmResponseWrapper);
-                paymentRequestWrapper.reasonOfPayment = chargeReason;
-                paymentRequestWrapper.chargeCode = chargeCode;
-                string paymentRequestBody = JSON.serialize(paymentRequestWrapper);
-                system.debug('paymentRequestBody'+paymentRequestBody);
-                ABCL_IntegrationCallout.IntegrationResponseWrapper paymentResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.PAYMENTLINK_INTEGRATION_METADATA,paymentRequestBody,null);
-                system.debug('paymentResponse.responseBody'+paymentResponse.responseBody);
-                if(paymentResponse.statusCode == 200 && String.isNotBlank(paymentResponse.responseBody)){
-                        system.debug('paymentResponse.responseBody'+paymentResponse.responseBody);
-                        PaymentResponseWrapper paymentResponseWrapper = (PaymentResponseWrapper)JSON.deserialize(paymentResponse.responseBody,PaymentResponseWrapper.class);
-                        system.debug('paymentResponseWrapper Parsed'+paymentResponseWrapper);
-                        if(paymentResponseWrapper.returnCode == '1'){
-                            result.Status = ABHFL_Constants.SUCCESS;
-                            result.Response = paymentResponseWrapper.shortUrl; 
-                            integrationResponse = ABHFL_Constants.SUCCESS;
-                        }
-                } 
+            if(paytmResponseWrapper.operationStatus == '1' && callPaymentLink){
+                result = paymentLinkGeneration(caseRecord,paytmResponseWrapper,docChargeMdtLst,intSpec);
+            } else if(paytmResponseWrapper.operationStatus == '1' && !callPaymentLink){
+                result.Status = ABHFL_Constants.SUCCESS;
+                result.Response = paytmResponseWrapper.shortUrl;
             }
         } 
         
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
-        caseInteg.Status__c = ABHFL_Constants.PENDING;
+        if(result.Status == ABHFL_Constants.SUCCESS){
+            caseInteg.Status__c = ABHFL_Constants.SUCCESS;
+        }else{
+            caseInteg.Status__c = ABHFL_Constants.FAILURE;
+        }
+        caseInteg.Request__c = paytmRequestBody;
+        caseInteg.Response__c = JSON.serialize(paytmResponseWrapper);
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
@@ -115,18 +146,64 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
                 update caseDetail;
             }
-            caseInteg.Status__c = integrationResponse;
-            if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
-                update caseInteg;
-            }
-            List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id,Resolved_Case_Email_Template__c, Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
-                                                                   WHERE CCC_External_Id__c =:cccExternalId WITH SECURITY_ENFORCED];
+
             Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                                                                    'Payment_Link_VF', 
-                                                                                                                    NULL, 
+                                                                                                                    emailTemplate, 
+                                                                                                                    smsTemplate, 
                                                                                                                     false); 
         }
         
+        return result;
+    }
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - paymentLinkGeneration
+    * @param paytmResponseWrapper - Paytm Response Wrapper.
+    * @param caseRec - Case record from the framework.
+    * @param chargeReason - Stored Charge Reason for CTST Record.
+    * @param chargeCode - Stored Charge Reason for CTST Record.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - Invoked from the ASF_IntegrationsController class, this method runs the PaymentLink integration.
+    *****************************************************************************************************************/
+    public static ASF_IntegrationsController.IntegrationWrapper paymentLinkGeneration(Case caseRecord,PaytmResponseWrapper paytmResponseWrapper,List<Doc_Charge__mdt> docChargeMdtLst,ASF_Integration__c intSpec){
+        String responseStr = '';  
+        String chargeReason = '';
+        String chargeCode = '';
+        if(docChargeMdtLst.size() > 0){
+            chargeReason = docChargeMdtLst[0].Charges__c;
+            chargeCode = docChargeMdtLst[0].Charge_Code__c;
+        }
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        PaymentRequestWrapper paymentRequestWrapper = new PaymentRequestWrapper(caseRecord,paytmResponseWrapper);
+        paymentRequestWrapper.reasonOfPayment = chargeReason;
+        paymentRequestWrapper.chargeCode = chargeCode;
+        string paymentRequestBody = JSON.serialize(paymentRequestWrapper);
+        system.debug('paymentRequestBody'+paymentRequestBody);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper paymentResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.PAYMENTLINK_INTEGRATION_METADATA,paymentRequestBody,null);
+        system.debug('paymentResponse.responseBody'+paymentResponse.responseBody);
+        if(paymentResponse.statusCode == 200 && String.isNotBlank(paymentResponse.responseBody)){
+                system.debug('paymentResponse.responseBody'+paymentResponse.responseBody);
+                PaymentResponseWrapper paymentResponseWrapper = (PaymentResponseWrapper)JSON.deserialize(paymentResponse.responseBody,PaymentResponseWrapper.class);
+                responseStr = JSON.serialize(paymentResponseWrapper);
+                system.debug('paymentResponseWrapper Parsed'+paymentResponseWrapper);
+                if(paymentResponseWrapper.returnCode == '1'){
+                    result.Status = ABHFL_Constants.SUCCESS;
+                    result.Response = paymentResponseWrapper.shortUrl;
+                }
+        }
+        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+        caseInteg.Case__c = caseRecord.Id;
+        if(result.Status == ABHFL_Constants.SUCCESS){
+            caseInteg.Status__c = ABHFL_Constants.SUCCESS;
+        }else{
+            caseInteg.Status__c = ABHFL_Constants.FAILURE;
+        }
+        caseInteg.Request__c = paymentRequestBody;
+        caseInteg.Response__c = responseStr;
+        caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInteg;
+        }
         return result;
     }
     /****************************************************************************************************************
@@ -145,12 +222,14 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string mobileNumber;
         public string type;
         public string Amount;
+        public string Paymentcode;
+        public string ParentcaseID;
 
         public PaytmRequestWrapper(Case caseRecord){
             this.custname = caseRecord.Customer_name_formula__c;
-            this.LAN = caseRecord.Asset.LAN__c;
+            this.LAN = caseRecord.Asset.Loan_ID__c;
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Office_Email__c:caseRecord.Account.PersonEmail;
-            this.mobileNumber = caseRecord.Account.Phone;
+            this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
             this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
         }
@@ -168,13 +247,14 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     }
     
     public class PaymentRequestWrapper{
-        public string customerName;
+        public string CustomerName;
         public string LAN;
         public string CRMCaseId;
-        public string chargeCode;
-        public string reasonOfPayment;
-        public string paymentLink;
-        public string paymentExpiryDate;
+        public string ChargeCode;
+        public string ReasonOfPayment;
+        public string PaymentLink;
+        public string PaymentExpiryDate;
+
 
         public PaymentRequestWrapper(Case caseRecord, PaytmResponseWrapper paytmResponseWrapper ){
             this.CustomerName = caseRecord.Customer_name_formula__c;
@@ -183,7 +263,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.ChargeCode = '';
             this.ReasonOfPayment = ABHFL_Constants.REASON_FOR_PAYMENT;
             this.PaymentLink = paytmResponseWrapper.shortUrl;
-            this.PaymentExpiryDate = '';
+            this.PaymentExpiryDate = String.valueOf(system.now());
         }
 
         public PaymentRequestWrapper(){}

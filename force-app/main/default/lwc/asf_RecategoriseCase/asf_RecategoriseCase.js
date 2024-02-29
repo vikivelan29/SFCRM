@@ -61,6 +61,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     rejectionReasonVal;
     botFeedbackVal;
 
+    assetLOB;
     assetId;
     isasset;
     accountId;
@@ -96,6 +97,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     caseComplaintLevel;
     
     cccproduct_type = '';
+    businessUnit = '';
 
     accountRecordType = '';
     leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
@@ -114,6 +116,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(getFieldValue(data, SENTTOBOT_FIELD) === true && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
                 this.showBotFeedback = true;
             }
+            this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
         } else if (error) {
             console.error('Error loading record', error);
         }
@@ -167,7 +170,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.boolChannelVisible = false;
         this.isNotSelected = true;
  
-        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId  })
+        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -229,9 +232,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
         }
-    
+        if ((selected) && (this.businessUnit === "ABFL")) {
+            this.boolAllChannelVisible = false;
+        }
         if (selected) {
-            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
+            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(',')) && (this.businessUnit != "ABFL")) {
                 this.boolAllChannelVisible = true;
                 this.boolAllSourceVisible = true;
             }
@@ -674,7 +679,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             //this will be true. 
             this.isasset = 'true';
             if (caseparsedObject.AssetId != undefined && caseparsedObject.AssetId != null){
-                //this.assetId = caseparsedObject.AssetId; 
+                //this.assetId = caseparsedObject.AssetId;
+                this.assetLOB = caseparsedObject.Asset.LOB__c; 
                 //once case is associated to asset, reset this
                 this.isasset = 'false';
             }

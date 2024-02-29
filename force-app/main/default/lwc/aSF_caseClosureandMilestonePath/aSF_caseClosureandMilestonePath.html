@@ -2,18 +2,19 @@
     <lightning-card>
         <div class="c-container">
             <lightning-layout multiple-rows="true">
-                <lightning-layout-item class="center-text"> <!--padding="around-small" -->
-                    <div class="header-column">
-                        <strong>
-                            <p class="field-title slds-text-body_small" title="Case Closure SLA">Case Closure SLA &nbsp;<br/>
+                <lightning-layout-item class="center-text" size="3"> <!--padding="around-small" -->
+                    <div >
+                        <div>
+                            <p class="field-title slds-text-body_small" title="Case Closure SLA">Overall Case Closure SLA
                                 <!-- <lightning-icon icon-name="standard:today" size="xx-small" title="Timer"></lightning-icon> -->
                             </p>
-                        </strong> <br/> <strong>
+                        </div>
+                        <div>
                             <template if:true={showTimer}>
                                 <p>{timer}</p>
                             </template>
                             <template lwc:if={caseObj}>
-                                <strong>
+                                <div>
                                     <p>
                                         <lightning-formatted-date-time value={caseObj.Overall_Case_Closure_SLA__c}
                                             year="numeric"
@@ -25,33 +26,34 @@
                                             class={overallStyle}>
                                         </lightning-formatted-date-time>
                                     </p>
-                                </strong>
+                                </div>
                             </template>
                             
-                        </strong>
+                        </div>
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item class="center-text"><!--padding="around-small" -->
-                    <div class="header-column">
+                <lightning-layout-item class="center-text" size="3"><!--padding="around-small" -->
+                    <div >
                         <div class="slds-text-heading_medium">
-                            <strong>
-                                <p class="field-title" title="Case No" style="text-align:center">Case Turn Around Time <br/><span>(TAT)</span>
+                            <div>
+                                <p class="field-title" title="Case No" style="text-align:center">Case Turnaround Time(TAT)
                                     <!-- <lightning-icon icon-name="standard:case" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
-                            </strong>
-                        </div> <strong>
+                            </div>
+                        </div> <div>
                             <p class="slds-text-body_small">{overallTAT}</p>    
-                        </strong>
+                        </div>
                     </div>
                 </lightning-layout-item>
 
-                <lightning-layout-item class="center-text"><!--padding="around-small" -->
-                    <div class="header-column">
-                        <strong>
-                            <p class="field-title slds-text-body_small" title="Stage Case SLA">Stage 3 Case SLA &nbsp;
+                <lightning-layout-item class="center-text" size="3"><!--padding="around-small" -->
+                    <div >
+                        <div>
+                            <p class="field-title slds-text-body_small" title="Stage Case SLA">Level 3 Stage SLA
                                 <!-- <lightning-icon icon-name="standard:stage" size="xx-small" title="Timer"></lightning-icon> -->
                             </p>
-                        </strong><br/> <strong>
+                        </div> 
+                        <div>
                             <template if:true={showTimer}>
                                 <p>{timer}</p>
                             </template>
@@ -66,46 +68,43 @@
                                             class={sla3Style}>
                                         </lightning-formatted-date-time>
                             </template>
-                        </strong>
+                        </div>
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item class="center-text"><!--padding="around-small" -->
-                    <div class="header-column">
+                <lightning-layout-item class="center-text inline-display" size="3"><!--padding="around-small" -->
+                    <div >
                         <div class="slds-text-heading_medium">
-                            <strong>
-                                <p class="field-title" title="Case No" style="text-align:center">Stage 3 Turn Around Time<br/><span>(TAT)</span>
+                            <div>
+                                <p class="field-title" title="Case No" style="text-align:center">Level 3 Turnaround Time(TAT)
                                     <!-- <lightning-icon icon-name="standard:case" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
-                            </strong>
-                        </div> <strong>
+                            </div>
+                            
+                        </div> <div>
                             <p class="slds-text-body_small">{sla3TAT}</p>
-                             </strong>
+                             </div>
                     </div>
+                    <lightning-button-icon icon-name={iconName} size="small" class="slds-m-left--medium"
+                             alternative-text="expand" title="expand" onclick={openAllPanels}></lightning-button-icon>
                 </lightning-layout-item>
 
-                <!--VIRENDRA  : Moved the Expand Collapse at the top.-->
+                <!--VIRENDRA  : Moved the Expand Collapse at the top.
                 <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    <lightning-button-icon icon-name={iconName}  alternative-text="expand" class="slds-m-left_xx-small" title="expand" onclick={openAllPanels} style="float:inline-end;padding-inline-end:1rem"></lightning-button-icon>
-                    <!--<lightning-icon icon-name={iconName} alternative-text="expand"
-                        title="xx-small size" onclick={openAllPanels}></lightning-icon>-->
-                    <!--<a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne"
-                        onclick={openAllPanels}>
-                        {expandCollapseLbl}
-                    </a>-->
+                    
                 </lightning-layout-item>
-
+                -->
 
 
                 <!-- VIRENDRA -->
                 <template if:true={showAdditionalSLA}>
 
-                    <lightning-layout-item  class="center-text slds-p-vertical_medium"><!--padding="around-small" -->
-                        <div class="header-column">
-                            <strong>
-                                <p class="field-title" title="Case Closure SLA">Stage 1 Case SLA &nbsp;
+                    <lightning-layout-item  class="center-text" size="3"><!--padding="around-small" -->
+                        <div >
+                            <div>
+                                <p class="field-title" title="Case Closure SLA">Level 1 Stage SLA
                                     <!-- <lightning-icon icon-name="standard:today" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
-                            </strong><strong>
+                            </div><div>
                                 <template if:true={showTimer}>
                                     <p>{timer}</p>
                                 </template>
@@ -118,18 +117,18 @@
                                             time-zone="IST"
                                             class={sla1Style}>
                                         </lightning-formatted-date-time>
-                            </strong>
+                            </div>
                         </div>
                     </lightning-layout-item>
                     
 
-                    <lightning-layout-item class="center-text slds-p-vertical_medium"><!--padding="around-small" -->
-                        <div class="header-column">
-                            <strong>
-                                <p class="field-title" title="Stage Case SLA">Stage 2 Case SLA &nbsp;
+                    <lightning-layout-item class="center-text" size="3"><!--padding="around-small" -->
+                        <div >
+                            <div>
+                                <p class="field-title" title="Stage Case SLA">Level 2 Stage SLA
                                     <!-- <lightning-icon icon-name="standard:stage" size="xx-small" title="Timer"></lightning-icon> -->
                                 </p>
-                            </strong> <strong>
+                            </div> <div>
                                 <template if:true={showTimer}>
                                     {slaTimer} 
                                 </template>
@@ -142,10 +141,10 @@
                                             time-zone="IST"
                                             class={sla2Style}>
                                         </lightning-formatted-date-time>
-                                </strong>
+                                </div>
                         </div>
                     </lightning-layout-item>
-                    <lightning-layout-item padding="around-small">
+                    <lightning-layout-item padding="around-small" size="3">
                         
                     </lightning-layout-item>
 

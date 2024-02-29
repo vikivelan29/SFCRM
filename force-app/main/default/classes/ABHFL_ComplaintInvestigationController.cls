@@ -50,11 +50,10 @@ public with sharing class ABHFL_ComplaintInvestigationController {
        
         pdfContent = ABHFL_ComplaintInvestigationController.constructHTML(contentList, caseDetail[0]);
         
-        //Blob strPdfBody = null;
         Pagereference pg = Page.ABHFL_ComplaintInvestigationPDF;
         pg.getParameters().put('pdfHeader', pdfHeaderValue);
         pg.getParameters().put('pdfContent', pdfContent);
-        pg.getHeaders().put('content-disposition', 'inline; filename=Complaint_Investigation.pdf');
+        pg.setRedirect(true);
         /*caseDetail[0].Complaint_Investigation_PDF_HTML__c = pdfContent;
         update caseDetail[0];*/
         //strPdfBody =  pg.getContent();
@@ -79,7 +78,8 @@ public with sharing class ABHFL_ComplaintInvestigationController {
         objDocumentLink.shareType = 'V';
         insert objDocumentLink;*/
             
-        return '?pdfHeader='+pdfHeaderValue+'&pdfContent='+pdfContent;
+        //return '?pdfHeader='+pdfHeaderValue+'&pdfContent='+pdfContent;
+        return pg.getUrl();
     }
     
     public static String constructHTML(List<ComplaintInvestigationWrapper> wrapList,ABHFL_Case_Detail__c caseDetail){
@@ -294,7 +294,9 @@ public with sharing class ABHFL_ComplaintInvestigationController {
     public static String fetchDetails(String caseId){
         Case c= [SELECT Id, AccountId, ABHFL_Case_Detail__c, Asset.LAN__c FROM Case WHERE Id=:caseId LIMIT 1];
         String requestBody = JSON.serialize(new ComplaintInvestigationRequestWrapper(c.Asset.LAN__c));
-        ABCL_IntegrationCallout.IntegrationResponseWrapper response = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.COMPLAINT_INVESTIGATION_INTEGRATION_METADATA,requestBody,null);
+        ABCL_IntegrationCallout calloutInstance = new ABCL_IntegrationCallout();
+        ABCL_IntegrationCallout.caseId = c.Id;
+        ABCL_IntegrationCallout.IntegrationResponseWrapper response = calloutInstance.executeCaseCallout(ABHFL_Constants.COMPLAINT_INVESTIGATION_INTEGRATION_METADATA,requestBody,null);
         ComplaintInvestigationResponseWrapper responseWrapper = new ComplaintInvestigationResponseWrapper();
         if(response.statusCode == 200 && String.isNotBlank(response.responseBody)){
             ABHFL_Case_Detail__c caseDetail = [SELECT Id, Complaint_Investigation_Response_Json__c FROM ABHFL_Case_Detail__c WHERE Id=:c.ABHFL_Case_Detail__c LIMIT 1];

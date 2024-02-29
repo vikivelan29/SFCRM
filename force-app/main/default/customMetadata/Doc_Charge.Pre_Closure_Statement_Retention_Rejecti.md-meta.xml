@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Pre Closure Statement Retention/ Rejecti</label>
+    <protected>false</protected>
+    <values>
+        <field>Amount__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>CCC_External_Id__c</field>
+        <value xsi:type="xsd:string">RLOAPRONHFC</value>
+    </values>
+    <values>
+        <field>Call_Payment_Link__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Charge_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Charges__c</field>
+        <value xsi:type="xsd:string">Pre Closure Statement Retention/ Rejection</value>
+    </values>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Pre_Closure_Statement_Ret_Rej_VF</value>
+    </values>
+    <values>
+        <field>Payment_Code__c</field>
+        <value xsi:type="xsd:string">PCL-RR</value>
+    </values>
+    <values>
+        <field>Payment_Required__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

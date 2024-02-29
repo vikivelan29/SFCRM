@@ -11,6 +11,14 @@
         <value xsi:type="xsd:double">5.0</value>
     </values>
     <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Auto_Closure_Of_Cases_VF</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:type="xsd:string">ABHFL_Auto_Closure</value>
+    </values>
+    <values>
         <field>Stage__c</field>
         <value xsi:type="xsd:string">Unresolved</value>
     </values>

@@ -2,22 +2,34 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
 
-        ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
-
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
         ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
-        commonCLssObj.prepopulateCaseFlds(newItems);
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
-
+        
+        List<Case> newCaseList = (List<Case>)newItems;
+        List<Case> newFrameworkCaseList = new List<Case>();
+        ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ABCL_CaseDuplicateCheck dupeChecker = new ABCL_CaseDuplicateCheck();
-        dupeChecker.runDuplicateCheck((List<Case>)newItems);
-        ctstHelperObj.prePopulateFields((List<Case>)newItems);
-        
-        if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
-            PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI((List<Case>)newItems);
+
+        for(Case caseRec : newCaseList) {
+            String caseRecordTypeId = caseRec.RecordTypeId;
+            Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+            if(caseRecordTypeId == frameworkRTId) {
+                newFrameworkCaseList.add(caseRec);
+            }
         }
+
+        if(newFrameworkCaseList.size() > 0) {
+            dupeChecker.runDuplicateCheck(newFrameworkCaseList);
+            ctstHelperObj.prePopulateFields(newFrameworkCaseList);
+            if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
+                PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI((List<Case>)newItems);
+            }
+        }
+        commonCLssObj.prepopulateCaseFlds(newCaseList);
+
     }
 
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){

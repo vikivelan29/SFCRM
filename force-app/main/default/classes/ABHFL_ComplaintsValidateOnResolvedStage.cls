@@ -7,7 +7,7 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
         retCls.isCaseUpdated = false;
 		Boolean isGrievanceUser = ABHFL_ComplaintCTSTHelper.isInGrievanceTeam(caseRec);
         //Vaidation for Case Resolution - only Grievance team can Resolve the case.
-        if(!isGrievanceUser){
+        if(!isGrievanceUser && !ASF_BulkCaseProcessorUtility.isBulkProcessing){
              retCls.status = ABHFL_Constants.ERROR;
              retCls.errorMessage = Custom_Messages__mdt.getInstance('ABHFL_Not_allowed_to_resolve_this_case').Message__c;
         }

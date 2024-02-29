@@ -5,10 +5,8 @@
 <body style="height: auto; min-height: auto;">
 <p>Dear Customer,&nbsp;<br />
 <br />
-After reviewing your case number {{{Case.CaseNumber}}}, the new timeline for appropriate resolution is&nbsp;{{{Case.Overall_Case_Closure_SLA__c}}} days. Thanks for your patience in the interim.<br />
+After reviewing your case number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}, the new timeline for providing appropriate resolution is {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. Thanks for your patience in the interim.<br />
 <br />
-Regards – Aditya Birla Finance Limited.</p>
-
-<p>&nbsp;</p>
+Regards –Aditya Birla Finance Limited</p>
 </body>
 </html>

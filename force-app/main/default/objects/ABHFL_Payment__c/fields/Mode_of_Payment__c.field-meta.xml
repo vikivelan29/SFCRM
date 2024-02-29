@@ -51,9 +51,9 @@
                 <label>POS-UPI</label>
             </value>
             <value>
-                <fullName>Payment Lounge</fullName>
+                <fullName>Payment Link</fullName>
                 <default>false</default>
-                <label>Payment Lounge</label>
+                <label>Payment Link</label>
             </value>
         </valueSetDefinition>
     </valueSet>

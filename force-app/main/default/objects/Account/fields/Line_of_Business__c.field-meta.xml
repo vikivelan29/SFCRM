@@ -35,6 +35,30 @@
                 <default>false</default>
                 <label>Not Classified</label>
             </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Digital</label>
+            </value>
+            <value>
+                <fullName>Retail - Secured</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Retail - Secured</label>
+            </value>
+            <value>
+                <fullName>Retail - Unsecured</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Retail - Unsecured</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

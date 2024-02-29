@@ -38,6 +38,16 @@ public class ABCL_IntegrationCommonUtilityTest {
         docLink.ContentDocumentId = conVersion.ContentDocumentId;
         docLink.ShareType = 'V';
         insert docLink;
+        
+        Account accountInserted = ASF_TestDataFactory.insertBusinessAccount('test','test');
+        Asset assetInserted = ASF_TestDataFactory.createAsset(accountInserted.Id,'SavingsAccount');
+        Lead leadInserted = ASF_TestDataFactory.createSalesProspectRecord();
+        assetInserted.Lead_Id__c =leadInserted.Id;
+        update assetInserted;
+        caseRecList[0].AssetId = assetInserted.Id;
+        caseRecList[0].Lead__c = leadInserted.Id;
+        caseRecList[0].Nature__c = 'Query';
+        update caseRecList;
     }
     
     @IsTest
@@ -64,6 +74,15 @@ public class ABCL_IntegrationCommonUtilityTest {
         Test.startTest();
         	ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecords[0], 'Welcome Kit', 'STP Document Retrieval Failure');
         Test.stopTest();
+    }
+    
+    @IsTest
+    static void testFetchStpTemplates(){
+        String templateString = 'Resolved:template_1,Rejected:template_2';
+        Test.startTest();
+        	Map<String, String> templateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(templateString);
+        Test.stopTest();
+        system.assertEquals(templateMap.get('Resolved'),'template_1');
     }
     
     @IsTest

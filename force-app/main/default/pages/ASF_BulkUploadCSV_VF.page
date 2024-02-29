@@ -9,7 +9,6 @@
              {strURL:"{!$CurrentPage.URL}",strButtonName:"UploadCSVButton"},
              "compContainer",
              function(cmp) {
-          console.log("c:VFPageApp loaded successfully in VF page");
              }
          );
      });

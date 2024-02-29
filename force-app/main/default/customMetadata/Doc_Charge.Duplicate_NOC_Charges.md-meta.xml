@@ -11,11 +11,31 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Call_Payment_Link__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Charge_Code__c</field>
         <value xsi:type="xsd:string">344</value>
     </values>
     <values>
         <field>Charges__c</field>
         <value xsi:type="xsd:string">Duplicate NOC Charges</value>
+    </values>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Payment_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Payment_Required__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

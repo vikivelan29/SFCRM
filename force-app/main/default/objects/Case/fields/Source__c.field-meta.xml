@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -32,11 +33,6 @@
                 <label>IVR Inbound</label>
             </value>
             <value>
-                <fullName>Walk-In</fullName>
-                <default>false</default>
-                <label>Walk-In</label>
-            </value>
-            <value>
                 <fullName>SystemIntegration</fullName>
                 <default>false</default>
                 <label>SystemIntegration</label>
@@ -46,7 +42,7 @@
                 <default>false</default>
                 <label>Webform</label>
             </value>
-<value>
+            <value>
                 <fullName>WhatsApp</fullName>
                 <default>false</default>
                 <label>WhatsApp</label>
@@ -82,9 +78,96 @@
                 <label>Internal Usage</label>
             </value>
             <value>
+                <fullName>Bureau</fullName>
+                <default>false</default>
+                <label>Bureau</label>
+            </value>
+            <value>
+                <fullName>Call- in</fullName>
+                <default>false</default>
+                <label>Call- in</label>
+            </value>
+            <value>
+                <fullName>Letter / Snail Mail</fullName>
+                <default>false</default>
+                <label>Letter / Snail Mail</label>
+            </value>
+            <value>
+                <fullName>Phone-Inbound</fullName>
+                <default>false</default>
+                <label>Phone-Inbound</label>
+            </value>
+            <value>
+                <fullName>Inbound Nodal Desk</fullName>
+                <default>false</default>
+                <label>Inbound Nodal Desk</label>
+            </value>
+            <value>
+                <fullName>Internal RM - Collection</fullName>
+                <default>false</default>
+                <label>Internal RM - Collection</label>
+            </value>
+            <value>
+                <fullName>IVR</fullName>
+                <default>false</default>
+                <label>IVR</label>
+            </value>
+            <value>
+                <fullName>MOBILEAPP</fullName>
+                <default>false</default>
+                <label>MOBILEAPP</label>
+            </value>
+            <value>
+                <fullName>IVR-No Email</fullName>
+                <default>false</default>
+                <label>IVR-No Email</label>
+            </value>
+            <value>
+                <fullName>RM</fullName>
+                <default>false</default>
+                <label>RM</label>
+            </value>
+            <value>
+                <fullName>RM-No Email</fullName>
+                <default>false</default>
+                <label>RM-No Email</label>
+            </value>
+            <value>
+                <fullName>Phone-Outbound</fullName>
+                <default>false</default>
+                <label>Phone-Outbound</label>
+            </value>
+            <value>
+                <fullName>Walkin</fullName>
+                <default>false</default>
+                <label>Walkin</label>
+            </value>
+            <value>
+                <fullName>RA Branch</fullName>
+                <default>false</default>
+                <label>RA Branch</label>
+            </value>
+            <value>
+                <fullName>Call Center</fullName>
+                <default>false</default>
+                <label>Call Center</label>
+            </value>
+            <value>
+                <fullName>OneABC</fullName>
+                <default>false</default>
+                <label>OneABC</label>
+            </value>
+            <value>
                 <fullName>Call Centre</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Call Centre</label>
+            </value>
+            <value>
+                <fullName>Walk-In</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Walk-In</label>
             </value>
         </valueSetDefinition>
     </valueSet>

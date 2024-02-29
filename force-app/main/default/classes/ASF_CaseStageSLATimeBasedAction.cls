@@ -185,7 +185,12 @@ public class ASF_CaseStageSLATimeBasedAction {
 
         if(!slaHistoryList.isEmpty()){
             system.debug(slaHistoryList);
-             UPDATE slaHistoryList;
+            try{
+                UPDATE slaHistoryList;
+            }catch(Exception e){
+                System.debug(e.getMessage());
+            }
+             
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

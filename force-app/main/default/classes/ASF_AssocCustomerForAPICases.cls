@@ -1,53 +1,89 @@
+/**
+* @description       : 
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
+* @last modified on  : 01-25-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class ASF_AssocCustomerForAPICases {
     public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
-
-    public static void searchAndAssocCustomerForAPICases(List<Case> newList){
-        Set<String> accountsClientCode = new Set<String>();
-        Map<String,Id> accClientCodeVsAccIds = new Map<String,Id>();
-        Set<String> caseLANNo = new Set<String>();
-        Map<String,Asset> lanNoVsAsset = new Map<String,Asset>();
         
-        for(Case individualCase : newList){
-            if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
-                if(individualCase.Client_Code_Text__c != null){
-                    accountsClientCode.add(individualCase.Client_Code_Text__c); 
-                }
-                if(individualCase.LAN__c  != null){
-                    caseLANNo.add(individualCase.LAN__c); 
+        public static void searchAndAssocCustomerForAPICases(List<Case> newList){
+            Set<String> accountsClientCode = new Set<String>();
+            Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
+            Set<String> caseLANNo = new Set<String>();
+            Map<Integer,Asset> lanNoVsAsset = new Map<Integer,Asset>();
+            Map<Integer,String> iHashClientCodeVsLob = new Map<Integer,String>();
+            Map<Integer,String> iHashLANVsLob = new Map<Integer,String>();
+            
+            for(Case individualCase : newList){
+                if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
+                    if(individualCase.Client_Code_Text__c != null){
+                        accountsClientCode.add(individualCase.Client_Code_Text__c);
+                        String tempKey = individualCase.Business_Unit__c+'_'+individualCase.Client_Code_Text__c;
+                        integer itempKey = tempKey.hashCode();
+                        if(!iHashClientCodeVsLob.containsKey(itempKey)){
+                            iHashClientCodeVsLob.put(itempKey,individualCase.Business_Unit__c);
+                        }
+                    }
+                    if(individualCase.LAN__c  != null){
+                        String tempKey = individualCase.Business_Unit__c+'_'+individualCase.LAN__c;
+                        integer itempKey = tempKey.hashCode();
+                        if(!iHashLANVsLob.containsKey(itempKey)){
+                            iHashLANVsLob.put(itempKey,individualCase.Business_Unit__c);
+                        }
+                        caseLANNo.add(individualCase.LAN__c); 
+                    }
+                    
                 }
             }
-        }
-        if(accountsClientCode.size()>0){
-            for(Account acc : [SELECT ID,Client_Code__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: LINE_OF_BUSINESS]){
-                if(!accClientCodeVsAccIds.containsKey(acc.Client_Code__c)){
-                    accClientCodeVsAccIds.put(acc.Client_Code__c,acc.Id);
-                }
-            } 
-        }
-        if(caseLANNo.size()>0){
-            for(Asset ast : [SELECT ID,LAN__c,AccountId  FROM Asset WHERE LAN__c =: caseLANNo AND Business_Unit__c =: LINE_OF_BUSINESS]){
-                if(!lanNoVsAsset.containsKey(ast.LAN__c)){
-                    lanNoVsAsset.put(ast.LAN__c,ast);
-                }
-            } 
-        }   
-        for(Case individualCase : newList){
-            if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
-                if(individualCase.Client_Code_Text__c != null){
-                    if(accClientCodeVsAccIds.containsKey(individualCase.Client_Code_Text__c)){
-                        individualCase.AccountId = accClientCodeVsAccIds.get(individualCase.Client_Code_Text__c);
+            if(accountsClientCode.size()>0){
+                for(Account acc : [SELECT ID,Client_Code__c,Business_Unit__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                    String tempKey = acc.Business_Unit__c +'_'+acc.Client_Code__c;
+                    integer itempKey = tempKey.hashCode();
+                    if(!accClientCodeVsAccIds.containsKey(itempKey)){
+                        if(iHashClientCodeVsLob.containsKey(itempKey)){
+                            accClientCodeVsAccIds.put(itempKey,acc.Id);
+                        }
                     }
-                }
-                if(individualCase.LAN__c != null){
-                    if(lanNoVsAsset.containsKey(individualCase.LAN__c)){
-                        individualCase.AssetId = lanNoVsAsset.get(individualCase.LAN__c).Id;
-                        // in case account id is blank
-                        individualCase.AccountId = individualCase.AccountId==null?lanNoVsAsset.get(individualCase.LAN__c).AccountId:individualCase.AccountId;
+                } 
+            }
+            if(caseLANNo.size()>0){
+                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE LAN__c =: caseLANNo AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                    String tempKey = ast.Business_Unit__c +'_'+ast.LAN__c;
+                    integer itempKey = tempKey.hashCode();
+                    
+                    if(!lanNoVsAsset.containsKey(itempKey)){
+                        lanNoVsAsset.put(itempKey,ast);
+                    }
+                } 
+            }   
+            for(Case individualCase : newList){
+                if(individualCase.Technical_Source__c == 'API' || individualCase.Technical_Source__c == 'Email'){
+                    if(individualCase.Client_Code_Text__c != null){
+                        String tempKey = individualCase.Business_Unit__c+'_'+individualCase.Client_Code_Text__c;
+                        integer itempKey = tempKey.hashCode();
+                        
+                        if(accClientCodeVsAccIds.containsKey(itempKey)){
+                            individualCase.AccountId = accClientCodeVsAccIds.get(itempKey);
+                        }
+                    }
+                    if(individualCase.LAN__c != null){
+                        String tempKey = individualCase.Business_Unit__c+'_'+individualCase.LAN__c;
+                        integer itempKey = tempKey.hashCode();
+                        if(lanNoVsAsset.containsKey(itempKey)){
+                            if(lanNoVsAsset.containsKey(itempKey)){
+                                individualCase.AssetId = lanNoVsAsset.get(itempKey).Id;
+                                // in case account id is blank
+                                individualCase.AccountId = individualCase.AccountId==null?lanNoVsAsset.get(itempKey).AccountId:individualCase.AccountId;
+                            }
+                            
+                            
+                        }
                     }
                 }
             }
+            
         }
-        
-    }
     
 }

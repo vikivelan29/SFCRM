@@ -8,7 +8,11 @@
     </values>
     <values>
         <field>CCC_External_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">RREPSWNTHFC</value>
+    </values>
+    <values>
+        <field>Call_Payment_Link__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Charge_Code__c</field>
@@ -17,5 +21,21 @@
     <values>
         <field>Charges__c</field>
         <value xsi:type="xsd:string">SWAPPING CHARGES</value>
+    </values>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Swap_Mandate_Payment_Link_VF</value>
+    </values>
+    <values>
+        <field>Payment_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Payment_Required__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:type="xsd:string">ABHFL_Swap_Mandate_Payment_Link</value>
     </values>
 </CustomMetadata>

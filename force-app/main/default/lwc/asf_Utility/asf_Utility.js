@@ -103,7 +103,7 @@ export class asf_Utility {
 
        if(!parentJS.rejectCase){
         if(source != 'Email'){
-           fields[SUBJECT_FIELD.fieldApiName] = 'SR : '+selected.Type__c;
+           fields[SUBJECT_FIELD.fieldApiName] = 'Case - '+selected.Type__c;
         }
        }
            fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;

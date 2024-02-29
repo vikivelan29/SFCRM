@@ -11,6 +11,9 @@
     <classAccesses>
         <apexClass>ABCL_EBotFeedback</apexClass>
         <enabled>true</enabled>
+    </classAccesses><classAccesses>
+        <apexClass>ABFL_Constants</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
@@ -55,6 +58,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_RoiHistoryClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -137,6 +144,11 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.New_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
@@ -339,11 +351,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Billing_Cycle_Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -408,13 +415,28 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Refund_Amount_TDS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Refund_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2122,6 +2144,21 @@
         <field>DMS_Files__c.Is_Latest_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry_Attempt__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Status__c</field>
@@ -2130,6 +2167,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Version_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Extension__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2711,12 +2753,16 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <!--<pageAccesses>
+    <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
-    </pageAccesses>-->
+    </pageAccesses>
     <userPermissions>
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>
+    <tabSettings>
+        <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

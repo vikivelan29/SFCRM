@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 02-29-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   02-29-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
@@ -125,7 +135,7 @@ blankSourcePresent = true;
                     }
                 }
             }
-            if(appliedCCC != null){
+            if(appliedCCC != null){ 
                 //Fill all common fields irrespective of source
                 //if(!isUpdate){
                 // beforeinsert only
@@ -139,7 +149,7 @@ blankSourcePresent = true;
                 
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
+                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
@@ -148,13 +158,11 @@ blankSourcePresent = true;
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
-                //from interaction to framework RT. So run assignment rule for first stage of framework
-                //Update 1: This assignment rules should run for recategoriasation too.
-                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
-                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
-                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
-                        }
+                
+                //VIRENDRA - Added check to update the stage Map. 
+                if(nextStageMap.containsKey(caseRec.Id)){
+                    nextStageMap.put(caseRec.Id,caseRec.Stage__c);
+                }
             }
             
             //Populate always
@@ -187,6 +195,69 @@ blankSourcePresent = true;
             //index++;
         }
         
+        //VIRENDRA - MOVED QUEUE Assignment Logic below.
+        if(isUpdate){
+            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+        }
+        
+        
+        
+    }
+
+    //Creates extension record for Case, if case is created from Bulk page
+    public static void createCaseExtnRecordForBulk(List<Case> newList) {
+        
+        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+
+        Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
+        Integer index = 0;
+        for(Case caseRec : newList){
+            cccExtIdToCaseIndex.put(caseRec.CCC_External_Id__c, index);
+            index++;
+        }
+
+        Map<String, String> cccExtIdToExtnObjectAPI  = new Map<String, String>();
+        for(ASF_Case_Field_Config__c fieldconfig : [SELECT Id,ObjectAPIName__c, Case_Category_Config__c FROM ASF_Case_Field_Config__c WHERE Case_Category_Config__c IN :cccExtIdToCaseIndex.keySet() AND ObjectAPIName__c != 'Case'])
+        {
+            if(!cccExtIdToExtnObjectAPI.containsKey(fieldconfig.Case_Category_Config__c)){
+                cccExtIdToExtnObjectAPI.put(fieldconfig.Case_Category_Config__c, fieldconfig.ObjectAPIName__c);
+            }
+        }
+        index = 0;
+        Map<Integer, SObject> extnRecords = new Map<Integer, SObject>();
+        for(Case caseRec : newList){
+            if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
+                String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                SObject newInstance = createObject(sObjectType);
+                if(newInstance != null){
+                    extnRecords.put(index, newInstance);
+                }
+            }
+            index++;
+        }
+
+        if(!extnRecords.isEmpty()){
+            insert extnRecords.values();
+            index = 0;
+            for(Case caseRec : newList){
+                if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c) && extnRecords.containsKey(index)){
+                    String fieldAPIName = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                    caseRec.put(fieldAPIName, extnRecords.get(index).Id);
+                }
+                index++;
+            }
+        }
+    }
+
+    private static sObject createObject(String typeName) {
+        Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+        if (targetType == null) {
+            // throw an exception
+            return null;
+        }
+        // Instantiate an sObject with the type passed in as an argument
+        //  at run time.
+        return targetType.newSObject(); 
     }
     
     /**
@@ -234,16 +305,16 @@ blankSourcePresent = true;
                            currentStageConfig = stageConfig;
                        }
                 }
-                if(currentStageConfig != null){
-                    ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
-                    if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                    }else{
-                        if(wrap.isCaseUpdated == true){
-                            Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
-                            for(String fieldName : populatedFieldMap.keySet()){
-                                caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
-                            }
+                    if(currentStageConfig != null){
+                        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
+                        if(wrap.status == 'Error'){
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }else{
+                            if(wrap.isCaseUpdated == true){
+                                                                Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
+                                for(String fieldName : populatedFieldMap.keySet()){
+                                    caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
+                                                            }
                         }
                     }
                 }
@@ -433,7 +504,7 @@ blankSourcePresent = true;
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
                    eligibleRecords.put(caseRec.Id, caseRec);
-                   caseStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
+                   caseStageMap.put(caseRec.Id, isUpdate?oldMap.get(caseRec.Id).Stage__c:caseRec.Stage__c);
                    if(caseRec.Technical_Source__c == 'API' && oldMap == null){
                        supressErrors.put(caseRec.Id, true);
                    }
@@ -611,7 +682,7 @@ blankSourcePresent = true;
                 }
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
-            triggerEncounteredError.clear();
+            triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
@@ -761,7 +832,6 @@ blankSourcePresent = true;
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase;
                     Boolean supressErrors = false;
-                    
                     if(combinedList[i] instanceof ASF_Case_Approv__c){
                         ASF_Case_Approv__c approvalRec = (ASF_Case_Approv__c)combinedList[i];
                         failedCase = newMap.get(approvalRec.SR__c);
@@ -786,6 +856,8 @@ blankSourcePresent = true;
                 }
             }
         }
+        //This reset is important for bulk processing as static variables dont get reset between every 200 records chunk in trigger execution
+        addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
     }
     
     public static void invokeSLACalculationMethods(Map<Id, Case> newCaseMap, Map<Id, Case> oldMap) {
@@ -836,7 +908,7 @@ blankSourcePresent = true;
             }
             ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         }
-        caseFinalDMLMap = null;
+        caseFinalDMLMap = new Map<Id, Case>();
     }
     
     public static void onCreateCloseServiceRequest(List<Case> newList){
@@ -1026,12 +1098,12 @@ blankSourcePresent = true;
     
     //Validation Method added for restricting non queue member to change owner from list view
     public static void caseOwnerChangeValidation(list<Case> newList,Map<Id, Case> oldMap){
-        List<Id> bypassProfileId = new List<Id>();
-        for(Profile profRec : [select Id, Name from profile where Name IN ('System Administrator','Salesforce API Only System Integrations')]){
+                List<Id> bypassProfileId = new List<Id>();
+        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) && ASF_BulkCaseProcessorUtility.isBulkProcessing){
+        if((bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing) && !Test.isRunningTest()){
             return;
         }
         

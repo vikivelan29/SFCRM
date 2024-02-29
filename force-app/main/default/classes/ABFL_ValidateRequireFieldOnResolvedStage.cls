@@ -7,7 +7,7 @@
 **/
 public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageClassInvocable {
     
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
+    public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
 
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         retCls.status = 'Success';
@@ -15,7 +15,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         retCls.updatedCase = caseRec;
         retCls.isCaseUpdated = false;
 
-        if(ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c)){
+        if(ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c) && !caseRec.OnCreateCloseSR__c){
             if((caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == null || caseRec.ABFL_Case_Detail__r.Resolution_Comments__c == '') &&
                (!(caseRec.Source__c == 'Phone-Inbound' && caseRec.Nature__c == 'Query')) && ((caseRec.LOB__c == 'Wealth') || (caseRec.LOB__c != 'Wealth' && caseRec.Nature__c != 'Complaint')))
             {
@@ -29,7 +29,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
             Set<String> blankRCA_Fields = ABFL_ComplaintsValidateOnResolvedStage.validateRCAfields(caseRec);
                 
                 // setting the Error Message if RCA fields found blank
-                if(blankRCA_Fields.size() > 0){   
+                if( blankRCA_Fields?.size() > 0){   
                     
                     retCls.status = 'Error';
                     retCls.errorMessage = 'Please fill the RCA fields on Verification Stage';
@@ -39,7 +39,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         return retCls;        
     }
     
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
+    public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
         
         return retCls;

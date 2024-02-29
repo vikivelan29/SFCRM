@@ -23,15 +23,13 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         Case caseRecord = [
             SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ]; 
-        Calendar_Year__mdt cY =[SELECT Id, Current_Calendar_Year__c
-								FROM Calendar_Year__mdt WITH SECURITY_ENFORCED
-								LIMIT  1];
+        String cY = System.Label.ABHFL_LOD_Calendar_Year;
         //Check for mandatory API conditions
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
             //Check for Disbursement Date > Current Calendar Year
-            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= cY.Current_Calendar_Year__c){
+            if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= Date.valueOf(cY)){
                   result.status = ABHFL_Constants.SUCCESS;
                   result.response = Custom_Messages__mdt.getInstance('LOD_EvaluateSuccess').Message__c;
             }
@@ -71,7 +69,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c intSpec, Case caseRec){
          List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
                 if(caseInt.Status__c == ABHFL_Constants.PENDING){
@@ -83,24 +81,24 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             }
         }
 
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
         response.status = ABHFL_Constants.SUCCESS;
         ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         caseInteg.Case__c = caseRec.Id;
         caseInteg.Status__c = ABHFL_Constants.PENDING;
-        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
         	insert caseInteg;    
         }
         
-        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
+        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id ];
          Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRec.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         if(publishResult.isSuccess()){
@@ -124,18 +122,20 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,Asset.Branch__r.Branch_Queue_Id__c,OwnerId,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
             	FROM Case
-            	WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED
+            	WHERE Id =: caseInteg.Case__c
         	];
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
             integrationFailure = false;
         	Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 			if(isTransferred){
                   List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c, 
-                                                                        Resolved_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                                        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                                        Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c  FROM ASF_Case_Category_Config__c
+                                                                        WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c];
                 
-                  ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, cccRecord[0].Resolved_Case_Email_Template__c, 
-                                                                cccRecord[0].Resolved_Case_SMS_Metadata__c, isTransferred);
+                  Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec, emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
                   caseRec.MoveToNext__c = true;
                 if(Schema.sObjectType.Case.isUpdateable()){
                   	update caseRec;          
@@ -173,7 +173,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     *****************************************************************************************************************/
     public static Boolean isUserInQueue(Id userId, Id queueId) {
         // Query to find if the user is a member of the specified queue
-        List<GroupMember> queueMemberships = [SELECT Id FROM GroupMember WHERE UserOrGroupId = :userId AND GroupId = :queueId WITH SECURITY_ENFORCED];
+        List<GroupMember> queueMemberships = [SELECT Id FROM GroupMember WHERE UserOrGroupId = :userId AND GroupId = :queueId ];
 
         // Check if the user is in the specified queue
         return !queueMemberships.isEmpty();

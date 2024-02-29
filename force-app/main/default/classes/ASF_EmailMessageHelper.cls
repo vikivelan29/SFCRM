@@ -20,7 +20,7 @@ public class ASF_EmailMessageHelper {
         Quiddity currentType = reqInfo.getQuiddity();
         if(currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS){
             if(!Test.isRunningTest()){
-                return;
+                //return;
             }
         }
         

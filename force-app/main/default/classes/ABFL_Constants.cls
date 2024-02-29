@@ -35,7 +35,7 @@ public with sharing class ABFL_Constants {
     // public static final String EQUAL_TO = 'Equals';
     public static final String BLANK_DATE_FIELD = 'Please add required date field values';
     public static final String ABFL = 'ABFL';
-    @auraEnabled public final String lob_ABFL = 'ABFL'; //for ODP alters
+    @auraEnabled public final String lob_Abfl = 'ABFL'; //for ODP alters
     public static final String CHANNEL_ID = 'CHA1002'; //Needs to check what is channel Id?
     public static final String ODP_ALERTS = 'ABFL_ODP_Alerts';
         

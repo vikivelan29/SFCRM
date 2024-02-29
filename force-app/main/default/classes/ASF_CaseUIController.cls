@@ -61,18 +61,26 @@ public with sharing class  ASF_CaseUIController {
             Set<id> accIdSet = new Set<id>();
             if(!accPreSelected){
                 List<contact> conList = New List<contact>();//database.query(queryField);
-                String searchString = '%'+String.escapeSingleQuotes(userInp)+'%';
+                String searchString = '*'+String.escapeSingleQuotes(userInp)+'*';
                 userInp = '%'+userInp+'%';
                 
-                System.debug(userInp);
+                System.debug('userInp-'+userInp);
+              /*  List<List<SObject>> searchList = 
+                    [FIND :searchString IN ALL FIELDS 
+                    RETURNING 
+                    Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp),
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
+                    ]; */
                 List<List<SObject>> searchList = 
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
-                    Contact (Id, AccountId WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
-                    Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name  LIKE : userInp),
-                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
-                    ]; 
+                    Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp),
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
+                    ];
                 
                 System.debug(searchList[3]);
                 if(searchList[0].size()>0){
@@ -164,9 +172,12 @@ public with sharing class  ASF_CaseUIController {
             Id entityId = Id.ValueOf(accountId);
             if(entityId.getSObjectType() == Account.sObjectType){
                 cs.AccountId = accountId;
+                cs.Lead__c = null;
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
+                cs.AccountId = null;
+                cs.AssetId = null;
             }
             
         }
@@ -226,7 +237,7 @@ public with sharing class  ASF_CaseUIController {
         insert record;
         return record.Id;
     }
-    
+  
     
     public class resWrapper{
         @AuraEnabled

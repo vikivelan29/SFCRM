@@ -175,14 +175,14 @@
             */
             ASF_IntegrationsController.IntegrationWrapper result2 = icAndPicObj.evaluate(case2);
             System.assertEquals('Error', result2.status,'Done');
-            System.assertEquals('Please fill the Financial Year and Loan Account Number', result2.response,'Done');
+            System.assertEquals('Please fill the Financial Year and Loan Account Number also save the data before calling the STP.', result2.response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Financial Year is Blank.
             */
             ASF_IntegrationsController.IntegrationWrapper result3 = icAndPicObj.evaluate(case3);
             System.assertEquals('Error', result3.status,'Done');
-            System.assertEquals('Please fill the Financial Year', result3.response,'Done');
+            System.assertEquals('Please fill the Financial Year.', result3.response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Loan Account Number is Blank.

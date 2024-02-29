@@ -1026,7 +1026,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         console.log('in handlePublishedMessage!!!!!');
         if (payload.source != 'case360' && this.recordId == payload.recordId) {
             console.log('Refreshing now');
-            this.loadReady = false;
+            //this.loadReady = false;
             refreshApex(this.processApexReturnValue);
         }
     }
@@ -1918,7 +1918,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     if (this.caseFieldsMetadata[item].UpdateAt) {
                         if (this.caseFieldsMetadata[item].UpdateAt.includes(this.currentStep)) {
                             if (this.caseFieldsMetadata[item].ControllingField == null && !this.caseFieldsMetadata[item].useControllingFormula) {
-                                field.disabled = false;
+                                //Commented the below line to allow FLS to take effect - Santanu
+                                //field.disabled = false;
                             }
                             else {
                                 //this.ccConfig = this.caseCategoryConfig.find(item => item.Product__c == event.detail.value.toString());
@@ -2041,16 +2042,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.template.querySelectorAll('lightning-input-field').forEach((field) => {
                     for (var count in this.defaultFieldNames) {
                         if (this.defaultFieldNames[count] == field.fieldName) {
-                            console.log('tst223225' + this.defaultFieldNames[count]);
+                            //console.log('tst223225' + this.defaultFieldNames[count]);
                             if (this.defaultValues[count]) {
-                                console.log('tst2232256' + this.defaultValues[count]);
+                                //console.log('tst2232256' + this.defaultValues[count]);
                                 field.value = this.defaultValues[count];
                             }
                         }
                     }
-                    console.log('field.fieldName', field.fieldName);
+                    //console.log('field.fieldName', field.fieldName);
                     if (this.defaultTextValuesMap.has(field.fieldName)) {
-                        console.log('field.fieldName in loop', field.fieldName, this.defaultTextValuesMap.get(field.fieldName));
+                        //console.log('field.fieldName in loop', field.fieldName, this.defaultTextValuesMap.get(field.fieldName));
                         field.value = this.defaultTextValuesMap.get(field.fieldName);
                     }
                 });

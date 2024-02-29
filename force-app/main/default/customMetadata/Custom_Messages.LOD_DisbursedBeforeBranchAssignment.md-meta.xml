@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Message__c</field>
-        <value xsi:type="xsd:string">Disbursed before current year, cannot fetch List of Documents. Assigning the case to Branch</value>
+        <value xsi:type="xsd:string">Assigning the case to Branch. Please proceed with manual processing.</value>
     </values>
     <values>
         <field>Type__c</field>

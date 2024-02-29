@@ -267,10 +267,10 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, currentCasesMap.keySet());
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
-
+        ASF_CaseQueryHandler.refreshRecords = false;
         //Run validation on current Stage
         Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(queriedCaseRecords, currentStageMap);
         for(Id caseId : validationResults.keySet()){
@@ -827,7 +827,9 @@ public class ASF_CaseMovementHelper {
         Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
         Map<String, List<ASF_Case_Stage_Config__c>> externalIdToStageConfigsMap = new Map<String, List<ASF_Case_Stage_Config__c>>();
         
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(!externalIdToStageConfigsMap.containsKey(config.Case_Category_Config__r.CCC_External_Id__c)){
                 externalIdToStageConfigsMap.put(config.Case_Category_Config__r.CCC_External_Id__c, new List<ASF_Case_Stage_Config__c>());
@@ -859,7 +861,9 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
         for(Case caseRec : currentCases){
             if(caseIdToCurrentStageConfigMap.containsKey(caseRec.Id) && stageConfigToCaseRuleMap.containsKey(caseIdToCurrentStageConfigMap.get(caseRec.Id).Id)){
@@ -994,15 +998,16 @@ public class ASF_CaseMovementHelper {
                 resultWrapperMap.put(caseRec.Id, resultWrapper);
             }
         }
-
-        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseMovementHelper.getAssignmentForStage(casesForAssignment, caseIdToStageNameMap);
-        for(Id caseId : infos.keySet()){
-            ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
-            StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
-            resultWrapper.ownerId = info.defaultOwnerId;
-            resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
-            resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
-            resultWrapperMap.put(caseId, resultWrapper);
+        if(!casesForAssignment.isEmpty()){
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseMovementHelper.getAssignmentForStage(casesForAssignment, caseIdToStageNameMap);
+            for(Id caseId : infos.keySet()){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
+                StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
+                resultWrapper.ownerId = info.defaultOwnerId;
+                resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
+                resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
+                resultWrapperMap.put(caseId, resultWrapper);
+            }
         }
         
         return resultWrapperMap;
@@ -1079,8 +1084,9 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         
         Map<Id, List<ASF_Case_Approv__c>> approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecords, caseIdToCaseRuleMap);
@@ -1099,6 +1105,53 @@ public class ASF_CaseMovementHelper {
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
         return resultWrapperMap;
+    }
+    
+    /**
+    * This method is used to assign the case to right Queue, when moved from Pre-Framework to Framework.
+    * In case of Cases getting converted from Pre-Framework to Framework from UI, don't change the owner.
+    * 
+    */
+    public static void preFrameworkToFrameworkMovementAssignment(List<Case> newList,boolean isUpdate,
+                                                                 Map<Id, Case> oldMap,Map<Id,String> nextStageMap,
+                                                                Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap){
+        List<Case> updFrameworkCases = new List<Case>();
+                                                                    
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+        for(Case caseRec : newList){
+            if(isUpdate){
+                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null){
+                        // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
+                       if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                        {
+                            updFrameworkCases.add(caseRec);
+                        }
+                }
+            }
+        }
+        if(isUpdate && updFrameworkCases.size()>0){
+            // CHECK IF THE CASE IF UPDATED FROM PREFRAMEWORK TO FRAMEWORK.
+            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(updFrameworkCases, nextStageMap);
+        }
+        for(Case caseRec : newList){
+            ASF_Case_Category_Config__c appliedCCC;
+            if(isUpdate){
+                if(String.isNotBlank(caseRec.CCC_External_Id__c) 
+                && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
+                    appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+                }
+            }
+            if(appliedCCC != null){ 
+                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
+                //from interaction to framework RT. So run assignment rule for first stage of framework
+                //Update 1: This assignment rules should run for recategoriasation too.
+                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
+                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
+                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
+                }
+            }
+        }
     }
     
     
