@@ -10,7 +10,7 @@
         </accountSettings>
         <label>All ABFL Customer To ABFL User</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
