@@ -118,7 +118,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                if(caseRec.Source__c != 'Email'){
+                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
@@ -287,7 +289,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             if(!currentStageConfigMap.isEmpty()){
                 Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> validateResultMap = ASF_CaseMovementHelper.validateNextStageEntry(queriedCaseRecords, currentStageConfigMap);
-            
+                
                 for(Case caseRec : eligibleRecords.values()){
                     ASF_Case_Stage_Config__c currentStageConfig = currentStageConfigMap.get(caseRec.Id);
                     if(currentStageConfig != null){
@@ -920,7 +922,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, String> caseStageMap = new Map<Id, String>();
         
         for(Case caseRec : newList){
-                        if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
+            if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
 	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
