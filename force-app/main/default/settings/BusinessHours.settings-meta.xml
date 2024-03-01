@@ -5,6 +5,8 @@
         <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:30:00.000Z</mondayStartTime>
         <name>ABHFL</name>
         <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
         <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
@@ -199,101 +201,69 @@
     </holidays>
     <holidays>
         <activityDate>2024-06-17</activityDate>
-        <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
-        <name>Bakri EID (Id-Uz-Zuha)</name>
+        <name>Bakri Id</name>
     </holidays>
     <holidays>
-        <businessHours>ABFL</businessHours>
-        <businessHours>ABHFL</businessHours>
-        <isRecurring>true</isRecurring>
-        <name>Christmas Day / Shri Parshvanath Jayanti</name>
-        <recurrenceDayOfMonth>25</recurrenceDayOfMonth>
-        <recurrenceMonthOfYear>December</recurrenceMonthOfYear>
-        <recurrenceStartDate>2024-12-25</recurrenceStartDate>
-        <recurrenceType>RecursYearly</recurrenceType>
-    </holidays>
-    <holidays>
-        <activityDate>2024-04-09</activityDate>
-        <businessHours>ABFL</businessHours>
+        <activityDate>2024-12-25</activityDate>
         <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
-        <name>Gudi Padava / Ugadi / Cheti Chand / Telugu New Year&apos;s Day / Sajibu Nongmapanba</name>
-    </holidays>
-    <holidays>
-        <activityDate>2024-11-15</activityDate>
-        <businessHours>ABFL</businessHours>
-        <businessHours>ABHFL</businessHours>
-        <isRecurring>false</isRecurring>
-        <name>Guru Nanak Jayanti / Lord Birsa Munda Jayanti State Foundation Day / Kartika Pur</name>
-    </holidays>
-    <holidays>
-        <activityDate>2024-03-25</activityDate>
-        <businessHours>ABFL</businessHours>
-        <businessHours>ABHFL</businessHours>
-        <isRecurring>false</isRecurring>
-        <name>Holi / Yaosang (Dol Jatra)</name>
-    </holidays>
-    <holidays>
-        <businessHours>ABFL</businessHours>
-        <businessHours>ABHFL</businessHours>
-        <isRecurring>true</isRecurring>
-        <name>Independence Day/Parsi New Year</name>
-        <recurrenceDayOfMonth>15</recurrenceDayOfMonth>
-        <recurrenceMonthOfYear>August</recurrenceMonthOfYear>
-        <recurrenceStartDate>2024-08-15</recurrenceStartDate>
-        <recurrenceType>RecursYearly</recurrenceType>
+        <name>Christmas</name>
     </holidays>
     <holidays>
         <activityDate>2024-11-01</activityDate>
-        <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
-        <name>Kannada Rajyothsava / Diwali Amavasya / Puducherry Liberation Day / Vishwakarma</name>
+        <name>Diwali Amavasya (Laxmi Pujan)</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-04-09</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Gudhi Padwa</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-11-15</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Guru Nanak Jayanti</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-03-25</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Holi (Second Day)</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-08-15</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Independence Day/Parsi New Year</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-05-01</activityDate>
+        <businessHours>ABHFL</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>Maharashtra Din</name>
     </holidays>
     <holidays>
         <activityDate>2024-03-08</activityDate>
-        <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
-        <name>Maha Shivaratri &amp; International Women Day</name>
+        <name>Mahashivratri</name>
     </holidays>
     <holidays>
-        <businessHours>ABFL</businessHours>
+        <activityDate>2024-10-02</activityDate>
         <businessHours>ABHFL</businessHours>
-        <isRecurring>true</isRecurring>
-        <name>Maharashtra Din / May Day / Labour Day</name>
-        <recurrenceDayOfMonth>1</recurrenceDayOfMonth>
-        <recurrenceMonthOfYear>May</recurrenceMonthOfYear>
-        <recurrenceStartDate>2024-05-01</recurrenceStartDate>
-        <recurrenceType>RecursYearly</recurrenceType>
-    </holidays>
-    <holidays>
-        <businessHours>ABFL</businessHours>
-        <businessHours>ABHFL</businessHours>
-        <isRecurring>true</isRecurring>
+        <isRecurring>false</isRecurring>
         <name>Mahatma Gandhi Jayanti</name>
-        <recurrenceDayOfMonth>2</recurrenceDayOfMonth>
-        <recurrenceMonthOfYear>October</recurrenceMonthOfYear>
-        <recurrenceStartDate>2024-10-02</recurrenceStartDate>
-        <recurrenceType>RecursYearly</recurrenceType>
     </holidays>
     <holidays>
         <activityDate>2024-07-17</activityDate>
-        <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <isRecurring>false</isRecurring>
         <name>Muharram</name>
-    </holidays>
-    <holidays>
-        <businessHours>ABFL</businessHours>
-        <isRecurring>true</isRecurring>
-        <name>Republic Day</name>
-        <recurrenceDayOfMonth>26</recurrenceDayOfMonth>
-        <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
-        <recurrenceStartDate>2024-01-26</recurrenceStartDate>
-        <recurrenceType>RecursYearly</recurrenceType>
     </holidays>
     <holidays>
         <activityDate>2024-01-26</activityDate>
