@@ -51,13 +51,20 @@ Public class ABFL_validateResolveStageTest {
      	ASF_Case_Category_Config__c ccc = [SELECT Id,LOB__c FROM ASF_Case_Category_Config__c 
                                            WHERE CCC_External_Id__c = :caseRecord[0].CCC_External_Id__c LIMIT 1];
      	
+     	List<case> case1 = new List<case>();
+     	case1.add(caseRecord[0]);
      
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(caseRecord[0]);
-        ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(caseRecord[0]);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> mCaseIdVsretCls =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(case1);
+        ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(case1);
+     	ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = mCaseIdVsretCls.get(case1[0].id);
         System.assertEquals('Error',retCls.Status);
+     	
+     	List<case> case2 = new List<case>();
+     	case2.add(caseRecord[1]);
      
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(caseRecord[1]);
-        ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(caseRecord[1]);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> mCaseIdVsretCls1 =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(case2);
+        ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(case2);
+     	ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 = mCaseIdVsretCls1.get(case2[0].id);
      	System.assertEquals('Error',retCls1.Status);
      
      	ABFL_Case_Detail__c caseDetail = [SELECT Id FROM ABFL_Case_Detail__c LIMIT 1];
@@ -65,8 +72,9 @@ Public class ABFL_validateResolveStageTest {
      	caseDetail.Financial_Impact__c = 'Yes';     	
         Update caseDetail;
      
-     	ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(caseRecord[1]);
-     	ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(caseRecord[1]);
+     	Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> mCaseIdVsretCls2 =  ABFL_ValidateRequireFieldOnResolvedStage.beforeStageMovement(case2);
+     	ABFL_ValidateRequireFieldOnResolvedStage.afterStageMovement(case2);
+     	ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 = mCaseIdVsretCls2.get(case2[0].id);
      	System.assertEquals('Error',retCls2.Status);
     	
     }
