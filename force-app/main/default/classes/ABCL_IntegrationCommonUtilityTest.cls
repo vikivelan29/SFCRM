@@ -47,6 +47,7 @@ public class ABCL_IntegrationCommonUtilityTest {
         caseRecList[0].AssetId = assetInserted.Id;
         caseRecList[0].Lead__c = leadInserted.Id;
         caseRecList[0].Nature__c = 'Query';
+        caseRecList[0].Business_Unit__c = 'ABHFL';
         update caseRecList;
     }
     
