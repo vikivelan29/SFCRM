@@ -27,11 +27,16 @@ public with sharing class ABHFL_ODPAlerts {
         }else{
             integrationName = ABHFL_Constants.ODP_ALERTS;
         }
-        If(accObj.Client_Code__c != null){
+        if(accObj.Client_Code__c != null){
             String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
             
             ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
-            odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
+            
+            if(odpResponseWrp.responseBody == '[]'){
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
+            }else{
+                odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
+            }
         }else{
             throw new AuraHandledException(label.ODP_Client_Code_Msg);
         }

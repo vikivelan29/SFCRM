@@ -16,7 +16,11 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     responseMessage;
     
     connectedCallback(){
-       getConstants()
+       
+    }
+
+    callODPAlerts(){
+        getConstants()
         .then(result => {
             console.log('this.userType =='+this.userType +' result.ABHFL=='+result.ABHFL);
             if(this.userType == result.ABHFL){
@@ -31,8 +35,9 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         });
         //New code for ABFL
         getConstantsABFL().then(result => {
-            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_Abfl);
-            if(this.userType == result.lob_Abfl){
+            console.log(result);
+            console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
+            if(this.userType == result.lob_ABFL){
                 this.isAbflUser = true;
                 this.odpAlerts();
             }else{
@@ -48,6 +53,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.userType = data.fields.Business_Unit__c.value;
+            this.callODPAlerts();
         } else if (error) {
             this.handleError(error);
         }
