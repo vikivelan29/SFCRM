@@ -4,14 +4,13 @@ import sendLead from '@salesforce/apex/ABHFL_LeadCreationAPI.sendLead';
 
 export default class Abhfl_SendLeadToCRM extends LightningElement {
     @api recordId;
-
+    
     @api invoke() {
-         console.log(this.recordId);
-
-         sendLead({leadId: this.recordId, executingFromTrigger: false})
-         .then(result => {
+        
+        sendLead({leadId: this.recordId, executingFromTrigger: false})
+        .then(result => {
             this.showToast('Success', result, 'Success');
-          })
+        })
 
         .catch(error => {
             let errorMessage = 'Send lead to CRM failed';
