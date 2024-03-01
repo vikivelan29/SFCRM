@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Status_Validation_Rule</fullName>
+    <active>true</active>
+    <errorConditionFormula>If(ISPICKVAL(Account_Status__c, &apos;Delinquent&apos;), If(ISBLANK(TEXT(Approval_Status__c)),True,false),False)</errorConditionFormula>
+    <errorMessage>Please enter the approval status field value</errorMessage>
+</ValidationRule>
