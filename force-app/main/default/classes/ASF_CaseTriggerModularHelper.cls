@@ -294,10 +294,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     ASF_Case_Stage_Config__c currentStageConfig = currentStageConfigMap.get(caseRec.Id);
                     if(currentStageConfig != null){
                         ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = validateResultMap.get(caseRec.Id);
-                        if(wrap.status == 'Error'){
+                        if(wrap != null && wrap.status == 'Error'){
                             caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
                         }else{
-                            if(wrap.isCaseUpdated == true){
+                            if(wrap != null && wrap.isCaseUpdated == true){
                                 caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                                 if(!caseFinalDMLMap.containsKey(caseRec.Id)){
                                     Case caseObj = new Case(Id = caseRec.Id);
