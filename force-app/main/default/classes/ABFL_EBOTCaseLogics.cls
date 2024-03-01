@@ -27,6 +27,8 @@ public with sharing class ABFL_EBOTCaseLogics {
                 objABFL.IsMultipleLAN__c = objResponseBody.ISMULTIPLELAN == 'NO' ? FALSE : TRUE;
                 objABFL.IsAttachmentFlag__c = objResponseBody.ISATTACHMENTFLAG == 'NO' ? FALSE : TRUE;
                 objABFL.PayTmInteractionId__c = objResponseBody.PAYTMINTERACTIONID != null ? objResponseBody.PAYTMINTERACTIONID : '';
+                objABFL.Disposition__c = objResponseBody.DISPOSITION != null ? objResponseBody.DISPOSITION : '';
+
                 // objABFL.CustomerNo__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';
                 lstInsertAbflCaseDetail.add(objABFL);
             }  
