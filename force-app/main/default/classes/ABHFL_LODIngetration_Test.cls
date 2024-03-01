@@ -76,7 +76,7 @@ public class ABHFL_LODIngetration_Test {
         astRecord.Last_Disbursement_Date__c = Date.today().addYears(-2);
         update astRecord;
         ASF_IntegrationsController.IntegrationWrapper evaluateFailure = lodStp.evaluate(caseRecord);
-        System.assertEquals('Error',successfulEvaluate.Status,'Done');
+        System.assertEquals('Success',successfulEvaluate.Status,'Done');
         System.assertEquals('Error',evaluateFailure.Status,'Done');
         
     }
