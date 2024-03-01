@@ -30,4 +30,32 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_CCC_Extended_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABHFL CCC Extended Sharing Rule</label>
+        <sharedTo>
+            <group>ABHFL_LOB_Admins</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_CCC_Sharing_Rules</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHFL CCC Sharing Rules</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
