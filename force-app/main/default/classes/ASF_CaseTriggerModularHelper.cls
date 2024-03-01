@@ -525,6 +525,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                        caseRecFromMap.MoveToNext__c = false;
                         if(resultWrap.caseToBeUpdated != null){
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
