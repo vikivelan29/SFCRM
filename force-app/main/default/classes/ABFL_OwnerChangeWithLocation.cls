@@ -69,8 +69,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 if (extractedSubstring.contains(relatedAssetLAN.LAN__c.substring(4, 7))) {
                     ABFL_Location_Master__c locationRecord = codeToLocationMap.get(relatedAssetLAN.LAN__c.substring(4, 7));
                     if (locationRecord != null && locationRecord.SPOC__c != null) {
- 						if(Trigger.isBefore){
-                        	updateCase.OwnerId = locationRecord.SPOC__c;
+                        if(Trigger.isBefore){
+                            updateCase.OwnerId = locationRecord.SPOC__c;
                             system.debug('OwnerIdtest'+updateCase.OwnerId);
                         }
                         else if(Trigger.isAfter){
@@ -83,9 +83,10 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
          if(!insertFinalUpdateCase.isEmpty()){
+            ASF_Constants.bypassOwnerChangeValidation = true;
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
-        	update insertFinalUpdateCase;
+            update insertFinalUpdateCase;
         }
     }
 /****************************************************************************************************************
@@ -126,11 +127,11 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                     ABFL_Location_Master__c locationRecord = codeToLocationMap.get(relatedAssetLAN.LAN__c.substring(2, 5));
                     if (locationRecord != null && locationRecord.SPOC__c != null) {
                         if(Trigger.isBefore){
-                        	updateCase.OwnerId = locationRecord.SPOC__c;
+                            updateCase.OwnerId = locationRecord.SPOC__c;
                         }
                         else if(Trigger.isAfter){
                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
-						insertFinalUpdateCase.add(origCaseUpdate);  
+                        insertFinalUpdateCase.add(origCaseUpdate);  
                         }
                     }
                  }
@@ -138,9 +139,10 @@ public with sharing class ABFL_OwnerChangeWithLocation {
            }
         }
         if(!insertFinalUpdateCase.isEmpty()){
+            ASF_Constants.bypassOwnerChangeValidation = true;
            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
-           	firstrunInsert = false;
-        	update insertFinalUpdateCase;
+            firstrunInsert = false;
+            update insertFinalUpdateCase;
         }
     }
 /****************************************************************************************************************
@@ -225,17 +227,18 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                     ABFL_Location_Master__c locationRecord = codeToLocationMap.get(updateCase.LAN__c.substring(4, 7));
                     if (locationRecord != null && locationRecord.SPOC__c != null) {
                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
-						insertFinalUpdateCase.add(origCaseUpdate);
+                        insertFinalUpdateCase.add(origCaseUpdate);
                     }
                  }
               }
            }
         }
-		if(!insertFinalUpdateCase.isEmpty()){
+        if(!insertFinalUpdateCase.isEmpty()){
+            ASF_Constants.bypassOwnerChangeValidation = true;
            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
-        	update insertFinalUpdateCase;
-     	}
+            update insertFinalUpdateCase;
+        }
     }
      public static void updateSpocNotAbflLANAfter(List<Case> lstCase){
         Set<String> extractedSubstring = new Set<String>();
@@ -260,16 +263,17 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 if (extractedSubstring.contains(updateCase.LAN__c.substring(2, 5))) {
                     ABFL_Location_Master__c locationRecord = codeToLocationMap.get(updateCase.LAN__c.substring(2, 5));
                     if (locationRecord != null && locationRecord.SPOC__c != null) {
-						Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
-						insertFinalUpdateCase.add(origCaseUpdate);                    }
+                        Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
+                        insertFinalUpdateCase.add(origCaseUpdate);                    }
                  }
               }
            }
         }
         if(!insertFinalUpdateCase.isEmpty()){
+            ASF_Constants.bypassOwnerChangeValidation = true;
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
-        	update insertFinalUpdateCase;
-     	}
+            update insertFinalUpdateCase;
+        }
     }
 }
