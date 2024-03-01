@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-29-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ASF_CaseMovementHelper {
     
     //static Boolean boolCalledFromBulk = false;
@@ -201,6 +208,7 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.nextStageConfig = nextStage.stageConfig;
                         resultWrapper.ownerId = nextStage.ownerId;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
+                        resultWrapper.status = 'Success';
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                         // CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, nextStage.stageConfig);
                         // if(beforeResult.status != 'Success'){
@@ -250,7 +258,7 @@ public class ASF_CaseMovementHelper {
                         StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                         CaseStageValidationWrapper beforeResult = beforeResultMap.get(caseId);
                         ASF_Case_Stage_Config__c nextStage = nextStageConfigMap.get(caseId);
-                        if(beforeResult.status != 'Success'){
+                        if(beforeResult != null && beforeResult.status != 'Success'){
                             resultWrapper.errorMessage = beforeResult.errorMessage;
                             resultWrapper.status = 'Error';
                             resultWrapperMap.put(caseId, resultWrapper);
@@ -359,7 +367,7 @@ public class ASF_CaseMovementHelper {
             for(Case caseRec : queriesCasesMap.values()){
                 CaseStageValidationWrapper beforeResult = beforeResultMap.get(caseRec.Id);
                 StageWrapper resultWrapper = resultWrapperMap.containsKey(caseRec.Id) ? resultWrapperMap.get(caseRec.Id) : new StageWrapper();
-                if(beforeResult.status != 'Success'){
+                if(beforeResult != null && beforeResult.status != 'Success'){
                     resultWrapper.errorMessage = beforeResult.errorMessage;
                     resultWrapper.status = 'Error';
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
@@ -894,7 +902,7 @@ public class ASF_CaseMovementHelper {
      * Bulkfied
      */
     public static Map<Id,ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> getAssignmentForStage(List<Case> currentCases, Map<Id, String> caseIdToStageNameMap){
-
+        
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> resultWrapperMap = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
         
         Set<String> externalIds = new Set<String>();
@@ -921,9 +929,9 @@ public class ASF_CaseMovementHelper {
 
         Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(Case caseRec : currentCases){
-            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                        if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
+                                        if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         if(config.Query_Fields__c != null){
                             allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -943,7 +951,7 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
-        ASF_CaseQueryHandler.refreshRecords = true;
+                ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
@@ -970,7 +978,7 @@ public class ASF_CaseMovementHelper {
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseId, resultWrapper);
         }
-        return resultWrapperMap;
+                return resultWrapperMap;
     }
     
     /**
