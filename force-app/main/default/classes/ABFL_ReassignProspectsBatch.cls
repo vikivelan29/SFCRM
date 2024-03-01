@@ -5,44 +5,62 @@
 ** Created Date :  15/12/2023
 *********************************************************/
 global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
-
-    global Database.QueryLocator start(Database.BatchableContext BC) {
-        return Database.getQueryLocator('SELECT Id, Subject, Lead__c, SuppliedEmail FROM Case WHERE Business_Unit__c = \'ABFL\' AND Lead__c != null AND SuppliedEmail != null');
+    
+        global Database.QueryLocator start(Database.BatchableContext BC) {
+        // Fetch the configurable number of days from Custom Label
+        Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
+        Date startDate = Date.today().addDays(-numberOfDays);
+            system.debug('Start Date:' + startDate);
+        // Query for cases where Business_Unit__c is 'ABFL' and SuppliedEmail is not null
+        return Database.getQueryLocator([
+            SELECT Id, Subject, Lead__c, SuppliedEmail 
+            FROM Case 
+            WHERE Business_Unit__c = :ASF_Constants.ABFL_BU
+            AND SuppliedEmail != null 
+            AND AccountId = null 
+            AND CreatedDate >= :startDate
+        ]);
     }
 
     global void execute(Database.BatchableContext BC, List<Case> scope) {
-        List<Case> casesToUpdate = new List<Case>();
-        Set<String> SuppliedEmailSet = new Set<String>();
-        List<Case> csList = new List<Case>();
+        Map<String, Id> emailToAccountIdMap = new Map<String, Id>();
         
-        // Collect unique SuppliedEmail from the cases
-        for (Case c : scope) {
-            if (c.Lead__c != null && c.SuppliedEmail != null) {
-                SuppliedEmailSet.add(c.SuppliedEmail);
-                casesToUpdate.add(c); // Prepare for update
-            }
-        }
-        
-        // Map for Account - Key (Email)
-        Map<String, Id> accKeyMap = new Map<String, Id>();
-        for (Account acc : [SELECT Id, PersonEmail FROM Account WHERE PersonEmail IN :SuppliedEmailSet Order By CreatedDate desc limit 1]) {
-            accKeyMap.put(acc.PersonEmail, acc.Id);
-        }
-
-        for (Case cs : casesToUpdate) {
-            if (accKeyMap.containsKey(cs.SuppliedEmail)) {
-                // Map cases to Account
-                cs.AccountId = accKeyMap.get(cs.SuppliedEmail);
-                csList.add(cs);
+        // Populate email to Account Id mapping
+        for (Case caseRecord : scope) {
+            // Query for the most recent Account related to the SuppliedEmail
+            for (Account acc : [SELECT Id, PersonEmail, Office_Email__c, IsPersonAccount 
+                                FROM Account 
+                                WHERE PersonEmail = :caseRecord.SuppliedEmail OR Office_Email__c = :caseRecord.SuppliedEmail 
+                                ORDER BY CreatedDate DESC LIMIT 1]) {
+                if (acc.IsPersonAccount) {
+                    emailToAccountIdMap.put(acc.PersonEmail, acc.Id);
+                } else {
+                    emailToAccountIdMap.put(acc.Office_Email__c, acc.Id);
+                }
             }
         }
         
         // Update cases to remove Lead and assign to Account
-        try {
-            update csList;
-        } catch (Exception e) {
-            // Handle exceptions
-            System.debug('Error: ' + e.getMessage());
+        List<Case> casesToUpdate = new List<Case>();
+        for (Case caseRecord : scope) {
+            if (emailToAccountIdMap.containsKey(caseRecord.SuppliedEmail)) {
+                caseRecord.AccountId = emailToAccountIdMap.get(caseRecord.SuppliedEmail);
+                casesToUpdate.add(caseRecord);
+            }
+        }
+        
+        // Update cases
+        if (!casesToUpdate.isEmpty()) {
+            try {
+                update casesToUpdate;
+            } catch (Exception e) {
+                // Handle exceptions
+                System.debug('Error: ' + e.getMessage());
+                ABCL_Logger.enableExceptionLogging();
+            	ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            	ABCL_Logger.message(e.getMessage());
+            	ABCL_Logger.emit();
+            }
         }
     }
 
