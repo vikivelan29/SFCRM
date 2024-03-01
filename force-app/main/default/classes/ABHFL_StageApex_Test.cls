@@ -83,9 +83,9 @@ public class ABHFL_StageApex_Test {
     	}
         insert dummyPayments;
         //Assertion 
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_PreClsStatementStageApex.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_PreClsStatementStageApex.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_PreClsStatementStageApex.beforeStageMovement(new List<Case>{caseRecord});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABHFL_PreClsStatementStageApex.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         
 	}
     @IsTest
@@ -104,14 +104,14 @@ public class ABHFL_StageApex_Test {
         dummyPayments.add(payment);
     	}
         insert dummyPayments;
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_PreClosureStageApex.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_PreClosureStageApex.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_PreClosureStageApex.beforeStageMovement(new List<Case>{caseRecord});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABHFL_PreClosureStageApex.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         //for stage Hub location
         caseRecord.Stage__c='Hub Location';
         update caseRecord;
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 =  ABHFL_PreClosureStageApex.beforeStageMovement(caseRecord);
-        System.assertEquals('Success',retCls2.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABHFL_PreClosureStageApex.beforeStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls2.get(caseRecord.Id).Status,'Done');
 	}
     @IsTest
     static void testReqResolvedStageApexClass(){
@@ -130,9 +130,9 @@ public class ABHFL_StageApex_Test {
     	}
         insert dummyPayments;
         //Assertion
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_ReqResolvedStageApex.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_ReqResolvedStageApex.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_ReqResolvedStageApex.beforeStageMovement(new List<Case>{caseRecord});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABHFL_ReqResolvedStageApex.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         
 	}
     @IsTest
@@ -152,12 +152,12 @@ public class ABHFL_StageApex_Test {
     	}
         insert dummyPayments;
         //Assertion
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_requestInProgressApexClass.afterStageMovement(caseRecord);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_requestInProgressApexClass.beforeStageMovement(new List<Case>{caseRecord});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABHFL_requestInProgressApexClass.afterStageMovement(new List<Case>{caseRecord});
         caseRecord.CCC_External_Id__c = 'hfl003';
         update caseRecord;
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls3 =  ABHFL_requestInProgressApexClass.beforeStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls3 =  ABHFL_requestInProgressApexClass.beforeStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         
 	}
      @IsTest
@@ -177,9 +177,9 @@ public class ABHFL_StageApex_Test {
     	}
         insert dummyPayments;
         //Assertion
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_sendPaymentLinkMultiLAN.beforeStageMovement(caseRecord);
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 =  ABHFL_sendPaymentLinkMultiLAN.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_sendPaymentLinkMultiLAN.beforeStageMovement(new List<Case>{caseRecord});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABHFL_sendPaymentLinkMultiLAN.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         
 	}
 }
