@@ -6,7 +6,7 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
-
+    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - fetchStpTemplates
@@ -293,7 +293,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
         Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,
-                           Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0]];
+                           Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS];
         List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
         if(contentDocumentList.size() > 0){
             Set<Id> contentDocumentIds = new Set<Id>();
