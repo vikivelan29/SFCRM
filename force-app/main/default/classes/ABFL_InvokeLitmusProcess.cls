@@ -41,7 +41,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 System.debug('LAN__c: '+(caseRecord.Asset.LAN__c));
                 System.debug('Business_Unit__c: '+(caseRecord.Business_Unit__c));
 
-                if ((caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
+                if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
                     casesToFurtherProcessSet.add(caseRecord.Id);
                     cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
                 }
@@ -197,7 +197,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 when 'Call- in', 'Inbound Nodal Desk', 'Phone-Inbound', 'Phone-Outbound'{
                     this.tag_source = 'Call Center';
                 }
-                when 'Chatbot', 'Customer Portal', 'IVR', 'IVR-No Email', 'MOBILEAPP', 'Social Media', 'WhatsApp'{
+                when 'Chatbot', 'Customer Portal', 'IVR', 'IVR-No Email', 'MOBILEAPP', 'Social Media', 'WhatsApp', 'Webform'{
                     this.tag_source = 'Digital';
                 }
                 when 'Bureau', 'Email', 'Letter / Snail Mail'{
