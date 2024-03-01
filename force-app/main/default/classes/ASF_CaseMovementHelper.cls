@@ -76,7 +76,7 @@ public class ASF_CaseMovementHelper {
             //Find the next stage when moved purely forward
             if(!casesMovingNextPure.isEmpty()){
                 //Find the next stage
-                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values());
+                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values(), currentStageMap);
                 for(Case caseRec : casesMovingNextPure.values()){
                     StageConfigWrapper nextStage = caseIdToNextStageConfig.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -126,8 +126,9 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         for(Case caseRec : currentCases){
             StageWrapper resultWrapper = new StageWrapper();
@@ -187,7 +188,7 @@ public class ASF_CaseMovementHelper {
             //Atleast one case passed validation
             if(!casesMovingNextPure.isEmpty()){
                 //Find the next stage
-                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values());
+                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values(), currentStageMap);
                 for(Case caseRec : casesMovingNextPure.values()){
                     StageConfigWrapper nextStage = caseIdToNextStageConfig.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -647,7 +648,7 @@ public class ASF_CaseMovementHelper {
     * 5. Determine the Ownership by running assignment rule for the Stage Found
     * Bulkified
     */
-    public static Map<Id, StageConfigWrapper> findNextStageForward(List<Case> currentCases){
+    public static Map<Id, StageConfigWrapper> findNextStageForward(List<Case> currentCases, Map<Id, String> currentStageMap){
         Map<Id, StageConfigWrapper> resultWrapperMap = new Map<Id, StageConfigWrapper>();
 
         Set<String> externalIds = new Set<String>();
@@ -674,7 +675,7 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == caseRec.Stage__c){
+                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
                     caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                     break;
                 }
@@ -1102,7 +1103,7 @@ public class ASF_CaseMovementHelper {
         }
         return resultWrapperMap;
     }
-    
+
     /**
     * This method is used to assign the case to right Queue, when moved from Pre-Framework to Framework.
     * In case of Cases getting converted from Pre-Framework to Framework from UI, don't change the owner.
