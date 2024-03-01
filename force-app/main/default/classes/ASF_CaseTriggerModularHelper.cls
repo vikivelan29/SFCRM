@@ -5,7 +5,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, Boolean> triggerEncounteredError = new Map<Id, Boolean>();
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
-    /****************************************************************************************************************
+        /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
     * @param oldMap -  map of cases from trigger.oldMap.
@@ -117,7 +117,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                if(caseRec.Source__c != 'Email'){
+                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
@@ -273,16 +275,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         currentStageConfig = stageConfig;
                     }
                 }
-                if(currentStageConfig != null){
-                    ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
-                    if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                    }else{
-                        if(wrap.isCaseUpdated == true){
-                            Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
-                            for(String fieldName : populatedFieldMap.keySet()){
-                                caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
-                            }
+                    if(currentStageConfig != null){
+                        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
+                        if(wrap.status == 'Error'){
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }else{
+                            if(wrap.isCaseUpdated == true){
+                                                                Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
+                                for(String fieldName : populatedFieldMap.keySet()){
+                                    caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
+                                                            }
                         }
                     }
                 }
@@ -859,7 +861,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
         if(caseFinalDMLMap != null){
-            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+                        ASF_TriggerSkipperUtility.markTriggerRun('Case');
             Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
                 
             for (Integer i = 0; i < saveResults.size(); i++) {
@@ -1071,7 +1073,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing){
+        if((bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing) && !Test.isRunningTest()){
             return;
         }
             
