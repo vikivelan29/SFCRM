@@ -19,7 +19,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
 
         Map<String, Id> externalIdToCase = new Map<String, Id>();
         for(Case caseRec : caseRecs){
-            externalIdToCase.add(caseRec.CCC_External_Id__c, caseRec.Id);
+            externalIdToCase.put(caseRec.CCC_External_Id__c, caseRec.Id);
         }
         Map<Id, ASF_Case_Category_Config__c> caseIdToCCCMap = new Map<Id,ASF_Case_Category_Config__c>();
     	for(ASF_Case_Category_Config__c ccc : [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c, CCC_External_Id__c FROM ASF_Case_Category_Config__c 
@@ -141,7 +141,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
         Schema.DescribeFieldResult finalResolutionField = caseDetailFields.get('Final_resolution__c').getDescribe();
         Schema.DescribeFieldResult repeatInterationField = caseDetailFields.get('Repeat_interaction__c').getDescribe();
         for(Case caseR : caseRecs){
-            FieldValidationResult validation = resultsMap.get(caseRec.Id);
+            FieldValidationResult validation = resultsMap.get(caseR.Id);
             if(String.isBlank(caseR.ABHFL_Case_Detail__r.Case_Categorization__c)) {
                 validation.blankFields.add(caseCategorizationField.getLabel());
                 validation.result = true;

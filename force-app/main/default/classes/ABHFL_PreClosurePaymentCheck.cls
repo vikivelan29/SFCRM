@@ -9,8 +9,8 @@ public with sharing class ABHFL_PreClosurePaymentCheck implements ASF_CaseStageC
             returnWrapper.put(caseRec.Id, retCls);
         }
         Map<Id, Boolean> isPaymentsClearedMap = ABHFL_CTSTHelper.validatePayments(caseRecords);
+        List<Case> paymentClearedCases = new List<Case>();
         if(!isPaymentsClearedMap.isEmpty()){
-            List<Case> paymentClearedCases = new List<Case>();
             for(Case caseRec : caseRecords){
                 if(isPaymentsClearedMap.containsKey(caseRec.Id) && !isPaymentsClearedMap.get(caseRec.Id)){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(caseRec.Id);

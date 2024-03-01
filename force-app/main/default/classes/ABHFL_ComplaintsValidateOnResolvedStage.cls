@@ -27,13 +27,13 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
         if(!validateRCACases.isEmpty()){
             Map<Id, ABHFL_ComplaintCTSTHelper.FieldValidationResult> wrapperResultMap = ABHFL_ComplaintCTSTHelper.validateRCAfields(validateRCACases);
             for(Id caseId : wrapperResultMap.keySet()){
-                ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(caseRec.Id);
+                ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(caseId);
                 ABHFL_ComplaintCTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseId);
                 if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
                     retCls.status = ABHFL_Constants.ERROR;
                     retCls.errorMessage = wrapperResult.message; 
                 }
-                returnWrapper.put(caseRec.Id, retCls);
+                returnWrapper.put(caseId, retCls);
             }
         }
         return returnWrapper;
