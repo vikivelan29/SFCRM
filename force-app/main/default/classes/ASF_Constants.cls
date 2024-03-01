@@ -115,14 +115,17 @@ public with sharing class ASF_Constants {
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
     public static final String ABFL_BU = 'ABFL';
     public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
+    public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABFL'};
         
         
     /* RETRY MECHANISM RELATED CONSTANTS. */
     public static final String RETRY_PROCESSTYPEINTEG = 'Process';
     public static final String RETRY_PREPOPULATEDTYPEINTEG = 'Pre Populate';
     public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
-
+    
+    public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
+    public static final String DMS_FILE_TRANSFER_SOURCE = 'SFDC';
 }

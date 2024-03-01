@@ -6,6 +6,10 @@
 *@description  :  Class for ABHFL Specific Methods. 
 *********************************************************/
 public without sharing class ABHFL_CTSTHelper {
+
+    //static variables to skip repeatitive query in single transaction
+    private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
+
     //Dhinesh
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
     // List of valid subTypes
@@ -25,7 +29,7 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
-    
+
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
@@ -62,7 +66,7 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailFinancialQueue.Id;
+        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
     	}
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
@@ -73,28 +77,53 @@ public without sharing class ABHFL_CTSTHelper {
     	update new List<Case>{ updatedCase };
 	}
     //Dhinesh
-    public static Case assignCaseToBranch(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
-        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch') {
-            caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
+    public static Map<Id, Case> assignCaseToBranch(List<Case> caseRecords) {
+        
+        Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
+        for(Case caseRec : caseRecords){
+            if (caseRec.Asset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch') {
+                Case blankCase = new Case(Id = caseRec.Id);
+                blankCase.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
+                updatedCasesMap.put(blankCase.Id, blankCase);
+            }
         }
-
-        return caseRec;
+        return updatedCasesMap;
     }
     //Dhinesh
-    public static Case assignCaseToPreferredBranch(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-		Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,Address__c FROM Branch_Master__c WHERE UniqueKey__c =: caseDetail.Preferred_Branch__c LIMIT 1];
-        if (prefBranch.Branch_Queue_Id__c != null) {
-            caseRec.OwnerId = prefBranch.Branch_Queue_Id__c;
+    public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
+        //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+
+        List<Case> eligibleCases = new List<Case>();
+        Map<String, Id> uniqueKeyToCaseId = new Map<String, Id>();
+        for(Case caseRec : caseRecords){
+            eligibleCases.add(caseRec);
+            uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
+            
         }
-        caseDetail.Address__c = prefBranch.Address__c;
-        update caseDetail;
-        return caseRec;
+        Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
+        List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>();
+        if(!eligibleCases.isEmpty()){
+            Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
+            {
+                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
+            }
+            for(Case caseRec : eligibleCases){
+                if(caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c != null){
+                    Case blankCase = new Case(Id = caseRec.Id);
+                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
+                    updatedCasesMap.put(blankCase.Id, blankCase);
+                }
+                ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
+                caseDetail.Address__c = caseIdToBranchMap.get(caseRec.Id).Address__c;
+                caseDetailsToUpdate.add(caseDetail);
+            }
+        }
+        
+        update caseDetailsToUpdate;
+        return updatedCasesMap;
     }
-    //Dhinesh - updateComplaintType
     @AuraEnabled
     public static void updateCaseExtension(String caseextensionId, String complainttype){
         ABHFL_Case_Detail__c caseDetail = [SELECT Id,Complaint_Type__c FROM ABHFL_Case_Detail__c WHERE Id =:caseextensionId LIMIT 1];
@@ -102,63 +131,140 @@ public without sharing class ABHFL_CTSTHelper {
         update caseDetail;
     }
     //Dhinesh - TDS Refund BRANCH assignment
-    public static Case assignCaseToBranchTDS(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-		Asset relatedAsset = [SELECT Id, Branch__r.Branch_Queue_Id__c FROM Asset WHERE Id =: caseRec.AssetId];
-        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c == 'Branch') {
-            caseRec.OwnerId = relatedAsset.Branch__r.Branch_Queue_Id__c;
+    public static Map<Id, Case> assignCaseToBranchTDS(List<Case> caseRecords) {
+        //Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        Boolean emailNonFinancialQueueReqd = false;//To query Group only if relevant case present
+        for(Case caseRec : caseRecords){
+            if (caseRec.Asset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch'){
+                emailNonFinancialQueueReqd = true;
+                break;
+            }
         }
-        if (relatedAsset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch'){
-            caseRec.OwnerId = emailNonFinancialQueue.Id;
-    	}
-        return caseRec;
+        Group emailNonFinancialQueue;
+        if(emailNonFinancialQueueReqd){
+            emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        }
+        Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
+        for(Case caseRec : caseRecords){
+            if (caseRec.Asset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c == 'Branch') {
+                Case blankCase = new Case(Id = caseRec.Id);
+                blankCase.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
+                updatedCasesMap.put(blankCase.Id, blankCase);
+            }
+            if (caseRec.Asset.Branch__r.Branch_Queue_Id__c != null && caseRec.Source__c != 'Branch' && emailNonFinancialQueue != null){
+                Case blankCase = new Case(Id = caseRec.Id);
+                blankCase.OwnerId = emailNonFinancialQueue.Id;
+                updatedCasesMap.put(blankCase.Id, blankCase);
+            }
+        }
+        return updatedCasesMap;
     }
-    //Dhinesh - Collateral Documents case owner Assignment.
-    public static Case assignCaseCollateralDocs(Case caseRecord) {
-        Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c,ABHFL_Case_Detail__c  FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        if (caseRec.Source__c == 'Branch') {
-            caseRec.OwnerId = caseDetail.CreatedById;
+    
+    
+    //Dhinesh - Collateral Doc Case Assignment
+    public static Map<Id, Case> assignCaseCollateralDocs(List<Case> caseRecords) {
+        //Case caseRec = [SELECT Id, OwnerId,AssetId,Source__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+		//ABHFL_Case_Detail__c caseDetail = [SELECT Id,CreatedById  FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        Boolean emailNonFinancialQueueReqd = false;
+        for(Case caseRec : caseRecords){
+            if (caseRec.Source__c != 'Branch'){
+                emailNonFinancialQueueReqd = true;
+                break;
+            }
         }
-        if (caseRec.Source__c != 'Branch'){
-            caseRec.OwnerId = emailNonFinancialQueue.Id;
-    	}
-        return caseRec;
+        Group emailNonFinancialQueue;
+        if(emailNonFinancialQueueReqd){
+            emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        }
+        
+        Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
+        for(Case caseRec : caseRecords){
+            if (caseRec.Source__c == 'Branch') {
+                Case blankCase = new Case(Id = caseRec.Id);
+                blankCase.OwnerId = caseRec.ABHFL_Case_Detail__r.CreatedById;
+                updatedCasesMap.put(blankCase.Id, blankCase);
+            }
+            if (caseRec.Source__c != 'Branch' && emailNonFinancialQueue != null){
+                Case blankCase = new Case(Id = caseRec.Id);
+                blankCase.OwnerId = emailNonFinancialQueue.Id;
+                updatedCasesMap.put(blankCase.Id, blankCase);
+            }
+        }
+        return updatedCasesMap;
     }
     
     //Dhinesh - Used for assigning case to AOM/ROM
-    public static Case assignCaseToAOMROM(Case caseRecord){
-        Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        Branch_Master__c prefBranch = [SELECT Id,Branch_Queue_Id__c,ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c =: caseDetail.Preferred_Branch__c LIMIT 1];
-        if (prefBranch.ROM_AOM__c != null) {
-            caseRec.OwnerId = prefBranch.ROM_AOM__c;
+    public static Map<Id, Case> assignCaseToAOMROM(List<Case> caseRecords){
+        //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
+        //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+        List<Case> eligibleCases = new List<Case>();
+        Map<String, Id> uniqueKeyToCaseId = new Map<String, Id>();
+        for(Case caseRec : caseRecords){
+            eligibleCases.add(caseRec);
+            uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
         }
-        return caseRec;
+        Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
+        if(!eligibleCases.isEmpty()){
+            Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, SAP_Code__c, ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c IN: uniqueKeyToCaseId.keySet()])
+            {
+                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.SAP_Code__c), branch);
+            }
+            for(Case caseRec : eligibleCases){
+                if(caseIdToBranchMap.get(caseRec.Id).ROM_AOM__c != null){
+                    Case blankCase = new Case(Id = caseRec.Id);
+                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).ROM_AOM__c;
+                    updatedCasesMap.put(blankCase.Id, blankCase);
+                }
+                
+            }
+        }
+        return updatedCasesMap;
     }
     
     //Dhinesh
-    public static Boolean validatePayments(Case caseRecord) {
-        Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
-		List<ABHFL_Payment__c> payments = [SELECT Id, Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c = :queriedCase.Id];
-		// Check if every payment record has Realization_Status__c equal to 'Cleared'
-        for (ABHFL_Payment__c payment : payments) {
-            if (payment.Realization_Status__c != 'Cleared') {
-                return false; // If any payment record is not cleared, return false
+    public static Map<Id, Boolean> validatePayments(List<Case> caseRecords) {
+        //Case queriedCase = [SELECT Id FROM Case WHERE Id = :caseRecord.Id LIMIT 1];
+        Map<Id, Boolean> returnMap = new Map<Id, Boolean>();
+        Map<Id, List<ABHFL_Payment__c>> paymentsMap = new Map<Id, List<ABHFL_Payment__c>>();
+		for(ABHFL_Payment__c payment : [SELECT Id, Realization_Status__c, Case__c FROM ABHFL_Payment__c WHERE Case__c IN :caseRecords])
+        {
+            if(!paymentsMap.containsKey(payment.Case__c)){
+                paymentsMap.put(payment.Case__c, new List<ABHFL_Payment__c>());
+            }
+            paymentsMap.get(payment.Case__c).add(payment);
+        }
+        for(Case caseRec : caseRecords){
+            returnMap.put(caseRec.Id, true);//default true; // All payment records have Realization_Status__c as 'Cleared'
+            if(paymentsMap.containsKey(caseRec.Id)){
+                // Check if every payment record has Realization_Status__c equal to 'Cleared'
+                for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
+                    if (payment.Realization_Status__c != 'Cleared') {
+                        returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
+                        break;
+                    }
+                }
             }
         }
-
-        return true; // All payment records have Realization_Status__c as 'Cleared'
+        paymentsMapStatic = paymentsMap;
+        return returnMap; 
     }
     
     //Dhinesh - 2/8 Send Preclosure loan closed email.
-	public static void sendLoanClosedEmail(Case caseRecord){
-    	Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
-                       FROM Case WHERE Id = :caseRecord.Id];
-        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PRECLS_LOANCLOSED_EMAIL, 
-                                                                ABHFL_Constants.PRECLS_LOANCLOSED_SMS, False);
+	public static void sendLoanClosedEmail(List<Case> caseRecords){
+    	//Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+        //               FROM Case WHERE Id = :caseRecord.Id];
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        for(Case caseRec : caseRecords){
+            emailTemplateMap.put(caseRec.Id, ABHFL_Constants.PRECLS_LOANCLOSED_EMAIL);
+            smsMetadataMap.put(caseRec.Id, ABHFL_Constants.PRECLS_LOANCLOSED_SMS);
+            isTransferredMap.put(caseRec.Id, false);
+        }
+
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords,emailTemplateMap, 
+        smsMetadataMap, isTransferredMap);
     }
     //Dhinesh - 1/29 Backward Movement Email Communication
     public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
@@ -200,20 +306,50 @@ public without sharing class ABHFL_CTSTHelper {
     }
     
     //Dhinesh - 1/30 Payment Received email from stage specific.
-    public static void sendEmailPaymentReceived(Case caseRecord){
+    public static void sendEmailPaymentReceived(List<Case> caseRecords){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
-        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
-                       FROM Case WHERE Id = :caseRecord.Id];
-        Boolean paymentRecieved = false;
-    	List<ABHFL_Payment__c> casePayments = [SELECT Id,Realization_Status__c FROM ABHFL_Payment__c WHERE Case__c =: caseRecord.Id];
-    	for(ABHFL_Payment__c pay : casePayments){
-            if(pay.Realization_Status__c == 'Cleared'){
-                paymentRecieved = true;
+        //Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c
+        //               FROM Case WHERE Id = :caseRecord.Id];
+        Map<Id, List<ABHFL_Payment__c>> paymentsMap = new Map<Id, List<ABHFL_Payment__c>>();
+        if(!paymentsMapStatic.isEmpty()){
+            paymentsMap = paymentsMapStatic;
+        }else{
+            for(ABHFL_Payment__c payment : [SELECT Id, Realization_Status__c, Case__c FROM ABHFL_Payment__c WHERE Case__c IN :caseRecords])
+            {
+                if(!paymentsMap.containsKey(payment.Case__c)){
+                    paymentsMap.put(payment.Case__c, new List<ABHFL_Payment__c>());
+                }
+                paymentsMap.get(payment.Case__c).add(payment);
             }
         }
-        if(paymentRecieved && validSubTypes.contains(queriedCase.CCC_External_Id__c)){
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,ABHFL_Constants.PAYMENT_RECEIVED_TEMPLATE, 
-                                                                ABHFL_Constants.PAYMENT_RECEIVED_SMS, False);
+        Map<Id, Boolean> paymentRecievedMap = new Map<Id, Boolean>();
+        for(Case caseRec : caseRecords){
+            if(paymentsMap.containsKey(caseRec.Id)){
+                for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
+                    if(payment.Realization_Status__c == 'Cleared'){
+                        paymentRecievedMap.put(caseRec.Id, true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        List<Case> eligibleCases = new List<Case>();
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        for(Case caseRec : caseRecords){
+            if(paymentRecievedMap.containsKey(caseRec.Id) && paymentRecievedMap.get(caseRec.Id) && validSubTypes.contains(caseRec.CCC_External_Id__c)){
+                eligibleCases.add(caseRec);
+                emailTemplateMap.put(caseRec.Id, ABHFL_Constants.PAYMENT_RECEIVED_TEMPLATE);
+                smsMetadataMap.put(caseRec.Id, ABHFL_Constants.PAYMENT_RECEIVED_SMS);
+                isTransferredMap.put(caseRec.Id, false);
+            }
+        }
+
+        if(!eligibleCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCases,emailTemplateMap, 
+            smsMetadataMap, isTransferredMap);
         }
     }
     public static void executeSpecificIntegrations(List<Case> newCases, List<Case> oldCases){
@@ -236,117 +372,185 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
-            executeSpecificIntegrations(newCases, uiCardIntegrationMap);
-        }
-    }
-
-    public static void executeSpecificIntegrations(List<Case> newCases, Map<String, List<ASF_Integration__c>> uiCardIntegrationMap){
-        for(Case cs : newCases){
-            if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+            for(Case cs : newCases){
+                if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
+                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                }
             }
         }
     }
-    
     //Dhinesh - to Send Tracking Links
-    public static void sendTrackingLink(Case caseRec){
+    public static void sendTrackingLink(List<Case> caseRecords){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
-        Id caseId = caseRec.Id; 
-    	Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
-                       FROM Case WHERE Id = :caseId];
-        if(caseRecord.Short_URL__c != NULL && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                  NULL, 
-                                                                  ABHFL_Constants.TRACKING_LINK_SMS, 
-                                                                  false);
+        //Id caseId = caseRec.Id; 
+    	//Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+        //               FROM Case WHERE Id = :caseId];
+
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> eligibleCases = new List<Case>();
+        for(Case caseRecord : caseRecords){
+            if(caseRecord.Short_URL__c != NULL && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
+                smsMetadataMap.put(caseRecord.Id, ABHFL_Constants.TRACKING_LINK_SMS);
+                isTransferredMap.put(caseRecord.Id, false);
+                eligibleCases.add(caseRecord);
+                
+            }
+        }
+        if(!eligibleCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCases, 
+                                                                    NULL, 
+                                                                    smsMetadataMap, 
+                                                                    isTransferredMap);
         }
     }
     //Dhinesh - to send attachments with mail for GST Invoice Required, DSRA/Lien Document and Escrow Statement
-   public static void sendMailWithAttachments(Case caseRec) {
-    	Id caseId = caseRec.Id; 
-	    Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, Short_URL__c
-                    FROM Case WHERE Id = :caseId];
-	
-    	String emailTemplate;
-    	String smsTemplate;
-    	Boolean shouldInvokeCommPEevent = TRUE;
+   public static void sendMailWithAttachments(List<Case> caseRecs) {
+    	//Id caseId = caseRec.Id; 
+	    //Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, Short_URL__c FROM Case WHERE Id = :caseId];
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> eligibleCases = new List<Case>();
+        for(Case caseRecord : caseRecs){
+            if (caseRecord.CCC_External_Id__c == ABHFL_Constants.GST_INVOICE_ID) {
+                emailTemplateMap.put(caseRecord.ID, ABHFL_Constants.GST_INVOICE_EMAIL);
+                smsMetadataMap.put(caseRecord.Id, ABHFL_Constants.GST_INVOICE_SMS);
+                isTransferredMap.put(caseRecord.Id, true);
+                eligibleCases.add(caseRecord);
+            } else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.DSRA_LIEN_ID) {
+                emailTemplateMap.put(caseRecord.ID, ABHFL_Constants.DSRA_LIEN_EMAIL);
+                smsMetadataMap.put(caseRecord.Id, ABHFL_Constants.DSRA_LIEN_SMS);
+                isTransferredMap.put(caseRecord.Id, true);
+                eligibleCases.add(caseRecord);
+            } else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.ESCROW_STATEMENT_ID) {
+                emailTemplateMap.put(caseRecord.ID, ABHFL_Constants.ESCROW_STATEMENT_EMAIL);
+                smsMetadataMap.put(caseRecord.Id, ABHFL_Constants.ESCROW_STATEMENT_SMS);
+                isTransferredMap.put(caseRecord.Id, true);
+                eligibleCases.add(caseRecord);
+            } else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.NOC_REQUIRED_ID){
+                emailTemplateMap.put(caseRecord.ID, ABHFL_Constants.ESCROW_STATEMENT_EMAIL);
+                smsMetadataMap.put(caseRecord.Id, ABHFL_Constants.ESCROW_STATEMENT_SMS);
+                isTransferredMap.put(caseRecord.Id, true);
+                eligibleCases.add(caseRecord);
+            }
+        }
 
-    	if (caseRecord.CCC_External_Id__c == ABHFL_Constants.GST_INVOICE_ID) {
-        	emailTemplate = ABHFL_Constants.GST_INVOICE_EMAIL;
-        	smsTemplate = ABHFL_Constants.GST_INVOICE_SMS;
-    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.DSRA_LIEN_ID) {
-        	emailTemplate = ABHFL_Constants.DSRA_LIEN_EMAIL;
-        	smsTemplate = ABHFL_Constants.DSRA_LIEN_SMS;
-    	} else if (caseRecord.CCC_External_Id__c == ABHFL_Constants.ESCROW_STATEMENT_ID) {
-       	 emailTemplate = ABHFL_Constants.ESCROW_STATEMENT_EMAIL;
-        	smsTemplate = ABHFL_Constants.ESCROW_STATEMENT_SMS;
-    	} else {
-	        shouldInvokeCommPEevent = FALSE;
-    	}
-
-    	if (shouldInvokeCommPEevent) {
-        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, emailTemplate, smsTemplate, TRUE);
-    	}
+        if(!eligibleCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
+        }
+    	
 	}
     //Dhinesh - to store multi lan in a field and send payment confirmation mail
-    public static void storeMultipleLANs(Case caseRec){
-        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
-                       FROM Case WHERE Id = :caseRec.Id];
-        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
-                                                   FROM ABHFL_Asset_Detail__c
-                                                   WHERE Case__c=:caseRec.Id];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c,Payment_Status__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
-        String result = '';
-		for (Integer i = 0; i < relatedAssets.size(); i++) {
-    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
-    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
-        	if (i == relatedAssets.size() - 1) {
-        		// Last iteration, use 'and'
-        		 result += ' and ' + maskedLan;
-    		} else {
-        	// Other iterations, use comma if not the first iteration
-        		if (i > 0) {
-            		result += ', ';
-        		}
-        	result += maskedLan;
-    		}
-		}
-		caseDetail.Masked_Full_LANs__c = result;
-        update caseDetail;
-        if(caseDetail.Masked_Full_LANs__c != NULL && caseDetail.Payment_Status__c == 'Payment Received'){
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_EMAIL, 
-                                                                  ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_SMS, 
-                                                                  false);
+    public static void storeMultipleLANs(List<Case> caseRecs){
+        //Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,Short_URL__c
+        //               FROM Case WHERE Id = :caseRec.Id];
+
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseIdToRelatedAssets = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        for(ABHFL_Asset_Detail__c asset : [SELECT Id, Case__c, Asset__r.LAN__c,Revised_ROI__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseRecs]){
+            if(!caseIdToRelatedAssets.containsKey(asset.Case__c)){
+                caseIdToRelatedAssets.put(asset.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+            caseIdToRelatedAssets.get(asset.Case__c).add(asset);
+        }
+        
+        //These fields will be part of Query Field on Stage config, and will come via case record.
+        //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c,Payment_Status__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
+
+        Map<Id, ABHFL_Case_Detail__c> caseIdToCaseExtnMap = new Map<Id, ABHFL_Case_Detail__c>();
+        for(Case caseRec : caseRecs){
+            if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
+                String result = '';
+                List<ABHFL_Asset_Detail__c> relatedAssets = caseIdToRelatedAssets.get(caseRec.Id);
+                for (Integer i = 0; i < relatedAssets.size(); i++) {
+                    ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+                    String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+                    if (i == relatedAssets.size() - 1) {
+                        // Last iteration, use 'and'
+                        result += ' and ' + maskedLan;
+                    } else {
+                    // Other iterations, use comma if not the first iteration
+                        if (i > 0) {
+                            result += ', ';
+                        }
+                        result += maskedLan;
+                    }
+                }
+                ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+                caseDetail.Id = caseRec.ABHFL_Case_Detail__c;
+                caseDetail.Masked_Full_LANs__c = result;
+                caseIdToCaseExtnMap.put(caseRec.Id, caseDetail);
+            }
+        }
+        update caseIdToCaseExtnMap.values();
+
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> eligibleCases = new List<Case>();
+        for(Case caseRec : caseRecs){
+            if(caseIdToCaseExtnMap.containsKey(caseRec.Id)){
+                ABHFL_Case_Detail__c caseDetail = caseIdToCaseExtnMap.get(caseRec.Id);
+                if(caseDetail.Masked_Full_LANs__c != NULL && caseRec.ABHFL_Case_Detail__r.Payment_Status__c == 'Payment Received'){
+                    eligibleCases.add(caseRec);
+                    emailTemplateMap.put(caseRec.Id, ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_EMAIL);
+                    smsMetadataMap.put(caseRec.Id, ABHFL_Constants.MULTIPLELAN_PAYMENT_RECEIVED_SMS);
+                    isTransferredMap.put(caseRec.Id, false);
+                }
+            }
+        }
+        if(!eligibleCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
      
     }
-    public static void sendPrclsStatementclosure(Case caseRec){
-        Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,ABHFL_Case_Detail__c
-                       FROM Case WHERE Id = :caseRec.Id];
-        List<ABHFL_Asset_Detail__c> relatedAssets = [SELECT Id, Asset__r.LAN__c,Revised_ROI__c
-                                                   FROM ABHFL_Asset_Detail__c
-                                                   WHERE Case__c=:caseRec.Id];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRecord.ABHFL_Case_Detail__c LIMIT 1];
-        String result = '';
-		for (Integer i = 0; i < relatedAssets.size(); i++) {
-    		ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
-    		String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
-        	if (i == relatedAssets.size() - 1) {
-        		 result += ' and ' + maskedLan;
-    		} else {
-        		if (i > 0) {
-            		result += ', ';
-        		}
-        	result += maskedLan;
-    		}
-		}
-		caseDetail.Masked_Full_LANs__c = result;
-        update caseDetail;
-        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
-                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL, 
-                                                                  ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS, 
-                                                                  true);
+    public static void sendPrclsStatementclosure(List<Case> caseRecs){
+        //Case caseRecord = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c,ABHFL_Case_Detail__c
+        //               FROM Case WHERE Id = :caseRec.Id];
+
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseIdToRelatedAssets = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        for(ABHFL_Asset_Detail__c asset : [SELECT Id, Case__c, Asset__r.LAN__c,Revised_ROI__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseRecs]){
+            if(!caseIdToRelatedAssets.containsKey(asset.Case__c)){
+                caseIdToRelatedAssets.put(asset.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+            caseIdToRelatedAssets.get(asset.Case__c).add(asset);
+        }
+
+        Map<Id, ABHFL_Case_Detail__c> caseIdToCaseExtnMap = new Map<Id, ABHFL_Case_Detail__c>();
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        for(Case caseRec : caseRecs){
+            emailTemplateMap.put(caseRec.Id, ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSUREEMAIL);
+            smsMetadataMap.put(caseRec.Id, ABHFL_Constants.MULTIPLELAN_PRCLS_STATEMENT_CLOSURESMS);
+            isTransferredMap.put(caseRec.Id, true);
+            if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
+                String result = '';
+                List<ABHFL_Asset_Detail__c> relatedAssets = caseIdToRelatedAssets.get(caseRec.Id);
+                for (Integer i = 0; i < relatedAssets.size(); i++) {
+                    ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
+                    String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
+                    if (i == relatedAssets.size() - 1) {
+                        // Last iteration, use 'and'
+                        result += ' and ' + maskedLan;
+                    } else {
+                    // Other iterations, use comma if not the first iteration
+                        if (i > 0) {
+                            result += ', ';
+                        }
+                        result += maskedLan;
+                    }
+                }
+                ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+                caseDetail.Id = caseRec.ABHFL_Case_Detail__c;
+                caseDetail.Masked_Full_LANs__c = result;
+                caseIdToCaseExtnMap.put(caseRec.Id, caseDetail);
+            }
+        }
+        update caseIdToCaseExtnMap.values();
+        
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecs, emailTemplateMap, smsMetadataMap, isTransferredMap);
     }
     public void prePopulateFields(List<Case> newCaseList) {
 
@@ -360,7 +564,7 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, Doc_Charge__mdt> mapOf_CCCExternalId_To_DocChargeRec = new Map<String, Doc_Charge__mdt>();
 
         for(Case csRec : newCaseList) {
-
+            
             String bussUnit = csRec.Business_Unit__c;
             String cccExtId = csRec.CCC_External_Id__c;
             String abflCasDetId = csRec.ABHFL_Case_Detail__c;
@@ -454,7 +658,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
 
-    public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId) {
+    public static Case createCases(String clientCode, String lan, String ccc, String source, String techSource, Id parentCaseId, id recordTypeId ) {
         Case caseRecord = new Case();
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
@@ -462,29 +666,47 @@ public without sharing class ABHFL_CTSTHelper {
         caseRecord.Technical_Source__c = techSource;
         caseRecord.CCC_External_Id__c = ccc;
         caseRecord.LAN__C = lan;
+        caseRecord.RecordTypeId = recordTypeId;
         caseRecord.parentId = parentCaseId;
         return caseRecord;
     }
     
     public static void insertCases(List<Case> caseList) {
-ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(caseList,null);
         if(!caseList.isempty()){
              insert caseList;
         }
     }
 
-    public static void sendCommunicationPayableCharges(Case caseRecord){
-        Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, ABHFL_Case_Detail__c
-                       FROM Case WHERE Id = :caseRecord.Id];
-        ABHFL_Case_Detail__c caseDetail = [SELECT Id,Payable_Charges__c FROM ABHFL_Case_Detail__c WHERE Id =:queriedCase.ABHFL_Case_Detail__c LIMIT 1];
-        if(Integer.valueOf(caseDetail.Payable_Charges__c) > 0){
-            System.debug('greater then 0');
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS, false);
-        }else{
-            System.debug(' equals zero');
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_EMAIL, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS, false);
+    public static void sendCommunicationPayableCharges(List<Case> caseRecords){
+        //Case queriedCase = [SELECT Id, Source__c, AccountId, CCC_External_Id__c, ContactId, OwnerId, CreatedById, Asset.LAN__c, Asset.Account_Status__c, No_Auto_Communication__c, ABHFL_Case_Detail__c
+        //               FROM Case WHERE Id = :caseRecord.Id];
+        //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Payable_Charges__c FROM ABHFL_Case_Detail__c WHERE Id =:queriedCase.ABHFL_Case_Detail__c LIMIT 1];
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> typeOneCases = new List<Case>();
+        List<Case> typeTwoCases = new List<Case>();
+        for(Case caseRec : caseRecords){
+            if(Integer.valueOf(caseRec.ABHFL_Case_Detail__r.Payable_Charges__c) > 0){
+                System.debug('greater then 0');
+                typeOneCases.add(caseRec);
+                emailTemplateMap.put(caseRec.Id, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL);
+                smsMetadataMap.put(caseRec.Id, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS);
+                isTransferredMap.put(caseRec.Id, false);
+            }else{
+                System.debug(' equals zero');
+                typeTwoCases.add(caseRec);
+                emailTemplateMap.put(caseRec.Id, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_EMAIL);
+                smsMetadataMap.put(caseRec.Id, ABHFL_Constants.ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS);
+                isTransferredMap.put(caseRec.Id, false);
+            }
         }
-
+        if(!typeOneCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeOneCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
+        }
+        if(!typeTwoCases.isEmpty()){
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeTwoCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
+        }
     }
     
 }

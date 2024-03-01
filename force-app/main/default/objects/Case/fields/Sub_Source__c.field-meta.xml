@@ -60,10 +60,21 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Call Center</controllingFieldValue>
             <controllingFieldValue>Email</controllingFieldValue>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Outbound</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Email</controllingFieldValue>
+            <valueName>Incoming</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch</controllingFieldValue>
+            <valueName>Walkin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch</controllingFieldValue>
+            <valueName>Letter</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Call Center</controllingFieldValue>
@@ -84,18 +95,6 @@
         <valueSettings>
             <controllingFieldValue>Call Center</controllingFieldValue>
             <valueName>One ABC</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Email</controllingFieldValue>
-            <valueName>Incoming</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Branch</controllingFieldValue>
-            <valueName>Walkin</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Branch</controllingFieldValue>
-            <valueName>Letter</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

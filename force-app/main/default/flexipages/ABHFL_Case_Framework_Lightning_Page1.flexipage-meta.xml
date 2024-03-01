@@ -7,6 +7,22 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Case.Customer_Tagging</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Open</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABHFL</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>

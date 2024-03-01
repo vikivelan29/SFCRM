@@ -15,12 +15,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c 
+        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
+                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
                            FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
-        
+
+        List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
+
         //Check for mandatory API conditions
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('PaymentLink_EvaluationSuccessful').Message__c; 
+
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
@@ -49,6 +53,17 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonMobilePhone)) {
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('Mobile_cannot_be_blank').Message__c;
+        }
+
+        for(Doc_Charge__mdt dcChrgeRec : docChargMdtLst) {
+            String docCCCExternalId = dcChrgeRec.CCC_External_Id__c;
+            String caseRecCCCExtId = caseRecord.CCC_External_Id__c;
+            String paymentRequired = caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c;
+            if(docCCCExternalId == caseRecCCCExtId && paymentRequired == 'No') {
+                result.status = ABHFL_Constants.ERROR;
+                result.response = Custom_Messages__mdt.getInstance('Payment_Required_Message').Message__c;
+                break;
+            }
         }
         
         return result;
@@ -79,15 +94,19 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                                                 FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
-        String emailTemplate = '';                
+        String emailTemplate = '';   
+        String paymentCode = '';           
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
+            paymentCode = docChargeMdtLst[0].Payment_Code__c;
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
         PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
+        paytmRequestWrapper.paymentCode = paymentCode;
+        paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
         system.debug('paytmRequestBody'+paytmRequestBody);
         PaytmResponseWrapper paytmResponseWrapper = new PaytmResponseWrapper() ;
@@ -98,7 +117,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             paytmResponseWrapper = (PaytmResponseWrapper)JSON.deserialize(paytmResponse.responseBody,PaytmResponseWrapper.class);
             system.debug('paytmResponse Parsed'+paytmResponseWrapper);
             if(paytmResponseWrapper.operationStatus == '1' && callPaymentLink){
-                result = paymentLinkGeneration(caseRecord,paytmResponseWrapper,docChargeMdtLst);
+                result = paymentLinkGeneration(caseRecord,paytmResponseWrapper,docChargeMdtLst,intSpec);
             } else if(paytmResponseWrapper.operationStatus == '1' && !callPaymentLink){
                 result.Status = ABHFL_Constants.SUCCESS;
                 result.Response = paytmResponseWrapper.shortUrl;
@@ -113,7 +132,8 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         }else{
             caseInteg.Status__c = ABHFL_Constants.FAILURE;
         }
-
+        caseInteg.Request__c = paytmRequestBody;
+        caseInteg.Response__c = JSON.serialize(paytmResponseWrapper);
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
@@ -145,21 +165,18 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @Description - Invoked from the ASF_IntegrationsController class, this method runs the PaymentLink integration.
     *****************************************************************************************************************/
-    public static ASF_IntegrationsController.IntegrationWrapper paymentLinkGeneration(Case caseRecord,PaytmResponseWrapper paytmResponseWrapper,List<Doc_Charge__mdt> docChargeMdtLst){
+    public static ASF_IntegrationsController.IntegrationWrapper paymentLinkGeneration(Case caseRecord,PaytmResponseWrapper paytmResponseWrapper,List<Doc_Charge__mdt> docChargeMdtLst,ASF_Integration__c intSpec){
+        String responseStr = '';  
         String chargeReason = '';
         String chargeCode = '';
-        String paymentCode = '';
         if(docChargeMdtLst.size() > 0){
             chargeReason = docChargeMdtLst[0].Charges__c;
             chargeCode = docChargeMdtLst[0].Charge_Code__c;
-            paymentCode = docChargeMdtLst[0].Payment_Code__c;
         }
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         PaymentRequestWrapper paymentRequestWrapper = new PaymentRequestWrapper(caseRecord,paytmResponseWrapper);
         paymentRequestWrapper.reasonOfPayment = chargeReason;
         paymentRequestWrapper.chargeCode = chargeCode;
-        paymentRequestWrapper.paymentCode = paymentCode;
-        paymentRequestWrapper.ParentcaseID = caseRecord.Id;
         string paymentRequestBody = JSON.serialize(paymentRequestWrapper);
         system.debug('paymentRequestBody'+paymentRequestBody);
         ABCL_IntegrationCallout.IntegrationResponseWrapper paymentResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.PAYMENTLINK_INTEGRATION_METADATA,paymentRequestBody,null);
@@ -167,11 +184,25 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         if(paymentResponse.statusCode == 200 && String.isNotBlank(paymentResponse.responseBody)){
                 system.debug('paymentResponse.responseBody'+paymentResponse.responseBody);
                 PaymentResponseWrapper paymentResponseWrapper = (PaymentResponseWrapper)JSON.deserialize(paymentResponse.responseBody,PaymentResponseWrapper.class);
+                responseStr = JSON.serialize(paymentResponseWrapper);
                 system.debug('paymentResponseWrapper Parsed'+paymentResponseWrapper);
                 if(paymentResponseWrapper.returnCode == '1'){
                     result.Status = ABHFL_Constants.SUCCESS;
                     result.Response = paymentResponseWrapper.shortUrl;
                 }
+        }
+        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+        caseInteg.Case__c = caseRecord.Id;
+        if(result.Status == ABHFL_Constants.SUCCESS){
+            caseInteg.Status__c = ABHFL_Constants.SUCCESS;
+        }else{
+            caseInteg.Status__c = ABHFL_Constants.FAILURE;
+        }
+        caseInteg.Request__c = paymentRequestBody;
+        caseInteg.Response__c = responseStr;
+        caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInteg;
         }
         return result;
     }
@@ -191,6 +222,8 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string mobileNumber;
         public string type;
         public string Amount;
+        public string Paymentcode;
+        public string ParentcaseID;
 
         public PaytmRequestWrapper(Case caseRecord){
             this.custname = caseRecord.Customer_name_formula__c;
@@ -214,15 +247,14 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     }
     
     public class PaymentRequestWrapper{
-        public string customerName;
+        public string CustomerName;
         public string LAN;
         public string CRMCaseId;
-        public string chargeCode;
-        public string reasonOfPayment;
-        public string paymentLink;
-        public string paymentExpiryDate;
-        public string Paymentcode;
-        public string ParentcaseID;
+        public string ChargeCode;
+        public string ReasonOfPayment;
+        public string PaymentLink;
+        public string PaymentExpiryDate;
+
 
         public PaymentRequestWrapper(Case caseRecord, PaytmResponseWrapper paytmResponseWrapper ){
             this.CustomerName = caseRecord.Customer_name_formula__c;
@@ -231,7 +263,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.ChargeCode = '';
             this.ReasonOfPayment = ABHFL_Constants.REASON_FOR_PAYMENT;
             this.PaymentLink = paytmResponseWrapper.shortUrl;
-            this.PaymentExpiryDate = '';
+            this.PaymentExpiryDate = String.valueOf(system.now());
         }
 
         public PaymentRequestWrapper(){}

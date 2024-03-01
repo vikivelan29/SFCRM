@@ -551,6 +551,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Rejection_Reason__c</fieldItem>
+                <identifier>RecordRejection_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Rejected_Reason__c</fieldItem>
                 <identifier>RecordRejected_Reason_cField</identifier>
             </fieldInstance>
@@ -573,28 +583,13 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-             <itemInstances>
-             <fieldInstance>
--                <fieldInstanceProperties>
--                    <name>uiBehavior</name>
--                    <value>none</value>
--                </fieldInstanceProperties>
--                <fieldItem>Record.Rejection_Reason__c</fieldItem>
--                <identifier>RecordRejection_Reason_cField</identifier>
-             </fieldInstance>
-         </itemInstances>
-         <name>Facet-d9ed0c5b-85f8-473f-9225-a0b65d5323ea</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
                 <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
-                
             </fieldInstance>
         </itemInstances>
-        <name>Facet-d426820a-9352-46bc-acda-4f315055ea73</name>
+        <name>Facet-c5dc6aee-858a-47c6-bff2-6818951a099a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -602,13 +597,13 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-d426820a-9352-46bc-acda-4f315055ea73</value>
+                    <value>Facet-c5dc6aee-858a-47c6-bff2-6818951a099a</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
                 <identifier>flexipage_column9</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-f1dd5a5e-8875-4453-a80f-017000c7e77a</name>
+        <name>Facet-5081f259-7e19-48b8-82e5-ea943bbc1d8f</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -653,7 +648,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
-                    <value>Case.ABFL_SR_Snapshot</value>
+                    <value>Case.ABFL_Case_Snapshot</value>
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>
@@ -661,15 +656,9 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
-                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-f1dd5a5e-8875-4453-a80f-017000c7e77a</value>
+                    <value>Facet-5081f259-7e19-48b8-82e5-ea943bbc1d8f</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -693,6 +682,12 @@
             <componentInstance>
                 <componentName>force:recordDetailPanelMobile</componentName>
                 <identifier>force_recordDetailPanelMobile</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

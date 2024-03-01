@@ -5,6 +5,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, Boolean> triggerEncounteredError = new Map<Id, Boolean>();
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
+    public static Boolean isRecursiveUpdate = false;
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
@@ -33,8 +34,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
 
-        // updFrameworkCases - To store the Cases those are not Converted from Preframework to Framework Only.
-        List<Case> updFrameworkCases = new List<Case>();
 
         if(isUpdate){
             statusMap = ASF_CaseQueryHandler.getCaseStatusMap();
@@ -50,18 +49,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
-
-                        // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
-                       if(!(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && 
-                       oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeId &&
-                       caseRec.Technical_Source__c != oldMap.get(caseRec.Id).Technical_Source__c &&
-                       oldMap.get(caseRec.Id).Technical_Source__c =='Email' && 
-                       caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
-                        {
-                            updFrameworkCases.add(caseRec);
-                        }
                 }
-                
+                 
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
                 }
@@ -103,10 +92,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //SP if(blankSourcePresent){
             objCaseDetailsWrapper = ASF_CreateCaseWithTypeController.getUserDetails();
         //}
-        if(isUpdate && updFrameworkCases.size()>0){
-            // CHECK IF THE CASE IF UPDATED FROM PREFRAMEWORK TO FRAMEWORK.
-            ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(updFrameworkCases, nextStageMap);
-        }
         
         //index = 0;
         for(Case caseRec : newList){
@@ -123,12 +108,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
-            if(appliedCCC != null){
+            if(appliedCCC != null){ 
                 //Fill all common fields irrespective of source
-                //if(!isUpdate){
-                    // beforeinsert only
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                //}
                 
                 // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
                 if(frameworkRecordTypeId == caseRec.RecordTypeId){
@@ -136,7 +118,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                if(caseRec.Source__c != 'Email'){
+                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
@@ -145,12 +129,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
-                //from interaction to framework RT. So run assignment rule for first stage of framework
-                //Update 1: This assignment rules should run for recategoriasation too.
-                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
-                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
-                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
+                
+                //VIRENDRA - Added check to update the stage Map. 
+                if(nextStageMap.containsKey(caseRec.Id)){
+                    nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
             }
 
@@ -183,6 +165,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
+        
+        //VIRENDRA - MOVED QUEUE Assignment Logic below.
+        if(isUpdate){
+            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+        }
+        
+        
         
     }
 
@@ -260,7 +249,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //Applicable only for UI cases, 
     //validates the before rules of entering first stage during case creation and recategorisation
     public static void checkAndValidateFirstStageEntry(List<Case> newList, Map<Id, Case> oldMap) {
-        List<Case> eligibleRecords = new List<Case>();
+        Map<Id, Case> eligibleRecords = new Map<Id, Case>();
         Set<String> cccExternalIds = new Set<String>();
         Boolean isUpdate = oldMap!=null?true:false;
 
@@ -270,7 +259,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                 && oldMap.get(caseRec.Id).CCC_External_Id__c != null    
                 && caseRec.CCC_External_Id__c != null))){
-                eligibleRecords.add(caseRec);
+                eligibleRecords.put(caseRec.Id, caseRec);
                 cccExternalIds.add(caseRec.CCC_External_Id__c);
             }
         }
@@ -278,24 +267,48 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(!cccExternalIds.isEmpty()){
             allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(cccExternalIds);
         }
-        if(!eligibleRecords.isEmpty() && allStageConfigs != null){
-            for(Case caseRec : eligibleRecords){
-                ASF_Case_Stage_Config__c currentStageConfig;
+        if(allStageConfigs != null && !eligibleRecords.isEmpty()){
+
+            // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
+                if(config.Query_Fields__c != null){
+                    allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+                }
+            }
+            List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, eligibleRecords.keySet());
+
+            Map<Id,ASF_Case_Stage_Config__c> currentStageConfigMap = new Map<Id,ASF_Case_Stage_Config__c>();
+            for(Case caseRec : eligibleRecords.values()){
                 for(ASF_Case_Stage_Config__c stageConfig : allStageConfigs){
                     if(stageConfig.StageName__c == caseRec.Stage__c 
                     && stageConfig.Case_Category_Config__r.CCC_External_Id__c == caseRec.CCC_External_Id__c){
-                        currentStageConfig = stageConfig;
+                        currentStageConfigMap.put(caseRec.Id, stageConfig);
                     }
                 }
-                if(currentStageConfig != null){
-                    ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = ASF_CaseMovementHelper.validateNextStageEntry(caseRec, currentStageConfig);
-                    if(wrap.status == 'Error'){
-                        caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
-                    }else{
-                        if(wrap.isCaseUpdated == true){
-                            Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
-                            for(String fieldName : populatedFieldMap.keySet()){
-                                caseRec.put(fieldName, wrap.updatedCase.get(fieldName));
+            }
+            if(!currentStageConfigMap.isEmpty()){
+                Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> validateResultMap = ASF_CaseMovementHelper.validateNextStageEntry(queriedCaseRecords, currentStageConfigMap);
+                
+                for(Case caseRec : eligibleRecords.values()){
+                    ASF_Case_Stage_Config__c currentStageConfig = currentStageConfigMap.get(caseRec.Id);
+                    if(currentStageConfig != null){
+                        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = validateResultMap.get(caseRec.Id);
+                        if(wrap != null && wrap.status == 'Error'){
+                            caseRec.addError(wrap.errorMessage!=null?wrap.errorMessage:'Error during stage entry validation');
+                        }else{
+                            if(wrap != null && wrap.isCaseUpdated == true){
+                                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                                    Case caseObj = new Case(Id = caseRec.Id);
+                                    caseFinalDMLMap.put(caseObj.Id, caseObj);
+                                }
+                                Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                                Map<String, Object> populatedFieldMap = wrap.updatedCase.getPopulatedFieldsAsMap();
+                                for(String fieldName : populatedFieldMap.keySet()){
+                                    caseRecFromMap.put(fieldName, wrap.updatedCase.get(fieldName));
+                                }
+                                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                             }
                         }
                     }
@@ -873,9 +886,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
         if(caseFinalDMLMap != null){
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
-                
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;    
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase = caseFinalDMLMap.values()[i];
@@ -1081,11 +1095,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //Validation Method added for restricting non queue member to change owner from list view
     public static void caseOwnerChangeValidation(list<Case> newList,Map<Id, Case> oldMap){
                 List<Id> bypassProfileId = new List<Id>();
-        for(Profile profRec : [select Id, Name from profile where Name IN ('System Administrator','Salesforce API Only System Integrations')]){
+        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
             bypassProfileId.add(profRec.Id);
         }
         //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing){
+        if((bypassProfileId.contains(UserInfo.getProfileId()) || ASF_BulkCaseProcessorUtility.isBulkProcessing) && !Test.isRunningTest()){
             return;
         }
             

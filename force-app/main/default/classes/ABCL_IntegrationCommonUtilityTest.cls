@@ -38,6 +38,17 @@ public class ABCL_IntegrationCommonUtilityTest {
         docLink.ContentDocumentId = conVersion.ContentDocumentId;
         docLink.ShareType = 'V';
         insert docLink;
+        
+        Account accountInserted = ASF_TestDataFactory.insertBusinessAccount('test','test');
+        Asset assetInserted = ASF_TestDataFactory.createAsset(accountInserted.Id,'SavingsAccount');
+        Lead leadInserted = ASF_TestDataFactory.createSalesProspectRecord();
+        assetInserted.Lead_Id__c =leadInserted.Id;
+        update assetInserted;
+        caseRecList[0].AssetId = assetInserted.Id;
+        caseRecList[0].Lead__c = leadInserted.Id;
+        caseRecList[0].Nature__c = 'Query';
+        caseRecList[0].Business_Unit__c = 'ABHFL';
+        update caseRecList;
     }
     
     @IsTest
