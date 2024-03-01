@@ -6,6 +6,10 @@
     <columns>Business_Unit__c</columns>
     <columns>File_Name__c</columns>
     <columns>Status__c</columns>
+    <columns>ContentVersionId__c</columns>
+    <columns>DMS_External_ID__c</columns>
+    <columns>Retry_Attempt__c</columns>
+    <columns>Next_Retry__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
