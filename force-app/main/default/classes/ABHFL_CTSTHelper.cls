@@ -116,7 +116,7 @@ public without sharing class ABHFL_CTSTHelper {
                     updatedCasesMap.put(blankCase.Id, blankCase);
                 }
                 ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
-                caseDetail.Address__c = prefBranch.Address__c;
+                caseDetail.Address__c = caseIdToBranchMap.get(caseRec.Id).Address__c;
                 caseDetailsToUpdate.add(caseDetail);
             }
         }
@@ -194,7 +194,7 @@ public without sharing class ABHFL_CTSTHelper {
     }
     
     //Dhinesh - Used for assigning case to AOM/ROM
-    public static Case assignCaseToAOMROM(Case caseRecord){
+    public static Map<Id, Case> assignCaseToAOMROM(List<Case> caseRecords){
         //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
         List<Case> eligibleCases = new List<Case>();
@@ -263,7 +263,7 @@ public without sharing class ABHFL_CTSTHelper {
             isTransferredMap.put(caseRec.Id, false);
         }
 
-        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,emailTemplateMap, 
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords,emailTemplateMap, 
         smsMetadataMap, isTransferredMap);
     }
     //Dhinesh - 1/29 Backward Movement Email Communication
@@ -348,7 +348,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
 
         if(!eligibleCases.isEmpty()){
-            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(queriedCase,emailTemplateMap, 
+            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCases,emailTemplateMap, 
             smsMetadataMap, isTransferredMap);
         }
     }
@@ -517,32 +517,6 @@ public without sharing class ABHFL_CTSTHelper {
             caseIdToRelatedAssets.get(asset.Case__c).add(asset);
         }
 
-        Map<Id, ABHFL_Case_Detail__c> caseIdToCaseExtnMap = new Map<Id, ABHFL_Case_Detail__c>();
-        for(Case caseRec : caseRecs){
-            if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
-                String result = '';
-                List<ABHFL_Asset_Detail__c> relatedAssets = caseIdToRelatedAssets.get(caseRec.Id);
-                for (Integer i = 0; i < relatedAssets.size(); i++) {
-                    ABHFL_Asset_Detail__c assetDetail = relatedAssets[i];
-                    String maskedLan = 'xxxxxx' + assetDetail.Asset__r.LAN__c.substring(Math.max(0, assetDetail.Asset__r.LAN__c.length() - 4));
-                    if (i == relatedAssets.size() - 1) {
-                        // Last iteration, use 'and'
-                        result += ' and ' + maskedLan;
-                    } else {
-                    // Other iterations, use comma if not the first iteration
-                        if (i > 0) {
-                            result += ', ';
-                        }
-                        result += maskedLan;
-                    }
-                }
-                ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
-                caseDetail.Id = caseRec.ABHFL_Case_Detail__c;
-                caseDetail.Masked_Full_LANs__c = result;
-                caseIdToCaseExtnMap.put(caseRec.Id, caseDetail);
-            }
-        }
-        update caseIdToCaseExtnMap.values();
         Map<Id, ABHFL_Case_Detail__c> caseIdToCaseExtnMap = new Map<Id, ABHFL_Case_Detail__c>();
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
@@ -713,7 +687,7 @@ public without sharing class ABHFL_CTSTHelper {
         List<Case> typeOneCases = new List<Case>();
         List<Case> typeTwoCases = new List<Case>();
         for(Case caseRec : caseRecords){
-            if(Integer.valueOf(caseDetail.Payable_Charges__c) > 0){
+            if(Integer.valueOf(caseRec.ABHFL_Case_Detail__r.Payable_Charges__c) > 0){
                 System.debug('greater then 0');
                 typeOneCases.add(caseRec);
                 emailTemplateMap.put(caseRec.Id, ABHFL_Constants.ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_EMAIL);

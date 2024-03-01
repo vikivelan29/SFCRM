@@ -90,7 +90,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     * @return - Database.SaveResult.
     * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email and SMS communication.
     *****************************************************************************************************************/
-    public static Database.SaveResult createPELogAndinvokeCommPEevent(List<Case> caseRecs, Map<Id, String> emailTemplateMap, Map<Id, String> smsMetadataMap, Map<Id, Boolean> isTransferredMap){
+    public static List<Database.SaveResult> createPELogAndinvokeCommPEevent(List<Case> caseRecs, Map<Id, String> emailTemplateMap, Map<Id, String> smsMetadataMap, Map<Id, Boolean> isTransferredMap){
         Map<Id, PE_Logger__c> loggerMap = new Map<Id, PE_Logger__c>();
         for(Case caseRec : caseRecs){
             PE_Logger__c peLogger = new PE_Logger__c();
@@ -127,7 +127,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
 
         insert loggerMap.values();
 
-        invokeCommunicationLogPlatformEvent(caseRecs, loggerMap);
+        return invokeCommunicationLogPlatformEvent(caseRecs, loggerMap);
     }
 
     /****************************************************************************************************************

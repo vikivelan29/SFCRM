@@ -18,14 +18,14 @@ public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvoc
         }
 
         if(!otherCases.isEmpty()){
-            returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseToBranch(caseRec));
+            returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseToBranch(otherCases));
         }
 
         for(Case caseRec : caseRecords){
             ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
             retCls.isCaseUpdated = false;
             if(returnedUpdatedCaseMap.containsKey(caseRec.Id)){
-                retCls.updatedCase = caseRecord;
+                retCls.updatedCase = returnedUpdatedCaseMap.get(caseRec.Id);
         	    retCls.isCaseUpdated = true;
             }
             retCls.status = ABHFL_Constants.SUCCESS;
@@ -35,7 +35,7 @@ public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvoc
             
     }
      public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
 
         Map<Id, Case> returnedUpdatedCaseMap = new Map<Id, Case>();
         returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseCollateralDocs(caseRecords));
@@ -43,7 +43,7 @@ public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvoc
             ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
             retCls.isCaseUpdated = false;
             if(returnedUpdatedCaseMap.containsKey(caseRec.Id)){
-                retCls.updatedCase = caseRecord;
+                retCls.updatedCase = returnedUpdatedCaseMap.get(caseRec.Id);
         	    retCls.isCaseUpdated = true;
             }
             retCls.status = ABHFL_Constants.SUCCESS;
