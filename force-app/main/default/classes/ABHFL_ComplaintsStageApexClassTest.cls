@@ -67,9 +67,9 @@ public class ABHFL_ComplaintsStageApexClassTest {
     @IsTest
     static void testValidateOnResolvedStage(){
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c from Case limit 1];
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_ComplaintsValidateOnResolvedStage.beforeStageMovement(caseRecord);
-        ABHFL_ComplaintsValidateOnResolvedStage.afterStageMovement(caseRecord);
-        System.assertEquals('Error',retCls.Status);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_ComplaintsValidateOnResolvedStage.beforeStageMovement(new List<Case>{caseRecord});
+        ABHFL_ComplaintsValidateOnResolvedStage.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Error',retCls.get(caseRecord.Id).Status);
         
     }
     @IsTest
@@ -80,9 +80,9 @@ public class ABHFL_ComplaintsStageApexClassTest {
         ccc.New_Case_Email_Template__c='email_Template1,email_Template2';
         ccc.New_Case_SMS_Metadata__c='sms_Template1,sms_Template2';
         update ccc;
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_ComplaintInProgressCaseMovement.beforeStageMovement(caseRecord);
-        ABHFL_ComplaintInProgressCaseMovement.afterStageMovement(caseRecord);
-        System.assertEquals('Success',retCls.Status);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_ComplaintInProgressCaseMovement.beforeStageMovement(new List<Case>{caseRecord});
+        ABHFL_ComplaintInProgressCaseMovement.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls.get(caseRecord.Id).Status);
         
     }
     

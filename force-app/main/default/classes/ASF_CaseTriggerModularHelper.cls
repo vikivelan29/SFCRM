@@ -5,6 +5,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, Boolean> triggerEncounteredError = new Map<Id, Boolean>();
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
+    public static Boolean isRecursiveUpdate = false;
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
@@ -883,9 +884,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
         if(caseFinalDMLMap != null){
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
-                
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;    
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
                     Case failedCase = caseFinalDMLMap.values()[i];
