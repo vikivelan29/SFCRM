@@ -8,6 +8,13 @@
         <value>ABHFL,ABFL,Payments</value>
     </labels>
     <labels>
+        <fullName>ABFL_Reassign_Case_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>describe the time frame for orphan case reparenting tasks</shortDescription>
+        <value>360</value>
+    </labels>
+    <labels>
         <fullName>ABCL_Integration_UserName</fullName>
         <language>en_US</language>
         <protected>false</protected>
