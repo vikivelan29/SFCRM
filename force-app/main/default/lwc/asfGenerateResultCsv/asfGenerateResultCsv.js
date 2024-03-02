@@ -7,7 +7,7 @@ import { CloseActionScreenEvent } from "lightning/actions";
 export default class AsfGenerateResultCsv extends LightningElement {
     @api recordId;
     @api reqfromLwc = false;
-    downloadSuccess = false;
+    downloadFailed = false;
     parserInitialized;
     csvString;
 
@@ -15,8 +15,11 @@ export default class AsfGenerateResultCsv extends LightningElement {
     @wire(downloadUploadResults, { bulkHeaderId: '$recordId'})
     wiredRecord({ error, data }) {
         if (data) {
-            if(Array.isArray(data)){
+            if(Array.isArray(data) && data != undefined && data != ''){
                 this.processData(data);
+            }
+            else{
+                this.downloadFailed = true;
             }
         } else if (error) {
             console.error('Error loading record', error);
@@ -58,7 +61,6 @@ export default class AsfGenerateResultCsv extends LightningElement {
 
     //Auto downloads the csv when the request is from quick action on header object
     downloadCsv(){
-        this.downloadSuccess = true;
             let downloadElement = document.createElement('a');
             downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(this.csvString);
             downloadElement.target = '_blank';//'_self';
