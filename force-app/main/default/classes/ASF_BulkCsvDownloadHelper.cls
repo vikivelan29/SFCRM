@@ -79,7 +79,7 @@ public class ASF_BulkCsvDownloadHelper {
         List<Sobject> resultSobjectList = new List<Sobject>();
         if(bulkHeaderId != null){
             resultSobjectList = [select Result_JSON_Data__c, JSON_Data__c from ASF_Bulk_Upload_Line_Item__c where 
-                                Bulk_Upload_Header__c =: bulkHeaderId order by name asc];
+                                Bulk_Upload_Header__c =: bulkHeaderId and Status__c = 'Processed' order by name asc];
         }
         return resultSobjectList;
     }
