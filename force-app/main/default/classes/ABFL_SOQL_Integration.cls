@@ -32,7 +32,7 @@ public with sharing class ABFL_SOQL_Integration {
     *********************************************************************************************************/
     public static List<ASF_Case_Integration__c> getCaseIntegrationInfos(List<Id> ciIds, String status){
         return [SELECT Name,Case__c FROM ASF_Case_Integration__c 
-                WHERE Id IN :caseids 
+                WHERE Id IN :ciIds 
                 AND Status__c = :status
                 WITH SECURITY_ENFORCED];
     } 
