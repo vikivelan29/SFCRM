@@ -75,7 +75,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         }
        //End
        if(ebotResponse.ISREGISTRED == 'No'){
-            caseRecord.Attachment_Status__c ='Completed';
+            caseRecord.Attachment_Status__c ='NA';
             caseRecord.Technical_Source__c = 'API';
         }
         if(Schema.sObjectType.Case.isUpdateable()){
@@ -87,6 +87,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             caseRecord.MoveToNext__c = true;
             update caseRecord;
         }*/
+        if(ebotResponse.ISREGISTRED == 'No'){
+            caseRecord.MoveToNext__c =true;
+            update caseRecord;
+        }
 
         if(ebotResponse.EBOTLAN != null && ebotResponse.EBOTLAN.size() > 0){
             createMultipleCaseWithLAN(caseRecord.Id,caseDetails.Id,lanWithAssetIdMap,ebotResponse);
