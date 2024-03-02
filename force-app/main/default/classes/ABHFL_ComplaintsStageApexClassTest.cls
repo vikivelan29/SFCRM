@@ -1,7 +1,17 @@
+/**
+ * @description       : 
+ * @author            : ABHFL Team
+ * @group             : 
+ * @last modified on  : 03-03-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   03-03-2024   ABHFL Team   Initial Version
+**/
 @isTest
 public class ABHFL_ComplaintsStageApexClassTest {
     @TestSetup
-	static void testData(){
+    static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
@@ -66,7 +76,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
     }
     @IsTest
     static void testValidateOnResolvedStage(){
-        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c from Case limit 1];
+        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c,OwnerId from Case limit 1];
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_ComplaintsValidateOnResolvedStage.beforeStageMovement(new List<Case>{caseRecord});
         ABHFL_ComplaintsValidateOnResolvedStage.afterStageMovement(new List<Case>{caseRecord});
         System.assertEquals('Error',retCls.get(caseRecord.Id).Status);
@@ -74,7 +84,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
     }
     @IsTest
     static void testInProgressStageClass(){
-        Case caseRecord = [Select id,CCC_External_Id__c from Case limit 1];
+        Case caseRecord = [Select id,CCC_External_Id__c,Short_URL__c,AccountId,ContactId,No_Auto_Communication__c from Case limit 1];
         ASF_Case_Category_Config__c ccc = [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c 
                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c LIMIT 1];
         ccc.New_Case_Email_Template__c='email_Template1,email_Template2';

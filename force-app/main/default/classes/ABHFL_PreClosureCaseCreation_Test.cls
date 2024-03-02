@@ -64,7 +64,7 @@ public class ABHFL_PreClosureCaseCreation_Test {
 
     @IsTest
     static void testEvaluate() {        
-        Case caseRec = [SELECT id FROM case LIMIT 1];
+        Case caseRec = [SELECT id,Account.Client_Code__c,Source__c,Technical_Source__c,Nature__c FROM case LIMIT 1];
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls = ABHFL_PreClosureCaseCreation.afterStageMovement(new List<Case>{caseRec});
 
         System.assertEquals('Success', retCls.get(caseRec.Id).Status);
