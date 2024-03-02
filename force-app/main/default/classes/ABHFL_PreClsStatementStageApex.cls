@@ -1,34 +1,53 @@
 public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocable {
-	public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        retCls.status = ABHFL_Constants.SUCCESS;
-        retCls.updatedCase = caseRec;
-        retCls.isCaseUpdated = false;
-        if(caseRec.Stage__c == 'Open' || 
-   		   caseRec.Stage__c == 'CPU Banking' || 
-   		   (caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c != 'RRSDPRSHFC01') ||
-           caseRec.Stage__c == 'CPU PP' ||	
-           caseRec.Stage__c == 'Pending Ammortization') {
-               ABHFL_CTSTHelper.sendTrackingLink(caseRec);
-         }
-	 	//send FCL issuance closure email for PreCls Statement/Precls Statement ret/rej. /Reissuance of FCL 
-        if((caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
-           (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
-           (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'REFCL001') ){
-            ABHFL_CTSTHelper.sendPrclsStatementclosure(caseRec);
+	public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        List<Case> sendTrackingLinkEligibleCases = new List<Case>();
+        List<Case> sendPrclsStatementclosureEligibleCases = new List<Case>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = ABHFL_Constants.SUCCESS;
+            retCls.isCaseUpdated = false;
+            returnWrapper.put(caseRec.Id, retCls);
+            if(caseRec.Stage__c == 'Open' || 
+            caseRec.Stage__c == 'CPU Banking' || 
+            (caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c != 'RRSDPRSHFC01') ||
+            caseRec.Stage__c == 'CPU PP' ||	
+            caseRec.Stage__c == 'Pending Ammortization') {
+                sendTrackingLinkEligibleCases.add(caseRec);
+            }
+            //send FCL issuance closure email for PreCls Statement/Precls Statement ret/rej. /Reissuance of FCL 
+            if((caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
+            (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
+            (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'REFCL001') ){
+                sendPrclsStatementclosureEligibleCases.add(caseRec);
+                
+            }
         }
-        
-        return retCls;
+        if(!sendPrclsStatementclosureEligibleCases.isEmpty()){
+            ABHFL_CTSTHelper.sendPrclsStatementclosure(sendPrclsStatementclosureEligibleCases);
+        }
+        if(!sendTrackingLinkEligibleCases.isEmpty()){
+            ABHFL_CTSTHelper.sendTrackingLink(sendTrackingLinkEligibleCases);
+        }
+        return returnWrapper;
     }
-     public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        retCls.status = ABHFL_Constants.SUCCESS;
-        retCls.updatedCase = caseRec;
-        retCls.isCaseUpdated = false;
-         //Send VAN email for ROI Revision
-         if(caseRec.CCC_External_Id__c == 'hfl069'){
-             ABHFL_CTSTHelper.sendCommunicationPayableCharges(caseRec);
-         }
-        return retCls;
+     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        List<Case> eligibleCases = new List<Case>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = ABHFL_Constants.SUCCESS;
+            retCls.isCaseUpdated = false;
+            returnWrapper.put(caseRec.Id, retCls);
+            //Send VAN email for ROI Revision
+            if(caseRec.CCC_External_Id__c == 'hfl069'){
+                eligibleCases.add(caseRec);
+                
+            }
+        }
+        if(!eligibleCases.isEmpty()){
+            ABHFL_CTSTHelper.sendCommunicationPayableCharges(eligibleCases);
+        }
+        return returnWrapper;
     }
 }

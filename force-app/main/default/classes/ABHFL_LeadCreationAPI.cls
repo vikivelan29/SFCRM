@@ -16,55 +16,48 @@ public with sharing class ABHFL_LeadCreationAPI {
     * @description - Invoked from the abhfl_SendLeadToCRM Lwc components to send lead to External Lead management system
     *****************************************************************************************************************/
     @auraEnabled
-    public static string sendLead(list<Id> leadIdList, boolean executingFromTrigger){
+    public static string sendLead(Id leadId, boolean executingFromTrigger){
         String message; 
-        system.debug('leadIdList=='+leadIdList);
         
-        List<Lead> leadList = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
+        Lead leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
                                    MobilePhone, PANNO__c, Preferred_Communication__c, Product__c, Prospect_Type__c,API_Response_Message__c,
                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
-                            FROM Lead WHERE Id IN: leadIdList AND Business_Unit__c = 'ABHFL' WITH SECURITY_ENFORCED];
+                            FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL' WITH SECURITY_ENFORCED];
             
+        If(leadObj != null){
+            PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
+            String payload = JSON.serialize(payloadWrp);
             
-            system.debug('leadList =='+leadList.size());
-            If(!leadList.isEmpty()){
-                for(Lead leadObj : leadList){
-                
-                   // Create a PayloadWrapper instance and map the Lead fields
-                    PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
-                    String payload = JSON.serialize(payloadWrp);
-                    
-                    system.debug('Payload==='+payload);
-                    
-                    ResponseWrapper responseWrapperObj = new ResponseWrapper();
-                    ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
-                    if(!Test.isRunningTest()){
-                        system.debug('leadCreationWrp.responseBody==='+leadCreationWrp.responseBody);
-                        responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
-                    }
-                    if(responseWrapperObj.Status == '200'){
-                        leadObj.API_Response_Message__c = responseWrapperObj.Message;
-                        leadObj.Create_Lead_To_CRM_Status__c = 'Success';
-                        message = 'Send Lead to CRM is Successful';
-                    }else{
-                        message = responseWrapperObj.Message;
-                        leadObj.API_Response_Message__c = responseWrapperObj.Message;
-                        leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
-                        leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
-                        if(!Test.isRunningTest() && !executingFromTrigger){
-                           throw new AuraHandledException(message);
-                        }
-                    }
-                }
-                
-                try{
-                    UPDATE leadList;
-                }catch(Exception e){
-                    system.debug('Error=='+e.getMessage());
+            system.debug('Payload==='+payload);
+            
+            ResponseWrapper responseWrapperObj = new ResponseWrapper();
+            ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
+            if(!Test.isRunningTest()){
+                system.debug('leadCreationWrp.responseBody==='+leadCreationWrp.responseBody);
+                responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
+            }
+            if(responseWrapperObj.Status == '200'){
+                leadObj.API_Response_Message__c = responseWrapperObj.Message;
+                leadObj.Create_Lead_To_CRM_Status__c = 'Success';
+                message = 'Send Lead to CRM is Successful';
+            }else{
+                message = responseWrapperObj.Message;
+                leadObj.API_Response_Message__c = responseWrapperObj.Message;
+                leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
+                leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
+                if(!Test.isRunningTest() && !executingFromTrigger){
+                    throw new AuraHandledException(message);
                 }
             }
-            system.debug('Message=='+message);
+            
+            try{
+                UPDATE leadObj;
+            }catch(Exception e){
+                system.debug('Error=='+e.getMessage());
+            }
+        }
+        system.debug('Message=='+message);
             
         return message;
     }
@@ -74,7 +67,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         List<Id> leadIdList = new List<Id>();
         leadIdList.addAll(leadIdSet);
         
-        sendLead(leadIdList, true);
+        sendLead(leadIdList[0], true);
     }
     
     /*private static boolean checkConditions(Lead leadObj){

@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-29-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ASF_CaseMovementHelper {
     
     //static Boolean boolCalledFromBulk = false;
@@ -31,7 +38,7 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -76,7 +83,7 @@ public class ASF_CaseMovementHelper {
             //Find the next stage when moved purely forward
             if(!casesMovingNextPure.isEmpty()){
                 //Find the next stage
-                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values());
+                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values(), currentStageMap);
                 for(Case caseRec : casesMovingNextPure.values()){
                     StageConfigWrapper nextStage = caseIdToNextStageConfig.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -120,14 +127,15 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         for(Case caseRec : currentCases){
             StageWrapper resultWrapper = new StageWrapper();
@@ -184,53 +192,96 @@ public class ASF_CaseMovementHelper {
                     resultWrapperMap.put(caseId, resultWrapper);
                 }
             }
+
+            Map<Id, Case> casesWithNextStageFound = new Map<Id, Case>();
+            Map<Id, ASF_Case_Stage_Config__c> nextStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
             //Atleast one case passed validation
             if(!casesMovingNextPure.isEmpty()){
                 //Find the next stage
-                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values());
+                Map<Id, StageConfigWrapper> caseIdToNextStageConfig = ASF_CaseMovementHelper.findNextStageForward(casesMovingNextPure.values(), currentStageMap);
                 for(Case caseRec : casesMovingNextPure.values()){
                     StageConfigWrapper nextStage = caseIdToNextStageConfig.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                     if(nextStage.status == 'Success'){
-                        CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, nextStage.stageConfig);
-                        if(beforeResult.status != 'Success'){
+                        casesWithNextStageFound.put(caseRec.Id, caseRec);
+                        nextStageConfigMap.put(caseRec.Id, nextStage.stageConfig);
+                        resultWrapper.nextStageConfig = nextStage.stageConfig;
+                        resultWrapper.ownerId = nextStage.ownerId;
+                        resultWrapper.errorOwnerId = nextStage.errorOwnerId;
+                        resultWrapper.status = 'Success';
+                        resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        // CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, nextStage.stageConfig);
+                        // if(beforeResult.status != 'Success'){
+                        //     resultWrapper.errorMessage = beforeResult.errorMessage;
+                        //     resultWrapper.status = 'Error';
+                        //     resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        // }else{
+                        //     String nextStageName = nextStage.stageConfig.StageName__c;
+                        //     //Update assignment, and other case fields
+                        //     Case updatedCase = new Case(Id = caseRec.Id);
+                        //     updatedCase.Stage__c = nextStageName;
+                        //     updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+                        //     updatedCase.MoveToNext__c = false;
+                        //     // If Validation Layer Returned any fields in Case, append the same
+                        //     // This is returned from Custom Apex Class Run After the Stage Movement
+                        //     if(validationResults.containsKey(caseRec.Id) && validationResults.get(caseRec.Id).isCaseUpdated == true){
+                        //         Map<String, Object> sourceFields = validationResults.get(caseRec.Id).updatedCase.getPopulatedFieldsAsMap();
+                        //         for (String fieldName : sourceFields.keySet()) {
+                        //             updatedCase.put(fieldName, sourceFields.get(fieldName));
+                        //         }
+                        //     }
+
+                        //     // If Before Apex Class Run returned any fields on Case, append the same
+                        //     if(beforeResult != null && beforeResult.isCaseUpdated == true){
+                        //         Map<String, Object> sourceFields = beforeResult.updatedCase.getPopulatedFieldsAsMap();
+                        //         for (String fieldName : sourceFields.keySet()) {
+                        //             updatedCase.put(fieldName, sourceFields.get(fieldName));
+                        //         }
+                        //     }
+                        //     resultWrapper.caseToBeUpdated = updatedCase;
+                        //     resultWrapper.status = 'Success';
+                        //     resultWrapper.nextStageConfig = nextStage.stageConfig;
+                        //     resultWrapper.ownerId = nextStage.ownerId;
+                        //     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
+                        //     resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        // }
+                    }else{
+                        resultWrapper.errorMessage = nextStage.errorMessage;
+                        resultWrapper.status = 'Error';
+                        resultWrapperMap.put(caseRec.Id, resultWrapper);
+                    }
+                }
+
+                if(!casesWithNextStageFound.isEmpty()){
+                    Map<Id, CaseStageValidationWrapper> beforeResultMap = validateNextStageEntry(casesWithNextStageFound.values(), nextStageConfigMap);
+                    for(Id caseId : beforeResultMap.keySet()){
+                        StageWrapper resultWrapper = resultWrapperMap.get(caseId);
+                        CaseStageValidationWrapper beforeResult = beforeResultMap.get(caseId);
+                        ASF_Case_Stage_Config__c nextStage = nextStageConfigMap.get(caseId);
+                        if(beforeResult != null && beforeResult.status != 'Success'){
                             resultWrapper.errorMessage = beforeResult.errorMessage;
                             resultWrapper.status = 'Error';
-                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                            resultWrapperMap.put(caseId, resultWrapper);
                         }else{
-                            String nextStageName = nextStage.stageConfig.StageName__c;
+                            String nextStageName = nextStage.StageName__c;
                             //Update assignment, and other case fields
-                            Case updatedCase = new Case(Id = caseRec.Id);
+                            Case updatedCase = new Case(Id = caseId);
                             updatedCase.Stage__c = nextStageName;
-                            updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+                            updatedCase.Status = nextStage.Status_Mapping__c;
                             updatedCase.MoveToNext__c = false;
-                            // If Validation Layer Returned any fields in Case, append the same
-                            // This is returned from Custom Apex Class Run After the Stage Movement
-                            if(validationResults.containsKey(caseRec.Id) && validationResults.get(caseRec.Id).isCaseUpdated == true){
-                                Map<String, Object> sourceFields = validationResults.get(caseRec.Id).updatedCase.getPopulatedFieldsAsMap();
-                                for (String fieldName : sourceFields.keySet()) {
-                                    updatedCase.put(fieldName, sourceFields.get(fieldName));
-                                }
-                            }
-
                             // If Before Apex Class Run returned any fields on Case, append the same
-                            if(beforeResult != null && beforeResult.isCaseUpdated == true){
+                            if(beforeResult.isCaseUpdated == true){
                                 Map<String, Object> sourceFields = beforeResult.updatedCase.getPopulatedFieldsAsMap();
                                 for (String fieldName : sourceFields.keySet()) {
                                     updatedCase.put(fieldName, sourceFields.get(fieldName));
                                 }
                             }
+
                             resultWrapper.caseToBeUpdated = updatedCase;
                             resultWrapper.status = 'Success';
-                            resultWrapper.nextStageConfig = nextStage.stageConfig;
-                            resultWrapper.ownerId = nextStage.ownerId;
-                            resultWrapper.errorOwnerId = nextStage.errorOwnerId;
-                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                            resultWrapper.nextStageConfig = nextStage;
+                            resultWrapperMap.put(caseId, resultWrapper);
                         }
-                    }else{
-                        resultWrapper.errorMessage = nextStage.errorMessage;
-                        resultWrapper.status = 'Error';
-                        resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }
                 }
             }
@@ -261,7 +312,7 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -310,12 +361,13 @@ public class ASF_CaseMovementHelper {
                 }
             }
 
+            Map<Id, CaseStageValidationWrapper> beforeResultMap = validateNextStageEntry(queriesCasesMap.values(), caseIdToNextStageConfigMap);
 
             // If movement to next Stage is valid
             for(Case caseRec : queriesCasesMap.values()){
-                CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, caseIdToNextStageConfigMap.get(caseRec.Id));
+                CaseStageValidationWrapper beforeResult = beforeResultMap.get(caseRec.Id);
                 StageWrapper resultWrapper = resultWrapperMap.containsKey(caseRec.Id) ? resultWrapperMap.get(caseRec.Id) : new StageWrapper();
-                if(beforeResult.status != 'Success'){
+                if(beforeResult != null && beforeResult.status != 'Success'){
                     resultWrapper.errorMessage = beforeResult.errorMessage;
                     resultWrapper.status = 'Error';
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
@@ -426,7 +478,7 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -578,7 +630,25 @@ public class ASF_CaseMovementHelper {
         Map<Id, Boolean> areApprovalsCompletedPerCase = ASF_CaseFrameworkValidator.validateApprovals(currentCases, currentStageMap);
         Map<Id, String> areValidationsOkPerCase = ASF_CaseFrameworkValidator.validateValidations(currentCases, caseIdToCurrentStageConfigMap);
         Map<Id, String> areIntegrationsCompletePerCase = ASF_CaseFrameworkValidator.validateIntegrations(currentCases, caseIdToCurrentStageConfigMap);
-        
+
+        Map<Id, CaseStageValidationWrapper> afterStageResultMap = new Map<Id, CaseStageValidationWrapper>();
+        Map<String, List<Case>> apexclassToCases = new Map<String, List<Case>>();
+        for(Case caseRec : currentCases){
+            ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
+            if(currentStageConfig != null && currentStageConfig.AfterStageApexClass__c != null){
+                if(!apexclassToCases.containsKey(currentStageConfig.AfterStageApexClass__c)){
+                    apexclassToCases.put(currentStageConfig.AfterStageApexClass__c, new List<Case>());
+                }
+                apexclassToCases.get(currentStageConfig.AfterStageApexClass__c).add(caseRec);
+            }
+        }
+        for(String apexClass : apexclassToCases.keySet()){
+            Type customType = Type.forName(apexClass);
+            ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
+            Map<Id, CaseStageValidationWrapper> afterResults = instance.afterStageMovement(apexclassToCases.get(apexClass)); 
+            afterStageResultMap.putAll(afterResults);
+        }
+
         for(Case caseRec : currentCases){
             CaseStageValidationWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
             if(areChecklistsCompletePerCase.containsKey(caseRec.Id) && !areChecklistsCompletePerCase.get(caseRec.Id)){
@@ -604,13 +674,16 @@ public class ASF_CaseMovementHelper {
             }
 
             if(resultWrapper.status != 'Error'){
-                ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
-                if(currentStageConfig != null && currentStageConfig.AfterStageApexClass__c != null){
-                    Type customType = Type.forName(currentStageConfig.AfterStageApexClass__c);
-                    ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
-                    resultWrapper = instance.afterStageMovement(caseRec);            
-                    system.debug(resultWrapper);
+                if(afterStageResultMap.containsKey(caseRec.Id)){
+                    resultWrapper = afterStageResultMap.get(caseRec.Id);
                 }
+                // ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
+                // if(currentStageConfig != null && currentStageConfig.AfterStageApexClass__c != null){
+                //     Type customType = Type.forName(currentStageConfig.AfterStageApexClass__c);
+                //     ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
+                //     resultWrapper = instance.afterStageMovement(caseRec);            
+                //     system.debug(resultWrapper);
+                // }
             }
             resultWrapperMap.put(caseRec.Id, resultWrapper);
         }
@@ -620,18 +693,35 @@ public class ASF_CaseMovementHelper {
     /**
      * Validate if the movemnet to the Next Stage is Valid or not
      */
-    public static CaseStageValidationWrapper validateNextStageEntry(Case currentCase, ASF_Case_Stage_Config__c nextStageConfig){
-    
-        // Run Before Apex Class
-        CaseStageValidationWrapper beforeResult = new CaseStageValidationWrapper();
-        beforeResult.status = 'Success';
-        if(nextStageConfig != null && nextStageConfig.BeforeStageApexClass__c != null){
-            Type customType = Type.forName(nextStageConfig.BeforeStageApexClass__c);
-            ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
-            beforeResult = instance.beforeStageMovement(currentCase);  
+    public static Map<Id, CaseStageValidationWrapper> validateNextStageEntry(List<Case> currentCases, Map<Id, ASF_Case_Stage_Config__c> nextStageConfigs){
+        
+        Map<Id, CaseStageValidationWrapper> returnWrapperMap = new Map<Id, CaseStageValidationWrapper>();
+        Map<String, List<Case>> apexclassToCases = new Map<String, List<Case>>();
+        for(Case caseRec : currentCases){
+            ASF_Case_Stage_Config__c nextStageConfig = nextStageConfigs.get(caseRec.Id);
+            if(nextStageConfig != null && nextStageConfig.BeforeStageApexClass__c != null){
+                if(!apexclassToCases.containsKey(nextStageConfig.BeforeStageApexClass__c)){
+                    apexclassToCases.put(nextStageConfig.BeforeStageApexClass__c, new List<Case>());
+                }
+                apexclassToCases.get(nextStageConfig.BeforeStageApexClass__c).add(caseRec);
+            }
         }
+        for(String apexClass : apexclassToCases.keySet()){
+            Type customType = Type.forName(apexClass);
+            ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
+            Map<Id, CaseStageValidationWrapper> beforeResultMap = instance.beforeStageMovement(apexclassToCases.get(apexClass)); 
+            returnWrapperMap.putAll(beforeResultMap); 
+        }
+        // Run Before Apex Class
+        // CaseStageValidationWrapper beforeResult = new CaseStageValidationWrapper();
+        // beforeResult.status = 'Success';
+        // if(nextStageConfig != null && nextStageConfig.BeforeStageApexClass__c != null){
+        //     Type customType = Type.forName(nextStageConfig.BeforeStageApexClass__c);
+        //     ASF_CaseStageClassInvocable instance = (ASF_CaseStageClassInvocable)customType.newInstance();
+        //     beforeResult = instance.beforeStageMovement(currentCase);  
+        // }
 
-        return beforeResult;
+        return returnWrapperMap;
     
     }
     
@@ -647,7 +737,7 @@ public class ASF_CaseMovementHelper {
     * 5. Determine the Ownership by running assignment rule for the Stage Found
     * Bulkified
     */
-    public static Map<Id, StageConfigWrapper> findNextStageForward(List<Case> currentCases){
+    public static Map<Id, StageConfigWrapper> findNextStageForward(List<Case> currentCases, Map<Id, String> currentStageMap){
         Map<Id, StageConfigWrapper> resultWrapperMap = new Map<Id, StageConfigWrapper>();
 
         Set<String> externalIds = new Set<String>();
@@ -674,7 +764,7 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == caseRec.Stage__c){
+                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
                     caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                     break;
                 }
@@ -691,7 +781,7 @@ public class ASF_CaseMovementHelper {
             stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
         }
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -812,7 +902,7 @@ public class ASF_CaseMovementHelper {
      * Bulkfied
      */
     public static Map<Id,ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> getAssignmentForStage(List<Case> currentCases, Map<Id, String> caseIdToStageNameMap){
-
+        
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> resultWrapperMap = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
         
         Set<String> externalIds = new Set<String>();
@@ -837,11 +927,11 @@ public class ASF_CaseMovementHelper {
             externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
         }
 
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(Case caseRec : currentCases){
-            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                        if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
+                                        if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         if(config.Query_Fields__c != null){
                             allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -861,7 +951,7 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
-        ASF_CaseQueryHandler.refreshRecords = true;
+                ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
@@ -888,7 +978,7 @@ public class ASF_CaseMovementHelper {
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseId, resultWrapper);
         }
-        return resultWrapperMap;
+                return resultWrapperMap;
     }
     
     /**
@@ -1078,7 +1168,7 @@ public class ASF_CaseMovementHelper {
         }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));

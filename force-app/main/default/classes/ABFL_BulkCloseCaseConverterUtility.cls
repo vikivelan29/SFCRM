@@ -13,6 +13,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
+            
             if(String.isNotBlank(keyValueMap.get('Case number'))){
                 caseNumbers.add(keyValueMap.get('Case number').trim());
             }
@@ -118,6 +119,9 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
                     String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    if(fieldName == 'CaseNumber'){
+                        fieldValue = ' '+fieldValue;
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

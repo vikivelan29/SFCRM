@@ -69,19 +69,21 @@ public without sharing class ASF_CaseSLAHistoryTriggerHelper {
     **/
     public static void createCaseTeamMember(List<ASF_Case_SLA_History__c> slarecords) {
         try{
-            
-            String roleId = [select id , name from CaseTeamRole where name='Agent'].Id;
+            List<CaseTeamRole> roles = [select id , name from CaseTeamRole where name='Agent'];
 
-            list<CaseTeamMember> caseTeamMemberlistToInsert = new list<CaseTeamMember>();
-            for(ASF_Case_SLA_History__c slahistoryobj : slarecords){
-                if(String.isNotBlank(slahistoryobj.Current_Owner_Id__c) && (slahistoryobj.Current_Owner_Id__c.startsWith('005'))){
-                    //userIdsSet.add(slahistoryobj.Current_Owner_Id__c);
-                    caseTeamMemberlistToInsert.add(new CaseTeamMember( MemberId = slahistoryobj.Current_Owner_Id__c, ParentId = slahistoryobj.Case__c, TeamRoleId = roleId));
+            String roleId = roles.isEmpty()?null:roles[0].Id;
+            if(roleId != null){
+                list<CaseTeamMember> caseTeamMemberlistToInsert = new list<CaseTeamMember>();
+                for(ASF_Case_SLA_History__c slahistoryobj : slarecords){
+                    if(String.isNotBlank(slahistoryobj.Current_Owner_Id__c) && (slahistoryobj.Current_Owner_Id__c.startsWith('005'))){
+                        //userIdsSet.add(slahistoryobj.Current_Owner_Id__c);
+                        caseTeamMemberlistToInsert.add(new CaseTeamMember( MemberId = slahistoryobj.Current_Owner_Id__c, ParentId = slahistoryobj.Case__c, TeamRoleId = roleId));
+                    }
                 }
-            }
 
-            if(!caseTeamMemberlistToInsert.isEmpty()){
-                Database.insert(caseTeamMemberlistToInsert,false);
+                if(!caseTeamMemberlistToInsert.isEmpty()){
+                    Database.insert(caseTeamMemberlistToInsert,false);
+                }
             }
         }
         catch(Exception ex){

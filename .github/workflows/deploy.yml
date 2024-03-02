@@ -9,6 +9,7 @@ on:
         options:
           - sit1-sandbox
           - sit-sandbox
+          - uat-sandbox
         default: 'sit1-sandbox'
         required: true
       validateOnly:

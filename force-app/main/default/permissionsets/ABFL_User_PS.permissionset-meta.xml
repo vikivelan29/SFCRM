@@ -53,6 +53,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ODPAlertResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_ODPAlerts</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -88,12 +92,8 @@
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-<classAccesses>
-        <apexClass>ASF_CaseEditPageController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <classAccesses>
-        <apexClass>ABFL_Constants</apexClass>
+        <apexClass>ASF_CaseEditPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -395,6 +395,11 @@
         <field>ABFL_Case_Detail__c.IsSMT__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Issue_Type__c</field>
+        <readable>true</readable>
+	</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.KYCComplied__c</field>

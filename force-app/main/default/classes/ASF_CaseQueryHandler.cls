@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-22-2023
+ * @last modified on  : 01-MAR-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ASF_CaseQueryHandler {
@@ -233,7 +233,7 @@ public with sharing class ASF_CaseQueryHandler {
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
-                                    Is_Recategorise_Allowed__c,Allow_file_upload__c
+                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
                                     

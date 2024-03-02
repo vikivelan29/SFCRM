@@ -39,7 +39,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         Map<Id, String> jsonResults = new Map<Id, String>();
         Map<String, Map<Id, String>> templateNameToJSONRows = new Map<String, Map<Id, String>>();
         Map<Id, Id> lineItemToOwnerId = new Map<Id, Id>();
-        Map<Id, String> ownerIdToBUMap = new Map<Id,String>();
+        Map<Id, User> ownerIdToUserMap = new Map<Id,User>();
 
         for(ASF_Bulk_Upload_Line_Item__c lineItem : lineItemsToProcess){
             lineItemToOwnerId.put(lineItem.Id, lineItem.OwnerId);
@@ -52,8 +52,8 @@ public with sharing class ASF_BulkCaseProcessorUtility {
 
         if(!lineItemToOwnerId.isEmpty()){
             Set<Id> ownerIds = new Set<Id>(lineItemToOwnerId.values());
-            for(User user : [Select Id, Business_Unit__c from User where Id IN :ownerIds]){
-                ownerIdToBUMap.put(user.Id, user.Business_Unit__c);
+            for(User user : [Select Id, Business_Unit__c, Name from User where Id IN :ownerIds]){
+                ownerIdToUserMap.put(user.Id, user);
             }
             ownerIds = null;
         }
@@ -74,8 +74,9 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             SObject record = newCaseRecords.get(lineItemId);
             if(record.Id == null){
                 record.put('OwnerId', lineItemToOwnerId.get(lineItemId));
-                record.put('Business_Unit__c', ownerIdToBUMap.get(lineItemToOwnerId.get(lineItemId)));
+                record.put('Business_Unit__c', ownerIdToUserMap.get(lineItemToOwnerId.get(lineItemId)).Business_Unit__c);
             }
+            record.put('PlatformEventInitiatedBy__c', ownerIdToUserMap.get(lineItemToOwnerId.get(lineItemId)).Name);
             recordsForDML.add(record);
             index++;
         }
@@ -83,13 +84,28 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
         List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
         ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
+
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, String> caseNumberMap = new Map<Id, String>();
+        for(Database.UpsertResult sr : srList){
+            if(sr.isSuccess() && sr.isCreated()){
+                caseIds.add(sr.getId());
+            }
+        }
+
+        if(!caseIds.isEmpty()){
+            for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
+                caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
+            }
+        }
         index = 0;
         for(Database.UpsertResult sr : srList){
             Id lineItemId = indexToLineItemIdMap.get(index);
             Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
             if(sr.isSuccess()){
+                System.debug('Success case number'+recordsForDML[index]);
                 jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?String.valueOf(sr.getId()):'Case Updated');
+                jsonMap.put('Message', sr.isCreated()?'\''+caseNumberMap.get(sr.getId()):'Case Updated');
             }else{
                 jsonMap.put('Result', 'FAILURE');
                 String errorMessage = '';
@@ -126,7 +142,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         if(!arList.isEmpty()){
             for(AggregateResult ar : arList){
                 //result returned in Aggregate Query means atleat one pending record found
-                headIds.remove(String.valueOf(ar.get('0')));
+                headIds.remove(String.valueOf(ar.get('Bulk_Upload_Header__c')));
             }
         }
         for(Id headId : headIds){

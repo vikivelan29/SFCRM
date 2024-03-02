@@ -84,17 +84,17 @@ public class ABHFL_CTSTHelper_Test {
     	}
         insert dummyPayments;
         //Assertion when payments are not cleared.
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(caseRecord);
-        System.assertEquals('Error',retCls.Status,'Done');
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Error',retCls.get(caseRecord.Id).Status,'Done');
         List<ABHFL_Payment__c> relatedPayments = [SELECT id,Realization_Status__c from ABHFL_Payment__c where case__c =: caseRecord.id];
         for(ABHFL_Payment__c pay : relatedPayments){
             pay.Realization_Status__c ='Cleared';
         }
         update relatedPayments;
         //Assertion when payments are cleared.
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls2 =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(caseRecord);
-        System.assertEquals('Success',retCls2.Status,'Done');
-        ABHFL_PreClosurePaymentCheck.afterStageMovement(caseRecord);
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Success',retCls2.get(caseRecord.Id).Status,'Done');
+        ABHFL_PreClosurePaymentCheck.afterStageMovement(new List<Case>{caseRecord});
         
 	}
     @isTest
@@ -145,7 +145,7 @@ public class ABHFL_CTSTHelper_Test {
     static void testBranchAssignment(){
         Case caseRecord = [Select id from Case limit 1];
         
-        ABHFL_CTSTHelper.assignCaseToBranch(caseRecord);
+        ABHFL_CTSTHelper.assignCaseToBranch(new List<Case>{caseRecord});
         //System.assertEquals('Success',,'Done');
         
 	}
@@ -166,11 +166,11 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.AssetId =assetRec.Id;
         
         Test.startTest();
-        Case updatedCase = ABHFL_CTSTHelper.assignCaseToPreferredBranch(caseRecord);
+        Map<Id, Case> updatedCase = ABHFL_CTSTHelper.assignCaseToPreferredBranch(new List<Case>{caseRecord});
         Test.stopTest();
 
         // Verify the results
-        System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.OwnerId);
+        System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
     @isTest
@@ -181,11 +181,11 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.AssetId =assetRec.Id;
         
         Test.startTest();
-        Case updatedCase = ABHFL_CTSTHelper.assignCaseToAOMROM(caseRecord);
+        Map<Id, Case> updatedCase = ABHFL_CTSTHelper.assignCaseToAOMROM(new List<Case>{caseRecord});
         Test.stopTest();
 
         // Verify the results
-        System.assertEquals(updatedCase.OwnerId, updatedCase.OwnerId);
+        System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
        @isTest
     static void testAssignCaseToBranchTDS() {
@@ -194,11 +194,11 @@ public class ABHFL_CTSTHelper_Test {
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
 
     	Test.startTest();
-    	Case updatedCase = ABHFL_CTSTHelper.assignCaseToBranchTDS(caseRecord);
-        ABHFL_CTSTHelper.sendLoanClosedEmail(caseRecord);
+    	Map<Id, Case> updatedCase = ABHFL_CTSTHelper.assignCaseToBranchTDS(new List<Case>{caseRecord});
+        ABHFL_CTSTHelper.sendLoanClosedEmail(new List<Case>{caseRecord});
 		Test.stopTest();
 
-    	System.assertEquals(updatedCase.OwnerId, updatedCase.OwnerId);
+    	System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
 	}
     @isTest
     static void testStoreMultipleLANs() {
@@ -221,18 +221,18 @@ public class ABHFL_CTSTHelper_Test {
         update caseDetail;
 
         Test.startTest();
-        ABHFL_CTSTHelper.storeMultipleLANs(caseRecord);
-        ABHFL_CTSTHelper.sendPrclsStatementclosure(caseRecord);
-        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        ABHFL_CTSTHelper.storeMultipleLANs(new List<Case>{caseRecord});
+        ABHFL_CTSTHelper.sendPrclsStatementclosure(new List<Case>{caseRecord});
+        ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
         Test.stopTest();
         //for DSRA
 		caseRecord.CCC_External_Id__c = ABHFL_Constants.DSRA_LIEN_ID;
         update caseRecord;
-        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
         //for escrow
         caseRecord.CCC_External_Id__c = ABHFL_Constants.ESCROW_STATEMENT_ID;
         update caseRecord;
-        ABHFL_CTSTHelper.sendMailWithAttachments(caseRecord);
+        ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
         caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id = :caseRecord.ABHFL_Case_Detail__c LIMIT 1];
 		System.assertEquals('and xxxxxx' + astRec.LAN__c.substring(Math.max(0, astRec.LAN__c.length() - 4)), caseDetail.Masked_Full_LANs__c);
 

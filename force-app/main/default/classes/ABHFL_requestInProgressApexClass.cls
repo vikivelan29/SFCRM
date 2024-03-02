@@ -1,28 +1,54 @@
 public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvocable {
-    public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        //Assign to Branch for Address Change
-        if(caseRec.CCC_External_Id__c == 'hfl003'){
-            case caseRecord = ABHFL_CTSTHelper.assignCaseToBranchTDS(caseRec);
-        	retCls.status = ABHFL_Constants.SUCCESS;
-        	retCls.updatedCase = caseRecord;
-        	retCls.isCaseUpdated = true;
-        }else{
-            //Assign to Branch for other Requests
-        	case caseRecord = ABHFL_CTSTHelper.assignCaseToBranch(caseRec);
-        	retCls.status = ABHFL_Constants.SUCCESS;
-        	retCls.updatedCase = caseRecord;
-        	retCls.isCaseUpdated = true;
-        }											
-        return retCls;
+    public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        List<Case> hfl003Cases = new List<Case>();
+        List<Case> otherCases = new List<Case>();
+        for(Case caseRec : caseRecords){
+            if(caseRec.CCC_External_Id__c == 'hfl003'){
+                //Assign to Branch for Address Change
+                hfl003Cases.add(caseRec);
+            }else{
+                //Assign to Branch for other Requests
+                otherCases.add(caseRec);
+            }
+        }
+        Map<Id, Case> returnedUpdatedCaseMap = new Map<Id, Case>();
+        if(!hfl003Cases.isEmpty()){
+            returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseToBranchTDS(hfl003Cases));
+        }
+
+        if(!otherCases.isEmpty()){
+            returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseToBranch(otherCases));
+        }
+
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.isCaseUpdated = false;
+            if(returnedUpdatedCaseMap.containsKey(caseRec.Id)){
+                retCls.updatedCase = returnedUpdatedCaseMap.get(caseRec.Id);
+        	    retCls.isCaseUpdated = true;
+            }
+            retCls.status = ABHFL_Constants.SUCCESS;
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
             
     }
-     public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        case caseRecord = ABHFL_CTSTHelper.assignCaseCollateralDocs(caseRec);
-        retCls.status = ABHFL_Constants.SUCCESS;
-        retCls.updatedCase = caseRecord;
-        retCls.isCaseUpdated = true;
-        return retCls;
+     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+
+        Map<Id, Case> returnedUpdatedCaseMap = new Map<Id, Case>();
+        returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseCollateralDocs(caseRecords));
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.isCaseUpdated = false;
+            if(returnedUpdatedCaseMap.containsKey(caseRec.Id)){
+                retCls.updatedCase = returnedUpdatedCaseMap.get(caseRec.Id);
+        	    retCls.isCaseUpdated = true;
+            }
+            retCls.status = ABHFL_Constants.SUCCESS;
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
 }
