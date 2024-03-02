@@ -5,7 +5,9 @@
                 label="Download Result" onclick={downloadCsv}>
                 </lightning-button>
         </template>
-       <!--<template lwc:if={downloadSuccess}>
-            <p>File Downloaded Successfully! </p>
-        </template>-->
+        <template lwc:if={downloadFailed}>
+            <lightning-card title="">
+                <p>The operation is still in progress. You can download the result once it is complete! </p>
+            </lightning-card>
+        </template>
 </template>
