@@ -90,7 +90,7 @@ public class ABHFL_StageApex_Test {
 	}
     @IsTest
     static void testPreClosureStageApexClass(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Short_URL__c,ABHFL_Case_Detail__r.Preferred_Branch__c  from Case limit 1];
         List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
     	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
         	ABHFL_Payment__c payment = new ABHFL_Payment__c(
@@ -137,7 +137,7 @@ public class ABHFL_StageApex_Test {
 	}
     @IsTest
     static void testRequestInProgressApexClass(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c, AssetId,Asset.Branch__r.Branch_Queue_Id__c, Source__c  from Case limit 1];
         List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
     	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
         	ABHFL_Payment__c payment = new ABHFL_Payment__c(
