@@ -1,0 +1,163 @@
+{
+    "ResponseGetInstallmentPaymentDetails": {
+        "@languageCode": "en-US",
+        "DataArea": {
+            "InstallmentPaymentDetails": {
+                "Response": {
+                    "repayment_detail": {
+                        "totalRows": 21,
+                        "rows": [
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/06/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/07/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/08/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/09/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/10/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/11/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/12/2021",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/01/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/02/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/03/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/04/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/05/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/06/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/07/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/08/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/09/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/10/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/11/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/12/2022",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/01/2023",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            },
+                            {
+                                "REPAID_AMOUNT": "302064",
+                                "PREVIOUSEMI_DUEDATE": "05/02/2023",
+                                "PREVIOUSEMI_AMT": "14384",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                                "BILLED_STATUS": "Y"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

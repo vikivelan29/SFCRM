@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>NPS_Result__c</fullName>
     <externalId>false</externalId>
-    <formula>IF( NPS_Score__c &gt;=1  &amp;&amp; NPS_Score__c &lt;=3, &quot;☹️&quot;,  IF(NPS_Score__c &gt;3  &amp;&amp; NPS_Score__c &lt;=6, &quot;😐&quot;,  IF(NPS_Score__c &gt;6  &amp;&amp; NPS_Score__c &lt;=10, &quot;🙂&quot;, null) ) )</formula>
+    <formula>IF( NPS_Score__c &gt;=1  &amp;&amp; NPS_Score__c &lt;=3, &quot;🙁&quot;,  IF(NPS_Score__c &gt;3  &amp;&amp; NPS_Score__c &lt;=6, &quot;😐&quot;,  IF(NPS_Score__c &gt;6  &amp;&amp; NPS_Score__c &lt;=10, &quot;🙂&quot;, null) ) )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>NPS Result</label>
     <required>false</required>

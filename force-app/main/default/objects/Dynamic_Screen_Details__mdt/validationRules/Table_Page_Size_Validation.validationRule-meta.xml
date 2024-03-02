@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Table_Page_Size_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(ISPICKVAL(Type__c, &apos;Table&apos;) &amp;&amp; (Table_Page_Size__c &lt; 5 || Table_Page_Size__c &gt; 20), true, false )</errorConditionFormula>
+    <errorDisplayField>Table_Page_Size__c</errorDisplayField>
+    <errorMessage>The table page size should be greater than 4 and less than 21</errorMessage>
+</ValidationRule>

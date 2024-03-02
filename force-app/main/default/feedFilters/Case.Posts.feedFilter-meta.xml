@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFeedFilter xmlns="http://soap.sforce.com/2006/04/metadata">
+    <criteria>
+        <feedItemType>ContentPost</feedItemType>
+    </criteria>
+    <criteria>
+        <feedItemType>TextPost</feedItemType>
+    </criteria>
+    <label>Posts</label>
+</CustomFeedFilter>
