@@ -6,7 +6,7 @@ public class ABHFL_LODIngetration_Test {
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
-        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and Name LIKE '%abhfl%' LIMIT 1].Id;
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and Name = 'ABHFL Customer Service Team' LIMIT 1].Id;
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -95,12 +95,14 @@ public class ABHFL_LODIngetration_Test {
         ASF_Case_Integration__c integRecord = [Select id,Case__c from ASF_Case_Integration__c limit 1];
         integRecord.Status__c = 'Success';
         update integRecord;
+        Test.startTest();
         lodStp.processResponse(integRecord);
         Case caseRec = [Select id,Stage__c from Case where id =: integRecord.Case__c ];
         System.assertEquals('In Progress with Recovery',caseRec.Stage__c,'Done');
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: integRecord.Id limit 1];
         delete conDoc;
         lodStp.processResponse(integRecord);
+        Test.stopTest();
         caseRec = [Select id,Asset.Branch__r.Branch_Queue_Id__c,OwnerId from Case where id =: integRecord.Case__c ];
         System.assertEquals(caseRec.Asset.Branch__r.Branch_Queue_Id__c,caseRec.OwnerId,'Done');
     }
