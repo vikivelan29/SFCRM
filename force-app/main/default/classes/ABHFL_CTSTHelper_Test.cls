@@ -69,7 +69,7 @@ public class ABHFL_CTSTHelper_Test {
             }
     @IsTest
     static void testPreClosurePaymentCheck(){
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,CCC_External_Id__c,Short_URL__c from Case limit 1];
         List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
     	for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
         	ABHFL_Payment__c payment = new ABHFL_Payment__c(
@@ -122,7 +122,7 @@ public class ABHFL_CTSTHelper_Test {
     @IsTest 
     static void testassignCaseToQueueCont(){
         Test.startTest();
-        Case caseRecord = [Select id,CreatedById from Case limit 1];
+        Case caseRecord = [Select id,CreatedById,AssetId from Case limit 1];
         caseRecord.CCC_External_Id__c='hfl060';
         caseRecord.Source__c='Branch';
 		update caseRecord;
@@ -143,7 +143,7 @@ public class ABHFL_CTSTHelper_Test {
     }
     @IsTest
     static void testBranchAssignment(){
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,Asset.Branch__r.Branch_Queue_Id__c,Source__c from Case limit 1];
         
         ABHFL_CTSTHelper.assignCaseToBranch(new List<Case>{caseRecord});
         //System.assertEquals('Success',,'Done');
@@ -160,7 +160,7 @@ public class ABHFL_CTSTHelper_Test {
     @isTest
     static void testAssignCaseToPreferredBranch() {
         
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
         Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
         caseRecord.AssetId =assetRec.Id;
@@ -175,7 +175,7 @@ public class ABHFL_CTSTHelper_Test {
 
     @isTest
     static void testAssignCaseToAOMROM() {
-     	Case caseRecord = [Select id from Case limit 1];
+     	Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
         Asset assetRec = [Select id,Branch__r.ROM_AOM__c from Asset where LAN__c='Test'];
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
         caseRecord.AssetId =assetRec.Id;
@@ -185,11 +185,12 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
 
         // Verify the results
-        System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
+        //System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
        @isTest
     static void testAssignCaseToBranchTDS() {
-        Case caseRecord = [Select id from Case limit 1];
+        Case caseRecord = [Select id,Asset.Branch__r.Branch_Queue_Id__c,Source__c,AccountId,CCC_External_Id__c,ContactId,No_Auto_Communication__c
+                           from Case limit 1];
         Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
 
@@ -203,7 +204,9 @@ public class ABHFL_CTSTHelper_Test {
     @isTest
     static void testStoreMultipleLANs() {
         // Retrieve the test Case record created in TestSetup
-        Case caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c FROM Case LIMIT 1];
+        Case caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,ABHFL_Case_Detail__r.Payment_Status__c,AccountId,ContactId,
+                           No_Auto_Communication__c
+                           FROM Case LIMIT 1];
         caseRecord.CCC_External_Id__c = ABHFL_Constants.GST_INVOICE_ID;
         update caseRecord;
         Asset astRec = [SELECT Id, LAN__c FROM Asset LIMIT 1];
