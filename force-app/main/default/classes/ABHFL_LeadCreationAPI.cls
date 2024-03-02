@@ -23,7 +23,7 @@ public with sharing class ABHFL_LeadCreationAPI {
                                    MobilePhone, PANNO__c, Preferred_Communication__c, Product__c, Prospect_Type__c,API_Response_Message__c,
                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
-                            FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL' WITH SECURITY_ENFORCED];
+                            FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
             
         If(leadObj != null){
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
