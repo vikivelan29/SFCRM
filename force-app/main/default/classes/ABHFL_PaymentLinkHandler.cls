@@ -263,7 +263,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.ChargeCode = '';
             this.ReasonOfPayment = ABHFL_Constants.REASON_FOR_PAYMENT;
             this.PaymentLink = paytmResponseWrapper.shortUrl;
-            this.PaymentExpiryDate = String.valueOf(system.now());
+            this.PaymentExpiryDate = String.valueOf(system.now().addDays(5));
         }
 
         public PaymentRequestWrapper(){}
