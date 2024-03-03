@@ -96,7 +96,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
-        <value>50</value>
+        <value>200</value>
     </labels>
     <labels>
         <fullName>ASF_Bulk_Restricted_File_Ext</fullName>
