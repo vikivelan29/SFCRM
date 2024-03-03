@@ -5,6 +5,8 @@
 *********************************************************/
 public with sharing class ASF_IntegrationsController {
 
+    public static Map<Id, Case> queriedCasesForIntegration = new Map<Id, Case>();
+
     /**
      * getAllIntegrations - Fetches All Integrations to be fired
      * for specific Case Category Config and Stage Config
@@ -62,6 +64,15 @@ public with sharing class ASF_IntegrationsController {
         try {
             IntegrationWrapper result = new IntegrationWrapper();
             //Object result;
+            Set<String> all_fields = new Set<String>{'id'};
+            if(integ.Query_Fields__c != null){
+                all_fields.addAll(integ.Query_Fields__c.split(','));
+            }
+            ASF_IntegrationsController.queriedCasesForIntegration = (Map<Id, Case>) Database.query(
+                'SELECT ' +
+                String.join(all_fields, ',') +
+                ' FROM Case WHERE Id = :caseRec'
+            );
             // First check evaluation
             Type customType = Type.forName(integ.Processing_Class__c);
             ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
@@ -74,6 +85,69 @@ public with sharing class ASF_IntegrationsController {
             }
             result = instance.run(integ, caseRec);
             return result;
+        } catch (Exception e) {
+            //throw new AuraHandledException(e.getMessage());    
+            throw e;	
+        }
+    }
+
+    /**
+     * runIntegration - Fires the specific integration, by running the 
+     * Processing Class's process method. Dynamic initialization of the class
+     * and invoking of interface implemented method
+     * First checks if it needs to be invoked by checking Visiblity Class evalutate method
+     * Returning the response back from the business class
+     * BULKIFIED
+     */
+    public static Map<Id, IntegrationWrapper> runIntegration(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
+
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> wrapperMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        try {
+            //Object result;
+            // First check evaluation
+            Map<String, List<Case>> apexClassToCases = new Map<String, List<Case>>();
+            Set<String> all_fields = new Set<String>{'id'};
+            for(Case caseRec : caseRecs){
+                if(integs.containsKey(caseRec.Id)){
+                    for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                        if(integ.Query_Fields__c != null){
+                            all_fields.addAll(integ.Query_Fields__c.toLowerCase().split(','));
+                        }
+                        if(!apexClassToCases.containsKey(integ.Processing_Class__c)){
+                            apexClassToCases.put(integ.Processing_Class__c, new List<Case>());
+                        }
+                        apexClassToCases.get(integ.Processing_Class__c).add(caseRec);
+                    }
+                }
+            }
+
+            ASF_IntegrationsController.queriedCasesForIntegration = (Map<Id, Case>) Database.query(
+                'SELECT ' +
+                String.join(all_fields, ',') +
+                ' FROM Case WHERE Id IN :caseRecs'
+            );
+            
+            for(String apexClass : apexClassToCases.keySet()){
+                Type customType = Type.forName(apexClass);
+                ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
+                wrapperMap.putAll(instance.evaluate(apexClassToCases.get(apexClass)));
+            }
+            
+            // Then run the actual integration
+            // if(invokeIntegration.status != 'Success'){
+            //     return invokeIntegration;
+                
+            // }
+
+            List<Case> eligibleCases = new List<Case>();
+            for(Case caseRec : caseRecs){
+                if(wrapperMap.containsKey(caseRec.Id) && wrapperMap.get(caseRec.Id).status == 'Success'){
+                    eligibleCases.add(caseRec);
+                }
+            }
+
+            wrapperMap.putAll(instance.run(integs, eligibleCases));
+            return wrapperMap;
         } catch (Exception e) {
             //throw new AuraHandledException(e.getMessage());    
             throw e;	
@@ -129,6 +203,8 @@ public with sharing class ASF_IntegrationsController {
         public String response;
         @AuraEnabled
         public Id assignToId;
+        @AuraEnabled
+        public Case updatedCase;
     }
 
 }

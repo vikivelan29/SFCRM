@@ -195,4 +195,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 		public String tag_ageing;
 		public String appId;
     }
+
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }

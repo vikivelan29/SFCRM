@@ -274,4 +274,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string returnMessage;
         public string shortUrl;
     }
+
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }
