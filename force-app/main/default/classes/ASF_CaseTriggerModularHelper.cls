@@ -791,9 +791,11 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 for(Case caseRec : integCaseList){
                     if(intWrapMap.containsKey(caseRec.Id)){
                         ASF_IntegrationsController.IntegrationWrapper intWrap = intWrapMap.get(caseRec.Id);
-                        if(intWrap.status == 'Error' && intWrap.assignToId != null){
+                        if(intWrap.status == 'Error'){
                             Case caseToUpdate = !caseFinalDMLMap.containsKey(caseRec.Id)?new Case(Id=caseRec.Id):caseFinalDMLMap.get(caseRec.Id);
-                            caseToUpdate.OwnerId = intWrap.assignToId;
+                            if(intWrap.assignToId != null){
+                                caseToUpdate.OwnerId = intWrap.assignToId;
+                            }
                             if(intWrap.updatedCase != null){
                                 Map<String, Object> populatedFieldMap = intWrap.updatedCase.getPopulatedFieldsAsMap();
                                 for(String fieldName : populatedFieldMap.keySet()){
