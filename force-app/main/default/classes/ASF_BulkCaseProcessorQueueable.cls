@@ -25,7 +25,7 @@ public with sharing class ASF_BulkCaseProcessorQueueable implements Queueable{
             lineItem.Status__c = 'Event fired';
             lineItem.Event_Fired_Date__c = System.now();
             lineItemsToUpdate.put(lineItem.Id, lineItem);
-            if(index == 999){
+            if(index == Integer.valueOf(Label.ASF_BulkProcessorBatchSize)-1){
                 ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
                 chunkPE.Record_IDs__c = recordIds;
                 peList.add(chunkPE);
