@@ -897,6 +897,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         if(caseFinalDMLMap != null){
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;//Reserved for future use, in case any specific module/function need skip
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            System.debug('caseFinalDMLMap.values()'+caseFinalDMLMap.values());
             for(Case caseRec : caseFinalDMLMap.values()){
                 if(caseRec.Stage__c != null || caseRec.OwnerId != null){
                     //If Stage or Owner is being updated on any Case, After Trigger needs to run for SLA History calculation
@@ -905,11 +906,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     break;
                 }
             }
-            Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
+            List<Case> localListForDML = (List<Case>)JSON.deserializeStrict(JSON.serialize(caseFinalDMLMap.values()), List<Case>.class);
+            caseFinalDMLMap = new Map<Id, Case>();
+            Database.SaveResult[] saveResults = Database.update(localListForDML, false);
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
-                    Case failedCase = caseFinalDMLMap.values()[i];
+                    Case failedCase = localListForDML[i];
                     
                     if(supressErrors.containsKey(failedCase.Id) && supressErrors.get(failedCase.Id)){
                         triggerEncounteredError.put(failedCase.Id, true);
@@ -940,7 +943,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         for(Case caseRec : newList){
             if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
-                caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
+	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
             else if(caseRec.Is_Duplicate__c != oldMap.get(caseRec.Id).Is_Duplicate__c && caseRec.Is_Duplicate__c == true){
