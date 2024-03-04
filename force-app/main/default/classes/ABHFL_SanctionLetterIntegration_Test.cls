@@ -116,4 +116,33 @@ public class ABHFL_SanctionLetterIntegration_Test {
         System.assertEquals(caseRec.createdByid,caseRec.OwnerId);*/
         
     }
+
+    @IsTest
+    static void testEvaluateBulk(){
+        
+        ABHFL_SanctionLetterIntegration sLI = new ABHFL_SanctionLetterIntegration();
+        Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,ownerId,CreatedById FROM Case LIMIT 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> successfulEvaluate = sLI.evaluate(new List<Case>{caseRecord});
+        System.assertEquals('Success',successfulEvaluate.get(caseRecord.Id).Status);
+        
+        ABHFL_Case_Detail__c  caseDetail = [SELECT Id FROM ABHFL_Case_Detail__c LIMIT 1];
+        caseDetail.As_On_Date__c = null;
+        UPDATE caseDetail;
+        
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> successfulEvaluate2 = sLI.evaluate(new List<Case>{caseRecord});
+        System.assertEquals('Success',successfulEvaluate2.get(caseRecord.Id).Status);
+    }
+    
+    @IsTest
+    static void testRunBulk(){
+        ABHFL_SanctionLetterIntegration sLI = new ABHFL_SanctionLetterIntegration();
+        
+        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,CreatedById,ownerId from Case limit 1];
+        
+        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = sLI.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
+        System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status);
+    }
 }

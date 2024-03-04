@@ -238,4 +238,86 @@
               System.assertEquals(2, caseIntegLst.size());
           Test.stopTest();
       }
+
+      @isTest 
+      static void evaluateTestMethodBulk() {
+        
+        ABHFL_ICAndPIC_Integration icAndPicObj = new ABHFL_ICAndPIC_Integration();
+        Case case1 = new Case();
+        Case case2 = new Case();
+        Case case3 = new Case();
+        Case case4 = new Case();
+          
+        List<Case> caseLst = [Select id, Notes__c  From Case];
+        for(Case cs : caseLst) {
+            if(cs.Notes__c == 'Test Case 1') {
+                case1 = cs;
+            }
+            else if(cs.Notes__c == 'Test Case 2') {
+                case2 = cs;
+            }
+            else if(cs.Notes__c == 'Test Case 3') {
+                case3 = cs;
+            }
+            else if(cs.Notes__c == 'Test Case 4') {
+                case4 = cs;
+            }
+        }
+          
+        Test.startTest();
+            ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{case1.Id=>case1, case2.Id=>case2, case3.Id=>case3, case4.Id=>case4};
+          	/* Description - Calling evaluate Method for 
+           				     if condition when Both Loan Account Number and Financial Year is not Blank
+			*/
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result1 = icAndPicObj.evaluate(new List<Case>{case1});
+            System.assertEquals('Success', result1.get(case1.Id).status,'Done');
+            System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.get(case1.Id).response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Both Loan Account Number and Financial Year is Blank
+            */
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result2 = icAndPicObj.evaluate(new List<Case>{case2});
+            System.assertEquals('Error', result2.get(case2.Id).status,'Done');
+            System.assertEquals('Please fill the Financial Year and Loan Account Number also save the data before calling the STP.', result2.get(case2.Id).response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Financial Year is Blank.
+            */
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result3 = icAndPicObj.evaluate(new List<Case>{case3});
+            System.assertEquals('Error', result3.get(case3.Id).status,'Done');
+            System.assertEquals('Please fill the Financial Year.', result3.get(case3.Id).response,'Done');
+            
+            /* Description - Calling evaluate Method for 
+                                if condition when Loan Account Number is Blank.
+            */
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result4 = icAndPicObj.evaluate(new List<Case>{case4});
+            System.assertEquals('Error', result4.get(case4.Id).status,'Done');
+        Test.stopTest();
+      }
+      
+      /****************************************************
+       * @description - Test Method for run Method
+      *****************************************************/
+      @isTest 
+      static void runTestMethodBulk() {
+          
+      	ABHFL_ICAndPIC_Integration icAndPicObj = new ABHFL_ICAndPIC_Integration();
+        Case case1 = new Case();
+        ASF_Integration__c integ = new ASF_Integration__c();
+          
+        List<Case> caseLst = [Select id, Notes__c From Case];
+        
+        for(Case cs : caseLst) {
+            if(cs.Notes__c == 'Test Case 1') {
+                case1 = cs;
+                break;
+            }
+        }
+          
+        Test.startTest();
+            ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{case1.Id=>case1};
+          	Map<Id, ASF_IntegrationsController.IntegrationWrapper> res = icAndPicObj.run(new Map<Id, List<ASF_Integration__c>>{case1.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{case1});
+		  	System.assertEquals('Success', res.get(case1.Id).status,'Done');
+        Test.stopTest();
+      }
   }
