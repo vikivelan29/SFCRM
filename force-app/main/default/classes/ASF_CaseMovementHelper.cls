@@ -60,7 +60,7 @@ public class ASF_CaseMovementHelper {
 
         if(!casesAfterBackward.isEmpty()){
             //Find the next stage when moved forward after backward movement
-            Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values());
+            Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values(), currentStageMap);
             for(Id caseId : caseIdToNextStageMap.keySet()){
                 StageConfigWrapper nextStage = caseIdToNextStageMap.get(caseId);
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
@@ -149,7 +149,7 @@ public class ASF_CaseMovementHelper {
 
         if(!casesAfterBackward.isEmpty()){
             //Find the next stage when moved forward after backward movement
-            Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values());
+            Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values(), currentStageMap);
             for(Id caseId : caseIdToNextStageMap.keySet()){
                 StageConfigWrapper nextStage = caseIdToNextStageMap.get(caseId);
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
@@ -902,7 +902,7 @@ public class ASF_CaseMovementHelper {
      * Bulkfied
      */
     public static Map<Id,ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> getAssignmentForStage(List<Case> currentCases, Map<Id, String> caseIdToStageNameMap){
-        
+        System.debug('****getAssignmentForStage');
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> resultWrapperMap = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
         
         Set<String> externalIds = new Set<String>();
@@ -916,7 +916,7 @@ public class ASF_CaseMovementHelper {
 
         Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
         Map<String, List<ASF_Case_Stage_Config__c>> externalIdToStageConfigsMap = new Map<String, List<ASF_Case_Stage_Config__c>>();
-        
+        System.debug('externalIds ---> '+externalIds);
         ASF_CaseQueryHandler.refreshRecords = true;
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
         ASF_CaseQueryHandler.refreshRecords = false;
@@ -929,9 +929,11 @@ public class ASF_CaseMovementHelper {
 
         Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(Case caseRec : currentCases){
-                        if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+            System.debug('Check here ---> '+caseRec.Id+ ' --> '+externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c));
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                                        if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
+                    System.debug('Case Id - '+caseRec.Id+' '+config.StageName__c+ ' == '+ caseIdToStageNameMap.get(caseRec.Id));
+                    if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         if(config.Query_Fields__c != null){
                             allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -951,7 +953,8 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
-                ASF_CaseQueryHandler.refreshRecords = true;
+        System.debug('caseIds ---> '+caseIds);
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id, List<ASF_Case_Rule__c>> caseRulesForStage = new Map<Id, List<ASF_Case_Rule__c>>();
@@ -961,6 +964,10 @@ public class ASF_CaseMovementHelper {
             }
         }
 
+        for(Case tempC: queriedCaseRecords){
+            System.debug(' Queries Cases Id --> '+tempC.Id);
+        }
+
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> infos = ASF_CaseFrameworkHelper.runAssignmentRules(queriedCaseRecords, caseRulesForStage);
         for(Id caseId : infos.keySet()){
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
@@ -968,6 +975,8 @@ public class ASF_CaseMovementHelper {
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
 
+            System.debug('@@@@caseIdToCurrentStageConfigMap'+caseIdToCurrentStageConfigMap);
+            System.debug('@@@@caseId'+caseId);
             ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.containsKey(caseId) ? caseIdToCurrentStageConfigMap.get(caseId) : null;
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
@@ -978,7 +987,8 @@ public class ASF_CaseMovementHelper {
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseId, resultWrapper);
         }
-                return resultWrapperMap;
+        System.debug('****getAssignmentForStage>resultWrapperMap:'+resultWrapperMap);
+        return resultWrapperMap;
     }
     
     /**
@@ -994,7 +1004,7 @@ public class ASF_CaseMovementHelper {
 
     * Bulkified
     */
-    public static Map<Id, StageConfigWrapper> findNextStageAfterBackward(List<Case> currentCases){
+    public static Map<Id, StageConfigWrapper> findNextStageAfterBackward(List<Case> currentCases, Map<Id, String> currentStageMap){
         
         Map<Id, StageConfigWrapper> resultWrapperMap = new Map<Id, StageConfigWrapper>();
         
@@ -1019,7 +1029,7 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == caseRec.Stage__c){
+                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
                     caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                     break;
                 }

@@ -70,6 +70,7 @@
          caseRec1.Type_Text__c = 'Statement & Documents';
          caseRec1.Sub_Type_Text__c = 'Interest Schedule';
          caseRec1.ABHFL_Case_Detail__c = abhflCaseDetRec.Id;
+         caseRec1.Source__c = 'Branch';
          caseList.add(caseRec1);
 
          Case caseRec2 = new Case();
@@ -80,6 +81,7 @@
          caseRec2.Technical_Source__c = 'Api';
          caseRec2.Type_Text__c = 'Statement & Documents';
          caseRec2.Sub_Type_Text__c = 'Interest Schedule';
+         caseRec2.Source__c = 'Branch';
          caseList.add(caseRec2);
 		 
          Case caseRec3 = new Case();
@@ -90,6 +92,7 @@
          caseRec3.Technical_Source__c = 'Api';
          caseRec3.Type_Text__c = 'Statement & Documents';
          caseRec3.Sub_Type_Text__c = 'Interest Schedule';
+         caseRec3.Source__c = 'Branch';
          caseList.add(caseRec3);
           
          Case caseRec4 = new Case();
@@ -100,6 +103,7 @@
          caseRec4.Technical_Source__c = 'Api';
          caseRec4.Type_Text__c = 'Statement & Documents';
          caseRec4.Sub_Type_Text__c = 'Provisional Interest Certificate'; 
+         caseRec4.Source__c = 'Branch';
          caseList.add(caseRec4);
           
          insert caseList;
@@ -244,7 +248,7 @@
         Case case3 = new Case();
         Case case4 = new Case();
           
-        List<Case> caseLst = [Select id, Notes__c  From Case];
+        List<Case> caseLst = [Select Id, Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {
                 case1 = cs;
@@ -301,7 +305,7 @@
         Case case1 = new Case();
         ASF_Integration__c integ = new ASF_Integration__c();
           
-        List<Case> caseLst = [Select id, Notes__c From Case];
+        List<Case> caseLst = [Select Id, Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
         
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {
