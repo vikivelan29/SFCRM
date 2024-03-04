@@ -54,7 +54,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
             if(accc.Nature__c == 'Complaint' || (accc.Nature__c == 'Query' && caseRec.Source__c == 'Email') || (accc.Nature__c == 'Request' && (caseRec.Source__c == 'Email' || (caseRec.Source__c != 'Email' && accc.Documentation_Type__c != 'Scanned')))){
                 result.status = ABHFL_Constants.SUCCESS;
             }
-            resultMap.put(caseRecord.Id, result);
+            resultMap.put(caseRec.Id, result);
         }
         return resultMap;
     }
@@ -119,8 +119,8 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
         Set<Id> intIds = new Set<Id>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                intIds.add(int.External_Id__c);
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -130,9 +130,9 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
                                                 AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                 {
-                    if(int.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
                         caseInt.Status__c = ABHFL_Constants.CANCELED;
                         existingCaseIntegrations.add(caseInt);
                     }
@@ -155,14 +155,14 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
         Integer index = 0;
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
         for(Case caseRecord : caseRecords){
-            String longUrl = System.label.ABHFL_Base_URL_For_Bitly + caseRec.CaseNumber;
+            String longUrl = System.label.ABHFL_Base_URL_For_Bitly + caseRecord.CaseNumber;
             Integer expiryDay = Integer.valueOf(System.label.ExpiryDay_For_Bitly_URL);
-            String lob = caseRec.Business_Unit__c;
+            String lob = caseRecord.Business_Unit__c;
             for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
             {
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                caseInt.Case__c  = caseRec.Id;
-                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                caseInt.Case__c  = caseRecord.Id;
+                caseInt.Integration_Ext_Id__c = intSpec.External_Id__c;
                 caseInt.Status__c = ABHFL_Constants.PENDING;
 
                 caseInt.Request__c  =  JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
@@ -170,7 +170,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
                 newCaseIntegrations.add(caseInt);
 
                 Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRec.Business_Unit__c;
+                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
                 //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
                 caseIntOut.ServiceName__c = ABHFL_Constants.BITLY_SERVICE_NAME;
                 caseIntOut.Integration_Name__c  = ABHFL_Constants.BITLTY_INTEGRATION_NAME;
