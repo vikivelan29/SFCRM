@@ -33,6 +33,7 @@ import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
+import CASE_FROM_PREFRAMEWORK_TO_FRAMEWORK from '@salesforce/schema/Case.Preframework_to_Framework_FromUI__c';
 
 
 export class asf_Utility {
@@ -116,8 +117,11 @@ export class asf_Utility {
        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 
        //fields[CASE_PRODUCT_FIELD.fieldApiName] = parentJS.assetProductName; 
-       if(!parentJS.closeCase && !parentJS.rejectCase)
-           fields['recordTypeId'] = recTypeId;
+       if(!parentJS.closeCase && !parentJS.rejectCase){
+            fields['recordTypeId'] = recTypeId;
+            fields[CASE_FROM_PREFRAMEWORK_TO_FRAMEWORK.fieldApiName] = true;
+       }
+           
            
        if(parentJS.closeCase){
            fields[CASE_STAGE_FIELD.fieldApiName] = 'Resolved';
