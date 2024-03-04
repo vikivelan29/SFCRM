@@ -763,10 +763,12 @@ public class ASF_CaseMovementHelper {
         }
 
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
-                    caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
-                    break;
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == currentStageMap.get(caseRec.Id)){
+                        caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
+                        break;
+                    }
                 }
             }
         }
@@ -792,40 +794,42 @@ public class ASF_CaseMovementHelper {
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         Map<Id, ASF_Case_Stage_Config__c> caseIdToNextStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
-                if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
-                    // See if Applicable. 
-                    // If Not Optional, Allot to Next Stage and Break
-                    if(config.Optional_Stage__c){
-                        
-                        // Run Stage Movement Rules to check if this is the Next Stage
-                        List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
-                        caseRulesForStage.addAll(stageIdToCaseRulesMap.get(config.Id));
-                        
-                        Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(queriesCasesMap.get(caseRec.Id), caseRulesForStage);
-                        System.debug('***isStageMovementValid'+isStageMovementValid);
-                        if(isStageMovementValid){
-                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                            System.debug('***nextStageConfig:'+config);
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
+                    if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                        // See if Applicable. 
+                        // If Not Optional, Allot to Next Stage and Break
+                        if(config.Optional_Stage__c){
+                            
+                            // Run Stage Movement Rules to check if this is the Next Stage
+                            List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
+                            caseRulesForStage.addAll(stageIdToCaseRulesMap.get(config.Id));
+                            
+                            Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(queriesCasesMap.get(caseRec.Id), caseRulesForStage);
+                            System.debug('***isStageMovementValid'+isStageMovementValid);
+                            if(isStageMovementValid){
+                                caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                                System.debug('***nextStageConfig:'+config);
+                            }
+                            else{
+                                continue;
+                            }
                         }
-                        else{
+                        // If Manual, Continue ahead
+                        else if(config.Manual_Stage__c){
                             continue;
                         }
+                        else {
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                        }
                     }
-                    // If Manual, Continue ahead
-                    else if(config.Manual_Stage__c){
-                        continue;
+                    if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
+                        StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
+                        resultWrapper.stageConfig = caseIdToNextStageConfigMap.get(caseRec.Id);
+                        resultWrapperMap.put(caseRec.Id, resultWrapper);
+                        break;//next stage found, go to next case
                     }
-                    else {
-                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                    }
-                }
-                if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
-                    StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
-                    resultWrapper.stageConfig = caseIdToNextStageConfigMap.get(caseRec.Id);
-                    resultWrapperMap.put(caseRec.Id, resultWrapper);
-                    break;//next stage found, go to next case
                 }
             }
         }
@@ -1028,10 +1032,12 @@ public class ASF_CaseMovementHelper {
         }
 
         for(Case caseRec : currentCases){
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
-                    caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
-                    break;
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == currentStageMap.get(caseRec.Id)){
+                        caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
+                        break;
+                    }
                 }
             }
         }
@@ -1042,34 +1048,37 @@ public class ASF_CaseMovementHelper {
         for(Case caseRec : currentCases){
             ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
             caseIdToIsPreviousStageMap.put(caseRec.Id, false);
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
-                
-                    if(config.Gateway_Stage__c){
-                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                        
-                    }
-                    else if(config.StageName__c == caseRec.Previous_Stage__c) {
-                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                        // Later used to determine the right owner
-                        caseIdToIsPreviousStageMap.put(caseRec.Id, true);
-                    }
-
-                    // If Previously Assigned Stage, Find Previously Assigned Owner
-                    // If the Stage Config dictates to assign to an owner who 
-                    // was the last actioned user of another stage, then find that
-                    if(caseIdToIsPreviousStageMap.get(caseRec.Id) || config.Assign_To_Last_Actioned_Stage__c != null){
-                        String stageName = config.StageName__c;
-                        if(config.Assign_To_Last_Actioned_Stage__c != null){
-                            stageName = config.Assign_To_Last_Actioned_Stage__c;
+            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                    
+                        if(config.Gateway_Stage__c){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            
                         }
-                        caseIdToAssignmentStageMap.put(caseRec.Id, stageName);
-                    }
-                    if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
-                        break;
+                        else if(config.StageName__c == caseRec.Previous_Stage__c) {
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            // Later used to determine the right owner
+                            caseIdToIsPreviousStageMap.put(caseRec.Id, true);
+                        }
+
+                        // If Previously Assigned Stage, Find Previously Assigned Owner
+                        // If the Stage Config dictates to assign to an owner who 
+                        // was the last actioned user of another stage, then find that
+                        if(caseIdToIsPreviousStageMap.get(caseRec.Id) || config.Assign_To_Last_Actioned_Stage__c != null){
+                            String stageName = config.StageName__c;
+                            if(config.Assign_To_Last_Actioned_Stage__c != null){
+                                stageName = config.Assign_To_Last_Actioned_Stage__c;
+                            }
+                            caseIdToAssignmentStageMap.put(caseRec.Id, stageName);
+                        }
+                        if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
+                            break;
+                        }
                     }
                 }
             }
+
         }
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> assignmentInfoMap = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
         if(!caseIdToAssignmentStageMap.isEmpty()){
