@@ -121,7 +121,7 @@ public class ABHFL_SanctionLetterIntegration_Test {
     static void testEvaluateBulk(){
         
         ABHFL_SanctionLetterIntegration sLI = new ABHFL_SanctionLetterIntegration();
-        Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,ownerId,CreatedById FROM Case LIMIT 1];
+        Case caseRecord = [SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,ABHFL_Case_Detail__r.As_On_Date__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CaseNumber,Business_Unit__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> successfulEvaluate = sLI.evaluate(new List<Case>{caseRecord});
         System.assertEquals('Success',successfulEvaluate.get(caseRecord.Id).Status);
@@ -138,7 +138,7 @@ public class ABHFL_SanctionLetterIntegration_Test {
     static void testRunBulk(){
         ABHFL_SanctionLetterIntegration sLI = new ABHFL_SanctionLetterIntegration();
         
-        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,CreatedById,ownerId from Case limit 1];
+        Case caseRecord = [Select Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,ABHFL_Case_Detail__r.As_On_Date__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CaseNumber,Business_Unit__c from Case limit 1];
         
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};

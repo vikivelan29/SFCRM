@@ -46,11 +46,9 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                                                                                 emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
                     }
                     //check with Ashish this is not working as expected.
-                    
                     caseRecord.MoveToNext__c = true;
-                    if(!Test.isRunningTest()){
-                        update caseRecord;   
-                    }
+                    if(!test.isRunningTest())
+                        update caseRecord;
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedCaseClosed').Message__c;  
                 } else {
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 

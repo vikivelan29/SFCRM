@@ -113,7 +113,7 @@ private class ASF_IntegrationsControllerTest {
     
         List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-05', 'Pending with Initiator');
         for(ASF_Integration__c integ : prepIntegrations){
-            integ.Query_Fields__c = 'Id, Name';
+            integ.Query_Fields__c = 'Id';
         }
         update prepIntegrations;
         Case caseRec = [
