@@ -10,7 +10,6 @@ import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityControl
 import { loadScript } from 'lightning/platformResourceLoader';
 import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
-//import { validateFile } from "./bulkUploadBUValidationUtil";
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
@@ -113,7 +112,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     /*Loads the BU specific validation file from Static Resource and show/hide the components based on
     current user request */
     connectedCallback(){
-        
+
         if(this.strButtonName== 'DownloadCSVButton'){
             this.boolShowDownloadButton = true;
         }
@@ -197,10 +196,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             quotes: true,
             escapeChar: '"'
         });
-        //Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
+        /*Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
+        quotes: true,
         if(this.operationRecordTypeValue.includes('Close')){
             csvString = csvString.replaceAll('\n', '\n=');
-        } 
+        } */
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
@@ -262,7 +262,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
                         return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
-                    console.log('parsed data--'+JSON.stringify(this.processedCsvData));
+                    console.log('parsed data--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{
@@ -359,8 +359,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.insertFirstChunk(this.allLineItems);
             }
             else if(this.rowCount > this.MAX_CHUNK_SIZE){
-                this.chunkedLineItems = this.chunkArray(this.allLineItems, this.MAX_CHUNK_SIZE);
-                
+                this.chunkedLineItems = this.chunkArray(this.allLineItems, parseInt(this.MAX_CHUNK_SIZE));
                 //First Chunk
                 if (this.currentChunkIndex === 0) {
                     this.insertFirstChunk(this.chunkedLineItems[0]);
