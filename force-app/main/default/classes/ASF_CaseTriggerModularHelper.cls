@@ -240,7 +240,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             && caseRec.Stage__c != ASF_Constants.DUPLICATESTAGE 
             && caseRec.Stage__c != ASF_Constants.REJECTIONSTATUS){
                 if(caseRec.typeSubTypeMismatch__c == true){
-                	caseRec.addError(Label.RecategorizationError);
+                    caseRec.addError(Label.RecategorizationError);
                 }
             }
         }
@@ -381,7 +381,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             {
                 cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
             }
-		
+        
             for(Case caseRec : eligibleRecords){
                 ASF_Case_Category_Config__c appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
                 if(caseRec.Reopen_Style__c == 'Move To First Stage'){
@@ -397,7 +397,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 backResultWrap = ASF_CaseMovementHelper.moveToBackwardStage(backwardCases, backwardStageMap);
             }
             if(!forwardStageMap.isEmpty()){
-              	fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
+                fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
             }
             
             for(Case caseRec : eligibleRecords){
@@ -480,7 +480,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                        triggerEncounteredError.put(caseRec.Id, true);
                     }else{
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
-					}
+                    }
                 }
             }
         }
@@ -525,6 +525,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
+                        caseRecFromMap.MoveToNext__c = false;
                         if(resultWrap.caseToBeUpdated != null){
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
@@ -584,7 +585,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && (caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c )
                 && (caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c)
                 && (caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c)
-               	&&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
+                &&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
 
                 String movement = caseRec.pending_clarification__c==true?'backward':'forward';
@@ -695,7 +696,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
-		Map<Id, case> newMap = new Map<Id, case>();
+        Map<Id, case> newMap = new Map<Id, case>();
         
         for(Case caseRec : newList){
             //Insert case
@@ -929,7 +930,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         for(Case caseRec : newList){
             if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
-	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
+                caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
             else if(caseRec.Is_Duplicate__c != oldMap.get(caseRec.Id).Is_Duplicate__c && caseRec.Is_Duplicate__c == true){
