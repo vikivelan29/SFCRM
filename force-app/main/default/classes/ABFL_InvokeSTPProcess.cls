@@ -91,19 +91,21 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         List<Case> addlCheckPassedCases = new List<Case>();
         for(Case caseRecord : caseRecords){
-            // Perform additional checks as per STP identifier i.e. integration
-            ASF_IntegrationsController.IntegrationWrapper result = doAdditionalChecks(integ, caseRecord);
-            if (result.status == NULL){
-                addlCheckPassedCases.add(caseRecord);
+            for(ASF_Integration__c integ : integs.get(caseRecord.Id)){
+                // Perform additional checks as per STP identifier i.e. integration
+                ASF_IntegrationsController.IntegrationWrapper result = doAdditionalChecks(integ, caseRecord);
+                if (result.status == NULL){
+                    addlCheckPassedCases.add(caseRecord);
+                }
+                resultMap.put(caseRecord.Id, result);
             }
-            resultMap.put(caseRecord.Id, result);
         }
         if(!addlCheckPassedCases.isEmpty()){
             // i.e. Additional check were successful
             Set<Id> intIds = new Set<Id>();
             for(Case caseRec : addlCheckPassedCases){
-                for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                    intIds.add(int.External_Id__c);
+                for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                    intIds.add(integ.External_Id__c);
                 }
             }
 
@@ -113,9 +115,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                                     AND Integration_Ext_Id__c IN :intIds])
             {
                 if(integs.containsKey(caseInt.Case__c)){
-                    for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                    for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                     {
-                        if(int.External_Id__c == caseInt.Integration_Ext_Id__c){
+                        if(integ.External_Id__c == caseInt.Integration_Ext_Id__c){
                             caseInt.Status__c = ABHFL_Constants.CANCELED;
                             existingCaseIntegrations.add(caseInt);
                         }

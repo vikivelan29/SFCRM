@@ -107,4 +107,35 @@ public class ABHFL_NDCSTPHandler_Test {
         caseRec = [Select id,Asset.Branch__r.Branch_Queue_Id__c,OwnerId from Case where id =: integRecord.Case__c ];
         System.assertEquals(caseRec.Asset.Branch__r.Branch_Queue_Id__c,caseRec.OwnerId,'PASS');*/
     }
+
+    @IsTest
+    static void testEvaluateBulk(){
+        ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
+        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> caseAssignToBranch = ndcStp.evaluate(new List<Case>{caseRecord});
+        //caseRecord.Source__c = 'Branch';
+        update caseRecord;
+        Test.startTest();
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> caseClosed = ndcStp.evaluate(new List<Case>{caseRecord}); 
+            Asset astRecord = new Asset();
+            astRecord.Id = caseRecord.AssetId;
+            astRecord.Account_Status__c = 'Closed';
+            update astRecord;
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> successfulEvaluate = ndcStp.evaluate(new List<Case>{caseRecord});
+        Test.stopTest();
+        System.assertEquals('Error',caseAssignToBranch.get(caseRecord.Id).Status,'PASS');
+        System.assertEquals('Error',caseClosed.get(caseRecord.Id).Status,'PASS');
+        System.assertEquals('Success',successfulEvaluate.get(caseRecord.Id).Status,'PASS');
+    }
+    
+    @IsTest
+    static void testRunBulk(){
+        ABHFL_NDCSTPHandler ndcStp = new ABHFL_NDCSTPHandler();
+        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,OwnerId from Case limit 1];
+        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = ndcStp.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
+        System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status,'PASS');
+    }
 }

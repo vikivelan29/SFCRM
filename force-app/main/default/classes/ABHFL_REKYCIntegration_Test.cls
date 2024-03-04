@@ -103,5 +103,23 @@ public class ABHFL_REKYCIntegration_Test {
         System.debug('result  -----   >    '+ result);
         System.assertEquals('Success', result.status);
     }
+    @IsTest
+    static void testEvaluateBulk() {
+        ABHFL_REKYCIntegration rk = new ABHFL_REKYCIntegration();
+        Case caseRec = [SELECT id FROM case LIMIT 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRec.Id=>caseRec};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = rk.evaluate(new List<Case>{caseRec});
+        System.assertEquals('Success', result.get(caseRec.Id).status);
+    }
 
+    @IsTest
+    static void testRunBulk() {
+        ABHFL_REKYCIntegration rk = new ABHFL_REKYCIntegration();
+        ASF_Integration__c integ = [SELECT Id, External_Id__c, Display_Name__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
+        Case caseRec = [SELECT Id FROM Case LIMIT 1];
+        ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRec.Id=>caseRec};
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = rk.run(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRec});
+        System.debug('result  -----   >    '+ result);
+        System.assertEquals('Success', result.get(caseRec.Id).status);
+    }
 }

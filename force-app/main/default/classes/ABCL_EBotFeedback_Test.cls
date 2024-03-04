@@ -70,4 +70,33 @@
             System.assertEquals('Success', res.status);          
           Test.stopTest();
         }
+
+        @isTest 
+      static void evaluate_Test_MethodBulk() {
+  
+          ABCL_EBotFeedback ebotFeedbackObj = new ABCL_EBotFeedback();
+          Case caseRec = [SELECT id FROM Case LIMIT 1];
+  
+          Test.startTest();
+              Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = ebotFeedbackObj.evaluate(new List<Case>{caseRec});
+              System.assertEquals('Success', result.get(caseRec.Id).status);
+          Test.stopTest();
+      }
+  
+      /****************************************************
+         * @Description - Test Method for run Method
+        *****************************************************/
+        @isTest 
+        static void run_Test_MethodBulk() {
+            
+          ABCL_EBotFeedback ebotFeedbackObj = new ABCL_EBotFeedback();
+          ASF_Integration__c integ = new ASF_Integration__c();
+  
+          Case caseRec = [SELECT id FROM Case LIMIT 1];
+            
+          Test.startTest();
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> res = ebotFeedbackObj.run(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRec});
+            System.assertEquals('Success', res.get(caseRec.Id).status);          
+          Test.stopTest();
+        }
   }

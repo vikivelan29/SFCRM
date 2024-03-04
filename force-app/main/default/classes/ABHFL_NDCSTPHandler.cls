@@ -176,8 +176,8 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
 
         Set<Id> intIds = new Set<Id>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                intIds.add(int.External_Id__c);
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -187,9 +187,9 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                                                 AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                 {
-                    if(int.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
                         caseInt.Status__c = ABHFL_Constants.CANCELED;
                         existingCaseIntegrations.add(caseInt);
                     }
@@ -216,10 +216,10 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             {
                 ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
                 caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInteg.Case__c = caseRec.Id;
+                caseInteg.Case__c = caseRecord.Id;
                 caseInteg.Status__c= ABHFL_Constants.PENDING;
                 caseInteg.Request__c = requestBody;
-                newCaseIntegrations.add(caseInt);
+                newCaseIntegrations.add(caseInteg);
 
                 Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
                 caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;

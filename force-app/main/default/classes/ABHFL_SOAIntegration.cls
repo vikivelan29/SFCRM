@@ -124,8 +124,8 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
 
 		Set<Id> intIds = new Set<Id>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                intIds.add(int.External_Id__c);
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -135,9 +135,9 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
                                                 AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                 {
-                    if(int.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
                         caseInt.Status__c = ABHFL_Constants.CANCELED;
                         existingCaseIntegrations.add(caseInt);
                     }

@@ -100,7 +100,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                 result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
             }
-            resultMap.put(caseRec.Id, result);
+            resultMap.put(caseRecord.Id, result);
         }
 
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
@@ -170,8 +170,8 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
 
         Set<Id> intIds = new Set<Id>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                intIds.add(int.External_Id__c);
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -179,9 +179,9 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE Case__c IN :caseRecs AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                 {
-                    if(int.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
                         caseInt.Status__c = ABHFL_Constants.CANCELED;
                         existingCaseIntegrations.add(caseInt);
                     }
@@ -215,7 +215,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                 caseInteg.Case__c = caseRecord.Id;
                 caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord)); 
                 caseInteg.Status__c = ABHFL_Constants.PENDING;
-                newCaseIntegrations.add(caseInt);
+                newCaseIntegrations.add(caseInteg);
           
                 Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
                 caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
@@ -268,93 +268,90 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         return resultMap;
     }      
       
-       /****************************************************************************************************************
-      * @LOB - ABHFL
-      * @Function - processResponse
-      * @param caseInteg - ASF_Case_Integration record.
-      * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
-      *****************************************************************************************************************/
-      public void processResponse(ASF_Case_Integration__c caseInteg){
-          //processing of case, move to next
-          Boolean integrationFailure = true;
-          Case caseRec = [
-                  SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
-                FROM Case
-                WHERE Id =: caseInteg.Case__c 
-             ]; 
-          if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
-        if(isTransferred){
-                   integrationFailure = false;
-                   string cccExternalId;
-				   if(!Test.isRunningTest()){
-					   cccExternalId = ABHFL_Constants.Amort_CCC_EXTERNALID;
-				   }else{
-					   cccExternalId = 'CCC-CC-CCLTD-01';
-				   }
-				  
-                   List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,
-                                                                        Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
-                                                                        WHERE CCC_External_Id__c =: cccExternalId];
-                  
-                   Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
-                  Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
-                                                        
-  
-                   ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
-                   caseRec.MoveToNext__c = true;
-                   update caseRec;        
-              }else if(caseRec.Source__c != ABHFL_Constants.BRANCH){
-                          ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
-                        Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
-                          caseRec.OwnerId = csQueue.Id;
-                          
-                          if(Schema.sObjectType.Case.isUpdateable()){
-                               update caseRec;
-                          } 
-                      }
-          }
-          if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
-                caseRec.ABHFL_Case_Detail__r.STP_Failure__c = integrationFailure;
-                if(caseRec.Source__c != ABHFL_Constants.BRANCH){
-                   Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
-                          caseRec.OwnerId = csQueue.Id;
-                          
-                          if(Schema.sObjectType.Case.isUpdateable()){
-                               update caseRec;
-                          } 
-                          
-                     ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
-               }else if(caseRec.Source__c == ABHFL_Constants.BRANCH){
-                     ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
-             }
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - processResponse
+    * @param caseInteg - ASF_Case_Integration record.
+    * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
+    *****************************************************************************************************************/
+    public void processResponse(ASF_Case_Integration__c caseInteg){
+        //processing of case, move to next
+        Boolean integrationFailure = true;
+        Case caseRec = [
+                SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
+              FROM Case
+              WHERE Id =: caseInteg.Case__c 
+            ]; 
+        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
+          Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+      if(isTransferred){
+                  integrationFailure = false;
+                  string cccExternalId;
+          if(!Test.isRunningTest()){
+            cccExternalId = ABHFL_Constants.Amort_CCC_EXTERNALID;
+          }else{
             cccExternalId = 'CCC-CC-CCLTD-01';
           }
-          ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
-      }
+        
+                  List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Resolved_Case_Email_Template__c,
+                                                                      Resolved_Case_SMS_Metadata__c, Additional_SMS_Metadata__c, Additional_Email_Templates__c FROM ASF_Case_Category_Config__c
+                                                                      WHERE CCC_External_Id__c =: cccExternalId];
+                
+                  Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_Email_Templates__c);
+                Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(cccRecord[0].Additional_SMS_Metadata__c);
+                                                      
+
+                  ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRec,  emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);
+                  caseRec.MoveToNext__c = true;
+                  update caseRec;        
+            }else if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                        ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+                      Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
+                        caseRec.OwnerId = csQueue.Id;
+                        
+                        if(Schema.sObjectType.Case.isUpdateable()){
+                              update caseRec;
+                        } 
+                    }
+        }
+        if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
+              caseRec.ABHFL_Case_Detail__r.STP_Failure__c = integrationFailure;
+              if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                  Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
+                        caseRec.OwnerId = csQueue.Id;
+                        
+                        if(Schema.sObjectType.Case.isUpdateable()){
+                              update caseRec;
+                        } 
+                        
+                    ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+              }else if(caseRec.Source__c == ABHFL_Constants.BRANCH){
+                    ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+            }
+        }
+        ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }
       
-      /****************************************************************************************************************
-      *@description - AmmortRequestWrapper
-      *****************************************************************************************************************/
-        public class AmmortRequestWrapper{
-          public string lan;
-          public string caseId;
-          public string souce;
-          public string requestType;
-          public string reportName;
-          public string documentType;
-          
-          AmmortRequestWrapper(string lanNo,Case caseRec){
-              this.lan = lanNo;
-              this.souce = ABHFL_Constants.CRM;
-              this.requestType = ABHFL_Constants.EMAIL;
-              this.lan = lanNo;
-              this.reportName = 'RepaymentSchedule';
-              this.documentType = ABHFL_Constants.BINARY_DATA;
-              this.caseId = caseRec.caseNumber;
-          }
-      }
+    /****************************************************************************************************************
+    *@description - AmmortRequestWrapper
+    *****************************************************************************************************************/
+    public class AmmortRequestWrapper{
+        public string lan;
+        public string caseId;
+        public string souce;
+        public string requestType;
+        public string reportName;
+        public string documentType;
+        
+        AmmortRequestWrapper(string lanNo,Case caseRec){
+            this.lan = lanNo;
+            this.souce = ABHFL_Constants.CRM;
+            this.requestType = ABHFL_Constants.EMAIL;
+            this.lan = lanNo;
+            this.reportName = 'RepaymentSchedule';
+            this.documentType = ABHFL_Constants.BINARY_DATA;
+            this.caseId = caseRec.caseNumber;
+        }
     }
   
-  }}
+}

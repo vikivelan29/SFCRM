@@ -194,8 +194,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         
 		Set<Id> intIds = new Set<Id>();
         for(Case caseRec : caseRecs){
-            for(ASF_Integration__c int : integs.get(caseRec.Id)){
-                intIds.add(int.External_Id__c);
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -205,9 +205,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                                                 AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c int : integs.get(caseInt.Case__c))
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
                 {
-                    if(int.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
                         caseInt.Status__c = ABHFL_Constants.CANCELED;
                         existingCaseIntegrations.add(caseInt);
                     }
@@ -246,7 +246,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = generateRequest(caseRecord, type, financialYr);
                     jsonBody = JSON.serialize(reqBodyObj, true);
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                    caseInt.Case__c  = caseRec.Id;
+                    caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = 'Pending';
                     caseInt.Response__c = 'Waiting for API response';

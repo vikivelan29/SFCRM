@@ -64,15 +64,7 @@ public with sharing class ASF_IntegrationsController {
         try {
             IntegrationWrapper result = new IntegrationWrapper();
             //Object result;
-            Set<String> all_fields = new Set<String>{'id'};
-            if(integ.Query_Fields__c != null){
-                all_fields.addAll(integ.Query_Fields__c.split(','));
-            }
-            ASF_IntegrationsController.queriedCasesForIntegration = (Map<Id, Case>) Database.query(
-                'SELECT ' +
-                String.join(all_fields, ',') +
-                ' FROM Case WHERE Id = :caseRec'
-            );
+            
             // First check evaluation
             Type customType = Type.forName(integ.Processing_Class__c);
             ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
@@ -105,7 +97,8 @@ public with sharing class ASF_IntegrationsController {
         try {
             //Object result;
             // First check evaluation
-            Map<String, List<Case>> apexClassToCases = new Map<String, List<Case>>();
+            Map<String, List<Case>> apexClassToCasesForEvaluate = new Map<String, List<Case>>();
+            Map<String, List<Case>> apexClassToCasesForRun = new Map<String, List<Case>>();
             Set<String> all_fields = new Set<String>{'id'};
             for(Case caseRec : caseRecs){
                 if(integs.containsKey(caseRec.Id)){
@@ -113,24 +106,32 @@ public with sharing class ASF_IntegrationsController {
                         if(integ.Query_Fields__c != null){
                             all_fields.addAll(integ.Query_Fields__c.toLowerCase().split(','));
                         }
-                        if(!apexClassToCases.containsKey(integ.Processing_Class__c)){
-                            apexClassToCases.put(integ.Processing_Class__c, new List<Case>());
+                        if(!apexClassToCasesForEvaluate.containsKey(integ.Processing_Class__c)){
+                            apexClassToCasesForEvaluate.put(integ.Processing_Class__c, new List<Case>());
                         }
-                        apexClassToCases.get(integ.Processing_Class__c).add(caseRec);
+                        apexClassToCasesForEvaluate.get(integ.Processing_Class__c).add(caseRec);
                     }
                 }
             }
 
-            ASF_IntegrationsController.queriedCasesForIntegration = (Map<Id, Case>) Database.query(
+            ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>((List<Case>)Database.query(
                 'SELECT ' +
                 String.join(all_fields, ',') +
                 ' FROM Case WHERE Id IN :caseRecs'
-            );
+            ));
             
-            for(String apexClass : apexClassToCases.keySet()){
+            for(String apexClass : apexClassToCasesForEvaluate.keySet()){
                 Type customType = Type.forName(apexClass);
                 ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
-                wrapperMap.putAll(instance.evaluate(apexClassToCases.get(apexClass)));
+                wrapperMap.putAll(instance.evaluate(apexClassToCasesForEvaluate.get(apexClass)));
+                for(Case caseRec : apexClassToCasesForEvaluate.get(apexClass)){
+                    if(wrapperMap.containsKey(caseRec.Id) && wrapperMap.get(caseRec.Id).status == 'Success'){
+                        if(!apexClassToCasesForRun.containsKey(apexClass)){
+                            apexClassToCasesForRun.put(apexClass, new List<Case>());
+                        }
+                        apexClassToCasesForRun.get(apexClass).add(caseRec);
+                    }
+                }
             }
             
             // Then run the actual integration
@@ -139,14 +140,11 @@ public with sharing class ASF_IntegrationsController {
                 
             // }
 
-            List<Case> eligibleCases = new List<Case>();
-            for(Case caseRec : caseRecs){
-                if(wrapperMap.containsKey(caseRec.Id) && wrapperMap.get(caseRec.Id).status == 'Success'){
-                    eligibleCases.add(caseRec);
-                }
+            for(String apexClass : apexClassToCasesForRun.keySet()){
+                Type customType = Type.forName(apexClass);
+                ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
+                wrapperMap.putAll(instance.run(integs, apexClassToCasesForRun.get(apexClass)));
             }
-
-            wrapperMap.putAll(instance.run(integs, eligibleCases));
             return wrapperMap;
         } catch (Exception e) {
             //throw new AuraHandledException(e.getMessage());    
