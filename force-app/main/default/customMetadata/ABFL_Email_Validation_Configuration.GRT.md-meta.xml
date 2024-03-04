@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Email_Addresses_Allowed__c</field>
-        <value xsi:type="xsd:string">srujana@techforceservices.com,abcl.abfl@gmail.com,grievance.finance@adityabirlacapital.com,ABFL.GrievanceHead@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">ABFSSL.Uatgrievancefinance@adityabirlacapital.com,srujana@techforceservices.com,abcl.abfl@gmail.com,grievance.finance@adityabirlacapital.com,ABFL.GrievanceHead@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>
