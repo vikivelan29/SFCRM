@@ -769,7 +769,7 @@ public class ASF_CaseMovementHelper {
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         break;
                     }
-            	}
+                }
             }
         }
 
@@ -933,15 +933,10 @@ public class ASF_CaseMovementHelper {
 
         Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
         for(Case caseRec : currentCases){
-<<<<<<< HEAD
-            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
-                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-=======
             System.debug('Check here ---> '+caseRec.Id+ ' --> '+externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c));
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     System.debug('Case Id - '+caseRec.Id+' '+config.StageName__c+ ' == '+ caseIdToStageNameMap.get(caseRec.Id));
->>>>>>> 88dbf7a5598329a01cb6710bca234d794734656d
                     if(config.StageName__c == caseIdToStageNameMap.get(caseRec.Id)){
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         if(config.Query_Fields__c != null){
@@ -962,10 +957,7 @@ public class ASF_CaseMovementHelper {
             stageConfigToCaseRuleMap.get(rule.Case_Stage_Config__c).add(rule);
         }
 
-<<<<<<< HEAD
-=======
         System.debug('caseIds ---> '+caseIds);
->>>>>>> 88dbf7a5598329a01cb6710bca234d794734656d
         ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
@@ -999,10 +991,7 @@ public class ASF_CaseMovementHelper {
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseId, resultWrapper);
         }
-<<<<<<< HEAD
-=======
         System.debug('****getAssignmentForStage>resultWrapperMap:'+resultWrapperMap);
->>>>>>> 88dbf7a5598329a01cb6710bca234d794734656d
         return resultWrapperMap;
     }
     
@@ -1043,21 +1032,13 @@ public class ASF_CaseMovementHelper {
         }
 
         for(Case caseRec : currentCases){
-<<<<<<< HEAD
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
-				for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    if(config.StageName__c == caseRec.Stage__c){
+                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    if(config.StageName__c == currentStageMap.get(caseRec.Id)){
                         caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
                         break;
                     }
-            	}                
-=======
-            for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                if(config.StageName__c == currentStageMap.get(caseRec.Id)){
-                    caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
-                    break;
                 }
->>>>>>> 88dbf7a5598329a01cb6710bca234d794734656d
             }
         }
 
@@ -1080,7 +1061,7 @@ public class ASF_CaseMovementHelper {
                             // Later used to determine the right owner
                             caseIdToIsPreviousStageMap.put(caseRec.Id, true);
                         }
-    
+
                         // If Previously Assigned Stage, Find Previously Assigned Owner
                         // If the Stage Config dictates to assign to an owner who 
                         // was the last actioned user of another stage, then find that
