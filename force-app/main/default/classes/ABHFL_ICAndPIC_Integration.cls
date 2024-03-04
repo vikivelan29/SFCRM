@@ -192,7 +192,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         String financialYr = ''; 
         String currentFiscalYear;
         
-		Set<Id> intIds = new Set<Id>();
+		Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
                 intIds.add(integ.External_Id__c);

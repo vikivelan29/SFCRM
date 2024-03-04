@@ -123,13 +123,19 @@ public with sharing class ASF_IntegrationsController {
             for(String apexClass : apexClassToCasesForEvaluate.keySet()){
                 Type customType = Type.forName(apexClass);
                 ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
-                wrapperMap.putAll(instance.evaluate(apexClassToCasesForEvaluate.get(apexClass)));
+                Map<Id, IntegrationWrapper> intResults = instance.evaluate(apexClassToCasesForEvaluate.get(apexClass));
+                
                 for(Case caseRec : apexClassToCasesForEvaluate.get(apexClass)){
-                    if(wrapperMap.containsKey(caseRec.Id) && wrapperMap.get(caseRec.Id).status == 'Success'){
-                        if(!apexClassToCasesForRun.containsKey(apexClass)){
-                            apexClassToCasesForRun.put(apexClass, new List<Case>());
+                    if(intResults.containsKey(caseRec.Id)){
+                        if(intResults.get(caseRec.Id).status == 'Success'){
+                            //Success responses are passed to run method
+                            if(!apexClassToCasesForRun.containsKey(apexClass)){
+                                apexClassToCasesForRun.put(apexClass, new List<Case>());
+                            }
+                            apexClassToCasesForRun.get(apexClass).add(caseRec);
+                        }else{
+                            wrapperMap.put(caseRec.Id, intResults.get(caseRec.Id));//Error response, hence store.
                         }
-                        apexClassToCasesForRun.get(apexClass).add(caseRec);
                     }
                 }
             }
@@ -143,7 +149,24 @@ public with sharing class ASF_IntegrationsController {
             for(String apexClass : apexClassToCasesForRun.keySet()){
                 Type customType = Type.forName(apexClass);
                 ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
-                wrapperMap.putAll(instance.run(integs, apexClassToCasesForRun.get(apexClass)));
+                Map<Id, IntegrationWrapper> intResults = instance.run(integs, apexClassToCasesForRun.get(apexClass));
+                for(Case caseRec : apexClassToCasesForRun.get(apexClass)){
+                    if(intResults.containsKey(caseRec.Id)){
+                        if(intResults.get(caseRec.Id).status == 'Success'){
+                            //Success, store only if there is no response stored for this case yet. 
+                            //If success present, no point storing again
+                            //If error present, can't overwrite with success.
+                            if(!wrapperMap.containsKey(caseRec.Id)){
+                                wrapperMap.put(caseRec.Id, intResults.get(caseRec.Id));
+                            }
+                        }else{
+                            if(wrapperMap.containsKey(caseRec.Id) && wrapperMap.get(caseRec.Id).status == 'Success'){
+                                //store only of previous responses were success only.
+                                wrapperMap.put(caseRec.Id, intResults.get(caseRec.Id));
+                            }
+                        }
+                    }
+                }
             }
             return wrapperMap;
         } catch (Exception e) {

@@ -155,7 +155,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-        Set<Id> intIds = new Set<Id>();
+        Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
                 intIds.add(integ.External_Id__c);

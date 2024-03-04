@@ -125,7 +125,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         
             //Cancel existing records in ASF_Case_Integration__c
             //ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
-        Set<Id> intIds = new Set<Id>();
+        Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
                 intIds.add(integ.External_Id__c);

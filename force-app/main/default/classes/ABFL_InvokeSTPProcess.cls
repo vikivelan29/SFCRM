@@ -102,7 +102,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
         }
         if(!addlCheckPassedCases.isEmpty()){
             // i.e. Additional check were successful
-            Set<Id> intIds = new Set<Id>();
+            Set<String> intIds = new Set<String>();
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id)){
                     intIds.add(integ.External_Id__c);
