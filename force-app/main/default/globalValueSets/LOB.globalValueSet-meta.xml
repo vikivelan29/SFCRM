@@ -43,7 +43,6 @@
     <customValue>
         <fullName>ABHFL</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>ABHFL</label>
     </customValue>
     <masterLabel>LOB</masterLabel>
