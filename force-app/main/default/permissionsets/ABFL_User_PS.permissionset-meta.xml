@@ -2772,4 +2772,12 @@
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
 </PermissionSet>
