@@ -248,7 +248,7 @@
         Case case3 = new Case();
         Case case4 = new Case();
           
-        List<Case> caseLst = [Select id, Notes__c  From Case];
+        List<Case> caseLst = [Select Id, Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {
                 case1 = cs;
@@ -305,7 +305,7 @@
         Case case1 = new Case();
         ASF_Integration__c integ = new ASF_Integration__c();
           
-        List<Case> caseLst = [Select id, Notes__c From Case];
+        List<Case> caseLst = [Select Id, Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
         
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {

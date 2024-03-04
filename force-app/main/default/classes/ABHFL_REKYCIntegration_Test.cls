@@ -106,7 +106,7 @@ public class ABHFL_REKYCIntegration_Test {
     @IsTest
     static void testEvaluateBulk() {
         ABHFL_REKYCIntegration rk = new ABHFL_REKYCIntegration();
-        Case caseRec = [SELECT id FROM case LIMIT 1];
+        Case caseRec = [SELECT Id, Account.IsPersonAccount, Account.KYC_Done_Date__c, Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Nature__c, Account.PersonEmail,Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c FROM case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRec.Id=>caseRec};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = rk.evaluate(new List<Case>{caseRec});
         System.assertEquals('Success', result.get(caseRec.Id).status);
@@ -116,7 +116,7 @@ public class ABHFL_REKYCIntegration_Test {
     static void testRunBulk() {
         ABHFL_REKYCIntegration rk = new ABHFL_REKYCIntegration();
         ASF_Integration__c integ = [SELECT Id, External_Id__c, Display_Name__c FROM ASF_Integration__c WHERE External_Id__c = 'ASF_INT_01' LIMIT 1];
-        Case caseRec = [SELECT Id FROM Case LIMIT 1];
+        Case caseRec = [SELECT Id, Account.IsPersonAccount, Account.KYC_Done_Date__c, Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Nature__c, Account.PersonEmail,Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRec.Id=>caseRec};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = rk.run(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRec});
         System.debug('result  -----   >    '+ result);
