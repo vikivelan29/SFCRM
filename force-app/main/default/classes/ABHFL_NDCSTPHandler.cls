@@ -138,7 +138,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                             emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);          
                 }
-                caseRecord.MoveToNext__c = true;
+                caseRecord.Stage__c = 'Resolved';
                 update caseRecord;        
             } else {
                 handleFailure(caseRecord);
