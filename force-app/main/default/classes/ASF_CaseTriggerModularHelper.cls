@@ -462,7 +462,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
                    eligibleRecords.add(caseRec);
-                   currentStageMap.put(caseRec.Id, oldMap.get(caseRec.Id).Stage__c);
+                   currentStageMap.put(caseRec.Id, isUpdate?oldMap.get(caseRec.Id).Stage__c:caseRec.Stage__c);
                }
             if(caseRec.Technical_Source__c == 'API' && oldMap == null){
                        supressErrors.put(caseRec.Id, true);
@@ -475,6 +475,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 ASF_CaseMovementHelper.StageWrapper resultWrap = resultWrapMap.containsKey(caseRec.Id) ? resultWrapMap.get(caseRec.Id) : null;
                 if(resultWrap != null && resultWrap.status == 'Success'){
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                    caseRec.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
