@@ -5,7 +5,7 @@ public with sharing class ASF_BulkCaseProcessorQueueable implements Queueable{
     public ASF_BulkCaseProcessorQueueable(Id headRowId, String templateName) {
         this.headRowId = headRowId;
         this.templateName = templateName;
-        this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name LIMIT 1000];
+        this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name];
     }
 
     public void execute(System.QueueableContext ctx){

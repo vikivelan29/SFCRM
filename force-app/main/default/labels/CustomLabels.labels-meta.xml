@@ -47,7 +47,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL Base URL For Bitly</shortDescription>
-        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+        <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
     </labels>
     <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
@@ -75,7 +75,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL ROI HIstory Fields</shortDescription>
-        <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Loan ID:LOAN_ID,Loan No:LOAN_NO,Old Rate:OLD_RATE,New Rate:new_rate</value>
+        <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Old Rate:OLD_RATE,New Rate:new_rate</value>
     </labels>
     <labels>
         <fullName>ASF_BulkThresholdForQueueable</fullName>
