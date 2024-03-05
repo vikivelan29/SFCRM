@@ -5,7 +5,7 @@
     <name>ROI Revision For Payment Link SMS</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Auto case closure due to non-receipt of payment (Payment link expiry)</subject>
+    <subject>ROI offer</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

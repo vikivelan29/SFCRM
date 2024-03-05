@@ -10,6 +10,10 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
     public final List<String> offlineSources = new List<String>{'Branch', 'Call Center', 'Internal Usage', 'Social Media'};
     
+    Map<Id, String> emailTemplateMap = new Map<Id, String>();
+    Map<Id, String> smsMetadataMap = new Map<Id, String>();
+    Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+    List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
@@ -47,6 +51,50 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         
         return result;
     }
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        
+        // Case caseRecord = [
+        //     SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
+        //     	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
+        //     FROM Case
+        //     WHERE Id =: caseRec.Id 
+        // ];
+        List<Case> caseRecords = new List<Case>();
+        for(Case caseRec : caseRecs){
+            caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
+        }
+
+        List<Case> casesForDisbursalBeforeSixMonths = new List<Case>();
+        for(Case caseRecord : caseRecords){
+            ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failure').Message__c;
+            //Checking for mandatory API conditions
+            if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
+                Date today = Date.today();
+                Date sixMonthsAgo = today.addMonths(-6);
+                Date disbursalDate = caseRecord.Asset.Last_Disbursement_Date__c;
+                if(disbursalDate >= sixMonthsAgo)
+                {
+                    result.status = ABHFL_Constants.SUCCESS;
+                    result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Success').Message__c;
+                }
+                else
+                {
+                    casesForDisbursalBeforeSixMonths.add(caseRecord);
+                }    
+            }
+            resultMap.put(caseRecord.Id, result);
+        }
+        if(!casesForDisbursalBeforeSixMonths.isEmpty()){
+            resultMap.putAll(handleDisbursalBeforeSixMonths(casesForDisbursalBeforeSixMonths));
+            if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
+                ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent,emailTemplateMap, smsMetadataMap, isTransferredMap);
+            }
+        }
+        return resultMap;
+    }
     
     /****************************************************************************************************************
     * @LOB - ABHFL
@@ -55,6 +103,55 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @description - Invoked from the evaluate method, this method handles disbursal before 6 months
     *****************************************************************************************************************/
+    private Map<Id, ASF_IntegrationsController.IntegrationWrapper> handleDisbursalBeforeSixMonths(List<Case> caseRecords){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        Set<String> cccIds = new Set<String>();
+        for(Case caseRec : caseRecords){
+            cccIds.add(caseRec.CCC_External_Id__c);
+        }
+        Map<String, ASF_Case_Category_Config__c> configIdToConfigMap = new Map<String,ASF_Case_Category_Config__c>();
+        for(ASF_Case_Category_Config__c cccRecord : [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, Rejected_Case_SMS_Metadata__c, Additional_Email_Templates__c,Additional_SMS_Metadata__c FROM ASF_Case_Category_Config__c
+        WHERE CCC_External_Id__c IN :cccIds ])
+        {
+            configIdToConfigMap.put(cccRecord.CCC_External_Id__c, cccRecord);
+        }
+
+        for(Case caseRecord : caseRecords){
+            ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+            if(String.isNotBlank(caseRecord.Source__c) && digitalSources.contains(caseRecord.Source__c))
+            {
+                Map<String, String> stpemailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(configIdToConfigMap.get(caseRecord.CCC_External_Id__c).Additional_Email_Templates__c);
+                Map<String, String> stpsmsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(configIdToConfigMap.get(caseRecord.CCC_External_Id__c).Additional_SMS_Metadata__c);
+                
+                //Send standard email template and close the case
+                this.emailTemplateMap.put(caseRecord.Id, stpemailTemplateMap.get('Rejected'));
+                this.smsMetadataMap.put(caseRecord.Id, stpsmsMetadataMap.get('Rejected'));
+                this.isTransferredMap.put(caseRecord.Id, false);
+                this.casesForCreatePELogAndinvokeCommPEevent.add(caseRecord);
+                
+                //Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, 
+                //                                                        emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
+                
+                // if(!Test.IsRunningTest() && platformEventResult.IsSuccess() && Schema.sObjectType.Case.isUpdateable())
+                // {
+                //     update caseRecord;
+                // }
+                Case updatedCase = new Case(Id=caseRecord.Id);
+                updatedCase.Stage__c = 'Resolved';
+                result.updatedCase = updatedCase;
+                result.status = ABHFL_Constants.ERROR;
+                result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Digital').Message__c;
+            }
+            else
+            {	
+                result.status = ABHFL_Constants.ERROR;
+                result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Offline').Message__c;
+            }
+            resultMap.put(caseRecord.Id, result);
+        }
+        return resultMap;
+    }
+    
     private ASF_IntegrationsController.IntegrationWrapper handleDisbursalBeforeSixMonths(Case caseRecord){
         
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -136,6 +233,106 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         	wrap.status = ABHFL_Constants.SUCCESS;    
         }
         return wrap;
+    }
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+
+		Set<String> intIds = new Set<String>();
+        for(Case caseRec : caseRecs){
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                intIds.add(integ.External_Id__c);
+            }
+        }
+
+        List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+        for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
+                                                WHERE Case__c IN :caseRecs 
+                                                AND Integration_Ext_Id__c IN :intIds])
+        {
+            if(integs.containsKey(caseInt.Case__c)){
+                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
+                {
+                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                        caseInt.Status__c = ABHFL_Constants.CANCELED;
+                        existingCaseIntegrations.add(caseInt);
+                    }
+                }
+            }
+        }
+
+        ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+        update existingCaseIntegrations;
+        ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+
+        //Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c, MoveToNext__c  FROM Case where Id =: caseRec.Id ];
+        List<Case> caseRecords = new List<Case>();
+        for(Case caseRec : caseRecs){
+            caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
+        }
+                
+        List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
+        Map<Integer, Case_Integration_Outbound__e> peMap = new Map<Integer, Case_Integration_Outbound__e>();
+        Integer index = 0;
+        Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
+        for(Case caseRecord : caseRecords){
+            for(ASF_Integration__c integ : integs.get(caseRecord.Id))
+            {
+                ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                caseInteg.Case__c  = caseRecord.Id;
+                caseInteg.Integration_Ext_Id__c = integ.External_Id__c;
+                caseInteg.Status__c = ABHFL_Constants.PENDING;
+                caseInteg.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                caseInteg.Request__c = JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+                newCaseIntegrations.add(caseInteg);
+
+                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                //caseIntOut.Case_Integration_ID__c = caseInt.Name;
+                caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+                caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                caseIntOut.Request_Payload__c  =  JSON.serialize(new WelcomeKitRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+                peMap.put(index, caseIntOut);
+                indexToCaseId.put(index, caseRecord.Id);
+                index++;
+            }
+        }
+        
+        index = 0;
+        
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false);
+            Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>([SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ]);
+            for(Database.SaveResult sr : results){
+                if(sr.isSuccess()){
+                    Case_Integration_Outbound__e caseIntOut = peMap.get(index);
+                    caseIntOut.Case_Integration_ID__c = caseIntegrations.get(sr.getId()).Name;
+                    peMap.put(index, caseIntOut);
+                }else{
+                    ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
+                    //wrap.status = ABHFL_Constants.ERROR;
+                    resultMap.put(indexToCaseId.get(index), wrap);
+                    peMap.remove(index);
+                    indexToCaseId.remove(index);
+                }
+                index++;
+            }
+        }
+
+        List<Database.SaveResult> publishResults = EventBus.publish(peMap.values());
+        index = 0;
+        for(Database.SaveResult publishResult : publishResults){
+            if(publishResult.isSuccess()){
+                ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
+                wrap.status = ABHFL_Constants.SUCCESS;
+                resultMap.put(indexToCaseId.values()[index], wrap);
+            }else{
+                ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
+                //wrap.status = ABHFL_Constants.ERROR;
+                resultMap.put(indexToCaseId.values()[index], wrap);
+            }
+            index++;
+        }
+        return resultMap;
     }
     
     /****************************************************************************************************************

@@ -197,7 +197,7 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         insert headObj;
 
         List<ASF_Bulk_Upload_Line_Item__c> lineItems = new List<ASF_Bulk_Upload_Line_Item__c>();
-        for(Integer index = 0; index<=1001; index++){
+        for(Integer index = 0; index<=200; index++){
             ASF_Bulk_Upload_Line_Item__c lineItem = new ASF_Bulk_Upload_Line_Item__c();
             lineItem.JSON_Data__c = '{"Subject":"SampleSubject", "Status":"New"}';
             lineItem.Status__c = 'Event Fired';

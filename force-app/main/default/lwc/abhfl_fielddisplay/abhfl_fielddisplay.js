@@ -86,10 +86,11 @@ export default class Abhfl_fielddisplay extends LightningElement {
     }
 
     handleChange(e){
-        let currData = JSON.parse(JSON.stringify(this.rowData));
-        currData['detail'][this.columnName] = e.target.value;
-        this.rowData = currData;
-        const selectEvent = new CustomEvent('selection',{ detail : this.rowData});
+        const selectEvent = new CustomEvent('selection', {
+                                                            detail : { 
+                                                                        fieldName : this.columnName,
+                                                                        assetId : this.rowData.asset.Id,
+                                                                        value : e.target.value}});
         // Fire the custom event
         this.dispatchEvent(selectEvent);
     }

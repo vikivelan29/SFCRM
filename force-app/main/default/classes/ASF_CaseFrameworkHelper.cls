@@ -329,22 +329,38 @@ public with sharing class ASF_CaseFrameworkHelper {
     public static Map<Id, ASF_IntegrationsController.IntegrationWrapper> runIntegrations(List<Case> caseList, Map<Id, List<ASF_Integration__c>> allIntegrations){
 
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-            
+        List<Case> applicableCases = new List<Case>();
+        Map<Id, List<ASF_Integration__c>> eligibleIntegrationsMap = new Map<Id, List<ASF_Integration__c>>();
 		for (Case caseRec : caseList){
-            List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
             for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
                 if(integ.Auto_Run_on_Load__c){
-                    ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, caseRec);
-					intResults.add(intResult);      
+                    if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
+                        eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
+                        applicableCases.add(caseRec);
+                    }
+                    eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                 }
             }
-            for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
-                if(wrap.status == 'Error'){
-                    resultMap.put(caseRec.Id, wrap);
-                    break;
-                }
-        	}
         }
+
+        if(!applicableCases.isEmpty()){
+            resultMap = ASF_IntegrationsController.runIntegration(eligibleIntegrationsMap, applicableCases);
+        }
+        // for (Case caseRec : caseList){
+        //     List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
+        //     for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
+        //         if(integ.Auto_Run_on_Load__c){
+        //             ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, caseRec);
+		// 			intResults.add(intResult);      
+        //         }
+        //     }
+        //     for(ASF_IntegrationsController.IntegrationWrapper wrap : intResults){
+        //         if(wrap.status == 'Error'){
+        //             resultMap.put(caseRec.Id, wrap);
+        //             break;
+        //         }
+        // 	}
+        // }
         return resultMap;
     }
 

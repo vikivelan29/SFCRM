@@ -291,10 +291,9 @@ export default class Abhfl_MultipleLan extends LightningElement {
     }
 
     updateAssetDetail(e){
-        this.childTableRecords.indexOf(e.detail);
         for(let record in this.childTableRecords){
-            if(this.childTableRecords[record].asset.Id == e.detail.asset.Id){
-                this.childTableRecords[record] = e.detail;
+            if(this.childTableRecords[record].asset.Id == e.detail.assetId){
+                this.childTableRecords[record].detail[e.detail.fieldName] = e.detail.value;
                 break;
             }
         }

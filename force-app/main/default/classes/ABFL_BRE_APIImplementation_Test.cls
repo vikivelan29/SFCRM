@@ -41,7 +41,10 @@ public class ABFL_BRE_APIImplementation_Test {
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfig(caseCat[0].Id, true);
             ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
             List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStage[0].Id,true,'ABFL_InvokeBREProcess', 'BRE_BalanceConfirmation_Retail');
-            
+            for(ASF_Integration__c integ : intConfigList){
+                integ.Query_Fields__c = 'Id,ABFL_Case_Detail__c, Account.Name, Technical_Source__c, Source__c';
+            }
+            update intConfigList;
             Account acc = ABFL_TestDataFactory.createAccount();
             ABFL_TestDataFactory.createContact(acc.ID);
             List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);
