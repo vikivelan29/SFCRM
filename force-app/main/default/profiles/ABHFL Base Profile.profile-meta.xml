@@ -233,6 +233,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_BulkCsvController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkDownloadVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkUploadUtilityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CasePreFrameworkTriggerHelper_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -5105,4 +5117,12 @@
         <enabled>false</enabled>
         <name>ViewTrustMeasures</name>
     </userPermissions>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
 </Profile>
