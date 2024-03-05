@@ -889,7 +889,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
     }
 
-    public static void updateCasesFinally() {
+    public static void updateCasesFinally(Map<Id, Case> newMap) {
         //This method invokes a DML on the caseFinalDMLMap map, 
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
@@ -900,7 +900,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;    
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
-                    Case failedCase = caseFinalDMLMap.values()[i];
+                    Case failedCase = newMap.get(caseFinalDMLMap.values()[i].Id);
                     
                     if(supressErrors.containsKey(failedCase.Id) && supressErrors.get(failedCase.Id)){
                         triggerEncounteredError.put(failedCase.Id, true);
