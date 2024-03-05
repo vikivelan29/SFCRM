@@ -92,4 +92,33 @@ public class ABHFL_PaymentLinkHandler_Test {
         System.assertEquals('Success',integrationResponse.Status,'PASS');
         Test.StopTest();
     }
+
+    @IsTest
+    static void testEvaluateBulk(){
+        ABHFL_PaymentLinkHandler paymentHandler = new ABHFL_PaymentLinkHandler();
+        Case caseRecord = [Select id,AccountId from Case limit 1];
+        Account accountRecord = [Select id from Account where RecordType.Name = 'Individual' limit 1];
+		caseRecord.AccountId = accountRecord.Id;
+        update caseRecord;
+        paymentHandler.evaluate(new List<Case>{caseRecord});
+        
+    }
+    
+    @IsTest
+    static void testRunBulk(){
+        ABHFL_PaymentLinkHandler paymentHandler = new ABHFL_PaymentLinkHandler();
+        Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,OwnerId from Case limit 1];
+        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        ASF_Case_Integration__c caseIntRecord = [Select id from ASF_Case_Integration__c limit 1];
+        MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+        mock.setStaticResource(ABCL_Integrations__mdt.getInstance('Paytm_Link').EndPoint__c,'PaytmLinkMockResponse');
+        mock.setStaticResource(ABCL_Integrations__mdt.getInstance('Payment_Link').EndPoint__c,'PaymentLinkMockResponse');
+        mock.setStatusCode(200);
+        mock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, mock);
+        Test.StartTest();
+        paymentHandler.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
+        
+        Test.StopTest();
+    }
 }
