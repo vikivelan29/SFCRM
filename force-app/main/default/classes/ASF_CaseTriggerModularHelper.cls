@@ -477,7 +477,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 ASF_CaseMovementHelper.StageWrapper resultWrap = resultWrapMap.containsKey(caseRec.Id) ? resultWrapMap.get(caseRec.Id) : null;
                 if(resultWrap != null && resultWrap.status == 'Success'){
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
-                    caseRec.Status = resultWrap.nextStageConfig.Status__c;
+                    caseRec.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
@@ -893,7 +893,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
     }
 
-    public static void updateCasesFinally() {
+    public static void updateCasesFinally(Map<Id, Case> newMap) {
         //This method invokes a DML on the caseFinalDMLMap map, 
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
@@ -915,7 +915,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
-                    Case failedCase = localListForDML[i];
+                    Case failedCase = newMap.get(localListForDML[i].Id);
                     
                     if(supressErrors.containsKey(failedCase.Id) && supressErrors.get(failedCase.Id)){
                         triggerEncounteredError.put(failedCase.Id, true);
