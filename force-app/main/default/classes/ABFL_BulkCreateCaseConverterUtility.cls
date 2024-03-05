@@ -15,6 +15,7 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
             String eachJSON = jsonRows.get(lineItemId);
             System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
+            System.debug('keyValueMap'+keyValueMap);
             if(String.isNotBlank(keyValueMap.get('Loan Account No'))){
                 lans.add(keyValueMap.get('Loan Account No').trim());
             }

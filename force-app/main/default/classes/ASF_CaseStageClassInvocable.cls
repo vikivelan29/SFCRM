@@ -4,7 +4,7 @@
 *Description  :  Interface to implement Before and After Stage movement Apex Class
 *********************************************************/
 public interface ASF_CaseStageClassInvocable {
-    
+
 
     /**
      * Method to be called before Stage movement
