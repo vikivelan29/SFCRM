@@ -183,7 +183,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
-            cccExtIdToCaseIndex.put(caseRec.CCC_External_Id__c, index);
+            if(caseRec.Id == null){
+                cccExtIdToCaseIndex.put(caseRec.CCC_External_Id__c, index);
+            }
             index++;
         }
 
@@ -792,16 +794,18 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 for(Case caseRec : integCaseList){
                     if(intWrapMap.containsKey(caseRec.Id)){
                         ASF_IntegrationsController.IntegrationWrapper intWrap = intWrapMap.get(caseRec.Id);
-                        if(intWrap.status == 'Error' && intWrap.assignToId != null){
-                            Case caseToUpdate; 
-                            if(!caseFinalDMLMap.containsKey(caseRec.Id)){
-                                caseToUpdate = new Case(Id=caseRec.Id, OwnerId = intWrap.assignToId);
-                                caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
-                            }else{
-                                caseToUpdate = caseFinalDMLMap.get(caseRec.Id);
+                        if(intWrap.status == 'Error'){
+                            Case caseToUpdate = !caseFinalDMLMap.containsKey(caseRec.Id)?new Case(Id=caseRec.Id):caseFinalDMLMap.get(caseRec.Id);
+                            if(intWrap.assignToId != null){
                                 caseToUpdate.OwnerId = intWrap.assignToId;
-                                caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
                             }
+                            if(intWrap.updatedCase != null){
+                                Map<String, Object> populatedFieldMap = intWrap.updatedCase.getPopulatedFieldsAsMap();
+                                for(String fieldName : populatedFieldMap.keySet()){
+                                    caseToUpdate.put(fieldName, intWrap.updatedCase.get(fieldName));
+                                }
+                            }
+                            caseFinalDMLMap.put(caseToUpdate.Id, caseToUpdate);
                         }
                     }
                 }
@@ -894,13 +898,24 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //which is accumulation of all field updates on current from After trigger
         //*** IMP: Doesnt run Case trigger***
         if(caseFinalDMLMap != null){
-            ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;//Reserved for future use, in case any specific module/function need skip
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
-            Database.SaveResult[] saveResults = Database.update(caseFinalDMLMap.values(), false);
-            ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;    
+            System.debug('caseFinalDMLMap.values()'+caseFinalDMLMap.values());
+            for(Case caseRec : caseFinalDMLMap.values()){
+                if(caseRec.Stage__c != null || caseRec.OwnerId != null){
+                    //If Stage or Owner is being updated on any Case, After Trigger needs to run for SLA History calculation
+                    ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+                    ASF_TriggerSkipperUtility.markTriggerRun('Case', 'Before');
+                    break;
+                }
+            }
+            List<Case> localListForDML = (List<Case>)JSON.deserializeStrict(JSON.serialize(caseFinalDMLMap.values()), List<Case>.class);
+            caseFinalDMLMap = new Map<Id, Case>();
+            Database.SaveResult[] saveResults = Database.update(localListForDML, false);
+            ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if (!saveResults.get(i).isSuccess()) {
-                    Case failedCase = newMap.get(caseFinalDMLMap.values()[i].Id);
+                    Case failedCase = newMap.get(localListForDML[i].Id);
                     
                     if(supressErrors.containsKey(failedCase.Id) && supressErrors.get(failedCase.Id)){
                         triggerEncounteredError.put(failedCase.Id, true);
