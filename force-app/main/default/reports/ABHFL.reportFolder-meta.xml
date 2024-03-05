@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
-        <accessLevel>Manage</accessLevel>
-        <sharedTo>prajwalvarun.sharma@salesforce.com.abcl</sharedTo>
-        <sharedToType>User</sharedToType>
-    </folderShares>
-    <folderShares>
         <accessLevel>View</accessLevel>
-        <sharedTo>smonteiro@salesforce.com.abcl</sharedTo>
-        <sharedToType>User</sharedToType>
+        <sharedTo>ABHFL_Leads</sharedTo>
+        <sharedToType>RoleAndSubordinates</sharedToType>
     </folderShares>
     <name>ABHFL</name>
 </ReportFolder>
