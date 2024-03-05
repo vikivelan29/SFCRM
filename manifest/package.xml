@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+        <members>ABFL_Case_Record_Page</members>
+        <name>flexipage</name>
+		</types>
     <types>
-        <members>LOB</members>
-        <name>GlobalValueSet</name>
-    </types>
-    <types>
-        <members>ASF_Case_Approv__c.ABFL_SR_Sharing_Rule</members>
-        <members>Survey_Response__c.ABFL_Survey_Sharing_Rule</members>
-        <name>SharingCriteriaRule</name>
-    </types>
+        <members>Case.ABFL_SR_Snapshot</members>
+        <name>QuickAction</name>
+		</types>
 
 
 
