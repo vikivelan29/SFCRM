@@ -4889,6 +4889,14 @@
         <apexPage>NonEssentialsMobileLanding</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Case.Framework</recordType>
@@ -5117,12 +5125,4 @@
         <enabled>false</enabled>
         <name>ViewTrustMeasures</name>
     </userPermissions>
-    <pageAccesses>
-        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
 </Profile>
