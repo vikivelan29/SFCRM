@@ -267,7 +267,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId];
     }
     public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
-        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c   FROM Case WHERE Id =: caseIds];
+        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds];
     }
     
 }
