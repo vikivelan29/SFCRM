@@ -85,8 +85,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     //boolChannelVisible = false;
 
     boolShowNoData = false;
-    boolAllChannelVisible = false;
-    boolAllSourceVisible = false;
+    //boolAllChannelVisible = false;
+    //boolAllSourceVisible = false;
     strNoDataMessage = '';
     complaintLevelVisible = false;
     
@@ -165,8 +165,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     searchTypeSubtypeHandler() {
         this.accounts = null;
         this.createCaseWithAll = false;
-        this.boolAllChannelVisible = false;
-        this.boolAllSourceVisible = false;
+        //this.boolAllChannelVisible = false;
+        //this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
  
@@ -228,18 +228,18 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.sourceValues = [];
      
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        if (selected) {
+       /* if (selected) {
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
         }
         if ((selected) && (this.businessUnit === "ABFL")) {
             this.boolAllChannelVisible = false;
-        }
+        } */
         if (selected) {
-            if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(',')) && (this.businessUnit != "ABFL")) {
+            /*if (selected && (selected[NATURE_FIELD.fieldApiName] == "All" || selected[SOURCE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(',')) && (this.businessUnit != "ABFL")) {
                 this.boolAllChannelVisible = true;
                 this.boolAllSourceVisible = true;
-            }
+            } */
             this.createCaseWithAll = true;
             this.isNotSelected = true;
             if (selected[NATURE_FIELD.fieldApiName] == "All") {
