@@ -120,7 +120,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
                     String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
                     if(fieldName == 'CaseNumber'){
-                        fieldValue = ' '+fieldValue;
+                        //fieldValue = ' '+fieldValue;
                     }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
