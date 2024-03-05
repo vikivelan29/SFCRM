@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>ABHFL_Bangalore_Branch</name>
+    <queueMembers>
+        <users>
+            <user>mayur.gorle-v@adityabirlacapital.com.abhfluat</user>
+            <user>prachiuat@techforceservices.com.au</user>
+            <user>prachi@techforceservices.com.au</user>
+            <user>roshni.nhavkar-v@adityabirlacapital.com.abhfluat</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>
