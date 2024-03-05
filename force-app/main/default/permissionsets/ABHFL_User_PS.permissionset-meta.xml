@@ -359,6 +359,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Billing_Cycle_Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -430,11 +435,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
