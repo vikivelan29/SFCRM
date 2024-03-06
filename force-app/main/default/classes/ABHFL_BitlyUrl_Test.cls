@@ -97,7 +97,7 @@ public class ABHFL_BitlyUrl_Test {
     @IsTest
     static void testRunBulk() {
         ABHFL_BitlyUrl bit = new ABHFL_BitlyUrl();
-        ASF_Integration__c integ = [SELECT Id, Display_Name__c, External_Id__c FROM ASF_Integration__c WHERE External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Display_Name__c, External_Id__c, Processing_Class__c FROM ASF_Integration__c WHERE External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
         Case caseRecord = [SELECT Id, CCC_External_Id__c, Source__c, CaseNumber, Business_Unit__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = bit.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRecord});
