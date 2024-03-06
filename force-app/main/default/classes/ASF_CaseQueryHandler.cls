@@ -110,7 +110,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  Approval_Rejected_Fields_to_Update__c,Approval_Style__c,Approval_SuccessStageMovement__c FROM Case_Rules__r),
                                 (SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integrations__r)
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
                                 WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId
                                 ORDER BY Case_Category_Config__c, Order__c];        
@@ -267,7 +267,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId];
     }
     public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
-        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c   FROM Case WHERE Id =: caseIds];
+        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds];
     }
     
 }

@@ -160,6 +160,5 @@
     </nameField>
     <pluralLabel>SR Requests</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
-    <visibility>Public</visibility>
+    <sharingModel>Private</sharingModel>
 </CustomObject>

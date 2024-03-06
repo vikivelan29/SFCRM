@@ -6,6 +6,8 @@
 *********************************************************/
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
+    public static String QUEUE_GROUP_QUERY = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
+
  /****************************************************************************************************************
 * @param  - List<CASE> & Map of Old Cases
 * @return - void .
@@ -17,7 +19,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
         system.debug('mRecordTypeCase '+mRecordTypeVsCases);
         if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
-            Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
+        Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case objCase : newCaseMap.Values()){
                 system.debug('objCaseIssd '+objCase.Id);
@@ -155,7 +157,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         List<Case> filteredCase = new List<Case>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-            Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
+        Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
             for(Case objCase : lstCase){
                 system.debug('objCaseId '+objCase.ownerId);
                 system.debug('objCaseIdOWNER '+objCase.LAN__c);
@@ -180,7 +182,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         List<Case> filteredCase = new List<Case>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
-            Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
+        Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
             List<Case> afterCases = [SELECT ID,OwnerId,LAN__c,Business_Unit__c FROM Case WHERE ID IN :lstCase AND OWNERID =: queueRecord.ID ];
             if(!afterCases.isEmpty()){
                 for(Case objCase : afterCases){

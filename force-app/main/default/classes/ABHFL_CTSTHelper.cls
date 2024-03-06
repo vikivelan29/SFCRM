@@ -239,7 +239,7 @@ public without sharing class ABHFL_CTSTHelper {
             if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
-                    if (payment.Realization_Status__c != 'Cleared') {
+                    if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
                         break;
                     }
@@ -363,7 +363,7 @@ public without sharing class ABHFL_CTSTHelper {
             // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
             List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
             External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
+            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
 
             for(ASF_Integration__c asfCaseInteg : specificIntegrations){
                 if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
@@ -372,10 +372,16 @@ public without sharing class ABHFL_CTSTHelper {
                 uiCardIntegrationMap.get(asfCaseInteg.C3ExternalId__c).add(asfCaseInteg);
             }
 
+            List<Case> applicableCases = new List<Case>();
+            Map<Id, List<ASF_Integration__c>> integMap = new Map<Id, List<ASF_Integration__c>>();
             for(Case cs : newCases){
                 if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
-                    ASF_CaseFrameworkHelper.runIntegrations(cs, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                    applicableCases.add(cs);
+                    integMap.put(cs.Id, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
                 }
+            }
+            if(!applicableCases.isEmpty()){
+                ASF_CaseFrameworkHelper.runIntegrations(applicableCases, integMap);
             }
         }
     }

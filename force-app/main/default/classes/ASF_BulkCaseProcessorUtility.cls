@@ -105,7 +105,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             if(sr.isSuccess()){
                 System.debug('Success case number'+recordsForDML[index]);
                 jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?'\''+caseNumberMap.get(sr.getId()):'Case Updated');
+                jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
             }else{
                 jsonMap.put('Result', 'FAILURE');
                 String errorMessage = '';
@@ -116,6 +116,8 @@ public with sharing class ASF_BulkCaseProcessorUtility {
                 }
                 jsonMap.put('Message', errorMessage);
             }
+            System.debug('jsonMap'+jsonMap);
+            System.debug('jsonMap Serialized'+ JSON.serialize(jsonMap));
             jsonResults.put(lineItemId, JSON.serialize(jsonMap));
             index++;
         }

@@ -3,7 +3,7 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">Dear Customer,<br />
-We are glad to inform you that your request for {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}has moved to next stage. You can check the status of the same on real time basis by clicking in the {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
+We are glad to inform you that your request for {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has moved to next stage. You can check the status of the same on real time basis by clicking in the {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
 Regards,<br />
 -Aditya Birla Housing Finance Limited</body>
 </html>

@@ -15,7 +15,7 @@ public with sharing class ABHFL_PreClosurePaymentCheck implements ASF_CaseStageC
                 if(isPaymentsClearedMap.containsKey(caseRec.Id) && !isPaymentsClearedMap.get(caseRec.Id)){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(caseRec.Id);
                     retCls.status = ABHFL_Constants.ERROR;
-                    retCls.errorMessage = 'Payments should be Cleared in order to move to Next Stage.';
+                    retCls.errorMessage = 'Realization Status should not be blank';
                     returnWrapper.put(caseRec.Id, retCls);
                 }else{
                     paymentClearedCases.add(caseRec);

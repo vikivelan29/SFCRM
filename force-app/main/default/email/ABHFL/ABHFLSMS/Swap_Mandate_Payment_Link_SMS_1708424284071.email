@@ -5,6 +5,5 @@
 <body style="height: auto; min-height: auto;">
 <style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 </style>
-Dear Customer,<br />
-We are in receipt of the documents shared by you and accordingly we will be changing the Repayment bank account as per your request. We request you to make the payment of Rs.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} /- as swap charges.If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
+Dear Customer, We are in receipt of the documents shared by you and accordingly we will be changing the Repayment bank account as per your request. We request you to make the payment of Rs.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}/- as swap charges.If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
 </html>
