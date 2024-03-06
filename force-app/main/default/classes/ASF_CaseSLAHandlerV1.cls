@@ -58,7 +58,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
         if(c.Reopened__c){
-            if(externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
+            if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
                 sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
                 sla2Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
                 sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
