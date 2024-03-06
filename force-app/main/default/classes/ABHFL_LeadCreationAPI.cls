@@ -66,8 +66,10 @@ public with sharing class ABHFL_LeadCreationAPI {
     public static void executeSendLeadToCRM(set<Id> leadIdSet){
         List<Id> leadIdList = new List<Id>();
         leadIdList.addAll(leadIdSet);
-        
+        if(leadIdList.size() > 0){
         sendLead(leadIdList[0], true);
+
+        }
     }
     
     /*private static boolean checkConditions(Lead leadObj){
