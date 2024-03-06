@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Asset_Detail_Editable_Fields__c</field>
-        <value xsi:type="xsd:string">Revised_ROI__c,Impact__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Asset_Detail_Fields__c</field>
@@ -32,6 +32,6 @@
     </values>
     <values>
         <field>Stages_Allowing_File_Upload__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">CPU FCL Issuance</value>
     </values>
 </CustomMetadata>
