@@ -128,7 +128,9 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_SanctionLetterIntegration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -163,23 +165,25 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         for(Case caseRec : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
-                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                caseInt.Case__c  = caseRec.Id;
-                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-                caseInt.Status__c = ABHFL_Constants.PENDING;
-                caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-                caseInt.Request__c = JSON.serialize(new SLRequestWrapper(caseRec.Asset.Lan__c));
-                newCaseIntegrations.add(caseInt);
+                if(integ.Processing_Class__c == 'ABHFL_SanctionLetterIntegration'){
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                    caseInt.Case__c  = caseRec.Id;
+                    caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                    caseInt.Status__c = ABHFL_Constants.PENDING;
+                    caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                    caseInt.Request__c = JSON.serialize(new SLRequestWrapper(caseRec.Asset.Lan__c));
+                    newCaseIntegrations.add(caseInt);
 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRec.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInte.Name;
-                caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-                caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRec.Asset.Lan__c));
-                caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRec.Id);
-                index++;
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRec.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInte.Name;
+                    caseIntOut.Integration_Name__c  = integ.Display_Name__c;
+                    caseIntOut.Request_Payload__c  =  JSON.serialize(new SLRequestWrapper(caseRec.Asset.Lan__c));
+                    caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRec.Id);
+                    index++;
+                }
             }
         }
 

@@ -158,7 +158,9 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_REKYCIntegration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -200,35 +202,37 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         for(Case caseRecord : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRecord.Id))
             {
-                String kycDoneDate = String.valueOf(caseRecord.Account.KYC_Done_Date__c);
-                String birthDate = String.valueOf(caseRecord.Account.PersonBirthdate);
-                String lastDisbursementDate = String.valueOf(caseRecord.Asset.Last_Disbursement_Date__c);
+                if(integ.Processing_Class__c == 'ABHFL_REKYCIntegration'){
+                    String kycDoneDate = String.valueOf(caseRecord.Account.KYC_Done_Date__c);
+                    String birthDate = String.valueOf(caseRecord.Account.PersonBirthdate);
+                    String lastDisbursementDate = String.valueOf(caseRecord.Asset.Last_Disbursement_Date__c);
 
-                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                caseInt.Case__c  = caseRecord.Id;
-                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-                caseInt.Status__c = ABHFL_Constants.PENDING;
-                caseInt.Request__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
-                                                    caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
-                                                    caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c, 
-                                                    lastDisbursementDate
-                                                    ));
-                caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-                newCaseIntegrations.add(caseInt);
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                    caseInt.Case__c  = caseRecord.Id;
+                    caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                    caseInt.Status__c = ABHFL_Constants.PENDING;
+                    caseInt.Request__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
+                                                        caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
+                                                        caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c, 
+                                                        lastDisbursementDate
+                                                        ));
+                    caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                    newCaseIntegrations.add(caseInt);
 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
-                caseIntOut.ServiceName__c = ABHFL_Constants.REKYC_SERVICE_NAME;
-                caseIntOut.Integration_Name__c  = ABHFL_Constants.REKYC_SERVICE_NAME;
-                caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
-                                                    caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
-                                                    caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c,
-                                                    lastDisbursementDate
-                                                    ));
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
+                    caseIntOut.ServiceName__c = ABHFL_Constants.REKYC_SERVICE_NAME;
+                    caseIntOut.Integration_Name__c  = ABHFL_Constants.REKYC_SERVICE_NAME;
+                    caseIntOut.Request_Payload__c  =  JSON.serialize(new REKYCRequestWrapper(caseRecord.Business_Unit__c, caseRecord.CCC_External_Id__c, caseRecord.Account.Client_Code__c, caseRecord.Customer_name_formula__c, caseRecord.Asset.LAN__c,
+                                                        caseRecord.Nature__c, kycDoneDate, caseRecord.Account.PersonEmail, caseRecord.Account.PersonMobilePhone, caseRecord.Account.PAN__c, birthDate,
+                                                        caseRecord.Account.Street_Address_1__c, caseRecord.Account.Street_Address_2__c, caseRecord.Account.Street_Address_3__c, caseRecord.Account.City__c, caseRecord.Account.State__c,
+                                                        lastDisbursementDate
+                                                        ));
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
 
