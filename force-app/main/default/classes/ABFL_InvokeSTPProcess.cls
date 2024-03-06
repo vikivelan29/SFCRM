@@ -25,6 +25,16 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         return result;
     }
+     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        for(Case caseRecord : caseRecs){
+            ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+            result.status = ABFL_Constants.SUCCESS;
+            result.response = ABFL_Constants.EVALUATION_SUCCESS;
+            resultMap.put(caseRecord.Id, result);
+        }
+        return resultMap;
+    }
 
     /****************************************************************************************************************
      * @LOB - ABFL
@@ -67,6 +77,110 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             result.response = ABFL_Constants.WAITING_API_RESPONSE;
         }
         return result;
+    }
+     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+
+        //Get case record for validation
+        //Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
+        List<Case> caseRecords = new List<Case>();
+        for(Case caseRec : caseRecs){
+            caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
+        }
+
+        List<Case> addlCheckPassedCases = new List<Case>();
+        for(Case caseRecord : caseRecords){
+            for(ASF_Integration__c integ : integs.get(caseRecord.Id)){
+                // Perform additional checks as per STP identifier i.e. integration
+                ASF_IntegrationsController.IntegrationWrapper result = doAdditionalChecks(integ, caseRecord);
+                if (result.status == NULL){
+                    addlCheckPassedCases.add(caseRecord);
+                }
+                resultMap.put(caseRecord.Id, result);
+            }
+        }
+        if(!addlCheckPassedCases.isEmpty()){
+            // i.e. Additional check were successful
+            Set<String> intIds = new Set<String>();
+            for(Case caseRec : addlCheckPassedCases){
+                for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
+                        intIds.add(integ.External_Id__c);
+                    }
+                }
+            }
+
+            List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+            for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
+                                                    WHERE Case__c IN :addlCheckPassedCases 
+                                                    AND Integration_Ext_Id__c IN :intIds])
+            {
+                if(integs.containsKey(caseInt.Case__c)){
+                    for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
+                    {
+                        if(integ.External_Id__c == caseInt.Integration_Ext_Id__c){
+                            caseInt.Status__c = ABHFL_Constants.CANCELED;
+                            existingCaseIntegrations.add(caseInt);
+                        }
+                    }
+                }
+            }
+
+            //Cancel existing records in ASF_Case_Integration__c - Canceling will call the trigger
+            //ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integ.External_Id__c);
+            ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+            update existingCaseIntegrations;
+            ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+
+            List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
+            for(Case caseRec : addlCheckPassedCases){
+                for(ASF_Integration__c integ : integs.get(caseRec.Id))
+                {
+                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
+                        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
+                            Case__c = caseRec.Id, 
+                            Integration_Ext_Id__c = integ.External_Id__c, 
+                            Status__c = ABFL_Constants.PENDING, 
+                            Response__c = ABFL_Constants.WAITING_API_RESPONSE
+                        );
+                        if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
+                            caseInt.Is_Validation_Success__c = true;
+                        }
+                        newCaseIntegrations.add(caseInt);
+                    }
+                }
+            }
+            insert newCaseIntegrations;
+
+            Map<Id, List<ASF_Case_Integration__c>> caseIdToCaseInts = new Map<Id, List<ASF_Case_Integration__c>>();
+            for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
+            {
+                if(!caseIdToCaseInts.containsKey(caseInt.Case__c)){
+                    caseIdToCaseInts.put(caseInt.Case__c, new List<ASF_Case_Integration__c>());
+                }
+                caseIdToCaseInts.get(caseInt.Case__c).add(caseInt);
+            }
+
+            List<Case_Integration_Outbound__e> peList = new List<Case_Integration_Outbound__e>();
+            for(Case caseRec : addlCheckPassedCases){
+                ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+                result.status = ABFL_Constants.SUCCESS;
+                result.response = ABFL_Constants.WAITING_API_RESPONSE;
+                resultMap.put(caseRec.Id, result);
+                for(ASF_Integration__c integ : integs.get(caseRec.Id))
+                {
+                    Case_Integration_Outbound__e peRec = ABFL_STP_APIImplementation.callout(integ, caseRec, caseIdToCaseInts.get(caseRec.Id));
+                    if(peRec != null){
+                        peList.add(peRec);
+                    }
+                }
+            }
+
+            if(!peList.isEmpty()){
+                List<Database.SaveResult> publishResults = EventBus.publish(peList);
+            }
+        }
+        return resultMap;
     }
 
     /****************************************************************************************************************
