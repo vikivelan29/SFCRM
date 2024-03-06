@@ -119,11 +119,11 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
-            ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
-            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
-
+            
             // Virendra - to Reject the Checklist and Task on Case Rejection.
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
+            ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
+            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
             
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
