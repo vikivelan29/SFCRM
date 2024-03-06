@@ -58,10 +58,12 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
         if(c.Reopened__c){
-            sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
-            sla2Sec =externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
-            sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
-            closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
+                sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
+                sla2Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
+                sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
+                closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            }
             // If this has been Just Reopened in this update, then aslo set the Overall Case Closure
             // to the Reopen Case Closure
             //TBD ritika
