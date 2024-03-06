@@ -115,7 +115,7 @@ public class ABHFL_AmortizationIntegration_Test {
         ABHFL_AmortizationIntegration amortStp = new ABHFL_AmortizationIntegration();
         //ABHFL_AmortizationIntegration.AmmortRequestWrapper wrap = new ABHFL_AmortizationIntegration.AmmortRequestWrapper();
         Case caseRecord = [Select Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c,CaseNumber,Business_Unit__c from Case limit 1];
-        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c, Processing_Class__c from ASF_Integration__c limit 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = amortStp.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
         System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status,'Done');

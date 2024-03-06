@@ -120,7 +120,9 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_BitlyUrl'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -160,24 +162,26 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
             String lob = caseRecord.Business_Unit__c;
             for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
             {
-                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                caseInt.Case__c  = caseRecord.Id;
-                caseInt.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInt.Status__c = ABHFL_Constants.PENDING;
+                if(intSpec.Processing_Class__c == 'ABHFL_BitlyUrl'){
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                    caseInt.Case__c  = caseRecord.Id;
+                    caseInt.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInt.Status__c = ABHFL_Constants.PENDING;
 
-                caseInt.Request__c  =  JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
-                caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-                newCaseIntegrations.add(caseInt);
+                    caseInt.Request__c  =  JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
+                    caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                    newCaseIntegrations.add(caseInt);
 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
-                caseIntOut.ServiceName__c = ABHFL_Constants.BITLY_SERVICE_NAME;
-                caseIntOut.Integration_Name__c  = ABHFL_Constants.BITLTY_INTEGRATION_NAME;
-                caseIntOut.Request_Payload__c  =   JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
+                    caseIntOut.ServiceName__c = ABHFL_Constants.BITLY_SERVICE_NAME;
+                    caseIntOut.Integration_Name__c  = ABHFL_Constants.BITLTY_INTEGRATION_NAME;
+                    caseIntOut.Request_Payload__c  =   JSON.serialize(new BitlyRequestWrapper(longUrl, lob, expiryDay));
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
 		index = 0;

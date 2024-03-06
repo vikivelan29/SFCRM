@@ -128,7 +128,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -161,13 +163,15 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         for(Case caseRec : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
-                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                caseInt.Case__c  = caseRec.Id;
-                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-                caseInt.Status__c = ABFL_Constants.PENDING;
-                caseInt.Type__c = 'BRE';
-                caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
-                newCaseIntegrations.add(caseInt);
+                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                    caseInt.Case__c  = caseRec.Id;
+                    caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                    caseInt.Status__c = ABFL_Constants.PENDING;
+                    caseInt.Type__c = 'BRE';
+                    caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
+                    newCaseIntegrations.add(caseInt);
+                }
             }
         }
 

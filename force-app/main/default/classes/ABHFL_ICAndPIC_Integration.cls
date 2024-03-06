@@ -195,7 +195,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 		Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_ICAndPIC_Integration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -242,7 +244,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             String jsonBody = '';
             for(ASF_Integration__c integ : integs.get(caseRecord.Id))
             {
-                if(subTypeList.contains(caseSubType)) {
+                if(integ.Processing_Class__c == 'ABHFL_ICAndPIC_Integration' && subTypeList.contains(caseSubType)) {
                     ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = generateRequest(caseRecord, type, financialYr);
                     jsonBody = JSON.serialize(reqBodyObj, true);
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();

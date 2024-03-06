@@ -74,9 +74,6 @@
         <fields>Error_Message__c</fields>
         <fields>Status__c</fields>
         <fields>JSON_Data__c</fields>
-        <fields>Result_JSON_Data__c</fields>
-        <fields>Row_Number__c</fields>
-        <fields>OBJECT_ID</fields>
         <relatedList>ASF_Bulk_Upload_Line_Item__c.Bulk_Upload_Header__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -105,7 +105,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             Set<String> intIds = new Set<String>();
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                    intIds.add(integ.External_Id__c);
+                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
+                        intIds.add(integ.External_Id__c);
+                    }
                 }
             }
 
@@ -135,16 +137,18 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id))
                 {
-                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
-                        Case__c = caseRec.Id, 
-                        Integration_Ext_Id__c = integ.External_Id__c, 
-                        Status__c = ABFL_Constants.PENDING, 
-                        Response__c = ABFL_Constants.WAITING_API_RESPONSE
-                    );
-                    if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
-                        caseInt.Is_Validation_Success__c = true;
+                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
+                        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
+                            Case__c = caseRec.Id, 
+                            Integration_Ext_Id__c = integ.External_Id__c, 
+                            Status__c = ABFL_Constants.PENDING, 
+                            Response__c = ABFL_Constants.WAITING_API_RESPONSE
+                        );
+                        if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
+                            caseInt.Is_Validation_Success__c = true;
+                        }
+                        newCaseIntegrations.add(caseInt);
                     }
-                    newCaseIntegrations.add(caseInt);
                 }
             }
             insert newCaseIntegrations;
