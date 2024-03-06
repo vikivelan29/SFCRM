@@ -11,7 +11,7 @@ Created By: {!ASF_Case_Approv__c.CreatedBy}
 =============================================================================
 Customer Details
 =============================================================================
-Client Code: {!ASF_Case_Approv__c. Case_Client_Code__c}
+Client Code: {!ASF_Case_Approv__c.Case_Client_Code__c}
 Customer Name: {!ASF_Case_Approv__c.Customer_Name__c}
 
 Please click below link to approve or reject this record
