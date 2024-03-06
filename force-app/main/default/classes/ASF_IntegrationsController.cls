@@ -17,7 +17,7 @@ public with sharing class ASF_IntegrationsController {
         List<ASF_Integration__c> returnList = new List<ASF_Integration__c>();
         if(c3ExtId != null && stageName != null){
             returnList = [
-                SELECT Id, Processing_Class__c, STP_Processing_Class__c,
+                SELECT Id, Processing_Class__c, STP_Processing_Class__c,Query_Fields__c,
                     External_Id__c, Type__c, Display_Name__c,STP_API_Identifier__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
