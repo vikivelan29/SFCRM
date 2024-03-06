@@ -25,7 +25,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         result.response = Custom_Messages__mdt.getInstance('IC_EVALUATION_FAILED').Message__c;
 
         Case caseRecord = [
-            SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
+            SELECT Id,Stage__c, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -63,9 +63,16 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                 result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
             }
         }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         return result;
     }
-
+    
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - run
@@ -130,7 +137,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         wrap.status = 'Success';
         return wrap;
     }
-
+    
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - processResponse

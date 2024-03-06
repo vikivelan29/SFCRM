@@ -10,7 +10,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     public final List<String> digitalSources = new List<String>{'Welcome BOT', 'Voice Bot', 'WhatsApp', 'Chatbot', 'Customer Portal', 'Email'};
     public final List<String> offlineSources = new List<String>{'Branch', 'Call Center', 'Internal Usage', 'Social Media'};
     
-    /****************************************************************************************************************
+        /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - evaluate
     * @param caseRec - Case record from the framework.
@@ -23,7 +23,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failure').Message__c;
 
         Case caseRecord = [
-            SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
+            SELECT Id,Stage__c, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
             	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
@@ -44,10 +44,17 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 result = handleDisbursalBeforeSixMonths(caseRecord);
           	}    
         }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         
         return result;
     }
-    
+        
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - handleDisbursalAfterSixMonths
@@ -55,7 +62,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @description - Invoked from the evaluate method, this method handles disbursal before 6 months
     *****************************************************************************************************************/
-    private ASF_IntegrationsController.IntegrationWrapper handleDisbursalBeforeSixMonths(Case caseRecord){
+        private ASF_IntegrationsController.IntegrationWrapper handleDisbursalBeforeSixMonths(Case caseRecord){
         
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
@@ -137,7 +144,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         }
         return wrap;
     }
-    
+        
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - processResponse

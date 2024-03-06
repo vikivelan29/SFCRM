@@ -19,7 +19,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         
         Case caseRecord = [
-            SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,
+            SELECT Id,Stage__c, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,
                    ABHFL_Case_Detail__r.As_On_Date__c,ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
             WHERE Id =: caseRec.Id 
@@ -39,10 +39,17 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('BCL_Evaluation_Faield_LAN_Email_Error').Message__c;
         }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         
         return result;
     }
-    
+        
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - run
@@ -99,7 +106,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         
         return wrap;
     }
-    
+        
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - processResponse

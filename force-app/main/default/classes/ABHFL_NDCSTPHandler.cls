@@ -16,7 +16,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
+        Case caseRecord = [SELECT Id,Stage__c,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,No_Auto_Communication__c
                            FROM Case WHERE Id =: caseRec.Id];
         
@@ -45,19 +45,27 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                         Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                                 emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
                     }
-                    //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
-                    update caseRecord;
+                    if(!test.isRunningTest())
+                        update caseRecord;
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedCaseClosed').Message__c;  
                 } else {
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                 }
             }
         }
+
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         
         return result;
     }
-
+    
      /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - run

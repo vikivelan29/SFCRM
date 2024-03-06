@@ -13,7 +13,6 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether List of Documents integration should be fired or not.
     *****************************************************************************************************************/
-    
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
@@ -21,7 +20,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         
         
         Case caseRecord = [
-            SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
+            SELECT Id,Stage__c, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ]; 
@@ -54,10 +53,18 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             }
 		}
         
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
+        
         return result;
         
 
-    }
+        }
      /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - run
@@ -67,49 +74,49 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     * @description - Invoked from the ASF_IntegrationsController class, this method runs the List of Documents integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c intSpec, Case caseRec){
-         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
-                                                               WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
-        if(existingCaseIntRecords.size()>0){
-        	for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-                if(caseInt.Status__c == ABHFL_Constants.PENDING){
-                   caseInt.Status__c = ABHFL_Constants.CANCELED;  
-                }
-            }
-            if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
-            	update existingCaseIntRecords;                
-            }
-        }
+        List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
+                                                              WHERE Case__c =:caseRec.Id 
+                                                              AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
+       if(existingCaseIntRecords.size()>0){
+           for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
+               if(caseInt.Status__c == ABHFL_Constants.PENDING){
+                  caseInt.Status__c = ABHFL_Constants.CANCELED;  
+               }
+           }
+           if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
+               update existingCaseIntRecords;                
+           }
+       }
 
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
-        ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
-        response.status = ABHFL_Constants.SUCCESS;
-        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-        caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-        caseInteg.Case__c = caseRec.Id;
-        caseInteg.Status__c = ABHFL_Constants.PENDING;
-        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-        	insert caseInteg;    
-        }
-        
-        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id ];
-         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-        caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt.Name;
-        caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
-        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-        Database.SaveResult publishResult = EventBus.publish(caseIntOut);
-        if(publishResult.isSuccess()){
-            response.status = ABHFL_Constants.SUCCESS;
-        }else{
-            response.status = ABHFL_Constants.ERROR;
-        }
+       Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
+       ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
+       response.status = ABHFL_Constants.SUCCESS;
+       ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+       caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+       caseInteg.Case__c = caseRec.Id;
+       caseInteg.Status__c = ABHFL_Constants.PENDING;
+       caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+       if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+           insert caseInteg;    
+       }
        
-        return response;
+       ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id ];
+        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+       caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+       caseIntOut.Case_Integration_ID__c = caseInt.Name;
+       caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+       caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+       caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+       Database.SaveResult publishResult = EventBus.publish(caseIntOut);
+       if(publishResult.isSuccess()){
+           response.status = ABHFL_Constants.SUCCESS;
+       }else{
+           response.status = ABHFL_Constants.ERROR;
+       }
+      
+       return response;
     }   
-    
+        
      /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - processResponse
@@ -178,7 +185,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         // Check if the user is in the specified queue
         return !queueMemberships.isEmpty();
     }
-    /****************************************************************************************************************
+        /****************************************************************************************************************
     *@description - Response Wrapper
     *****************************************************************************************************************/
     public class LODRequestWrapper{
