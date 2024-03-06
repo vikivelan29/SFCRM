@@ -129,7 +129,7 @@ public class ABHFL_LODIngetration_Test {
         ABHFL_LODIntegration lodStp = new ABHFL_LODIntegration();
         //ABHFL_LODIntegration.LODRequestWrapper wrap = new ABHFL_LODIntegration.LODRequestWrapper();
         Case caseRecord = [Select Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c,CaseNumber,Business_Unit__c from Case limit 1];
-        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c, Processing_Class__c from ASF_Integration__c limit 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = lodStp.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
         System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status,'Done');
