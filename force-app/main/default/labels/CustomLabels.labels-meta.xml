@@ -174,7 +174,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
-        <value>Create Case for Customer</value>
+        <value>Create Case</value>
     </labels>
     <labels>
         <fullName>ASF_Customer_Mandatory</fullName>
