@@ -71,11 +71,25 @@
         <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Old Rate:OLD_RATE,New Rate:new_rate</value>
     </labels>
     <labels>
+        <fullName>ASF_BulkThresholdForQueueable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
+        <value>9000</value>
+    </labels>
+    <labels>
         <fullName>ASF_Bulk_Chunk_Size</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Bulk_Chunk_Size</shortDescription>
-        <value>1000</value>
+        <value>200</value>
+    </labels>
+    <labels>
+        <fullName>ASF_BulkProcessorBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
+        <value>200</value>
     </labels>
     <labels>
         <fullName>ASF_Bulk_Restricted_File_Ext</fullName>
@@ -203,6 +217,20 @@
         <protected>false</protected>
         <shortDescription>ASF_FA_Validation_Message</shortDescription>
         <value>Please select Loan Account Number to process Case type search</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Val_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
+        <value>You do not have access edit / delete this file</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File Update Validation</shortDescription>
+        <value>Cannot Update/Delete the files linked to a closed case</value>
     </labels>
     <labels>
         <fullName>ASF_HiddenComps</fullName>
@@ -532,26 +560,5 @@
         <protected>false</protected>
         <shortDescription>STP Flows</shortDescription>
         <value>Interest Schedule,Provisional Interest Certificate</value>
-    </labels>
-    <labels>
-        <fullName>ASF_BulkThresholdForQueueable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
-        <value>9000</value>
-    </labels>
-    <labels>
-        <fullName>ASF_File_Update_Val_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
-        <value>You do not have access edit / delete this file</value>
-    </labels>
-    <labels>
-        <fullName>ASF_File_Update_Validation</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_File Update Validation</shortDescription>
-        <value>Cannot Update/Delete the files linked to a closed case</value>
     </labels>
 </CustomLabels>
