@@ -22,7 +22,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_FAILED_DATE_ERROR').Message__c;
 
         Case caseRecord = [
-            SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
+            SELECT Id,Stage__c, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -32,6 +32,15 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             result.status = ABHFL_Constants.SUCCESS;
             result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
          }
+
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
+
          return  result;
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
@@ -57,6 +66,14 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
                 result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
+                //return new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }

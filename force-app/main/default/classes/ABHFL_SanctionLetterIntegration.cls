@@ -18,7 +18,7 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         
         Case caseRecord = [
-            SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,
+            SELECT Id,Stage__c, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Channel__c, Source__c,
                    ABHFL_Case_Detail__r.As_On_Date__c,ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
             WHERE Id =: caseRec.Id 
@@ -32,6 +32,14 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
         }else{
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('SL_Evaluation_Failed_LAN_Error').Message__c;
+        }
+        
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
         }
         
         return result;
@@ -60,6 +68,13 @@ public with sharing class ABHFL_SanctionLetterIntegration implements ASF_Integra
             }else{
                 result.status = ABHFL_Constants.ERROR;
                 result.response = Custom_Messages__mdt.getInstance('SL_Evaluation_Failed_LAN_Error').Message__c;
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }

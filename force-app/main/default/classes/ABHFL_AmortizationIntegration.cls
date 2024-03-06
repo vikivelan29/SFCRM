@@ -20,7 +20,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateFailure').Message__c;
         
         Case caseRecord = [
-            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
+            SELECT Id,Stage__c, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -50,6 +50,13 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
       }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         return result;
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
@@ -99,6 +106,13 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
             else if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
                 result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
