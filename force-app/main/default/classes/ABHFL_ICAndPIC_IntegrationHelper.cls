@@ -63,6 +63,27 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
     }
 
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - firePlatformEvtForCallout
+    * @param caseInteg - Case Integration record from the framework.
+    * @param jsonBody - Value for payload request in JSON Structure of IC and PIC Integration
+    * @param caseSubType - Value of Case sub Type
+    * @description - Firing Platform Event to make Callout for IC or PIC Integration.
+    *****************************************************************************************************************/
+    public Case_Integration_Outbound__e createPlatformEvtForCallout(String jsonBody, String caseSubType) {
+        String integName = String.isNotBlank(getIntegrationName(caseSubType)) ? getIntegrationName(caseSubType) : '';
+        //ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id WITH SECURITY_ENFORCED];
+        
+        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+        caseIntOut.ServiceName__c  = ABHFL_Constants.REPORTING_SERVICE;
+        caseIntOut.Business_Unit__c  = 'ABHFL';
+        //caseIntOut.Case_Integration_ID__c = caseInt.Name;
+        caseIntOut.Integration_Name__c  = integName;
+        caseIntOut.Request_Payload__c  =  jsonBody;
+        return caseIntOut;
+    }
+
     
     /****************************************************************************************************************
     * @LOB - ABHFL
