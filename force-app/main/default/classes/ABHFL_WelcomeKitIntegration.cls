@@ -27,7 +27,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failure').Message__c;
 
         Case caseRecord = [
-            SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
+            SELECT Id,Stage__c, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Channel__c, Source__c,
             	ABHFL_Case_Detail__r.STP_Request_Type__c, AccountId, ContactId, Attachment_Status__c, No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
@@ -47,6 +47,13 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             {
                 result = handleDisbursalBeforeSixMonths(caseRecord);
           	}    
+        }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
         }
         
         return result;
@@ -84,6 +91,13 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 {
                     casesForDisbursalBeforeSixMonths.add(caseRecord);
                 }    
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
