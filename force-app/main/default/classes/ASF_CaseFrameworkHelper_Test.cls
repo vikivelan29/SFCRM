@@ -156,7 +156,7 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void addChecklistsTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Checklists');
-        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c, Business_Unit__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
         for(case caseRec : caseList){
              allCaseRules.put(caseRec.Id, caseRuleList);
