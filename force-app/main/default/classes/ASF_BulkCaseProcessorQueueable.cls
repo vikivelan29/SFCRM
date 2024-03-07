@@ -5,7 +5,8 @@ public with sharing class ASF_BulkCaseProcessorQueueable implements Queueable{
     public ASF_BulkCaseProcessorQueueable(Id headRowId, String templateName) {
         this.headRowId = headRowId;
         this.templateName = templateName;
-        this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name];
+        Integer limitLineItem = Integer.valueOf(Label.ASF_BulkThresholdForQueueable);
+        this.lineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c, Bulk_Upload_Header__r.Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name LIMIT :limitLineItem];
     }
 
     public void execute(System.QueueableContext ctx){
@@ -19,8 +20,11 @@ public with sharing class ASF_BulkCaseProcessorQueueable implements Queueable{
         ASF_Bulk_Upload_Header__c headRow;
         List<ASF_Bulk_Case_Processor__e> peList = new List<ASF_Bulk_Case_Processor__e>();
         Map<Id, ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new Map<Id, ASF_Bulk_Upload_Line_Item__c>();
-
+        String currentHeadStatus;
         for(ASF_Bulk_Upload_Line_Item__c lineItem : this.lineItemsToProcess){
+            if(currentHeadStatus == null){
+                currentHeadStatus = lineItem.Bulk_Upload_Header__r.Status__c;
+            }
             recordIds += lineItem.Id+';';
             lineItem.Status__c = 'Event fired';
             lineItem.Event_Fired_Date__c = System.now();
@@ -64,18 +68,33 @@ public with sharing class ASF_BulkCaseProcessorQueueable implements Queueable{
                 }  
                 index++;     
             }
-            if(anySuccess){
+            
+            if(anySuccess && currentHeadStatus != 'Processing'){
                 headRow = new ASF_Bulk_Upload_Header__c();
                 headRow.Id = this.headRowId;
                 headRow.Status__c = 'Processing';
             }
-        }
+            if(!lineItemsToUpdate.isEmpty()){
+                update lineItemsToUpdate.values(); //Updates status to Event fired
+            }
+            if(headRow != null){
+                update headRow; //updates header's status to Processing
+            }
 
-        if(!lineItemsToUpdate.isEmpty()){
-            update lineItemsToUpdate.values(); //Updates status to Event fired
-        }
-        if(headRow != null){
-            update headRow; //updates header's status to Processing
+            Integer limitLineItem = Integer.valueOf(Label.ASF_BulkThresholdForQueueable);
+            List<ASF_Bulk_Upload_Line_Item__c> remainingLineItemsToProcess = [Select Id, Bulk_Upload_Header__c, JSON_Data__c, Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :this.headRowId and Status__c = 'Pending' LIMIT :limitLineItem];
+            if(!remainingLineItemsToProcess.isEmpty()){
+                ASF_BulkCaseProcessorQueueable processor = new ASF_BulkCaseProcessorQueueable(headRowId, templateName);
+                AsyncOptions asyncOptions = new AsyncOptions();
+                //some or all PE were successfully fired, PE channel is ok, fire next Queueable now
+                asyncOptions.MinimumQueueableDelayInMinutes = 0;
+                if(!anySuccess){
+                    //no success on PE firing, means some issue with PE channels, try after 10 mins
+                    asyncOptions.MinimumQueueableDelayInMinutes = 10;
+                }
+                
+                System.enqueueJob(processor, asyncOptions);
+            }
         }
     }
 }
