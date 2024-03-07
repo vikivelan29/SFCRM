@@ -347,16 +347,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aSF_pendingCaseTaskEdit</componentName>
-                <identifier>c_aSF_pendingCaseTaskEdit</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-131a05b6-e3ce-434c-8c37-4f99a1540914</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>aSF_CaseApprovalRecords</componentName>
                 <identifier>c_aSF_CaseApprovalRecords</identifier>
             </componentInstance>
@@ -469,20 +459,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-131a05b6-e3ce-434c-8c37-4f99a1540914</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Tasks</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -585,6 +561,54 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Recategorisation_Reason__c</fieldItem>
+                <identifier>RecordRecategorisation_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Recategorisation_Date__c</fieldItem>
+                <identifier>RecordRecategorisation_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Bot_Feedback__c</fieldItem>
+                <identifier>RecordBot_Feedback_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-ce89352b-9bd7-4696-92f3-ff47ebb673fc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ce89352b-9bd7-4696-92f3-ff47ebb673fc</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2488be21-332c-438c-b4e1-4d39ae363dc3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
                 <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
             </fieldInstance>
@@ -628,6 +652,30 @@
                         <leftValue>{!Record.Status}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Unresolved</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-2488be21-332c-438c-b4e1-4d39ae363dc3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Recategorization Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Recategorisation_Reason__c}</leftValue>
+                        <operator>NE</operator>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

@@ -10,7 +10,7 @@ public class ASF_CaseFrameworkHelper_Test {
     
 
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
-    /*  @testSetup
+    @testSetup
     static void setUpData(){
         ASF_TestDataFactory.createCaseRecords(1);
         
@@ -131,32 +131,39 @@ public class ASF_CaseFrameworkHelper_Test {
         cs.Stage__c='New';
         insert cs;
         
-    } */
+    }
     
     @isTest
     private static void addApprovalsTest() {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){
-        /*  List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Approval');
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
+        List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Approval');
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
                           CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case LIMIT 1];
         System.debug('@@@caseRuleList'+caseRuleList);
-        
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
         Test.startTest();
         system.debug('rule list--'+caseRuleList.size()+caseRuleList);
-        List<ASF_Case_Approv__c> approvalList = ASF_CaseFrameworkHelper.addApprovals(caseRecord, caseRuleList);
+        Map<Id, List<ASF_Case_Approv__c>> approvalList = ASF_CaseFrameworkHelper.addApprovals(caseList, allCaseRules);
         Test.stopTest();
-        Assert.isNotNull(approvalList, 'approvalList should not be null'); */
+        Assert.isNotNull(approvalList, 'approvalList should not be null'); 
         //}    
-    }
+    } 
     
-    /* @isTest
+    @isTest
     private static void addChecklistsTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Checklists');
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
         
         Test.startTest();
-        List<ASF_Checklist__c> checklistList = ASF_CaseFrameworkHelper.addChecklists(caseRecord, caseRuleList);
+        Map<Id, List<ASF_Checklist__c>> checklistList = ASF_CaseFrameworkHelper.addChecklists(caseList, allCaseRules);
         Test.stopTest();
         Assert.isNotNull(checklistList, 'checklist should not be null');
         
@@ -165,39 +172,61 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void addTasksTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Work');
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, BusinessHoursId from case LIMIT 1];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, BusinessHoursId from case];
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
         
         Test.startTest();
-        List<Task> taskList = ASF_CaseFrameworkHelper.addTasks(caseRecord, caseRuleList);
+        Map<Id, List<Task>> taskList = ASF_CaseFrameworkHelper.addTasks(caseList, allCaseRules);
         Test.stopTest();
         Assert.isNotNull(taskList, 'tasklist should not be null');
         
     }
     
     @isTest
-    private static void runAssignmentRulesTest() {
-        List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Assignment'); 
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, CreatedById,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
-                          CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
+    private static void addSlaTest() {
+        List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('SLA Override');
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, BusinessHoursId from case];
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
         
         Test.startTest();
-        ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.runAssignmentRules(caseRecord, caseRuleList);
+        Map<Id, Map<string,long>> slaList = ASF_CaseFrameworkHelper.addSLA(caseList, allCaseRules);
         Test.stopTest();
-        Assert.areNotEqual(info.defaultOwnerId, 'ownerId should not be null');
+    }
+    
+    @isTest
+    private static void runAssignmentRulesTest() {
+        List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Assignment'); 
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, CreatedById,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
+                          CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
+        Test.startTest();
+        Map<Id,ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> info = ASF_CaseFrameworkHelper.runAssignmentRules(caseList, allCaseRules);
+        Test.stopTest();
+        Assert.isNotNull(info, 'assignmentRule should not be null');
         
     }
     
     @isTest
     private static void runValidationRulesTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Validation'); 
-        Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, CreatedById,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
-                          CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1];
-        
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c, CreatedById,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
+                          CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(case caseRec : caseList){
+             allCaseRules.put(caseRec.Id, caseRuleList);
+        }
         Test.startTest();
-        String validationResult = ASF_CaseFrameworkHelper.runValidationRules(caseRecord, caseRuleList);
+        Map<Id,String> validationResult = ASF_CaseFrameworkHelper.runValidationRules(caseList, allCaseRules);
         Test.stopTest();
-        Assert.areEqual('Success', validationResult);
-        
     }
     
     @isTest
@@ -234,19 +263,36 @@ public class ASF_CaseFrameworkHelper_Test {
         System.assertEquals('Error', result.status);
         
     }
+    @isTest
+    private static void runIntRulesListTest() {
+        List<ASF_Integration__c> caseIntList =[Select Id, External_Id__c, Case_Stage_Config__c, Type__c, When_to_Appear__c, Display_Name__c, 
+                                               Auto_Run_on_Load__c, Processing_Class__c
+                                               FROM ASF_Integration__c];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case];
+        Map<Id, List<ASF_Integration__c>> allIntegrations = new Map<Id, List<ASF_Integration__c>>();
+        for(Case caseRec : caseList){
+            allIntegrations.put(caseRec.Id, caseIntList);
+        }
+        Test.startTest();
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result =  ASF_CaseFrameworkHelper.runIntegrations(caseList, allIntegrations);
+        Test.stopTest();
+        //System.assertEquals('Error', result.status);
+        
+    }
 
     @isTest
     private static void testFindAssignmentPreviouslyVisited(){
         
-        Case caseRecord = [
+        List<Case> caseList = [
                             SELECT Id, AccountId, CCC_External_Id__c,  contactId, Status, Stage__c, pending_clarification__c 
                             FROM case 
-                            WHERE CCC_External_Id__c='12345' LIMIT 1];
+                            WHERE CCC_External_Id__c='12345'];
 
-       
-        ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(caseRecord, 'New');
-        system.assertEquals(info.defaultOwnerId, UserInfo.getUserId());
-
+        Map<Id, String> caseStageMap = new Map<Id, String>();
+        for(case caseRec : caseList){
+             caseStageMap.put(caseRec.Id, caseRec.Stage__c);
+        }        
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> info = ASF_CaseFrameworkHelper.findAssignmentForPreviouslyVisitedStage(caseStageMap);
     }
     
     static List<ASF_Case_Rule__c> queryData(String TypeVal){
@@ -262,6 +308,6 @@ public class ASF_CaseFrameworkHelper_Test {
                 FROM ASF_Case_Rule__c where Type__c =: TypeVal];
         
         
-    }  */  
+    } 
       
 }

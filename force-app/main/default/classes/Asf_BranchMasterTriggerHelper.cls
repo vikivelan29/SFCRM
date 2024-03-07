@@ -7,7 +7,7 @@ public with sharing class Asf_BranchMasterTriggerHelper {
         Set<String> queueNamesSet = new Set<String>();
        
         for(Branch_Master__c   bm: newBranchMasters){
-           if (!String.isBlank(bm.Branch_Queue_Name__c ) && bm.Business_Unit__c == 'ABHFL'){
+           if (!String.isBlank(bm.Branch_Queue_Name__c ) && bm.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL){
                queueNamesSet.add(bm.Branch_Queue_Name__c);
            }    
         }

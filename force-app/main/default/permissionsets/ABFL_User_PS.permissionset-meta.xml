@@ -17,6 +17,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_BulkCsvController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkUploadUtilityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_IntegrationCommonUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2608,6 +2616,11 @@
         <field>Survey_Response__c.Responded_on__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Approv__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL User PS</label>
     <objectPermissions>
@@ -2730,4 +2743,12 @@
         <enabled>true</enabled>
         <name>TransferAnyCase</name>
     </userPermissions>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
 </PermissionSet>

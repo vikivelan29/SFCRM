@@ -17,7 +17,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
                             ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
-                           FROM Case WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED];
+                           FROM Case WHERE Id =: caseRec.Id];
 
         List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
 
@@ -274,4 +274,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string returnMessage;
         public string shortUrl;
     }
+
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }

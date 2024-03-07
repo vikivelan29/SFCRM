@@ -84,7 +84,7 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
             caseIdToResult.put(caseRec.Id, false);//default no membership
         }
         
-        for(GroupMember gm : [SELECT Id FROM GroupMember WHERE UserOrGroupId IN :ownerIdToCases.keySet() 
+        for(GroupMember gm : [SELECT Id,UserOrGroupId FROM GroupMember WHERE UserOrGroupId IN :ownerIdToCases.keySet() 
             AND (
                 group.DeveloperName='ABHFL_CEO_Desk_G' 
                 OR group.DeveloperName='ABHFL_Express_Resolution_G' 

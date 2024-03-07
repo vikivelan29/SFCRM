@@ -18,12 +18,33 @@ public class ASF_CasePreFrameworkTriggerHelper {
         for(Group g : [SELECT Id, DeveloperName FROM Group where DeveloperName in:mapSLA_Owner.keyset() and Type = 'Queue'])
             mapGroupsByName.put(g.Id,g.DeveloperName );
         
+        Map<String,Id> mBHName = new Map<String,Id>();
+        
+        for(BusinessHours bhHr : [SELECT ID,Name FROM BusinessHours]){
+            if(!mBHName.containsKey(bhHr.Name)){
+                mBHName.put(bhHr.Name,bhHr.Id);
+            }
+        }
         for(Case cs : newItems){
             if(cs.RecordTypeId == interactionId){
                 cs.Source__c = 'Email';
                 cs.Channel__c = 'Email';
                 cs.Technical_Source__c = 'Email';
                 cs.BusinessHoursId = bh.Id;
+                /*
+                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+                 */
+                String caseOrigin = cs.Origin;
+                if(caseOrigin != null){
+                    if(ASF_Constants.mCaseOriginVsBusinessUnit.containsKey(caseOrigin)){
+                        cs.Business_Unit__c = ASF_Constants.mCaseOriginVsBusinessUnit.get(caseOrigin);
+                    }
+                }
+                
+                if(mBHName.containsKey(cs.Business_Unit__c)){
+                    cs.BusinessHoursId = mBHName.get(cs.Business_Unit__c);
+                }
                 Long sla1Sec;
                 if( mapGroupsByName.get(cs.OwnerId) != NULL && mapSLA_Owner.get(mapGroupsByName.get(cs.OwnerId)) != NULL ){
                     Integer hourVal = Integer.ValueOf(mapSLA_Owner.get(mapGroupsByName.get(cs.OwnerId)));
@@ -38,16 +59,7 @@ public class ASF_CasePreFrameworkTriggerHelper {
                 ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
                 percntCls.setOverallPercSLAFields(sla1Sec,cs.BusinessHoursId,system.now(),cs);
                 
-                /*
-                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
-                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
-                 */
-                String caseOrigin = cs.Origin;
-                if(caseOrigin != null){
-                    if(ASF_Constants.mCaseOriginVsBusinessUnit.containsKey(caseOrigin)){
-                        cs.Business_Unit__c = ASF_Constants.mCaseOriginVsBusinessUnit.get(caseOrigin);
-                    }
-                }
+                
                 
                 if(String.isNotBlank(cs.suppliedEmail)){
                     domainNames.add(cs.suppliedEmail.split('@')[1]);

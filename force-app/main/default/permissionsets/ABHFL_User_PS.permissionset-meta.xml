@@ -16,6 +16,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_BulkCsvController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkUploadUtilityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -269,6 +277,11 @@
         <field>ABHFL_Asset_Detail__c.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Revised_EMI_Tenure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Revised_ROI__c</field>
@@ -351,6 +364,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Billing_Cycle_Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -422,11 +440,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Beneficiary__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2366,6 +2379,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.API_Error_Fields__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.API_Response_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2840,6 +2858,14 @@
     </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <userPermissions>

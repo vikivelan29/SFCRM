@@ -21,5 +21,6 @@ public with sharing class ASF_IntegrationInvocableTest1 implements ASF_Integrati
     public void processResponse(ASF_Case_Integration__c caseInteg){
 
     }
-
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }

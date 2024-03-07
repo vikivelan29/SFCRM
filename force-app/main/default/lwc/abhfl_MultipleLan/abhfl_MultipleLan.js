@@ -6,7 +6,9 @@ import fetchAll from '@salesforce/apexContinuation/ABHFL_MultipleLANController.f
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
+import { getRecord } from "lightning/uiRecordApi";
 
+const CASEFIELDS = ["Case.Stage__c", "Case.OwnerId"];
 export default class Abhfl_MultipleLan extends LightningElement {
     @api recordId;
     searchResult; 
@@ -30,6 +32,15 @@ export default class Abhfl_MultipleLan extends LightningElement {
     disableEditField = false;
     userId = Id;
     enableSave = true;
+    stagesAllowingFieldEdit;
+    stagesAllowingAddRows;
+    stagesAllowingDeleteRows;
+    stagesAllowingFetchAll;
+    stagesAllowingFileUpload;
+    amIOwner;
+
+    @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
+    case;
 
     connectedCallback(){
         if(this.recordId){
@@ -49,6 +60,15 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.enableUpload = result.displayFileUpload;
                     this.disableEditField = result.disableFieldEdit;
                     this.enableSave = !result.disableFieldEdit;
+                    this.amIOwner = this.case.data.fields.OwnerId.value == this.userId ? true : false;
+                    if(this.amIOwner && this.case.data.fields.Stage__c.value == 'CPU PP'){
+                        this.enableSave = true;
+                    }
+                    this.stagesAllowingFieldEdit = result.stagesAllowingFieldEdit;
+                    this.stagesAllowingAddRows = result.stagesAllowingAddRows;
+                    this.stagesAllowingDeleteRows = result.stagesAllowingDeleteRows;
+                    this.stagesAllowingFetchAll = result.stagesAllowingFetchAll;
+                    this.stagesAllowingFileUpload = result.stagesAllowingFileUpload;
                 } 
                 this.displaySpinner = false;
             }).catch((error) => {
@@ -76,29 +96,45 @@ export default class Abhfl_MultipleLan extends LightningElement {
     }
 
     fetchAssetDetails(e){
-        let asset;
-        let detail;
-        this.displaySpinner = true;
-        for(let i=0; i < this.recordsToDisplay.length;i++){
-            if(e.currentTarget.dataset.id == this.recordsToDisplay[i].asset.Id){
-                asset = this.recordsToDisplay[i].asset;
-                detail = this.recordsToDisplay[i].detail;
-                break;
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableFetchAll){
+            let asset;
+            let detail;
+            this.displaySpinner = true;
+            for(let i=0; i < this.recordsToDisplay.length;i++){
+                if(e.currentTarget.dataset.id == this.recordsToDisplay[i].asset.Id){
+                    asset = this.recordsToDisplay[i].asset;
+                    detail = this.recordsToDisplay[i].detail;
+                    break;
+                }
             }
-        }
-        fetchAssetDetailsExt({assetRecord : asset, caseRecId : this.recordId}).then((result) => {
-            console.log(result);
-            this.updateSearchResult(result);
-            this.displaySpinner = false;
-        }).catch((error) => {
-            console.log(error);
-            this.displaySpinner = false;
+            fetchAssetDetailsExt({assetRecord : asset, caseRecId : this.recordId}).then((result) => {
+                console.log(result);
+                this.updateSearchResult(result);
+                this.displaySpinner = false;
+            }).catch((error) => {
+                console.log(error);
+                this.displaySpinner = false;
+                this.showToast({
+                    title: "Error",
+                    message: "We could not fetch the LAN Details. Please try again later.",
+                    variant: "error",
+                });
+            })
+        } else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to fetch LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to fetch LAN Records for a Case not asssigned to you.";
+            }
             this.showToast({
-                title: "Error",
-                message: "We could not fetch the LAN Details. Please try again later.",
-                variant: "error",
-            });
-        })
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
+        }
+        
     }
 
     updateSearchResult(result){
@@ -159,177 +195,307 @@ export default class Abhfl_MultipleLan extends LightningElement {
     }
 
     addRecords(e){
-        if(this.selectedRows){
-            let retrieveRecords = [];
-            for(let record in this.selectedRows){
-                if(!this.selectedRows[record].detail.Id){
-                    retrieveRecords.push(this.selectedRows[record].detail);
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableFetchAll){
+            if(this.selectedRows){
+                let retrieveRecords = [];
+                for(let record in this.selectedRows){
+                    if(!this.selectedRows[record].detail.Id){
+                        retrieveRecords.push(this.selectedRows[record].detail);
+                    }
                 }
-            }
-            if(retrieveRecords.length){
-                this.displayChildTable = false;
-                upsertRecords({assetDetails : JSON.stringify(retrieveRecords), recId : this.recordId}).then((result) => {
-                    console.log(result);
+                if(retrieveRecords.length){
+                    this.displayChildTable = false;
+                    upsertRecords({assetDetails : JSON.stringify(retrieveRecords), recId : this.recordId}).then((result) => {
+                        console.log(result);
+                        for(let record in this.selectedRows){
+                            if(!this.childTableRecords.includes(this.selectedRows[record])){
+                                for(let rec in result){
+                                    if(result[rec].Asset__c == this.selectedRows[record].detail.Asset__c){
+                                        this.selectedRows[record].detail = result[rec];
+                                        break;
+                                    }
+                                }
+                                this.childTableRecords.push(this.selectedRows[record]);
+                                this.disableSave = false;
+                            }
+                        }
+                        this.displayChildTable = true;
+                    }).catch((error) => {
+                        console.log(error);
+                        this.displaySpinner = false;
+                        this.showToast({
+                            title: "Error",
+                            message: "We could add Records. Please try again later.",
+                            variant: "error",
+                        });
+                    })
+                } else if(this.selectedRows){
+                    this.displayChildTable = false;
                     for(let record in this.selectedRows){
                         if(!this.childTableRecords.includes(this.selectedRows[record])){
-                            for(let rec in result){
-                                if(result[rec].Asset__c == this.selectedRows[record].detail.Asset__c){
-                                    this.selectedRows[record].detail = result[rec];
-                                    break;
-                                }
-                            }
                             this.childTableRecords.push(this.selectedRows[record]);
-                            this.disableSave = false;
                         }
                     }
                     this.displayChildTable = true;
-                }).catch((error) => {
-                    console.log(error);
-                    this.displaySpinner = false;
-                    this.showToast({
-                        title: "Error",
-                        message: "We could add Records. Please try again later.",
-                        variant: "error",
-                    });
-                })
-            } else if(this.selectedRows){
-                this.displayChildTable = false;
-                for(let record in this.selectedRows){
-                    if(!this.childTableRecords.includes(this.selectedRows[record])){
-                        this.childTableRecords.push(this.selectedRows[record]);
-                    }
                 }
-                this.displayChildTable = true;
             }
+        } else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to add LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to add LAN Records for a Case not asssigned to you.";
+            }
+            this.showToast({
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
         }
     }
 
     handleSelection(e){
-        console.log(e);
-        let row;
-        for(let i=0; i < this.recordsToDisplay.length;i++){
-            if(e.target.name == this.recordsToDisplay[i].asset.Id){
-                row = this.recordsToDisplay[i];
-                break;
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableRowSelection){
+            console.log(e);
+            let row;
+            for(let i=0; i < this.recordsToDisplay.length;i++){
+                if(e.target.name == this.recordsToDisplay[i].asset.Id){
+                    row = this.recordsToDisplay[i];
+                    break;
+                }
             }
-        }
-        if(e.target.checked){
-            this.selectedRows.push(row);
-        }else{
-            let index = this.selectedRows.indexOf(row)
-            this.selectedRows.splice(index,1);
+            if(e.target.checked){
+                this.selectedRows.push(row);
+            }else{
+                let index = this.selectedRows.indexOf(row)
+                this.selectedRows.splice(index,1);
+            }
+    
+            if(this.selectedRows.length){
+                this.disableAdd = false;
+            } else {
+                this.disableAdd = true;
+            }
+        } else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to select LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to select LAN Records for a Case not asssigned to you.";
+            }
+            this.showToast({
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
         }
 
-        if(this.selectedRows.length){
-            this.disableAdd = false;
-        } else {
-            this.disableAdd = true;
-        }
 
     }
 
     removeRecord(e){
-        this.displaySpinner = true;
-        let deleteIndex = e.currentTarget.name;
-        let deleteId = this.childTableRecords[e.currentTarget.name].detail.Id;
-        deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
-        .then(() => {
-            this.displayChildTable = false;
-            this.childTableRecords.splice(deleteIndex,1);
-            this.displayChildTable = true;
-            for(let rec in this.selectedRows){
-                if(this.selectedRows[rec].detail.Id == deleteId){
-                    this.selectedRows[rec].detail.Id = null;
-                    break;
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableDelete){
+            this.displaySpinner = true;
+            let deleteIndex = e.currentTarget.name;
+            let deleteId = this.childTableRecords[e.currentTarget.name].detail.Id;
+            deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
+            .then(() => {
+                this.displayChildTable = false;
+                this.childTableRecords.splice(deleteIndex,1);
+                this.displayChildTable = true;
+                for(let rec in this.selectedRows){
+                    if(this.selectedRows[rec].detail.Id == deleteId){
+                        this.selectedRows[rec].detail.Id = null;
+                        break;
+                    }
                 }
-            }
-            if(!this.childTableRecords.length){
-                this.disableSave = true;
-            } 
-            this.showToast({
-                title: "Success",
-                message: "Record deleted",
-                variant: "success",
-            });
-            this.displaySpinner = false;
-        })
-        .catch((error) => {
-            this.showToast({
-                title: "Error deleting record",
-                message: error.body.message,
-                variant: "error",
-            });
-            this.displaySpinner = false;
-        });
-    }
-
-    saveRecords(e){
-        console.log(e);
-        let updateRecords = [];
-        for(let record in this.childTableRecords){
-            updateRecords.push(this.childTableRecords[record].detail);
-        }
-        this.displaySpinner = true;
-        if(updateRecords.length){
-            upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
-                console.log(result);
-                this.displaySpinner = false;
+                if(!this.childTableRecords.length){
+                    this.disableSave = true;
+                } 
                 this.showToast({
                     title: "Success",
-                    message: "Records Updated",
+                    message: "Record deleted",
                     variant: "success",
                 });
-            }).catch((error) => {
-                console.log(error);
+                this.displaySpinner = false;
+            })
+            .catch((error) => {
                 this.showToast({
-                    title: "Error Updating Records",
+                    title: "Error deleting record",
                     message: error.body.message,
                     variant: "error",
                 });
-            })
+                this.displaySpinner = false;
+            });
+        } else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to delete LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to delete LAN Records for a Case not asssigned to you.";
+            }
+            this.showToast({
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
         }
+ 
+    }
+
+    saveRecords(e){
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableSave){
+            console.log(e);
+            let updateRecords = [];
+            for(let record in this.childTableRecords){
+                updateRecords.push(this.childTableRecords[record].detail);
+            }
+            this.displaySpinner = true;
+            if(updateRecords.length){
+                upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
+                    console.log(result);
+                    this.displaySpinner = false;
+                    this.showToast({
+                        title: "Success",
+                        message: "Records Updated",
+                        variant: "success",
+                    });
+                }).catch((error) => {
+                    console.log(error);
+                    this.showToast({
+                        title: "Error Updating Records",
+                        message: error.body.message,
+                        variant: "error",
+                    });
+                })
+            }
+        } else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to save LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to save LAN Records for a Case not asssigned to you.";
+            }
+            this.showToast({
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
+        }
+
     }
 
     updateAssetDetail(e){
-        this.childTableRecords.indexOf(e.detail);
         for(let record in this.childTableRecords){
-            if(this.childTableRecords[record].asset.Id == e.detail.asset.Id){
-                this.childTableRecords[record] = e.detail;
+            if(this.childTableRecords[record].asset.Id == e.detail.assetId){
+                this.childTableRecords[record].detail[e.detail.fieldName] = e.detail.value;
                 break;
             }
         }
     }
 
     fetchAllAsset(e){
-        let assetRecords = [];
-        this.displaySpinner = true;
-        for(let record in this.recordsToDisplay){
-            assetRecords.push(this.recordsToDisplay[record].asset);
-        }
-        fetchAll({assetList : assetRecords, caseRecId : this.recordId}).then((result) => {
-            console.log(result);
-            for (let record in this.recordsToDisplay) {
-                for(let rec in result){
-                    if(this.recordsToDisplay[record].asset.LAN__c == result[rec].LAN__c){
-                        this.recordsToDisplay[record].detail = result[rec];
-                        break;
-                    }    
-                }
+        this.checkAccessbilityforCurrentStage();
+        if(this.enableFetchAll){
+            let assetRecords = [];
+            this.displaySpinner = true;
+            for(let record in this.recordsToDisplay){
+                assetRecords.push(this.recordsToDisplay[record].asset);
             }
-            this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.setColValue();});
-            this.displaySpinner = false;
-        }).catch((error) => {
-            console.log(error);
-            this.displaySpinner = false;
+            fetchAll({assetList : assetRecords, caseRecId : this.recordId}).then((result) => {
+                console.log(result);
+                for (let record in this.recordsToDisplay) {
+                    for(let rec in result){
+                        if(this.recordsToDisplay[record].asset.LAN__c == result[rec].LAN__c){
+                            this.recordsToDisplay[record].detail = result[rec];
+                            break;
+                        }    
+                    }
+                }
+                this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.setColValue();});
+                this.displaySpinner = false;
+            }).catch((error) => {
+                console.log(error);
+                this.displaySpinner = false;
+                this.showToast({
+                    title: "Error",
+                    message: "We could not fetch the LAN Details. Please try again later.",
+                    variant: "error",
+                });
+            })
+        }  else {
+            let errMsg;
+            if(this.amIOwner){
+                errMsg = "You are not allowed to Fetch LAN Records in the " + this.case.data.fields.Stage__c.value + " stage.";
+            }else {
+                errMsg = "You are not allowed to fetch LAN Records for a Case not asssigned to you.";
+            }
             this.showToast({
-                title: "Error",
-                message: "We could not fetch the LAN Details. Please try again later.",
-                variant: "error",
-            });
-        })       
+                title: "Info",
+                message: errMsg,
+                variant: "info",
+            });         
+        }      
     }
 
     showToast(e){
         this.dispatchEvent(new ShowToastEvent(e));        
+    }
+
+    checkAccessbilityforCurrentStage(e){
+        let currStage = this.case.data.fields.Stage__c.value;
+        this.amIOwner = this.case.data.fields.OwnerId.value == this.userId ? true : false;
+        if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
+            this.enableSave = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?true:false:false;
+            if(this.amIOwner && this.case.data.fields.Stage__c.value == 'CPU PP'){
+                this.enableSave = true;
+            }
+        }
+        if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
+            this.disableEditField = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?false:true:true;
+        }
+        if(this.stagesAllowingAddRows && this.stagesAllowingAddRows.length > 0){
+            this.enableRowSelection = this.amIOwner?this.stagesAllowingAddRows.includes(currStage)?true:false:false;
+        }
+        if(this.stagesAllowingDeleteRows && this.stagesAllowingDeleteRows.length > 0){
+            this.enableDelete = this.amIOwner?this.stagesAllowingDeleteRows.includes(currStage)?true:false:false;
+        }
+        if(this.stagesAllowingFetchAll && this.stagesAllowingFetchAll.length > 0){
+            this.enableFetchAll = this.amIOwner?this.stagesAllowingFetchAll.includes(currStage)?true:false:false;
+        }
+        if(this.stagesAllowingFileUpload && this.stagesAllowingFileUpload.length > 0){
+            this.enableUpload = this.amIOwner?this.stagesAllowingFileUpload.includes(currStage)?true:false:false;
+        }
+    }
+
+    get currStage() {
+        return this.case.data.fields.Stage__c.value;
+    }
+
+    get currOwner() {
+        return this.case.data.fields.OwnerId.value;
+    }
+
+    checkFileUploadPermissions(e){
+        this.checkAccessbilityforCurrentStage();
+        let errMsg;
+        if(this.amIOwner){
+            errMsg = "You are not allowed to Upload Files in the " + this.case.data.fields.Stage__c.value + " stage.";
+        }else {
+            errMsg = "You are not allowed to Upload Files for a Case not asssigned to you.";
+        }
+        this.showToast({
+            title: "Info",
+            message: errMsg,
+            variant: "info",
+        });      
+    }
+
+    refresh(e){
+        this.checkAccessbilityforCurrentStage();
     }
 }

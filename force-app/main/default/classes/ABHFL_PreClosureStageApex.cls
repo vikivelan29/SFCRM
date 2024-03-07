@@ -18,10 +18,10 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
                 caseRec.Stage__c == 'AOM/ROM') {
                     sendTrackingLinkCases.add(caseRec);
             }
-            if(caseRec.Stage__c == 'Hub Location'){
+            if(caseRec.Stage__c == 'Branch'){
                 assignCaseToPreferredBranchCases.add(caseRec);
             }
-            if(caseRec.Stage__c == 'Branch'){
+            if(caseRec.Stage__c == 'AOM/ROM'){
                 assignCaseToAOMROMCases.add(caseRec);
             }
             returnWrapper.put(caseRec.Id, retCls);

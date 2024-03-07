@@ -74,10 +74,7 @@ public with sharing class ASF_BulkUploadUtilityController {
             ASF_BulkCaseProcessorQueueable processor = new ASF_BulkCaseProcessorQueueable(headRowId, templateName);
             System.enqueueJob(processor);
             returnWrap.isSuccess = true;
-            returnWrap.successMessageIfAny = 'Upload completed, processing started';
-            headRow = new ASF_Bulk_Upload_Header__c();
-            headRow.Id = headRowId;
-            headRow.Status__c = 'Processing';
+            returnWrap.successMessageIfAny = 'Upload completed, processing will start soon';
         }else{
             //else starts PE processing
             Integer index = 0;
@@ -89,7 +86,7 @@ public with sharing class ASF_BulkUploadUtilityController {
                 lineItem.Status__c = 'Event fired';
                 lineItem.Event_Fired_Date__c = System.now();
                 lineItemsToUpdate.put(lineItem.Id, lineItem);
-                if(index == 999){
+                if(index == Integer.valueOf(Label.ASF_BulkProcessorBatchSize)-1){
                     ASF_Bulk_Case_Processor__e chunkPE = new ASF_Bulk_Case_Processor__e();
                     chunkPE.Record_IDs__c = recordIds;
                     peList.add(chunkPE);
