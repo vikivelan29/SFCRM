@@ -71,6 +71,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Systeminitiated__c = true;
                                 checklistRecord.Case__c = caseRec.Id;
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
+                                checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
                                 checklistList.add(checklistRecord);
                             }
