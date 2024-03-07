@@ -20,7 +20,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         
         
         Case caseRecord = [
-            SELECT Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
+            SELECT Id,Stage__c, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ]; 
@@ -52,6 +52,14 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             	result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBeforeBranchAssignment').Message__c;
             }
 		}
+        
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         
         return result;
         
@@ -96,6 +104,13 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
                     result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBefore').Message__c; 
                 }
                 
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             Boolean isUserinQueue = groupIdToMemberIds.containsKey(caseRecord.Asset.Branch__r.Branch_Queue_Id__c)?groupIdToMemberIds.get(caseRecord.Asset.Branch__r.Branch_Queue_Id__c).contains(caseRecord.OwnerId):false;
        
