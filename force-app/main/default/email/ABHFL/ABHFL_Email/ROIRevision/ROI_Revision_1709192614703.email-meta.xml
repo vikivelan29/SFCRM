@@ -5,7 +5,7 @@
     <name>ROI Revision Email Template</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>ROI offer</subject>
+    <subject>ROI offer for {{{Case.Masked_LAN__c}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

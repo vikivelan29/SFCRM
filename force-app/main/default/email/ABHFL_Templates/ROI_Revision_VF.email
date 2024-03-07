@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="ROI" recipientType="Contact" relatedToType="Case">
 <messaging:htmlEmailBody >
-<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ROI offer shared with payment Link (multiple LAN)"></c:ASF_CaseEmail>
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ROI Revision Email Template"></c:ASF_CaseEmail>
 </messaging:htmlEmailBody>
 </messaging:emailTemplate>
