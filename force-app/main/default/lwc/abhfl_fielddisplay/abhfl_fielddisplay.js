@@ -8,6 +8,9 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api columnEditable;
     @api options;
     @api disableEditField;
+    @api currStage;
+    @api userId;
+    @api ownerId;
     isLAN
     assetURL;
     displayNumber;
@@ -20,8 +23,16 @@ export default class Abhfl_fielddisplay extends LightningElement {
     stepValue;
     displayCombo;
 
+    @api
     connectedCallback(e){
         this.setColValue();
+        if(this.columnName == 'Revised_EMI_Tenure__c'){
+            if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
+                this.disableEditField = false;
+            } else {
+                this.disableEditField = true;
+            }
+        }
     }
 
     @api setColValue(){
@@ -86,10 +97,11 @@ export default class Abhfl_fielddisplay extends LightningElement {
     }
 
     handleChange(e){
-        let currData = JSON.parse(JSON.stringify(this.rowData));
-        currData['detail'][this.columnName] = e.target.value;
-        this.rowData = currData;
-        const selectEvent = new CustomEvent('selection',{ detail : this.rowData});
+        const selectEvent = new CustomEvent('selection', {
+                                                            detail : { 
+                                                                        fieldName : this.columnName,
+                                                                        assetId : this.rowData.asset.Id,
+                                                                        value : e.target.value}});
         // Fire the custom event
         this.dispatchEvent(selectEvent);
     }

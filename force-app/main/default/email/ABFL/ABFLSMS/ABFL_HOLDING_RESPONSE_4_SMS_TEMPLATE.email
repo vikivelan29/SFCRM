@@ -2,6 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear Customer, we regret the delay in our response. Request you to provide us 7 working days to review and<br />
-provide the resolution by {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. Regards, Aditya Birla Finance Ltd</body>
+<body style="height: auto; min-height: auto;">Dear Customer, we regret the delay in our response. Request you to provide us 7 working days to review and provide the resolution by {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. Regards, -Aditya Birla Finance Limited</body>
 </html>

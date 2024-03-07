@@ -6,7 +6,8 @@ public with sharing class ASF_TriggerSkipperUtility {
     //Use the below methods to skip the trigger which will update the value to false.
     private static Map<String, boolean> skipperMap = new Map<String, boolean>{
         'Case-Before'=>true,
-        'Case-After'=>true
+        'Case-After'=>true,
+        'ASF_Case_Integration__c-After'=>true
     };
     
     
