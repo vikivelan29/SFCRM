@@ -347,26 +347,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aSF_pendingCaseTaskEdit</componentName>
-                <identifier>c_aSF_pendingCaseTaskEdit</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-131a05b6-e3ce-434c-8c37-4f99a1540914</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_CaseApprovalRecords</componentName>
-                <identifier>c_aSF_CaseApprovalRecords</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
