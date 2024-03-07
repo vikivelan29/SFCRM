@@ -451,12 +451,11 @@ export default class Abhfl_MultipleLan extends LightningElement {
         this.amIOwner = this.case.data.fields.OwnerId.value == this.userId ? true : false;
         if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
             this.enableSave = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?true:false:false;
+            this.disableEditField = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?false:true:true;
             if(this.amIOwner && this.case.data.fields.Stage__c.value == 'CPU PP'){
                 this.enableSave = true;
             }
-        }
-        if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
-            this.disableEditField = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?false:true:true;
+            this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.refresh(this.disableEditField);});
         }
         if(this.stagesAllowingAddRows && this.stagesAllowingAddRows.length > 0){
             this.enableRowSelection = this.amIOwner?this.stagesAllowingAddRows.includes(currStage)?true:false:false;
@@ -487,6 +486,21 @@ export default class Abhfl_MultipleLan extends LightningElement {
             errMsg = "You are not allowed to Upload Files in the " + this.case.data.fields.Stage__c.value + " stage.";
         }else {
             errMsg = "You are not allowed to Upload Files for a Case not asssigned to you.";
+        }
+        this.showToast({
+            title: "Info",
+            message: errMsg,
+            variant: "info",
+        });      
+    }
+
+    checkEditFieldPermissions(e){
+        this.checkAccessbilityforCurrentStage();
+        let errMsg;
+        if(this.amIOwner){
+            errMsg = "You are not allowed to edit the field in the " + this.case.data.fields.Stage__c.value + " stage.";
+        }else {
+            errMsg = "You are not allowed to edit fields for a Case not asssigned to you.";
         }
         this.showToast({
             title: "Info",

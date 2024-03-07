@@ -7,3 +7,8 @@
     background-color: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackground,rgb(243, 243, 243)));
     border-radius: 5px;
 }
+
+.tableSize{
+    table-layout: fixed;
+    width: 120%;
+}

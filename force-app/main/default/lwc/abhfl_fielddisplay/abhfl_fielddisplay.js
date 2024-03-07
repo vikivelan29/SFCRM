@@ -11,6 +11,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api currStage;
     @api userId;
     @api ownerId;
+    @api stagesAllowingFieldEdit;
     isLAN
     assetURL;
     displayNumber;
@@ -22,15 +23,17 @@ export default class Abhfl_fielddisplay extends LightningElement {
     formatType;
     stepValue;
     displayCombo;
+    defaultDisableVal = true;
 
-    @api
+    
     connectedCallback(e){
+        this.defaultDisableVal = this.disableEditField;
         this.setColValue();
         if(this.columnName == 'Revised_EMI_Tenure__c'){
             if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
-                this.disableEditField = false;
+                this.defaultDisableVal = false;
             } else {
-                this.disableEditField = true;
+                this.defaultDisableVal = true;
             }
         }
     }
@@ -106,10 +109,51 @@ export default class Abhfl_fielddisplay extends LightningElement {
         this.dispatchEvent(selectEvent);
     }
 
+    handleClick(e){
+        if(this.userId != this.ownerId || (this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0 && !this.stagesAllowingFieldEdit.includes(this.currStage))){
+            const selectEvent = new CustomEvent('checkeditpermissions',{});
+            // Fire the custom event
+            this.dispatchEvent(selectEvent);
+            this.closeModal();
+        }
+        if(this.columnName == 'Revised_EMI_Tenure__c'){
+            if(this.currStage != 'CPU PP'){
+                const selectEvent = new CustomEvent('checkeditpermissions',{});
+                // Fire the custom event
+                this.dispatchEvent(selectEvent);
+                this.closeModal();
+            }
+        }
+    }
+
     renderedCallback(){
         if(this.columnType == 'PICKLIST'){
             this.template.querySelector("select[name=selection]").value = this.colValue;
+            //this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.value = this.colValue;});
         }
+    }
+
+    @api
+    refresh(e){
+        //this.connectedCallback();
+        //this.displayInput = !this.displayInput;
+        //this.displayInput = !this.displayInput;
+        if(this.columnType == 'PICKLIST'){
+            this.template.querySelector("select[name=selection]").disabled = e;
+        }
+        if(this.displayInput){
+            this.template.querySelector("lightning-input").disabled = e;
+        }
+        let isDisabled = true;
+        if(this.columnName == 'Revised_EMI_Tenure__c'){
+            if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
+                isDisabled = false;
+            } else {
+                isDisabled= true;
+            }
+            this.template.querySelector("lightning-input").disabled = isDisabled;
+        }
+        
     }
     
 }
