@@ -78,4 +78,43 @@ public without sharing class ABCL_SurveyResponseHelper {
         }
     }
     
+    public static void updateCustomersNPS(List<Survey_Response__c> newItems){
+        Set<String> accountsClientCode = new Set<String>();
+        Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
+        Set<String> surveyLANNo = new Set<String>();
+        Map<Integer,Asset> lanNoVsAsset = new Map<Integer,Asset>();
+        Map<Integer,Survey_Response__c> iHashClientCodeVsLob = new Map<Integer,Survey_Response__c>();
+        Map<Integer,String> iHashLANVsLob = new Map<Integer,String>();
+        
+        for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
+            if(surveyResponse.Client_Code_Text__c  != null){
+                accountsClientCode.add(surveyResponse.Client_Code_Text__c);
+                String tempKey = surveyResponse.Business_Unit__c+'_'+surveyResponse.Client_Code_Text__c;
+                integer itempKey = tempKey.hashCode();
+                if(!iHashClientCodeVsLob.containsKey(itempKey)){
+                    iHashClientCodeVsLob.put(itempKey,surveyResponse);
+                }
+            }
+        }
+        List<Account> accounts = new List<Account>();
+        if(accountsClientCode.size()>0){
+            for(Account acc : [SELECT ID,Client_Code__c,Business_Unit__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                String tempKey = acc.Business_Unit__c +'_'+acc.Client_Code__c;
+                integer itempKey = tempKey.hashCode();
+                if(!accClientCodeVsAccIds.containsKey(itempKey)){
+                    if(iHashClientCodeVsLob.containsKey(itempKey)){
+                        accClientCodeVsAccIds.put(itempKey,acc.Id);
+                        Survey_Response__c surResp1 = iHashClientCodeVsLob.get(itempKey);
+                        Account a = new Account(Id=acc.Id);
+                        a.NPS_Score__c = surResp1.Primary_Question_NPS__c;
+                        accounts.add(a);
+                    }
+                }
+            } 
+        }
+        if(accounts.size()>0){
+            update accounts;
+        }
+    }
+    
 }
