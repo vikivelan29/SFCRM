@@ -74,6 +74,12 @@ public class ABHFL_MultiplePaymentsController_Test {
 
     @IsTest
     static void testdeletePaymentRecord(){
+         Case caseRec = [
+                        SELECT Id 
+                        FROM Case
+                        LIMIT 1
+                        ];
+
         ABHFL_Payment__c payment1 = new ABHFL_Payment__c();
         payment1.Payment_Identifier__c = '2w53423';
         payment1.Amount__c = 34532423;
