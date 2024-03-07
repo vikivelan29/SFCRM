@@ -36,7 +36,7 @@ public class ABHFL_MultiplePaymentsController_Test {
         payment1.Amount__c = 34532423;
         payment1.Mode_of_Payment__c = 'Cheque';
         payment1.Date__c = Date.today();
-
+        payment1.Case__c=caseRec.id;
         ABHFL_MultiplePaymentsController.savePayments(caseRec.Id, new List<ABHFL_Payment__c>{payment1});
 
         List<ABHFL_Payment__c> paymentsAfter = ABHFL_MultiplePaymentsController.getPaymentsForCase(caseRec.Id);
@@ -59,6 +59,7 @@ public class ABHFL_MultiplePaymentsController_Test {
         payment1.Amount__c = 34532423;
         payment1.Mode_of_Payment__c = 'Cheque';
         payment1.Date__c = Date.today();
+        payment1.Case__c=caseRec.id;
 
         try{
             ABHFL_MultiplePaymentsController.savePayments(caseRec.Id, new List<ABHFL_Payment__c>{payment1});
@@ -77,6 +78,7 @@ public class ABHFL_MultiplePaymentsController_Test {
         payment1.Amount__c = 34532423;
         payment1.Mode_of_Payment__c = 'Cheque';
         payment1.Date__c = Date.today();
+        payment1.Case__c=caseRec.id;
 
         insert payment1;
         String result = ABHFL_MultiplePaymentsController.deletePaymentRecord(payment1.Id);
