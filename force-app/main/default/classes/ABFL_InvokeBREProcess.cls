@@ -177,7 +177,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
 
         insert newCaseIntegrations;
         Map<Id, List<ASF_Case_Integration__c>> caseIdToCaseInts = new Map<Id, List<ASF_Case_Integration__c>>();
-        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
+        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c,Status__c,Type__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
         {
             if(!caseIdToCaseInts.containsKey(caseInt.Case__c)){
                 caseIdToCaseInts.put(caseInt.Case__c, new List<ASF_Case_Integration__c>());
