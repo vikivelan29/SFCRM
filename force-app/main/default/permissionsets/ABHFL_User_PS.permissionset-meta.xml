@@ -202,6 +202,11 @@
         <field>ABHFL_Asset_Detail__c.Current_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Cycle_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Asset_Detail__c.Failure_Reason__c</field>

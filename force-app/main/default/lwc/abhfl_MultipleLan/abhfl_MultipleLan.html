@@ -93,7 +93,7 @@
                 
         </template>
             <div class="slds-p-around_x-small slds-scrollable_x">
-                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered tableSize">
                     <template lwc:if={childColumns}>
                         <thead>
                             <tr>
@@ -127,7 +127,9 @@
                                             disable-edit-field={disableEditField}
                                             curr-stage={currStage}
                                             owner-id={currOwner}
-                                            user-id={userId}>
+                                            user-id={userId}
+                                            stages-allowing-field-edit={stagesAllowingFieldEdit}
+                                            oncheckeditpermissions={checkEditFieldPermissions}>
                                             </c-abhfl_fielddisplay>
                                         </td>
                                     </template>
