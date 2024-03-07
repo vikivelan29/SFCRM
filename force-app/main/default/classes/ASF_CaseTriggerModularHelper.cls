@@ -1231,9 +1231,9 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 String newOwnerId = c.OwnerId;
                 
                 if(oldOwnerId.startsWith('00G') && 
-                   !(oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
+                   !(oldQueueAndMemberMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
                   !(queueIdNameMap.get(oldOwnerId).Email != null && queueIdNameMap.get(oldOwnerId).Email == newCaseOwnerMap.get(userInfo.getUserId()).Email && 
-                   (oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
+                   (oldQueueAndMemberMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
                   !hasPermission){
                     c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                     
@@ -1243,7 +1243,8 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                          ownerMap.get(oldOwnerId).manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.manager.Id != userInfo.getUserId() &&
-                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
+                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)) != null &&
+                           oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
                         ){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
