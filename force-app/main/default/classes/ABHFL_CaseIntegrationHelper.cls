@@ -88,7 +88,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             update caseRecord;
         }*/
         if(ebotResponse.ISREGISTRED == 'No'){
-            caseRecord.MoveToNext__c =true;
+            caseRecord.Stage__c ='Resolved';
             update caseRecord;
         }
 
