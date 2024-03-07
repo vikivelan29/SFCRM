@@ -12,7 +12,7 @@
 <template>
   <!-- <lightning-modal-header label="My Modal Heading"></lightning-modal-header> -->
   <lightning-modal-body>
-    <c-abfl_base_view_screen api_id={templateId} asset-record-id={assetId}></c-abfl_base_view_screen>
+    <c-abfl_base_view_screen api_id={templateId} asset-record-id={assetId} onclosemodal={modalCloseHandler}></c-abfl_base_view_screen>
   </lightning-modal-body>
   <!-- <lightning-modal-footer>
       <lightning-button label="OK" onclick={handleOkay}></lightning-button>
