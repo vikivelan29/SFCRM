@@ -21,29 +21,32 @@ public without sharing class ABFL_RetailController{
      *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static ResponseWrapper getDynamicScreen(String apiName, Id assetId){
-        String res;
         String title;
         String requestPayload = generateRequestPayload(apiName, assetId);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
         
         System.debug('requestPayload: '+requestPayload);
 
         switch  on apiName{
             when 'RTL_RealTime_LoanDetails'{
-                res = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_LOANDETAILS_INTEGRATION_METADATA, requestPayload, null)).responseBody;
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_LOANDETAILS_INTEGRATION_METADATA, requestPayload, null));
             }
             when 'RTL_RealTime_BasicCustInfo'{
-                res = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_BASICCUSTINFO_INTEGRATION_METADATA, requestPayload, null)).responseBody;
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_BASICCUSTINFO_INTEGRATION_METADATA, requestPayload, null));
             }
             when 'RTL_RealTIme_GCCPropertyDetails'{
-                res = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_GCCPROPERTYDETAILS_INTEGRATION_METADATA, requestPayload, null)).responseBody;
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_GCCPROPERTYDETAILS_INTEGRATION_METADATA, requestPayload, null));
             }
             when 'RTL_RealTime_LoanMIS'{
-                res = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_LOANMIS_INTEGRATION_METADATA, requestPayload, null)).responseBody;
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_LOANMIS_INTEGRATION_METADATA, requestPayload, null));
             }
             when 'RTL_RealTime_InstallPmntDtls'{
-                res = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA, requestPayload, null)).responseBody;
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA, requestPayload, null));
             }
         }
+
+        System.debug('status code: '+intResponseWrapper.statusCode);
+        System.debug('response body: '+intResponseWrapper.responseBody);
 
         // Prepare map of sections with left/right fields
         Map<String, List<Dynamic_Screen_Details__mdt>> mDynamicScreenDetails = new Map<String, List<Dynamic_Screen_Details__mdt>>();
@@ -98,7 +101,7 @@ public without sharing class ABFL_RetailController{
             sectionWrapList.add(sw);
         }
         System.debug('***sectionWrapList:' + sectionWrapList);
-        return new ResponseWrapper(title, res, sectionWrapList);
+        return new ResponseWrapper(title, intResponseWrapper.statusCode, intResponseWrapper.responseBody, sectionWrapList);
     }
 
     /****************************************************************************************************************
@@ -133,11 +136,14 @@ public without sharing class ABFL_RetailController{
         @AuraEnabled
         public String title;
         @AuraEnabled
+        public Integer statusCode;
+        @AuraEnabled
         public String payload;
         @AuraEnabled
         public List<SectionWrap> secWrap;
-        public ResponseWrapper(String title, String res, List<SectionWrap> sr){
+        public ResponseWrapper(String title, Integer statusCode, String res, List<SectionWrap> sr){
             this.title = title;
+            this.statusCode = statusCode;
             this.payload = res;
             this.secWrap = sr;
         }
