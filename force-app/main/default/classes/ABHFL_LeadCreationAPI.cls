@@ -28,7 +28,7 @@ public with sharing class ABHFL_LeadCreationAPI {
                             FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
         }catch(Exception e){
         }
-        If(leadObj != null){
+        If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
             String payload = JSON.serialize(payloadWrp);
             
@@ -60,6 +60,8 @@ public with sharing class ABHFL_LeadCreationAPI {
             }catch(Exception e){
                 system.debug('Error=='+e.getMessage());
             }
+        }else{
+            message = 'Lead is already created Successfully';
         }
         return message;
     }
