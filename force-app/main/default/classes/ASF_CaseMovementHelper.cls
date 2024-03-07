@@ -70,6 +70,8 @@ public class ASF_CaseMovementHelper {
                     updatedCase.Pending_Clarification__c = false;
                     resultWrapper.caseToBeUpdated = updatedCase;
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
+                    resultWrapper.ownerId = nextStage.ownerId;
+                    resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                 }
                 else{
                     resultWrapper.errorMessage = nextStage.errorMessage;
@@ -90,6 +92,8 @@ public class ASF_CaseMovementHelper {
                     if(nextStage.status == 'Success'){
                         resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;
+                        resultWrapper.ownerId = nextStage.ownerId;
+                        resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }else{
                         resultWrapper.errorMessage = nextStage.errorMessage;

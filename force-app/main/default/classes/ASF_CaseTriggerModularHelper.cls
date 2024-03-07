@@ -478,6 +478,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(resultWrap != null && resultWrap.status == 'Success'){
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
                     caseRec.Status = resultWrap.nextStageConfig.Status_Mapping__c;
+                    caseRec.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);

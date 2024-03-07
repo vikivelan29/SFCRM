@@ -82,6 +82,7 @@ public with sharing class ASF_BulkUploadUtilityController {
             List<ASF_Bulk_Case_Processor__e> peList = new List<ASF_Bulk_Case_Processor__e>();
             Map<Id, ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new Map<Id, ASF_Bulk_Upload_Line_Item__c>();
             for(ASF_Bulk_Upload_Line_Item__c lineItem : [Select Id, Name from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name]){
+                
                 recordIds += lineItem.Id+';';
                 lineItem.Status__c = 'Event fired';
                 lineItem.Event_Fired_Date__c = System.now();
@@ -91,7 +92,7 @@ public with sharing class ASF_BulkUploadUtilityController {
                     chunkPE.Record_IDs__c = recordIds;
                     peList.add(chunkPE);
                     recordIds = '';
-                    index = 0;
+                    index = -1;
                 }
                 index++;
             }
@@ -125,7 +126,8 @@ public with sharing class ASF_BulkUploadUtilityController {
                     }  
                     index++;     
                 }
-                if(anySuccess){
+                ASF_Bulk_Upload_Header__c headRec = [Select Status__c from ASF_Bulk_Upload_Header__c where Id = :headRowId];
+                if(anySuccess && headRec.Status__c == 'Upload Completed'){
                     returnWrap.isSuccess = true;
                     returnWrap.successMessageIfAny = 'Upload completed, processing started';
                     headRow = new ASF_Bulk_Upload_Header__c();
@@ -133,7 +135,7 @@ public with sharing class ASF_BulkUploadUtilityController {
                     headRow.Status__c = 'Processing';
                 }else{
                     returnWrap.isSuccess = false;
-                    returnWrap.successMessageIfAny = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
+                    returnWrap.errorMessage = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
                 }
             }else{
                 returnWrap.isSuccess = false;
