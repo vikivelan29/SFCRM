@@ -37,6 +37,10 @@ public with sharing class ABHFL_LeadCreationAPI {
             if(!Test.isRunningTest()){
                 responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
             }
+            leadObj.API_Response_Message__c = '';
+            leadObj.Create_Lead_To_CRM_Status__c = '';
+            leadObj.API_Error_Code__c = '';
+            leadObj.API_Error_Fields__c = ''; 
             if(responseWrapperObj.Status == '200'){
                 leadObj.API_Response_Message__c = responseWrapperObj.Message;
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
