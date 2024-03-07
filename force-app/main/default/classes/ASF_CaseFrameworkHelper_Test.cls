@@ -266,7 +266,7 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void runIntRulesListTest() {
         List<ASF_Integration__c> caseIntList =[Select Id, External_Id__c, Case_Stage_Config__c, Type__c, When_to_Appear__c, Display_Name__c, 
-                                               Auto_Run_on_Load__c, Processing_Class__c
+                                               Auto_Run_on_Load__c, Processing_Class__c, Query_Fields__c
                                                FROM ASF_Integration__c];
         List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case];
         Map<Id, List<ASF_Integration__c>> allIntegrations = new Map<Id, List<ASF_Integration__c>>();
