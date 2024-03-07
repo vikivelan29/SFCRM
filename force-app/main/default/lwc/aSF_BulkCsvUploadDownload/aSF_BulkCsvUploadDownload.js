@@ -12,6 +12,7 @@ import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceErrors } from 'c/asf_ldsUtils';
 import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
@@ -48,6 +49,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     isTrue = true;
     hasPermission = false;
     hasLoaded = false;
+    disableUploadBtn = true;
 
     @track uploadId;
     @track fileName = '';
@@ -105,7 +107,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             }
 
         } else if (error) {
-            console.error('Error retrieving metadata:', error);
+            let errMsg = reduceErrors(error);
+            this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
         }
     }
 
@@ -142,7 +145,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         .then(() => {
         })
         .catch(error => {
-            console.error('Error loading validateFile.js: '+ error);
+            let errMsg = reduceErrors(error);
+            this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
         });
     }
 
@@ -152,6 +156,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.allConfigMetaList.forEach((element) => {
             if(element.Template_Name__c == this.operationRecordTypeValue){
                 this.selectedConfigRec = element;
+                this.disableUploadBtn = false;
             }
         });
     }
@@ -236,6 +241,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.foundFileWithNotAllowedExtn = false;
         if(event.target.files.length > 0) {
             this.filesUploaded = event.target.files[0];
+            console.log('file--'+event.target.files[0].size + event.target.files[0]);
             this.fileName = event.target.files[0].name; 
             let strFileExt = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length) || this.fileName;
 
@@ -340,6 +346,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     */
     handleSave() {
         this.showLoadingSpinner = true;
+        this.disableUploadBtn = true;
         this.boolShowFileUploadButton = false;
         this.boolCSVCheck= false;
         this.boolShowUploadButton = false;
@@ -350,6 +357,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         if(this.uploadValidationSuccess){
             this.strErrorMessage = '';
             this.boolShowUploadProgress = true;
+            this.disableUploadBtn = false;
             this.allLineItems = this.processedCsvData.map(item => {
                 return {
                     JSON_Data__c: JSON.stringify(item)
@@ -368,6 +376,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }else{
             this.showToastMessage('Error!', this.strErrorMessage, 'error');
             this.boolShowFileUploadButton = true;
+            this.disableUploadBtn = false;
             this.boolCSVCheck= true;
             this.boolShowUploadButton = true;
         }
@@ -379,7 +388,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         .then(result => {
         })
         .catch(error => {
-            console.error(error);
+            this.showLoadingSpinner = false;
+            let errMsg = reduceErrors(error);
+            this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
         });
     }
 
@@ -393,7 +404,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.boolDisplayProgressbar = true;
         })
         .catch(error => {
-            console.error(error);
+            this.showLoadingSpinner = false;
+            let errMsg = reduceErrors(error);
+            this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
         });
     }
 
@@ -401,12 +414,18 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     startProcessingChunks(){
         startProcessingChunks({headRowId: this.uploadId, totalRowCount: this.rowCount, templateName: this.operationRecordTypeValue})
         .then(result => {
-            this.boolShowUploadProgress = false;
             this.showLoadingSpinner = false;
-            this.boolDisplayProgressbar = true;
+            this.boolShowUploadProgress = false;
+            if(result.isSuccess){
+                this.boolDisplayProgressbar = true;
+            }else{
+                this.strErrorMessage = result.errorMessage;
+            }   
         })
         .catch(error => {
-            console.error(error);
+            this.showLoadingSpinner = false;
+            let errMsg = reduceErrors(error);
+            this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
         });
     }
 

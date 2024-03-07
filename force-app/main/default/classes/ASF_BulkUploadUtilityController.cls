@@ -133,7 +133,7 @@ public with sharing class ASF_BulkUploadUtilityController {
                     headRow.Status__c = 'Processing';
                 }else{
                     returnWrap.isSuccess = false;
-                    returnWrap.successMessageIfAny = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
+                    returnWrap.errorMessage = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
                 }
             }else{
                 returnWrap.isSuccess = false;
