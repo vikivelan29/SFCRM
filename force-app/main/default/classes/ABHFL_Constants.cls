@@ -51,7 +51,7 @@ public with sharing class ABHFL_Constants {
     public static final String SOURCE_TYPE = 'Internal';
     public static final String SOURCE_SYSTEM_API = 'SFDC';
     public static final String EXTERNAL_RECORD_TYPE = 'External';
-    
+    public static final String STP_REQUEST_TYPE_DOWNLOAD = 'Download';
     
     
     
