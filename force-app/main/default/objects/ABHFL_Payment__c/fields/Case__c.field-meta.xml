@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Case__c</fullName>
-    <deleteConstraint>SetNull</deleteConstraint>
     <description>Parent Case for the Payment</description>
     <externalId>false</externalId>
     <label>Case</label>
     <referenceTo>Case</referenceTo>
+    <relationshipLabel>ABHFL Payments</relationshipLabel>
     <relationshipName>ABFL_Payments</relationshipName>
-    <required>false</required>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Lookup</type>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
 </CustomField>
