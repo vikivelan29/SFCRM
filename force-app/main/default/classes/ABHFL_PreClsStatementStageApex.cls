@@ -16,9 +16,9 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
                 sendTrackingLinkEligibleCases.add(caseRec);
             }
             //send FCL issuance closure email for PreCls Statement/Precls Statement ret/rej. /Reissuance of FCL 
-            if((caseRec.Stage__c == 'CPU FCL Issuance' && caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
-            (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
-            (caseRec.Stage__c == 'FCL Issuance' && caseRec.CCC_External_Id__c == 'REFCL001') ){
+            if((caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' &&  caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
+            (caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
+            (caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'REFCL001') ){
                 sendPrclsStatementclosureEligibleCases.add(caseRec);
                 
             }

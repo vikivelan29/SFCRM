@@ -16,7 +16,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
+        Case caseRecord = [SELECT Id,Stage__c,Source__c,AccountId,CCC_External_Id__c,ContactId,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,No_Auto_Communication__c
                            FROM Case WHERE Id =: caseRec.Id];
         
@@ -45,7 +45,6 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                         Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                                 emailTemplateMap.get('Rejected'), smsMetadataMap.get('Rejected'), false);
                     }
-                    //check with Ashish this is not working as expected.
                     caseRecord.MoveToNext__c = true;
                     if(!test.isRunningTest())
                         update caseRecord;
@@ -54,6 +53,14 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                 }
             }
+        }
+
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
         }
         
         return result;
@@ -110,6 +117,13 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                         result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                     }
                 }
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -175,7 +189,9 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_NDCSTPHandler'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -212,22 +228,24 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             string requestBody = JSON.serialize(new NDCRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
             for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
             {
-                ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Status__c= ABHFL_Constants.PENDING;
-                caseInteg.Request__c = requestBody;
-                newCaseIntegrations.add(caseInteg);
+                if(intSpec.Processing_Class__c == 'ABHFL_NDCSTPHandler'){
+                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInteg.Case__c = caseRecord.Id;
+                    caseInteg.Status__c= ABHFL_Constants.PENDING;
+                    caseInteg.Request__c = requestBody;
+                    newCaseIntegrations.add(caseInteg);
 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInt.Name;
-                caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-                caseIntOut.Request_Payload__c  =  requestBody;
-                caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInt.Name;
+                    caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+                    caseIntOut.Request_Payload__c  =  requestBody;
+                    caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
 

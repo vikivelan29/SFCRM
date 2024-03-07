@@ -58,10 +58,12 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
         if(c.Reopened__c){
-            sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
-            sla2Sec =externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
-            sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
-            closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
+                sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
+                sla2Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
+                sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
+                closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            }
             // If this has been Just Reopened in this update, then aslo set the Overall Case Closure
             // to the Reopen Case Closure
             //TBD ritika
@@ -226,7 +228,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             if(c.CCC_External_Id__c != null){
                 externalIdList.add(c.CCC_External_Id__c);
             }
-            
             if(c.Stage__c != null){
                 caseStageList.add(c.Stage__c);
             }
@@ -426,12 +427,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<Id,Case> modifiednewCasesMap = new Map<Id,Case>();
         Map<Id,Case> modifiedoldCasesMap = new Map<Id,Case>(); 
         for(Case c : newCases.values() ){
-            if(newCases.get(c.Id).OwnerId!= oldCases.get(c.Id).OwnerId || 
-               newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
-                   modifiedCases.add(c);  
-                   modifiednewCasesMap.put(c.Id,c);  
-                   modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 
-               }    
+            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == true){
+                //If movetonext stage transaction, skip it, as stage was updated already from updateCasesFinally method, SLA history is already created.
+                continue;                
+            }
+            if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
+            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
+                modifiedCases.add(c);  
+                modifiednewCasesMap.put(c.Id,c);  
+                modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 
+            }    
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){

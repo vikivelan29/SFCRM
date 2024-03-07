@@ -89,7 +89,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     public static List<ASF_Case_Integration__c> getCaseRelatedIntegrations(Set<String> cccIntegrationExtIds, Set<Id> caseIds){
         if(caseIntegrations == null || refreshRecords){
-            caseIntegrations = [SELECT Id, Is_Validation_Success__c, Integration_Ext_Id__c
+            caseIntegrations = [SELECT Id, Is_Validation_Success__c, Integration_Ext_Id__c, Case__c
                                 FROM ASF_Case_Integration__c
                                 WHERE Case__c =: caseIds
                                 AND Integration_Ext_Id__c in: cccIntegrationExtIds

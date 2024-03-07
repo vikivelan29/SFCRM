@@ -22,7 +22,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_FAILED_DATE_ERROR').Message__c;
 
         Case caseRecord = [
-            SELECT Id, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
+            SELECT Id,Stage__c, Asset.LAN__c, ABHFL_Case_Detail__r.From_Date__c, ABHFL_Case_Detail__r.To_Date__c, ABHFL_Case_Detail__r.STP_Request_Type__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -32,6 +32,15 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             result.status = ABHFL_Constants.SUCCESS;
             result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
          }
+
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
+
          return  result;
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
@@ -57,6 +66,14 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.From_Date__c != null && caseRecord.ABHFL_Case_Detail__r.To_Date__c != null && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
                 result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('SOA_EVALUATION_SUCCESS_RESPONSE').Message__c;
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
+                //return new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -125,7 +142,9 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
 		Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_SOAIntegration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -164,27 +183,29 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         for(Case caseRecord : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRecord.Id))
             {
-                String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
-                String fromDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.From_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).day()).format('dd-MM-YYYY');
+                if(integ.Processing_Class__c == 'ABHFL_SOAIntegration'){
+                    String toDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.To_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.To_Date__c).day()).format('dd-MM-YYYY');
+                    String fromDate = DateTime.newInstance((caseRecord.ABHFL_Case_Detail__r.From_Date__c).year(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).month(),(caseRecord.ABHFL_Case_Detail__r.From_Date__c).day()).format('dd-MM-YYYY');
 
-        
-                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+            
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABHFL_Constants.PENDING;
                     caseInt.Request__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
-                caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                    caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
 
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
-                caseIntOut.Integration_Name__c  = ABHFL_Constants.SOA_INTEGRATION_NAME;
-                caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-                caseIntOut.Request_Payload__c = JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
+                    caseIntOut.Integration_Name__c  = ABHFL_Constants.SOA_INTEGRATION_NAME;
+                    caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                    caseIntOut.Request_Payload__c = JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
 
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
 

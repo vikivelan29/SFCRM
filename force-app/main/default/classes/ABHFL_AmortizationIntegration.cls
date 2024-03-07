@@ -20,7 +20,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateFailure').Message__c;
         
         Case caseRecord = [
-            SELECT Id, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
+            SELECT Id,Stage__c, Asset.Loan_Disbursement_Status__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,CCC_External_Id__c,AccountId,ContactId, Attachment_Status__c,Source__c,No_Auto_Communication__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -50,6 +50,13 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
       }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
+        }
         return result;
     }
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
@@ -99,6 +106,13 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
             else if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
                 result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('AMORT_EvaluateSuccess').Message__c;
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -171,7 +185,9 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_AmortizationIntegration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -209,23 +225,24 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
             for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
             {
                 
-
-                ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord)); 
-                caseInteg.Status__c = ABHFL_Constants.PENDING;
-                newCaseIntegrations.add(caseInteg);
-          
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                //caseIntOut.Case_Integration_ID__c = caseInt.Name;
-                caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-                caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-                caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord));
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                if(intSpec.Processing_Class__c == 'ABHFL_AmortizationIntegration'){
+                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInteg.Case__c = caseRecord.Id;
+                    caseInteg.Request__c = JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord)); 
+                    caseInteg.Status__c = ABHFL_Constants.PENDING;
+                    newCaseIntegrations.add(caseInteg);
+            
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                    //caseIntOut.Case_Integration_ID__c = caseInt.Name;
+                    caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+                    caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                    caseIntOut.Request_Payload__c  =  JSON.serialize(new AmmortRequestWrapper(caseRecord.Asset.Lan__c,caseRecord));
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
             resultMap.put(caseRecord.Id, response);
         }

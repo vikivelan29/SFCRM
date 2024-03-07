@@ -106,11 +106,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Branch_Master__c</field>
-            <table>ABHFL_Case_Detail__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Callback_Timeslot_EZGO__c</field>
             <table>ABHFL_Case_Detail__c</table>
         </columns>
@@ -1179,11 +1174,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Branch_Master__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>BRE_Source__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
@@ -1444,11 +1434,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Is_FTP__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>is_Manual_Approval__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
@@ -1530,11 +1515,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Masked_LAN__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Master_Record_Name__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
         <columns>
@@ -1709,11 +1689,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Resolved_Email_Sent__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Sent_to_EBOT__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
@@ -1834,11 +1809,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Test_Percent__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Track_Id__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
@@ -1895,11 +1865,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Sub_Source__c</field>
-            <table>ABHFL_Case_Detail__c.Cases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LAN_Mapping__c</field>
             <table>ABHFL_Case_Detail__c.Cases__r</table>
         </columns>
         <masterLabel>Cases</masterLabel>

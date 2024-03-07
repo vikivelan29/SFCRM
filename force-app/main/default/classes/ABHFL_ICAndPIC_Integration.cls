@@ -25,7 +25,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         result.response = Custom_Messages__mdt.getInstance('IC_EVALUATION_FAILED').Message__c;
 
         Case caseRecord = [
-            SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
+            SELECT Id,Stage__c, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -62,6 +62,13 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                 result.status = 'Error';
                 result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
             }
+        }
+        if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }
+            return new ASF_IntegrationsController.IntegrationWrapper();
         }
         return result;
     }
@@ -116,6 +123,13 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     result.status = 'Error';
                     result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
                 }
+            }
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    update caseRecord;
+                }
+                result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -195,7 +209,9 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 		Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                intIds.add(integ.External_Id__c);
+                if(integ.Processing_Class__c == 'ABHFL_ICAndPIC_Integration'){
+                    intIds.add(integ.External_Id__c);
+                }
             }
         }
 
@@ -242,7 +258,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             String jsonBody = '';
             for(ASF_Integration__c integ : integs.get(caseRecord.Id))
             {
-                if(subTypeList.contains(caseSubType)) {
+                if(integ.Processing_Class__c == 'ABHFL_ICAndPIC_Integration' && subTypeList.contains(caseSubType)) {
                     ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = generateRequest(caseRecord, type, financialYr);
                     jsonBody = JSON.serialize(reqBodyObj, true);
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
