@@ -39,7 +39,7 @@ public class ASF_CaseUIController_Test {
         stage1.StageName__c  = 'New';
         stage1.Stage_SLA_1__c = 1;
         stage1.Status_Mapping__c = 'New';
-	        // stage1.Stage_SLA_3__c = 3;
+            // stage1.Stage_SLA_3__c = 3;
         stage1.SLA_Target_1_Type__c = 'Manager';
         stage1.Query_Fields__c = 'Id,Stage__c';
         stage1.Manual_Stage__c = false;
@@ -105,8 +105,8 @@ public class ASF_CaseUIController_Test {
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
         
         ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
-        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','');
-        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','');
+        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
+        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
         ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
         
