@@ -51,7 +51,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                                                            WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
         for(ABHFL_Asset_Detail__c assetDetail : relatedAssets){
             //Check for mandatory API conditions & Check for Loan Disbursement Status
-        	if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
+                    	if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
               assetDetail.Asset__r.Loan_Disbursement_Status__c != null &&
               assetDetail.Asset__r.Loan_Disbursement_Status__c != 'Partially')
             {
@@ -75,7 +75,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
           	update caseDetail;
         }
-            
+        
         if(allPartialLoans && Schema.sObjectType.Case.isUpdateable()){
           	result.status = ABHFL_Constants.ERROR;
            	result.response = Custom_Messages__mdt.getInstance('MultiAMORT_Evaluate_Disbursed_Partially').Message__c;
@@ -159,7 +159,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     
     private void cancelExistingCaseIntRecords(List<ASF_Case_Integration__c> existingCaseIntRecords){
         for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-            if(caseInt.Status__c == ABHFL_Constants.PENDING){
+            if(caseInt.Status__c == ABHFL_Constants.PENDING || caseInt.Status__c == ABHFL_Constants.FAILURE){
                 caseInt.Status__c = ABHFL_Constants.CANCELED;  
             }
         }
