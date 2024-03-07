@@ -347,6 +347,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>aSF_CaseApprovalRecords</componentName>
+                <identifier>c_aSF_CaseApprovalRecords</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
@@ -618,7 +628,7 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-5081f259-7e19-48b8-82e5-ea943bbc1d8f</name>
-        <type>Facet</type>
+        <type>Facet</type>  
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
