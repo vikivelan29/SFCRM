@@ -556,6 +556,7 @@
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>Current_Owner__c</fields>
+        <fields>Actioned_By__c</fields>
         <fields>Stage__c</fields>
         <fields>Stage_Start_Date__c</fields>
         <fields>Stage_End_Date__c</fields>

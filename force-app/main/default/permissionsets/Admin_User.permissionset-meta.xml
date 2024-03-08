@@ -2031,6 +2031,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_SLA_History__c.Actioned_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_SLA_History__c.Actual_Time_Taken__c</field>
         <readable>true</readable>
     </fieldPermissions>
