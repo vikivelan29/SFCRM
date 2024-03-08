@@ -110,7 +110,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
     }
 
     handleClick(e){
-        if(this.userId != this.ownerId || (this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0 && !this.stagesAllowingFieldEdit.includes(this.currStage))){
+        if(this.userId != this.ownerId || (this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0 && !this.stagesAllowingFieldEdit.includes(this.currStage)) && this.columnName != 'Revised_EMI_Tenure__c'){
             const selectEvent = new CustomEvent('checkeditpermissions',{});
             // Fire the custom event
             this.dispatchEvent(selectEvent);
