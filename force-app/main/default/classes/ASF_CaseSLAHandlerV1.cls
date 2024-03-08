@@ -427,8 +427,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<Id,Case> modifiednewCasesMap = new Map<Id,Case>();
         Map<Id,Case> modifiedoldCasesMap = new Map<Id,Case>(); 
         for(Case c : newCases.values() ){
-            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == true){
-                //If movetonext stage transaction, skip it, as stage was updated already from updateCasesFinally method, SLA history is already created.
+            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == false){
+                //If movetonext is setting to false, skip it, means its a internal update.
                 continue;                
             }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
