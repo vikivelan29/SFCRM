@@ -732,7 +732,7 @@ public without sharing class ABHFL_CTSTHelper {
 
     public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC','REFCL001','RRSDPRSHFC01'};
-        List<String> validCTSTsEditFields= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC'};
+        List<String> validCTSTsEditFields= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
         List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
         List<String> validCTSTsROI= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
         List<String> validStagesForRevisedEMITenure= new List<String>{'Resolved','Pending Amortization'};
@@ -758,12 +758,6 @@ public without sharing class ABHFL_CTSTHelper {
                             if(validCTSTsROI.contains(caseRec.CCC_External_Id__c)){
                                 if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || 
                                    String.isBlank(assetDetail.Impact__c) || String.isBlank(assetDetail.Cycle_Date__c)){
-                                    assetRecordComplete = false;
-                                    break;
-                                }
-                            }
-                            if(caseRec.CCC_External_Id__c == 'RLOAPRONHFC'){
-                                if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || String.isBlank(assetDetail.Impact__c)){
                                     assetRecordComplete = false;
                                     break;
                                 }
