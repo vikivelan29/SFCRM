@@ -36,11 +36,6 @@
                 <label>Not Classified</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
-                <default>false</default>
-                <label>ABWM</label>
-            </value>
-            <value>
                 <fullName>Corporate</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
