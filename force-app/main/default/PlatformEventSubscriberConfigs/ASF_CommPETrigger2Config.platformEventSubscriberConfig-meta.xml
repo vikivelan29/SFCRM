@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<PlatformEventSubscriberConfig xmlns="http://soap.sforce.com/2006/04/metadata">
-    <batchSize>200</batchSize>
-    <masterLabel>ASF_CommPETrigger2Config</masterLabel>
-    <platformEventConsumer>ASF_CommPETrigger2</platformEventConsumer>
-    <user>virendra.patil@salesforce.com.abcl.sit1</user>
-</PlatformEventSubscriberConfig>
