@@ -98,7 +98,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                     result.response = Custom_Messages__mdt.getInstance('AMORT_Evaluate_Disbursed_Partially').Message__c;
                     if(caseRecord.Source__c == 'API'){
                         Case updatedCase = new Case(Id=caseRecord.Id);
-                        updatedCase.Stage__c = 'Resolved';
+                        updatedCase.MoveToNext__c = true;
                         result.updatedCase = updatedCase;
                     }
                 }
