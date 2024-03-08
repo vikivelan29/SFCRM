@@ -19,6 +19,10 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api isHyperlink;
     showIcon = true;
     @api showQuickAction;
+    @api currStage;
+    @api stagesAllowingFileUpload;
+    @api userId;
+    @api ownerId;
 
     connectedCallback(e){
         if(this.isHyperlink){
@@ -30,6 +34,12 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     }
 
     openAddAttachmentModal(event){
+        if(this.userId != this.ownerId || (this.stagesAllowingFileUpload && this.stagesAllowingFileUpload.length > 0 && !this.stagesAllowingFileUpload.includes(this.currStage))){
+            const selectEvent = new CustomEvent('checkpermissions',{});
+            // Fire the custom event
+            this.dispatchEvent(selectEvent);
+            this.closeModal();
+        }
         this.isLoanSelected = false;
         this.showAddAttachmentModal = true;
     }

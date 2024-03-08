@@ -59,7 +59,7 @@
                         <lightning-button-group>    
                             <template lwc:if={boolShowUploadButton}>  
                                 <template lwc:if={boolCSVCheck}>  
-                                    <lightning-button class="slds-m-left_x-small" label={UploadFile} onclick={handleSave} variant="brand" disabled={noOperationTypeValue} ></lightning-button>
+                                    <lightning-button class="slds-m-left_x-small" label={UploadFile} onclick={handleSave} variant="brand" disabled={disableUploadBtn} ></lightning-button>
                                 </template>
                                 <lightning-button class="slds-m-left_x-small" label={strDownloadTemplate} onclick={getTemplateData} variant="brand"></lightning-button>
                             </template>

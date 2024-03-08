@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Customer_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>SR__r.Account.Name</formula>
+    <formula>IF(SR__r.Account.IsPersonAccount, SR__r.Account.FirstName +&quot; &quot; + SR__r.Account.LastName ,SR__r.Account.Name)</formula>
     <label>Customer Name</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

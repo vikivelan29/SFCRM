@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Foreclosure of Loan account:" recipientType="Contact" relatedToType="Case">
+<messaging:emailTemplate subject="Foreclosure of Loan account: {!relatedTo.LAN__c}" recipientType="Contact" relatedToType="Case">
     <messaging:htmlEmailBody >
         <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateDevloperName="ABFL_DIGITAL_STP_CASE_TEMPLATE_FOR_ISSUE_FOR_CLOSURE_LETTER" ></c:ASF_CaseEmail>
     </messaging:htmlEmailBody>

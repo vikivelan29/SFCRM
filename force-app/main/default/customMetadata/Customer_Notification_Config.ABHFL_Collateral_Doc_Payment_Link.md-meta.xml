@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>SMS_Merge_Fields_CSV__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABHFL_Case_Detail__r.Name</value>
     </values>
     <values>
         <field>SMS_Sender_Id__c</field>

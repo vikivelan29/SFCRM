@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Open Case Status</label>
             </value>
+            <value>
+                <fullName>Process &amp; Open Case Status</fullName>
+                <default>false</default>
+                <label>Process &amp; Open Case Status</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

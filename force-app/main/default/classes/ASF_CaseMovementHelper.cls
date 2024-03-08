@@ -70,6 +70,8 @@ public class ASF_CaseMovementHelper {
                     updatedCase.Pending_Clarification__c = false;
                     resultWrapper.caseToBeUpdated = updatedCase;
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
+                    resultWrapper.ownerId = nextStage.ownerId;
+                    resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                 }
                 else{
                     resultWrapper.errorMessage = nextStage.errorMessage;
@@ -90,6 +92,8 @@ public class ASF_CaseMovementHelper {
                     if(nextStage.status == 'Success'){
                         resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;
+                        resultWrapper.ownerId = nextStage.ownerId;
+                        resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }else{
                         resultWrapper.errorMessage = nextStage.errorMessage;
@@ -789,8 +793,9 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-
+		ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
         Map<Id, ASF_Case_Stage_Config__c> caseIdToNextStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
         for(Case caseRec : currentCases){
