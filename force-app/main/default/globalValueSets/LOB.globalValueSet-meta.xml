@@ -45,11 +45,6 @@
         <default>false</default>
         <label>ABHFL</label>
     </customValue>
-    <customValue>
-        <fullName>ABWM</fullName>
-        <default>false</default>
-        <label>ABWM</label>
-    </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

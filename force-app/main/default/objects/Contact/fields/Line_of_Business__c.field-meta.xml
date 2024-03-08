@@ -24,11 +24,6 @@
                 <default>false</default>
                 <label>Payments</label>
             </value>
-            <value>
-                <fullName>ABWM</fullName>
-                <default>false</default>
-                <label>ABWM</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
