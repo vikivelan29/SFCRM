@@ -29,6 +29,20 @@
         <value>ABFSGSFDC User</value>
     </labels>
     <labels>
+        <fullName>ABFL_CRMUAT_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL CRM UAT EMAI</shortDescription>
+        <value>abfl.crmuat01@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DIGITAL_FINANCE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL DIGITAL FINANCE</shortDescription>
+        <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
