@@ -81,47 +81,62 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             index++;
         }
 
-        ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
-        List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
-        ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
+        try{
+            ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
+            List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
+            ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
 
-        Set<Id> caseIds = new Set<Id>();
-        Map<Id, String> caseNumberMap = new Map<Id, String>();
-        for(Database.UpsertResult sr : srList){
-            if(sr.isSuccess() && sr.isCreated()){
-                caseIds.add(sr.getId());
-            }
-        }
-
-        if(!caseIds.isEmpty()){
-            for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
-                caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
-            }
-        }
-        index = 0;
-        for(Database.UpsertResult sr : srList){
-            Id lineItemId = indexToLineItemIdMap.get(index);
-            Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
-            if(sr.isSuccess()){
-                System.debug('Success case number'+recordsForDML[index]);
-                jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
-            }else{
-                jsonMap.put('Result', 'FAILURE');
-                String errorMessage = '';
-                for(Database.Error err : sr.getErrors()) {
-                    System.debug('The following error has occurred.');                    
-                    errorMessage += err.getStatusCode() + ': ' + err.getMessage();
-                    errorMessage += ' : ' +err.getFields();
+            Set<Id> caseIds = new Set<Id>();
+            Map<Id, String> caseNumberMap = new Map<Id, String>();
+            for(Database.UpsertResult sr : srList){
+                if(sr.isSuccess() && sr.isCreated()){
+                    caseIds.add(sr.getId());
                 }
-                jsonMap.put('Message', errorMessage);
             }
-            System.debug('jsonMap'+jsonMap);
-            System.debug('jsonMap Serialized'+ JSON.serialize(jsonMap));
-            jsonResults.put(lineItemId, JSON.serialize(jsonMap));
-            index++;
+
+            if(!caseIds.isEmpty()){
+                for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
+                    caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
+                }
+            }
+            index = 0;
+            for(Database.UpsertResult sr : srList){
+                Id lineItemId = indexToLineItemIdMap.get(index);
+                Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
+                if(sr.isSuccess()){
+                    System.debug('Success case number'+recordsForDML[index]);
+                    jsonMap.put('Result', 'SUCCESS');
+                    jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
+                }else{
+                    jsonMap.put('Result', 'FAILURE');
+                    String errorMessage = '';
+                    for(Database.Error err : sr.getErrors()) {
+                        System.debug('The following error has occurred.');                    
+                        errorMessage += err.getStatusCode() + ': ' + err.getMessage();
+                        errorMessage += ' : ' +err.getFields();
+                    }
+                    jsonMap.put('Message', errorMessage);
+                }
+                System.debug('jsonMap'+jsonMap);
+                System.debug('jsonMap Serialized'+ JSON.serialize(jsonMap));
+                jsonResults.put(lineItemId, JSON.serialize(jsonMap));
+                index++;
+            }
         }
-        
+        catch(Exception err){
+            //Any generic exception or
+            //since its processing 2 or more different headers, same case can be under 2 different headers, trying to close
+            //System.ListException: Before Insert or Upsert list must not have two identically equal elements
+            for(Integer lineItemIndex : indexToLineItemIdMap.keySet()){
+                Id lineItemId = indexToLineItemIdMap.get(lineItemIndex);
+                Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
+                jsonMap.put('Result', 'FAILURE');
+                jsonMap.put('Message', err.getMessage());
+                jsonResults.put(lineItemId, JSON.serialize(jsonMap));
+            }
+        }
+
+
         List<ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new List<ASF_Bulk_Upload_Line_Item__c>();
         for(Id lineItemId : jsonResults.keySet()){
             ASF_Bulk_Upload_Line_Item__c lineItem = new ASF_Bulk_Upload_Line_Item__c();
