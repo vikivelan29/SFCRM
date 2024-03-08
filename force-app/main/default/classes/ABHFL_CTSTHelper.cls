@@ -34,6 +34,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
         String ownerName = '';
+        Case caseRec = [SELECT Id,Source__c,CreatedBy.Name,CreatedById from Case where id =: caseRecord.id];
     	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
     	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
         List<String> customerServiceSubTypes = new List<String>{'hfl060'};
@@ -44,8 +45,9 @@ public without sharing class ABHFL_CTSTHelper {
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
     	if (emailNonFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailNonFinancialQueue.Id;
             ownerName = emailNonFinancialQueue.Name;
@@ -53,16 +55,18 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (emailFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailFinancialQueue.Id;
             ownerName = emailFinancialQueue.Name;
         		}
     	}
         if (customerServiceSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = customerServiceQueue.Id;
             ownerName = customerServiceQueue.Name;
@@ -77,7 +81,10 @@ public without sharing class ABHFL_CTSTHelper {
 
     	if (slaHistory.size() > 0) {
             slaHistory[0].Current_Owner_Id__c = updatedCase.OwnerId;
-            slaHistory[0].Current_Owner__c = ownerName;
+            if(ownerName != ''){
+                slaHistory[0].Current_Owner__c = ownerName;
+            }
+            
         	update slaHistory;
     	}
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
