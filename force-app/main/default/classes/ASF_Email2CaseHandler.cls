@@ -105,6 +105,9 @@ public without sharing class ASF_Email2CaseHandler {
                         caseIds.add(msg.ParentId);
                     }
                 }
+                else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
+
+                }
                 else{
                     caseIds.add(msg.ParentId);
                 }
