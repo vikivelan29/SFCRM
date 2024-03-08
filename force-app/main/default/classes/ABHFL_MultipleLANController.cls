@@ -368,24 +368,7 @@ public with sharing class ABHFL_MultipleLANController {
             }
             List<ASF_Checklist__c> checklist = [Select id,Status__c,Label__c from ASF_Checklist__c 
                                                 where Case__c =: recId and Label__c = 'Add LAN(s) and provide necessary details.'];
-
-            if(checklist.size() > 0){
-                Boolean checklistPassed = true;
-                for(ABHFL_Asset_Detail__c assetDetail :assetRecords){
-                    if((assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0) || String.isBlank(assetDetail.Impact__c) || String.isBlank(assetDetail.Cycle_Date__c)){
-                        checklistPassed = false;
-                        break;
-                    }
-                }     
-                if(checklistPassed){
-                    checklist[0].Status__c = 'Completed';
-                }else{
-                    checklist[0].Status__c = 'Pending';
-                }
-                if(Schema.sObjectType.ASF_Checklist__c.isUpdateable()){
-                    update checklist[0];
-                }        
-            }                                    
+                                   
             return assetRecords;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
