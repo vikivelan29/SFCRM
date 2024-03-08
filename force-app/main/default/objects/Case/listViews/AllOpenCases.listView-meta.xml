@@ -3,6 +3,7 @@
     <fullName>AllOpenCases</fullName>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>CASES.SUBJECT</columns>
+    <columns>Source__c</columns>
     <columns>CASES.STATUS</columns>
     <columns>Vertical__c</columns>
     <columns>CASES.CREATED_DATE</columns>
