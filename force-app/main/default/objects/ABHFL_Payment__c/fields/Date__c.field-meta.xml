@@ -4,6 +4,8 @@
     <externalId>false</externalId>
     <label>Date</label>
     <required>true</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>
