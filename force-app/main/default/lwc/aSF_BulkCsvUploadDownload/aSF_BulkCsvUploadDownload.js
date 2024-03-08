@@ -181,8 +181,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             })
             .catch(error => {
                 this.boolDisplayLoadingText = false;
-                console.log('error--'+JSON.stringify(error));
-                this.strErrorMessage = this.strAdminError + ' Following technical Error occured.  ' ;
+                this.displayErrorMessage(error, '');
         });
     }
     //This method validates the dataCSV and creates the csv file to download
@@ -229,7 +228,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     } 
                 },
                 error: (error) => {
-                    console.error(error);
+                    this.displayErrorMessage(error, '');
                     reject(error);
                 }
             });
@@ -240,7 +239,6 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.foundFileWithNotAllowedExtn = false;
         if(event.target.files.length > 0) {
             this.filesUploaded = event.target.files[0];
-            console.log('file--'+event.target.files[0].size + event.target.files[0]);
             this.fileName = event.target.files[0].name; 
             let strFileExt = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length) || this.fileName;
 
@@ -267,7 +265,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
                         return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
-                    console.log('parsed data--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
+                    console.log('parsed data--'+event.target.files[0].size+'--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{
@@ -333,7 +331,6 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             configData: this.selectedConfigRec
         };
         let buValResult = window.validateFile(inputData);
-        console.log('val result--'+buValResult);
         if(buValResult != 'Success'){
             this.strErrorMessage = buValResult;
             this.uploadValidationSuccess = false;
