@@ -38,6 +38,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     stagesAllowingFetchAll;
     stagesAllowingFileUpload;
     amIOwner;
+    sizeClass = 'multiColumnTable';
 
     @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
     case;
@@ -511,5 +512,16 @@ export default class Abhfl_MultipleLan extends LightningElement {
 
     refresh(e){
         this.checkAccessbilityforCurrentStage();
+    }
+
+    renderedCallback(e){
+        if(this.childColumns && this.childColumns.length <= 3){
+            this.sizeClass = 'singleColumnTable';
+        }
+        if(this.template.querySelector("table[name='childTable']")){
+            this.template.querySelector("table[name='childTable']").classList.add(this.sizeClass);
+            
+        }
+        
     }
 }
