@@ -74,8 +74,8 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
-            ownerName = emailNonFinancialQueue.Name;
+        	updatedCase.OwnerId = emailFinancialQueue.Id;
+            ownerName = emailFinancialQueue.Name;
     	}
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
