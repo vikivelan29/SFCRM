@@ -13,6 +13,7 @@ export default class AsfProgressComponent extends LightningElement {
     failedRecords = 0;
     processedRecords = 0;
     boolShowGreenBar = false;
+    @api successMessage = '';
 
     strGenericError = 'An unexpected error occured. Please connect with the System Administrator';
 
@@ -42,6 +43,7 @@ export default class AsfProgressComponent extends LightningElement {
 
                 this.disableLink = false;
                 if(this.percentageValue == 100){
+                    this.successMessage = '';
                     const uploadCompleteEvent = new CustomEvent('uploadcomplete', {
                         detail: { value: this.percentageValue }
                     });
