@@ -74,8 +74,8 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
-            ownerName = emailNonFinancialQueue.Name;
+        	updatedCase.OwnerId = emailFinancialQueue.Id;
+            ownerName = emailFinancialQueue.Name;
     	}
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
@@ -221,9 +221,9 @@ public without sharing class ABHFL_CTSTHelper {
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, SAP_Code__c, ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, UniqueKey__c, ROM_AOM__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
-                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.SAP_Code__c), branch);
+                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
                 if(caseIdToBranchMap.get(caseRec.Id).ROM_AOM__c != null){
