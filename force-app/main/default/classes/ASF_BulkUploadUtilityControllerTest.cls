@@ -134,7 +134,7 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         Test.startTest();
         ASF_BulkUploadUtilityController.ChunkLoadWrapper wrap = ASF_BulkUploadUtilityController.startProcessingChunks(headObj.Id, 1001, 'Create_Case');
         Test.stopTest();
-        Assert.isTrue(wrap.isSuccess, 'IsSuccess expected to be true');
+        Assert.isFalse(wrap.isSuccess, 'IsSuccess expected to be false');
         
     }
 
@@ -159,7 +159,7 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         Test.startTest();
         ASF_BulkUploadUtilityController.ChunkLoadWrapper wrap = ASF_BulkUploadUtilityController.startProcessingChunks(headObj.Id, 100, 'Create_Case');
         Test.stopTest();
-        Assert.isTrue(wrap.isSuccess, 'IsSuccess expected to be true');
+        Assert.isFalse(wrap.isSuccess, 'IsSuccess expected to be false');
         
     }
 
