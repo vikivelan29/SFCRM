@@ -221,9 +221,9 @@ public without sharing class ABHFL_CTSTHelper {
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, SAP_Code__c, ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, UniqueKey__c, ROM_AOM__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
-                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.SAP_Code__c), branch);
+                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
                 if(caseIdToBranchMap.get(caseRec.Id).ROM_AOM__c != null){
@@ -740,7 +740,6 @@ public without sharing class ABHFL_CTSTHelper {
                                                                      (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
                                                                       from Asset_Details__r)
                                                                       from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
-        system.debug('caseRecordsPaymentDetailsMap'+caseRecordsPaymentDetailsMap);
         for(Id recId : caseIdCaseMovementWrapperMap.keySet()){
             if(caseRecordsPaymentDetailsMap.containsKey(recId)){
                 Case caseRec = caseRecordsPaymentDetailsMap.get(recId);
@@ -748,16 +747,13 @@ public without sharing class ABHFL_CTSTHelper {
                     ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
                     caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
                     caseStgValidationWrapper.isCaseUpdated = false;
-                    system.debug('caseRec.Asset_Details__r '+caseRec.Asset_Details__r.size());
+                    
                     if(caseRec.Asset_Details__r.size() == 0){
                         caseStgValidationWrapper.errorMessage = 'Please select atleast one LAN';
                         caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
                     } else if(caseRec.Asset_Details__r.size() >= 0 && validCTSTsEditFields.contains(caseRec.CCC_External_Id__c)){
                         Boolean assetRecordComplete = true;
                         for(integer i = 0; i < caseRec.Asset_Details__r.size(); i++){
-                            system.debug('caseRec.Asset_Details__r '+caseRec.Asset_Details__r.size());
-                            system.debug('caseRec.Asset_Details__r '+caseRec.Asset_Details__r);
-                            system.debug('caseRec.Previous_Stage__c '+caseRec.Previous_Stage__c);
                             ABHFL_Asset_Detail__c assetDetail = caseRec.Asset_Details__r[i];
                             if(validCTSTsROI.contains(caseRec.CCC_External_Id__c)){
                                 if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || 
