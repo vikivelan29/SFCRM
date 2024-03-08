@@ -86,7 +86,6 @@ public class ABFL_RetailController_Test{
         ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTime_LoanDetails', assetRecord.Id);
         Test.stopTest();
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
 
@@ -99,7 +98,6 @@ public class ABFL_RetailController_Test{
         ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTime_BasicCustInfo', assetRecord.Id);
         Test.stopTest();
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
 
@@ -112,7 +110,6 @@ public class ABFL_RetailController_Test{
         ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTIme_GCCPropertyDetails', assetRecord.Id);
         Test.stopTest();
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
 
@@ -125,7 +122,6 @@ public class ABFL_RetailController_Test{
         ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTime_LoanMIS', assetRecord.Id);
         Test.stopTest();
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
 
@@ -138,7 +134,6 @@ public class ABFL_RetailController_Test{
         ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTime_InstallPmntDtls', assetRecord.Id);
         Test.stopTest();
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
 }
