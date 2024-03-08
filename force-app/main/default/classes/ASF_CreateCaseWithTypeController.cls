@@ -17,6 +17,11 @@ public with sharing class ASF_CreateCaseWithTypeController {
 *****************************************************************************************************************/
     
     public static CaseDetailsWrapper getUserDetails(){
+
+        String source = '';
+        String subSource = ''; 
+        Map<String, String> sourceToSubsource = new Map<String, String>();
+
         User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
         String userSourceCode = objUser.Source_Code__c;
         String strLOB = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
@@ -34,7 +39,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
+                          Type__c, Channel__c,Source__c, Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -48,8 +53,12 @@ public with sharing class ASF_CreateCaseWithTypeController {
         
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
-            objCaseDetailsWrapper.strSource = choosenOneMTD.Source__c;
+            source = choosenOneMTD.Source__c;
+            subSource = choosenOneMTD.Sub_Source__c;
+            sourceToSubsource.put(source, subSource);
+            objCaseDetailsWrapper.strSource = source;
             objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
+            objCaseDetailsWrapper.mapOfSourceToSubsource = sourceToSubsource;
             List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
@@ -200,6 +209,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 *****************************************************************************************************************/
     
     public class CaseDetailsWrapper{
+        @AuraEnabled public Map<String, String> mapOfSourceToSubsource;
         @AuraEnabled public List<ASF_Case_Category_Config__c> lstCCCrecords;
         @AuraEnabled public String strSource;
         @AuraEnabled public String complaintType;
