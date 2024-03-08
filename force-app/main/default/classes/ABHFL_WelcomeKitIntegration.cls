@@ -151,7 +151,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 //     update caseRecord;
                 // }
                 Case updatedCase = new Case(Id=caseRecord.Id);
-                updatedCase.Stage__c = 'Resolved';
+                updatedCase.MoveToNext__c = true;
                 result.updatedCase = updatedCase;
                 result.status = ABHFL_Constants.ERROR;
                 result.response = Custom_Messages__mdt.getInstance('WK_Evaluation_Failed_Digital').Message__c;
