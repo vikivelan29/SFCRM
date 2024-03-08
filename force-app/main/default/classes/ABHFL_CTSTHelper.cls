@@ -33,48 +33,63 @@ public without sharing class ABHFL_CTSTHelper {
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
+        String ownerName = '';
+        Case caseRec = [SELECT Id,Source__c,CreatedBy.Name,CreatedById from Case where id =: caseRecord.id];
     	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
     	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
         List<String> customerServiceSubTypes = new List<String>{'hfl060'};
-    	Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-    	Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        Group customerServiceQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
+    	Group emailNonFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+    	Group emailFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
 		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
     	if (emailNonFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailNonFinancialQueue.Id;
+            ownerName = emailNonFinancialQueue.Name;
         	}
     	}
 
     	if (emailFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailFinancialQueue.Id;
+            ownerName = emailFinancialQueue.Name;
         		}
     	}
         if (customerServiceSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = customerServiceQueue.Id;
+            ownerName = customerServiceQueue.Name;
         		}
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
         	updatedCase.OwnerId = emailNonFinancialQueue.Id;
+            ownerName = emailNonFinancialQueue.Name;
     	}
-        List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
+        List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
     	if (slaHistory.size() > 0) {
-        	delete slaHistory;
+            slaHistory[0].Current_Owner_Id__c = updatedCase.OwnerId;
+            if(ownerName != ''){
+                slaHistory[0].Current_Owner__c = ownerName;
+            }
+            
+        	update slaHistory;
     	}
-        //ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
+		ASF_TriggerSkipperUtility.resetTriggerRun('Case');
 	}
     //Dhinesh
     public static Map<Id, Case> assignCaseToBranch(List<Case> caseRecords) {
