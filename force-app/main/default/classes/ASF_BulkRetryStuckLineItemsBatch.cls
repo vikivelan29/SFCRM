@@ -1,4 +1,4 @@
-public class ASF_BulkRetryStuckLineItemsBatch implements Database.Batchable<SObject>{
+public class ASF_BulkRetryStuckLineItemsBatch implements Database.Batchable<SObject>, Schedulable{
     public Database.QueryLocator start(Database.BatchableContext BC){
         Datetime cutoffTime = System.now().addHours(-1);
         String query = 'SELECT Id, Bulk_Upload_Header__c, Bulk_Upload_Header__r.Status__c, Number_of_retries__c';
@@ -89,5 +89,10 @@ public class ASF_BulkRetryStuckLineItemsBatch implements Database.Batchable<SObj
 
     public void finish(Database.BatchableContext BC){
 
+    }
+
+    public void execute(SchedulableContext stx){
+        ASF_BulkRetryStuckLineItemsBatch batch = new ASF_BulkRetryStuckLineItemsBatch(); 
+        Database.executeBatch(batch);
     }
 }
