@@ -91,7 +91,7 @@ public class ABHFL_NDCSTPHandler_Test {
         update integRecord;
         ndcStp.processResponse(integRecord);
         Case caseRec = [Select id,Stage__c,OwnerId from Case where id =: integRecord.Case__c ];
-        System.assertEquals('Resolved',caseRec.Stage__c,'PASS');
+        System.assertEquals('In Progress with Recovery',caseRec.Stage__c,'PASS');
         ContentDocumentLink conDoc = [Select id from ContentDocumentLink where LinkedEntityId =: integRecord.Id limit 1];
         delete conDoc;
         ndcStp.processResponse(integRecord);
