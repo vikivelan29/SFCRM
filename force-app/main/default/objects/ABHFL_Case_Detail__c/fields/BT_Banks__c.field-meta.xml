@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BT_Banks__c</fullName>
+    <externalId>false</externalId>
+    <label>BT Banks</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Aadhar Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Aadhar Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Aavas Financiers Limited</fullName>
+                <default>false</default>
+                <label>Aavas Financiers Limited</label>
+            </value>
+            <value>
+                <fullName>Adani Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Adani Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Aditya Birla Finance Ltd</fullName>
+                <default>false</default>
+                <label>Aditya Birla Finance Ltd</label>
+            </value>
+            <value>
+                <fullName>Aditya Birla Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Aditya Birla Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>AGRIM Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>AGRIM Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Aham Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Aham Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Akme Star Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Akme Star Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Altum Credo Home Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Altum Credo Home Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Anand Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Anand Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>APAC Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>APAC Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Aptus Value Housing Finance India Limited</fullName>
+                <default>false</default>
+                <label>Aptus Value Housing Finance India Limited</label>
+            </value>
+            <value>
+                <fullName>Arman Financial Services Limited</fullName>
+                <default>false</default>
+                <label>Arman Financial Services Limited</label>
+            </value>
+            <value>
+                <fullName>ART Housing Finance (India) Limited</fullName>
+                <default>false</default>
+                <label>ART Housing Finance (India) Limited</label>
+            </value>
+            <value>
+                <fullName>Aryarth Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Aryarth Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Ashika Credit Capital Limited</fullName>
+                <default>false</default>
+                <label>Ashika Credit Capital Limited</label>
+            </value>
+            <value>
+                <fullName>Au Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Au Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Avanse Financial Services</fullName>
+                <default>false</default>
+                <label>Avanse Financial Services</label>
+            </value>
+            <value>
+                <fullName>Aviom India Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Aviom India Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Axis Bank</fullName>
+                <default>false</default>
+                <label>Axis Bank</label>
+            </value>
+            <value>
+                <fullName>Baid Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Baid Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Baid Leasing and Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Baid Leasing and Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>Bajaj Finance Limited</fullName>
+                <default>false</default>
+                <label>Bajaj Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Bajaj Holdings Limited</fullName>
+                <default>false</default>
+                <label>Bajaj Holdings Limited</label>
+            </value>
+            <value>
+                <fullName>Bajaj Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Bajaj Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Balmer Lawrie Investment Limited</fullName>
+                <default>false</default>
+                <label>Balmer Lawrie Investment Limited</label>
+            </value>
+            <value>
+                <fullName>Bandhan Bank</fullName>
+                <default>false</default>
+                <label>Bandhan Bank</label>
+            </value>
+            <value>
+                <fullName>Bank of Baroda</fullName>
+                <default>false</default>
+                <label>Bank of Baroda</label>
+            </value>
+            <value>
+                <fullName>Bank of India</fullName>
+                <default>false</default>
+                <label>Bank of India</label>
+            </value>
+            <value>
+                <fullName>Bank of Maharashtra</fullName>
+                <default>false</default>
+                <label>Bank of Maharashtra</label>
+            </value>
+            <value>
+                <fullName>Barclays Bank Plc</fullName>
+                <default>false</default>
+                <label>Barclays Bank Plc</label>
+            </value>
+            <value>
+                <fullName>Bee Secure Home Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Bee Secure Home Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Bengal and Assam Company Limited</fullName>
+                <default>false</default>
+                <label>Bengal and Assam Company Limited</label>
+            </value>
+            <value>
+                <fullName>BNP Paribas</fullName>
+                <default>false</default>
+                <label>BNP Paribas</label>
+            </value>
+            <value>
+                <fullName>Bombay Mercantile Co-Operative Bank Ltd</fullName>
+                <default>false</default>
+                <label>Bombay Mercantile Co-Operative Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>can fin</fullName>
+                <default>false</default>
+                <label>can fin</label>
+            </value>
+            <value>
+                <fullName>Can Fin Homes Limited</fullName>
+                <default>false</default>
+                <label>Can Fin Homes Limited</label>
+            </value>
+            <value>
+                <fullName>Canara Bank</fullName>
+                <default>false</default>
+                <label>Canara Bank</label>
+            </value>
+            <value>
+                <fullName>Capital India Home Loans Limited</fullName>
+                <default>false</default>
+                <label>Capital India Home Loans Limited</label>
+            </value>
+            <value>
+                <fullName>Capital Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Capital Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Capital Trade Links Limited</fullName>
+                <default>false</default>
+                <label>Capital Trade Links Limited</label>
+            </value>
+            <value>
+                <fullName>Capri Global Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Capri Global Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Catholic Syrian Bank</fullName>
+                <default>false</default>
+                <label>Catholic Syrian Bank</label>
+            </value>
+            <value>
+                <fullName>Cent Bank Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Cent Bank Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Central Bank of India</fullName>
+                <default>false</default>
+                <label>Central Bank of India</label>
+            </value>
+            <value>
+                <fullName>Centrum Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Centrum Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>CHOLAMANDALAM INVESTMENT AND FINANCE CO. LTD</fullName>
+                <default>false</default>
+                <label>CHOLAMANDALAM INVESTMENT AND FINANCE CO. LTD</label>
+            </value>
+            <value>
+                <fullName>CITI Bank</fullName>
+                <default>false</default>
+                <label>CITI Bank</label>
+            </value>
+            <value>
+                <fullName>City Union Bank</fullName>
+                <default>false</default>
+                <label>City Union Bank</label>
+            </value>
+            <value>
+                <fullName>Clix Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Clix Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Cox &amp; Kings Financial Service Limited</fullName>
+                <default>false</default>
+                <label>Cox &amp; Kings Financial Service Limited</label>
+            </value>
+            <value>
+                <fullName>CSL Finance Limited</fullName>
+                <default>false</default>
+                <label>CSL Finance Limited</label>
+            </value>
+            <value>
+                <fullName>DBS Bank India Ltd</fullName>
+                <default>false</default>
+                <label>DBS Bank India Ltd</label>
+            </value>
+            <value>
+                <fullName>DCB Bank</fullName>
+                <default>false</default>
+                <label>DCB Bank</label>
+            </value>
+            <value>
+                <fullName>Deutsche Bank</fullName>
+                <default>false</default>
+                <label>Deutsche Bank</label>
+            </value>
+            <value>
+                <fullName>Development Bank</fullName>
+                <default>false</default>
+                <label>Development Bank</label>
+            </value>
+            <value>
+                <fullName>Dewan Housing Finance Corporation Limited</fullName>
+                <default>false</default>
+                <label>Dewan Housing Finance Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>Dhanlaxmi Bank</fullName>
+                <default>false</default>
+                <label>Dhanlaxmi Bank</label>
+            </value>
+            <value>
+                <fullName>DMI Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>DMI Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Easy Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Easy Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Edelweiss Financial Services</fullName>
+                <default>false</default>
+                <label>Edelweiss Financial Services</label>
+            </value>
+            <value>
+                <fullName>Edelweiss Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Edelweiss Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Equitas Holdings Limited</fullName>
+                <default>false</default>
+                <label>Equitas Holdings Limited</label>
+            </value>
+            <value>
+                <fullName>Equitas Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Equitas Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>ESAF Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>ESAF Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Essel Finance Home Loans Limited</fullName>
+                <default>false</default>
+                <label>Essel Finance Home Loans Limited</label>
+            </value>
+            <value>
+                <fullName>Family Home Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Family Home Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Fasttrack Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Fasttrack Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>FEDBANK FINANCIAL SERVICES LIMITED</fullName>
+                <default>false</default>
+                <label>FEDBANK FINANCIAL SERVICES LIMITED</label>
+            </value>
+            <value>
+                <fullName>Federal Bank</fullName>
+                <default>false</default>
+                <label>Federal Bank</label>
+            </value>
+            <value>
+                <fullName>Fincare Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Fincare Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Ganon Products Limited</fullName>
+                <default>false</default>
+                <label>Ganon Products Limited</label>
+            </value>
+            <value>
+                <fullName>GIC Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>GIC Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Gloster Limited</fullName>
+                <default>false</default>
+                <label>Gloster Limited</label>
+            </value>
+            <value>
+                <fullName>Godrej Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Godrej Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Habitat Micro Build India Housing Finance Company Private Limited</fullName>
+                <default>false</default>
+                <label>Habitat Micro Build India Housing Finance Company Private Limited</label>
+            </value>
+            <value>
+                <fullName>HDB Financial Services Limited - HDBFS</fullName>
+                <default>false</default>
+                <label>HDB Financial Services Limited - HDBFS</label>
+            </value>
+            <value>
+                <fullName>HDFC Bank</fullName>
+                <default>false</default>
+                <label>HDFC Bank</label>
+            </value>
+            <value>
+                <fullName>HDFC Limited</fullName>
+                <default>false</default>
+                <label>HDFC Limited</label>
+            </value>
+            <value>
+                <fullName>Hero Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Hero Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Hinduja Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Hinduja Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Home First Finance Company India Limited</fullName>
+                <default>false</default>
+                <label>Home First Finance Company India Limited</label>
+            </value>
+            <value>
+                <fullName>Homeshree Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Homeshree Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Housing and Urban Development Corporation Limited</fullName>
+                <default>false</default>
+                <label>Housing and Urban Development Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>HSBC Bank</fullName>
+                <default>false</default>
+                <label>HSBC Bank</label>
+            </value>
+            <value>
+                <fullName>ICICI Bank</fullName>
+                <default>false</default>
+                <label>ICICI Bank</label>
+            </value>
+            <value>
+                <fullName>ICICI Home Finance Company Limited</fullName>
+                <default>false</default>
+                <label>ICICI Home Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>IDBI Bank</fullName>
+                <default>false</default>
+                <label>IDBI Bank</label>
+            </value>
+            <value>
+                <fullName>IDFC First Bank</fullName>
+                <default>false</default>
+                <label>IDFC First Bank</label>
+            </value>
+            <value>
+                <fullName>IDFC Limited</fullName>
+                <default>false</default>
+                <label>IDFC Limited</label>
+            </value>
+            <value>
+                <fullName>IFL Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>IFL Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>IIFL Home Finance Limited</fullName>
+                <default>false</default>
+                <label>IIFL Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>IKF Home Finance Limited</fullName>
+                <default>false</default>
+                <label>IKF Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Ind Bank Housing Limited</fullName>
+                <default>false</default>
+                <label>Ind Bank Housing Limited</label>
+            </value>
+            <value>
+                <fullName>India Home Loan Limited</fullName>
+                <default>false</default>
+                <label>India Home Loan Limited</label>
+            </value>
+            <value>
+                <fullName>India Shelter Finance Corporation Limited</fullName>
+                <default>false</default>
+                <label>India Shelter Finance Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>Indiabulls Commercial Credit Ltd</fullName>
+                <default>false</default>
+                <label>Indiabulls Commercial Credit Ltd</label>
+            </value>
+            <value>
+                <fullName>Indiabulls Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Indiabulls Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Indian Bank</fullName>
+                <default>false</default>
+                <label>Indian Bank</label>
+            </value>
+            <value>
+                <fullName>Indian Overseas Bank</fullName>
+                <default>false</default>
+                <label>Indian Overseas Bank</label>
+            </value>
+            <value>
+                <fullName>Indie Homefin Private Limited</fullName>
+                <default>false</default>
+                <label>Indie Homefin Private Limited</label>
+            </value>
+            <value>
+                <fullName>Indostar Capital Finance Limited</fullName>
+                <default>false</default>
+                <label>Indostar Capital Finance Limited</label>
+            </value>
+            <value>
+                <fullName>IndoStar Home Finance Private Limited</fullName>
+                <default>false</default>
+                <label>IndoStar Home Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>IndusInd Bank</fullName>
+                <default>false</default>
+                <label>IndusInd Bank</label>
+            </value>
+            <value>
+                <fullName>Industrial and Prudential Investment Company Limited</fullName>
+                <default>false</default>
+                <label>Industrial and Prudential Investment Company Limited</label>
+            </value>
+            <value>
+                <fullName>Jammu &amp; Kashmir Bank</fullName>
+                <default>false</default>
+                <label>Jammu &amp; Kashmir Bank</label>
+            </value>
+            <value>
+                <fullName>Jana Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Jana Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>JM Financial Home Loans Limited</fullName>
+                <default>false</default>
+                <label>JM Financial Home Loans Limited</label>
+            </value>
+            <value>
+                <fullName>Jothi Housing and Mortgage Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Jothi Housing and Mortgage Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Karnataka Bank</fullName>
+                <default>false</default>
+                <label>Karnataka Bank</label>
+            </value>
+            <value>
+                <fullName>Karur Vysya Bank</fullName>
+                <default>false</default>
+                <label>Karur Vysya Bank</label>
+            </value>
+            <value>
+                <fullName>Khush Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Khush Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>KIFS Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>KIFS Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Kotak Mahindra Bank</fullName>
+                <default>false</default>
+                <label>Kotak Mahindra Bank</label>
+            </value>
+            <value>
+                <fullName>L&amp;T Finance Holdings Limited</fullName>
+                <default>false</default>
+                <label>L&amp;T Finance Holdings Limited</label>
+            </value>
+            <value>
+                <fullName>L&amp;T Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>L&amp;T Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Lakshmi Vilas Bank</fullName>
+                <default>false</default>
+                <label>Lakshmi Vilas Bank</label>
+            </value>
+            <value>
+                <fullName>LIC Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>LIC Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Magma Fincorp Limited</fullName>
+                <default>false</default>
+                <label>Magma Fincorp Limited</label>
+            </value>
+            <value>
+                <fullName>Magma Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Magma Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Mahindra &amp; Mahindra Financial Services Limited</fullName>
+                <default>false</default>
+                <label>Mahindra &amp; Mahindra Financial Services Limited</label>
+            </value>
+            <value>
+                <fullName>Mahindra Rural Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Mahindra Rural Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Mamta Housing Finance Company Private Limited</fullName>
+                <default>false</default>
+                <label>Mamta Housing Finance Company Private Limited</label>
+            </value>
+            <value>
+                <fullName>Manappuram Finance Limited</fullName>
+                <default>false</default>
+                <label>Manappuram Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Manappuram Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Manappuram Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Manibhavnam Home Finance India Private Limited</fullName>
+                <default>false</default>
+                <label>Manibhavnam Home Finance India Private Limited</label>
+            </value>
+            <value>
+                <fullName>Manipal Housing Finance Syndicate Limited</fullName>
+                <default>false</default>
+                <label>Manipal Housing Finance Syndicate Limited</label>
+            </value>
+            <value>
+                <fullName>Mansi Finance (Chennai) Limited</fullName>
+                <default>false</default>
+                <label>Mansi Finance (Chennai) Limited</label>
+            </value>
+            <value>
+                <fullName>MAS Rural Housing and Mortgage Finance Limited</fullName>
+                <default>false</default>
+                <label>MAS Rural Housing and Mortgage Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Master Trust Limited</fullName>
+                <default>false</default>
+                <label>Master Trust Limited</label>
+            </value>
+            <value>
+                <fullName>McDowell Holdings Limited</fullName>
+                <default>false</default>
+                <label>McDowell Holdings Limited</label>
+            </value>
+            <value>
+                <fullName>Mentor Home Loans India Limited</fullName>
+                <default>false</default>
+                <label>Mentor Home Loans India Limited</label>
+            </value>
+            <value>
+                <fullName>Mercantile Ventures Limited</fullName>
+                <default>false</default>
+                <label>Mercantile Ventures Limited</label>
+            </value>
+            <value>
+                <fullName>Motilal Oswal Financial Services Limited</fullName>
+                <default>false</default>
+                <label>Motilal Oswal Financial Services Limited</label>
+            </value>
+            <value>
+                <fullName>Motilal Oswal Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Motilal Oswal Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Muthoot Capital Services Limited</fullName>
+                <default>false</default>
+                <label>Muthoot Capital Services Limited</label>
+            </value>
+            <value>
+                <fullName>Muthoot Finance Limited</fullName>
+                <default>false</default>
+                <label>Muthoot Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Muthoot Homefin (India) Limited</fullName>
+                <default>false</default>
+                <label>Muthoot Homefin (India) Limited</label>
+            </value>
+            <value>
+                <fullName>Muthoot Housing Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Muthoot Housing Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>Nainital Bank</fullName>
+                <default>false</default>
+                <label>Nainital Bank</label>
+            </value>
+            <value>
+                <fullName>Nalin Lease Finance Limited</fullName>
+                <default>false</default>
+                <label>Nalin Lease Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Nanayasurabhi Affordable Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Nanayasurabhi Affordable Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>National Trust Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>National Trust Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Navarathna Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Navarathna Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>New Habitat Housing Finance and Development Limited</fullName>
+                <default>false</default>
+                <label>New Habitat Housing Finance and Development Limited</label>
+            </value>
+            <value>
+                <fullName>Nivara Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Nivara Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>North East Region Housing Finance Company Limited</fullName>
+                <default>false</default>
+                <label>North East Region Housing Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>North East Small finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>North East Small finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>NPR Finance Limited</fullName>
+                <default>false</default>
+                <label>NPR Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Orange City Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Orange City Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Paisano Digital Limited</fullName>
+                <default>false</default>
+                <label>Paisano Digital Limited</label>
+            </value>
+            <value>
+                <fullName>Panthoibi Housing Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Panthoibi Housing Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>Piramal Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Piramal Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>PNB Gilts Limited</fullName>
+                <default>false</default>
+                <label>PNB Gilts Limited</label>
+            </value>
+            <value>
+                <fullName>PNB Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>PNB Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>POONAWALLA HOUSING FINANCE LIMITED</fullName>
+                <default>false</default>
+                <label>POONAWALLA HOUSING FINANCE LIMITED</label>
+            </value>
+            <value>
+                <fullName>Prosper Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Prosper Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>PROTIUM FINANCE LIMITED</fullName>
+                <default>false</default>
+                <label>PROTIUM FINANCE LIMITED</label>
+            </value>
+            <value>
+                <fullName>PTC India Financial Services Limited</fullName>
+                <default>false</default>
+                <label>PTC India Financial Services Limited</label>
+            </value>
+            <value>
+                <fullName>Punjab &amp; Sindh Bank</fullName>
+                <default>false</default>
+                <label>Punjab &amp; Sindh Bank</label>
+            </value>
+            <value>
+                <fullName>Punjab National Bank</fullName>
+                <default>false</default>
+                <label>Punjab National Bank</label>
+            </value>
+            <value>
+                <fullName>RBL Bank</fullName>
+                <default>false</default>
+                <label>RBL Bank</label>
+            </value>
+            <value>
+                <fullName>Reliance Capital Limited</fullName>
+                <default>false</default>
+                <label>Reliance Capital Limited</label>
+            </value>
+            <value>
+                <fullName>Reliance Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Reliance Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Religare Housing Development Finance Corporation Limited</fullName>
+                <default>false</default>
+                <label>Religare Housing Development Finance Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>REPCO Home Finance Limited</fullName>
+                <default>false</default>
+                <label>REPCO Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Roha Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Roha Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Royal Bank of Scotland</fullName>
+                <default>false</default>
+                <label>Royal Bank of Scotland</label>
+            </value>
+            <value>
+                <fullName>Sahara Housingfina Corporation Limited</fullName>
+                <default>false</default>
+                <label>Sahara Housingfina Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>Saral Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Saral Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Sasvitha Home Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Sasvitha Home Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Satin Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Satin Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>SBFC FINANCE PRIVATE LIMITED</fullName>
+                <default>false</default>
+                <label>SBFC FINANCE PRIVATE LIMITED</label>
+            </value>
+            <value>
+                <fullName>SBM Bank</fullName>
+                <default>false</default>
+                <label>SBM Bank</label>
+            </value>
+            <value>
+                <fullName>SEWA Grih Rin Limited</fullName>
+                <default>false</default>
+                <label>SEWA Grih Rin Limited</label>
+            </value>
+            <value>
+                <fullName>Shalibhadra Finance Limited</fullName>
+                <default>false</default>
+                <label>Shalibhadra Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Shinhan Bank</fullName>
+                <default>false</default>
+                <label>Shinhan Bank</label>
+            </value>
+            <value>
+                <fullName>Shivalik Mercantile Co-operative bank Ltd</fullName>
+                <default>false</default>
+                <label>Shivalik Mercantile Co-operative bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Shriram City Union Finance Limited</fullName>
+                <default>false</default>
+                <label>Shriram City Union Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Shriram Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Shriram Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Shriram Transport Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Shriram Transport Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>Shubham Housing Development Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Shubham Housing Development Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>SIL Investments Limited</fullName>
+                <default>false</default>
+                <label>SIL Investments Limited</label>
+            </value>
+            <value>
+                <fullName>SMFG INDIA HOME FINANCE COMPANY LTD</fullName>
+                <default>false</default>
+                <label>SMFG INDIA HOME FINANCE COMPANY LTD</label>
+            </value>
+            <value>
+                <fullName>South Indian Bank</fullName>
+                <default>false</default>
+                <label>South Indian Bank</label>
+            </value>
+            <value>
+                <fullName>SREI Infrastructure Finance Limited</fullName>
+                <default>false</default>
+                <label>SREI Infrastructure Finance Limited</label>
+            </value>
+            <value>
+                <fullName>SRG Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>SRG Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Standard Chartered Bank</fullName>
+                <default>false</default>
+                <label>Standard Chartered Bank</label>
+            </value>
+            <value>
+                <fullName>State Bank of India (SBI)</fullName>
+                <default>false</default>
+                <label>State Bank of India (SBI)</label>
+            </value>
+            <value>
+                <fullName>Summit Securities Limited</fullName>
+                <default>false</default>
+                <label>Summit Securities Limited</label>
+            </value>
+            <value>
+                <fullName>Sundaram Finance Limited</fullName>
+                <default>false</default>
+                <label>Sundaram Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Sundaram Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Sundaram Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Supreme Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>Supreme Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Suryoday Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Suryoday Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Svantantra Micro Housing Finance Corporation Limited</fullName>
+                <default>false</default>
+                <label>Svantantra Micro Housing Finance Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>SVC Co-operative Bank Ltd</fullName>
+                <default>false</default>
+                <label>SVC Co-operative Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Swagat Housing Finance Company Limited</fullName>
+                <default>false</default>
+                <label>Swagat Housing Finance Company Limited</label>
+            </value>
+            <value>
+                <fullName>Swarna Pragati Housing Microfinance Private Limited</fullName>
+                <default>false</default>
+                <label>Swarna Pragati Housing Microfinance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Tamilnad Mercantile Bank Limited</fullName>
+                <default>false</default>
+                <label>Tamilnad Mercantile Bank Limited</label>
+            </value>
+            <value>
+                <fullName>Tata capital Housing finance ltd</fullName>
+                <default>false</default>
+                <label>Tata capital Housing finance ltd</label>
+            </value>
+            <value>
+                <fullName>Tata Investment Corporation Limited</fullName>
+                <default>false</default>
+                <label>Tata Investment Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>TCFC Finance Limited</fullName>
+                <default>false</default>
+                <label>TCFC Finance Limited</label>
+            </value>
+            <value>
+                <fullName>TCI Finance Limited</fullName>
+                <default>false</default>
+                <label>TCI Finance Limited</label>
+            </value>
+            <value>
+                <fullName>The Kalupur Commercial Co Op Bank ltd</fullName>
+                <default>false</default>
+                <label>The Kalupur Commercial Co Op Bank ltd</label>
+            </value>
+            <value>
+                <fullName>The Sutex Co op bank ltd</fullName>
+                <default>false</default>
+                <label>The Sutex Co op bank ltd</label>
+            </value>
+            <value>
+                <fullName>THE VARACHHA CO OP BANK LTD</fullName>
+                <default>false</default>
+                <label>THE VARACHHA CO OP BANK LTD</label>
+            </value>
+            <value>
+                <fullName>U. Y. Fincorp Limited</fullName>
+                <default>false</default>
+                <label>U. Y. Fincorp Limited</label>
+            </value>
+            <value>
+                <fullName>UCO Bank</fullName>
+                <default>false</default>
+                <label>UCO Bank</label>
+            </value>
+            <value>
+                <fullName>Ugro Capital Limited</fullName>
+                <default>false</default>
+                <label>Ugro Capital Limited</label>
+            </value>
+            <value>
+                <fullName>Ujjivan Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Ujjivan Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Ummeed Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Ummeed Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Union Bank of India</fullName>
+                <default>false</default>
+                <label>Union Bank of India</label>
+            </value>
+            <value>
+                <fullName>United Credit Financial Services Limited</fullName>
+                <default>false</default>
+                <label>United Credit Financial Services Limited</label>
+            </value>
+            <value>
+                <fullName>Utkarsh Small Finance Bank Ltd</fullName>
+                <default>false</default>
+                <label>Utkarsh Small Finance Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Varashakti Housing Finance Private Limited</fullName>
+                <default>false</default>
+                <label>Varashakti Housing Finance Private Limited</label>
+            </value>
+            <value>
+                <fullName>Vardhman Holdings Limited</fullName>
+                <default>false</default>
+                <label>Vardhman Holdings Limited</label>
+            </value>
+            <value>
+                <fullName>Vastu Housing Finance Corporation Limited</fullName>
+                <default>false</default>
+                <label>Vastu Housing Finance Corporation Limited</label>
+            </value>
+            <value>
+                <fullName>VIVA Home Finance Limited</fullName>
+                <default>false</default>
+                <label>VIVA Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>West End Housing Finance Limited</fullName>
+                <default>false</default>
+                <label>West End Housing Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Williamson Magor and Company Limited</fullName>
+                <default>false</default>
+                <label>Williamson Magor and Company Limited</label>
+            </value>
+            <value>
+                <fullName>Wonder Home Finance Limited</fullName>
+                <default>false</default>
+                <label>Wonder Home Finance Limited</label>
+            </value>
+            <value>
+                <fullName>Yes Bank</fullName>
+                <default>false</default>
+                <label>Yes Bank</label>
+            </value>
+            <value>
+                <fullName>ZILA SAHKARI BANK LTD.</fullName>
+                <default>false</default>
+                <label>ZILA SAHKARI BANK LTD.</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
