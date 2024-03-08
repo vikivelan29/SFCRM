@@ -28,6 +28,11 @@
                 <label>Payments</label>
             </value>
             <value>
+                <fullName>ABWM</fullName>
+                <default>false</default>
+                <label>ABWM</label>
+            </value>
+            <value>
                 <fullName>Payment</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
