@@ -729,5 +729,63 @@ public without sharing class ABHFL_CTSTHelper {
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeTwoCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
     }
+
+    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+        List<String> validCTSTs= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC','REFCL001','RRSDPRSHFC01'};
+        List<String> validCTSTsEditFields= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC'};
+        List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
+        List<String> validCTSTsROI= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
+        List<String> validStagesForRevisedEMITenure= new List<String>{'Resolved','Pending Amortization'};
+        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,
+                                                                     (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
+                                                                      from Asset_Details__r)
+                                                                      from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
+        for(Id recId : caseIdCaseMovementWrapperMap.keySet()){
+            if(caseRecordsPaymentDetailsMap.containsKey(recId)){
+                Case caseRec = caseRecordsPaymentDetailsMap.get(recId);
+                if(validCTSTs.contains(caseRec.CCC_External_Id__c)){
+                    ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+                    caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
+                    caseStgValidationWrapper.isCaseUpdated = false;
+                    
+                    if(caseRec.Asset_Details__r.size() == 0){
+                        caseStgValidationWrapper.errorMessage = 'Please select atleast one LAN';
+                        caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+                    } else if(caseRec.Asset_Details__r.size() >= 0 && validCTSTsEditFields.contains(caseRec.CCC_External_Id__c)){
+                        Boolean assetRecordComplete = true;
+                        for(integer i = 0; i < caseRec.Asset_Details__r.size(); i++){
+                            ABHFL_Asset_Detail__c assetDetail = caseRec.Asset_Details__r[i];
+                            if(validCTSTsROI.contains(caseRec.CCC_External_Id__c)){
+                                if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || 
+                                   String.isBlank(assetDetail.Impact__c) || String.isBlank(assetDetail.Cycle_Date__c)){
+                                    assetRecordComplete = false;
+                                    break;
+                                }
+                            }
+                            if(caseRec.CCC_External_Id__c == 'RLOAPRONHFC'){
+                                if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || String.isBlank(assetDetail.Impact__c)){
+                                    assetRecordComplete = false;
+                                    break;
+                                }
+                            }
+
+                            if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
+                                if(String.isBlank(assetDetail.Revised_EMI_Tenure__c)){
+                                    assetRecordComplete = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(!assetRecordComplete){
+                            caseStgValidationWrapper.errorMessage = 'Please fill all the information on the LAN Record';
+                            caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+                        }
+                    }
+                }
+            }
+        }
+
+        return caseIdCaseMovementWrapperMap;
+    }
     
 }
