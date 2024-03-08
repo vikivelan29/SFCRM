@@ -729,8 +729,8 @@ public without sharing class ABHFL_CTSTHelper {
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeTwoCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
     }
-
-    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+    
+public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC','REFCL001','RRSDPRSHFC01'};
         List<String> validCTSTsEditFields= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
         List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
