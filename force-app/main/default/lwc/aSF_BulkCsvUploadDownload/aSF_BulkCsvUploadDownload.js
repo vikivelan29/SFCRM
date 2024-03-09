@@ -4,7 +4,6 @@ import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVF
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
 import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLineItemsChunk';
-import insertLastLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLastLineItemsChunk';
 import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityController.startProcessingChunks';
 
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -265,7 +264,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
                         return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
-                    console.log('parsed data--'+event.target.files[0].size+'--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
+                    console.log('parsed data--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{

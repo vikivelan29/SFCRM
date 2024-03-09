@@ -1,19 +1,21 @@
 import { LightningElement, api, wire } from 'lwc';
 import fetchCSVUploadProgress from '@salesforce/apex/ASF_BulkCsvController.fetchCSVUploadProgress';
+import { reduceErrors } from 'c/asf_ldsUtils';
 
 export default class AsfProgressComponent extends LightningElement {
     @api operationName;
     @api uploadId;
+    @api successMessage = '';
+    @api totalRecords = 0;
     percentageValue = 0;
     errorOccured = false;
     intervalId;
     disableLink = true;
     errorMessage ='';
-    totalRecords = 0;
     failedRecords = 0;
     processedRecords = 0;
     boolShowGreenBar = false;
-    @api successMessage = '';
+    processedRecId=[];
 
     strGenericError = 'An unexpected error occured. Please connect with the System Administrator';
 
@@ -34,12 +36,13 @@ export default class AsfProgressComponent extends LightningElement {
 
     //Fetches the progress to display the result in UI
     fetchProgress() {
-        fetchCSVUploadProgress({bulkHeaderId: this.uploadId})
+        console.log('this.processedRecIds--'+this.processedRecId.length);
+        fetchCSVUploadProgress({bulkHeaderId: this.uploadId, processedRecIds: this.processedRecId})
             .then(result => {
-                this.totalRecords = result.totalRecords;
-                this.failedRecords = result.failedRecords;
-                this.processedRecords = result.processedRecords;
+                this.failedRecords = this.failedRecords + result.failedRecords;
+                this.processedRecords = this.processedRecords + result.processedRecords;
                 this.percentageValue = Math.round((this.processedRecords / this.totalRecords) * 100);
+                this.processedRecId = [...this.processedRecId, ...result.processedRecIds];
 
                 this.disableLink = false;
                 if(this.percentageValue == 100){
@@ -53,6 +56,9 @@ export default class AsfProgressComponent extends LightningElement {
             })
             .catch(error => {
                 console.error('Error calling fetchCSVUploadProgress method:', error);
+                this.errorOccured = true;
+                let errMsg = reduceErrors(error);
+                this.errorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
             });
     }
 
