@@ -138,4 +138,5 @@ public class ABHFL_NDCSTPHandler_Test {
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = ndcStp.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
         //System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status,'PASS');
     }
+
 }

@@ -18,14 +18,17 @@ public with sharing class ABHFL_LeadCreationAPI {
     @auraEnabled
     public static string sendLead(Id leadId, boolean executingFromTrigger){
         String message; 
-        
-        Lead leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
+        Lead leadObj = new Lead();
+
+        try{
+        leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
                                    MobilePhone, PANNO__c, Preferred_Communication__c, Product__c, Prospect_Type__c,API_Response_Message__c,
                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
                             FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
-            
-        If(leadObj != null){
+        }catch(Exception e){
+        }
+        If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
             String payload = JSON.serialize(payloadWrp);
             
@@ -34,6 +37,10 @@ public with sharing class ABHFL_LeadCreationAPI {
             if(!Test.isRunningTest()){
                 responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
             }
+            leadObj.API_Response_Message__c = '';
+            leadObj.Create_Lead_To_CRM_Status__c = '';
+            leadObj.API_Error_Code__c = '';
+            leadObj.API_Error_Fields__c = ''; 
             if(responseWrapperObj.Status == '200'){
                 leadObj.API_Response_Message__c = responseWrapperObj.Message;
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
@@ -57,6 +64,8 @@ public with sharing class ABHFL_LeadCreationAPI {
             }catch(Exception e){
                 system.debug('Error=='+e.getMessage());
             }
+        }else{
+            message = 'Lead is already created Successfully';
         }
         return message;
     }
@@ -65,8 +74,10 @@ public with sharing class ABHFL_LeadCreationAPI {
     public static void executeSendLeadToCRM(set<Id> leadIdSet){
         List<Id> leadIdList = new List<Id>();
         leadIdList.addAll(leadIdSet);
-        
+        if(leadIdList.size() > 0){
         sendLead(leadIdList[0], true);
+
+        }
     }
     
     /*private static boolean checkConditions(Lead leadObj){

@@ -143,7 +143,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     showOnCustomerTagging = false;
     showOnProspectTagging = false;
 
-
+    accountLOB = '';
     lobAsset ='';
     businessUnit; 
 
@@ -299,14 +299,24 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if(this.caseRec.fields.Asset.value != null && this.caseRec.fields.Asset.value != undefined){
                 if(this.caseRec.fields.Asset.value.fields.LOB__c != null && this.caseRec.fields.Asset.value.fields.LOB__c != undefined){
                     this.lobAsset = this.caseRec.fields.Asset.value.fields.LOB__c.value;
+                    console.log('lobAsset ',this.caseRec.fields.Asset.value.fields.LOB__c.value);
                 }
-            
         }
+        if(this.caseRec.fields.Account.value != null && this.caseRec.fields.Account.value != undefined){
+            if(this.caseRec.fields.Account.value.fields.Line_of_Business__c != null && this.caseRec.fields.Account.value.fields.Line_of_Business__c != undefined){
+                this.accountLOB = this.caseRec.fields.Account.value.fields.Line_of_Business__c.value;
+                console.log('lobAcc ',this.caseRec.fields.Account.value.fields.Line_of_Business__c.value);
+            }
+        
+    }
+    const inpArg = new Map();
+    inpArg['accountLOB'] = this.accountLOB;
+    let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
 
-            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset })
+            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
                     this.accounts = result;
                     this.isNotSelected = true;

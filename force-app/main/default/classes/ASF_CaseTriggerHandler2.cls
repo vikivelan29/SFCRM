@@ -13,7 +13,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
-        ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
                      
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
@@ -99,10 +99,6 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
     
     public override void afterUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         
-
-        if(ASF_CaseTriggerModularHelper.isRecursiveUpdate){
-            ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,(Map<Id, Case>)newItemsCase);
-        }
         if(isTriggerDisabled()){return;}
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'After')){return;}
 
@@ -122,13 +118,13 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
+            
+            // Virendra - to Reject the Checklist and Task on Case Rejection.
+            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
-
-            // Virendra - to Reject the Checklist and Task on Case Rejection.
-            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
-            
+ 
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
         }

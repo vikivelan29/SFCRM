@@ -147,5 +147,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
 
     }
 
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 
 }

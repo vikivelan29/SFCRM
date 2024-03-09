@@ -43,7 +43,7 @@ public class ABFL_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
             
             if(retVal.keySet().size()>0){
                 for(Id retCaseId : retVal.keySet()){
-                    if(mCaseIdVsretCls.containsKey(retCaseId)){
+                    if(mCaseIdVsretCls.containsKey(retCaseId)  && retVal.get(retCaseId).size()>0){
                         ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = mCaseIdVsretCls.get(retCaseId);
                         retCls.status = 'Error';
                         retCls.errorMessage = 'Please fill the RCA fields on Verification Stage';
