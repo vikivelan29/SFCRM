@@ -431,7 +431,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         }
                     }
                 }
-                this.startProcessingChunks();
+                if(this.strErrorMessage === ''){
+                    this.startProcessingChunks();
+                }
             }
             else if(!result.isSuccess){
                 this.strErrorMessage = result.errorMessage;

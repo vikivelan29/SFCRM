@@ -68,7 +68,7 @@ public with sharing class ASF_BulkCsvController {
      * Output : Wrapper class with Success and Progress count Details
      */
     @AuraEnabled(cacheable=false)
-    public static CSVProgressWrapper fetchCSVUploadProgress(Id bulkHeaderId, List<Id> processedRecIds) {
+    public static CSVProgressWrapper fetchCSVUploadProgress(Id bulkHeaderId, List<Id> processedRecIds, Boolean checkHeaderStatus) {
         CSVProgressWrapper resultWrapper = new CSVProgressWrapper();
         processedRecIds = processedRecIds == null ? new List<Id>() : processedRecIds;
 
@@ -80,6 +80,12 @@ public with sharing class ASF_BulkCsvController {
             }
             resultWrapper.processedRecords ++;
             resultWrapper.processedRecIds.add(bulkItemRec.Id);
+        }
+        if(checkHeaderStatus){
+            ASF_Bulk_Upload_Header__c headerRec = [SELECT Id, Status__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId];
+            if(headerRec.Status__c == 'Processed'){
+                resultWrapper.processComplete = true;
+            }
         }
      	return resultWrapper;  
     }
@@ -98,11 +104,13 @@ public with sharing class ASF_BulkCsvController {
         @AuraEnabled public Decimal failedRecords;
         @AuraEnabled public Decimal processedRecords;
         @AuraEnabled public List<Id> processedRecIds;
+        @AuraEnabled public Boolean processComplete;
 
         public CSVProgressWrapper(){
             failedRecords = 0.0;
             processedRecords = 0.0;
             processedRecIds = new List<Id>();
+            processComplete = false;
         }
     }    
     public class MetadataWrapper {

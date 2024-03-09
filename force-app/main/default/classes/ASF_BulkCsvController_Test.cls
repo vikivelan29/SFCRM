@@ -37,7 +37,7 @@ public class ASF_BulkCsvController_Test {
         insert bulkItemRec;
         
         Test.startTest();
-        ASF_BulkCsvController.CSVProgressWrapper result = ASF_BulkCsvController.fetchCSVUploadProgress(headerRec.Id, new List<Id>{caseId});
+        ASF_BulkCsvController.CSVProgressWrapper result = ASF_BulkCsvController.fetchCSVUploadProgress(headerRec.Id, new List<Id>{caseId}, true);
         Assert.isNotNull(result);
         Object resultObj = ASF_BulkCsvController.downloadUploadResults(headerRec.Id);
         Test.stopTest();     
