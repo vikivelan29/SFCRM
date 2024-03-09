@@ -736,14 +736,14 @@ public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAss
         List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
         List<String> validCTSTsROI= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
         List<String> validStagesForRevisedEMITenure= new List<String>{'Resolved','Pending Amortization'};
-        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,
+        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,Technical_Source__c,
                                                                      (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
                                                                       from Asset_Details__r)
                                                                       from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
         for(Id recId : caseIdCaseMovementWrapperMap.keySet()){
             if(caseRecordsPaymentDetailsMap.containsKey(recId)){
                 Case caseRec = caseRecordsPaymentDetailsMap.get(recId);
-                if(validCTSTs.contains(caseRec.CCC_External_Id__c)){
+                if(validCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.Technical_Source__c == 'LWC'){
                     ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
                     caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
                     caseStgValidationWrapper.isCaseUpdated = false;
