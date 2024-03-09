@@ -522,9 +522,6 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>NAME</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>File_Name__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -535,6 +532,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Error_Code__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Error_Description__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
