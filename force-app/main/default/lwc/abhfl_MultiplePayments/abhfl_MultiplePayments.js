@@ -14,7 +14,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
     @track payments = [];
     error;
     //@track isEditable = true;
-
+    stageVal;
     isPaymentIdEditable;
     isPaymentAmountEditable;
     isPaymentModeEditable;
@@ -29,6 +29,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         }
         else if(data){
             let stage = getFieldValue(data, STAGE_FIELD);
+            this.stageVal = stage;
             this.setupFieldPermissions(stage);
         }
     }
@@ -38,13 +39,16 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         this.serverPayments = paymentRecords;
         if(paymentRecords.data && paymentRecords.data.length > 0){
            let records = JSON.parse(JSON.stringify(paymentRecords.data));
-           console.log(records)
+           console.log('records payments:'+JSON.stringify(records));
             for(let i = 0; i < records.length; i++) {
                 //if(this.record[i].Id)
                 console.log(records[i].Id);
                 records[i].key = `${records[i].Id}`;
             }
             this.payments = records;
+            if(this.stageVal){
+                this.setupFieldPermissions(this.stageVal);
+            }
         }
     }
 
@@ -97,7 +101,12 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         newList.push({
             Payment_Identifier__c : "", 
             key : Math.random().toString(36).substring(2, 15),
-            isDeleteAllowed: true});
+            isDeleteAllowed: true,
+            isPaymentIdEditable: true,
+            isPaymentAmountEditable: true,
+            isPaymentModeEditable: true,
+            isDateEditable: true
+        });
         this.payments = newList;
         console.log(JSON.stringify(this.payments));
     }
@@ -204,25 +213,72 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         switch(stageName) {
             case 'Open':
                 this.isPaymentIdEditable = true;
-                this.isPaymentAmountEditable = true;
-                this.isPaymentModeEditable = true;
-                this.isDateEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        if(pay.Realization_Status__c!='Cleared'){
+                            pay.isPaymentIdEditable = true;
+                            pay.isPaymentAmountEditable = true;
+                            pay.isPaymentModeEditable = true;
+                            pay.isDateEditable = true;
+                            pay.isRealizationEditable = false;
+                        } else{
+                            pay.isPaymentIdEditable = false;
+                            pay.isPaymentAmountEditable = false;
+                            pay.isPaymentModeEditable = false;
+                            pay.isDateEditable = false;
+                            pay.isRealizationEditable = false;
+                        }  
+                    }
+                }
                 this.isSaveAllowed = true;
                 this.isDeleteAllowed = true;
                 break;
             case 'CPU Banking':
-                this.isRealizationEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
                 this.isSaveAllowed = true;
                 break;
             case 'Pending CPU Banking':
-                this.isRealizationEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
                 this.isSaveAllowed = true;
                 break;
             case 'Payment Confirmation':
-                this.isRealizationEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
                 this.isSaveAllowed = true;
                 break;
             default:
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = false;
+                    }
+                }
                 break;
           }
         console.log('Setup Field Permissions' + this.isRealizationEditable);
