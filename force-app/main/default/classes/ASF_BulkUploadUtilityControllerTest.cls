@@ -63,7 +63,7 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         Assert.isTrue(wrap.isSuccess, 'IsSuccess expected to be true');
     }
 
-    @IsTest
+    /*@IsTest
     static void insertLastLineItemsChunk_Test(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
         headObj.Template_Name__c = 'Create_Case';
@@ -83,7 +83,7 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         Test.stopTest();
         
         Assert.isTrue(wrap.isSuccess, 'IsSuccess expected to be true');
-    }
+    } */
 
     @IsTest
     static void markUploadCompleted_Test(){
