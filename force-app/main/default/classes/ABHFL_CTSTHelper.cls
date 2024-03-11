@@ -596,6 +596,10 @@ public without sharing class ABHFL_CTSTHelper {
             } 
         }
 
+        if(cccExternalIdList.size() == 0) {
+            return;
+        }
+
         List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Amount__c, CCC_External_Id__c
                                                 FROM Doc_Charge__mdt
                                                 WHERE CCC_External_Id__c =:cccExternalIdList];
