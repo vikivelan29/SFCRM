@@ -68,22 +68,25 @@ public with sharing class ASF_BulkCsvController {
      * Output : Wrapper class with Success and Progress count Details
      */
     @AuraEnabled(cacheable=false)
-    public static CSVProgressWrapper fetchCSVUploadProgress(Id bulkHeaderId) {
+    public static CSVProgressWrapper fetchCSVUploadProgress(Id bulkHeaderId, List<Id> processedRecIds, Boolean checkHeaderStatus) {
         CSVProgressWrapper resultWrapper = new CSVProgressWrapper();
-        system.debug('fetch progress');
-        ASF_Bulk_Upload_Header__c headerObj = [select Id, Total_Rows__c, Status__c from ASF_Bulk_Upload_Header__c where id=: bulkHeaderId LIMIT 1];
+        processedRecIds = processedRecIds == null ? new List<Id>() : processedRecIds;
 
-        for(ASF_Bulk_Upload_Line_Item__c bulkItemRec : [select Id, Error_Message__c, Row_Number__c, Status__c from ASF_Bulk_Upload_Line_Item__c
-        where Bulk_Upload_Header__c=: bulkHeaderId]){
+        for(ASF_Bulk_Upload_Line_Item__c bulkItemRec : [SELECT Id, Error_Message__c, Row_Number__c, Status__c FROM ASF_Bulk_Upload_Line_Item__c
+        WHERE Bulk_Upload_Header__c=: bulkHeaderId AND Id NOT IN: processedRecIds AND (Status__c = 'Success' OR Status__c = 'Failure')
+        ORDER BY createddate ASC LIMIT 49999]){
             if(bulkItemRec.Status__c == 'Failure'){
                 resultWrapper.failedRecords ++;
             }
-            if(bulkItemRec.Status__c == 'Failure' || bulkItemRec.Status__c == 'Success'){
-                resultWrapper.processedRecords ++;
+            resultWrapper.processedRecords ++;
+            resultWrapper.processedRecIds.add(bulkItemRec.Id);
+        }
+        if(checkHeaderStatus){
+            ASF_Bulk_Upload_Header__c headerRec = [SELECT Id, Status__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId];
+            if(headerRec.Status__c == 'Processed'){
+                resultWrapper.processComplete = true;
             }
         }
-        resultWrapper.totalRecords = headerObj.Total_Rows__c;
-
      	return resultWrapper;  
     }
     
@@ -98,14 +101,16 @@ public with sharing class ASF_BulkCsvController {
     }
 
     public class CSVProgressWrapper {
-        @AuraEnabled public Decimal totalRecords;
         @AuraEnabled public Decimal failedRecords;
         @AuraEnabled public Decimal processedRecords;
+        @AuraEnabled public List<Id> processedRecIds;
+        @AuraEnabled public Boolean processComplete;
 
         public CSVProgressWrapper(){
-            totalRecords = 0.0;
             failedRecords = 0.0;
             processedRecords = 0.0;
+            processedRecIds = new List<Id>();
+            processComplete = false;
         }
     }    
     public class MetadataWrapper {
