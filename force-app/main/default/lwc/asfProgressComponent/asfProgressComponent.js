@@ -19,8 +19,6 @@ export default class AsfProgressComponent extends LightningElement {
     checkStatus = false;
     processComplete = false;
 
-    strGenericError = 'An unexpected error occured. Please connect with the System Administrator';
-
     connectedCallback(){
         this.pollProgress();       
     }
@@ -39,11 +37,12 @@ export default class AsfProgressComponent extends LightningElement {
     //Fetches the progress to display the result in UI
     fetchProgress() {
         console.log('this.processedRecIds--'+this.processedRecId.length);
+        this.errorOccured = false;
+        this.errorMessage = '';
         fetchCSVUploadProgress({bulkHeaderId: this.uploadId, processedRecIds: this.processedRecId, checkHeaderStatus: this.checkStatus})
             .then(result => {
                 this.disableLink = false;
                 if(this.percentageValue != 100){
-                    console.log('this.processedRecIds--'+result.failedRecords+'-'+result.processedRecords+'-'+result.processedRecIds.length);
                     this.failedRecords = this.failedRecords + result.failedRecords;
                     this.processedRecords = this.processedRecords + result.processedRecords;
                     this.percentageValue = Math.round((this.processedRecords / this.totalRecords) * 100);
@@ -64,9 +63,12 @@ export default class AsfProgressComponent extends LightningElement {
             })
             .catch(error => {
                 console.error('Error calling fetchCSVUploadProgress method:', error);
-                this.errorOccured = true;
                 let errMsg = reduceErrors(error);
-                this.errorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
+                if(!(errMsg.toLowerCase().includes('limit')) && !(errMsg.toLowerCase().includes('disconnected'))){
+                    this.errorOccured = true;
+                    this.errorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg + '. The System will continue the upload. Please click on the above Header Record link for Progress';
+                }
+                
             });
     }
 
