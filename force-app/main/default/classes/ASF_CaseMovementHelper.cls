@@ -159,10 +159,14 @@ public class ASF_CaseMovementHelper {
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                 if(nextStage.status != 'Error'){
                     Case updatedCase = new Case(Id = caseId);
-                    updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
-                    updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+                    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
+                    //When case get to Gateway stage after backward movement, unable to find valid next stage.
+                    if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
+                    	updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
+                    	updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+			resultWrapper.ownerId = nextStage.ownerId;
+                    }
                     updatedCase.MoveToNext__c = false;
-                    resultWrapper.ownerId = nextStage.ownerId;
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                     
                     // If moved to Previous Stage, Remove Pending Clarification Flag
