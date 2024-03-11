@@ -91,6 +91,37 @@ public without sharing class ABHFL_CTSTHelper {
     	update new List<Case>{ updatedCase };
 		ASF_TriggerSkipperUtility.resetTriggerRun('Case');
 	}
+
+    //Dhinesh - Stop at banking stage on forward movement after a backward movement.
+    public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+        // List of valid subTypes
+    	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        
+    	for (Case caseRecord : caseList) {
+        	Case originalCase = oldCaseMap.get(caseRecord.Id);
+
+        	String previousStage = originalCase.Stage__c;	
+        	String currentStage = caseRecord.Stage__c;
+        	String subType = caseRecord.CCC_External_Id__c;
+            system.debug(caseRecord.moved_back__c);
+    
+
+        // Check if the previous stage was 'Open', the current stage is not 'Open',
+        // and the sub_Type_Text__c is one of the valid subTypes
+        	if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
+            	changeStagetoCPUBanking(caseRecord);
+                ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
+        	}
+            
+    	}
+	}
+    
+    public static void changeStagetoCPUBanking(Case caseRecord) {
+        Group CPUQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_CPU_Banking_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        caseRecord.Stage__c ='CPU Banking';
+        caseRecord.Status ='In Progress';
+        caseRecord.OwnerId = CPUQueue.Id;
+    }
     //Dhinesh
     public static Map<Id, Case> assignCaseToBranch(List<Case> caseRecords) {
         
