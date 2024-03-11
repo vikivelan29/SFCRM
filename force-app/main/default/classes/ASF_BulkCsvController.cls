@@ -101,6 +101,34 @@ public with sharing class ASF_BulkCsvController {
     public static Object downloadUploadResults(Id bulkHeaderId) {
         return ASF_BulkCsvDownloadHelper.downloadUploadResults(bulkHeaderId);
     }
+    
+    /**
+     * Description : This method is used to refresh the Header Record
+     * Input : current header ID
+     * Output : String
+     */
+    @AuraEnabled(cacheable=false)
+    public static String refreshHeader(Id bulkHeaderId) {
+        String result = 'Error';
+        if(bulkHeaderId != null){
+            List<ASF_Bulk_Upload_Line_Item__c> bulkItemList = new List<ASF_Bulk_Upload_Line_Item__c>();
+            bulkItemList= [SELECT Id, Status__c FROM ASF_Bulk_Upload_Line_Item__c
+        				   WHERE Bulk_Upload_Header__c=: bulkHeaderId AND (Status__c = 'Pending' OR Status__c = 'Event fired')
+        				   ORDER BY createddate ASC LIMIT 50000];
+            if(bulkItemList.isEmpty()){
+                ASF_Bulk_Upload_Header__c headerRec = new ASF_Bulk_Upload_Header__c();
+                headerRec = [SELECT Id, Status__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId FOR UPDATE];
+                if(headerRec.Status__c != 'Processed'){
+                    headerRec.Status__c = 'Processed';
+                }
+                update headerRec;
+                result = 'Records has been Processed. Please click on the \'Download Result\' button to view the result file';
+            }else{
+                result = 'Records are still under process. Please check after sometime';
+            }
+        }
+        return result;
+    }
 
     public class CSVProgressWrapper {
         @AuraEnabled public Decimal failedRecords;

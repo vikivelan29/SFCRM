@@ -148,6 +148,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         }
 
         if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
             System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
