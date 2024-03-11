@@ -112,6 +112,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
             System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
