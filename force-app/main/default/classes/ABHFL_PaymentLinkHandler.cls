@@ -133,7 +133,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             caseInteg.Status__c = ABHFL_Constants.FAILURE;
         }
         caseInteg.Request__c = paytmRequestBody;
-        caseInteg.Response__c = JSON.serialize(paytmResponseWrapper);
+        caseInteg.Response__c = paytmResponse.responseBody;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
@@ -199,7 +199,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             caseInteg.Status__c = ABHFL_Constants.FAILURE;
         }
         caseInteg.Request__c = paymentRequestBody;
-        caseInteg.Response__c = responseStr;
+        caseInteg.Response__c = paymentResponse.responseBody;
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
