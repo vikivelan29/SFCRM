@@ -39,7 +39,7 @@
                     </template>
                      
                     <div class="slds-text-body_small slds-text-color_error">{strErrorMessage}</div>
-
+                    
                     <template lwc:if={boolDisplayLoadingText}> 
                         <div class="slds-text-body_small slds-text-color_weak"><br/>{strCSVGeneration} </div>
                     </template>
@@ -73,9 +73,8 @@
                     <template if:true={boolShowUploadProgress}>
                         <div class="slds-text-body_small slds-text-color_weak"><br/>Please wait, the upload is in progress..</div>
                     </template>
-
                     <template lwc:if={boolDisplayProgressbar}>
-                        <c-asf-progress-component upload-id ={uploadId} operation-name={operationRecordTypeValue} onuploadcomplete={handleUploadComplete}> </c-asf-progress-component>
+                        <c-asf-progress-component upload-id ={uploadId} operation-name={operationRecordTypeValue} success-message={strSuccessMessage} total-records={rowCount} onuploadcomplete={handleUploadComplete}> </c-asf-progress-component>
                     </template>
 
                     <template if:true={showDownloadResult}>

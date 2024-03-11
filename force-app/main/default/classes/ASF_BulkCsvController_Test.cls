@@ -30,13 +30,14 @@ public class ASF_BulkCsvController_Test {
     }
     @isTest
     private static void fetchCSVUploadProgressTest() {
+        Id caseId = [select Id from case LIMIT 1].Id;
         ASF_Bulk_Upload_Header__c headerRec = new ASF_Bulk_Upload_Header__c(Total_Rows__c=1,Status__c=' Pending',Template_Name__c='ABHFL_Create_Case');
         insert headerRec;
         ASF_Bulk_Upload_Line_Item__c bulkItemRec = new ASF_Bulk_Upload_Line_Item__c(Bulk_Upload_Header__c = headerRec.Id, Status__c = 'Failure');
         insert bulkItemRec;
         
         Test.startTest();
-        ASF_BulkCsvController.CSVProgressWrapper result = ASF_BulkCsvController.fetchCSVUploadProgress(headerRec.Id);
+        ASF_BulkCsvController.CSVProgressWrapper result = ASF_BulkCsvController.fetchCSVUploadProgress(headerRec.Id, new List<Id>{caseId}, true);
         Assert.isNotNull(result);
         Object resultObj = ASF_BulkCsvController.downloadUploadResults(headerRec.Id);
         Test.stopTest();     
