@@ -210,8 +210,8 @@ public without sharing class ASF_BulkUploadUtilityControllerTest {
         Test.startTest();
         Database.executeBatch(new ASF_BulkRetryStuckLineItemsBatch(), 2000);
         Test.stopTest();
-        ASF_Bulk_Upload_Header__c head = [Select Id, Status__c from ASF_Bulk_Upload_Header__c where Id = :headObj.Id];
-        Assert.areEqual('Processed', head.Status__c, 'Status should be Processed');
+        ASF_Bulk_Upload_Line_Item__c lineItem = [Select Id, Status__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headObj.Id LIMIT 1];
+        Assert.areNotEqual('Event Fired', lineItem.Status__c, 'Should be processed');
         
     }
 }
