@@ -82,10 +82,12 @@ public with sharing class ASF_BulkCsvController {
             resultWrapper.processedRecIds.add(bulkItemRec.Id);
         }
         if(checkHeaderStatus){
-            ASF_Bulk_Upload_Header__c headerRec = [SELECT Id, Status__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId];
-            if(headerRec.Status__c == 'Processed'){
-                resultWrapper.processComplete = true;
+            ASF_Bulk_Upload_Header__c headerRec = [SELECT Id, Status__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId FOR UPDATE];
+            if(headerRec.Status__c != 'Processed'){
+                headerRec.Status__c = 'Processed';
             }
+            update headerRec;
+            resultWrapper.processComplete = true;
         }
      	return resultWrapper;  
     }
