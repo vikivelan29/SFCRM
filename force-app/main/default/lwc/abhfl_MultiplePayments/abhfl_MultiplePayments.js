@@ -221,17 +221,19 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                             pay.isPaymentModeEditable = true;
                             pay.isDateEditable = true;
                             pay.isRealizationEditable = false;
+                            pay.isDeleteAllowed = true;
                         } else{
                             pay.isPaymentIdEditable = false;
                             pay.isPaymentAmountEditable = false;
                             pay.isPaymentModeEditable = false;
                             pay.isDateEditable = false;
                             pay.isRealizationEditable = false;
+                            pay.isDeleteAllowed = false;
                         }  
                     }
                 }
                 this.isSaveAllowed = true;
-                this.isDeleteAllowed = true;
+                //this.isDeleteAllowed = true;
                 break;
             case 'CPU Banking':
                 if(this.payments.length>0){
