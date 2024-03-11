@@ -60,6 +60,7 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
             <controllingFieldValue>Email</controllingFieldValue>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Outbound</valueName>
