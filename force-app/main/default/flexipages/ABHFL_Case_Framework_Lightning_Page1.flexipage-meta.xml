@@ -314,10 +314,16 @@
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList3</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AmIOwner__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Multiple_Child_Details__c}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Payments</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
