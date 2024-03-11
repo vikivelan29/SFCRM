@@ -347,7 +347,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.populateSubSourceFld();
             }
         }
-        if ((selected) && (this.businessUnit == 'ABFL')) {
+        if ((selected) && ((this.businessUnit == 'ABFL')||(this.businessUnit == 'ABWM') )) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }

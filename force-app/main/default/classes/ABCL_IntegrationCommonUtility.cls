@@ -6,7 +6,7 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
-    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
+    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - fetchStpTemplates
