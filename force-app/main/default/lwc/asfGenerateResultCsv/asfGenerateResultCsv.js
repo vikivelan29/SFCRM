@@ -15,10 +15,12 @@ export default class AsfGenerateResultCsv extends LightningElement {
     @wire(downloadUploadResults, { bulkHeaderId: '$recordId'})
     wiredRecord({ error, data }) {
         if (data) {
+            console.log('data--'+this.recordId+'--'+data);
             if(Array.isArray(data) && data != undefined && data != ''){
                 this.processData(data);
             }
             else{
+                console.log('data in else--',data);
                 this.downloadFailed = true;
             }
         } else if (error) {
