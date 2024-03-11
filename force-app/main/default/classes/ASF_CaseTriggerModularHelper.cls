@@ -3,7 +3,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     /** STATIC VARIABLES to pass data between Before and After events*/
     public static ASF_CaseMovementHelper.CaseAdditionalData addlDataFromStageMovementMethods;
     public static Boolean triggerEncounteredError = false;
-
+    public static Boolean preClosureStageAlreadyStamped = false;
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
