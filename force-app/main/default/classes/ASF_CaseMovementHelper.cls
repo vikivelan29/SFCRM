@@ -161,6 +161,7 @@ public class ASF_CaseMovementHelper {
                     Case updatedCase = new Case(Id = caseId);
                     updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                     updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+                    updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     updatedCase.MoveToNext__c = false;
                     resultWrapper.ownerId = nextStage.ownerId;
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
@@ -271,7 +272,8 @@ public class ASF_CaseMovementHelper {
                             //Update assignment, and other case fields
                             Case updatedCase = new Case(Id = caseId);
                             updatedCase.Stage__c = nextStageName;
-                            updatedCase.Status = nextStage.Status_Mapping__c;
+                            updatedCase.Status = nextStage.Status_Mapping__c;  
+                            updatedCase.is_Manual_Approval__c = nextStage.Manual_Approval__c;
                             updatedCase.MoveToNext__c = false;
                             // If Before Apex Class Run returned any fields on Case, append the same
                             if(beforeResult.isCaseUpdated == true){
@@ -580,6 +582,7 @@ public class ASF_CaseMovementHelper {
                 Case updatedCase = new Case(Id = caseRec.Id);
                 updatedCase.Stage__c = requestedStageMap.get(caseRec.Id);
                 updatedCase.Status = caseIdToNextStageConfigMap.get(caseRec.Id).Status_Mapping__c;
+                updatedCase.is_Manual_Approval__c = caseIdToNextStageConfigMap.get(caseRec.Id).Manual_Approval__c;
                 resultWrapper.caseToBeUpdated = updatedCase;
                 resultWrapper.status = 'Success';
                 resultWrapperMap.put(caseRec.Id, resultWrapper);
