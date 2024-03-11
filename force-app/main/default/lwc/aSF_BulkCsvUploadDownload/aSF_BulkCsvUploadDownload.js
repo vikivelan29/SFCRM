@@ -313,6 +313,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.uploadValidationSuccess = false;
             return;
         }
+        if(this.rowCount > 50000){
+            this.strErrorMessage = 'Max record limit exceeded. Max record limit is 50000';
+            this.uploadValidationSuccess = false;
+            return;
+        }
         this.file = this.filesUploaded;
         if (this.file.size > this.selectedConfigRec.Max_File_Size__c) {
             this.strErrorMessage = 'Max file size exceeded. Max file size is 20.0 MB';
