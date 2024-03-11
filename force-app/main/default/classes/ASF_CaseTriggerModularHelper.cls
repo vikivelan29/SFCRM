@@ -6,6 +6,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
+    public static Boolean preClosureStageAlreadyStamped = false;
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
