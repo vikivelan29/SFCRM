@@ -64,9 +64,10 @@ export default class AsfProgressComponent extends LightningElement {
             .catch(error => {
                 console.error('Error calling fetchCSVUploadProgress method:', error);
                 let errMsg = reduceErrors(error);
-                if(!(errMsg.toLowerCase().includes('limit')) && !(errMsg.toLowerCase().includes('disconnected'))){
+                let singleError = Array.isArray(errMsg) ? errMsg[0] : errMsg;
+                if(!(singleError.toLowerCase().includes('limit')) && !(singleError.toLowerCase().includes('disconnected'))){
                     this.errorOccured = true;
-                    this.errorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg + '. The System will continue the upload. Please click on the above Header Record link for Progress';
+                    this.errorMessage = singleError + '. The System will continue the upload. Please click on the above Header Record link for Progress';
                 }
                 
             });

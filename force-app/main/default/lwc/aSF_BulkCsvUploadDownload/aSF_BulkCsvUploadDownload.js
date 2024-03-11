@@ -13,6 +13,7 @@ import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBU
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
+import DOWNLOAD_LIMIT_MESSAGE from '@salesforce/label/c.ASF_BulkDownloadLimit_Msg';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
@@ -29,6 +30,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
     MAX_CHUNK_SIZE = CHUNK_SIZE;
+    downloadLimitMsg = DOWNLOAD_LIMIT_MESSAGE;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -162,6 +164,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //Method to Download CSV template along with records
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
+        this.strErrorMessage = '';
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
                             strSelectedRecords : this.selectedCases,
@@ -277,6 +280,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
     //this method fetches the Template header without data
     getTemplateData(){
+        this.strErrorMessage = '';
         getCSVTemplate({strConfigName: this.selectedConfigRec.DeveloperName})
         .then(result => {
             this.getCSVClick(result, this.operationRecordTypeValue +'- Template');
