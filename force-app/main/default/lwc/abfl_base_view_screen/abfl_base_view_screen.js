@@ -16,6 +16,8 @@ export default class ABFL_DynamicScreen extends LightningElement {
 	tblcolumns;
 	tableData;
 	isRenderDatatable = false;
+	firstSection = "";
+
 	@track _api_id;
 	@api assetRecordId;
 	@api
@@ -40,6 +42,9 @@ export default class ABFL_DynamicScreen extends LightningElement {
 			this.title = res.title;
 			this.screenjson = res.screen;
 			this.show = true;
+			this.firstSection = res?.screen[0]?.label;
+
+			this.mergeLeftAndRightFieldSection(res);
 		} else {
 			this.dispatchEvent(new CustomEvent('closemodal'));
 			const evt = new ShowToastEvent({
@@ -83,5 +88,38 @@ export default class ABFL_DynamicScreen extends LightningElement {
 		});
 
 		return transformedArray;
+	}
+
+	mergeLeftAndRightFieldSection(data) {
+		// Iterate through each screen in the 'screens' array
+		data.screen.forEach(screen => {
+			// Check if 'fieldsLeft' and 'fieldsRight' exist
+			if (screen.fieldsLeft && screen.fieldsRight) {
+				// Initialize an empty array to store merged fields
+				screen.fields = [];
+	
+				// Determine the length of the merged fields
+				const maxLength = Math.max(screen.fieldsLeft.length, screen.fieldsRight.length);
+	
+				// Merge 'fieldsLeft' and 'fieldsRight' into a new 'fields' array
+				for (let i = 0; i < maxLength; i++) {
+					if (screen.fieldsLeft[i]) {
+						screen.fields.push(screen.fieldsLeft[i]);
+					}
+					if (screen.fieldsRight[i]) {
+						screen.fields.push(screen.fieldsRight[i]);
+					}
+				}
+	
+				// Remove 'fieldsLeft' and 'fieldsRight'
+				delete screen.fieldsLeft;
+				delete screen.fieldsRight;
+			}
+		});
+	
+		// Stringify the modified object back to JSON
+		const transformedJson = JSON.stringify(data, null, 2);
+	
+		return transformedJson;
 	}
 }

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>InstallPmntDtlsTable</label>
+    <label>Amount available for disbursement</label>
     <protected>false</protected>
     <values>
         <field>Attribute_Mapping__c</field>
-        <value xsi:type="xsd:string">ResponseGetInstallmentPaymentDetails.DataArea.InstallmentPaymentDetails.Response.repayment_detail.rows</value>
+        <value xsi:type="xsd:string">crmapis.0.amountavailablefordisbursement</value>
     </values>
     <values>
         <field>DynamicScreenHeader__c</field>
-        <value xsi:type="xsd:string">RTL_RealTime_InstallPmntDtls</value>
+        <value xsi:type="xsd:string">RTL_RealTime_GetCRMDetails</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">1.0</value>
+        <value xsi:type="xsd:double">2.0</value>
     </values>
     <values>
         <field>Section_Name__c</field>
-        <value xsi:type="xsd:string">General Information</value>
+        <value xsi:type="xsd:string">Disbursement Details</value>
     </values>
     <values>
         <field>Table_Columns__c</field>
-        <value xsi:type="xsd:string">LOAN_ACCOUNT_NUMBER:Loan Account Number,REPAID_AMOUNT:Repaid Amount,PREVIOUSEMI_DUEDATE:Previous EMI Duedate,PREVIOUSEMI_AMT:Previous EMI Amount,BILLED_STATUS:Billed Status</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Table_Page_Size__c</field>
-        <value xsi:type="xsd:double">10.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Type__c</field>
-        <value xsi:type="xsd:string">Table</value>
+        <value xsi:type="xsd:string">RightSide</value>
     </values>
 </CustomMetadata>

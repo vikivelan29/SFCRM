@@ -43,6 +43,9 @@ public without sharing class ABFL_RetailController{
             when 'RTL_RealTime_InstallPmntDtls'{
                 intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA, requestPayload, null));
             }
+            when 'RTL_RealTime_GetCRMDetails'{
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_GETCRMDETAILS_INTEGRATION_METADATA, requestPayload, null));
+            }
         }
 
         System.debug('status code: '+intResponseWrapper.statusCode);
@@ -61,7 +64,12 @@ public without sharing class ABFL_RetailController{
                 title = rec.DynamicScreenHeader__r.Title__c;
             }
 
-            String sectionName = rec.Section_Name__c != null ? rec.Section_Name__c : ABFL_Constants.NO_SECTION;
+            String sectionName;
+            if(rec.Type__c == 'Section') {
+                sectionName = rec.MasterLabel;
+            } else {
+                sectionName = rec.Section_Name__c != null ? rec.Section_Name__c : ABFL_Constants.NO_SECTION;
+            }
             if (mDynamicScreenDetails.containsKey(sectionName)){
                 mDynamicScreenDetails.get(sectionName).add(rec);
             } else if (rec.Section_Name__c != null){
@@ -127,6 +135,8 @@ public without sharing class ABFL_RetailController{
                 requestPayload.put('PAN', assetRecord.Account.PAN__c);
             } else if (validValues.contains(apiName) && String.isNotBlank(assetRecord.LAN__c)){
                 requestPayload.put('LoanAccountNo', assetRecord.LAN__c);
+            } else if (apiName == 'RTL_RealTime_GetCRMDetails' && String.isNotBlank(assetRecord.LAN__c)){
+                requestPayload.put('loanNo', assetRecord.LAN__c);
             }
         }
         return JSON.serialize(requestPayload);
