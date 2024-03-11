@@ -6,6 +6,7 @@ export default class Abcl_CreateCaseFromAsset extends LightningElement {
     @api recordId;
     @track assetRecords;
     @track infoObject = {};
+    loading = true;
   //  @track currentSelRecord = {};
     fieldMappingForCase;
     fieldToBeStampedOnCase;
@@ -45,6 +46,6 @@ setFieldMaapingOnCase() {
         console.log('inside ccccc');
         this.assetId = '';
         //this.template.querySelector('lightning-datatable').selectedRows=[];
-        this.showCreateCaseModal = false;
+        this.loading = false;
     }
 }
