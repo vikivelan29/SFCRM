@@ -136,4 +136,16 @@ public class ABFL_RetailController_Test{
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
+    
+    @isTest
+    static void testRealTimeIGetCRMDetails(){
+        Asset assetRecord = [SELECT Id
+                             FROM Asset
+                             LIMIT 1];
+        Test.startTest();
+        ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.getDynamicScreen('RTL_RealTime_GetCRMDetails', assetRecord.Id);
+        Test.stopTest();
+        Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
+        Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
+    }
 }
