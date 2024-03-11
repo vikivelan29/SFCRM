@@ -5190,11 +5190,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>LAN_Mapping__c.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
