@@ -5,21 +5,8 @@
 <body style="height: auto; min-height: auto;">
 <style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 </style>
-<table style="border-collapse:collapse; width:353px" width="353">
-	<colgroup>
-		<col style="width:265pt" width="353" />
-	</colgroup>
-	
-		<tr>
-			<td class="xl63" style="border-bottom:1px solid black; height:25px; width:353px; white-space:normal; padding-top:1px; padding-right:1px; padding-left:1px; vertical-align:bottom; border-top:1px solid black; border-right:1px solid black; border-left:1px solid black"><span style="font-size:15px"><span style="font-family:Arial,sans-serif"><span style="color:black"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer,</span></span></span></span></span></span><br />
-			<br />
-			Thank you for choosing Aditya Birla Finance Limited. Your recent requirement with reference number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} is currently under review. We are in the process of<br />
-			categorizing it under {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} for prompt action.<br />
-			<br />
-			Warm regards,<br />
-			Wealth -<span style="font-size:15px"><span style="font-family:Arial,sans-serif"><span style="color:black"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Finance Limited</span></span></span></span></span></span></td>
-		</tr>
-	
-</table>
-</body>
+Dear Customer,<br />
+Thank you for choosing Aditya Birla Finance Limited. Your recent requirement with reference number&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} is currently under review. We are in the process of categorising it under&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} for prompt action.<br />
+Warm regards,<br />
+Wealth -Aditya Birla Finance Limited</body>
 </html>
