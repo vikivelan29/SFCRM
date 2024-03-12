@@ -315,7 +315,8 @@ public without sharing class ABHFL_CTSTHelper {
     //Dhinesh - 1/29 Backward Movement Email Communication
     public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
-                for (Case caseRecord : caseList) {
+        Set<Id> caseDetailIds = new Set<Id>();
+        for (Case caseRecord : caseList) {
         	Case originalCase = oldCaseMap.get(caseRecord.Id);
             
             String previousStage = originalCase.Stage__c;	
@@ -329,11 +330,20 @@ public without sharing class ABHFL_CTSTHelper {
             //for Shortfall email/sms - only for Pre Closure (hfl060)
             
             if ('CPU FCL Issuance'.equals(previousStage) && 'Open'.equals(currentStage) && 'hfl060'.equals(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
-                 ABHFL_Case_Detail__c caseDetail =  [SELECT Id,Shortfall_Amount__c FROM ABHFL_Case_Detail__c WHERE Id =: caseRecord.ABHFL_Case_Detail__c];
-                		if(caseDetail.Shortfall_Amount__c !=  Null){
-                    		ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,ABHFL_Constants.SHORTFALL_TEMPLATE, 
-                                                                ABHFL_Constants.SHORTFALL_SMS, False); 
+                 caseDetailIds.add(caseRecord.ABHFL_Case_Detail__c);
+            }
+            
+    	}
+        if (!caseDetailIds.isEmpty()) {
+        		Map<Id, ABHFL_Case_Detail__c> caseDetailMap = new Map<Id, ABHFL_Case_Detail__c>([SELECT Id, Shortfall_Amount__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]);
+        
+        		for (Case caseRecord : caseList) {
+            		if (caseDetailMap.containsKey(caseRecord.ABHFL_Case_Detail__c)) {
+                		ABHFL_Case_Detail__c caseDetail = caseDetailMap.get(caseRecord.ABHFL_Case_Detail__c);
+                		if (caseDetail.Shortfall_Amount__c != null) {
+                    		ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, ABHFL_Constants.SHORTFALL_TEMPLATE, ABHFL_Constants.SHORTFALL_SMS, false); 
                 		}
+            		    }
         		}
     	}
     }
