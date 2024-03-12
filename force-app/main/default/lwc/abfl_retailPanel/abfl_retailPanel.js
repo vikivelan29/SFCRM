@@ -65,15 +65,15 @@ export default class Abfl_retailPanel extends LightningElement {
         console.log('in handleSelect');
         const selectedName = event.detail.name;
         this.apiName = selectedName;
+        console.log('selected API: ' + this.apiName);
 
         let lan = this.assetRecord?.data?.fields?.LAN__c?.value;
         let pan = this.assetRecord?.data?.fields?.Account?.value?.fields?.PAN__c?.value;
 
-        let navItemList = itemLeftList.concat(itemRightList);
-        let isOptionSelected = navItemList.some(item => item.name === this.apiName);
+        //let navItemList = itemLeftList.concat(itemRightList);
+        //let isOptionSelected = navItemList.some(item => item.name === this.apiName);
 
-        console.log('selected API: ' + this.apiName);
-        if (isOptionSelected) {
+        if(this.checkInput(this.apiName)) {
             if(this.apiName == 'RTL_RealTime_BasicCustInfo' && !this.checkInput(pan)) {
                 this.showToast("Error", 'The related account does not have a valid PAN', 'error');
             } else if(this.apiName != 'RTL_RealTime_BasicCustInfo' && !this.checkInput(lan)) {
