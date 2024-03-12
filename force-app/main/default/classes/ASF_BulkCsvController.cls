@@ -103,6 +103,23 @@ public with sharing class ASF_BulkCsvController {
     }
     
     /**
+     * Description : This method is used to fetch the metadata details from header object
+     * Input : current header ID
+     * Output : Display fields details
+     */
+    @AuraEnabled(cacheable=true)
+    public static String fetchfieldNames(Id bulkHeaderId) {
+        String result = 'Error';
+        if(bulkHeaderId != null){
+            ASF_Bulk_Upload_Header__c  headerRec = [SELECT Id, Template_Name__c FROM ASF_Bulk_Upload_Header__c where Id =: bulkHeaderId];
+            ASF_Bulk_Row_to_Record_Converter_Config__mdt configMetaRec = [SELECT Id, Fields_Name__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt 
+                                                                          WHERE Template_Name__c =: headerRec.Template_Name__c];
+            result = configMetaRec.Fields_Name__c;
+        }
+        return result;
+    }
+    
+    /**
      * Description : This method is used to refresh the Header Record
      * Input : current header ID
      * Output : String
