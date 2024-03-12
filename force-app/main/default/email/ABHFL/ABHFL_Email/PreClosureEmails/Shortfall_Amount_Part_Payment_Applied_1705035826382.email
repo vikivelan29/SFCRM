@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -150,7 +150,7 @@
 												<br />
 												Greetings from Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We would like to inform you that we have received a shortfall amount of &lt;/Amount&gt;. We have adjust it against your outstanding amount.<br />
+												We would like to inform you that we have received a shortfall amount of $$ABHFL_Case_Detail__r.Shortfall_Amount__c$$. We have adjust it against your outstanding amount.<br />
 												<br />
 												For any queries, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. You may also access your loan documents at a click of the button through our digital channels. We are pleased to inform you that we are now on WhatsApp. Send a “Hi” to 8828800032 and get instant access to a host of services on your Home Loan Account. Please note that the document is password protected and the password to open the document is your PAN Number registered as per our records.<br />
 												<br />
