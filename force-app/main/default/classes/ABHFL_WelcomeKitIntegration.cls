@@ -73,6 +73,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
         }
 
         List<Case> casesForDisbursalBeforeSixMonths = new List<Case>();
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHFL_Constants.ERROR;
@@ -82,6 +83,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
                 Date today = Date.today();
                 Date sixMonthsAgo = today.addMonths(-6);
                 Date disbursalDate = caseRecord.Asset.Last_Disbursement_Date__c;
+                system.debug('caseRec AM disbursalDate:'+caseRecord.Asset.Last_Disbursement_Date__c);
                 if(disbursalDate >= sixMonthsAgo)
                 {
                     result.status = ABHFL_Constants.SUCCESS;
@@ -95,11 +97,15 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
         if(!casesForDisbursalBeforeSixMonths.isEmpty()){
             resultMap.putAll(handleDisbursalBeforeSixMonths(casesForDisbursalBeforeSixMonths));
