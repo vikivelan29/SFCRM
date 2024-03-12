@@ -301,20 +301,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:publisher</componentName>
-                <identifier>forceChatter_publisher</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-xszrtr3u12</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>aSF_pendingCaseChecklistEdit</componentName>
                 <identifier>c_aSF_pendingCaseChecklistEdit</identifier>
             </componentInstance>
@@ -417,20 +403,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-xszrtr3u12</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.feed</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -509,12 +481,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:exposedFeed</componentName>
-                <identifier>forceChatter_exposedFeed</identifier>
+                <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
@@ -587,6 +555,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Bot_Feedback__c</fieldItem>
                 <identifier>RecordBot_Feedback_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.oldCCCIdFields__c</fieldItem>
+                <identifier>RecordoldCCCIdFields_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ce89352b-9bd7-4696-92f3-ff47ebb673fc</name>
