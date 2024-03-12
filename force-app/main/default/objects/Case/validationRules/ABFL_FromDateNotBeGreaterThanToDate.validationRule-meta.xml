@@ -3,7 +3,7 @@
     <fullName>ABFL_FromDateNotBeGreaterThanToDate</fullName>
     <active>true</active>
     <description>Check from date &amp; to date</description>
-    <errorConditionFormula>IsPickVal(Business_Unit__c,&apos;ABFL&apos;) &amp;&amp; 
+    <errorConditionFormula>IsPickVal(Business_Unit__c,&apos;ABFL&apos;) || IsPickVal(Business_Unit__c,&apos;ABWM&apos;)&amp;&amp; 
 (ABFL_Case_Detail__r.From_Date__c &gt;  ABFL_Case_Detail__r.To_Date__c)</errorConditionFormula>
     <errorMessage>From date can&apos;t be greater than to date</errorMessage>
 </ValidationRule>
