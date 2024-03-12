@@ -21,17 +21,17 @@ public with sharing class ABHFL_LeadCreationAPI {
         Lead leadObj = new Lead();
 
         try{
-        leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
-                                   MobilePhone, PANNO__c, Preferred_Communication__c, Product__c, Prospect_Type__c,API_Response_Message__c,
-                                   RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
-                                   LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
-                            FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
+            leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, ABHFL_Prospect_Type__c, External_Lead_ID__c,
+                                    MobilePhone, PANNO__c, Product__c, Prospect_Type__c,API_Response_Message__c, Preferred_Communication__c,
+                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
+                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
+                                FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
         }catch(Exception e){
         }
         If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
             String payload = JSON.serialize(payloadWrp);
-            
+            system.debug('Payload=='+payload);
             ResponseWrapper responseWrapperObj = new ResponseWrapper();
             ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
             if(!Test.isRunningTest()){
@@ -167,7 +167,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         public String ErrorCode;
         public String Status;
         public String Message;
-        Public String id;
+        public String id;
         public List<String> Fileds;
         
         public ResponseWrapper parse(String json) {
