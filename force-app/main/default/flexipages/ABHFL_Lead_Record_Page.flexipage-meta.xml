@@ -207,6 +207,16 @@
                 <identifier>RecordSub_Variant_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Lead_Id__c</fieldItem>
+                <identifier>RecordSales_Lead_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-466cb8b3-56b2-4b64-8af7-676c73492b9b</name>
         <type>Facet</type>
     </flexiPageRegions>
