@@ -9,12 +9,12 @@ export default class AsfProgressComponent extends LightningElement {
     @api totalRecords = 0;
     percentageValue = 0;
     errorOccured = false;
-    intervalId;
+    //intervalId;
     disableLink = true;
     errorMessage ='';
     failedRecords = 0;
     processedRecords = 0;
-    boolShowGreenBar = false;
+    //boolShowGreenBar = false;
     processedRecId=[];
     checkStatus = false;
     processComplete = false;
@@ -24,7 +24,7 @@ export default class AsfProgressComponent extends LightningElement {
     }
     
     //Polls the uplaod progress from Apex every 3 seconds
-    pollProgress(){
+   /* pollProgress(){
         this.intervalId = setInterval(() => {
             this.fetchProgress();
             if(this.processComplete){
@@ -32,6 +32,15 @@ export default class AsfProgressComponent extends LightningElement {
                 this.boolShowGreenBar = true;
             }
         }, 3000);
+    } */
+    async pollProgress() {
+        await this.fetchProgress();
+        if (!this.processComplete) {
+            // Schedule the next run after 3 seconds
+            setTimeout(() => {
+                this.pollProgress();
+            }, 3000);
+        }
     }
 
     //Fetches the progress to display the result in UI
@@ -42,13 +51,17 @@ export default class AsfProgressComponent extends LightningElement {
         fetchCSVUploadProgress({bulkHeaderId: this.uploadId, processedRecIds: this.processedRecId, checkHeaderStatus: this.checkStatus})
             .then(result => {
                 this.disableLink = false;
-                if(this.percentageValue != 100){
+                console.log('values--'+this.percentageValue+result.failedRecords+result.processedRecords+result.processedRecIds.length);
+                if(this.processedRecords < this.totalRecords){
                     this.failedRecords = this.failedRecords + result.failedRecords;
                     this.processedRecords = this.processedRecords + result.processedRecords;
                     this.percentageValue = Math.round((this.processedRecords / this.totalRecords) * 100);
                     this.processedRecId = [...this.processedRecId, ...result.processedRecIds];
+                    const uniqueIdsSet = new Set(this.processedRecId);
+                    this.processedRecId = Array.from(uniqueIdsSet);
                 }
-                if(this.percentageValue == 100 && result.processComplete){
+                console.log('values--'+this.percentageValue+this.failedRecords+this.processedRecords+this.processedRecId.length);
+                if(this.processedRecords === this.totalRecords && result.processComplete){
                     this.successMessage = '';
                     this.processComplete = true;
                     const uploadCompleteEvent = new CustomEvent('uploadcomplete', {
@@ -56,7 +69,7 @@ export default class AsfProgressComponent extends LightningElement {
                     });
                     this.dispatchEvent(uploadCompleteEvent);
                     
-                }else if(this.percentageValue === 100){
+                }else if(this.processedRecords === this.totalRecords){
                     this.checkStatus = true;
                 }
                 
@@ -74,7 +87,7 @@ export default class AsfProgressComponent extends LightningElement {
     }
 
     //Stops the polling
-    disconnectedCallback() {
+ /*   disconnectedCallback() {
         // Clear the interval when the component is removed from the DOM
         clearInterval(this.intervalId);
     }
@@ -83,7 +96,7 @@ export default class AsfProgressComponent extends LightningElement {
     stopCallingApex(){
         clearInterval(this.intervalId);
     }
-
+*/
     //Navigates to the current header record to view the progress
     navigateToRecord(event){
         let strNavigate = "/lightning/r/ASF_Bulk_Upload_Header__c/"+  this.uploadId +"/view";

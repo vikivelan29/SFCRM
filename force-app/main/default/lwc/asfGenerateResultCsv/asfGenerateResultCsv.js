@@ -1,4 +1,5 @@
 import { LightningElement,api,wire } from 'lwc';
+import fetchfieldNames from '@salesforce/apex/ASF_BulkCsvController.fetchfieldNames';
 import downloadUploadResults from '@salesforce/apex/ASF_BulkCsvController.downloadUploadResults';
 import { loadScript } from 'lightning/platformResourceLoader';
 import PapaParser from '@salesforce/resourceUrl/PapaParser';
@@ -10,24 +11,39 @@ export default class AsfGenerateResultCsv extends LightningElement {
     downloadFailed = false;
     parserInitialized;
     csvString;
+    fieldNamesList = [];
+    loadingMessage = 'Download is In-progress. This screen will close automatically once the result file is downloaded';
+    failureMessage = 'The operation is still in progress. You can download the result once it is complete!';
 
-    //This component is called from ASF_BulkCSVuploadDownload and also from the quick action button on Bulk Header Object
-    @wire(downloadUploadResults, { bulkHeaderId: '$recordId'})
+    @wire(fetchfieldNames, { bulkHeaderId: '$recordId'})
     wiredRecord({ error, data }) {
         if (data) {
-            console.log('data--'+this.recordId+'--'+data);
-            if(Array.isArray(data) && data != undefined && data != ''){
-                this.processData(data);
-            }
-            else{
-                console.log('data in else--',data);
-                this.downloadFailed = true;
-            }
+            this.fieldNamesList = data.split(",");
+            this.downloadResults();
         } else if (error) {
+            this.downloadFailed = true;
+            this.failureMessage = 'Error Occured while fetching the metadata';
             console.error('Error loading record', error);
         }
     }
-
+    //This component is called from ASF_BulkCSVuploadDownload and also from the quick action button on Bulk Header Object
+    downloadResults(){
+        console.log('record id--'+this.recordId);
+        downloadUploadResults({bulkHeaderId: this.recordId})
+            .then(result => {
+                if(Array.isArray(result) && result != undefined && result != ''){
+                    this.processData(result);
+                }
+                else{
+                    this.downloadFailed = true;
+                }
+            })
+            .catch(error => {
+                this.downloadFailed = true;
+                this.failureMessage = 'Error Occured while fetching the data';
+                console.error('Error loading record', error);
+            });
+    }
     //Initializes PapaParser from Static Resource
     renderedCallback() {
         if(!this.parserInitialized){
@@ -46,7 +62,8 @@ export default class AsfGenerateResultCsv extends LightningElement {
             let jsonData = JSON.parse(item.Result_JSON_Data__c);
             resultList.push(jsonData);
         });
-        let order = Object.keys(JSON.parse(data[0].JSON_Data__c));
+        //let order = Object.keys(JSON.parse(data[0].JSON_Data__c));
+        let order = this.fieldNamesList;
         let sortedJson2 = resultList.map(obj => {
             let newObj = {};
             order.forEach(key => {
