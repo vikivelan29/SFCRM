@@ -91,6 +91,15 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 noOfAttempt = dmsRecordNoOfAttemptHashMap.get(ihashKey);
             }
             if(relatedCaseRecords.containsKey(file.Case__c)){
+                Case caseRecord = relatedCaseRecords.get(file.Case__c);
+                string leadId = '';
+                if(caseRecord.Asset.Lead_Id__c != null){
+                    leadId = caseRecord.Asset.Lead_Id__c;
+                } else if(caseRecord.Lead__c != null){
+                    leadId = caseRecord.Lead__c;
+                } else {
+                    leadId = caseRecord.CaseNumber;
+                }
                 DMS_Files__c fileRec = new DMS_Files__c();
                 fileRec.ContentDocumentId__c = file.ContentDocumentId__c;
                 fileRec.Case__c = file.Case__c;
@@ -98,7 +107,6 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRec.File_Name__c = file.File_Name__c;
                 fileRec.Has_Multiple_Versions__c = file.Has_Multiple_Versions__c;
                 fileRec.Is_Latest_Version__c = file.Is_Latest_Version__c;
-                fileRec.Status__c = ABHFL_Constants.PENDING;
                 fileRec.Version_Number__c = file.Version_Number__c;
                 fileRec.Business_Unit__c = file.Business_Unit__c;
                 DateTime currentDateTime = System.now();
@@ -106,6 +114,11 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRec.File_Extension__c = file.File_Extension__c;
                 fileRec.Next_Retry__c = System.now().addMinutes(15);
                 fileRec.Retry_Attempt__c = noOfAttempt;
+                if(String.isBlank(leadId)){
+                    fileRec.Status__c = ABHFL_Constants.CANCELED;
+                } else {
+                    fileRec.Status__c = ABHFL_Constants.PENDING;
+                }
                 fileRecList.add(fileRec);
             }
         }
@@ -132,24 +145,26 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                     mobile = caseRecord.Account.Phone;
                 }
 
-                dmsEventList.add(new DMS_File_Transfer__e(
-                    Business_Unit__c = file.Business_Unit__c,
-                    CaseNumber__c = caseRecord.CaseNumber,
-                    ContentVersionId__c = file.ContentVersionId__c,
-                    Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
-                    DMS_External_ID__c = file.DMS_External_ID__c,
-                    File_Name__c = file.File_Name__c,
-                    Is_Latest_Version__c = file.Is_Latest_Version__c,
-                    Version_Number__c = file.Version_Number__c,
-                    Application_ID__c = caseRecord.Asset.LAN__c,
-                    Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
-                    File_Extension__c = file.File_Extension__c,
-                    Doc_SubType__c = caseRecord.Sub_Type_Text__c,
-                    Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
-                    Lead_ID__c = leadId,
-                    Contact_No__c = mobile,
-                    Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
-                ));
+                if(file.Status__c == ABHFL_Constants.PENDING){
+                    dmsEventList.add(new DMS_File_Transfer__e(
+                        Business_Unit__c = file.Business_Unit__c,
+                        CaseNumber__c = caseRecord.CaseNumber,
+                        ContentVersionId__c = file.ContentVersionId__c,
+                        Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
+                        DMS_External_ID__c = file.DMS_External_ID__c,
+                        File_Name__c = file.File_Name__c,
+                        Is_Latest_Version__c = file.Is_Latest_Version__c,
+                        Version_Number__c = file.Version_Number__c,
+                        Application_ID__c = caseRecord.Asset.LAN__c,
+                        Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
+                        File_Extension__c = file.File_Extension__c,
+                        Doc_SubType__c = caseRecord.Sub_Type_Text__c,
+                        Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
+                        Lead_ID__c = leadId,
+                        Contact_No__c = mobile,
+                        Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
+                    ));
+                }
             }
 
             if(dmsEventList.size() > 0){
