@@ -152,6 +152,11 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Repeated__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.New_Mobile_Number__c</field>
@@ -2580,6 +2585,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.SPOC_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Sales_Lead_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
