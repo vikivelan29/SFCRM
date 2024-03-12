@@ -109,10 +109,17 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
             this.dispatchEvent(event);
         })
         .catch(error => {
-            console.log('what is therror' + JSON.stringify(error));
-            this.showError('error', 'Error occured', error);
-
-            
+            //this.showError('error', 'Error occured', error);
+            if(JSON.stringify(error).includes('max length=255')){
+                console.log('what is therror' + JSON.stringify(error));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error updating record',
+                        message: 'Length must be less than or equal to 255 characters for comments',
+                        variant: 'error',
+                    }),
+                );      
+            }            
         })
     }
 
