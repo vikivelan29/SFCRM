@@ -44,7 +44,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             if(responseWrapperObj.Status == '200'){
                 leadObj.API_Response_Message__c = responseWrapperObj.Message;
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
-                leadObj.External_Lead_ID__c = responseWrapperObj.id;
+                leadObj.Sales_Lead_Id__c = responseWrapperObj.id;
                 message = 'Send Lead to CRM is Successful';
             }else{
                 message = responseWrapperObj.Message;
