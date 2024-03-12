@@ -63,6 +63,11 @@
         <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
+        <field>ABHFL_Prospect_Type__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>true</isRequired>
+    </displayedFields>
+    <displayedFields>
         <field>SPOC_Name__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
