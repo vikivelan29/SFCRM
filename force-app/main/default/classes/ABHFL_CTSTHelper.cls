@@ -775,7 +775,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
     
-public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC','REFCL001','RRSDPRSHFC01'};
         List<String> validCTSTsEditFields= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
         List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
@@ -827,4 +827,51 @@ public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAss
         return caseIdCaseMovementWrapperMap;
     }
     
+    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailFileUploadStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+        List<String> validCTSTs = new List<String>{'REFCL001','RLOAPRONHFC','RRSDPRSHFC01'};
+        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,Technical_Source__c,
+                                                                     (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
+                                                                      from Asset_Details__r)
+                                                                      from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
+
+        List<Case> validCases = new List<Case>();
+        Set<Id> assetDetailIds = new Set<Id>();
+        for(Case caseRecord : caseRecordsPaymentDetailsMap.values()){
+            if(validCTSTs.contains(caseRecord.CCC_External_Id__c) && caseRecord.Stage__c == 'Resolved'){
+                validCases.add(caseRecord);
+                for(ABHFL_Asset_Detail__c assetDetail : caseRecord.Asset_Details__r){
+                    assetDetailIds.add(assetDetail.Id);
+                }
+            }
+        }          
+
+        Map<Id,Id> assetDetailIdContentIdMap = new Map<Id,Id>();
+        if(assetDetailIds.size() > 0){
+            List<ContentDocumentLink> contentDocLinkList = [Select id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId in: assetDetailIds];
+
+            for(ContentDocumentLink docLink : contentDocLinkList){
+                assetDetailIdContentIdMap.put(docLink.LinkedEntityId,docLink.ContentDocumentId);
+            }
+        }
+
+        for(Case caseRec : validCases){
+            Boolean attachmentPresent = true;
+            for(ABHFL_Asset_Detail__c assetDetail : caseRec.Asset_Details__r){
+                if(!assetDetailIdContentIdMap.containsKey(assetDetail.Id)){
+                    attachmentPresent = false;
+                    break;
+                }
+            }
+            if(!attachmentPresent){
+                ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+                caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
+                caseStgValidationWrapper.isCaseUpdated = false;
+                caseStgValidationWrapper.errorMessage = 'Please upload a document for all LANs';
+                caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+            }
+        }
+
+        return caseIdCaseMovementWrapperMap;
+    }
+
 }

@@ -29,6 +29,10 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
             ABHFL_CTSTHelper.checkAssetDetailStatus(returnWrapper);
         }
 
+        if(returnWrapper.keySet().size() > 0){
+            ABHFL_CTSTHelper.checkAssetDetailFileUploadStatus(returnWrapper);
+        }
+
         return returnWrapper;
     }
 }
