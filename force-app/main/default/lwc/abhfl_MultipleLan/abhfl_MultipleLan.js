@@ -350,29 +350,44 @@ export default class Abhfl_MultipleLan extends LightningElement {
     saveRecords(e){
         this.checkAccessbilityforCurrentStage();
         if(this.enableSave){
+            let validityCheck = true;
+            this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{
+                let response = result.checkValidity();
+                if(!response){
+                    validityCheck = false;
+                }
+            });               
             console.log(e);
-            let updateRecords = [];
-            for(let record in this.childTableRecords){
-                updateRecords.push(this.childTableRecords[record].detail);
-            }
-            this.displaySpinner = true;
-            if(updateRecords.length){
-                upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
-                    console.log(result);
-                    this.displaySpinner = false;
-                    this.showToast({
-                        title: "Success",
-                        message: "Records Updated",
-                        variant: "success",
-                    });
-                }).catch((error) => {
-                    console.log(error);
-                    this.showToast({
-                        title: "Error Updating Records",
-                        message: error.body.message,
-                        variant: "error",
-                    });
-                })
+            if(validityCheck){
+                let updateRecords = [];
+                for(let record in this.childTableRecords){
+                    updateRecords.push(this.childTableRecords[record].detail);
+                }
+                this.displaySpinner = true;
+                if(updateRecords.length){
+                    upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
+                        console.log(result);
+                        this.displaySpinner = false;
+                        this.showToast({
+                            title: "Success",
+                            message: "Records Updated",
+                            variant: "success",
+                        });
+                    }).catch((error) => {
+                        console.log(error);
+                        this.showToast({
+                            title: "Error Updating Records",
+                            message: error.body.message,
+                            variant: "error",
+                        });
+                    })
+                }
+            } else {
+                this.showToast({
+                    title: "Error",
+                    message: "Please enter valid values",
+                    variant: "error",
+                });
             }
         } else {
             let errMsg;
