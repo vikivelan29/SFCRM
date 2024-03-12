@@ -224,18 +224,35 @@ public with sharing class ABHFL_MultipleLANController {
         assetDetailQueryStr = assetDetailQueryStr + ' from ABHFL_Asset_Detail__c where Case__c =\''+String.escapeSingleQuotes(recId)+'\'';
         List<sObject> assetDetails = Database.Query(assetDetailQueryStr);
         Map<String,ABHFL_Asset_Detail__c> assetIdMap = new Map<String,ABHFL_Asset_Detail__c>();
+        Set<Id> assetDetailIds = new Set<Id>();
         for(ABHFL_Asset_Detail__c assetDetail : (List<ABHFL_Asset_Detail__c>)assetDetails){
             assetIdMap.put(assetDetail.Asset__c,assetDetail);
+            assetDetailIds.add(assetDetail.Id);
         }
+
+        Map<Id,Id> assetDetailIdContentIdMap = new Map<Id,Id>();
+        if(assetDetailIds.size() > 0){
+            List<ContentDocumentLink> contentDocLinkList = [Select id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId in: assetDetailIds];
+
+            for(ContentDocumentLink docLink : contentDocLinkList){
+                assetDetailIdContentIdMap.put(docLink.LinkedEntityId,docLink.ContentDocumentId);
+            }
+
+        }
+
         for(Asset rec : (List<Asset>)assetRecords){
             AssetDetailWrapper assetDetailWrap = new AssetDetailWrapper();
             if(assetIdMap.containsKey(rec.Id)){
                 assetDetailWrap.detail = assetIdMap.get(rec.Id);
+                if(assetDetailIdContentIdMap.containsKey(assetDetailWrap.detail.Id)){
+                    assetDetailWrap.attachmentStatus = true;
+                }
             }else{
                 ABHFL_Asset_Detail__c detailRec = new ABHFL_Asset_Detail__c();
                 detailRec.Asset__c = rec.Id;
                 detailRec.LAN__c = rec.LAN__c;
                 assetDetailWrap.detail = detailRec;
+                assetDetailWrap.attachmentStatus = false;
             }
             assetDetailWrap.asset = rec;
             assetDetailRecords.add(assetDetailWrap);
@@ -627,7 +644,9 @@ public with sharing class ABHFL_MultipleLANController {
         @AuraEnabled
         public Asset asset;
         @AuraEnabled
-        public ABHFL_Asset_Detail__c detail;       
+        public ABHFL_Asset_Detail__c detail; 
+        @AuraEnabled
+        public Boolean attachmentStatus;
     }
 
     public class PicklistWrapper{
