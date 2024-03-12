@@ -799,7 +799,7 @@ public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAss
                             }
 
                             if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
-                                if(String.isBlank(assetDetail.Revised_EMI_Tenure__c)){
+                                if(assetDetail.Revised_EMI_Tenure__c == null || assetDetail.Revised_EMI_Tenure__c == 0){
                                     assetRecordComplete = false;
                                     break;
                                 }
