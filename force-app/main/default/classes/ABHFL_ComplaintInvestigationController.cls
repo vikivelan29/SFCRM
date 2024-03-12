@@ -14,9 +14,11 @@ public with sharing class ABHFL_ComplaintInvestigationController {
         if (ApexPages.currentPage() != null && ApexPages.currentPage().getParameters() != null &&
            		!ApexPages.currentPage().getParameters().isEmpty()){
             pdfHeader=String.escapeSingleQuotes(
-                ApexPages.currentPage().getParameters().get('pdfHeader').escapeHtml4());
+                ApexPages.currentPage().getParameters().get('pdfHeader'));
             pdfContent=String.escapeSingleQuotes(
-                ApexPages.currentPage().getParameters().get('pdfContent').escapeHtml4());
+                ApexPages.currentPage().getParameters().get('pdfContent'));
+            //pdfHeader = ApexPages.currentPage().getParameters().get('pdfHeader').escapeHtml4();
+            //pdfContent = ApexPages.currentPage().getParameters().get('pdfContent').escapeHtml4();
         }else{
             pdfHeader = '';
             pdfContent = '';
