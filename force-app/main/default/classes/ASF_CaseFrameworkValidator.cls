@@ -312,7 +312,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 resultMap.put(caseRec.Id, result);//Defaulting to success
                 for(string extId : asfIntExtIds.keySet()){
                     String key = caseRec.Id+extId;
-                    if(caseIntSuccessMap.containsKey(key) &&  !caseIntSuccessMap.get(key)){
+                    if(!caseIntSuccessMap.containsKey(key) || !caseIntSuccessMap.get(key)){
                         if(invalidIntegrationsPerCase.containsKey(caseRec.Id)){
                             invalidIntegrationsPerCase.get(caseRec.Id).add(asfIntExtIds.get(extId).Display_Name__c);
                         }else {
