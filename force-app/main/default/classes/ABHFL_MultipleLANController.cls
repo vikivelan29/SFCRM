@@ -359,10 +359,23 @@ public with sharing class ABHFL_MultipleLANController {
     @AuraEnabled
     public static List<ABHFL_Asset_Detail__c> upsertRecords(String assetDetails,String recId){
         try {
+
+            List<ABHFL_Asset_Detail__c> existingAssetRecords = [Select id,Asset__c from ABHFL_Asset_Detail__c where Case__c =: recId];
+            Map<String,String> assetIdAssetDetailIdMap = new Map<String,String>();
+            if(existingAssetRecords.size() > 0){
+                for(ABHFL_Asset_Detail__c assetDetail : existingAssetRecords){
+                    assetIdAssetDetailIdMap.put(assetDetail.Asset__c,assetDetail.Id);
+                }
+            }
+
             List<ABHFL_Asset_Detail__c> assetRecords = (List<ABHFL_Asset_Detail__c>)JSON.deserialize(assetDetails,List<ABHFL_Asset_Detail__c>.class);
             for(ABHFL_Asset_Detail__c rec : assetRecords){
                 rec.Case__c = recId;
+                if(assetIdAssetDetailIdMap.containsKey(rec.Asset__c)){
+                    rec.Id = assetIdAssetDetailIdMap.get(rec.Asset__c);
+                }
             }
+
             if(Schema.sObjectType.ABHFL_Asset_Detail__c.isUpdateable() && Schema.sObjectType.ABHFL_Asset_Detail__c.isCreateable()){
                 upsert assetRecords;
             }
