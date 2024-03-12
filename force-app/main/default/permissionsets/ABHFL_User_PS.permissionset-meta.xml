@@ -2513,7 +2513,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>true</editable> 
         <field>Lead.Sales_Lead_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
