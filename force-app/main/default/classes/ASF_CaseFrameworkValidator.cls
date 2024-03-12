@@ -55,7 +55,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 if (caseRecord.get(fieldCheckStr) != null) {
                     if(fieldList[0].contains('__r')){
                         sobject rs = caseRecord.getSobject(fieldList[0]);
-                        caseRecordValue = rs == null ? null :  String.valueOf(rs.get(fieldList[1]));
+                        caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
                     }
                 }else{
                     caseRecordValue = '0';
