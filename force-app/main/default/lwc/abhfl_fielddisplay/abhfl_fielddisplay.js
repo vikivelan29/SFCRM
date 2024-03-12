@@ -24,10 +24,12 @@ export default class Abhfl_fielddisplay extends LightningElement {
     stepValue;
     displayCombo;
     defaultDisableVal = true;
+    oldValue;
 
     
     connectedCallback(e){
         this.defaultDisableVal = this.disableEditField;
+        this.oldValue = this.colValue;
         this.setColValue();
         if(this.columnName == 'Revised_EMI_Tenure__c'){
             if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
@@ -92,6 +94,9 @@ export default class Abhfl_fielddisplay extends LightningElement {
                 default:
                     this.inputType = 'text';
             }
+            if(this.columnName == 'Revised_EMI_Tenure__c'){
+                this.formatType = 'number';
+            }
         }
         let value = this.rowData[objName][colName];
         if(value){
@@ -100,13 +105,19 @@ export default class Abhfl_fielddisplay extends LightningElement {
     }
 
     handleChange(e){
-        const selectEvent = new CustomEvent('selection', {
-                                                            detail : { 
-                                                                        fieldName : this.columnName,
-                                                                        assetId : this.rowData.asset.Id,
-                                                                        value : e.target.value}});
-        // Fire the custom event
-        this.dispatchEvent(selectEvent);
+        let numberOnly = new RegExp('^[0-9]*$');
+        if (this.inputType == 'number' && !numberOnly.test(e.target.value)){
+            e.target.value = this.oldValue;
+        } else{
+            const selectEvent = new CustomEvent('selection', {
+                detail : { 
+                            fieldName : this.columnName,
+                            assetId : this.rowData.asset.Id,
+                            value : e.target.value}});
+            // Fire the custom event
+            this.dispatchEvent(selectEvent);
+        }
+        this.oldValue = e.target.value;
     }
 
     handleClick(e){
