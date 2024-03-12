@@ -23,6 +23,7 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api stagesAllowingFileUpload;
     @api userId;
     @api ownerId;
+    @api attachmentStatus;
 
     connectedCallback(e){
         if(this.isHyperlink){
@@ -80,6 +81,8 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             this.fileData = null;
             let title = `File uploaded successfully!!`;
             this.toast(title);
+            this.attachmentStatus = true;
+            this.closeModal();
             this.showAddAttachmentModal = false;
             if(this.isHyperlink){
                 const selectEvent = new CustomEvent('close',{});

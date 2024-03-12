@@ -15,6 +15,7 @@ public class ABHFL_StageMovementHelperTest {
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         caseRecList[0].Business_Unit__c = 'ABHFL';
         caseRecList[0].CCC_External_Id__c = 'hfl069';
+        caseRecList[0].Technical_Source__c = 'LWC';
         update caseRecList[0];
     }
     
@@ -29,7 +30,12 @@ public class ABHFL_StageMovementHelperTest {
         assetDetail.Asset__c = assetRecords[0].Id;
         insert assetDetail;
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> result = ABHFL_StageMovementHelper.afterStageMovement(caseRecords);
+        caseRecords[0].CCC_External_Id__c = 'RLOAPRONHFC';
+        caseRecords[0].Stage__c = 'Resolved';
+        update caseRecords;
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> resultAttachment = ABHFL_StageMovementHelper.afterStageMovement(caseRecords);
         System.assertEquals(result.keySet().size(),1);
+        System.assertEquals(resultAttachment.keySet().size(),1);
     }
 
 }
