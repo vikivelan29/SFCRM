@@ -1,4 +1,4 @@
-public class ASF_CaseRuleEntryTriggerHelper {
+public without sharing class ASF_CaseRuleEntryTriggerHelper {
     
     public void updateCaseStageQueryCache(map<id,ASF_Case_Rule_Entry__c> newRulesMap){
         list<ASF_Case_Rule_Entry__c> creList = [select Id,Field_Api_Name__c,Case_Rule__r.Case_Stage_Config__c, Case_Rule__r.Case_Stage_Config__r.Query_Fields__c FROM ASF_Case_Rule_Entry__c where Id IN :newRulesMap.keyset()];
