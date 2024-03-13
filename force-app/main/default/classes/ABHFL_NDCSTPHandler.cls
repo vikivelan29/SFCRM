@@ -82,6 +82,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Check for mandatory API conditions
@@ -119,13 +120,25 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 }
             }
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
-                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                /*caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     update caseRecord;
+                }*/
+                /*Case updatedCase = new Case(Id=caseRecord.Id);
+                updatedCase.MoveToNext__c = true;
+                result = new ASF_IntegrationsController.IntegrationWrapper();
+                result.updatedCase = updatedCase;*/
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
 
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
