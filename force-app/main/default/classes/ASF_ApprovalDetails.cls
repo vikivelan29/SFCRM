@@ -3,7 +3,7 @@
 * Description      - Class to get the approval history records
 ********************************************************
 */
-public class ASF_ApprovalDetails {
+public without sharing class ASF_ApprovalDetails {
     @AuraEnabled (cacheable=true)
     public static  List<returnValue> getApprovalHistory(String recordId){  
         Set<Id> caseApprovalId = new Set<Id>();

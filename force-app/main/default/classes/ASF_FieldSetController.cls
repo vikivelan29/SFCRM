@@ -1,4 +1,4 @@
-public class ASF_FieldSetController {
+public without sharing class ASF_FieldSetController {
     
     public static Schema.FieldSet fieldSet = null;
     
