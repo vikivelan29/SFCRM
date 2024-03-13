@@ -2843,15 +2843,7 @@
         <object>Product2</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <recordTypeVisibilities>
-        <recordType>Lead.Sales</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>Lead.Service</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <pageAccesses>
+   <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
