@@ -124,7 +124,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     renderedCallback(){
         Promise.all([
-            loadStyle(this, overrideCSSFile)
+            //loadStyle(this, overrideCSSFile)
         ]);
     }
     //utility method
