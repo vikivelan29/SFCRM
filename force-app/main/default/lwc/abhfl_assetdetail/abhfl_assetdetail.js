@@ -69,6 +69,20 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             };
             console.log(this.fileData);
             if(this.fileData){
+                if(this.fileData.extension != 'pdf' && !this.showQuickAction){
+                    this.fileData = undefined;
+                    this.showAddAttachmentModal = true;
+                    this.template.querySelector('.slds-button_neutral').disabled=false;
+                    this.template.querySelector('lightning-input').disabled=false;
+                    const toastEvent = new ShowToastEvent({
+                        title: "Error",
+                        message: "You can only upload pdf files.",
+                        variant: "error",
+                    });
+                    this.dispatchEvent(toastEvent);
+                }
+            }
+            if(this.fileData){
                 this.saveFileToLanHandler();
             }
         }
