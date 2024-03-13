@@ -94,6 +94,8 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         List<Case> downloadStpCases = new List<Case>();
         
         String cY = System.Label.ABHFL_LOD_Calendar_Year;
+        List<Case> downloadStpCases = new List<Case>(); 
+        
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Check for mandatory API conditions
@@ -111,8 +113,8 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    downloadStpCases.add(caseRecord);
-                    //update caseRecord;
+                    	downloadStpCases.add(caseRecord);
+			//update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
@@ -130,7 +132,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             }
             resultMap.put(caseRecord.Id, result);
         }
-         if(downloadStpCases.size()>0){
+        if(downloadStpCases.size()>0){
             update downloadStpCases;
         }
         

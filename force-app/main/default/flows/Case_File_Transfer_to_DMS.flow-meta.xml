@@ -45,10 +45,10 @@
         <locationY>0</locationY>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Stage__c</field>
+            <field>IsClosed</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Resolved</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Case</object>
@@ -61,7 +61,7 @@
             <label>Create DMS File Transfer Platform Event</label>
             <offsetNumber>1</offsetNumber>
             <offsetUnit>Hours</offsetUnit>
-            <recordField>First_Case_Closed_Date__c</recordField>
+            <recordField>ClosedDate</recordField>
             <timeSource>RecordField</timeSource>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>

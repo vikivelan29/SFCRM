@@ -2,11 +2,6 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">
-<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-</style>
-Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
-Part Payment of {#var#} was processed against your Loan account number ending with {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. We request you to confirm the Impact (Emi/Tenure) so that we can complete your request. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you.<br />
-Thank you.<br />
-- Aditya Birla Housing Finance Limited</body>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},&nbsp;<br />
+Part Payment was processed against your Loan account number ending with {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. We request you to confirm the Impact (Emi/Tenure) so that we can complete your request. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
 </html>

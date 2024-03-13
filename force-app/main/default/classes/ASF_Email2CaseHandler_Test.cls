@@ -17,6 +17,7 @@ public class ASF_Email2CaseHandler_Test {
             EmailMessage eMsg = new EmailMessage();
             eMsg.ParentId = newCase.Id;
             eMsg.ToAddress = 'abfl.grievancehead@adityabirlacapital.com';
+            eMsg.FromAddress = 'abfl.crmuat01@adityabirlacapital.com';
             eMsg.CCAddress = 'abfl.instics@adityabirlacapital.com';
             eMsg.BCCAddress = 'test@test.com';
             eMsg.MessageIdentifier = 'ABC';
@@ -43,6 +44,7 @@ public class ASF_Email2CaseHandler_Test {
             EmailMessage eMsg = new EmailMessage();
             eMsg.ParentId = newCase.Id;
             eMsg.ToAddress = 'abfl.instics@adityabirlacapital.com';
+            eMsg.FromAddress = 'abfl.crmuat01@adityabirlacapital.com';
             eMsg.CCAddress = 'abfl.grievancehead@adityabirlacapital.com';
             eMsg.BCCAddress = 'test@test.com';
             eMsg.MessageIdentifier = 'ABC';

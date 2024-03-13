@@ -224,18 +224,35 @@ public with sharing class ABHFL_MultipleLANController {
         assetDetailQueryStr = assetDetailQueryStr + ' from ABHFL_Asset_Detail__c where Case__c =\''+String.escapeSingleQuotes(recId)+'\'';
         List<sObject> assetDetails = Database.Query(assetDetailQueryStr);
         Map<String,ABHFL_Asset_Detail__c> assetIdMap = new Map<String,ABHFL_Asset_Detail__c>();
+        Set<Id> assetDetailIds = new Set<Id>();
         for(ABHFL_Asset_Detail__c assetDetail : (List<ABHFL_Asset_Detail__c>)assetDetails){
             assetIdMap.put(assetDetail.Asset__c,assetDetail);
+            assetDetailIds.add(assetDetail.Id);
         }
+
+        Map<Id,Id> assetDetailIdContentIdMap = new Map<Id,Id>();
+        if(assetDetailIds.size() > 0){
+            List<ContentDocumentLink> contentDocLinkList = [Select id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId in: assetDetailIds];
+
+            for(ContentDocumentLink docLink : contentDocLinkList){
+                assetDetailIdContentIdMap.put(docLink.LinkedEntityId,docLink.ContentDocumentId);
+            }
+
+        }
+
         for(Asset rec : (List<Asset>)assetRecords){
             AssetDetailWrapper assetDetailWrap = new AssetDetailWrapper();
             if(assetIdMap.containsKey(rec.Id)){
                 assetDetailWrap.detail = assetIdMap.get(rec.Id);
+                if(assetDetailIdContentIdMap.containsKey(assetDetailWrap.detail.Id)){
+                    assetDetailWrap.attachmentStatus = true;
+                }
             }else{
                 ABHFL_Asset_Detail__c detailRec = new ABHFL_Asset_Detail__c();
                 detailRec.Asset__c = rec.Id;
                 detailRec.LAN__c = rec.LAN__c;
                 assetDetailWrap.detail = detailRec;
+                assetDetailWrap.attachmentStatus = false;
             }
             assetDetailWrap.asset = rec;
             assetDetailRecords.add(assetDetailWrap);
@@ -359,33 +376,29 @@ public with sharing class ABHFL_MultipleLANController {
     @AuraEnabled
     public static List<ABHFL_Asset_Detail__c> upsertRecords(String assetDetails,String recId){
         try {
+
+            List<ABHFL_Asset_Detail__c> existingAssetRecords = [Select id,Asset__c from ABHFL_Asset_Detail__c where Case__c =: recId];
+            Map<String,String> assetIdAssetDetailIdMap = new Map<String,String>();
+            if(existingAssetRecords.size() > 0){
+                for(ABHFL_Asset_Detail__c assetDetail : existingAssetRecords){
+                    assetIdAssetDetailIdMap.put(assetDetail.Asset__c,assetDetail.Id);
+                }
+            }
+
             List<ABHFL_Asset_Detail__c> assetRecords = (List<ABHFL_Asset_Detail__c>)JSON.deserialize(assetDetails,List<ABHFL_Asset_Detail__c>.class);
             for(ABHFL_Asset_Detail__c rec : assetRecords){
                 rec.Case__c = recId;
+                if(assetIdAssetDetailIdMap.containsKey(rec.Asset__c)){
+                    rec.Id = assetIdAssetDetailIdMap.get(rec.Asset__c);
+                }
             }
+
             if(Schema.sObjectType.ABHFL_Asset_Detail__c.isUpdateable() && Schema.sObjectType.ABHFL_Asset_Detail__c.isCreateable()){
                 upsert assetRecords;
             }
             List<ASF_Checklist__c> checklist = [Select id,Status__c,Label__c from ASF_Checklist__c 
                                                 where Case__c =: recId and Label__c = 'Add LAN(s) and provide necessary details.'];
-
-            if(checklist.size() > 0){
-                Boolean checklistPassed = true;
-                for(ABHFL_Asset_Detail__c assetDetail :assetRecords){
-                    if((assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0) || String.isBlank(assetDetail.Impact__c) || String.isBlank(assetDetail.Cycle_Date__c)){
-                        checklistPassed = false;
-                        break;
-                    }
-                }     
-                if(checklistPassed){
-                    checklist[0].Status__c = 'Completed';
-                }else{
-                    checklist[0].Status__c = 'Pending';
-                }
-                if(Schema.sObjectType.ASF_Checklist__c.isUpdateable()){
-                    update checklist[0];
-                }        
-            }                                    
+                                   
             return assetRecords;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -631,7 +644,9 @@ public with sharing class ABHFL_MultipleLANController {
         @AuraEnabled
         public Asset asset;
         @AuraEnabled
-        public ABHFL_Asset_Detail__c detail;       
+        public ABHFL_Asset_Detail__c detail; 
+        @AuraEnabled
+        public Boolean attachmentStatus;
     }
 
     public class PicklistWrapper{

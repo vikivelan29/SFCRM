@@ -55,7 +55,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 if (caseRecord.get(fieldCheckStr) != null) {
                     if(fieldList[0].contains('__r')){
                         sobject rs = caseRecord.getSobject(fieldList[0]);
-                        caseRecordValue = rs == null ? null :  String.valueOf(rs.get(fieldList[1]));
+                        caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
                     }
                 }else{
                     caseRecordValue = '0';
@@ -312,7 +312,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 resultMap.put(caseRec.Id, result);//Defaulting to success
                 for(string extId : asfIntExtIds.keySet()){
                     String key = caseRec.Id+extId;
-                    if(caseIntSuccessMap.containsKey(key) &&  !caseIntSuccessMap.get(key)){
+                    if(!caseIntSuccessMap.containsKey(key) || !caseIntSuccessMap.get(key)){
                         if(invalidIntegrationsPerCase.containsKey(caseRec.Id)){
                             invalidIntegrationsPerCase.get(caseRec.Id).add(asfIntExtIds.get(extId).Display_Name__c);
                         }else {

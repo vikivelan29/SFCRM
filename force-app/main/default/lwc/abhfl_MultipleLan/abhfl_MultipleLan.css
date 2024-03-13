@@ -8,7 +8,16 @@
     border-radius: 5px;
 }
 
-.tableSize{
+.multiColumnTable{
     table-layout: fixed;
     width: 120%;
+}
+
+.singleColumnTable{
+    table-layout: fixed;
+    width: 100%;
+}
+
+.deleteCol{
+    width: 3.5%;
 }

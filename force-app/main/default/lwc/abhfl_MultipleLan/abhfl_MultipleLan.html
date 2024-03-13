@@ -5,7 +5,7 @@
         </template>
     </div>
     <template lwc:if={displayMultipleLan}>
-        <div class="slds-grid slds-grid_reverse slds-grid_align-spread slds-grid_vertical-align-center slds-p-around_small intPanel">
+        <div class="slds-grid slds-grid_reverse slds-grid_align-spread slds-grid_vertical-align-center slds-p-around_small" >
             <div class="slds-col">
                 <lightning-icon 
                     icon-name="action:refresh" 
@@ -93,7 +93,7 @@
                 
         </template>
             <div class="slds-p-around_x-small slds-scrollable_x">
-                <table class="slds-table slds-table_cell-buffer slds-table_bordered tableSize">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered tableSize {sizeClass}" name="childTable">
                     <template lwc:if={childColumns}>
                         <thead>
                             <tr>
@@ -106,7 +106,7 @@
                                     <th>File Upload</th>
                                 </template>
                                 <template lwc:if={enableDelete}>
-                                    <th></th>
+                                    <th class="deleteCol"></th>
                                 </template>
                             </tr>
                         </thead>
@@ -144,13 +144,14 @@
                                                 stages-allowing-file-upload={stagesAllowingFileUpload}
                                                 owner-id={currOwner}
                                                 user-id={userId}
-                                                oncheckpermissions={checkFileUploadPermissions}>
+                                                oncheckpermissions={checkFileUploadPermissions}
+                                                attachment-status={item.attachmentStatus}>
                                                 </c-abhfl_assetdetail>
                                             </div>
                                         </td>
                                     </template>
                                     <template lwc:if={enableDelete}>
-                                        <td class="slds-size_2-of-14" data-label="Action">
+                                        <td class="slds-float_right" data-label="Action">
                                             <a name={indexVar} data-id={item.asset.Id} onclick={removeRecord}>
                                                 <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
                                             </a>

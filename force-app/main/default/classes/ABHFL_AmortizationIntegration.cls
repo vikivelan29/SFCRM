@@ -120,6 +120,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         if(downloadStpCases.size()>0){
             update downloadStpCases;
         }
+
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
