@@ -5,7 +5,7 @@
 * Last Modified: 05/01/2024
 * Description  : Class is having all the E2C Validation of Email Boxes logic.
 *********************************************************/
-
+@SuppressWarnings('PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
     public class multipleEmail2CaseAddressException extends exception{}
     

@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/

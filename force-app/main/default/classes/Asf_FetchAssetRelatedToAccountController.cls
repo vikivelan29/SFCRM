@@ -34,6 +34,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         }
 
         String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM Asset WHERE id in:assetIdSet';
+        dynamicQuery = String.escapeSingleQuotes(dynamicQuery);
         List<Asset> assetRecLst = Database.query(dynamicQuery);
 
         findAssetObj.columnNameList = colmnNameList;
