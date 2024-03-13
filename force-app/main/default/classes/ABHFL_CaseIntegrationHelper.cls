@@ -20,7 +20,8 @@ public with sharing class ABHFL_CaseIntegrationHelper {
     * @Description - Processing Ebot Response
     *****************************************************************************************************************/   
     public static void eBotResponseHandler(String caseId,ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse){
-        
+           
+        List<String> validSubTypesForMovetoNext = new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC','RLOAPRONHFC','REFCL001'};
         ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
         caseDetails.Ebot_Owner_Full_Name__c  = ebotResponse.OWNERFULLNAME;
         caseDetails.Confidence_Score__c  = ebotResponse.CONFIDENCESCORE != null ? Decimal.valueof(ebotResponse.CONFIDENCESCORE) : 0;
@@ -81,6 +82,11 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }
+         //Added by Dhinesh for Preclosure - when categorized land on next stage.
+        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.MoveToNext__c = TRUE;
+            update caseRecord;
+        }
         /*ASF_Case_Category_Config__c categoryConfig = [Select Nature__c from ASF_Case_Category_Config__c 
                                                       where CCC_External_Id__c =: ebotResponse.CASESUBTYPE Limit 1];
         if(categoryConfig.Nature__c == 'Complaint'){
@@ -88,7 +94,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             update caseRecord;
         }*/
         if(ebotResponse.ISREGISTRED == 'No'){
-            caseRecord.MoveToNext__c =true;
+            caseRecord.Stage__c ='Resolved';
             update caseRecord;
         }
 

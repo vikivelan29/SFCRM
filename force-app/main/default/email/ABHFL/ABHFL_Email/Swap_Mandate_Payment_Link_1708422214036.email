@@ -139,35 +139,41 @@
 							
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
+									<div style="text-align: right;">&nbsp;</div>
+
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Arial;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="line-height: 25px; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px; margin-left: 4px; text-align: justify;">
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
+												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+												</style>
+												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+												</style>
 												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 												</style>
 												Dear Customer,<br />
 												<br />
 												Greetings from Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We write to you with reference to your email dated {{{Case.CreatedDate}}} requesting for change in bank account for loan. We are pleased to inform you that your request for swapping of repayment account has been approved. We request you to make the payment of Rs.$$ABHFL_Case_Detail__r.Payable_Charges__c$$ /- (Swap Mandate charges) for the same through below mentioned payment url&nbsp;$$ABHFL_Case_Detail__r.Payment_Link__c$$<br />
+												We write to you with reference to your email dated {{{Case.CreatedDate}}} requesting for change in bank account for loan. We are pleased to inform you that your request for swapping of repayment account has been approved. We request you to make the payment of Rs.$$ABHFL_Case_Detail__r.Payable_Charges__c$$ for the same through below mentioned payment url&nbsp;$$ABHFL_Case_Detail__r.Payment_Link__c$$<br />
 												<br />
 												Please note that the payment link will expire in 5 days, post that we will close your request due to non-receipt of the payment.<br />
 												<br />
 												You can also pay the charges via online transfer using the below virtual account details:<br />
 												<br />
-												Beneficiary Name Aditya Birla Housing Finance Limited<br />
-												Beneficiary Account Number<br />
+												Beneficiary Name&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Aditya Birla Housing Finance Limited<br />
+												Beneficiary Account Number.&nbsp; &nbsp;$$Asset.VAN__c$$<br />
 												(This account is only meant for Electronic fund transfer in the Aditya Birla Account, hence don’t use this for direct cheque/cash banking. In case you want to deposit the cheque please visit our branch and handover the cheque to our Customer service team for physical banking).<br />
 												Beneficiary Bank and Branch<br />
 												IndusInd Bank , Ground floor, maker chambers IV, Nariman Point, Mumbai – 400021.<br />
 												<br />
-												IFSC Code INDB0000006<br />
-												Account Type Current Account<br />
-												Remarks Please mention your Loan Account Number in remarks while transferring amount.<br />
+												IFSC Code&nbsp; &nbsp; &nbsp; &nbsp;INDB0000006<br />
+												Account Type&nbsp; &nbsp;Current Account<br />
+												Remarks&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Please mention your Loan Account Number in remarks while&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;transferring amount.<br />
 												<br />
 												Once you make the payment, request you to visit your nearest branch and submit the below mentioned documents:<br />
 												<br />
@@ -183,6 +189,9 @@
 												Customer Service<br />
 												Aditya Birla Housing Finance Limited</div>
 												</td>
+											</tr>
+											<tr>
+												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">&nbsp;</td>
 											</tr>
 										
 									</table>

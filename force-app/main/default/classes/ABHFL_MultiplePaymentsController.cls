@@ -25,7 +25,7 @@ public with sharing class ABHFL_MultiplePaymentsController {
         String result = 'Success';
         try {
             for(ABHFL_Payment__c newPayment : payments){
-                newPayment.Case__c = caseId;
+                //newPayment.Case__c = caseId;
             }
             upsert payments;
             Case caseRec = [SELECT Id,Stage__c FROM Case WHERE Id =: caseId];

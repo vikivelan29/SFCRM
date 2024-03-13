@@ -1,8 +1,13 @@
 <template>
     <template if:true={showIcon}>
-        <a onclick={openAddAttachmentModal}>
-            <lightning-icon icon-name="utility:upload" alternative-text="Upload Documents"  size="x-small"></lightning-icon>
-        </a>
+        <template if:true={attachmentStatus}>
+            <lightning-icon icon-name="action:approval" alternative-text="Upload Documents"  size="xx-small"></lightning-icon>
+        </template>
+        <template if:false={attachmentStatus}>
+            <a onclick={openAddAttachmentModal}>
+                <lightning-icon icon-name="utility:upload" class="slds-m-left_xx-small" alternative-text="Upload Documents"  size="small"></lightning-icon>
+            </a>
+        </template>
     </template>
     <template if:true={showAddAttachmentModal}>
         <div>
@@ -25,7 +30,7 @@
                                     type="file" 
                                     label="Attachment" 
                                     required 
-                                    accept=".xlsx, .xls, .csv, .png, .jpg, .jpeg, .doc, .docx, .pdf, .zip"
+                                    accept=".pdf"
                                     message-when-value-missing="Please upload a file"
                                     onchange={handleFilesChange}>
                                 </lightning-input>

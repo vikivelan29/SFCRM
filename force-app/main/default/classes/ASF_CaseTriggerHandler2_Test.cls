@@ -20,25 +20,22 @@ public class ASF_CaseTriggerHandler2_Test {
                            alias = 'uqusr', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
                            languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true,ManagerId=manager1.Id);
         insert objUser;
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_TestDataFactory.createCaseRecords(0);
+        ASF_TestDataFactory.createInteractionCaseRecords();
     }
 
     @isTest
     public static void test_Insert(){
-        ASF_TestDataFactory.createCaseCategoryConfig();
         Test.startTest();
-        ASF_TestDataFactory.createCaseRecords(0);
-        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
-        ASF_TestDataFactory.createInteractionCaseRecords();
+        //ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         Test.stopTest();
         List<Case> frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework'];
         Assert.areEqual(1, frameworkCase2.size(), 'Expected 1, Not found');
     }
 
-    /* @isTest
+     @isTest
     public static void test_Update(){
-        ASF_TestDataFactory.createCaseCategoryConfig();
-        ASF_TestDataFactory.createCaseRecords(0);
-        ASF_TestDataFactory.createInteractionCaseRecords();
         Test.startTest();
         Case frameworkCase = [Select Id from Case where RecordType.Name = 'Framework' LIMIT 1];
         Case interactionCase = [Select Id from Case where RecordType.Name = 'Interaction' LIMIT 1];
@@ -50,5 +47,5 @@ public class ASF_CaseTriggerHandler2_Test {
         Test.stopTest();
         Case frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework' LIMIT 1];
         Assert.areEqual('Updated subject', frameworkCase2.Subject, 'Expected Updated subject');
-    } */
+    } 
 }

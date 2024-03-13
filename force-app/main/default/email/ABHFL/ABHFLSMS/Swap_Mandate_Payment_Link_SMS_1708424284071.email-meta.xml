@@ -5,6 +5,7 @@
     <name>Swap Mandate Payment Link SMS</name>
     <relatedEntityType>ASF_Communication_Log__c</relatedEntityType>
     <style>none</style>
+    <subject>The</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

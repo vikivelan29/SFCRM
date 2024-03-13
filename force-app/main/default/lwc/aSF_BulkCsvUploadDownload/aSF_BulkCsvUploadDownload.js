@@ -4,7 +4,6 @@ import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVF
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
 import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLineItemsChunk';
-import insertLastLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLastLineItemsChunk';
 import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityController.startProcessingChunks';
 
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -12,7 +11,9 @@ import PapaParser from '@salesforce/resourceUrl/PapaParser';
 import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBUValidation';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceErrors } from 'c/asf_ldsUtils';
 import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
+import DOWNLOAD_LIMIT_MESSAGE from '@salesforce/label/c.ASF_BulkDownloadLimit_Msg';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
@@ -29,6 +30,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
     MAX_CHUNK_SIZE = CHUNK_SIZE;
+    downloadLimitMsg = DOWNLOAD_LIMIT_MESSAGE;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -48,11 +50,13 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     isTrue = true;
     hasPermission = false;
     hasLoaded = false;
+    disableUploadBtn = true;
 
     @track uploadId;
     @track fileName = '';
     operationRecordTypeValue = '';
     strErrorMessage = '';
+    strSuccessMessage = '';
     strCSVFileError = '';
     businessUnitValue = '';
     filesUploaded = [];
@@ -105,7 +109,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             }
 
         } else if (error) {
-            console.error('Error retrieving metadata:', error);
+            this.displayErrorMessage(error, '');
         }
     }
 
@@ -142,7 +146,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         .then(() => {
         })
         .catch(error => {
-            console.error('Error loading validateFile.js: '+ error);
+            this.displayErrorMessage(error, '');
         });
     }
 
@@ -152,6 +156,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         this.allConfigMetaList.forEach((element) => {
             if(element.Template_Name__c == this.operationRecordTypeValue){
                 this.selectedConfigRec = element;
+                this.disableUploadBtn = false;
             }
         });
     }
@@ -159,6 +164,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //Method to Download CSV template along with records
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
+        this.strErrorMessage = '';
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
                             strSelectedRecords : this.selectedCases,
@@ -177,8 +183,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             })
             .catch(error => {
                 this.boolDisplayLoadingText = false;
-                console.log('error--'+JSON.stringify(error));
-                this.strErrorMessage = this.strAdminError + ' Following technical Error occured.  ' ;
+                this.displayErrorMessage(error, '');
         });
     }
     //This method validates the dataCSV and creates the csv file to download
@@ -196,11 +201,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             quotes: true,
             escapeChar: '"'
         });
-        /*Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep!
-        quotes: true,
+        /*Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep! 
+        quotes: true,*/
         if(this.operationRecordTypeValue.includes('Close')){
             csvString = csvString.replaceAll('\n', '\n=');
-        } */
+        } 
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
@@ -225,7 +230,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     } 
                 },
                 error: (error) => {
-                    console.error(error);
+                    this.displayErrorMessage(error, '');
                     reject(error);
                 }
             });
@@ -275,6 +280,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
     //this method fetches the Template header without data
     getTemplateData(){
+        this.strErrorMessage = '';
         getCSVTemplate({strConfigName: this.selectedConfigRec.DeveloperName})
         .then(result => {
             this.getCSVClick(result, this.operationRecordTypeValue +'- Template');
@@ -311,6 +317,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.uploadValidationSuccess = false;
             return;
         }
+        if(this.rowCount > 50000){
+            this.strErrorMessage = 'Max record limit exceeded. Max record limit is 50000';
+            this.uploadValidationSuccess = false;
+            return;
+        }
         this.file = this.filesUploaded;
         if (this.file.size > this.selectedConfigRec.Max_File_Size__c) {
             this.strErrorMessage = 'Max file size exceeded. Max file size is 20.0 MB';
@@ -328,7 +339,6 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             configData: this.selectedConfigRec
         };
         let buValResult = window.validateFile(inputData);
-        console.log('val result--'+buValResult);
         if(buValResult != 'Success'){
             this.strErrorMessage = buValResult;
             this.uploadValidationSuccess = false;
@@ -340,6 +350,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     */
     handleSave() {
         this.showLoadingSpinner = true;
+        this.disableUploadBtn = true;
         this.boolShowFileUploadButton = false;
         this.boolCSVCheck= false;
         this.boolShowUploadButton = false;
@@ -350,6 +361,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         if(this.uploadValidationSuccess){
             this.strErrorMessage = '';
             this.boolShowUploadProgress = true;
+            this.disableUploadBtn = false;
             this.allLineItems = this.processedCsvData.map(item => {
                 return {
                     JSON_Data__c: JSON.stringify(item)
@@ -368,6 +380,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }else{
             this.showToastMessage('Error!', this.strErrorMessage, 'error');
             this.boolShowFileUploadButton = true;
+            this.disableUploadBtn = false;
             this.boolCSVCheck= true;
             this.boolShowUploadButton = true;
         }
@@ -377,77 +390,62 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     async insertMiddleChunk(lineItems){
         await insertLineItemsChunk({lineItems: lineItems})
         .then(result => {
+          console.log('middle chunk success');
         })
         .catch(error => {
-            console.error(error);
-        });
-    }
-
-    //Inserts last chunk to database
-    async insertLastChunk(lineItems){
-        await insertLastLineItemsChunk({lineItems: lineItems, headRowId: this.uploadId})
-        .then(result => {
-            this.startProcessingChunks();
-            this.boolShowUploadProgress = false;
-            this.showLoadingSpinner = false;
-            this.boolDisplayProgressbar = true;
-        })
-        .catch(error => {
-            console.error(error);
+            this.displayErrorMessage(error, 'InsertChunk');
         });
     }
 
     //Starts the processing of upload once all the records are inserted to the database.
     startProcessingChunks(){
+        console.log('start process');
         startProcessingChunks({headRowId: this.uploadId, totalRowCount: this.rowCount, templateName: this.operationRecordTypeValue})
         .then(result => {
-            this.boolShowUploadProgress = false;
             this.showLoadingSpinner = false;
-            this.boolDisplayProgressbar = true;
+            this.boolShowUploadProgress = false;
+            if(result.isSuccess){
+                this.boolDisplayProgressbar = true;
+                if(result.successMessageIfAny && result.successMessageIfAny != ''){
+                    this.strSuccessMessage = result.successMessageIfAny;
+                }
+            }else{
+                this.strErrorMessage = result.errorMessage;
+            }   
         })
         .catch(error => {
-            console.error(error);
+            this.displayErrorMessage(error, 'InsertChunk');
         });
     }
 
     //Inserts the first chunk. This method is also used when the total uploaded records are less than MAC CHUNK size.
     insertFirstChunk(lineItems) {
         insertHeaderRowWithLineItems({ lineItems: lineItems, totalRowCount: this.rowCount, templateName: this.operationRecordTypeValue})
-        .then(result => {
+        .then(async result => {
 
             if(result && result.isSuccess){
+                console.log('first chunk successs');
                 this.uploadId = result.headRowId;
                 this.fileName = this.fileName + ' - Uploaded Successfully';
 
                 if(this.chunkedLineItems && this.chunkedLineItems.length >0){
                     for (let i = 1; i < this.chunkedLineItems.length; i++) {
                         this.currentChunkIndex = i;
-                        // Last Chunk
-                        if(this.currentChunkIndex === this.chunkedLineItems.length - 1){
-                            if(this.uploadId){
-                                this.chunkedLineItems[i].forEach(obj => {
-                                    obj.Bulk_Upload_Header__c = this.uploadId;
-                                });
-                                this.insertLastChunk(this.chunkedLineItems[i]);
-                            }
-                        }
                         //Middle Chunk
-                        else {
-                            if(this.uploadId){
-                                this.chunkedLineItems[i].forEach(obj => {
-                                    obj.Bulk_Upload_Header__c = this.uploadId;
-                                });
-                                this.insertMiddleChunk(this.chunkedLineItems[i]);
-                            }
+                        if(this.uploadId){
+                            this.chunkedLineItems[i].forEach(obj => {
+                                obj.Bulk_Upload_Header__c = this.uploadId;
+                            });
+                            await this.insertMiddleChunk(this.chunkedLineItems[i]);
                         }
                     }
-                } else{
+                }
+                if(this.strErrorMessage === ''){
                     this.startProcessingChunks();
                 }
             }
             else if(!result.isSuccess){
                 this.strErrorMessage = result.errorMessage;
-                this.showToastMessage('Error!', result.errorMessage, 'error');
                 this.boolShowFileUploadButton = true;
                 this.boolCSVCheck= true;
                 this.boolShowUploadButton = true;
@@ -456,20 +454,28 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             }
         })
         .catch(error => {
-            this.showLoadingSpinner = false;
-            this.boolShowUploadProgress =false;
             this.boolShowFileUploadButton = true;
             this.boolCSVCheck= true;
             this.boolShowUploadButton = true;
             this.strErrorMessage = this.strAdminError;
-            this.showToastMessage('Error while uploading File', error.body.message, 'error');
-            console.log(error.body);
+            this.displayErrorMessage(error, 'InsertChunk');
+
         }); 
     }
 
+    //utility method to show a readable exception message
+    displayErrorMessage(error, reqFrom){
+        let errMsg = reduceErrors(error);
+        this.strErrorMessage = Array.isArray(errMsg) ? errMsg[0] : errMsg;
+        if(reqFrom == 'InsertChunk'){
+            this.showLoadingSpinner = false;
+            this.boolShowUploadProgress = false;
+        }
+    }
     //Shows the Downlaod Result Button once the Upload is complete
     handleUploadComplete(event){
         if(event.detail.value === 100){
+            this.strSuccessMessage = '';
             this.showDownloadResult = true;
         }
     }

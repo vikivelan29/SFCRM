@@ -6,6 +6,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
+    public static Boolean preClosureStageAlreadyStamped = false;
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
@@ -478,6 +479,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(resultWrap != null && resultWrap.status == 'Success'){
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
                     caseRec.Status = resultWrap.nextStageConfig.Status_Mapping__c;
+                    caseRec.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
@@ -545,10 +547,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-                        Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
-                        for(String fieldName : populatedFieldMap.keySet()){
-                            caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
+                        if(resultWrap.caseToBeUpdated != null){
+                            Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
+                            for(String fieldName : populatedFieldMap.keySet()){
+                                caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
+                            }
                         }
+                        
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
@@ -1228,9 +1233,9 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 String newOwnerId = c.OwnerId;
                 
                 if(oldOwnerId.startsWith('00G') && 
-                   !(oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
+                   !(oldQueueAndMemberMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
                   !(queueIdNameMap.get(oldOwnerId).Email != null && queueIdNameMap.get(oldOwnerId).Email == newCaseOwnerMap.get(userInfo.getUserId()).Email && 
-                   (oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
+                   (oldQueueAndMemberMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(oldOwnerId).contains(newOwnerId) || (newCaseOwnerMap.get(newOwnerId)!= null && newCaseOwnerMap.get(newOwnerId).Email == queueIdNameMap.get(oldOwnerId).Email))) && 
                   !hasPermission){
                     c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                     
@@ -1240,7 +1245,8 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                          ownerMap.get(oldOwnerId).manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.manager.Id != userInfo.getUserId() &&
-                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
+                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)) != null &&
+                           oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
                         ){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }

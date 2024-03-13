@@ -144,8 +144,8 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType, String assetLob) {
-        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType,assetLob).lstCCCrecords;
+    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType, String assetLob,String inpArg) {
+        return ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails(keyword,assetProductType,withoutAsset,accRecordType,assetLob,inpArg).lstCCCrecords;
     }
     
     @AuraEnabled(cacheable=true)

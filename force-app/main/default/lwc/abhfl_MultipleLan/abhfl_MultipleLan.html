@@ -5,6 +5,18 @@
         </template>
     </div>
     <template lwc:if={displayMultipleLan}>
+        <div class="slds-grid slds-grid_reverse slds-grid_align-spread slds-grid_vertical-align-center slds-p-around_small" >
+            <div class="slds-col">
+                <lightning-icon 
+                    icon-name="action:refresh" 
+                    slot="actions" 
+                    alternative-text="Refresh" 
+                    title="Refresh"
+                    size="xx-small"
+                    onclick={refresh}>
+                </lightning-icon>
+            </div>
+        </div>
         <lightning-card title="Multiple LAN">
             <template lwc:if={recordsToDisplay}>
                 <div class="slds-p-around_x-small slds-scrollable_x">
@@ -81,7 +93,7 @@
                 
         </template>
             <div class="slds-p-around_x-small slds-scrollable_x">
-                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered tableSize {sizeClass}" name="childTable">
                     <template lwc:if={childColumns}>
                         <thead>
                             <tr>
@@ -91,10 +103,10 @@
                                     </th>
                                 </template>
                                 <template lwc:if={enableUpload}>
-                                    <th></th>
+                                    <th>File Upload</th>
                                 </template>
                                 <template lwc:if={enableDelete}>
-                                    <th></th>
+                                    <th class="deleteCol"></th>
                                 </template>
                             </tr>
                         </thead>
@@ -105,18 +117,41 @@
                                 <tr key={item.asset.Id} data-childid={item.asset.Id}>
                                     <template for:each={childColumns} for:item="column">
                                         <td scope="col" key={column.name}>
-                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} column-type={column.type} column-editable={column.isEditable} options={column.options} onselection={updateAssetDetail} disable-edit-field={disableEditField}></c-abhfl_fielddisplay>
+                                            <c-abhfl_fielddisplay 
+                                            column-name={column.name} 
+                                            row-data={item} 
+                                            column-type={column.type} 
+                                            column-editable={column.isEditable} 
+                                            options={column.options} 
+                                            onselection={updateAssetDetail} 
+                                            disable-edit-field={disableEditField}
+                                            curr-stage={currStage}
+                                            owner-id={currOwner}
+                                            user-id={userId}
+                                            stages-allowing-field-edit={stagesAllowingFieldEdit}
+                                            oncheckeditpermissions={checkEditFieldPermissions}>
+                                            </c-abhfl_fielddisplay>
                                         </td>
                                     </template>
                                     <template lwc:if={enableUpload}>
                                         <td scope="col">
                                             <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
-                                                <c-abhfl_assetdetail detail-id={item.detail.Id} record-id={recordId} lan={item.asset.LAN__c}></c-abhfl_assetdetail>
+                                                <c-abhfl_assetdetail 
+                                                detail-id={item.detail.Id} 
+                                                record-id={recordId} 
+                                                lan={item.asset.LAN__c}
+                                                curr-stage={currStage}
+                                                stages-allowing-file-upload={stagesAllowingFileUpload}
+                                                owner-id={currOwner}
+                                                user-id={userId}
+                                                oncheckpermissions={checkFileUploadPermissions}
+                                                attachment-status={item.attachmentStatus}>
+                                                </c-abhfl_assetdetail>
                                             </div>
                                         </td>
                                     </template>
                                     <template lwc:if={enableDelete}>
-                                        <td class="slds-size_2-of-14" data-label="Action">
+                                        <td class="slds-float_right" data-label="Action">
                                             <a name={indexVar} data-id={item.asset.Id} onclick={removeRecord}>
                                                 <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
                                             </a>

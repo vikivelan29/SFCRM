@@ -29,6 +29,20 @@
         <value>ABFSGSFDC User</value>
     </labels>
     <labels>
+        <fullName>ABFL_CRMUAT_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL CRM UAT EMAI</shortDescription>
+        <value>abfl.crmuat01@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DIGITAL_FINANCE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL DIGITAL FINANCE</shortDescription>
+        <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -64,6 +78,13 @@
         <value>Disbursement_History</value>
     </labels>
     <labels>
+        <fullName>ASF_BulkDownloadLimit_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkDownloadLimit_Msg</shortDescription>
+        <value>Maximum record limit is 50,000. If you have selected more than 50,000 records to download, The first 50,000 records will only be downloaded.</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_LOD_Calendar_Year</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -89,7 +110,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_Bulk_Chunk_Size</shortDescription>
-        <value>200</value>
+        <value>5000</value>
     </labels>
     <labels>
         <fullName>ASF_BulkProcessorBatchSize</fullName>
