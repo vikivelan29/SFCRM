@@ -36,9 +36,9 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     wiredAssets({ error, data }) {
         if (data) {
             this.assetRecords = data.assetRecords;
+            this.columns = data.columnNameList;
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
-            this.columns = data.columnNameList;
             this.accBusinessUnit = data.accBusinessUnit;
             this.setInfoObj();
 
@@ -64,18 +64,48 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         
         let generatedDataWithLink = this.assetRecords.map(assetRec => {
             let tempAssetRec = Object.assign({}, assetRec);
-            let assetRecordLink   = '/' + assetRec.Id; 
-            if(tempAssetRec.hasOwnProperty('Name')) {
+            let assetRecordLink   = `/lightning/r/ObjectName/${assetRec.LAN__c}/view`; 
+
+            for(let columnObj of this.columns) {
+
+                let fldName = columnObj.fieldName;
+
+                if( columnObj.hasOwnProperty('type') && columnObj.type == "url") {
+                    fldName =  columnObj.typeAttributes.label.fieldName;
+                }
+                tempAssetRec[fldName] = this.genericFetchNestedKeyValues(assetRec, fldName);
+            }
+
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Name) {
                 tempAssetRec.assetNameRecLink   = assetRecordLink;
                 
             }
-            if(tempAssetRec.hasOwnProperty('LAN__c')){
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].LAN__c){
                 tempAssetRec.assetLanRecLink = assetRecordLink;
-            }
+            } 
+
             return tempAssetRec;
         });
 
         this.assetRecords = generatedDataWithLink;
+    }
+
+    // This is a generic function used to fetch nested object key's value
+    genericFetchNestedKeyValues(obj, keys) {
+     
+        keys = keys.split('.');
+        let currentObj = obj;
+    
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (currentObj.hasOwnProperty(key)) {
+                currentObj = currentObj[key];
+            } else {
+                return undefined;
+            }
+        }
+        // Return the value of the nested key
+        return currentObj;
     }
 
     onSelectedRow(event) {
@@ -109,8 +139,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
         currentSelectedRec = this.assetRecords[selectedRowNo];
         this.currentSelRecord = currentSelectedRec;
-
-
+        
         if(selectedRows.length == 1){
             this.setFieldMaapingOnCase(selectedRows[0]);
             return;
