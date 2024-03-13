@@ -181,7 +181,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Source_System_API__c</fieldItem>
                 <identifier>RecordSource_System_API_cField</identifier>
@@ -191,7 +191,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Variant__c</fieldItem>
                 <identifier>RecordVariant_cField</identifier>
@@ -201,7 +201,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Sub_Variant__c</fieldItem>
                 <identifier>RecordSub_Variant_cField</identifier>
@@ -269,6 +269,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Sub_Source__c</fieldItem>
                 <identifier>RecordSub_Source_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SPOC_Name_Formula__c</fieldItem>
+                <identifier>RecordSPOC_Name_Formula_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6faa16f1-a344-4992-932a-6921b5ff408d</name>
