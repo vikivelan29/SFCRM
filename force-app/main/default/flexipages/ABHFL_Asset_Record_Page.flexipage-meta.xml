@@ -214,6 +214,16 @@
                 <identifier>RecordSub_scheme_cField</identifier>
             </fieldInstance>
         </itemInstances>
+<itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Lead_Id__c</fieldItem>
+                <identifier>RecordLead_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-cb21f20b-fab4-4a85-a329-94a7d93edac2</name>
         <type>Facet</type>
     </flexiPageRegions>
