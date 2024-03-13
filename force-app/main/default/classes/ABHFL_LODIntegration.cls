@@ -111,6 +111,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
+		    downloadStpCases.add(caseRecord);
                     //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
