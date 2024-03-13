@@ -79,10 +79,32 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Source_Type__c</fieldItem>
                 <identifier>RecordSource_Type_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Source_Type__c</fieldItem>
+                <identifier>RecordSource_Type_cField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60dd56bb-1ed9-4f8a-8dd3-afdb4b496454</name>
@@ -93,10 +115,32 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABHFL_Prospect_Type__c</fieldItem>
+                <identifier>RecordABHFL_Prospect_Type_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Prospect_Type__c</fieldItem>
-                <identifier>RecordProspect_Type_cField</identifier>
+                <fieldItem>Record.ABHFL_Prospect_Type__c</fieldItem>
+                <identifier>RecordABHFL_Prospect_Type_cField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -113,10 +157,48 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email</fieldItem>
                 <identifier>RecordEmailField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Email</fieldItem>
+                <identifier>RecordEmailField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MobilePhone</fieldItem>
+                <identifier>RecordMobilePhoneField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -126,7 +208,13 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.MobilePhone</fieldItem>
-                <identifier>RecordMobilePhoneField</identifier>
+                <identifier>RecordMobilePhoneField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a61fe10e-f957-47cf-a51c-77193f592796</name>
@@ -154,6 +242,168 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-73aec296-baca-4798-8cb3-a40ab79b0eb0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.External_Lead_ID__c</fieldItem>
+                <identifier>RecordExternal_Lead_ID_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Product__c</fieldItem>
+                <identifier>RecordProduct_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Source_System_API__c</fieldItem>
+                <identifier>RecordSource_System_API_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Variant__c</fieldItem>
+                <identifier>RecordVariant_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sub_Variant__c</fieldItem>
+                <identifier>RecordSub_Variant_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Lead_Id__c</fieldItem>
+                <identifier>RecordSales_Lead_Id_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SPOC_Name_Formula__c</fieldItem>
+                <identifier>RecordSPOC_Name_Formula_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5b01c26a-dc4d-410b-974b-dfe68611051c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Employment_Type__c</fieldItem>
+                <identifier>RecordEmployment_Type_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Preferred_Communication__c</fieldItem>
+                <identifier>RecordPreferred_Communication_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Requested_Loan_Amount__c</fieldItem>
+                <identifier>RecordRequested_Loan_Amount_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sourcing_Branch__c</fieldItem>
+                <identifier>RecordSourcing_Branch_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LeadSource</fieldItem>
+                <identifier>RecordLeadSourceField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sub_Source__c</fieldItem>
+                <identifier>RecordSub_Source_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-0446d27f-dd8a-4b43-850d-431444b403aa</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5b01c26a-dc4d-410b-974b-dfe68611051c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0446d27f-dd8a-4b43-850d-431444b403aa</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-17b14e3d-9832-4e39-8cad-19e46a89837d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -191,7 +441,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Variant__c</fieldItem>
                 <identifier>RecordVariant_cField</identifier>
@@ -201,7 +451,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Sub_Variant__c</fieldItem>
                 <identifier>RecordSub_Variant_cField</identifier>
@@ -215,6 +465,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Sales_Lead_Id__c</fieldItem>
                 <identifier>RecordSales_Lead_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SPOC_Name_Formula__c</fieldItem>
+                <identifier>RecordSPOC_Name_Formula_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-466cb8b3-56b2-4b64-8af7-676c73492b9b</name>
@@ -267,8 +527,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Sub_Source__c</fieldItem>
-                <identifier>RecordSub_Source_cField</identifier>
+                <fieldItem>Record.LeadSource</fieldItem>
+                <identifier>RecordLeadSourceField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -277,8 +537,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.SPOC_Name_Formula__c</fieldItem>
-                <identifier>RecordSPOC_Name_Formula_cField</identifier>
+                <fieldItem>Record.Sub_Source__c</fieldItem>
+                <identifier>RecordSub_Source_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6faa16f1-a344-4992-932a-6921b5ff408d</name>
@@ -587,6 +847,30 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
+                    <value>Facet-17b14e3d-9832-4e39-8cad-19e46a89837d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Lead CRM Fields</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
                     <value>Facet-4bb6949c-2d79-4706-a15f-6b8414667af0</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -599,6 +883,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Sales_Lead_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
