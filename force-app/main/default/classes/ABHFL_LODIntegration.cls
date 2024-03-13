@@ -38,7 +38,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             
         }
         Boolean isUserinQueue = isUserInQueue(caseRecord.OwnerId,caseRecord.Asset.Branch__r.Branch_Queue_Id__c);
-       
+        
         //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
         if (result.status == ABHFL_Constants.ERROR && caseRecord.Asset.Branch__c != null) {
             if(!isUserinQueue && caseRecord.Source__c != ABHFL_Constants.BRANCH){
@@ -90,6 +90,9 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             groupIds.add(caseRec.Asset.Branch__r.Branch_Queue_Id__c);
         }
         Map<Id, Set<Id>> groupIdToMemberIds = isUserInQueue(ownerIds, groupIds);
+        
+        List<Case> downloadStpCases = new List<Case>();
+        
         String cY = System.Label.ABHFL_LOD_Calendar_Year;
         List<Case> downloadStpCases = new List<Case>(); 
         
