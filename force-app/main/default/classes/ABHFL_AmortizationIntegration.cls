@@ -77,7 +77,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
         List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
-
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHFL_Constants.ERROR;
@@ -110,13 +110,16 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
         }
-
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
+        }
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent, emailTemplateMap, smsMetadataMap, isTransferredMap);
         }
@@ -331,8 +334,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                         } 
                     }
         }
-        if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
-              caseRec.ABHFL_Case_Detail__r.STP_Failure__c = integrationFailure;
+        if(integrationFailure){
               if(caseRec.Source__c != ABHFL_Constants.BRANCH){
                   Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
                         caseRec.OwnerId = csQueue.Id;
@@ -345,6 +347,15 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
               }else if(caseRec.Source__c == ABHFL_Constants.BRANCH){
                     ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
             }
+        }
+
+        if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
+            ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
+            caseDetails.STP_Failure__c = integrationFailure;
+            caseDetails.Id = caseRec.ABHFL_Case_Detail__c;
+            if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
+                update caseDetails;  
+            }            
         }
         ABCL_IntegrationCommonUtility.updateErrorMessage(caseInteg);
     }

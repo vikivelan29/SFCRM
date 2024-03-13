@@ -38,7 +38,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             
         }
         Boolean isUserinQueue = isUserInQueue(caseRecord.OwnerId,caseRecord.Asset.Branch__r.Branch_Queue_Id__c);
-       
+        
         //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
         if (result.status == ABHFL_Constants.ERROR && caseRecord.Asset.Branch__c != null) {
             if(!isUserinQueue && caseRecord.Source__c != ABHFL_Constants.BRANCH){
@@ -90,6 +90,9 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             groupIds.add(caseRec.Asset.Branch__r.Branch_Queue_Id__c);
         }
         Map<Id, Set<Id>> groupIdToMemberIds = isUserInQueue(ownerIds, groupIds);
+        
+        List<Case> downloadStpCases = new List<Case>();
+        
         String cY = System.Label.ABHFL_LOD_Calendar_Year;
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -108,7 +111,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
@@ -125,6 +128,9 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
                 }
             }
             resultMap.put(caseRecord.Id, result);
+        }
+         if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
         
         return resultMap;
