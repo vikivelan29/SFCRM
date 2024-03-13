@@ -29,7 +29,7 @@ public class ABHFL_MultiplePaymentsController_Test {
 
         // Add some Payments
         caseRec.stage__c = 'Open';
-        update caseRec;
+        //update caseRec;
 
         ABHFL_Payment__c payment1 = new ABHFL_Payment__c();
         payment1.Payment_Identifier__c = '2w53423';
