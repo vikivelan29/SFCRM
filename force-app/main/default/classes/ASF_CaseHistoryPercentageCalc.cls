@@ -5,7 +5,7 @@
  * @last modified on  : 02-06-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
-public class ASF_CaseHistoryPercentageCalc {
+public without sharing class ASF_CaseHistoryPercentageCalc {
     private Static Map<Id, Decimal> BusinessHoursTohoursPerDay = new Map<Id, Decimal>();
     public void setOverallPercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
         SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();

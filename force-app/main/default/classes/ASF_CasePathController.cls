@@ -1,4 +1,4 @@
-public class ASF_CasePathController {
+public without sharing class ASF_CasePathController {
     @AuraEnabled
     public static list<StageWrapper> getCasePath(string recordId){
         list<StageWrapper> result = new list<StageWrapper>();
