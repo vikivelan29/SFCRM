@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 public class ASF_BulkRetryStuckLineItemsBatch implements Database.Batchable<SObject>, Schedulable{
     public Database.QueryLocator start(Database.BatchableContext BC){
         Datetime cutoffTime = System.now().addHours(-1);

@@ -5,6 +5,7 @@
  * @last modified on  : 11-22-2023
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 @isTest
 public class ASF_CaseFrameworkHelper_Test {
     

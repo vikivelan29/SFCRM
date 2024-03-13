@@ -3,6 +3,7 @@
 * Description      - Class to get the approval history records
 ********************************************************
 */
+@SuppressWarnings('PMD.ClassNamingConventions')
 public without sharing class ASF_ApprovalDetails {
     @AuraEnabled (cacheable=true)
     public static  List<returnValue> getApprovalHistory(String recordId){  

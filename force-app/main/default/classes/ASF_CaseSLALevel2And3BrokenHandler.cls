@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedulable,Database.Batchable<sObject> {
 
     global Database.QueryLocator start(Database.BatchableContext bc){

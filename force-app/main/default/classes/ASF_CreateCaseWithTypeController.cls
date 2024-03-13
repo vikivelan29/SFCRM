@@ -170,7 +170,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
         }
-
+        dynamicQuery = String.escapeSingleQuotes(dynamicQuery);
         system.debug('dynamicQuery'+dynamicQuery);
         
         searchResults =

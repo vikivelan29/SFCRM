@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 global class ASF_CaseAgeInBusinessDaysBatch implements Schedulable, Database.Batchable<sObject>, Database.Stateful {
     
     private Map<Id, Decimal> BusinessHoursTohoursPerDay = new Map<Id, Decimal>();
