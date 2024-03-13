@@ -348,7 +348,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
                 string mobile = '';
-                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL == caseRecord.Account.RecordType.Name){
+                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL == caseRecord.Account.RecordType.Name){
                     mobile = caseRecord.Account.PersonMobilePhone;
                 }else {
                     mobile = caseRecord.Account.Phone;
