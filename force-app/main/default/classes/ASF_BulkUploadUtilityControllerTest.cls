@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @IsTest
 public without sharing class ASF_BulkUploadUtilityControllerTest {
     
