@@ -8,7 +8,7 @@
 *-------------------------------------------------------------------------------------------
 *  1.0          Santanu Halder      28/10/2023          Initial Creation
 *******************************************************************************************/
-
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public with sharing class ASF_CloneCaseActionControllerTest {
     @testSetup

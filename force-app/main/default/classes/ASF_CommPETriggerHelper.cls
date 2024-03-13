@@ -8,6 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
@@ -422,6 +423,7 @@ public without sharing class ASF_CommPETriggerHelper {
             query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.join(temp, ',');
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :temp_cIds FOR UPDATE';
+            query = String.escapeSingleQuotes(query);
         }
         List<Case> cases = (List<case>)Database.query(query);
         mCases = new Map<Id,Case>(cases);

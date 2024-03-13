@@ -2,6 +2,7 @@
 *Class        :  ASF_OverallCaseSlaBroken
 *Description  :  Class to Mark SLA Broken, when called from Scheduled Path Flow
 *********************************************************/
+@SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_OverallCaseSlaBroken {
     /**
      * This method is called from the Flow Case SLA Broken
