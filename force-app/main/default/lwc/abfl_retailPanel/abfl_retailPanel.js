@@ -1,6 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord } from "lightning/uiRecordApi";
+import invokeAPI from '@salesforce/apex/ABFL_RetailController.invokeAPI';
 
 const FIELDS = ["Asset.Source_System__c", "Asset.LAN__c", "Asset.Account.PAN__c"];
 
@@ -35,6 +36,7 @@ export default class Abfl_retailPanel extends LightningElement {
     showBaseViewScreen = false;
     navItemLeftList = itemLeftList;
     navItemRightList = itemRightList;
+    payloadInfo;
 
     @wire(getRecord, { recordId: "$recordId", fields: FIELDS })
     assetRecord;
@@ -49,7 +51,7 @@ export default class Abfl_retailPanel extends LightningElement {
     handleSelect(event) {
         this.showBaseViewScreen = false;
 
-        console.log('in handleSelect');
+        console.log('in handleSelect'+JSON.stringify(event));
         const selectedName = event.detail.name;
         this.apiName = selectedName;
         console.log('selected API: ' + this.apiName);
@@ -63,9 +65,42 @@ export default class Abfl_retailPanel extends LightningElement {
             } else if(this.apiName != 'RTL_RealTime_BasicCustInfo' && !this.checkInput(lan)) {
                 this.showToast("Error", 'The asset does not have a valid Loan Account Number', 'error');
             } else {
-                requestAnimationFrame(() => {
-                    this.showBaseViewScreen = true;
-                });
+                // invoke API
+                invokeAPI({ apiName: this.apiName, assetId: this.recordId })
+                    .then((result) => {
+                        console.log('***result:'+JSON.stringify(result));
+
+                        // Check validity of response
+                        if (result.statusCode == 200 && result.payload) {
+                            if(this.apiName == 'RTL_RealTime_LoanDetails' && JSON.parse(result.payload)?.Root?.ResponseGetLoanDetails?.DataArea?.LoanDetails?.Response?.Summary_Data) {
+                                this.payloadInfo = result;
+                            } else if(this.apiName == 'RTL_RealTime_BasicCustInfo' && JSON.parse(result.payload)?.ResponseGetBasicCustomerInfo?.DataArea?.BasicCustomerInfo?.Response?.Basic_Customer_Info){
+                                this.payloadInfo = result;
+                            } else if(this.apiName == 'RTL_RealTIme_GCCPropertyDetails' && JSON.parse(result.payload)?.ResponseGetGCCPropertyDetails?.DataArea?.GCCPropertyDetails?.Response){
+                                this.payloadInfo = result;
+                            } else if(this.apiName == 'RTL_RealTime_LoanMIS' && JSON.parse(result.payload)?.ResponseGetLoanMISSnapshot?.DataArea?.LoanMISSnapshot?.Response){
+                                this.payloadInfo = result;
+                            } else if(this.apiName == 'RTL_RealTime_InstallPmntDtls' && JSON.parse(result.payload)?.ResponseGetInstallmentPaymentDetails?.DataArea?.InstallmentPaymentDetails?.Response?.repayment_detail?.rows){
+                                this.payloadInfo = result;
+                            } else if(this.apiName == 'RTL_RealTime_GetCRMDetails' && JSON.parse(result.payload)?.crmapis?.length > 0){
+                                this.payloadInfo = result;
+                            } else {
+                                console.log('error');
+                            }
+                        }
+
+                        this.showBaseViewScreen = true;
+                        // this.contacts = result;
+                        // this.error = undefined;
+                    })
+                    .catch((error) => {
+                        // this.error = error;
+                        // this.contacts = undefined;
+                    });
+
+                // requestAnimationFrame(() => {
+                //     
+                // });
             }
         }
     }

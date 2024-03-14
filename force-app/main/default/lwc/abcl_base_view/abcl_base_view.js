@@ -1,34 +1,19 @@
-import getDynamicScreen from '@salesforce/apex/ABFL_RetailController.getDynamicScreen';
-export function invokeCore(apiId, assetRecId) {
-	return getDynamicScreen({ apiName: apiId, assetId: assetRecId })
+import getDynamicScreen from '@salesforce/apex/ABCL_BaseViewController.getDynamicScreen';
+export function invokeCore(apiId, payloadInfo) {
+	return getDynamicScreen({ apiName: apiId})
 		.then((result) => {
 			let statusCode;
 			let screenjson;
 			let title;
-			let payload;
 
 			title = result.title;
-			statusCode = result.statusCode;
+			statusCode = payloadInfo.statusCode;
 			screenjson = JSON.parse(JSON.stringify(result.secWrap));
-			if (result.statusCode == 200 && result.payload) {
-				if(apiId == 'RTL_RealTime_LoanDetails' && JSON.parse(result.payload)?.Root?.ResponseGetLoanDetails?.DataArea?.LoanDetails?.Response?.Summary_Data) {
-					payload = JSON.parse(result.payload);
-				} else if(apiId == 'RTL_RealTime_BasicCustInfo' && JSON.parse(result.payload)?.ResponseGetBasicCustomerInfo?.DataArea?.BasicCustomerInfo?.Response?.Basic_Customer_Info){
-					payload = JSON.parse(result.payload);
-				} else if(apiId == 'RTL_RealTIme_GCCPropertyDetails' && JSON.parse(result.payload)?.ResponseGetGCCPropertyDetails?.DataArea?.GCCPropertyDetails?.Response){
-					payload = JSON.parse(result.payload);
-				} else if(apiId == 'RTL_RealTime_LoanMIS' && JSON.parse(result.payload)?.ResponseGetLoanMISSnapshot?.DataArea?.LoanMISSnapshot?.Response){
-					payload = JSON.parse(result.payload);
-				} else if(apiId == 'RTL_RealTime_InstallPmntDtls' && JSON.parse(result.payload)?.ResponseGetInstallmentPaymentDetails?.DataArea?.InstallmentPaymentDetails?.Response?.repayment_detail?.rows){
-					payload = JSON.parse(result.payload);
-				} else if(apiId == 'RTL_RealTime_GetCRMDetails' && JSON.parse(result.payload)?.crmapis?.length > 0){
-					payload = JSON.parse(result.payload);
-				} else {
-					console.log('error');
-				}
-			}
-			console.log('***payload:' + payload);
+			
+			console.log('***result.secWrap:' + JSON.stringify(result.secWrap));
+			console.log('***payload:' + JSON.stringify(payloadInfo));
 
+			let payload =  JSON.parse(payloadInfo.payload);
 			if (screenjson && payload) {
 				screenjson.forEach(element => {
 					for (let i = 0; i < element.fieldsLeft.length; i++) {
@@ -38,7 +23,8 @@ export function invokeCore(apiId, assetRecId) {
 								let value;
 								if (element.fieldsLeft[i][key].includes('.')) {
 									value = payload;
-
+									
+									// retrieve path
 									let path = element.fieldsLeft[i][key].split('.');
 									if (path.length > 0) {
 										for (let i = 0; i < path.length; i++) {
