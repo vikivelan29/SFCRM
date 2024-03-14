@@ -105,7 +105,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
-    oldCCCIdFields;
+    oldCCCIdFields = '';
     selectedType;
     selectedSubType;
     recategorizeEnabled;
@@ -670,7 +670,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.assetId = caseparsedObject.AssetId;
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
-            this.oldCCCIdFields = caseparsedObject.oldCCCIdFields__c;
+            this.oldCCCIdFields = (caseparsedObject.oldCCCIdFields__c == undefined || caseparsedObject.oldCCCIdFields__c == null)?'':caseparsedObject.oldCCCIdFields__c;
             this.selectedType = caseparsedObject.Type_Text__c;
             this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
             /* CHECK IF THE CASE IS RETURNING ACCOUNT OR NOT. IN CASE OF PROSPECT RELATED CASES

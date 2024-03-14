@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>oldCCCIdFields__c</fullName>
     <externalId>false</externalId>
-    <label>oldCCCIdFields</label>
+    <label>Previous Issue Codes</label>
     <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
