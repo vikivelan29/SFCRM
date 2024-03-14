@@ -59,7 +59,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Approval_Type__c</fieldItem>
                 <identifier>RecordApproval_Type_cField</identifier>
@@ -69,7 +69,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.SR__c</fieldItem>
                 <identifier>RecordSR_cField</identifier>
@@ -79,7 +79,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Requestor_Comments__c</fieldItem>
                 <identifier>RecordRequestor_Comments_cField</identifier>
@@ -93,7 +93,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Approval_Status__c</fieldItem>
                 <identifier>RecordApproval_Status_cField</identifier>
@@ -131,7 +131,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Approver_01__c</fieldItem>
                 <identifier>RecordApprover_01_cField</identifier>
