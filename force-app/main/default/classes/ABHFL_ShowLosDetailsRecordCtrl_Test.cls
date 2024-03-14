@@ -40,4 +40,4 @@ private class ABHFL_ShowLosDetailsRecordCtrl_Test {
         System.assertNotEquals(null, result, 'LOS Details record not found for the given leadId');
         // Add any additional assertions based on your requirements
     }
-}
+} 
