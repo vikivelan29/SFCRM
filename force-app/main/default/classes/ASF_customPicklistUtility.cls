@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ClassNamingConventions')
 public with sharing class ASF_customPicklistUtility {
     @AuraEnabled(cacheable=true)
     public static List<picklistValues> getPicklistValues(String sObjectName,String fieldName){

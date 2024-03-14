@@ -3,6 +3,7 @@
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
 **/
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
 public with sharing class  ASF_CaseUIController {
     
     @AuraEnabled

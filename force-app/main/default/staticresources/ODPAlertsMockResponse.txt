@@ -24,7 +24,7 @@
     "createdAt": "2023-05-03T09:30:35.473Z",
     "isNbaPushed": "false",
     "assetId": "LNAHMHL_-04160026420",
-    "messageText": "We are pleased to inform you that you are eligible for a pre-approved top up loan of Rs. 1125000, rate of interest 9.8%  for a tenure of 61 months . If you wish to apply for a top up loan, request you to click on the link  <a href='https://abcap.co.in/fsBkRsM' target='_blank'> https://abcap.co.in/fsBkRsM</a> and our executive will connect with you.",
+    "messageText": "We are inform you that you are not eligible for a pre-approved top up loan of Rs. 25000, rate of interest 11.8%  for a tenure of 20 months . If you wish to apply for a top up loan, request you to click on the link  <a href='https://abcap.co.in/fsBkRsM' target='_blank'> https://abcap.co.in/fsBkRsM</a> and our executive will connect with you.",
     "clientId": "72291",
     "eventId": "EVE1390",
     "channelId": "CHA1001",
