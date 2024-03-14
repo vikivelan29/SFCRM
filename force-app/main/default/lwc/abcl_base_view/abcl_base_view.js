@@ -10,8 +10,22 @@ export function invokeCore(apiId, assetRecId) {
 			title = result.title;
 			statusCode = result.statusCode;
 			screenjson = JSON.parse(JSON.stringify(result.secWrap));
-			if (result.statusCode == 200) {
-				payload = JSON.parse(result.payload);
+			if (result.statusCode == 200 && result.payload) {
+				if(apiId == 'RTL_RealTime_LoanDetails' && JSON.parse(result.payload)?.Root?.ResponseGetLoanDetails?.DataArea?.LoanDetails?.Response?.Summary_Data) {
+					payload = JSON.parse(result.payload);
+				} else if(apiId == 'RTL_RealTime_BasicCustInfo' && JSON.parse(result.payload)?.ResponseGetBasicCustomerInfo?.DataArea?.BasicCustomerInfo?.Response?.Basic_Customer_Info){
+					payload = JSON.parse(result.payload);
+				} else if(apiId == 'RTL_RealTIme_GCCPropertyDetails' && JSON.parse(result.payload)?.ResponseGetGCCPropertyDetails?.DataArea?.GCCPropertyDetails?.Response){
+					payload = JSON.parse(result.payload);
+				} else if(apiId == 'RTL_RealTime_LoanMIS' && JSON.parse(result.payload)?.ResponseGetLoanMISSnapshot?.DataArea?.LoanMISSnapshot?.Response){
+					payload = JSON.parse(result.payload);
+				} else if(apiId == 'RTL_RealTime_InstallPmntDtls' && JSON.parse(result.payload)?.ResponseGetInstallmentPaymentDetails?.DataArea?.InstallmentPaymentDetails?.Response?.repayment_detail?.rows){
+					payload = JSON.parse(result.payload);
+				} else if(apiId == 'RTL_RealTime_GetCRMDetails' && JSON.parse(result.payload)?.crmapis?.length > 0){
+					payload = JSON.parse(result.payload);
+				} else {
+					console.log('error');
+				}
 			}
 			console.log('***payload:' + payload);
 

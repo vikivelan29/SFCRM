@@ -19,7 +19,7 @@ public without sharing class ABFL_RetailController{
      * @return ResponseWrapper - response wrapper for the LWC component
      * @Description - Method to get the response for the Real Time Details UI component
      *****************************************************************************************************************/
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled(Cacheable = false)
     public static ResponseWrapper getDynamicScreen(String apiName, Id assetId){
         String title;
         String requestPayload = generateRequestPayload(apiName, assetId);

@@ -31,7 +31,7 @@
         </template>
         <template lwc:elseif={isSourceSystemA3S}>
           <lightning-vertical-navigation-item label="Customer and Account Details"
-            name="Customer_and_Account_Details"></lightning-vertical-navigation-item>
+            name="RTL_RealTime_GetCRMDetails"></lightning-vertical-navigation-item>
         </template>
         <template lwc:else>
           <div class="slds-m-left_large">
@@ -41,4 +41,7 @@
       </lightning-vertical-navigation-section>
     </lightning-vertical-navigation>
   </lightning-card>
+  <template lwc:if={showBaseViewScreen}>
+    <c-abfl_base_view_screen api_id={apiName} asset-record-id={recordId}></c-abfl_base_view_screen>
+  </template>
 </template>
