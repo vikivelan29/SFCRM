@@ -557,6 +557,16 @@
                 <identifier>RecordBot_Feedback_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.oldCCCIdFields__c</fieldItem>
+                <identifier>RecordoldCCCIdFields_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-ce89352b-9bd7-4696-92f3-ff47ebb673fc</name>
         <type>Facet</type>
     </flexiPageRegions>
