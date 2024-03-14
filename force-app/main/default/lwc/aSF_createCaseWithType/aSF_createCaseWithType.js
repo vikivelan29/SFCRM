@@ -87,6 +87,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     noAutoCommOptions = [];
     noAutoCommValue = [];
     showAutoComm = false;
+    isCloseCase = false;
 
 
     @api propertyValue;
@@ -381,7 +382,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
-        if(selected){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging)){
             this.showAutoComm = true;
         }
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
@@ -769,7 +770,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
-        this.noAutoCommValue = [];
     }
 
     showModal(event) {
@@ -777,6 +777,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
+        
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -807,6 +809,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.complaintLevelVisible = false;
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -894,6 +897,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
+        this.isCloseCase = true;
 
         this.withoutAsset = 'closeCRN';
         this.showSRModal = true;
@@ -908,6 +912,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';
         this.showSRModal = true;
