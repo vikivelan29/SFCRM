@@ -279,6 +279,9 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Payment_Identifier__c</value>
                         </valueListItems>
                         <valueListItems>
