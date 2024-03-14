@@ -25,7 +25,7 @@ private class ABFL_CreateCaseProspectHelperTest {
     @IsTest(seeAllData = false)
     static void beforeInsertMethod_Test() {
         Case newCase = new Case(Business_Unit__c='ABFL');
-        newCase.Prospect_payload__c='{"FULLNAME":"FULLNAME","MOBILE":"123654789","PANNO":"PANNO1","Email":"Email@gmail.com"}';
+        newCase.Prospect_payload__c='{"FULLNAME":"FULLNAME","MOBILE":"1236547895","PANNO":"PANNO1","Email":"Email@gmail.com"}';
         Case newCase2 = new Case(Business_Unit__c='ABFL');
         newCase2.Prospect_payload__c='{"FULLNAME":"FULLNAM2E name","MOBILE":"1236547899","PANNO":"PANNO2","Email":"Email2@gmail.com"}';
         sObject sObjcase = newCase;

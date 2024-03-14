@@ -1805,7 +1805,8 @@ public with sharing class ASF_TestDataFactory {
         ld.RecordTypeId = Schema.SObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
     public static Lead createSalesProspectRecord(){
@@ -1815,7 +1816,8 @@ public with sharing class ASF_TestDataFactory {
         ld.Sales_Prospect__c = true;
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
 
