@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validation_for_Requested_Loan_Amount</fullName>
+    <active>true</active>
+    <errorConditionFormula>Requested_Loan_Amount__c &lt;= 50000</errorConditionFormula>
+    <errorDisplayField>Requested_Loan_Amount__c</errorDisplayField>
+    <errorMessage>Requested Loan Cannot be lesser than or equal to 50000</errorMessage>
+</ValidationRule>
