@@ -46,7 +46,41 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
             String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
             String subsource = String.isNotBlank(keyValueMap.get('Sub Source'))?keyValueMap.get('Sub Source').trim():keyValueMap.get('Sub Source');
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
-
+            if(issueTypeCode == null || issueTypeCode.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Issue Type Code is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(lan == null || lan.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Loan Account No is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(source == null || source.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Source is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(subsource == null || subsource.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Sub Source is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(description == null || description.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Description is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!extIdFoundSet.contains(issueTypeCode)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
