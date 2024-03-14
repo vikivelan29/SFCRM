@@ -147,7 +147,7 @@
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
-    <enableHistory>false</enableHistory>
+    <enableHistory>true</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
     <enableSearch>false</enableSearch>
@@ -156,8 +156,10 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>ABHFL Payment</label>
     <nameField>
+        <displayFormat>P-{0000}</displayFormat>
         <label>ABHFL Payment Name</label>
-        <type>Text</type>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>ABHFL Payments</pluralLabel>
     <searchLayouts></searchLayouts>
