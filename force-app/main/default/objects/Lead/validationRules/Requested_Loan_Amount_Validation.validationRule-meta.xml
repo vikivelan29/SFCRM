@@ -3,6 +3,6 @@
     <fullName>Requested_Loan_Amount_Validation</fullName>
     <active>true</active>
     <description>It should not accept negative value</description>
-    <errorConditionFormula>CONTAINS(TEXT(Requested_Loan_Amount__c), &apos;-&apos;)</errorConditionFormula>
+    <errorConditionFormula>AND(ISPICKVAL($User.Business_Unit__c ,&apos;ABHFL&apos;),CONTAINS(TEXT(Requested_Loan_Amount__c), &apos;-&apos;))</errorConditionFormula>
     <errorMessage>Loan amount should not be negative</errorMessage>
 </ValidationRule>
