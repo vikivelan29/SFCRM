@@ -3,7 +3,7 @@
   * Date             - 28-November-2023
   *****************************************************************************************************************/
 
-public with sharing class Asf_FetchAssetRelatedToAccountController {
+  public with sharing class Asf_FetchAssetRelatedToAccountController {
     
     /****************************************************** 
     * Description      - Getting asset records on the basis of Account LOB and to the related account.
@@ -27,17 +27,12 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
         String fieldMapping = fieldApiNameOnBasisOfLOBObj.fieldMappingForCase;
         String allFieldApiNameString = String.join(fieldApiNamList,',');
 
-        List<LAN_Mapping__c> lanMpRecLst = [SELECT id, Lan__c FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null];
-
-        for(LAN_Mapping__c lnMap : lanMpRecLst) {
-            assetIdSet.add(lnMap.Lan__c);
-        }
-
-        String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM Asset WHERE id in:assetIdSet';
-        List<Asset> assetRecLst = Database.query(dynamicQuery);
+        String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
+        System.debug('***dynamicQuery:'+dynamicQuery);
+        List<Sobject> assetRecLst = Database.query(dynamicQuery);
 
         findAssetObj.columnNameList = colmnNameList;
-        findAssetObj.assetRecords   = assetRecLst;
+        findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
         findAssetObj.fieldMappingForCase = fieldMapping;
         findAssetObj.accBusinessUnit = accLOB;
         return findAssetObj;
@@ -86,10 +81,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     typeAttrbtObj.year  = 'numeric';
                 }
                 else if(fieldType == 'url') {
-                    if(fieldApiName == 'Name') {
+                    if(fieldApiName == 'LAN__r.Name') {
                         colNameObj.fieldName = 'assetNameRecLink';
                     }
-                    else if(fieldApiName == 'LAN__c') {
+                    else if(fieldApiName == 'LAN__r.LAN__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
                         toolTp.fieldName = fieldApiName;
                         typeAttrbtObj.tooltip = toolTp;
@@ -116,7 +111,7 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
 
     public class Asf_FetchAssetRelatedToAccountControllerWrapper {
         @AuraEnabled public List<ColumnName> columnNameList;
-        @AuraEnabled public List<Asset> assetRecords;
+        @AuraEnabled public List<LAN_Mapping__c> assetRecords;
         @AuraEnabled public List<String> fieldApiNameLst;
         @AuraEnabled public String fieldMappingForCase;
         @AuraEnabled public String accBusinessUnit;

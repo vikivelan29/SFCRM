@@ -5,7 +5,8 @@
 * @last modified on  : 23-Feb-24
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public class ASF_BulkCsvDownloadHelper {
+@SuppressWarnings('PMD.ApexSuggestUsingNamedCred')
+public without sharing class ASF_BulkCsvDownloadHelper {
 
     public static List<String> selectedRecIdList = new List<String>();
     public static ASF_Bulk_Row_to_Record_Converter_Config__mdt configMetaRec = new ASF_Bulk_Row_to_Record_Converter_Config__mdt();

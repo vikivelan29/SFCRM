@@ -54,7 +54,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
-        long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
+        long sla1Sec;
+        long sla2Sec;
+        long sla3Sec;
+        long closeSlaSec;  
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
         if(c.Reopened__c){
@@ -149,7 +152,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     }
                     Case updatedCase = casesToUpdate.get(c.Id);
                     map<string,long> slaMap = getSLAFieldValues(s,c,null);
-                    long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
+                    long sla1Sec;
+                    long sla2Sec;
+                    long sla3Sec;
+                    long closeSlaSec ;  
                     updatedCase.BusinessHoursId = c.BusinessHoursId;
                     if(businesssHrsMap.containsKey(index)){
                         // if(string.valueOf(c.OwnerId).startsWith('005')){
@@ -746,7 +752,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = casesToUpdate.get(caseRec.Id);
                 string mapKey = newCases.get(i).CCC_External_Id__c + newCases.get(i).Stage__c;
 
-                Long sla1Sec,sla2Sec,sla3Sec,closeSlaSec;
+                Long sla1Sec;
+                long sla2Sec;
+                long sla3Sec;
+                long closeSlaSec;
                 if(slaObject != null){
                     map<string,long> slaMap = getSLAFieldValues(slaObject,newCases.get(i),oldCases.get(i));
                     

@@ -158,6 +158,11 @@
                 <label>OneABC</label>
             </value>
             <value>
+                <fullName>RBI</fullName>
+                <default>false</default>
+                <label>RBI</label>
+            </value>
+            <value>
                 <fullName>Call Centre</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

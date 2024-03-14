@@ -209,6 +209,7 @@
         <lookupPhoneDialogsAdditionalFields>CORE.USERS.EXTENSION</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CORE.USERS.CELL</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>EMPLOYEE_NUMBER</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CORE.USERS.TITLE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CORE.USERS.PHONE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CORE.USERS.EMAIL</searchResultsAdditionalFields>
