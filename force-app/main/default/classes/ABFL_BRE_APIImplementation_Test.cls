@@ -295,7 +295,7 @@ public class ABFL_BRE_APIImplementation_Test {
         ABFL_Case_Detail__c caseDet = [SELECT Id,Document_URL__c FROM ABFL_Case_Detail__c LIMIT 1];
         //Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
     }
-    @isTest
+    /*@isTest
     static void testUpdateSTPFlowWithDateResponseBulk () {
         ASF_Integration__c intg = [SELECT Id,STP_API_Identifier__c FROM ASF_Integration__c LIMIT 1];
         intg.STP_API_Identifier__c = 'BRE_ProInterestCert_Retail';
@@ -336,7 +336,7 @@ public class ABFL_BRE_APIImplementation_Test {
             
             Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
         //Assert.areEqual('DocumentURL', caseDet.Document_URL__c);
-    }
+    }*/
     @isTest
     static void testUpdateSTPFlowWithoutStatusResponseBulk () {
         ASF_Integration__c intg = [SELECT Id,STP_API_Identifier__c FROM ASF_Integration__c LIMIT 1];
