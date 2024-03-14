@@ -21,8 +21,10 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
     public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
 
         String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
-        system.debug('inside genericFetchQuery  '+query);
-        List<SObject> sobjList = Database.query(query);
+        String dynamicQuery  = String.escapeSingleQuotes(query);
+        system.debug('inside genericFetchQuery query '+query);
+        system.debug('inside genericFetchQuery dynamicQuery '+dynamicQuery);
+        List<SObject> sobjList = Database.query(dynamicQuery);
         return sobjList;
     }
 }
