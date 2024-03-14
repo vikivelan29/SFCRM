@@ -3,6 +3,6 @@
     <fullName>First_Name_Validation</fullName>
     <active>true</active>
     <description>Required first name If the Prospect type is Individual</description>
-    <errorConditionFormula>IF(ISPICKVAL(ABHFL_Prospect_Type__c, &apos;Individual&apos;), IF(FirstName == null, true, false)  , false)</errorConditionFormula>
+    <errorConditionFormula>IF(AND(ISPICKVAL($User.Business_Unit__c ,&apos;ABHFL&apos;),ISPICKVAL(ABHFL_Prospect_Type__c, &apos;Individual&apos;)), IF(FirstName == null, true, false)  , false)</errorConditionFormula>
     <errorMessage>First Name is required</errorMessage>
 </ValidationRule>
