@@ -137,7 +137,7 @@ public without sharing class ASF_Email2CaseHandler {
                     
                     Case c = mCases.get(msg.ParentId);
                     String caseBusinessUnit = c.Business_Unit__c;
-                    if(caseBusinessUnit == 'ABFL' || caseBusinessUnit == 'ABWM'){
+                    if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseBusinessUnit)){
                         caseBusinessUnit = 'ABFL';
                     }
                     
