@@ -4,18 +4,18 @@ import { invokeCore } from 'c/abcl_base_view';
 
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 
-export default class ABFL_DynamicScreen extends LightningElement {
+export default class Abfl_base_view_screen extends LightningElement {
 
 	label = {
 		errorMessage
 	};
 
 	title;
+	isShowModal = false;
+	isLoading = false;
 	screenjson;
 	show = false;
 	tblcolumns;
-	tableData;
-	isRenderDatatable = false;
 	firstSection = "";
 
 	@track _api_id;
@@ -33,45 +33,49 @@ export default class ABFL_DynamicScreen extends LightningElement {
 	}
 
 	async callFunction() {
-		console.log('***callFunction-in');
+		try {
+			console.log('***callFunction-in');
 
-		let res = await invokeCore(this._api_id, this.assetRecordId);
-		console.log('***callFunction-success: ' + JSON.stringify(res));
+			this.isLoading = true;
 
-		if (res.statusCode == 200) {
-			this.title = res.title;
-			this.screenjson = res.screen;
-			this.show = true;
-			this.firstSection = res?.screen[0]?.label;
+			let res = await invokeCore(this._api_id, this.assetRecordId);
+			console.log('***callFunction-success: ' + JSON.stringify(res));
 
-			this.mergeLeftAndRightFieldSection(res);
-		} else {
-			this.dispatchEvent(new CustomEvent('closemodal'));
-			const evt = new ShowToastEvent({
-				title: 'Error',
-				message: this.label.errorMessage,
-				variant: 'error',
-			});
-			this.dispatchEvent(evt);
-		}
-
-		if (this.show) {
-			res.screen.forEach(screen => {
-				// Extracting lTables from the current screen
-				let lTables = screen.lTables;
-
-				// Iterate over lTables to parse and transform the labels
-				lTables.forEach(table => {
-					// Transform the labels
-					table.label = this.transformLabels(table.label);
-					console.log('line 55: ' + JSON.stringify(table.label));
+			if (res.statusCode == 200 && res.screen) {
+				this.title = res.title;
+				this.screenjson = res.screen;
+				this.show = true;
+				this.firstSection = res?.screen[0]?.label;
+				this.mergeLeftAndRightFieldSection(res);
+				this.isShowModal = true;
+			} else {
+				this.dispatchEvent(new CustomEvent('closemodal'));
+				const evt = new ShowToastEvent({
+					title: 'Error',
+					message: this.label.errorMessage,
+					variant: 'error',
 				});
-			});
+				this.dispatchEvent(evt);
+			}
 
-			this.tblcolumns = res.screen[0].lTables[0].label;
-			console.log('line 59: ' + JSON.stringify(res));
-			this.tableData = res.screen[0].lTables[0].value;
-			this.isRenderDatatable = this.tableData?.length > 0 ? true : false;
+			if (this.show) {
+				res.screen.forEach(screen => {
+					// Extracting lTables from the current screen
+					let lTables = screen.lTables;
+
+					// Iterate over lTables to parse and transform the labels
+					lTables.forEach(table => {
+						// Transform the labels
+						table.label = this.transformLabels(table.label);
+						console.log('line 55: ' + JSON.stringify(table.label));
+					});
+				});
+			}
+
+			this.isLoading = false;
+		} catch (error) {
+			this.isLoading = false;
+			console.log("An error occurred: " + error);
 		}
 	}
 
@@ -122,4 +126,8 @@ export default class ABFL_DynamicScreen extends LightningElement {
 	
 		return transformedJson;
 	}
+
+	closeModal(){
+    	this.isShowModal = false;
+    }
 }

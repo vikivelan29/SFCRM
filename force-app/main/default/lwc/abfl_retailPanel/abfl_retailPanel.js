@@ -1,6 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import Modal from 'c/abfl_modal';
 import { getRecord } from "lightning/uiRecordApi";
 
 const FIELDS = ["Asset.Source_System__c", "Asset.LAN__c", "Asset.Account.PAN__c"];
@@ -33,26 +32,12 @@ const itemRightList = [
 export default class Abfl_retailPanel extends LightningElement {
     @api recordId;
     apiName = '';
+    showBaseViewScreen = false;
     navItemLeftList = itemLeftList;
     navItemRightList = itemRightList;
 
     @wire(getRecord, { recordId: "$recordId", fields: FIELDS })
     assetRecord;
-
-    async showModal() {
-        console.log('***handle click:');
-        const result = await Modal.open({
-            // `label` is not included here in this example.
-            // it is set on lightning-modal-header instead
-            size: 'large',
-            description: 'Accessible description of modal\'s purpose',
-            templateId: this.apiName,
-            assetId: this.recordId
-        });
-        // if modal closed with X button, promise returns result = 'undefined'
-        // if modal closed with OK button, promise returns result = 'okay'
-        console.log(result);
-    }
 
     get isSourceSystemFINNRTL() {
         return this.assetRecord?.data?.fields?.Source_System__c?.value == 'FINNRTL' ? true : false;
@@ -62,6 +47,8 @@ export default class Abfl_retailPanel extends LightningElement {
     }
 
     handleSelect(event) {
+        this.showBaseViewScreen = false;
+
         console.log('in handleSelect');
         const selectedName = event.detail.name;
         this.apiName = selectedName;
@@ -70,16 +57,15 @@ export default class Abfl_retailPanel extends LightningElement {
         let lan = this.assetRecord?.data?.fields?.LAN__c?.value;
         let pan = this.assetRecord?.data?.fields?.Account?.value?.fields?.PAN__c?.value;
 
-        //let navItemList = itemLeftList.concat(itemRightList);
-        //let isOptionSelected = navItemList.some(item => item.name === this.apiName);
-
         if(this.checkInput(this.apiName)) {
             if(this.apiName == 'RTL_RealTime_BasicCustInfo' && !this.checkInput(pan)) {
                 this.showToast("Error", 'The related account does not have a valid PAN', 'error');
             } else if(this.apiName != 'RTL_RealTime_BasicCustInfo' && !this.checkInput(lan)) {
                 this.showToast("Error", 'The asset does not have a valid Loan Account Number', 'error');
             } else {
-                this.showModal();
+                requestAnimationFrame(() => {
+                    this.showBaseViewScreen = true;
+                });
             }
         }
     }
