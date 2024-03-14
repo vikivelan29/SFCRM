@@ -119,7 +119,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
-        string searchKeyword = '%' + keyword + '%';
+        string searchKeyword = '%' + String.escapeSingleQuotes(keyword) + '%';
         if(asssetProductType == '' || asssetProductType ==null )
             asssetProductType ='';
         //String loanTypes ;
@@ -143,7 +143,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
-            dynamicQuery += ' Custom_Segment__c  = \''+accRecordType+'\' AND';
+            dynamicQuery += ' Custom_Segment__c  = \''+String.escapeSingleQuotes(accRecordType)+'\' AND';
         }
 
        if(isasset == 'true'){
@@ -163,14 +163,13 @@ public with sharing class ASF_CreateCaseWithTypeController {
             system.debug('abflbusinessunit');
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
-                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')'+' AND LOB__c =\''+ assetLob+'\'';
+                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')'+' AND LOB__c =\''+ String.escapeSingleQuotes(assetLob)+'\'';
         }
         else{
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
                 '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
         }
-        dynamicQuery = String.escapeSingleQuotes(dynamicQuery);
         system.debug('dynamicQuery'+dynamicQuery);
         
         searchResults =
