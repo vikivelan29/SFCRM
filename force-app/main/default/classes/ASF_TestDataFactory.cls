@@ -186,7 +186,7 @@ public with sharing class ASF_TestDataFactory {
         return asset;
     }
 
-	 /****************************************************
+     /****************************************************
      * @Description - Insert Field Configuration Record
      * @param  strGroupName - Contain Group Name
      * @param strLabelName - Contain Label Name
@@ -200,7 +200,7 @@ public with sharing class ASF_TestDataFactory {
     *****************************************************/
 
     public static ASF_FieldConfigurationRecord__c insertFieldConfigRecordForDataTable(String strGroupName,String strLabelName,String strAPIName,
-					String strExtId,String strFieldPositioning,String strDataType,String strProfilesVisibility,String strPicklistValues) {
+                    String strExtId,String strFieldPositioning,String strDataType,String strProfilesVisibility,String strPicklistValues) {
         ASF_FieldConfigurationRecord__c configRec = new ASF_FieldConfigurationRecord__c();
         configRec.ASF_GroupName__c = strGroupName;
         configRec.ASF_FieldName__c = strLabelName;
@@ -304,9 +304,10 @@ public with sharing class ASF_TestDataFactory {
     List<ASF_Case_Rule__c> caseRuleList = new List<ASF_Case_Rule__c>();
     List<ASF_Case_Rule_Entry__c> caseRuleEntryList = new List<ASF_Case_Rule_Entry__c>();
     ASF_Case_Category_Config__c caseCatConfig = new ASF_Case_Category_Config__c();
-
+    Group queue = new Group(Name = 'Test Queue', Type = 'Queue');
+        insert queue;
     list<ASF_Work_Item__c> workItemsList = new list<ASF_Work_Item__c>();
-    caseCatConfig.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+    caseCatConfig.CCC_External_Id__c = 'CCC-CC-CCLTD-11';
     caseCatConfig.Overall_Case_Closure_SLA__c = 10;
     caseCatConfig.First_Stage__c = 'Pending with Initiator';
     caseCatConfig.Type__c = 'Bureau Related';
@@ -329,7 +330,7 @@ public with sharing class ASF_TestDataFactory {
 
         
     List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
-	
+    
     ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
     stage1.Case_Category_Config__c = caseCatConfig.Id;
     stage1.Order__c = 1;
@@ -357,6 +358,8 @@ public with sharing class ASF_TestDataFactory {
     stage2.StageName__c  = 'In Progress with Recovery';
     stage2.Status_Mapping__c = 'In Progress';
     stage2.Query_Fields__c = 'Id,Stage__c,CSAT__c';
+    stage2.Default_Queue__c = queue.Id;
+      
     stageConfigList.add(stage2);
 
     ASF_Case_Stage_Config__c stage3 = new ASF_Case_Stage_Config__c();
@@ -395,7 +398,7 @@ public with sharing class ASF_TestDataFactory {
     
      ASF_Case_Stage_Config__c stage5 = new ASF_Case_Stage_Config__c();
     stage5.Case_Category_Config__c = caseCatConfig.Id;
-    stage5.Case_Category_Config__c = caseCatConfig.Id;
+    stage5.Optional_Stage__c = true;
     stage5.Order__c = 2;
     stage5.Stage_SLA_1__c = 1;
     stage5.Stage_SLA_2__c = 2;
@@ -406,6 +409,7 @@ public with sharing class ASF_TestDataFactory {
     stage5.StageName__c  = 'In Progress with Recovery';
     stage5.Status_Mapping__c = 'In Progress';
     stage5.Query_Fields__c = 'Id,Stage__c';
+    stage5.Default_Queue__c = queue.Id;
     stageConfigList.add(stage5);
 
     ASF_Case_Rule__c stage1_StageMovement_Rule = new ASF_Case_Rule__c();
@@ -437,7 +441,7 @@ public with sharing class ASF_TestDataFactory {
     stage2_StageMovement_Rule.Type__c = 'Approval';
 
     insert stage2_StageMovement_Rule;
-	
+    
     ASF_Case_Rule__c stage2_StageMovement2_Rule = new ASF_Case_Rule__c();
     stage2_StageMovement2_Rule.Case_Stage_Config__c = stage2.Id;
     stage2_StageMovement2_Rule.Logical_Condition__c = '1';
@@ -519,7 +523,7 @@ public with sharing class ASF_TestDataFactory {
     stage2_Work_RuleEntry.Number__c = 1;
     stage2_Work_RuleEntry.Case_Rule__c = stage2_StageMovement_Rule.Id;
     stage2_Work_RuleEntry.Field_Api_Name__c = 'Stage__c';
-    stage2_Work_RuleEntry.Operator__c = '=';
+    stage2_Work_RuleEntry.Operator__c = 'IN';
     stage2_Work_RuleEntry.Data_Type__c = 'STRING';
     stage2_Work_RuleEntry.Value__c = 'Pending with Initiator';
     stage2_Work_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-001';
@@ -562,7 +566,7 @@ public with sharing class ASF_TestDataFactory {
     stage2_Approval4_RuleEntry.Field_Api_Name__c = 'CSAT__c';
     stage2_Approval4_RuleEntry.Operator__c = '!=';
     stage2_Approval4_RuleEntry.Data_Type__c = 'DECIMAL';
-    stage2_Approval4_RuleEntry.Value__c = '1';
+    stage2_Approval4_RuleEntry.Value__c = '10';
     stage2_Approval4_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-111';
     caseRuleEntryList.add(stage2_Approval4_RuleEntry);
         
@@ -579,10 +583,10 @@ public with sharing class ASF_TestDataFactory {
     ASF_Case_Rule_Entry__c stage2_Approval6_RuleEntry = new ASF_Case_Rule_Entry__c();
     stage2_Approval6_RuleEntry.Number__c = 6;
     stage2_Approval6_RuleEntry.Case_Rule__c = stage2_StageMovement_Rule.Id;
-    stage2_Approval6_RuleEntry.Field_Api_Name__c = 'has_CheckLists__c';
-    stage2_Approval6_RuleEntry.Operator__c = '=';
-    stage2_Approval6_RuleEntry.Data_Type__c = 'BOOLEAN';
-    stage2_Approval6_RuleEntry.Value__c = 'TRUE';
+    stage2_Approval6_RuleEntry.Field_Api_Name__c = 'DB_Hours__c';
+    stage2_Approval6_RuleEntry.Operator__c = '<=';
+    stage2_Approval6_RuleEntry.Data_Type__c = 'DECIMAL';
+    stage2_Approval6_RuleEntry.Value__c = '1';
     stage2_Approval6_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-217';
     caseRuleEntryList.add(stage2_Approval6_RuleEntry);
     
@@ -599,10 +603,10 @@ public with sharing class ASF_TestDataFactory {
     ASF_Case_Rule_Entry__c stage2_checklist_RuleEntry = new ASF_Case_Rule_Entry__c();
     stage2_checklist_RuleEntry.Number__c = 1;
     stage2_checklist_RuleEntry.Case_Rule__c = stage2_checklist_Rule.Id;
-    stage2_checklist_RuleEntry.Field_Api_Name__c = 'Stage__c';
-    stage2_checklist_RuleEntry.Operator__c = '=';
-    stage2_checklist_RuleEntry.Data_Type__c = 'STRING';
-    stage2_checklist_RuleEntry.Value__c = 'Pending with Initiator';
+    stage2_checklist_RuleEntry.Field_Api_Name__c = 'CSAT__c';
+    stage2_checklist_RuleEntry.Operator__c = '>=';
+    stage2_checklist_RuleEntry.Data_Type__c = 'DECIMAL';
+    stage2_checklist_RuleEntry.Value__c = '1';
     stage2_checklist_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-002';
     caseRuleEntryList.add(stage2_checklist_RuleEntry);
     
@@ -667,7 +671,7 @@ public with sharing class ASF_TestDataFactory {
     checklistRecord.name = 'Test checklist';
     checklistRecord.Mandatory__c = true;
     checklistRecord.Description__c = 'test from test class';
-    checklistRecord.Type__c = '	Manual';
+    checklistRecord.Type__c = ' Manual';
     
     insert checklistRecord;
    
@@ -1013,7 +1017,7 @@ public with sharing class ASF_TestDataFactory {
     *****************************************************/
 
     public static ASF_FieldConfigurationRecord__c insertFieldConfigRecordForPresentPastHolding(String strGroupName,String strLabelName,String strAPIName,
-		String strExtId,String strFieldPositioning,String strDataType,String strProfilesVisibility,String strPicklistValues,String strAddTxt) {
+        String strExtId,String strFieldPositioning,String strDataType,String strProfilesVisibility,String strPicklistValues,String strAddTxt) {
         ASF_FieldConfigurationRecord__c configRec = new ASF_FieldConfigurationRecord__c();
         configRec.ASF_GroupName__c = strGroupName;
         configRec.ASF_FieldName__c = strLabelName;
@@ -1100,7 +1104,7 @@ public with sharing class ASF_TestDataFactory {
 
 
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
-	
+    
         ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
         stage1.Case_Category_Config__c = caseCatConfig.Id;
         stage1.Order__c = 1;
@@ -1218,7 +1222,7 @@ public with sharing class ASF_TestDataFactory {
 
 
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
-	
+    
         ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
         stage1.Case_Category_Config__c = caseCatConfig.Id;
         stage1.Order__c = 1;
@@ -1366,6 +1370,7 @@ public with sharing class ASF_TestDataFactory {
         newCase.Stage_SLA_2__c = System.now()+1;
         newCase.Stage_SLA_3__c = System.now()+2;
         newCase.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+        newCase.Source__c = 'Branch';
         newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             
         caseList.add(newCase);
@@ -1380,6 +1385,7 @@ public with sharing class ASF_TestDataFactory {
         newCase.Stage_SLA_2__c = System.now()+1;
         newCase.Stage_SLA_3__c = System.now()+2;
         newCase.CCC_External_Id__c = 'CCC-CC-CCLTD-02-STP';
+        newCase.Source__c = 'Branch';
         newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             
         caseList.add(newCase);
@@ -1686,7 +1692,7 @@ public with sharing class ASF_TestDataFactory {
         stage2_Approval4_RuleEntry.Field_Api_Name__c = 'CSAT__c';
         stage2_Approval4_RuleEntry.Operator__c = '!=';
         stage2_Approval4_RuleEntry.Data_Type__c = 'DECIMAL';
-        stage2_Approval4_RuleEntry.Value__c = '1';
+        stage2_Approval4_RuleEntry.Value__c = '10';
         stage2_Approval4_RuleEntry.External_ID__c = 'CRE-Work-CIBIL-OD-1129';
         caseRuleEntryList.add(stage2_Approval4_RuleEntry);
             
@@ -1791,7 +1797,7 @@ public with sharing class ASF_TestDataFactory {
         checklistRecord.name = 'Test checklist';
         checklistRecord.Mandatory__c = true;
         checklistRecord.Description__c = 'test from test class';
-        checklistRecord.Type__c = '	Manual';
+        checklistRecord.Type__c = ' Manual';
         
         insert checklistRecord;
     
@@ -1805,7 +1811,8 @@ public with sharing class ASF_TestDataFactory {
         ld.RecordTypeId = Schema.SObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
     public static Lead createSalesProspectRecord(){
@@ -1815,7 +1822,8 @@ public with sharing class ASF_TestDataFactory {
         ld.Sales_Prospect__c = true;
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
 

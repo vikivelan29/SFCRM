@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 03-03-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   03-03-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @IsTest 
 private class ABFL_CreateCaseProspectHelperTest {
     
@@ -25,7 +15,7 @@ private class ABFL_CreateCaseProspectHelperTest {
     @IsTest(seeAllData = false)
     static void beforeInsertMethod_Test() {
         Case newCase = new Case(Business_Unit__c='ABFL');
-        newCase.Prospect_payload__c='{"FULLNAME":"FULLNAME","MOBILE":"123654789","PANNO":"PANNO1","Email":"Email@gmail.com"}';
+        newCase.Prospect_payload__c='{"FULLNAME":"FULLNAME","MOBILE":"1236547895","PANNO":"PANNO1","Email":"Email@gmail.com"}';
         Case newCase2 = new Case(Business_Unit__c='ABFL');
         newCase2.Prospect_payload__c='{"FULLNAME":"FULLNAM2E name","MOBILE":"1236547899","PANNO":"PANNO2","Email":"Email2@gmail.com"}';
         sObject sObjcase = newCase;
