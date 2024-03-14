@@ -31,6 +31,7 @@ public with sharing class ABFL_Constants {
     public static final String RTL_GCCPROPERTYDETAILS_INTEGRATION_METADATA = 'RTL_RealTIme_GCCPropertyDetails';
     public static final String RTL_LOANMIS_INTEGRATION_METADATA = 'RTL_RealTime_LoanMIS';
     public static final String RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA = 'RTL_RealTime_InstallPmntDtls';
+    public static final String RTL_GETCRMDETAILS_INTEGRATION_METADATA = 'RTL_RealTime_GetCRMDetails';
     // public static final String NOT_EQUAL_TO = 'Not Equals To';
     // public static final String EQUAL_TO = 'Equals';
     public static final String BLANK_DATE_FIELD = 'Please add required date field values';
@@ -50,6 +51,8 @@ public with sharing class ABFL_Constants {
     public static final string WMCHATCASEORIGIN = 'ABFL WM CHAT';
     public static final string WMEMAILTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_EMAIL';
     public static final string WMSMSTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_SMS_TEMPLA';
+    
+    public static final List<String> ABFL_ALLEMAILORIGIN = new List<String>{'ABFL Email','ABFL WM CHAT','ABWM Email'};
 
     // BRE flag values such as “SUCCESS”,” FAILURE”,”VALIDATION ERROR”,”IN_PROCESS”,” Closure In Process” will be passed in this parameter.
     public static final String BRESUCCESS {
