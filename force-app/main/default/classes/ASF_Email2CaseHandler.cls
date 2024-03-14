@@ -136,8 +136,12 @@ public without sharing class ASF_Email2CaseHandler {
                     boolean bSendToEbot = false;
                     
                     Case c = mCases.get(msg.ParentId);
+                    String caseBusinessUnit = c.Business_Unit__c;
+                    if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseBusinessUnit)){
+                        caseBusinessUnit = 'ABFL';
+                    }
                     
-                    List<ASF_PriorityEmailAddressesByBU__mdt> tempPriorityEmailByBU = mBUVsPriorityEmails.get(c.Business_Unit__c);
+                    List<ASF_PriorityEmailAddressesByBU__mdt> tempPriorityEmailByBU = mBUVsPriorityEmails.get(caseBusinessUnit);
                     if(tempPriorityEmailByBU == null){
                         tempPriorityEmailByBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
                     }
