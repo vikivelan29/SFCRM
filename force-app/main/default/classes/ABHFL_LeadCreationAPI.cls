@@ -31,7 +31,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
             String payload = JSON.serialize(payloadWrp);
-            system.debug('Payload=='+payload);
+            
             ResponseWrapper responseWrapperObj = new ResponseWrapper();
             ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
             if(!Test.isRunningTest()){
@@ -105,7 +105,7 @@ public with sharing class ABHFL_LeadCreationAPI {
     
     public class PayloadWrapper {
         public String Company_Name;
-        public String Email;
+        public String Email_ID;
         public String Employment_Type;
         public String External_Lead_ID;
         public String First_Name;
@@ -130,7 +130,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Lead leadObj) {
             this.Company_Name = leadObj.Company;
-            this.Email = leadObj.Email;
+            this.Email_ID = leadObj.Email;
             this.Employment_Type = leadObj.Employment_Type__c;
             this.External_Lead_ID = leadObj.External_Lead_ID__c;
             this.Mobile_Number = leadObj.MobilePhone;
