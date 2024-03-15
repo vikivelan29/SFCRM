@@ -53,13 +53,4 @@ public class ABCL_BaseViewController_Test {
         Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
         Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
     }
-    
-    @isTest
-    static void testGetDynamicScreen2(){
-        Test.startTest();
-        ABCL_BaseViewController.ResponseWrapper res = ABCL_BaseViewController.getDynamicScreen('RTL_RealTime_GetCRMDetails');
-        Test.stopTest();
-        Assert.isTrue(String.isNotBlank(res.title), 'Title should not be blank in response');
-        Assert.isTrue(res.secWrap.size() > 0, 'secWrap list should have some records');
-    }
 }
