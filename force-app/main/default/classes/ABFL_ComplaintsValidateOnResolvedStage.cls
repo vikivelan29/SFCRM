@@ -28,21 +28,7 @@ Public class ABFL_ComplaintsValidateOnResolvedStage {
             return new Map<Id,Set<String>>();
         }
         
-        Map<Id,Case> cases = new Map<Id,Case>([SELECT Business_Unit__c,
-                                               ABFL_Case_Detail__r.Case_Categorisation__c,
-                                               ABFL_Case_Detail__r.Correct_Category__c,
-                                               ABFL_Case_Detail__r.Correct_Call_Type__c,
-                                               ABFL_Case_Detail__r.Correct_Sub_Type__c,
-                                               ABFL_Case_Detail__r.Voice_of_Customer__c,
-                                               ABFL_Case_Detail__r.Primary_Erring_Unit__c,
-                                               ABFL_Case_Detail__r.Financial_Impact__c,
-                                               ABFL_Case_Detail__r.Diputed_Amount__c,
-                                               ABFL_Case_Detail__r.Refund_Amount__c,
-                                               ABFL_Case_Detail__r.Action_Taken__c,
-                                               ABFL_Case_Detail__r.Grievance_Type__c,
-                                               CCC_External_Id__c
-                                               FROM Case 
-                                               WHERE Id = :caseIds WITH SECURITY_ENFORCED]);
+        Map<Id,Case> cases = new Map<Id,Case>(ABFL_SOQL_Case.getCasedetails(caseIds));
         
         for(Case c : cases.values()){
             cccExtIds.add(c.CCC_External_Id__c);
