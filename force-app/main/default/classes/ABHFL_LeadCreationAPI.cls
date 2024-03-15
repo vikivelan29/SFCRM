@@ -105,7 +105,7 @@ public with sharing class ABHFL_LeadCreationAPI {
     
     public class PayloadWrapper {
         public String Company_Name;
-        public String Email;
+        public String Email_ID;
         public String Employment_Type;
         public String External_Lead_ID;
         public String First_Name;
