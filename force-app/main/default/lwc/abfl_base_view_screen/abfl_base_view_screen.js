@@ -19,7 +19,7 @@ export default class Abfl_base_view_screen extends LightningElement {
 	firstSection = "";
 
 	@track _api_id;
-	@api assetRecordId;
+	@api payloadInfo;
 	@api
 	get api_id() {
 		return this._api_id;
@@ -34,14 +34,14 @@ export default class Abfl_base_view_screen extends LightningElement {
 
 	async callFunction() {
 		try {
-			console.log('***callFunction-in');
+			console.log('***callFunction-in'+JSON.stringify(this.payloadInfo));
 
 			this.isLoading = true;
 
-			let res = await invokeCore(this._api_id, this.assetRecordId);
+			let res = await invokeCore(this._api_id, this.payloadInfo);
 			console.log('***callFunction-success: ' + JSON.stringify(res));
 
-			if (res.statusCode == 200 && res.screen) {
+			if (this.payloadInfo.statusCode == 200 && res.screen) {
 				this.title = res.title;
 				this.screenjson = res.screen;
 				this.show = true;

@@ -1,0 +1,6 @@
+:host .navSecItem{
+    --lwc-spacingXLarge: 0.5rem;
+}
+ :host .tabSet{
+    --lwc-varFontSize3: 1rem;
+ }
