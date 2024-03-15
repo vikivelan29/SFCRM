@@ -772,6 +772,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
+        this.cancelReject();
     }
 
     showModal(event) {
