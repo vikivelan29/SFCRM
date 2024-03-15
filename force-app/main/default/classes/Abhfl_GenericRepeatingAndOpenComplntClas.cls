@@ -20,13 +20,10 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
     @AuraEnabled
     public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
 
-        String escapeSingleQuotesForFields        = String.escapeSingleQuotes(fields);
-        String escapeSingleQuotesForObject        = String.escapeSingleQuotes(objectName);
-        String escapeSingleQuotesForWhereCalause  = String.escapeSingleQuotes(whereClause);
          
-        String query = 'SELECT ' + escapeSingleQuotesForFields + ' FROM ' + escapeSingleQuotesForObject + ' ' + escapeSingleQuotesForWhereCalause;
+        String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
         system.debug('inside genericFetchQuery query '+query);
-        List<SObject> sobjList = Database.query(query);
+        List<SObject> sobjList = Database.query(String.valueOf(query));
         return sobjList;
     }
 }
