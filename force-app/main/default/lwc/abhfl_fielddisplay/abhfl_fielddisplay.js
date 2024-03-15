@@ -27,7 +27,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
 
     
     connectedCallback(e){
-        this.defaultDisableVal = this.disableEditField;        
+        this.defaultDisableVal = this.disableEditField;
         this.setColValue();
         if(this.columnName == 'Revised_EMI_Tenure__c'){
             if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
@@ -92,9 +92,6 @@ export default class Abhfl_fielddisplay extends LightningElement {
                 default:
                     this.inputType = 'text';
             }
-            if(this.columnName == 'Revised_EMI_Tenure__c'){
-                this.formatType = 'number';
-            }
         }
         let value = this.rowData[objName][colName];
         if(value){
@@ -104,16 +101,16 @@ export default class Abhfl_fielddisplay extends LightningElement {
 
     handleChange(e){
         const selectEvent = new CustomEvent('selection', {
-            detail : { 
-                        fieldName : this.columnName,
-                        assetId : this.rowData.asset.Id,
-                        value : e.target.value}});
+                                                            detail : { 
+                                                                        fieldName : this.columnName,
+                                                                        assetId : this.rowData.asset.Id,
+                                                                        value : e.target.value}});
         // Fire the custom event
         this.dispatchEvent(selectEvent);
     }
 
     handleClick(e){
-        if(this.userId != this.ownerId || (this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0 && !this.stagesAllowingFieldEdit.includes(this.currStage)) && this.columnName != 'Revised_EMI_Tenure__c'){
+        if(this.userId != this.ownerId || (this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0 && !this.stagesAllowingFieldEdit.includes(this.currStage))){
             const selectEvent = new CustomEvent('checkeditpermissions',{});
             // Fire the custom event
             this.dispatchEvent(selectEvent);
@@ -157,23 +154,6 @@ export default class Abhfl_fielddisplay extends LightningElement {
             this.template.querySelector("lightning-input").disabled = isDisabled;
         }
         
-    }
-
-    @api
-    checkValidity(e){
-        if(this.template.querySelector('lightning-input')){
-            if(this.columnName == 'Revised_EMI_Tenure__c'){
-                return this.template.querySelector('lightning-input').reportValidity();
-            } else if(this.columnName == 'Revised_ROI__c'){
-                if(this.template.querySelector('lightning-input').value < 100){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }else {
-            return true;
-        }
     }
     
 }
