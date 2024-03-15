@@ -104,6 +104,6 @@
     </quickActionLayout>
     <targetObject>Lead</targetObject>
     <targetParentField>Account__c</targetParentField>
-    <targetRecordType>Lead.Sales</targetRecordType>
+    <targetRecordType>Lead.Service</targetRecordType>
     <type>Create</type>
 </QuickAction>
