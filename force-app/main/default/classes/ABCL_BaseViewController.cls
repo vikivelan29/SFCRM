@@ -8,6 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   03-14-2024   rsinghnagar@salesforce.com   Initial Version
 **/
+@SuppressWarnings('PMD.CognitiveComplexity')
 public with sharing class ABCL_BaseViewController {
     /****************************************************************************************************************
      * @LOB - ABFL
@@ -17,9 +18,10 @@ public with sharing class ABCL_BaseViewController {
      * @return ResponseWrapper - response wrapper for the LWC component
      * @Description - Method to get the response for the Real Time Details UI component
      *****************************************************************************************************************/
-    @AuraEnabled(Cacheable = false)
+    @AuraEnabled(Cacheable = true)
     public static ResponseWrapper getDynamicScreen(String apiName){
         String title;
+        String sectionName;
 
         // Prepare map of sections with left/right fields
         Map<String, List<Dynamic_Screen_Details__mdt>> mDynamicScreenDetails = new Map<String, List<Dynamic_Screen_Details__mdt>>();
@@ -33,19 +35,17 @@ public with sharing class ABCL_BaseViewController {
             if (title == null){
                 title = rec.DynamicScreenHeader__r.Title__c;
             }
-
-            String sectionName;
+                                                    
             if(rec.Type__c == 'Section') {
                 sectionName = rec.MasterLabel;
             } else {
                 sectionName = rec.Section_Name__c != null ? rec.Section_Name__c : ABFL_Constants.NO_SECTION;
             }
+                                                    
             if (mDynamicScreenDetails.containsKey(sectionName)){
                 mDynamicScreenDetails.get(sectionName).add(rec);
-            } else if (rec.Section_Name__c != null){
+            } else {
                 mDynamicScreenDetails.put(sectionName, new List<Dynamic_Screen_Details__mdt>{ rec });
-            } else{
-                mDynamicScreenDetails.put(ABFL_Constants.NO_SECTION, new List<Dynamic_Screen_Details__mdt>{ rec });
             }
         }
         System.debug('***title:' + title);

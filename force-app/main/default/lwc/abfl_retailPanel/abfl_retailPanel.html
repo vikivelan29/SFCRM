@@ -11,35 +11,42 @@
 -->
 <template>
   <lightning-card>
-    <lightning-vertical-navigation onselect={handleSelect} selected-item={selectedItem}>
-      <lightning-vertical-navigation-section label="Real Time Details">
-        <template lwc:if={isSourceSystemFINNRTL}>
-          <lightning-layout>
-            <lightning-layout-item padding="around-small">
-              <template for:each={navItemLeftList} for:item="item">
-                <lightning-vertical-navigation-item key={item.name} label={item.label}
-                  name={item.name}></lightning-vertical-navigation-item>
+    <div class="slds-p-horizontal_small">
+      <lightning-tabset class="tabSet">
+        <lightning-tab label="Real Time Details" class="slds-p-vertical_none">
+
+          <lightning-vertical-navigation onselect={handleSelect} selected-item={selectedItem}>
+            <lightning-vertical-navigation-section>
+              <template lwc:if={isSourceSystemFINNRTL}>
+                <lightning-layout>
+                  <lightning-layout-item class="slds-m-right_xx-large">
+                    <template for:each={navItemLeftList} for:item="item">
+                      <lightning-vertical-navigation-item key={item.name} label={item.label}
+                        name={item.name}></lightning-vertical-navigation-item>
+                    </template>
+                  </lightning-layout-item>
+                  <lightning-layout-item>
+                    <template for:each={navItemRightList} for:item="item">
+                      <lightning-vertical-navigation-item key={item.name} label={item.label}
+                        name={item.name}></lightning-vertical-navigation-item>
+                    </template>
+                  </lightning-layout-item>
+                </lightning-layout>
               </template>
-            </lightning-layout-item>
-            <lightning-layout-item padding="around-small">
-              <template for:each={navItemRightList} for:item="item">
-                <lightning-vertical-navigation-item key={item.name} label={item.label}
-                  name={item.name}></lightning-vertical-navigation-item>
+              <template lwc:elseif={isSourceSystemA3S}>
+                <lightning-vertical-navigation-item label="Customer and Account Details"
+                  name="RTL_RealTime_GetCRMDetails"></lightning-vertical-navigation-item>
               </template>
-            </lightning-layout-item>
-          </lightning-layout>
-        </template>
-        <template lwc:elseif={isSourceSystemA3S}>
-          <lightning-vertical-navigation-item label="Customer and Account Details"
-            name="RTL_RealTime_GetCRMDetails"></lightning-vertical-navigation-item>
-        </template>
-        <template lwc:else>
-          <div class="slds-m-left_large">
-            <p>Source is not valid</p>
-          </div>
-        </template>
-      </lightning-vertical-navigation-section>
-    </lightning-vertical-navigation>
+              <template lwc:else>
+                <div class="slds-m-left_large">
+                  <p>Source is not valid</p>
+                </div>
+              </template>
+            </lightning-vertical-navigation-section>
+          </lightning-vertical-navigation>
+        </lightning-tab>
+      </lightning-tabset>
+    </div>
   </lightning-card>
   <template lwc:if={showBaseViewScreen}>
     <c-abfl_base_view_screen api_id={apiName} payload-info={payloadInfo}></c-abfl_base_view_screen>
