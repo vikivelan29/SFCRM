@@ -1,20 +1,19 @@
-import getDynamicScreen from '@salesforce/apex/ABFL_RetailController.getDynamicScreen';
-export function invokeCore(apiId, assetRecId) {
-	return getDynamicScreen({ apiName: apiId, assetId: assetRecId })
+import getDynamicScreen from '@salesforce/apex/ABCL_BaseViewController.getDynamicScreen';
+export function invokeCore(apiId, payloadInfo) {
+	return getDynamicScreen({ apiName: apiId})
 		.then((result) => {
 			let statusCode;
 			let screenjson;
 			let title;
-			let payload;
 
 			title = result.title;
-			statusCode = result.statusCode;
+			statusCode = payloadInfo.statusCode;
 			screenjson = JSON.parse(JSON.stringify(result.secWrap));
-			if (result.statusCode == 200) {
-				payload = JSON.parse(result.payload);
-			}
-			console.log('***payload:' + payload);
+			
+			console.log('***result.secWrap:' + JSON.stringify(result.secWrap));
+			console.log('***payload:' + JSON.stringify(payloadInfo));
 
+			let payload =  JSON.parse(payloadInfo.payload);
 			if (screenjson && payload) {
 				screenjson.forEach(element => {
 					for (let i = 0; i < element.fieldsLeft.length; i++) {
@@ -24,7 +23,8 @@ export function invokeCore(apiId, assetRecId) {
 								let value;
 								if (element.fieldsLeft[i][key].includes('.')) {
 									value = payload;
-
+									
+									// retrieve path
 									let path = element.fieldsLeft[i][key].split('.');
 									if (path.length > 0) {
 										for (let i = 0; i < path.length; i++) {
