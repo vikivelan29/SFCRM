@@ -105,7 +105,7 @@ public with sharing class ABHFL_LeadCreationAPI {
     
     public class PayloadWrapper {
         public String Company_Name;
-        public String Email;
+        public String Email_ID;
         public String Employment_Type;
         public String External_Lead_ID;
         public String First_Name;
@@ -130,7 +130,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Lead leadObj) {
             this.Company_Name = leadObj.Company;
-            this.Email = leadObj.Email;
+            this.Email_ID = leadObj.Email;
             this.Employment_Type = leadObj.Employment_Type__c;
             this.External_Lead_ID = leadObj.External_Lead_ID__c;
             this.Mobile_Number = leadObj.MobilePhone;

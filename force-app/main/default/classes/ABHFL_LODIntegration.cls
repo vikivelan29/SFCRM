@@ -93,8 +93,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         
         List<Case> downloadStpCases = new List<Case>();
         
-        String cY = System.Label.ABHFL_LOD_Calendar_Year;
-        List<Case> downloadStpCases = new List<Case>(); 
+        String cY = System.Label.ABHFL_LOD_Calendar_Year; 
         
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();

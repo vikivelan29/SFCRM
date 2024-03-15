@@ -1,4 +1,4 @@
-public class ASF_CaseRuleTriggerHelper {
+public without sharing class ASF_CaseRuleTriggerHelper {
     
 
     public void prepopulateQueueIdFromNames(List<ASF_Case_Rule__c > newStageList){ 

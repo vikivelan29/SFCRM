@@ -1,3 +1,5 @@
+@SuppressWarnings('PMD.ApexSOQLInjection')
+
 public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -45,6 +47,34 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
             String blockCommString = String.isNotBlank(keyValueMap.get('Block Customer Communication'))?keyValueMap.get('Block Customer Communication').trim():keyValueMap.get('Block Customer Communication');
             String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
+            if(issueTypeCode == null || issueTypeCode.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Issue Type Code is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(lan == null || lan.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Loan Account No is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(source == null || source.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Source is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(description == null || description.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Description is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!extIdFoundSet.contains(issueTypeCode)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
@@ -52,7 +82,6 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            
             if(!lanToAccountIdMap.containsKey(lan)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');

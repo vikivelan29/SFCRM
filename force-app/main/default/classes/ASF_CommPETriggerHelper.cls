@@ -8,7 +8,8 @@
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-public class ASF_CommPETriggerHelper {
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions')
+public without sharing class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
     public static Map<String,Customer_Notification_Config__mdt> mCommConfigMetaName = new Map<String,Customer_Notification_Config__mdt>();
@@ -326,7 +327,7 @@ public class ASF_CommPETriggerHelper {
                         else if(log.Lead__c != null){
                             log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Lead__c,log.id, true); 
                         }
-                        
+                                                
                         responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.SMS_Msg_Body__c);
                         peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
                         eventList.add(createOutboundCommunication(log,'SMS'));
@@ -418,6 +419,7 @@ public class ASF_CommPETriggerHelper {
             query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.join(temp, ',');
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :temp_cIds FOR UPDATE';
+            query = String.escapeSingleQuotes(query);
         }
         List<Case> cases = (List<case>)Database.query(query);
         mCases = new Map<Id,Case>(cases);

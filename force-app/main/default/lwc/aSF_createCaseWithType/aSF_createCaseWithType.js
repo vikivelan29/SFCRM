@@ -5,6 +5,7 @@ import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -14,6 +15,7 @@ import CASE_CONTACT_FIELD from '@salesforce/schema/Case.ContactId';
 import AMIOwner from '@salesforce/schema/Case.AmIOwner__c';
 import AccountId from '@salesforce/schema/Case.AccountId';
 import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -82,6 +84,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     customerId;
     withoutAsset;
     originValue;
+    noAutoCommOptions = [];
+    noAutoCommValue = [];
+    showAutoComm = false;
+    isCloseCase = false;
 
 
     @api propertyValue;
@@ -178,6 +184,18 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
+
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
@@ -251,6 +269,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     }
 
+    handleAutoCommChange(event){
+        this.noAutoCommValue = event.detail.value;
+    }
+
     @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
     user({ error, data}) {
         if (data){
@@ -308,7 +330,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 console.log('lobAcc ',this.caseRec.fields.Account.value.fields.Line_of_Business__c.value);
             }
         
-    }
+        }
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
     let strInpArg = JSON.stringify(inpArg);
@@ -360,6 +382,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging)){
+            this.showAutoComm = true;
+        }
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
             this.createCaseWithAll = true;
             this.isNotSelected = true;
@@ -744,6 +769,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.searchKey = '';
         this.accounts = [];
         this.createCaseWithAll = false;
+        this.showAutoComm = false;
     }
 
     showModal(event) {
@@ -751,6 +777,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
+        
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -781,6 +809,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.complaintLevelVisible = false;
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -868,6 +897,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
+        this.isCloseCase = true;
 
         this.withoutAsset = 'closeCRN';
         this.showSRModal = true;
@@ -882,6 +912,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';
         this.showSRModal = true;

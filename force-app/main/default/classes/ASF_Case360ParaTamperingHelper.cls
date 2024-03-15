@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 public without sharing class ASF_Case360ParaTamperingHelper {
     public static Map<String,Map<String,Schema.SObjectField>> mObjField = new Map<String,Map<String,Schema.SObjectField>>();
     public static Map<String,Set<String>> mObjVsFields = new Map<String,Set<String>>();
@@ -74,6 +75,7 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                          String q = 'SELECT ID, ';
                                                          q += String.JOIN(mObjFieldsForQuery.get('CASE'),',');
                                                          q += ' FROM CASE WHERE ID =:caseId';
+                                                         q = String.escapeSingleQuotes(q);
                                                          List<Case> cases = Database.query(q);
                                                          if(cases.size()>0){
                                                              mObjRecord.put('CASE',cases[0]);
@@ -86,6 +88,7 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                              q += String.JOIN(mObjFieldsForQuery.get(ob),',');
                                                              q += ' FROM '+ob+' WHERE Id =:extensionObjId';
                                                              System.debug(q);
+                                                             q = String.escapeSingleQuotes(q);
                                                              List<sObject> caseRelatedRecords = Database.query(q);
                                                              if(caseRelatedRecords.size()>0){
                                                                  sObject o = caseRelatedRecords[0];

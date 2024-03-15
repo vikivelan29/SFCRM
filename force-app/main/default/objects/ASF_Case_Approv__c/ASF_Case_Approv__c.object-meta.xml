@@ -161,4 +161,5 @@
     <pluralLabel>SR Requests</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

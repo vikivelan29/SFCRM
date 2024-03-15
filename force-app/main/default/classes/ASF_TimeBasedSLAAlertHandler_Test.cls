@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_TimeBasedSLAAlertHandler_Test {
     

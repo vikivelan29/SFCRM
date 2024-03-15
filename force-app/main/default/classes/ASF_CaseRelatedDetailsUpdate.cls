@@ -1,4 +1,4 @@
-public class ASF_CaseRelatedDetailsUpdate {
+public without sharing class ASF_CaseRelatedDetailsUpdate {
     
     public void beforeInsertUpdateCase(List<Case> caseList){
         Map<String, List<Case>> recordsByField = new Map<String, List<Case>>();

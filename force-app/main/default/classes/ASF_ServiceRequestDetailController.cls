@@ -1,4 +1,4 @@
-public class ASF_ServiceRequestDetailController {
+public without sharing class ASF_ServiceRequestDetailController {
     
     
     @AuraEnabled(cacheable=true)
