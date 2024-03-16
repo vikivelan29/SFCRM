@@ -10,12 +10,20 @@
   * 2.0      28-02-2024     udit.singhal@salesforce.com       updated logic for the real time API
 -->
 <template>
+  <template if:true={isLoading}>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+      class="slds-modal slds-fade-in-open slds-modal_large bring-to-front">
+      <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+    </section>
+    <div class="slds-backdrop" role="presentation"></div>
+  </template>
+
+
   <lightning-card>
     <div class="slds-p-horizontal_small">
       <lightning-tabset class="tabSet">
         <lightning-tab label="Real Time Details" class="slds-p-vertical_none">
-
-          <lightning-vertical-navigation onselect={handleSelect} selected-item={selectedItem}>
+          <lightning-vertical-navigation onselect={handleSelect}>
             <lightning-vertical-navigation-section>
               <template lwc:if={isSourceSystemFINNRTL}>
                 <lightning-layout>

@@ -3,6 +3,8 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord } from "lightning/uiRecordApi";
 import invokeAPI from '@salesforce/apex/ABFL_RetailController.invokeAPI';
 
+import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+
 const FIELDS = ["Asset.Source_System__c", "Asset.LAN__c", "Asset.Account.PAN__c"];
 
 const itemLeftList = [
@@ -31,7 +33,12 @@ const itemRightList = [
 ];
 
 export default class Abfl_retailPanel extends LightningElement {
+    label = {
+		errorMessage
+	};
+
     @api recordId;
+    isLoading = false;
     apiName = '';
     showBaseViewScreen = false;
     navItemLeftList = itemLeftList;
@@ -50,8 +57,10 @@ export default class Abfl_retailPanel extends LightningElement {
 
     handleSelect(event) {
         this.showBaseViewScreen = false;
+        this.payloadInfo = null;
+        this.isLoading = true;
 
-        console.log('in handleSelect'+JSON.stringify(event));
+        console.log('in handleSelect');
         const selectedName = event.detail.name;
         this.apiName = selectedName;
         console.log('selected API: ' + this.apiName);
@@ -71,7 +80,7 @@ export default class Abfl_retailPanel extends LightningElement {
                         console.log('***result:'+JSON.stringify(result));
 
                         // Check validity of response
-                        if (result.statusCode == 200 && result.payload) {
+                        if (result?.statusCode == 200 && result?.payload) {
                             if(this.apiName == 'RTL_RealTime_LoanDetails' && JSON.parse(result.payload)?.Root?.ResponseGetLoanDetails?.DataArea?.LoanDetails?.Response?.Summary_Data) {
                                 this.payloadInfo = result;
                             } else if(this.apiName == 'RTL_RealTime_BasicCustInfo' && JSON.parse(result.payload)?.ResponseGetBasicCustomerInfo?.DataArea?.BasicCustomerInfo?.Response?.Basic_Customer_Info){
@@ -84,23 +93,21 @@ export default class Abfl_retailPanel extends LightningElement {
                                 this.payloadInfo = result;
                             } else if(this.apiName == 'RTL_RealTime_GetCRMDetails' && JSON.parse(result.payload)?.crmapis?.length > 0){
                                 this.payloadInfo = result;
-                            } else {
-                                console.log('error');
                             }
                         }
-
-                        this.showBaseViewScreen = true;
-                        // this.contacts = result;
-                        // this.error = undefined;
+                        this.isLoading = false;
+                        if (this.payloadInfo) {
+                            this.showBaseViewScreen = true;
+                        } else {
+                            console.log('error');
+                            this.showToast("Error", this.label.errorMessage, 'error');
+                        }
                     })
                     .catch((error) => {
-                        // this.error = error;
-                        // this.contacts = undefined;
+                        console.log('error');
+                        this.isLoading = false;
+                        this.showToast("Error", this.label.errorMessage, 'error');
                     });
-
-                // requestAnimationFrame(() => {
-                //     
-                // });
             }
         }
     }
