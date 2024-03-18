@@ -29,6 +29,15 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     * @Description - After Insert Handler for Email Message
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
+
+        // set of qualified email messages
+        Set<Id> sEMIds = new Set<Id>();
+        for(EmailMessage mesg: (List<EmailMessage>)newEmails.values()){
+            if(mesg.Incoming==true && mesg.ParentId.getSObjectType() == Case.sObjectType){
+                sEMIds.add(mesg.Id);
+            }
+        } 
+        System.debug('***semids:'+sEMIds);
         
         // Check creation rules for ABFL BU - Can't be used in before as we need case details for logic
         ABFL_E2C_CreationRules.checkCreationRules(ABCL_EmailMessageHelper.getEligibles(newEmails.values()));
@@ -40,9 +49,15 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE
         
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
-        // invoke ABFL E2C Case creation checks
-        
-    }
-    
-    
+        // invoke ABFL E2C Case creation checks        
+        if(sEMIds.size()>0){
+            Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
+                Payload__c=JSON.serialize(sEMIds),
+                ATF_Settings__c='ABFL_IncrementEmailCount',
+                Run_By__c=UserInfo.getUserId()
+                // UUID__c=UUID.randomUUID()
+            );
+            EventBus.publish(ate);
+        }
+    }   
 }
