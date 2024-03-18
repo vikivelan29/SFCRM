@@ -80,7 +80,7 @@
                         <td class="slds-size_2-of-14" data-label="Date">
                             <div  title="Date">
                                 <template if:false={item.isDateEditable}>
-                                    {item.Date__c}
+                                    {item.formattedDate}
                                 </template>
                                 <template if:true={item.isDateEditable}>
                                     <lightning-input 
