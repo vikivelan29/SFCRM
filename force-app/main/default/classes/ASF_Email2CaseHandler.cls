@@ -64,6 +64,17 @@ public without sharing class ASF_Email2CaseHandler {
                             if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                 c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
                             }
+                            if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Business_Unit__c)){
+                                c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Business_Unit__c;
+                                if(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Business_Unit__c == ABFL_Constants.WMCHATCASEORIGIN){
+                                    c.Origin = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c;
+                                }
+                            }/*else{
+                                
+                            }
+                            if(String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c)){
+                                
+                            }*/
                             caseToUpdate.add(c);
                         }
                     }
@@ -100,9 +111,11 @@ public without sharing class ASF_Email2CaseHandler {
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
+                System.debug('@@@msg.FromAddress'+msg.FromAddress);
+                                System.debug('@@@msg.CcAddress'+msg.CcAddress);
                 if(msg.Headers != null){
                     if(!msg.Headers.contains('In-Reply-To:')){
-                        caseIds.add(msg.ParentId);
+                            caseIds.add(msg.ParentId);
                     }
                 }
                 else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
