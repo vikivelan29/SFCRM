@@ -80,8 +80,8 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
           	result.status = ABHFL_Constants.ERROR;
            	result.response = Custom_Messages__mdt.getInstance('MultiAMORT_Evaluate_Disbursed_Partially').Message__c;
             Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName ='ABHFL_Email_Financial_Team'  Limit 1];
-	        caseRecord.OwnerId = csQueue.Id;
-            caseRecord.MoveToNext__c = true;
+        	caseRecord.OwnerId = csQueue.Id;
+            //caseRecord.MoveToNext__c = true;
             
             update caseRecord;
             
