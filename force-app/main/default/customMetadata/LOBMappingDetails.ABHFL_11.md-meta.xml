@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Channel__c</field>
-        <value xsi:type="xsd:string">Digital</value>
+        <value xsi:type="xsd:string">Offline</value>
     </values>
     <values>
         <field>Complaint_Type__c</field>
