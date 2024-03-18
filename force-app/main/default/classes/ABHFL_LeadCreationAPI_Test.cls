@@ -1,8 +1,17 @@
+/**
+ * @description       : 
+ * @author            : ABHFL Team
+ * @group             : 
+ * @last modified on  : 03-03-2024
+ * @last modified by  : Vishal Gangwar
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   03-03-2024   ABHFL Team   Initial Version
+**/
 @isTest
 public class ABHFL_LeadCreationAPI_Test {
-
-    @isTest
-    static void testSendLead() {
+    @TestSetup
+    static void testData(){
         Lead testLead = new Lead(
             Company = 'Test Company',
             //Email = 'test@example.com',
@@ -29,11 +38,16 @@ public class ABHFL_LeadCreationAPI_Test {
         );
         
         INSERT testLead;
+    }
+
+
+    @isTest
+    static void testSendLead() {
         
         Test.startTest();
-
-        String result = ABHFL_LeadCreationAPI.sendLead(testLead.Id, true);
-        System.assertEquals(testLead.API_Error_Code__c,Null);
+        Lead leadobj = [SELECT Id,API_Error_Code__c from Lead];
+        String result = ABHFL_LeadCreationAPI.sendLead(leadobj.Id, true);
+        System.assertEquals(leadobj.API_Error_Code__c,Null);
         
         Test.stopTest();
     }
