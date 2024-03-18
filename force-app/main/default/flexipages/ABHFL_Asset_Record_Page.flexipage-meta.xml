@@ -5,7 +5,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                                    </componentInstanceProperties>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
@@ -43,6 +43,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LAN__c</fieldItem>
                 <identifier>RecordLAN_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Deal_No__c</fieldItem>
+                <identifier>RecordDeal_No_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
