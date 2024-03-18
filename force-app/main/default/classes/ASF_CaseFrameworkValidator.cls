@@ -299,9 +299,12 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         
         if(asfIntExtIds.size() >0){
-            
+            Set<String> intExtIds = new Set<String>();
+            for(Map<String, ASF_Integration__c> eachMap : asfIntExtIds.values()){
+                intExtIds.addAll(eachMap.keySet());
+            }
             // Get Case Integration Records for the above Integrations, to Determin if Validated Successfully
-            List<ASF_Case_Integration__c> caseIntegrations = ASF_CaseQueryHandler.getCaseRelatedIntegrations(asfIntExtIds.keySet(), caseIds);
+            List<ASF_Case_Integration__c> caseIntegrations = ASF_CaseQueryHandler.getCaseRelatedIntegrations(intExtIds, caseIds);
             Map<String, boolean> caseIntSuccessMap = new Map<String, boolean>();
             for(ASF_Case_Integration__c caseInt : caseIntegrations){
                 String key = caseInt.Case__c+caseInt.Integration_Ext_Id__c;
