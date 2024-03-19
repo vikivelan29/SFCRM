@@ -299,8 +299,8 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         Boolean integrationFailure = true;
         Case caseRec = [
                 SELECT Id,AccountId,ContactId,CCC_External_Id__c, MoveToNext__c,Attachment_Status__c,OwnerId,Source__c,CreatedById,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
-              FROM Case
-              WHERE Id =: caseInteg.Case__c 
+                FROM Case
+                WHERE Id =: caseInteg.Case__c 
             ]; 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS && caseRec!=null){
           Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
@@ -334,7 +334,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                         } 
                     }
         }
-        if(integrationFailure){
+        if(integrationFailure && caseRec.CCC_External_Id__c != 'hfl009'){
               if(caseRec.Source__c != ABHFL_Constants.BRANCH){
                   Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM   Limit 1];
                         caseRec.OwnerId = csQueue.Id;
@@ -348,6 +348,26 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
                     ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
             }
         }
+        //If failure for - Change EMI /Tenor (Increase)
+        if(integrationFailure && caseRec.CCC_External_Id__c == 'hfl009'){
+            if(caseRec.Source__c != ABHFL_Constants.BRANCH){
+                Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName = 'ABHFL_Email_Non_Financial_Team'   Limit 1];
+                      caseRec.OwnerId = emailNonFinancialQueue.Id;
+                      
+                      if(Schema.sObjectType.Case.isUpdateable()){
+                            update caseRec;
+                      } 
+                      
+                  ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+            }else if(caseRec.Source__c == ABHFL_Constants.BRANCH){
+                  ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRec, ABHFL_Constants.AMORTIZATION, ABHFL_Constants.STP_DOC_RETRIEVAL_FAILURE);
+                  caseRec.OwnerId = caseRec.CreatedById;
+                      
+                      if(Schema.sObjectType.Case.isUpdateable()){
+                            update caseRec;
+                      } 
+          }
+      }
 
         if(integrationFailure != caseRec.ABHFL_Case_Detail__r.STP_Failure__c){
             ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
