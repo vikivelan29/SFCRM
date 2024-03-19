@@ -594,9 +594,9 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Business_Unit__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>ABFL</stringValue>
+                    <stringValue>Payments</stringValue>
                 </rightValue>
             </conditions>
             <connector>
