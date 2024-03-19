@@ -9,7 +9,7 @@
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Queue</filterScope>
     <label>Payments Service Desk</label>
-    <queue>Payment_Service_Desk</queue>
+    <queue>Payments_Service_Desk</queue>
     <sharedTo>
         <group>Payment_Service_Desk_G</group>
     </sharedTo>
