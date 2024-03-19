@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -164,7 +164,7 @@
 												<br />
 												We have shared a new link via SMS to re-register NACH. Alternatively, you can also update NACH through the link given below:<br />
 												<br />
-												__________<br />
+												$$ABFL_Case_Detail__r.Registration_Link__c$$.<br />
 												<br />
 												Please be assured that only the actual EMI will be debited from your bank account.<br />
 												<br />
