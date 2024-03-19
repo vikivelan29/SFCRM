@@ -45,7 +45,7 @@ public with sharing class ABFL_SOQL_Integration {
     *********************************************************************************************************/
     public static ASF_Integration__c getIntegrationInfo(string externalId){
         return [SELECT id, STP_API_Identifier__c, STP_Processing_Class__c, 
-                External_Id__c,STP_Config_External_Id__c 
+                External_Id__c,STP_Config_External_Id__c, STP_Template__c 
                 FROM ASF_Integration__c 
                 WHERE External_Id__c = :externalId
                 WITH SECURITY_ENFORCED];

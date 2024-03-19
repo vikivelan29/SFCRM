@@ -36,6 +36,11 @@
                 <default>false</default>
                 <label>Litmus</label>
             </value>
+            <value>
+                <fullName>Enach</fullName>
+                <default>false</default>
+                <label>Enach</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
