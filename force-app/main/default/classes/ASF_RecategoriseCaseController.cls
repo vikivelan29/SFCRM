@@ -73,6 +73,7 @@ public with sharing class ASF_RecategoriseCaseController {
         // }
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
+        resultMap.put('currentUserName', UserInfo.getName());
         return resultMap;
     }
 

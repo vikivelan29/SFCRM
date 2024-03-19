@@ -16,7 +16,7 @@
                         </lightning-button>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="12" padding="around-small">
+                    <lightning-layout-item size="12" padding="around-small" style="position: relative;">
                         <template if:true={boolShowNoData}>
                             <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
                         </template>
@@ -121,7 +121,7 @@
             Case is not eligible for Recategorization
         </template>
         <div slot="footer">
-            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> &nbsp;
             <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
                                 onclick={updateCaseHandler}></lightning-button>
         </div>
