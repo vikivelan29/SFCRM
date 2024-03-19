@@ -3,7 +3,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord } from "lightning/uiRecordApi";
 import invokeAPI from '@salesforce/apex/ABFL_RetailController.invokeAPI';
 
-import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+import errorMessage from '@salesforce/label/c.ABFL_Retail_Int_Failed';
 
 const FIELDS = ["Asset.Source_System__c", "Asset.LAN__c", "Asset.Account.PAN__c"];
 
