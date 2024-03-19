@@ -14,6 +14,7 @@ import RECATEGORISATION_REASON_FIELD from '@salesforce/schema/Case.Recategorisat
 import BOT_FEEDBACK_FIELD from '@salesforce/schema/Case.Bot_Feedback__c';
 import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
 import SENTTOBOT_FIELD from '@salesforce/schema/Case.Sent_to_EBOT__c';
+import OLDCCCIDFIELDS from '@salesforce/schema/Case.oldCCCIdFields__c';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 
@@ -104,6 +105,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
+    oldCCCIdFields = '';
+    currentNature = '';
+    currentUserFullName = '';
+    selectedType;
+    selectedSubType;
     recategorizeEnabled;
     sendBotFeedback = true;
     showBotFeedback = false;
@@ -409,9 +415,25 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
+        let currentDateVal = new Date();
+        let formattingOptions = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        };
+        let currentDateLocale = currentDateVal.toLocaleDateString(undefined, formattingOptions);
+        let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
+        let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
+        fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
-        updateCaseRecord({ recId: this.recordId,oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,newCaseJson : JSON.stringify(caseRecord) })
+        
+        updateCaseRecord({ 
+            recId: this.recordId,
+            oldCCCId : JSON.parse(this.oldCaseDetails.caseDetails).CCC_External_Id__c,
+            newCaseJson : JSON.stringify(caseRecord),
+            typeSubTypeText : typeSubTypeText 
+        })
         .then(result => {
             if(this.showBotFeedback && this.sendBotFeedback){
                 this.notifyEbot();
@@ -657,7 +679,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.assetId = caseparsedObject.AssetId;
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
-           
+            this.oldCCCIdFields = (caseparsedObject.oldCCCIdFields__c == undefined || caseparsedObject.oldCCCIdFields__c == null)?'':caseparsedObject.oldCCCIdFields__c;
+            this.currentNature = (caseparsedObject.Nature__c == undefined || caseparsedObject.Nature__c == null)?'':caseparsedObject.Nature__c;
+            this.selectedType = caseparsedObject.Type_Text__c;
+            this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
+            this.currentUserFullName = this.oldCaseDetails.currentUserName;
             /* CHECK IF THE CASE IS RETURNING ACCOUNT OR NOT. IN CASE OF PROSPECT RELATED CASES
             /* ACCOUNT IS COMING AS NULL.
             /* Author - Virendra

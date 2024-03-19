@@ -8,6 +8,7 @@
 * ------------------------------------------------------------------------------------
 * Aditee Churiwala             1.0       22/11/2023       Class to cover test cases ASF_Case360Controller
 */
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_Case360Controller_Test {
      private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];

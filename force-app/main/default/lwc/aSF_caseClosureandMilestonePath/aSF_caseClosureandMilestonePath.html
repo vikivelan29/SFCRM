@@ -88,14 +88,6 @@
                              alternative-text="expand" title="expand" onclick={openAllPanels}></lightning-button-icon>
                 </lightning-layout-item>
 
-                <!--VIRENDRA  : Moved the Expand Collapse at the top.
-                <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    
-                </lightning-layout-item>
-                -->
-
-
-                <!-- VIRENDRA -->
                 <template if:true={showAdditionalSLA}>
 
                     <lightning-layout-item  class="center-text" size="3"><!--padding="around-small" -->
@@ -151,20 +143,6 @@
                 </template>
 
             </lightning-layout>
-
-            <!-- VIRENDRA - ADDED FOR EXPANDED AND COLLAPSE SLA.-->
-            <!--<lightning-layout multiple-rows="true">
-                <lightning-layout-item padding="around-small" size="10" alignment-bump="right">
-
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne"
-                        onclick={openAllPanels}>
-                        {expandCollapseLbl}
-                    </a>
-                </lightning-layout-item>
-
-            </lightning-layout>-->
         </div>
     </lightning-card>
 </template>

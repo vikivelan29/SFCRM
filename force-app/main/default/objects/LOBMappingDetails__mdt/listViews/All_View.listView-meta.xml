@@ -4,13 +4,14 @@
     <columns>MasterLabel</columns>
     <columns>Channel__c</columns>
     <columns>Source__c</columns>
+    <columns>Sub_Source__c</columns>
     <columns>Source_Code__c</columns>
+    <columns>LOB__c</columns>
     <columns>Type__c</columns>
     <columns>CCValue__c</columns>
     <columns>DeveloperName</columns>
     <columns>IsActive__c</columns>
     <columns>Exclusion_Bu_s__c</columns>
-    <columns>LOB__c</columns>
     <columns>Complaint_Type__c</columns>
     <filterScope>Everything</filterScope>
     <label>All View</label>

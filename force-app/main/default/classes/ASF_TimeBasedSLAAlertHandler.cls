@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 global without sharing class ASF_TimeBasedSLAAlertHandler implements Schedulable,Database.Batchable<sObject> {
     
     global Database.QueryLocator start(Database.BatchableContext BC){

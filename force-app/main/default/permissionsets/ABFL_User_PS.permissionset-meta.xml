@@ -487,6 +487,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Payment_Received_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Payment_Updated__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -787,6 +792,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Customer_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Date_Of_Incorporation__c</field>
+        <readable>true</readable>   
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Account.TAN_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Finnone_Customer_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -889,6 +909,31 @@
         <editable>false</editable>
         <field>Asset.AV_Limit_Disb__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.RM_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.RM_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Dealer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Revised_LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.EMI_Start_Date__c</field>
+        <readable>true</readable>  
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2318,11 +2363,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>LAN_Mapping__c.Customer_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

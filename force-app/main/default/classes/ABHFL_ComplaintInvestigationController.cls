@@ -5,6 +5,7 @@
 *Last Modified:  30/01/2024
 *Description  :  Controller class for Complaint Investigation API
 *********************************************************/
+@SuppressWarnings('PMD.ApexXSSFromURLParam')
 public with sharing class ABHFL_ComplaintInvestigationController {
 
     public static String pdfHeader{get;set;}
@@ -17,6 +18,8 @@ public with sharing class ABHFL_ComplaintInvestigationController {
                 ApexPages.currentPage().getParameters().get('pdfHeader'));
             pdfContent=String.escapeSingleQuotes(
                 ApexPages.currentPage().getParameters().get('pdfContent'));
+            //pdfHeader = ApexPages.currentPage().getParameters().get('pdfHeader').escapeHtml4();
+            //pdfContent = ApexPages.currentPage().getParameters().get('pdfContent').escapeHtml4();
         }else{
             pdfHeader = '';
             pdfContent = '';

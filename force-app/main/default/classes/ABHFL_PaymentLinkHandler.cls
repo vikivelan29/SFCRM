@@ -25,6 +25,26 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         result.status = ABHFL_Constants.SUCCESS;
         result.response = Custom_Messages__mdt.getInstance('PaymentLink_EvaluationSuccessful').Message__c; 
 
+        //Dhinesh - to check for approvals 
+        List<ASF_Case_Approv__c> approvals = [SELECT Id,Approval_Status__c FROM ASF_Case_Approv__c WHERE SR__c =: caseRecord.Id];
+        List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC','REFCL001'};
+        Boolean approvalPending = false;
+        if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvals.isEmpty()){
+            result.status = ABHFL_Constants.ERROR;
+            result.response = 'Case is not Approved, Please create an Approval';
+        }
+        for(ASF_Case_Approv__c approval : approvals) {
+                if (approval.Approval_Status__c != 'Approved') {
+                    approvalPending = true;
+                    break; // No need to continue checking once one is found
+            }
+        }
+        if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvalPending && !approvals.isEmpty()){
+            result.status = ABHFL_Constants.ERROR;
+            result.response = 'Case is not Approved, cannot generate payment link';
+        }
+        //--Dhinesh ends
+
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
@@ -133,7 +153,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             caseInteg.Status__c = ABHFL_Constants.FAILURE;
         }
         caseInteg.Request__c = paytmRequestBody;
-        caseInteg.Response__c = JSON.serialize(paytmResponseWrapper);
+        caseInteg.Response__c = paytmResponse.responseBody;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;
         }
@@ -199,7 +219,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             caseInteg.Status__c = ABHFL_Constants.FAILURE;
         }
         caseInteg.Request__c = paymentRequestBody;
-        caseInteg.Response__c = responseStr;
+        caseInteg.Response__c = paymentResponse.responseBody;
         caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseInteg;

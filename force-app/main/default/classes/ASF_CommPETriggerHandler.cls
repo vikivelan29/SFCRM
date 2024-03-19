@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 public without sharing class ASF_CommPETriggerHandler {
     
     /**Added for Mod Code to divide PE as per reply Id */

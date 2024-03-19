@@ -10,6 +10,11 @@
     </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Repeated__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCCustomerTAT__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -386,6 +391,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Payment_Received__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Payment_Received_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3090,6 +3100,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Customer_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Date_Of_Incorporation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Account.TAN_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3353,6 +3378,31 @@
         <field>Asset.ASF_Card_or_Account_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.RM_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.RM_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Dealer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Revised_LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.EMI_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.ASF_Credit_Card_Last_4_Digit__c</field>
@@ -5186,11 +5236,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>LAN_Mapping__c.Customer_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

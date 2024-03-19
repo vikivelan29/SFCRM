@@ -54,6 +54,11 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
+                <field>Sub_Source__c</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
                 <field>Ageing_Business_Days__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>

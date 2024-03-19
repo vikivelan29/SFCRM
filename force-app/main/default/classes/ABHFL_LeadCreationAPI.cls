@@ -21,11 +21,11 @@ public with sharing class ABHFL_LeadCreationAPI {
         Lead leadObj = new Lead();
 
         try{
-        leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, External_Lead_ID__c, ABHFL_Prospect_Type__c,
-                                   MobilePhone, PANNO__c, Preferred_Communication__c, Product__c, Prospect_Type__c,API_Response_Message__c,
-                                   RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
-                                   LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
-                            FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
+            leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, ABHFL_Prospect_Type__c, External_Lead_ID__c,
+                                    MobilePhone, PANNO__c, Product__c, Prospect_Type__c,API_Response_Message__c, Preferred_Communication__c,
+                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
+                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
+                                FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
         }catch(Exception e){
         }
         If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
@@ -44,6 +44,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             if(responseWrapperObj.Status == '200'){
                 leadObj.API_Response_Message__c = responseWrapperObj.Message;
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
+                leadObj.Sales_Lead_Id__c = responseWrapperObj.id;
                 message = 'Send Lead to CRM is Successful';
             }else{
                 message = responseWrapperObj.Message;
@@ -104,7 +105,7 @@ public with sharing class ABHFL_LeadCreationAPI {
     
     public class PayloadWrapper {
         public String Company_Name;
-        public String Email;
+        public String Email_ID;
         public String Employment_Type;
         public String External_Lead_ID;
         public String First_Name;
@@ -129,7 +130,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Lead leadObj) {
             this.Company_Name = leadObj.Company;
-            this.Email = leadObj.Email;
+            this.Email_ID = leadObj.Email;
             this.Employment_Type = leadObj.Employment_Type__c;
             this.External_Lead_ID = leadObj.External_Lead_ID__c;
             this.Mobile_Number = leadObj.MobilePhone;
@@ -166,6 +167,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         public String ErrorCode;
         public String Status;
         public String Message;
+        public String id;
         public List<String> Fileds;
         
         public ResponseWrapper parse(String json) {

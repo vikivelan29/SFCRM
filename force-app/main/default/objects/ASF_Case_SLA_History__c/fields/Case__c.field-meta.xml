@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Case</label>
     <referenceTo>Case</referenceTo>
-    <relationshipLabel>SR SLA Histories</relationshipLabel>
+    <relationshipLabel>Case SLA Histories</relationshipLabel>
     <relationshipName>SR_SLA_Histories</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

@@ -23,7 +23,10 @@ public with sharing class ABFL_SOQL_Case {
             ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
             ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
              Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
-             Account.Phone,
+             Account.Name, Client_Code__c,
+             Account.Phone, ABFL_Case_Detail__r.Bank_IFSC_Code__c,
+             ABFL_Case_Detail__r.Bank_Account_No__c, ABFL_Case_Detail__r.Frequency__c,
+             ABFL_Case_Detail__r.Amount__c, ABFL_Case_Detail__r.Debit_Type__c ,
              Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
              CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,
              ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
@@ -55,5 +58,33 @@ public with sharing class ABFL_SOQL_Case {
     **/
     public static List<Case> getCaseOrginInfo(Set<Id> idSet){
         return [SELECT Id, origin FROM Case WHERE ID IN : idSet]; // this is invoked by E2C, hence can't use with_security_enforced
+    }
+
+    /**
+    * @description: Fetch case details info
+    * @author rsinghnagar@salesforce.com | 01-02-2024 
+    * @param List<Id> idList 
+    * @return Case 
+    **/
+    private static List<Case> caseDetailRecs;
+    public static List<Case> getCasedetails(Set<Id> idSet){
+        if(caseDetailRecs==null){
+            caseDetailRecs = [SELECT Business_Unit__c,
+                    ABFL_Case_Detail__r.Case_Categorisation__c,
+                    ABFL_Case_Detail__r.Correct_Category__c,
+                    ABFL_Case_Detail__r.Correct_Call_Type__c,
+                    ABFL_Case_Detail__r.Correct_Sub_Type__c,
+                    ABFL_Case_Detail__r.Voice_of_Customer__c,
+                    ABFL_Case_Detail__r.Primary_Erring_Unit__c,
+                    ABFL_Case_Detail__r.Financial_Impact__c,
+                    ABFL_Case_Detail__r.Diputed_Amount__c,
+                    ABFL_Case_Detail__r.Refund_Amount__c,
+                    ABFL_Case_Detail__r.Action_Taken__c,
+                    ABFL_Case_Detail__r.Grievance_Type__c,
+                    CCC_External_Id__c
+                    FROM Case 
+                    WHERE Id = :idSet WITH SECURITY_ENFORCED];
+        }
+        return caseDetailRecs;
     } 
 }

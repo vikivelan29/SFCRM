@@ -1,6 +1,8 @@
 <template>
-    <template if:true={fieldToBeStampedOnCase}>
-        <c-asf-create-case-with-type isasset={withoutAsset} account-id={accountId} field-to-be-stamped-on-case={fieldToBeStampedOnCase}>
-        </c-asf-create-case-with-type>
+    <template if:true={loading}>
+        <template if:true={fieldToBeStampedOnCase}>
+            <c-asf-create-case-with-type onresetbox={resetBox} isasset={withoutAsset} account-id={accountId} field-to-be-stamped-on-case={fieldToBeStampedOnCase}>
+            </c-asf-create-case-with-type>
+        </template>
     </template>
 </template>

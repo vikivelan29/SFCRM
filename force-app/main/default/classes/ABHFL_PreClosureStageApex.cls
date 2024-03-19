@@ -36,7 +36,7 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
         }
         Map<Id, Case> assignCaseToAOMROMResults = new Map<Id, Case>();
         if(!assignCaseToAOMROMCases.isEmpty()){
-            assignCaseToAOMROMResults = ABHFL_CTSTHelper.assignCaseToPreferredBranch(assignCaseToAOMROMCases);
+            assignCaseToAOMROMResults = ABHFL_CTSTHelper.assignCaseToAOMROM(assignCaseToAOMROMCases);
         }
 
         for(Case caseRec : caseRecords){

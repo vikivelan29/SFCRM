@@ -1,3 +1,5 @@
+@SuppressWarnings('PMD.ApexSOQLInjection')
+
 public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -32,7 +34,41 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
             String unresolvedDetails = String.isNotBlank(keyValueMap.get('Close Unresolved Details'))?keyValueMap.get('Close Unresolved Details').trim():keyValueMap.get('Close Unresolved Details');
             String unresolvedReason = String.isNotBlank(keyValueMap.get('Close Unresolved Reason'))?keyValueMap.get('Close Unresolved Reason').trim():keyValueMap.get('Close Unresolved Reason');
             String stage = String.isNotBlank(keyValueMap.get('Stage'))?keyValueMap.get('Stage').trim():keyValueMap.get('Stage');
-
+            if(caseNumber == null || caseNumber.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case number is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(stage == null || stage.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Stage is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(stage.toLowerCase() == 'resolved' && (resolutionComments == null || resolutionComments.trim() == '')){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Resolution Comments is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(stage.toLowerCase() == 'unresolved' && (unresolvedDetails == null || unresolvedDetails.trim() == '')){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Close Unresolved Details is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(stage.toLowerCase() == 'unresolved' && (unresolvedReason == null || unresolvedReason.trim() == '')){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Close Unresolved Reason is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
@@ -130,6 +166,7 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
         }
 
         if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
             System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){

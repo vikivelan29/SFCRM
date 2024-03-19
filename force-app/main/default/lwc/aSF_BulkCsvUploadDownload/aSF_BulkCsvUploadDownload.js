@@ -4,7 +4,6 @@ import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVF
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
 import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLineItemsChunk';
-import insertLastLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLastLineItemsChunk';
 import startProcessingChunks from '@salesforce/apex/ASF_BulkUploadUtilityController.startProcessingChunks';
 
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -14,6 +13,7 @@ import ASF_BulkUploadBUValidation from '@salesforce/resourceUrl/ASF_BulkUploadBU
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import CHUNK_SIZE from '@salesforce/label/c.ASF_Bulk_Chunk_Size';
+import DOWNLOAD_LIMIT_MESSAGE from '@salesforce/label/c.ASF_BulkDownloadLimit_Msg';
 
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
@@ -30,6 +30,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
     MAX_CHUNK_SIZE = CHUNK_SIZE;
+    downloadLimitMsg = DOWNLOAD_LIMIT_MESSAGE;
 
     helpMessage = false;
     @track showLoadingSpinner = true;
@@ -163,6 +164,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //Method to Download CSV template along with records
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
+        this.strErrorMessage = '';
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
                             strSelectedRecords : this.selectedCases,
@@ -241,19 +243,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.filesUploaded = event.target.files[0];
             this.fileName = event.target.files[0].name; 
             let strFileExt = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length) || this.fileName;
-
-            let arrFileExtn = this.fileName.split('.');
-            for(var i=0;i<arrFileExtn.length;i++){
-                let tempExtn = arrFileExtn[i];
-                if(tempExtn != null && tempExtn != undefined){
-                    tempExtn = tempExtn.toUpperCase();
-                    if(tempExtn!='CSV' && i != 0){
-                        this.boolCSVCheck = false;
-                        this.foundFileWithNotAllowedExtn = true;
-                        this.strCSVFileError = 'You are trying to upload file with multiple extension. Please select file with only one and .csv extension.';
-                        break;
-                    }
-                }     
+            let arrFileExtn = this.fileName.slice(-4);
+            if(arrFileExtn.toLowerCase() != '.csv'){
+                this.boolCSVCheck = false;
+                this.foundFileWithNotAllowedExtn = true;
+                this.strCSVFileError = 'Invalid file extension or file format.';
             }
 
             if(!this.foundFileWithNotAllowedExtn){
@@ -265,7 +259,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
                         return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
                     });
-                    console.log('parsed data--'+event.target.files[0].size+'--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
+                    console.log('parsed data--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
                 }
                 else{
@@ -278,6 +272,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
     //this method fetches the Template header without data
     getTemplateData(){
+        this.strErrorMessage = '';
         getCSVTemplate({strConfigName: this.selectedConfigRec.DeveloperName})
         .then(result => {
             this.getCSVClick(result, this.operationRecordTypeValue +'- Template');
@@ -311,6 +306,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         }
         if(this.operationRecordTypeValue == ''){
             this.strErrorMessage = 'Please select the operation type';
+            this.uploadValidationSuccess = false;
+            return;
+        }
+        if(this.rowCount > 50000){
+            this.strErrorMessage = 'Max record limit exceeded. Max record limit is 50000';
             this.uploadValidationSuccess = false;
             return;
         }
@@ -432,7 +432,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                         }
                     }
                 }
-                this.startProcessingChunks();
+                if(this.strErrorMessage === ''){
+                    this.startProcessingChunks();
+                }
             }
             else if(!result.isSuccess){
                 this.strErrorMessage = result.errorMessage;

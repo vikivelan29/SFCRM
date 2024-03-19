@@ -24,7 +24,7 @@ public class ABFL_E2C_CreationRules {
                 Set<Id> abflCaseIds = new Set<Id>();
                 for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
                     // Check if the case origin is 'ABFL Email'
-                    if (c.origin == 'ABFL Email') {
+                    if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
                         abflCaseIds.add(c.Id);
                     }
                 }  

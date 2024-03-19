@@ -38,10 +38,10 @@
                     <tr key={item.key} class="slds-hint-parent" ondblclick={onDoubleClickEdit}>
                         <td class="slds-size_2-of-14" data-label="Payments Id">
                             <div  title="Payments Id">
-                                <template if:false={isPaymentIdEditable}>
+                                <template if:false={item.isPaymentIdEditable}>
                                     {item.Payment_Identifier__c}
                                 </template>
-                                <template if:true={isPaymentIdEditable}>
+                                <template if:true={item.isPaymentIdEditable}>
                                     <lightning-input 
                                         data-id={item.key} 
                                         data-fieldname="Payment_Identifier__c"
@@ -58,10 +58,10 @@
                         </td>
                         <td class="slds-size_2-of-14" data-label="Amount">
                             <div  title="Amount">
-                                <template if:false={isPaymentAmountEditable}>
+                                <template if:false={item.isPaymentAmountEditable}>
                                     {item.Amount__c}
                                 </template>
-                                <template if:true={isPaymentAmountEditable}>
+                                <template if:true={item.isPaymentAmountEditable}>
                                     <lightning-input 
                                         data-id={item.key} 
                                         data-fieldname="Amount__c"
@@ -79,10 +79,10 @@
                         </td>
                         <td class="slds-size_2-of-14" data-label="Date">
                             <div  title="Date">
-                                <template if:false={isDateEditable}>
-                                    {item.Date__c}
+                                <template if:false={item.isDateEditable}>
+                                    {item.formattedDate}
                                 </template>
-                                <template if:true={isDateEditable}>
+                                <template if:true={item.isDateEditable}>
                                     <lightning-input 
                                         data-id={item.key} 
                                         data-fieldname="Date__c"
@@ -100,10 +100,10 @@
                         </td>
                         <td class="slds-size_3-of-14" data-label="Mode of Payment">
                             <div  title="Amount">
-                                <template if:false={isPaymentModeEditable}>
+                                <template if:false={item.isPaymentModeEditable}>
                                     {item.Mode_of_Payment__c}
                                 </template>
-                                <template if:true={isPaymentModeEditable}>
+                                <template if:true={item.isPaymentModeEditable}>
                                     <c-asf_-picklist 
                                         unique-key={item.key} 
                                         object-api-name="ABHFL_Payment__c"  
@@ -117,10 +117,10 @@
                         </td>
                         <td class="slds-size_3-of-14" data-label="Realization Status">
                             <div  title="Amount">
-                                <template if:false={isRealizationEditable}>
+                                <template if:false={item.isRealizationEditable}>
                                     {item.Realization_Status__c}
                                 </template>
-                                <template if:true={isRealizationEditable}>
+                                <template if:true={item.isRealizationEditable}>
                                     <c-asf_-picklist 
                                         unique-key={item.key} 
                                         object-api-name="ABHFL_Payment__c"  
@@ -133,7 +133,7 @@
                             </div>
                         </td>
                         <td class="slds-size_2-of-14" data-label="Action">
-                            <template if:true={isDeleteAllowed}>
+                            <template if:true={item.isDeleteAllowed}>
                                 <a name={indexVar} data-id={item.key} onclick={remove}>
                                     <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="x-small"></lightning-icon>
                                 </a>

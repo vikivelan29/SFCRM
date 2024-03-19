@@ -3,6 +3,7 @@
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
 **/
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
 public with sharing class  ASF_CaseUIController {
     
     @AuraEnabled
@@ -168,11 +169,16 @@ public with sharing class  ASF_CaseUIController {
         
         Case cs = new Case();
         cs.Id = caseId;
+
         if(accountId != ''){
             Id entityId = Id.ValueOf(accountId);
             if(entityId.getSObjectType() == Account.sObjectType){
+            // fetch contact record to be updated/associated along with Account/Customer Tagging
+                List<Contact> cont = [SELECT Id from Contact where AccountId = :accountId AND Primary__c = TRUE LIMIT 1];
                 cs.AccountId = accountId;
-                cs.Lead__c = null;
+                if(cont.size() > 0){// If contact found
+                cs.ContactId = cont[0].Id;// UAT Bug fix Cases tagging to multiple Accounts
+                }
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;

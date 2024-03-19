@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @IsTest
 public class ASF_RecategoriseCaseControllerTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
@@ -99,7 +100,7 @@ public class ASF_RecategoriseCaseControllerTest {
         insert casesList;
         Test.startTest();
         String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}';
-        ASF_RecategoriseCaseController.updateCaseWithNewCCCId(casesList[0].Id, casesList[0].CCC_External_Id__c, jsonString);
+        ASF_RecategoriseCaseController.updateCaseWithNewCCCId(casesList[0].Id, casesList[0].CCC_External_Id__c, jsonString, '');
         Test.stopTest();
         
     }

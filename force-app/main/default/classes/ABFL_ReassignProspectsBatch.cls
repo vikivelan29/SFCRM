@@ -6,64 +6,76 @@
 *********************************************************/
 global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
     
-        global Database.QueryLocator start(Database.BatchableContext BC) {
+    global Database.QueryLocator start(Database.BatchableContext BC) {
         // Fetch the configurable number of days from Custom Label
         Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
         Date startDate = Date.today().addDays(-numberOfDays);
-            system.debug('Start Date:' + startDate);
+        system.debug('Start Date:' + startDate);
         // Query for cases where Business_Unit__c is 'ABFL' and SuppliedEmail is not null
         return Database.getQueryLocator([
-            SELECT Id, Subject, Lead__c, SuppliedEmail 
+            SELECT Id, Subject, Lead__c, SuppliedEmail,Business_Unit__c 
             FROM Case 
-            WHERE Business_Unit__c = :ASF_Constants.ABFL_BU
+            WHERE Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
+            //AND Lead__c != null
             AND SuppliedEmail != null 
             AND AccountId = null 
             AND CreatedDate >= :startDate
         ]);
     }
-
+    
     global void execute(Database.BatchableContext BC, List<Case> scope) {
-        Map<String, Id> emailToAccountIdMap = new Map<String, Id>();
+        Set<String> setEmailID =  new Set<String>();
+        Set<String> setBusinessUnit =  new Set<String>();
         
-        // Populate email to Account Id mapping
-        for (Case caseRecord : scope) {
-            // Query for the most recent Account related to the SuppliedEmail
-            for (Account acc : [SELECT Id, PersonEmail, Office_Email__c, IsPersonAccount 
-                                FROM Account 
-                                WHERE PersonEmail = :caseRecord.SuppliedEmail OR Office_Email__c = :caseRecord.SuppliedEmail 
-                                ORDER BY CreatedDate DESC LIMIT 1]) {
-                if (acc.IsPersonAccount) {
-                    emailToAccountIdMap.put(acc.PersonEmail, acc.Id);
-                } else {
-                    emailToAccountIdMap.put(acc.Office_Email__c, acc.Id);
-                }
-            }
-        }
-        
-        // Update cases to remove Lead and assign to Account
+        Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
         List<Case> casesToUpdate = new List<Case>();
+        
         for (Case caseRecord : scope) {
-            if (emailToAccountIdMap.containsKey(caseRecord.SuppliedEmail)) {
-                caseRecord.AccountId = emailToAccountIdMap.get(caseRecord.SuppliedEmail);
-                casesToUpdate.add(caseRecord);
+            String caseBusinessUnit = caseRecord.Business_Unit__c;
+            String caseEmailSupplied = caseRecord.SuppliedEmail;
+            String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
+            integer iCompositeKey = compositeKey.hashCode();
+            if(!mHashkeyVsCase.containsKey(iCompositeKey)){
+                mHashkeyVsCase.put(iCompositeKey, new List<Case>());
+            }
+            mHashkeyVsCase.get(iCompositeKey).add(caseRecord);
+            
+            setEmailID.add(caseRecord.SuppliedEmail);  
+            setBusinessUnit.add(caseRecord.Business_Unit__c);             
+        }
+        
+        for(Contact con : [SELECT ID,Email,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
+                           AND Account.Business_Unit__c IN : setBusinessUnit ORDER BY CreatedDate DESC])
+        {
+            String caseBusinessUnit = con.Account.Business_Unit__c;
+            String caseEmailSupplied = con.Email;
+            String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
+            integer iCompositeKey = compositeKey.hashCode(); 
+            
+            if(mHashkeyVsCase.containsKey(iCompositeKey)){
+                for(Case c : mHashkeyVsCase.get(iCompositeKey)){
+                    c.AccountId = con.AccountId;
+                    casesToUpdate.add(c);
+                }
+                
             }
         }
         
-        // Update cases
         if (!casesToUpdate.isEmpty()) {
             try {
+                ASF_TriggerSkipperUtility.markTriggerRun('Case');
                 update casesToUpdate;
             } catch (Exception e) {
                 // Handle exceptions
                 System.debug('Error: ' + e.getMessage());
                 ABCL_Logger.enableExceptionLogging();
-            	ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
-            	ABCL_Logger.message(e.getMessage());
-            	ABCL_Logger.emit();
+                ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+                ABCL_Logger.message(e.getMessage());
+                ABCL_Logger.emit();
             }
         }
     }
-
+    
     global void finish(Database.BatchableContext BC) {
         System.debug('Batch job finished successfully.');
     }
