@@ -6,6 +6,7 @@
     <name>Handover of collateral documents- Returning document back to storage unit</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
+    <subject>Handover of collateral documents- Returning document back to storage unit</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
