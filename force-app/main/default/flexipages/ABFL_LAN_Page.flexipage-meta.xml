@@ -114,6 +114,26 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.RM_Name__c</fieldItem>
+                <identifier>RecordRM_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.RM_Email__c</fieldItem>
+                <identifier>RecordRM_Email_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Close_Reason__c</fieldItem>
                 <identifier>RecordClose_Reason_cField</identifier>
             </fieldInstance>
@@ -252,6 +272,26 @@
                 <identifier>RecordVertical_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Revised_LOB__c</fieldItem>
+                <identifier>RecordRevised_LOB_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Dealer_Name__c</fieldItem>
+                <identifier>RecordDealer_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-5fb5d042-641f-451c-89fd-8795720562bd</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -376,6 +416,16 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EMI_Start_Date__c</fieldItem>
+                <identifier>RecordEMI_Start_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
