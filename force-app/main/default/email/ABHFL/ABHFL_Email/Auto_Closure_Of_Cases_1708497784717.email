@@ -146,14 +146,14 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
+												<div style="margin-right: 4px; margin-left: 4px;">
 												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 												</style>
 												Dear Customer,<br />
 												<br />
 												Greetings from Aditya Birla Housing Finance Limited<br />
 												<br />
-												We would like to inform you that the payment link has expired and we would be closing your case ID {{{Case.Id}}}.<br />
+												We would like to inform you that the payment link has expired and we would be closing your case ID {{{Case.CaseNumber}}}.<br />
 												<br />
 												For any queries, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. You may also access your loan documents at a click of the button through our digital channels. We are pleased to inform you that we are now on WhatsApp. Send a “Hi” to 8828800032 and get instant access to a host of services on your Home Loan Account.<br />
 												<br />
