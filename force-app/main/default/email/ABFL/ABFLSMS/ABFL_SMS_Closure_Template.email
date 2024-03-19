@@ -1,9 +1,11 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear Customer,<br />
-<br />
-We wish to inform you that your Case ID {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed.<br />
-Regards, -Aditya Birla Finance Limited</body>
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,</p>
+
+<p>We wish to inform you that your Case ID {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed.<br />
+Regards -Aditya Birla Finance Limited</p>
+</body>
 </html>
