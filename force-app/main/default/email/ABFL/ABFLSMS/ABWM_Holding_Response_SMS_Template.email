@@ -1,11 +1,12 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
 <style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 </style>
-Dear Customer, we sincerely apologize for the delay in response for your service request no. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. We are working on the same and will provide a suitable solution within 7 working days.<br />
-<br />
-Regards, Wealth -Aditya Birla Finance Limited</body>
+<p>Dear Customer, we sincerely apologize for the delay in response for your service request no. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. We are working on the same and will provide a suitable solution within 7 working days.&nbsp;</p>
+
+<p>Regards, Wealth -Aditya Birla Finance Limited</p>
+</body>
 </html>
