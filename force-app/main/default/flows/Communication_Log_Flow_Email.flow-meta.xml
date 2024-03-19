@@ -485,6 +485,13 @@
                     <stringValue>ABWM</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABHFL</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_case_config</targetReference>
             </connector>
