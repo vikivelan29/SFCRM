@@ -111,11 +111,9 @@ public without sharing class ASF_Email2CaseHandler {
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
-                System.debug('@@@msg.FromAddress'+msg.FromAddress);
-                                System.debug('@@@msg.CcAddress'+msg.CcAddress);
                 if(msg.Headers != null){
                     if(!msg.Headers.contains('In-Reply-To:')){
-                            caseIds.add(msg.ParentId);
+                        caseIds.add(msg.ParentId);
                     }
                 }
                 else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
