@@ -26,6 +26,7 @@ public with sharing class ABFL_SOQL_Case {
              Account.Name, Client_Code__c,
              Account.Phone, ABFL_Case_Detail__r.Bank_IFSC_Code__c,
              ABFL_Case_Detail__r.Bank_Account_No__c, ABFL_Case_Detail__r.Frequency__c,
+             ABFL_Case_Detail__r.Emi_Amount__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
              ABFL_Case_Detail__r.Amount__c, ABFL_Case_Detail__r.Debit_Type__c ,
              Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
              CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,
