@@ -26,6 +26,10 @@
                 <behavior>Required</behavior>
                 <field>Default_Queue_Dev_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Case_Business_Unit__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
