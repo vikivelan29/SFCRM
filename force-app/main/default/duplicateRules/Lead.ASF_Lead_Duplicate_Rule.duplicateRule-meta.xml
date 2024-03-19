@@ -18,7 +18,7 @@
             <operation>notEqual</operation>
             <value>ABHFL</value>
             <sortOrder>2</sortOrder>
-            <table>User</table>
+            <table>Lead</table>
         </duplicateRuleFilterItems>
     </duplicateRuleFilter>
     <duplicateRuleMatchRules>
