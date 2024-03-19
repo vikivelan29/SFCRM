@@ -135,7 +135,8 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
     }
 
     evaluateSLAs(){
-        if(this.overallWrap && this.overallWrap.slaMilliseconds > new Date()){
+        //if(this.overallWrap && this.overallWrap.slaMilliseconds > new Date()){
+        if(this.overallWrap && this.overallWrap.isBreached == false){
             this.overallTAT = 'Within TAT';
             this.overallStyle = 'slds-text-body_small';
         }else{
@@ -143,33 +144,28 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
             this.overallStyle = 'breached-sla slds-text-body_small';
         }
 
-        if(this.sla3Wrap && this.overallWrap.caseObj.Stage_SLA_3__c){
-            if(this.sla3Wrap && this.sla3Wrap.slaMilliseconds > new Date()){
-                this.sla3TAT = 'Within TAT';
-                this.sla3Style = 'slds-text-body_small';
-            }else{
-                this.sla3TAT = 'Outside TAT';
-                this.sla3Style = 'breached-sla slds-text-body_small';
-            }
-        }
-        if(this.sla1Wrap && this.overallWrap.caseObj.Stage_SLA_1__c){
-            if(this.sla1Wrap && this.sla1Wrap.slaMilliseconds > new Date()){
-                this.sla1TAT = 'Within TAT';
-                this.sla1Style = 'slds-text-body_small';
-            }else{
-                this.sla1TAT = 'Outside TAT';
-                this.sla1Style = 'breached-sla slds-text-body_small';
-            }
+        if(this.sla3Wrap && this.sla3Wrap.isBreached == false){
+            this.sla3TAT = 'Within TAT';
+            this.sla3Style = 'slds-text-body_small';
+        }else{
+            this.sla3TAT = 'Outside TAT';
+            this.sla3Style = 'breached-sla slds-text-body_small';
         }
 
-        if(this.sla2Wrap && this.overallWrap.caseObj.Stage_SLA_2__c){
-            if(this.sla2Wrap && this.sla2Wrap.slaMilliseconds > new Date()){
-                this.sla2TAT = 'Within TAT';
-                this.sla2Style = 'slds-text-body_small';
-            }else{
-                this.sla2TAT = 'Outside TAT';
-                this.sla2Style = 'breached-sla slds-text-body_small';
-            }
+        if(this.sla1Wrap && this.sla1Wrap.isBreached == false){
+            this.sla1TAT = 'Within TAT';
+            this.sla1Style = 'slds-text-body_small';
+        }else{
+            this.sla1TAT = 'Outside TAT';
+            this.sla1Style = 'breached-sla slds-text-body_small';
+        }
+
+        if(this.sla2Wrap && this.sla2Wrap.isBreached == false){
+            this.sla2TAT = 'Within TAT';
+            this.sla2Style = 'slds-text-body_small';
+        }else{
+            this.sla2TAT = 'Outside TAT';
+            this.sla2Style = 'breached-sla slds-text-body_small';
         }
     }
     
