@@ -1,4 +1,4 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
 </head>
@@ -9,15 +9,15 @@
 	<colgroup>
 		<col width="353" />
 	</colgroup>
-	
+	<tbody>
 		<tr>
-			<td>Dear Customer,&nbsp;<br />
+			<td>Dear Customer,&nbsp;&nbsp;<br />
 			<br />
-			We wish to inform you that your Case ID&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed.<br />
-			<br />
-			Regards, Wealth -Aditya Birla Finance Limited</td>
+			We wish to inform you that your Case ID&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been closed.&nbsp;<br />
+			Regards, Wealth -Aditya Birla Finance Limited<br />
+			&nbsp;</td>
 		</tr>
-	
+	</tbody>
 </table>
 </body>
 </html>

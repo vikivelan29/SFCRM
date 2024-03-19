@@ -1,4 +1,4 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
 </head>
@@ -9,16 +9,15 @@
 	<colgroup>
 		<col width="353" />
 	</colgroup>
-	
+	<tbody>
 		<tr>
 			<td>
 			<style type="text/css"><!--br {mso-data-placement:same-cell;}-->
 			</style>
 			Dear Customer, we sincerely apologize for the delay in response for your service request no&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. We are working on the same and will provide a suitable solution within 7 working days.<br />
-			<br />
 			Regards, -Aditya Birla Finance Limited</td>
 		</tr>
-	
+	</tbody>
 </table>
 </body>
 </html>
