@@ -401,6 +401,13 @@
         <value>You are not allowed to edit a Closed Case.</value>
     </labels>
     <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
+        <value>Real Time Integration has failed. Please check with admin.</value>
+    </labels>
+    <labels>
         <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
         <language>en_US</language>
         <protected>false</protected>
