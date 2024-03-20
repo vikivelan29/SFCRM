@@ -17,7 +17,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             FROM Case 
             WHERE Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
             //AND Lead__c != null
-            AND SuppliedEmail != null 
+            AND SuppliedEmail != null
             AND AccountId = null 
             AND CreatedDate >= :startDate
         ]);
@@ -26,7 +26,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
     global void execute(Database.BatchableContext BC, List<Case> scope) {
         Set<String> setEmailID =  new Set<String>();
         Set<String> setBusinessUnit =  new Set<String>();
-        
+        Set<String> accountTagCheck = new Set<String>();
         Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
         List<Case> casesToUpdate = new List<Case>();
         
@@ -50,17 +50,17 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             String caseBusinessUnit = con.Account.Business_Unit__c;
             String caseEmailSupplied = con.Email;
             String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
-            integer iCompositeKey = compositeKey.hashCode(); 
-            
-            if(mHashkeyVsCase.containsKey(iCompositeKey)){
+            integer iCompositeKey = compositeKey.hashCode();
+
+            if(mHashkeyVsCase.containsKey(iCompositeKey) && !accountTagCheck.contains(compositeKey)){
                 for(Case c : mHashkeyVsCase.get(iCompositeKey)){
-                    c.AccountId = con.AccountId;
+                        c.AccountId = con.AccountId;
                     casesToUpdate.add(c);
                 }
-                
+                accountTagCheck.add(compositeKey);
             }
         }
-        
+                
         if (!casesToUpdate.isEmpty()) {
             try {
                 ASF_TriggerSkipperUtility.markTriggerRun('Case');
