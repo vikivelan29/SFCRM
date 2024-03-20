@@ -139,7 +139,7 @@
 							
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
-									<div style="text-align: right;">&nbsp;</div>
+									<div>&nbsp;</div>
 
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
@@ -148,7 +148,7 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
+												<div style="margin-right: 4px; margin-left: 4px;">
 												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 												</style>
 												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
@@ -165,27 +165,24 @@
 												For payment information,&nbsp;please refer to the points below.<br />
 												<br />
 												Please note the above-mentioned offer is subject to the following conditions:<br />
-												1. Payment of Re-Pricing fee of INR&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $$ABHFL_Case_Detail__r.Payable_Charges__c$$ +18% GST.<br />
-												2. Repricing fees can be paid by clicking on the payment link&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $$ABHFL_Case_Detail__r.Payment_Link__c$$. Please also confirm&nbsp;the<br />
-												&nbsp; &nbsp; effect&nbsp;to be given on either EMI or Tenure.Alternatively, Your can make<br />
-												&nbsp; &nbsp; payment for Repricing fees via Auto debit&nbsp;of NACH / Online payment&nbsp; /<br />
-												&nbsp; &nbsp; Cheque&nbsp;Deposit at he branch.<br />
+												1. Payment of Re-Pricing fee of INR $$ABHFL_Case_Detail__r.Payable_Charges__c$$ +18% GST.<br />
+												2. Repricing fees can be paid by clicking on the payment link $$ABHFL_Case_Detail__r.Payment_Link__c$$. Please also confirm to be given on either EMI or Tenure. Alternatively, Your can make payment for Repricing fees via Auto debit of NACH / Online payment /Cheque Deposit at the branch.<br />
 												3. The proposed rate of interest will be effective from next EMI cycle date.<br />
 												4. In case of change in ARR, ROI will change accordingly.<br />
 												5. The offer is subject to clearance of PDD &amp; Over-Due amount as on date if any<br />
-												6. This offer will be valid for 3 business days. If we do not receive&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; the&nbsp;payment/cheque from your side within this period, kindly note that we will&nbsp; &nbsp; &nbsp; be&nbsp;unable to proceed with making the necessary changes in the rate of&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interest.<br />
+												6. This offer will be valid for 3 business days. If we do not receive payment/cheque from your side within this period, kindly note that we will be unable to proceed with making the necessary changes in the rate of interest.<br />
 												7. All other Terms &amp; Conditions of Sanction remain unchanged.<br />
 												<br />
 												If Cheque:We would request you to make the payment of Re-pricing fees at our branch through cheque in favour of Aditya Birla Housing Finance Limited.<br />
 												<br />
 												If Online (Bank transfer):Kindly find the Bank details as mentioned below and we request you to provide with the UTR number once the funds are transferred.<br />
 												<br />
-												Beneficiary Name&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Aditya Birla Housing Finance Limited<br />
-												Beneficiary Account No&nbsp; &nbsp; &nbsp; &nbsp; $$Asset.VAN__c$$<br />
-												Beneficiary bank &amp; branch&nbsp; &nbsp;IndusInd Bank, Ground floor, maker chambers IV,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Nariman Point, Mumbai – 400021.<br />
-												IFSC Code&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; INDB0000006<br />
-												Account Type&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Current Account<br />
-												<br />
+												Beneficiary Name&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Aditya Birla Housing Finance Limited<br />
+												Beneficiary Account No&nbsp; &nbsp; &nbsp; &nbsp;$$Asset.VAN__c$$<br />
+												Beneficiary bank &amp; branch&nbsp; &nbsp;IndusInd Bank, Ground floor, maker chambers IV,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Nariman Point, Mumbai – 400021.<br />
+												IFSC Code&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;INDB0000006<br />
+												Account Type&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Current Account<br />
+												&nbsp;<br />
 												For further queries on this, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you or call us at :- 18002707000<br />
 												Thank you for reaching out to Aditya Birla Housing Finance Limited.<br />
 												<br />
