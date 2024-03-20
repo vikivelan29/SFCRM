@@ -22,7 +22,7 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         PermissionSetGroup  ps = [SELECT Id, Status FROM PermissionSetGroup WHERE DeveloperName ='Super_Admin'];
         UserRole ur = [SELECT ID FROM UserRole WHERE DeveloperName='Payments_Service_Agent' LIMIT 1];
         if (ps.Status != 'Updated') {
-            Test.calculatePermissionSetGroup(ps.Id);
+            //Test.calculatePermissionSetGroup(ps.Id);
         }
         
         list<user> userList = new list<User>();
