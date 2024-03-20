@@ -50,7 +50,7 @@
                 <identifier>RecordLAN_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
+                <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -334,6 +334,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Cheque_Bounce__c</fieldItem>
                 <identifier>RecordCheque_Bounce_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Overdue_charges__c</fieldItem>
+                <identifier>RecordOverdue_charges_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-895fc714-39f2-4da9-a846-2d96053b124d</name>
