@@ -111,7 +111,7 @@ public with sharing class ABHFL_MultipleLANController {
             }
             return lanWrapper;
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw e;//throw new AuraHandledException(e.getMessage());
         }
     }
     /****************************************************************************************************************
