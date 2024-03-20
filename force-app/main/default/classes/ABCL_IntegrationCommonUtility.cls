@@ -92,7 +92,14 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     public static List<Database.SaveResult> createPELogAndinvokeCommPEevent(List<Case> caseRecs, Map<Id, String> emailTemplateMap, Map<Id, String> smsMetadataMap, Map<Id, Boolean> isTransferredMap){
         Map<Id, PE_Logger__c> loggerMap = new Map<Id, PE_Logger__c>();
+        Set<Id> setOfCaseIds = new Set<Id>();
+
         for(Case caseRec : caseRecs){
+            setOfCaseIds.add(caseRec.Id);
+        }
+        List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds];
+
+        for(Case caseRec : csList){
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.AccountId__c = caseRec.AccountId;
             peLogger.CCCExternalId__c = caseRec.CCC_External_Id__c;
@@ -105,19 +112,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.CustomMetadataName__c = smsMetadataMap!= null?smsMetadataMap.get(caseRec.Id):null;
             peLogger.Email_Template_Name__c = emailTemplateMap != null?emailTemplateMap.get(caseRec.Id):null;
             peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
+            peLogger.LOB__c = caseRec.Business_Unit__c;  
+            peLogger.Lead__c = caseRec.Lead__c;
             Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
-            if(!caseFieldValMap.containsKey('Business_Unit__c') || !caseFieldValMap.containsKey('Lead__c')){
-                Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id];
-                peLogger.LOB__c = caseRecord.Business_Unit__c;
-                peLogger.Lead__c = caseRecord.Lead__c;              
-            } else {
-                if(!caseFieldValMap.containsKey('Business_Unit__c')){
-                    peLogger.LOB__c = caseRec.Business_Unit__c;    
-                }
-                if(!caseFieldValMap.containsKey('Lead__c')){
-                    peLogger.LOB__c = caseRec.Lead__c;    
-                }
-            }
+
             if(isTransferredMap.get(caseRec.Id)){
                 peLogger.Is_Attachment__c = true;
                 //peLogger.Content_Version_Ids__c='0689I000001DJPFQA4';
@@ -188,7 +186,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 peLogger.LOB__c = caseRec.Business_Unit__c;    
             }
             if(!caseFieldValMap.containsKey('Lead__c')){
-                peLogger.LOB__c = caseRec.Lead__c;    
+                peLogger.Lead__c = caseRec.Lead__c;    
             }
         }
         if(isTransferred){
