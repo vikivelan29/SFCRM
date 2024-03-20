@@ -28,8 +28,8 @@ global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObje
          
         Set<String> cccExternalIdList = cccExtIdToAutoClosureRecMap.keyset();
 
-        String query = 'SELECT Id, ABHFL_Case_Detail__r.Realization_status__c, ABHFL_Case_Detail__r.Payment_Link_Trigger_Time__c, Stage__c, CCC_External_Id__c' +
-                        ' FROM Case where CCC_External_Id__c in: cccExternalIdList';
+        String query = 'SELECT Id, AccountId, ContactId, ABHFL_Case_Detail__r.Realization_status__c, ABHFL_Case_Detail__r.Payment_Link_Trigger_Time__c, Stage__c,' +
+                        ' CCC_External_Id__c, No_Auto_Communication__c FROM Case where CCC_External_Id__c in: cccExternalIdList';
         return Database.getQueryLocator(query);
     }
      
@@ -45,9 +45,13 @@ global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObje
     public void autoClosureOfCase(List<Case> caseLst) {
 
         List<Case> updateCaseList = new List<Case>();
+        Map<Id, String> caseIdToEmailTemplateMap = new Map<Id, String>();
+        Map<Id, String> caseIdToSmsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> transferredMap = new Map<Id, Boolean>();
         List<String> stagetoInclude = new List<String>{'Resolved', 'resolved', 'Unresolved', 'unresolved', 'Duplicate', 'duplicate', 'Closed', 'closed'};
 
         for(Case caserec : caseLst) {
+            String caseRecId = caserec.Id;
             String caseStage = caserec.Stage__c;
             String stageToBePopulated = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).Stage__c;
             String realizationStatus  = caserec.ABHFL_Case_Detail__r.Realization_status__c;
@@ -60,10 +64,19 @@ global with sharing class ABHFL_Auto_Closure implements Database.Batchable<sObje
                 caserec.Stage__c = stageToBePopulated;
                 caserec.Rejection_Reason__c = 'Closed as Exception';
                 updateCaseList.add(caserec); 
+
+                String emailTemplateName = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).Email_Template__c;
+                String smsTemplateName = cccExtIdToAutoClosureRecMap.get(caserec.CCC_External_Id__c).SMS_Template__c;
+
+                caseIdToEmailTemplateMap.put(caseRecId, emailTemplateName);
+                caseIdToSmsMetadataMap.put(caseRecId, smsTemplateName);
             }
+            transferredMap.put(caseRecId, false);
         }
         if(updateCaseList.size() > 0) {
             update updateCaseList;
+            List<Database.SaveResult> platformEventResultList = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseLst, caseIdToEmailTemplateMap,
+                                                                                                                            caseIdToSmsMetadataMap, transferredMap); 
         }
     }
 
