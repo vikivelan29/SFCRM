@@ -99,12 +99,12 @@ export default class Abfl_retailPanel extends LightningElement {
                         if (this.payloadInfo) {
                             this.showBaseViewScreen = true;
                         } else {
-                            console.log('error');
+                            console.log(JSON.stringify(error));
                             this.showToast("Error", this.label.errorMessage, 'error');
                         }
                     })
                     .catch((error) => {
-                        console.log('error');
+                        console.log(JSON.stringify(error));
                         this.isLoading = false;
                         this.showToast("Error", this.label.errorMessage, 'error');
                     });
