@@ -21,7 +21,7 @@ public class ABHFL_BitlyUrl_Test {
         
         
         if(psg.Status != 'Updated'){
-            Test.calculatePermissionSetGroup(psg.Id);
+            //Test.calculatePermissionSetGroup(psg.Id);
             insert new PermissionSetAssignment(PermissionSetGroupId = psg.Id, AssigneeId = u.Id);
         }
 

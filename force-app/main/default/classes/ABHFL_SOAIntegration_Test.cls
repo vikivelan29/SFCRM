@@ -20,7 +20,7 @@ public with sharing class ABHFL_SOAIntegration_Test {
         
         
         if(psg.Status != 'Updated'){
-            Test.calculatePermissionSetGroup(psg.Id);
+            //Test.calculatePermissionSetGroup(psg.Id);
             insert new PermissionSetAssignment(PermissionSetGroupId = psg.Id, AssigneeId = u.Id);
         }
 

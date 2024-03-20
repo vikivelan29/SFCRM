@@ -35,7 +35,7 @@ public class ListViewBlockEventConditionTest {
         PermissionSetGroup  ps = [SELECT Id, Status FROM PermissionSetGroup WHERE DeveloperName ='Super_Admin'];
         UserRole ur = [SELECT ID FROM UserRole WHERE DeveloperName='Payments_Service_Agent' LIMIT 1];
         if (ps.Status != 'Updated') {
-            Test.calculatePermissionSetGroup(ps.Id);
+            //Test.calculatePermissionSetGroup(ps.Id);
         }
         User u = new User(Alias = 'standt', Email='standarduser@testorg.com', 
                           EmailEncodingKey='UTF-8', LastName='TestUser5srDetail', LanguageLocaleKey='en_US', 

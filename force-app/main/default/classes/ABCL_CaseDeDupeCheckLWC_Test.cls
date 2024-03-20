@@ -15,7 +15,7 @@ public class ABCL_CaseDeDupeCheckLWC_Test {
         
         
         if(psg.Status != 'Updated'){
-            Test.calculatePermissionSetGroup(psg.Id);
+            //Test.calculatePermissionSetGroup(psg.Id);
             insert new PermissionSetAssignment(PermissionSetGroupId = psg.Id, AssigneeId = u.Id);
         }
         

@@ -20,7 +20,7 @@ public class ASF_CaseEmailController_Test {
         PermissionSetGroup psg = [select Id, Status from PermissionSetGroup where DeveloperName='Super_Admin'];
         
         if(psg.Status != 'Updated'){
-            Test.calculatePermissionSetGroup(psg.Id);
+            //Test.calculatePermissionSetGroup(psg.Id);
             insert new PermissionSetAssignment(PermissionSetGroupId = psg.Id, AssigneeId = u.Id);
         }
         
