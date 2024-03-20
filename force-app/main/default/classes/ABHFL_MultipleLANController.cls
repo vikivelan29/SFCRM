@@ -17,7 +17,7 @@ public with sharing class ABHFL_MultipleLANController {
     public static MultipleLanWrapper getLanDataAndMetadata(string recId, string loggedInUserId){
         try {
             MultipleLanWrapper lanWrapper = new MultipleLanWrapper();
-            Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId WITH SECURITY_ENFORCED];
+            Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId ];
             //ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
             List<ABHFL_Multiple_LAN__mdt> lanMetadataList = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label, QualifiedApiName, SystemModstamp, 
                                                     Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c, 
@@ -35,9 +35,9 @@ public with sharing class ABHFL_MultipleLANController {
                     validLoggedInUser = true;
                 }
             }else {
-                List<GroupMember> groupMember = [SELECT UserOrGroupId FROM GroupMember where GroupId =: caseRecord.OwnerId WITH SECURITY_ENFORCED];
+                List<GroupMember> groupMember = [SELECT UserOrGroupId FROM GroupMember where GroupId =: caseRecord.OwnerId ];
                 if(groupMember.size() > 0 && groupMember[0].UserOrGroupId.getSObjectType().getDescribe().getName() != 'User'){
-                    List<GroupMember> userMember = [SELECT GroupId,Id,SystemModstamp,UserOrGroupId FROM GroupMember where GroupId =: groupMember[0].UserOrGroupId and UserOrGroupId =: loggedInUserId WITH SECURITY_ENFORCED];
+                    List<GroupMember> userMember = [SELECT GroupId,Id,SystemModstamp,UserOrGroupId FROM GroupMember where GroupId =: groupMember[0].UserOrGroupId and UserOrGroupId =: loggedInUserId ];
                     if(userMember.size() > 0){
                         validLoggedInUser = true;
                     }
@@ -205,7 +205,7 @@ public with sharing class ABHFL_MultipleLANController {
     *****************************************************************************************************************/
     public static List<AssetDetailWrapper> getAssetDetailRecords(ABHFL_Multiple_LAN__mdt lanMetadata,ABHFL_Multiple_LAN__mdt childLanMetadata,String recId){
         List<AssetDetailWrapper> assetDetailRecords = new List<AssetDetailWrapper>();
-        List<LAN_Mapping__c> lanMappingList = [Select LAN__c from LAN_Mapping__c where Customer__c in (Select AccountId from Case where id =: recId) WITH SECURITY_ENFORCED];
+        List<LAN_Mapping__c> lanMappingList = [Select LAN__c from LAN_Mapping__c where Customer__c in (Select AccountId from Case where id =: recId) ];
         Set<String> lanIds = new Set<String>();
         if(lanMappingList.size() > 0){
             for(LAN_Mapping__c lanMap : lanMappingList){

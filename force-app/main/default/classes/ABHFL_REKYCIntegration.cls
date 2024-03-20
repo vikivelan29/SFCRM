@@ -24,7 +24,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         Case caseRecord = [
             SELECT Id, Account.IsPersonAccount, Account.KYC_Done_Date__c, Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
         //Check for Mandatory Conditions...
         if(caseRecord.Account.IsPersonAccount){
@@ -54,7 +54,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         // Case caseRecord = [
         //     SELECT Id, Account.IsPersonAccount, Account.KYC_Done_Date__c, Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c
         //     FROM Case
-        //     WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+        //     WHERE Id =: caseRec.Id 
         // ];
         List<Case> caseRecords = new List<Case>();
         for(Case caseRec : caseRecs){
@@ -99,7 +99,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 		List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:integ.External_Id__c ];
         if(existingCaseIntRecords.size()>0 && Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
                 cInt.Status__c = ABHFL_Constants.CANCELED;
@@ -111,7 +111,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
             SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
              Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c
             FROM Case
-            WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+            WHERE Id =: caseRec.Id 
         ];
 
         String kycDoneDate = String.valueOf(caseRecord.Account.KYC_Done_Date__c);
@@ -188,7 +188,7 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
         //     SELECT Id , Account.Client_Code__c, Business_Unit__c, CCC_External_Id__c, Customer_name_formula__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, Nature__c, Account.KYC_Done_Date__c, Account.PersonEmail,
         //      Account.PersonMobilePhone, Account.PAN__c, Account.PersonBirthdate, Account.Street_Address_1__c, Account.Street_Address_2__c, Account.Street_Address_3__c, Account.City__c, Account.State__c
         //     FROM Case
-        //     WHERE Id =: caseRec.Id WITH SECURITY_ENFORCED
+        //     WHERE Id =: caseRec.Id 
         // ];
         List<Case> caseRecords = new List<Case>();
         for(Case caseRec : caseRecs){

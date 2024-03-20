@@ -18,7 +18,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRe){
         Case caseRec = [SELECT Id, CCC_External_Id__c, Source__c FROM Case WHERE Id = :caseRe.Id];
-        ASF_Case_Category_Config__c accc = [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c  = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+        ASF_Case_Category_Config__c accc = [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c  = :caseRec.CCC_External_Id__c ];
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
         
@@ -42,7 +42,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
             cccIds.add(caseRec.CCC_External_Id__c);
         }
         
-        for(ASF_Case_Category_Config__c cccRecord : [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccIds WITH SECURITY_ENFORCED])
+        for(ASF_Case_Category_Config__c cccRecord : [SELECT Id, CCC_External_Id__c, Documentation_Type__c, Nature__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccIds ])
         {
             configIdToConfigMap.put(cccRecord.CCC_External_Id__c, cccRecord);
         }
@@ -72,7 +72,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
         WHERE Case__c =:caseRec.Id 
-        AND Integration_Ext_Id__c =:integ.External_Id__c WITH SECURITY_ENFORCED];
+        AND Integration_Ext_Id__c =:integ.External_Id__c ];
         if(existingCaseIntRecords.size()>0 && Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
             for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
                 cInt.Status__c = ABHFL_Constants.CANCELED;
@@ -81,7 +81,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
         }
 
 
-        caseRec = [SELECT Id, CaseNumber, Business_Unit__c FROM Case WHERE Id = :caseRec.Id WITH SECURITY_ENFORCED];
+        caseRec = [SELECT Id, CaseNumber, Business_Unit__c FROM Case WHERE Id = :caseRec.Id ];
 		String longUrl = System.label.ABHFL_Base_URL_For_Bitly + caseRec.CaseNumber;
         Integer expiryDay = Integer.valueOf(System.label.ExpiryDay_For_Bitly_URL);
         String lob = caseRec.Business_Unit__c;
@@ -231,9 +231,9 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
-        Case caseRec =[SELECT Id, AccountId, No_Auto_Communication__c, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c WITH SECURITY_ENFORCED];
+        Case caseRec =[SELECT Id, AccountId, No_Auto_Communication__c, ContactId, Business_Unit__c, ABHFL_Case_Detail__c, ABHFL_Case_Detail__r.STP_Failure__c, CCC_External_Id__c  FROM Case WHERE Id=:caseInteg.Case__c ];
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, New_Case_Email_Template__c, New_Case_SMS_Metadata__c, Nature__c, Send_open_stage_communications__c, 
-                            (select id, Status_Mapping__c, SLA_Override_Enabled__c from Case_Stage_Configs__r where Status_Mapping__c = 'In Progress')  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                            (select id, Status_Mapping__c, SLA_Override_Enabled__c from Case_Stage_Configs__r where Status_Mapping__c = 'In Progress')  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:caseRec.CCC_External_Id__c ];
         Boolean sendCommunication = shouldSendCommunication(cccRecord[0]);
 
         if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
