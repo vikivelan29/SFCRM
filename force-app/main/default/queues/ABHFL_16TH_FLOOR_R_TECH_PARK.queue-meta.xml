@@ -2,16 +2,6 @@
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABHFL 16TH FLOOR # R-TECH PARK</name>
-    <queueMembers>
-        <users>
-            <user>abhfltest01@salesforce.com</user>
-            <user>abhfltestuser2@salesforce.com.uat</user>
-            <user>manish.kamble1-v@adityabirlacapital.com.abhfluat</user>
-            <user>mayur.gorle-v@adityabirlacapital.com.abhfluat</user>
-            <user>omkar.lad1@adityabirlacapital.com.abhfluat</user>
-            <user>roshni.nhavkar-v@adityabirlacapital.com.abhfluat</user>
-        </users>
-    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

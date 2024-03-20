@@ -423,7 +423,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Pre_Framework_Lightning_Page</content>
+        <content>Payments_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Interaction</recordType>
@@ -432,7 +432,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Pre_Framework_Lightning_Page</content>
+        <content>Payments_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Interaction</recordType>
