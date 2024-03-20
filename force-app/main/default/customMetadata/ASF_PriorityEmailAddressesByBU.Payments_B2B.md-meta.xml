@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>abfl.nodalofficersouth@adityabirlacapita</label>
+    <label>Payments B2B</label>
     <protected>false</protected>
     <values>
         <field>Active__c</field>
@@ -8,22 +8,22 @@
     </values>
     <values>
         <field>Business_Unit__c</field>
-        <value xsi:type="xsd:string">ABFL</value>
+        <value xsi:type="xsd:string">Payments</value>
     </values>
     <values>
         <field>Default_Queue_Dev_Name__c</field>
-        <value xsi:type="xsd:string">ABFL_Grievance</value>
+        <value xsi:type="xsd:string">Payments_Service_Desk</value>
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
-        <value xsi:type="xsd:string">abfl.nodalofficersouth@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">abcdl.merchant@adityabirlacapital.com</value>
     </values>
     <values>
         <field>Priority_Index__c</field>
-        <value xsi:type="xsd:double">7.0</value>
+        <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
         <field>Send_to_EBOT__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>
