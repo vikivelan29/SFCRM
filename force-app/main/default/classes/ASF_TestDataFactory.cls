@@ -1430,7 +1430,7 @@ public with sharing class ASF_TestDataFactory {
         fieldConfigs.add(field2);
         insert fieldConfigs;
     
-        Group testGroup = [Select Id from Group where DeveloperName ='Payment_Service_Desk' LIMIT 1];
+        Group testGroup = [Select Id from Group where DeveloperName ='Payments_Service_Desk' LIMIT 1];
         Group testGroupError = [Select Id from Group where DeveloperName ='DefaultErrorQueue' LIMIT 1];
             
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
