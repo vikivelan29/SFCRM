@@ -101,6 +101,7 @@ export class asf_Utility {
 
         fields[ID_FIELD.fieldApiName] = parentJS.recordId;
         fields[NEW_STAGE.fieldApiName] = true;
+
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
         }
@@ -116,7 +117,7 @@ export class asf_Utility {
        
        fields[NATURE_FIELD.fieldApiName] = parentJS.natureVal;
        //fields[PRODUCT_FIELD.fieldApiName] = parentJS.productVal;
-       fields[SOURCE_FIELD.fieldApiName] = source;
+       //fields[SOURCE_FIELD.fieldApiName] = source;
        //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 
