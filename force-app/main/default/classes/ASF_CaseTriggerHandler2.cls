@@ -16,11 +16,11 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
 ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
                      
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
-            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-            buSpecificCls.executeBeforeASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
-            
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
             ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
+            
+            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+            buSpecificCls.executeBeforeASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
             
             //Validation methods
             ASF_CaseTriggerModularHelper.validateIfCCCInAPIRequest(mRecordTypeVsCases.get(frameworkRTId), null);
