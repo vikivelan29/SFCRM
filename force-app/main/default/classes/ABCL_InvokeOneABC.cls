@@ -64,14 +64,14 @@ public without sharing class ABCL_InvokeOneABC {
                 caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
             }    
             if(!caseIdToCaseIntMap.isEmpty()){
-               for (Case caseRecordFinal : caseRecord){
+               for (Case caseRecordFinal : [SELECT ID,OwnerText__c,CaseNumber,Business_Unit__c ,Stage__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.Resolution_comments__c FROM CASE WHERE ID IN:caseRecord]){
                    if(caseIdToCaseIntMap.containsKey(caseRecordFinal.Id)){
                        system.debug('enterePE');
                         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                             'AssignedTeam' => caseRecordFinal.OwnerText__c, 
                             'AssignedUser' =>  caseRecordFinal.OwnerText__c,
                             'LOBCaseID' => caseRecordFinal.CaseNumber,
-                            'Remarks' => caseRecordFinal.Resolution_Comments__c ,
+                            'Remarks' => caseRecordFinal.ABFL_Case_Detail__r.Resolution_comments__c  ,
                             'Status' => caseRecordFinal.Stage__c
                          };
                         caseOutEvntList.add(new Case_Integration_Outbound__e(
