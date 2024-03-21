@@ -20,7 +20,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
     * @Description - Processing Ebot Response
     *****************************************************************************************************************/   
     public static void eBotResponseHandler(String caseId,ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse){
-           
+        
         List<String> validSubTypesForMovetoNext = new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC','RLOAPRONHFC','REFCL001'};
         ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
         caseDetails.Ebot_Owner_Full_Name__c  = ebotResponse.OWNERFULLNAME;
@@ -43,6 +43,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Is_Trail__c = ebotResponse.ISTRAIL;
         caseDetails.Lan_Comment__c = ebotResponse.LANCOMMENT;
         caseDetails.Unregistered_Category__c = ebotResponse.UNREGISTEREDCATEGORY;
+        caseDetails.Skip_Dedupe__c = true;
        //End
        if(ebotResponse.ISREGISTRED == 'No'){
             caseDetails.Is_FTR__c = true;
