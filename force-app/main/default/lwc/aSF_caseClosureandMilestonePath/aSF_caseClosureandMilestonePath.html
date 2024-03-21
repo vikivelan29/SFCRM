@@ -88,14 +88,6 @@
                              alternative-text="expand" title="expand" onclick={openAllPanels}></lightning-button-icon>
                 </lightning-layout-item>
 
-                <!--VIRENDRA  : Moved the Expand Collapse at the top.
-                <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    
-                </lightning-layout-item>
-                -->
-
-
-                <!-- VIRENDRA -->
                 <template if:true={showAdditionalSLA}>
 
                     <lightning-layout-item  class="center-text" size="3"><!--padding="around-small" -->
@@ -108,15 +100,17 @@
                                 <template if:true={showTimer}>
                                     <p>{timer}</p>
                                 </template>
-                                <lightning-formatted-date-time value={caseObj.Stage_SLA_1__c}
-                                            year="numeric"
-                                            month="2-digit"
-                                            day="2-digit"
-                                            hour="2-digit"
-                                            minute="2-digit"
-                                            time-zone="IST"
-                                            class={sla1Style}>
-                                        </lightning-formatted-date-time>
+                                <template lwc:if={caseObj}>
+                                    <lightning-formatted-date-time value={caseObj.Stage_SLA_1__c}
+                                                year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                hour="2-digit"
+                                                minute="2-digit"
+                                                time-zone="IST"
+                                                class={sla1Style}>
+                                            </lightning-formatted-date-time>
+                                </template>
                             </div>
                         </div>
                     </lightning-layout-item>
@@ -132,16 +126,18 @@
                                 <template if:true={showTimer}>
                                     {slaTimer} 
                                 </template>
-                                <lightning-formatted-date-time value={caseObj.Stage_SLA_2__c}
-                                            year="numeric"
-                                            month="2-digit"
-                                            day="2-digit"
-                                            hour="2-digit"
-                                            minute="2-digit"
-                                            time-zone="IST"
-                                            class={sla2Style}>
-                                        </lightning-formatted-date-time>
-                                </div>
+                                <template lwc:if={caseObj}>
+                                    <lightning-formatted-date-time value={caseObj.Stage_SLA_2__c}
+                                                year="numeric"
+                                                month="2-digit"
+                                                day="2-digit"
+                                                hour="2-digit"
+                                                minute="2-digit"
+                                                time-zone="IST"
+                                                class={sla2Style}>
+                                            </lightning-formatted-date-time>
+                                </template>
+                            </div>
                         </div>
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small" size="3">
@@ -151,20 +147,6 @@
                 </template>
 
             </lightning-layout>
-
-            <!-- VIRENDRA - ADDED FOR EXPANDED AND COLLAPSE SLA.-->
-            <!--<lightning-layout multiple-rows="true">
-                <lightning-layout-item padding="around-small" size="10" alignment-bump="right">
-
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="2" alignment-bump="right">
-                    <a role="button" data-toggle="collapse" aria-expanded="true" aria-controls="collapseOne"
-                        onclick={openAllPanels}>
-                        {expandCollapseLbl}
-                    </a>
-                </lightning-layout-item>
-
-            </lightning-layout>-->
         </div>
     </lightning-card>
 </template>
