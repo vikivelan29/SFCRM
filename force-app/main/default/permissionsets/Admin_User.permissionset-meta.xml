@@ -6867,6 +6867,11 @@
         <tab>standard-report</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Integration__c.Query_Fields__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>AssignTopics</name>
