@@ -3,6 +3,7 @@ import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import updateCase from '@salesforce/apex/ASF_CaseUIController.updateCase';
 import createCaseExtension from '@salesforce/apex/ASF_CaseUIController.createCaseExtension';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceErrors } from 'c/asf_ldsUtils';
 
 //Fields
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
@@ -183,11 +184,17 @@ export class asf_Utility {
                
            })
            .catch(error => {
-
+            console.log('error.body.message:'+JSON.stringify(error));
+            let errMsg = reduceErrors(error);
+            console.log('errMsg:'+errMsg);
+            let errConcat='';
+            for(let i of errMsg){
+                errConcat = errConcat+i+' ';
+            }
             parentJS.dispatchEvent(
                    new ShowToastEvent({
                        title: 'Error Updating record',
-                       message: error.body.message,
+                       message: errConcat,
                        variant: 'error',
                    }),
                );
