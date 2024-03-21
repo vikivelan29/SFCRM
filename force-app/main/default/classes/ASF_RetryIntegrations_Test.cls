@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_RetryIntegrations_Test {
     @TestSetup

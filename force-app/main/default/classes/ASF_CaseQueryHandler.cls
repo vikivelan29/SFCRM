@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-22-2023
+ * @last modified on  : 01-MAR-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ASF_CaseQueryHandler {
@@ -45,7 +45,7 @@ public with sharing class ASF_CaseQueryHandler {
                                         FROM ASF_Checklist__c
                                         WHERE
                                         Mandatory__c = TRUE
-                                        AND Status__c NOT IN ('Completed')
+                                        AND Status__c NOT IN ('Completed','Rejected')
                                         AND Case__c = :caseIds
                                         AND Stage_Name__c = :caseStages];
         }
@@ -79,7 +79,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     public static List<ASF_Integration__c> getIntegrationsFromConfig(Set<Id> caseStageConfigIds){
         if(cccIntegrations == null){
-            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c
+            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c
                                FROM ASF_Integration__c
                                WHERE Mandatory_At_Stage_Movement__c = true
                                AND Case_Stage_Config__c =: caseStageConfigIds];
@@ -89,7 +89,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     public static List<ASF_Case_Integration__c> getCaseRelatedIntegrations(Set<String> cccIntegrationExtIds, Set<Id> caseIds){
         if(caseIntegrations == null || refreshRecords){
-            caseIntegrations = [SELECT Id, Is_Validation_Success__c, Integration_Ext_Id__c
+            caseIntegrations = [SELECT Id, Is_Validation_Success__c, Integration_Ext_Id__c, Case__c
                                 FROM ASF_Case_Integration__c
                                 WHERE Case__c =: caseIds
                                 AND Integration_Ext_Id__c in: cccIntegrationExtIds
@@ -99,7 +99,7 @@ public with sharing class ASF_CaseQueryHandler {
     }
     //15/02/2023: Added ABFL_BRE_CalloutClass__c field on ASF_Integration for BRE callout - AC
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
-        if(caseStageConfigs == null){
+        if(caseStageConfigs == null || refreshRecords){
             caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,
@@ -110,7 +110,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  Approval_Rejected_Fields_to_Update__c,Approval_Style__c,Approval_SuccessStageMovement__c FROM Case_Rules__r),
                                 (SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integrations__r)
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
                                 WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId
                                 ORDER BY Case_Category_Config__c, Order__c];        
@@ -233,7 +233,7 @@ public with sharing class ASF_CaseQueryHandler {
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
-                                    Is_Recategorise_Allowed__c,Allow_file_upload__c
+                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds];
                                     
@@ -267,7 +267,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId];
     }
     public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
-        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c   FROM Case WHERE Id =: caseIds];
+        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds];
     }
     
 }

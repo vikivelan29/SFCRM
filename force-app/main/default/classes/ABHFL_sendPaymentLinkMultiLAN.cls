@@ -1,16 +1,24 @@
 public class ABHFL_sendPaymentLinkMultiLAN implements ASF_CaseStageClassInvocable {
-	public static ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        //send payment link for multiple Lan
-        ABHFL_CTSTHelper.storeMultipleLANs(caseRec);
-        retCls.status = ABHFL_Constants.SUCCESS;
-        retCls.updatedCase = caseRec;
-        retCls.isCaseUpdated = false;
-        return retCls;
-    }
-     public static ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+	public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
         
-        return retCls;
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        //send payment link for multiple Lan
+        ABHFL_CTSTHelper.storeMultipleLANs(caseRecords);
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = ABHFL_Constants.SUCCESS;
+            retCls.updatedCase = caseRec;
+            retCls.isCaseUpdated = false;
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
+    }
+    public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
 }

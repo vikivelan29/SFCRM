@@ -45,10 +45,10 @@
         <locationY>0</locationY>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Stage__c</field>
+            <field>IsClosed</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Resolved</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Case</object>

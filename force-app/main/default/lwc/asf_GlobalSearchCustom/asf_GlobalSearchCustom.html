@@ -188,7 +188,7 @@
                     <h1 slot="title">Prospect Creation Form</h1>
                     <div>
                         <lightning-record-edit-form object-api-name="Lead" onsuccess={handleSuccess}
-                            onerror={handleError} data-id="leadCreateForm">
+                             data-id="leadCreateForm"><!--onerror={handleError}-->
                             <lightning-messages></lightning-messages>
                             <div class="slds-grid slds-wrap slds-m-around_small">
                                 <template if:true={fields}>

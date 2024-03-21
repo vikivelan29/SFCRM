@@ -61,12 +61,6 @@ export default class Asf_CRNTagging extends LightningElement {
         initialWidth: 180
     },
     {
-        label: 'Product Code',
-        fieldName: 'Product_Code__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
         label: 'LAN Number',
         fieldName: 'LAN__c',
         type: 'text',
@@ -444,6 +438,12 @@ export default class Asf_CRNTagging extends LightningElement {
                     }
                 });*/
                 this.dispatchEvent(new CloseActionScreenEvent());
+
+                getRecordNotifyChange([{ recordId: this.recordId }]);
+
+                    setTimeout(() => {
+                        eval("$A.get('e.force:refreshView').fire();");
+                    }, 1000);
             })
             .catch(error => {
                 console.log('@@@ERROR - '+error);

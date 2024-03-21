@@ -14,7 +14,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
     @track payments = [];
     error;
     //@track isEditable = true;
-
+    stageVal;
     isPaymentIdEditable;
     isPaymentAmountEditable;
     isPaymentModeEditable;
@@ -29,24 +29,39 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         }
         else if(data){
             let stage = getFieldValue(data, STAGE_FIELD);
+            this.stageVal = stage;
             this.setupFieldPermissions(stage);
         }
     }
 
-    @wire(getPaymentsForCase, {caseId:'$recordId'})
+   @wire(getPaymentsForCase, {caseId:'$recordId'})
     getPaymentsWire(paymentRecords) {
         this.serverPayments = paymentRecords;
         if(paymentRecords.data && paymentRecords.data.length > 0){
            let records = JSON.parse(JSON.stringify(paymentRecords.data));
-           console.log(records)
+           console.log('records payments:'+JSON.stringify(records));
             for(let i = 0; i < records.length; i++) {
                 //if(this.record[i].Id)
                 console.log(records[i].Id);
                 records[i].key = `${records[i].Id}`;
+                records[i].formattedDate = this.formatDate(records[i].Date__c);
             }
             this.payments = records;
+            if(this.stageVal){
+                this.setupFieldPermissions(this.stageVal);
+            }
         }
     }
+    formatDate(dateString) {
+        const dateObj = new Date(dateString);
+        const day = dateObj.getDate();
+        const month = dateObj.getMonth() + 1;
+        const year = dateObj.getFullYear();
+        const formattedDay = day < 10 ? '0' + day : day;
+        const formattedMonth = month < 10 ? '0' + month : month;
+        return `${formattedDay}/${formattedMonth}/${year}`;
+    }
+
 
     handleDataChange(event){
         let element = this.payments.find(ele  => ele.key === event.target.dataset.id);
@@ -97,7 +112,12 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         newList.push({
             Payment_Identifier__c : "", 
             key : Math.random().toString(36).substring(2, 15),
-            isDeleteAllowed: true});
+            isDeleteAllowed: true,
+            isPaymentIdEditable: true,
+            isPaymentAmountEditable: true,
+            isPaymentModeEditable: true,
+            isDateEditable: true
+        });
         this.payments = newList;
         console.log(JSON.stringify(this.payments));
     }
@@ -118,7 +138,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 .then((response ) => {
                     // Success message after successful deletion
                     console.error('deleted payment record:', response );
-                    this.showToast('Success', 'Payment deleted successfully', 'success');
+                    this.showToast('Success', 'Payment record deleted successfully', 'success');
                 })
                 .catch(error => {
                     // Handle error during record deletion
@@ -155,16 +175,33 @@ export default class Abhfl_MultiplePayments extends LightningElement {
             })
             .catch((error) =>{
                 console.log(error);
-                let errorMessage = error?.body?.message.split(',')[1].split(':')[0];
-                this.showToast("Error", errorMessage, 'error');
+                let finalErrorMessage = '';
+                let errorMessage = error?.body?.message;
+                if(errorMessage) {
+                    let errorInLowerCase = errorMessage.toLowerCase();
+                    if(errorInLowerCase.includes('required_field_missing')) {
+                        finalErrorMessage = errorMessage.split(':')[2];
+                        finalErrorMessage = errorMessage.split(':')[1].split(',')[1] + ': ' + finalErrorMessage.substring(2, finalErrorMessage.length-1);
+                    }
+                    else if(errorInLowerCase.includes('field_custom_validation_exception')) {
+                        finalErrorMessage = errorMessage.split(':')[1].split(',')[1];
+                    }
+                    else if(!this.containsSpecialChars()) {
+                        finalErrorMessage = errorMessage;
+                    }
+                    else {
+                        finalErrorMessage = errorMessage.split(',')[1].split(':')[0];
+                    }
+                }
+                this.showToast("Error", finalErrorMessage, 'error');
             })
         }
     }
 
    
-
-    handleCancel() {
-       
+    containsSpecialChars(str) {
+        const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        return specialChars.test(str);
     }
 
     showToast(title, message, variant) {
@@ -187,21 +224,74 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         switch(stageName) {
             case 'Open':
                 this.isPaymentIdEditable = true;
-                this.isPaymentAmountEditable = true;
-                this.isPaymentModeEditable = true;
-                this.isDateEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        if(pay.Realization_Status__c!='Cleared'){
+                            pay.isPaymentIdEditable = true;
+                            pay.isPaymentAmountEditable = true;
+                            pay.isPaymentModeEditable = true;
+                            pay.isDateEditable = true;
+                            pay.isRealizationEditable = false;
+                            pay.isDeleteAllowed = true;
+                        } else{
+                            pay.isPaymentIdEditable = false;
+                            pay.isPaymentAmountEditable = false;
+                            pay.isPaymentModeEditable = false;
+                            pay.isDateEditable = false;
+                            pay.isRealizationEditable = false;
+                            pay.isDeleteAllowed = false;
+                        }  
+                    }
+                }
                 this.isSaveAllowed = true;
-                this.isDeleteAllowed = true;
+                //this.isDeleteAllowed = true;
                 break;
             case 'CPU Banking':
-                this.isRealizationEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
                 this.isSaveAllowed = true;
                 break;
             case 'Pending CPU Banking':
-                this.isRealizationEditable = true;
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
+                this.isSaveAllowed = true;
+                break;
+            case 'Payment Confirmation':
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = true;
+                    }
+                }
                 this.isSaveAllowed = true;
                 break;
             default:
+                if(this.payments.length>0){
+                    for(let pay of this.payments){
+                        pay.isPaymentIdEditable = false;
+                        pay.isPaymentAmountEditable = false;
+                        pay.isPaymentModeEditable = false;
+                        pay.isDateEditable = false;
+                        pay.isRealizationEditable = false;
+                    }
+                }
                 break;
           }
         console.log('Setup Field Permissions' + this.isRealizationEditable);

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -152,7 +152,7 @@
 												<br />
 												We would like to thank you for your continued support and the confidence you have placed in Aditya Birla Housing Finance Limited.<br />
 												<br />
-												We would like to inform you that your original property documents against loan account number ending in xxx have been delivered to our &lt;/Preferred branch or Home branch &gt;, &lt;/address&gt; branch.<br />
+												We would like to inform you that your original property documents against loan account number ending in {{{Case.Masked_LAN__c}}} have been delivered to our $$ABHFL_Case_Detail__r.Preferred_Branch__c$$, &nbsp;$$ABHFL_Case_Detail__r.Address__c$$.<br />
 												<br />
 												However, as you were unable to collect the same within the stipulated time i.e., 30 days, we are returning the original property documents to our storage facility.<br />
 												<br />

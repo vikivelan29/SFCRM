@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_of_Dispatch_Future_Date_Validation</fullName>
+    <active>true</active>
+    <description>Date of Dispatch should not be the future date</description>
+    <errorConditionFormula>Date_of_Dispatch__c &gt; TODAY()</errorConditionFormula>
+    <errorMessage>Date of Dispatch should not be the future date</errorMessage>
+</ValidationRule>

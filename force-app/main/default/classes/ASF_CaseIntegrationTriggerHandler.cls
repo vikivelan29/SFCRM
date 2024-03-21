@@ -3,7 +3,7 @@
  * After Update, when Response is received from External System on
  * Case Integration, the processing of response needs to be done
  */
-public class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
+public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
     
     public static Boolean TriggerDisabled = false;
     
@@ -20,7 +20,7 @@ public class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
      */
     public override void afterUpdate(map<Id, sObject> newItems,map<Id, sObject> oldItems) {
         
-        
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('ASF_Case_Integration__c', 'After')){return;}
         // Query ASF Integration Record, and Process the Response from 
         // Processing Class indicated on ASF Integration Record
         Map<Id, String> asfItegExtIds = new Map<Id, String>();

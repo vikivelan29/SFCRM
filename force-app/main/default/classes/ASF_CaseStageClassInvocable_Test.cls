@@ -7,17 +7,25 @@
 public with sharing class ASF_CaseStageClassInvocable_Test implements ASF_CaseStageClassInvocable{
     
 
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        wrap.status = 'Success';
-        return wrap;
+    public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = 'Success';
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
 
-    public ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec){
-        ASF_CaseMovementHelper.CaseStageValidationWrapper wrap = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
-        wrap.status = 'Error';
-        wrap.errorMessage = 'Test Error Message';
-        return wrap;
+    public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        for(Case caseRec : caseRecords){
+            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+            retCls.status = 'Error';
+            retCls.errorMessage = 'Test Error Message';
+            returnWrapper.put(caseRec.Id, retCls);
+        }
+        return returnWrapper;
     }
 
 }

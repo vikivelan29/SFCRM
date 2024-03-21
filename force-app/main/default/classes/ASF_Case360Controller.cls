@@ -15,6 +15,7 @@ public with sharing class ASF_Case360Controller {
             }
             caseQuery = caseQuery.removeEnd(', ');
             caseQuery += ' from Case where Id = :caseId';
+            caseQuery = String.escapeSingleQuotes(caseQuery);
             Case cRec = Database.query(caseQuery);
             wrap.caseRec = cRec;
 
@@ -32,6 +33,7 @@ public with sharing class ASF_Case360Controller {
                 }
                 caseExtnQuery = caseExtnQuery.removeEnd(', ');
                 caseExtnQuery += ' from '+extnObjName+' where Id = :extnId';
+                caseExtnQuery = String.escapeSingleQuotes(caseExtnQuery);
                 wrap.caseExtnRec = Database.query(caseExtnQuery);
             }
             wrap.isSuccess = true;

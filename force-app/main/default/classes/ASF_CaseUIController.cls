@@ -3,6 +3,7 @@
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
 **/
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
 public with sharing class  ASF_CaseUIController {
     
     @AuraEnabled
@@ -61,18 +62,26 @@ public with sharing class  ASF_CaseUIController {
             Set<id> accIdSet = new Set<id>();
             if(!accPreSelected){
                 List<contact> conList = New List<contact>();//database.query(queryField);
-                String searchString = '%'+String.escapeSingleQuotes(userInp)+'%';
+                String searchString = '*'+String.escapeSingleQuotes(userInp)+'*';
                 userInp = '%'+userInp+'%';
                 
-                System.debug(userInp);
+                System.debug('userInp-'+userInp);
+              /*  List<List<SObject>> searchList = 
+                    [FIND :searchString IN ALL FIELDS 
+                    RETURNING 
+                    Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp),
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
+                    ]; */
                 List<List<SObject>> searchList = 
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
-                    Contact (Id, AccountId WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
-                    Account (Id, Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name  LIKE : userInp),
-                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
-                    ]; 
+                    Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp),
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
+                    ];
                 
                 System.debug(searchList[3]);
                 if(searchList[0].size()>0){
@@ -136,16 +145,27 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType, String assetLob) {
-        return ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,assetProductType,withoutAsset,accRecordType,assetLob).lstCCCrecords;
+    public static list<ASF_Case_Category_Config__c> getAccountData(String keyword, String assetProductType,string withoutAsset,String accRecordType, String assetLob,String inpArg) {
+        return ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails(keyword,assetProductType,withoutAsset,accRecordType,assetLob,inpArg).lstCCCrecords;
     }
     
     @AuraEnabled(cacheable=true)
     public static conAssetWrapper getMatchingContacts(string accountId) {
         if(accountId!=''){
-            List<asset> asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
+            Set<Id> assetIds = new Set<Id>();
+            List<Asset> asstList = new List<Asset>();
+            
+            for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
+                if(mapping.LAN__c != null){
+                    assetIds.add(mapping.LAN__c);
+                }
+            }
+            if(assetIds.size()>0){
+                asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                                     Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c
-                                    from asset where accountId =:accountId];
+                                    from asset where Id =:assetIds];
+            }
+            
             
             conAssetWrapper wrapper = new conAssetWrapper(asstList);
             return wrapper;
@@ -160,13 +180,21 @@ public with sharing class  ASF_CaseUIController {
         
         Case cs = new Case();
         cs.Id = caseId;
+
         if(accountId != ''){
             Id entityId = Id.ValueOf(accountId);
             if(entityId.getSObjectType() == Account.sObjectType){
+            // fetch contact record to be updated/associated along with Account/Customer Tagging
+                List<Contact> cont = [SELECT Id from Contact where AccountId = :accountId AND Primary__c = TRUE LIMIT 1];
                 cs.AccountId = accountId;
+                if(cont.size() > 0){// If contact found
+                cs.ContactId = cont[0].Id;// UAT Bug fix Cases tagging to multiple Accounts
+                }
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
+                cs.AccountId = null;
+                cs.AssetId = null;
             }
             
         }
@@ -226,7 +254,7 @@ public with sharing class  ASF_CaseUIController {
         insert record;
         return record.Id;
     }
-    
+  
     
     public class resWrapper{
         @AuraEnabled

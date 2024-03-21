@@ -93,7 +93,9 @@ public without sharing class ASF_RetryIntegrations {
             if(cInt.Case__c != null){
                 if(mCaseRecords.containsKey(cInt.Case__c)){
                     Case cRec = mCaseRecords.get(cInt.Case__c);
-                    
+                    if(cRec.IsClosed){
+                        continue;
+                    }
                     String tempUniqueKeyForMdt = cRec.Business_Unit__c+'_'+cInt.Type__c;
                     System.debug('tempUniqueKeyForMdt '+tempUniqueKeyForMdt);
                     integer iHashUniqueKeyForMdt = 0;

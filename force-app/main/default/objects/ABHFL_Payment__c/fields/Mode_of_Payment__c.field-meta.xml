@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Mode of Payment</label>
     <required>true</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -51,9 +52,9 @@
                 <label>POS-UPI</label>
             </value>
             <value>
-                <fullName>Payment Lounge</fullName>
+                <fullName>Payment Link</fullName>
                 <default>false</default>
-                <label>Payment Lounge</label>
+                <label>Payment Link</label>
             </value>
         </valueSetDefinition>
     </valueSet>

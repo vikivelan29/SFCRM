@@ -1,3 +1,5 @@
+@SuppressWarnings('PMD.ApexSOQLInjection')
+
 public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -15,15 +17,20 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
             String eachJSON = jsonRows.get(lineItemId);
             System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
-            lans.add(keyValueMap.get('Loan Account No'));
-            cccExtIds.add(keyValueMap.get('Issue Type Code'));
+            if(String.isNotBlank(keyValueMap.get('Loan Account No'))){
+                lans.add(keyValueMap.get('Loan Account No').trim());
+            }
+            if(String.isNotBlank(keyValueMap.get('Issue Type Code'))){
+                cccExtIds.add(keyValueMap.get('Issue Type Code').trim());
+            }
             rows.put(lineItemId, keyValueMap);
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
+        Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
-            
+            lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
@@ -34,23 +41,64 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
             Boolean blockCommunicationFlag = false;
-            if(!extIdFoundSet.contains(keyValueMap.get('Issue Type Code'))){
+
+            String issueTypeCode = keyValueMap.get('Issue Type Code').trim();
+            String lan = keyValueMap.get('Loan Account No').trim();
+            String blockCommString = String.isNotBlank(keyValueMap.get('Block Customer Communication'))?keyValueMap.get('Block Customer Communication').trim():keyValueMap.get('Block Customer Communication');
+            String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
+            String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
+            if(issueTypeCode == null || issueTypeCode.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Issue Type Code is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(lan == null || lan.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Loan Account No is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(source == null || source.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Source is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(description == null || description.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Description is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(!extIdFoundSet.contains(issueTypeCode)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Issue Type Code is not valid');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(!lanToAccountIdMap.containsKey(keyValueMap.get('Loan Account No'))){
+            if(!lanToAccountIdMap.containsKey(lan)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(keyValueMap.get('Block Customer Communication') != null && String.isNotBlank(keyValueMap.get('Block Customer Communication'))){
+            if(String.isNotBlank(blockCommString)){
+                if(!blockCommString.equalsIgnoreCase('TRUE') && !blockCommString.equalsIgnoreCase('FALSE')){
+                    keyValueMap.put('Result', 'FAILURE');
+                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                    continue;
+                }
                 try{
-                    blockCommunicationFlag = Boolean.valueOf(keyValueMap.get('Block Customer Communication'));
+                    blockCommunicationFlag = Boolean.valueOf(blockCommString);
                 }catch(Exception e){
                     keyValueMap.put('Result', 'FAILURE');
                     keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
@@ -58,14 +106,19 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                     resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                     continue;
                 }
+            }else{
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
             }
             Case caseRec = new Case();
-            caseRec.AccountId = lanToAccountIdMap.get(keyValueMap.get('Loan Account No'));
-            //Do we need to populate Asset lookup?? - Ask Selwyn
-            //Map Sub Source - field not present
-            caseRec.CCC_External_Id__c = keyValueMap.get('Issue Type Code');
-            caseRec.Source__c = keyValueMap.get('Source');
-            caseRec.Description = keyValueMap.get('Description');
+            caseRec.AccountId = lanToAccountIdMap.get(lan);
+            caseRec.AssetId = lanToAssetIdMap.get(lan);
+            caseRec.CCC_External_Id__c = issueTypeCode;
+            caseRec.Source__c = source;
+            caseRec.Description = description;
             caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             caseRec.Technical_Source__c = 'LWC';
@@ -122,6 +175,7 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
         }
 
         if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
             System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){

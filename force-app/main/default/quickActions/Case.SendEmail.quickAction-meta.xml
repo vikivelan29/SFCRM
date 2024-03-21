@@ -4,6 +4,10 @@
         <field>ToAddress</field>
         <formula>Case.ContactEmail</formula>
     </fieldOverrides>
+    <fieldOverrides>
+        <field>ValidatedFromAddress</field>
+        <formula>CASE( $User.Team__c, &apos;Wealth&apos;, &apos;abfssl.uatcarewealth@adityabirlacapital.com&apos;, &apos;Retail&apos;, &apos;abfssl.uatcaredigitalfinance@adityabirlacapital.com&apos;,&apos;Corp&apos;,&apos;abfssl.uatcarefinance@adityabirlacapital.com&apos;,&apos;GRT&apos;,&apos;abfssl.uatgrievancefinance@adityabirlacapital.com&apos;,&apos;do as usual&apos;)</formula>
+    </fieldOverrides>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>
     <quickActionLayout>
         <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>

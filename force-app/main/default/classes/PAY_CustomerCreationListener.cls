@@ -1,5 +1,6 @@
 public without sharing class PAY_CustomerCreationListener {
     public static final Schema.SObjectField clientCodeField = Account.Fields.Client_Code__c;
+    public static final Schema.SObjectField lob_clientCodeField = Account.Fields.LOB_Client_Code__c;
     
     public static void processEvents(List<PAY_Staging_Customer_to_Account__e> newEvents) {
         List<Account> accountsToInsert = new List<Account>();
@@ -42,6 +43,7 @@ public without sharing class PAY_CustomerCreationListener {
             if (event.Customer_Type__c == 'Individual') {
                 newAccount.RecordTypeId = getRecordTypeId('Individual');
                 newAccount.Client_Code__c = event.ABC_Cust_Id__c;
+                newAccount.LOB_Client_Code__c = event.Line_of_Business__c+'_'+event.ABC_Cust_Id__c;
                 if(event.Mobile__c != null)
                     newAccount.PersonMobilePhone = event.Mobile__c;
                 if(event.Email__c != null)
@@ -51,21 +53,25 @@ public without sharing class PAY_CustomerCreationListener {
                 
                 newAccount.FirstName = event.First_Name__c;
                 newAccount.LastName = event.Last_Name__c;
+                newAccount.Full_Name__pc = event.First_Name__c + ' '+event.Last_Name__c;
                 newAccount.Line_Of_Business__pc = event.Line_of_Business__c;
                 
             } else if (event.Customer_Type__c == 'Non-Individual') {
                 newAccount.RecordTypeId = getRecordTypeId('Non-Individual');
                 newAccount.PAY_Doing_Business_As__c = event.Doing_Business_As__c;
                 newAccount.Client_Code__c = event.Merchant_Id__c;
+                newAccount.LOB_Client_Code__c = event.Line_of_Business__c+'_'+event.Merchant_Id__c;
                 newAccount.Name = event.Merchant_Name__c;
             }
             
             for (merchantContact contactData : contactDataList) {
                 Contact newContact = new Contact();
-                newContact.Account = New Account(Client_Code__c=event.Merchant_Id__c); 
+                String tempClientCode = event.Line_of_Business__c+'_'+event.Merchant_Id__c;
+                newContact.Account = New Account(LOB_Client_Code__c=tempClientCode); 
                 newContact.Line_of_Business__c = event.Line_of_Business__c;
                 newContact.FirstName = contactData.FirstName;
                 newContact.LastName = contactData.LastName;
+                newContact.Full_Name__c = contactData.FirstName +' '+contactData.LastName;
                 if(systemUser.size()>0){
                     newContact.OwnerId = systemUser[0].Id;
                 }
@@ -90,7 +96,7 @@ public without sharing class PAY_CustomerCreationListener {
         
         
         if (!accountsToInsert.isEmpty()) {
-            accountList = Database.upsert(accountsToInsert,clientCodeField,false);
+            accountList = Database.upsert(accountsToInsert,lob_clientCodeField,false);
         }
         
         if (!contactsToInsert.isEmpty()) {

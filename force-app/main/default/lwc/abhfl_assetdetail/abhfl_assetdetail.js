@@ -19,6 +19,11 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     @api isHyperlink;
     showIcon = true;
     @api showQuickAction;
+    @api currStage;
+    @api stagesAllowingFileUpload;
+    @api userId;
+    @api ownerId;
+    @api attachmentStatus;
 
     connectedCallback(e){
         if(this.isHyperlink){
@@ -30,6 +35,12 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
     }
 
     openAddAttachmentModal(event){
+        if(this.userId != this.ownerId || (this.stagesAllowingFileUpload && this.stagesAllowingFileUpload.length > 0 && !this.stagesAllowingFileUpload.includes(this.currStage))){
+            const selectEvent = new CustomEvent('checkpermissions',{});
+            // Fire the custom event
+            this.dispatchEvent(selectEvent);
+            this.closeModal();
+        }
         this.isLoanSelected = false;
         this.showAddAttachmentModal = true;
     }
@@ -58,6 +69,20 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             };
             console.log(this.fileData);
             if(this.fileData){
+                if(this.fileData.extension != 'pdf' && !this.showQuickAction){
+                    this.fileData = undefined;
+                    this.showAddAttachmentModal = true;
+                    this.template.querySelector('.slds-button_neutral').disabled=false;
+                    this.template.querySelector('lightning-input').disabled=false;
+                    const toastEvent = new ShowToastEvent({
+                        title: "Error",
+                        message: "You can only upload pdf files.",
+                        variant: "error",
+                    });
+                    this.dispatchEvent(toastEvent);
+                }
+            }
+            if(this.fileData){
                 this.saveFileToLanHandler();
             }
         }
@@ -70,6 +95,7 @@ export default class ABHFL_AssetDetail_POC extends LightningElement {
             this.fileData = null;
             let title = `File uploaded successfully!!`;
             this.toast(title);
+            this.attachmentStatus = true;
             this.showAddAttachmentModal = false;
             if(this.isHyperlink){
                 const selectEvent = new CustomEvent('close',{});

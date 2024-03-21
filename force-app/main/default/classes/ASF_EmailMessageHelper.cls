@@ -4,7 +4,7 @@
 * @Author - Virendra Patil
 * 
 *****************************************************************************************************************/
-public class ASF_EmailMessageHelper {
+public without sharing class ASF_EmailMessageHelper {
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
 */
@@ -20,7 +20,7 @@ public class ASF_EmailMessageHelper {
         Quiddity currentType = reqInfo.getQuiddity();
         if(currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS){
             if(!Test.isRunningTest()){
-                return;
+                //return;
             }
         }
         

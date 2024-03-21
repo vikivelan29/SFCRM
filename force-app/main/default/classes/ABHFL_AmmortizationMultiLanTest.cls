@@ -5,13 +5,13 @@ public class ABHFL_AmmortizationMultiLanTest {
     static void testData(){
 
         // Create a unique UserName
-        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
+        /*String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
         User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
         EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
         LocaleSidKey='en_US', ProfileId = p.Id,
         TimeZoneSidKey='America/Los_Angeles',
-         UserName=uniqueUserName);
+         UserName=uniqueUserName);*/
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
@@ -118,17 +118,17 @@ public class ABHFL_AmmortizationMultiLanTest {
             Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case WHERE Source__c !='Welcome BOT' LIMIT 1];
             Case caseRecord1 = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case WHERE Source__c ='Welcome BOT' LIMIT 1];
             ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = ammStp.evaluate(caseRecord);
-            //ASF_IntegrationsController.IntegrationWrapper evaluateFailure1 = wcStp.evaluate(caseRecord1);
+            ASF_IntegrationsController.IntegrationWrapper evaluateFailure1 = ammStp.evaluate(caseRecord1);
         	
             System.assertEquals('Success',successfulEvaluate.status);
-            //System.assertEquals('Error',evaluateFailure1.status);   
+            System.assertEquals('Error',evaluateFailure1.status);   
     }
     
     @IsTest
     static void testRun(){
             ABHFL_AmmortizationMultiLanIntegration ammStp = new ABHFL_AmmortizationMultiLanIntegration();
             Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c, Asset.Lan__c from Case limit 1];
-            ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c, caseRecord);
+            //ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper wrap = new ABHFL_AmmortizationMultiLanIntegration.AmmortRequestWrapper(caseRecord.Asset.Lan__c, caseRecord);
             ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
             ASF_IntegrationsController.IntegrationWrapper integrationResponse = ammStp.run(integRecord,caseRecord);
             System.assertEquals('Success',integrationResponse.Status);

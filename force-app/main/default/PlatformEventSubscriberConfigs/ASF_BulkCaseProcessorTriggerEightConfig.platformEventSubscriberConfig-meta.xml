@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlatformEventSubscriberConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <batchSize>10</batchSize>
+    <masterLabel>ASF_BulkCaseProcessorTriggerEightConfig</masterLabel>
+    <platformEventConsumer>ASF_BulkCaseProcessorTriggerEight</platformEventConsumer>
+</PlatformEventSubscriberConfig>

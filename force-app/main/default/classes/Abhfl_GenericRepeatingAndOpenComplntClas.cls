@@ -6,7 +6,7 @@
 *Description  :  Controller class for abhfl_GenericRepeatingAndOpenComplaintCase LWC
 *********************************************************/
 
-public with sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
+public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
    
     /****************************************************************************************************************
     * @LOB - ABHFL
@@ -20,9 +20,10 @@ public with sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
     @AuraEnabled
     public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
 
+         
         String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
-        system.debug('inside genericFetchQuery  '+query);
-        List<SObject> sobjList = Database.query(query);
+        system.debug('inside genericFetchQuery query '+query);
+        List<SObject> sobjList = Database.query(String.valueOf(query));
         return sobjList;
     }
 }

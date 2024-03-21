@@ -25,6 +25,7 @@ import CASE_CONTACT_FIELD from '@salesforce/schema/Case.ContactId';
 import LAN_NUMBER from '@salesforce/schema/Case.LAN__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
+import SUB_SOURCE_FIELD from '@salesforce/schema/Case.Sub_Source__c';
 import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
@@ -48,6 +49,7 @@ import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
+import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension' 
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -83,6 +85,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     @api accid;
 
+    @track sourceVsSubSourceObj;
+
     options;
     flag;
     value;
@@ -117,17 +121,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     cccproduct_type = '';
     sourceFldOptions;
     sourceFldValue;
+    subSourceFldOptions = [];
+    subSourceFldValue = '';
     trackId = '';
     complaintType;
     uniqueId;
     businessUnit;
-    
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
+    cols;
 
     // De-dupe for Payment - 
     isTransactionRelated = false;
@@ -151,6 +151,20 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
+            if(this.businessUnit === 'ABHFL'){
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }else{
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
@@ -158,7 +172,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
-        console.log('assestid ---> ' + (JSON.stringify(this.fieldToBeStampedOnCase)));
+        console.log('assestid ---> ' + JSON.stringify(this.fieldToBeStampedOnCase));
         const unique = JSON.stringify(this.fieldToBeStampedOnCase);
         if(unique != null && unique != undefined){
             this.uniqueId = JSON.parse(unique).AssetId;
@@ -166,15 +180,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         console.log('assestid ---> ' + this.uniqueId);
         this.getAccountRecord();
         console.log('business ---> ' + this.businessUnit);
-        if(this.businessUnit === 'ABHFL'){
-            this.cols = [
-                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-            ]
-        }
-       
-
     }
     @wire(getRecord, { recordId: '$uniqueId', fields: [Business_Unit_LOB] })
     asset;
@@ -184,6 +189,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     }
     renderedCallback() {
 
+        this.makeReadOnly();
+        
+        if(this.businessUnit == 'ABHFL') {
+            this.abhfRenderedCallbacklHandler();
+        }
+    }
+
+    makeReadOnly() {
         let getSourceFldCombobox = this.template.querySelector("[data-id='Source Field']");
         if(getSourceFldCombobox && this.sourceFldOptions) {
             if(this.sourceFldOptions.length == 1) {
@@ -191,6 +204,15 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             }
             else if(this.sourceFldOptions.length > 1){
                 getSourceFldCombobox.readOnly = false;
+            }
+        }
+    }
+
+    abhfRenderedCallbacklHandler() {
+        if(this.boolAllSourceVisible) {
+            let getSubSourceCombobox = this.template.querySelector("[data-id='Sub_Source__c']");
+            if(getSubSourceCombobox) {
+                getSubSourceCombobox.classList.remove('slds-hide');
             }
         }
     }
@@ -232,6 +254,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
+        this.isPhoneInbound = false;
 
         const inpArg = new Map();
 
@@ -247,6 +270,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     this.strSource = result.strSource;
                     this.complaintType = result.complaintType;
                     if(this.strSource) {
+                        this.sourceVsSubSourceObj = result.mapOfSourceToSubsource;
                         this.populateSourceFld();
                     }
                     this.boolShowNoData = false;
@@ -281,6 +305,18 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.sourceFldOptions = getAllSourceFldValues.map(fldVal => ({label : fldVal, value : fldVal}));
     }
 
+    getSubSourceOptions(sourceVsSubSourceObj) {
+        let subSourceOptions     = sourceVsSubSourceObj[this.sourceFldValue].split(',');
+        let subSourceFldOptions  = subSourceOptions.map(subSourceValue => ({label : subSourceValue, value : subSourceValue}));
+        return subSourceFldOptions
+    }
+
+    populateSubSourceFld() {
+        let subSourceOptions     = this.getSubSourceOptions(this.sourceVsSubSourceObj);
+        this.subSourceFldOptions = subSourceOptions;
+        this.subSourceFldValue   = subSourceOptions[0].value; 
+    }
+
     getSelectedName(event) {
         this.createCaseWithAll = false;
         this.isNotSelected = false;
@@ -302,8 +338,16 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if (selected) {
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
+
+            if(this.businessUnit === 'ABHFL'){
+                if(this.sourceFldValue == 'Call Center'){
+                    this.isNotSelected = false;
+                    this.isPhoneInbound = true;
+                }
+                this.populateSubSourceFld();
+            }
         }
-        if ((selected) && (this.businessUnit == 'ABFL')) {
+        if ((selected) && ((this.businessUnit == 'ABFL')||(this.businessUnit == 'ABWM') )) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -478,6 +522,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
 
     }
+
     async createCaseHandler() {
         this.isNotSelected = true;
         if(!this.isInputValid()) {
@@ -519,6 +564,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
         fields[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
+        fields[SUB_SOURCE_FIELD.fieldApiName] = this.subSourceFldValue;
         fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         fields[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         //Field Checks
@@ -593,7 +639,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     updateCaseExtensionRecord(caseExtensionRecId) {
         if(this.complaintType) {
-            const fields = {};
+            /*const fields = {};
 
             fields[CASE_EXTENSION_ID_FIELD.fieldApiName] = caseExtensionRecId;
             fields[COMPLAINT_TYPE_FIELD.fieldApiName] = this.complaintType;
@@ -604,7 +650,15 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
             updateRecord(recordInput).then((record) => {
                 console.log('Record--> '+record);
+            });*/
+            updateCaseExtension({caseextensionId: caseExtensionRecId, complainttype : this.complaintType})
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log("Error inside updateCaseExtension "+JSON.stringify(error));
             });
+  
         }
     }
 
@@ -728,6 +782,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.sourceFldValue = event.target.value;
         this.sourceVal = event.target.value;
         var btnActive = false;
+
         if (this.sourceVal && this.sourceVal != '') {
             btnActive = true;
             this.isPhoneInbound = false;
@@ -750,6 +805,18 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
         this.isNotSelected = !btnActive;
     }
+
+    handleSubSourceFunc(event) {
+
+        //this.isNotSelected = true;
+        let dataSetId = event.target.dataset.id;
+        let evtValue  = event.target.value;
+
+        if(dataSetId == "Sub_Source__c") {
+            this.subSourceFldValue = evtValue;
+        }
+    }
+
     handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
     }

@@ -20,6 +20,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Account.Update_Fields_ViaFlow</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Non_Individual</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -103,6 +110,46 @@
                 <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NPS_Score__c</fieldItem>
+                <identifier>RecordNPS_Score_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Customer_Category__c</fieldItem>
+                <identifier>RecordCustomer_Category_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Date_Of_Incorporation__c</fieldItem>
+                <identifier>RecordDate_Of_Incorporation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.TAN_Number__c</fieldItem>
+                <identifier>RecordTAN_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -155,6 +202,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Company_Name__c</fieldItem>
                 <identifier>RecordCompany_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NPS_Result__c</fieldItem>
+                <identifier>RecordNPS_Result_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -788,6 +845,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>rows</name>
+                    <value>15</value>
+                </componentInstanceProperties>
+                <componentName>abfl_AccRecentCaseComments</componentName>
+                <identifier>c_abfl_AccRecentCaseComments</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-db05483f-626f-44d9-867f-82c91ecbe35c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -845,6 +916,20 @@
                 <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-db05483f-626f-44d9-867f-82c91ecbe35c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Case Comments</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
@@ -867,16 +952,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;span style=&quot;color: rgb(116, 116, 116);&quot;&gt;Christmas Bonanza - Claim your 0 fee insurance policy by 31st Dec&lt;/span&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentName>abhfl_OdpAlerts</componentName>
+                <identifier>c_abhfl_OdpAlerts</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-skk0o714yed</name>

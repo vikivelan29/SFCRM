@@ -16,7 +16,11 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     responseMessage;
     
     connectedCallback(){
-       getConstants()
+       
+    }
+
+    callODPAlerts(){
+        getConstants()
         .then(result => {
             console.log('this.userType =='+this.userType +' result.ABHFL=='+result.ABHFL);
             if(this.userType == result.ABHFL){
@@ -26,11 +30,12 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
+            this.handleError(error);
+            console.log('error==',JSON.stringify(error));
         });
         //New code for ABFL
         getConstantsABFL().then(result => {
+            console.log(result);
             console.log(' from abfl this.userType =='+this.userType +' result.ABFL=='+result.lob_ABFL);
             if(this.userType == result.lob_ABFL){
                 this.isAbflUser = true;
@@ -40,7 +45,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }
         }).catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
+            this.handleError(error);
         })
     }
 
@@ -48,8 +53,9 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.userType = data.fields.Business_Unit__c.value;
+            this.callODPAlerts();
         } else if (error) {
-            this.handleError(JSON.stringify(error));
+            this.handleError(error);
         }
     }
 
@@ -64,13 +70,12 @@ export default class Abhfl_OdpAlerts extends LightningElement {
             }else{
                 this.handleError(result[0].message);
             }
-            
             this.showSpinner = false;
         })
         .catch(error => {
             this.showSpinner = false;
-            this.handleError(JSON.stringify(error));
-            console.log('error=='+JSON.stringify(error));
+            this.handleError(error);
+            console.log('error==>',JSON.stringify(error));
         });
     }
 

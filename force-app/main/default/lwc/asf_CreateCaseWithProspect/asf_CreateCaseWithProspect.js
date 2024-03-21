@@ -345,6 +345,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseExtnRecord["sobjectType"] = this.caseRelObjName;
 
         }
+        else{
+            caseExtnRecord = null;
+        }
 
         caseRecord[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
         caseRecord[ORIGIN_FIELD.fieldApiName] = 'Phone';
@@ -398,14 +401,14 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                //this.showError('error', 'Oops! Error occured', error);
-
                 this.loaded = true;
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
                 this.disableCreateBtn = false;
                 this.boolShowNoData = true;
                 this.searchKey = undefined;
+                this.showError('error', 'Oops! Error occured', error);
+
 
             })
 

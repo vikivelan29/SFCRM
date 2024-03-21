@@ -11,7 +11,7 @@ public interface ASF_CaseStageClassInvocable {
      * CANNOT perform any DML. Can Return the Case object, if any DML
      * is needed. The calling class will make the DML as needed
      */
-    ASF_CaseMovementHelper.CaseStageValidationWrapper beforeStageMovement(Case caseRec);
+    Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> cases);
 
 
     /**
@@ -19,7 +19,7 @@ public interface ASF_CaseStageClassInvocable {
      * CANNOT perform any DML. Can Return the Case object, if any DML
      * is needed. The calling class will make the DML as needed
      */
-    ASF_CaseMovementHelper.CaseStageValidationWrapper afterStageMovement(Case caseRec);
+    Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> cases);
 
 
 }

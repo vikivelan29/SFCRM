@@ -26,7 +26,7 @@
             </div>
             <br/>
             <div if:true={showErrorMessage} class="error-message">
-                {responseMessage}
+                {responseMessage.body.message}
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
             </div>
             <br/>
             <div if:true={showErrorMessage} class="error-message">
-                {responseMessage}
+                {responseMessage.body.message}
             </div>
         </div>
     </div>

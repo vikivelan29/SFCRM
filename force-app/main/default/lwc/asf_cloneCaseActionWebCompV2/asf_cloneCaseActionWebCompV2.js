@@ -46,11 +46,11 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
 
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
-        additionalFields: [{ fieldPath: "Account.Name"}],
+        additionalFields: [{ fieldPath: "LAN__c"}],
     };
 
     displayInfo = {
-        additionalFields: ["Account.Name"] 
+        additionalFields: ["LAN__c"] 
     };
 
     handleChange(event) {

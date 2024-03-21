@@ -5,6 +5,7 @@ import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -14,6 +15,7 @@ import CASE_CONTACT_FIELD from '@salesforce/schema/Case.ContactId';
 import AMIOwner from '@salesforce/schema/Case.AmIOwner__c';
 import AccountId from '@salesforce/schema/Case.AccountId';
 import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -26,6 +28,7 @@ import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
+import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -40,6 +43,7 @@ import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRe
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import LightningConfirm from 'lightning/confirm';
+import USER_ID from '@salesforce/user/Id';
 
 
 // VIRENDRA - Updating component for Prospect Requirement.
@@ -80,6 +84,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     customerId;
     withoutAsset;
     originValue;
+    noAutoCommOptions = [];
+    noAutoCommValue = [];
+    showAutoComm = false;
+    isCloseCase = false;
 
 
     @api propertyValue;
@@ -141,8 +149,11 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     showOnCustomerTagging = false;
     showOnProspectTagging = false;
 
-
+    accountLOB = '';
     lobAsset ='';
+    businessUnit; 
+
+    cols; 
 
     get stageOptions() {
         return [
@@ -172,6 +183,18 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
+
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
 
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
@@ -246,6 +269,32 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     }
 
+    handleAutoCommChange(event){
+        this.noAutoCommValue = event.detail.value;
+    }
+
+    @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
+    user({ error, data}) {
+        if (data){
+           this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
+            if(this.businessUnit === 'ABHFL'){
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }else{
+                this.cols = [
+                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+                ];
+            }
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
@@ -269,17 +318,29 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
         let leadId = this.caseRec.fields.Lead__c.value;
+
+
         if(this.caseRec.fields.Asset.value != null && this.caseRec.fields.Asset.value != undefined){
                 if(this.caseRec.fields.Asset.value.fields.LOB__c != null && this.caseRec.fields.Asset.value.fields.LOB__c != undefined){
                     this.lobAsset = this.caseRec.fields.Asset.value.fields.LOB__c.value;
+                    console.log('lobAsset ',this.caseRec.fields.Asset.value.fields.LOB__c.value);
                 }
-            
         }
+        if(this.caseRec.fields.Account.value != null && this.caseRec.fields.Account.value != undefined){
+            if(this.caseRec.fields.Account.value.fields.Line_of_Business__c != null && this.caseRec.fields.Account.value.fields.Line_of_Business__c != undefined){
+                this.accountLOB = this.caseRec.fields.Account.value.fields.Line_of_Business__c.value;
+                console.log('lobAcc ',this.caseRec.fields.Account.value.fields.Line_of_Business__c.value);
+            }
+        
+        }
+    const inpArg = new Map();
+    inpArg['accountLOB'] = this.accountLOB;
+    let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
 
-            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset })
+            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
                     this.accounts = result;
                     this.isNotSelected = true;
@@ -323,6 +384,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging)){
+            this.showAutoComm = true;
+        }
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
             this.createCaseWithAll = true;
             this.isNotSelected = true;
@@ -432,16 +496,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
              window.location.reload();          
          }, 1000) */
     }
-
-
-
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        //{ label: 'Product', fieldName: 'Product__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
 
     handleNatureVal(event) {
         this.natureVal = event.target.value;
@@ -717,6 +771,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.searchKey = '';
         this.accounts = [];
         this.createCaseWithAll = false;
+        this.showAutoComm = false;
+        this.cancelReject();
     }
 
     showModal(event) {
@@ -724,6 +780,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
+        
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -754,6 +812,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.complaintLevelVisible = false;
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
+        this.isCloseCase = false;
 
         this.isTransactionRelated = false;
         this.transactionNumber = '';
@@ -841,6 +900,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
+        this.isCloseCase = true;
 
         this.withoutAsset = 'closeCRN';
         this.showSRModal = true;
@@ -855,6 +915,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';
         this.showSRModal = true;

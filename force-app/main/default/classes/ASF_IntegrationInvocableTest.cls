@@ -36,4 +36,21 @@ public with sharing class ASF_IntegrationInvocableTest implements ASF_Integratio
 
     }
 
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> returnMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        for(Case caseRec : caseRecs){
+            returnMap.put(caseRec.Id, evaluate(caseRec));
+        }
+        return returnMap;
+    }
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> returnMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        for(Case caseRec : caseRecs){
+            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                returnMap.put(caseRec.Id, run(integ, caseRec));
+            }
+        }
+        return returnMap;
+    }
+
 }

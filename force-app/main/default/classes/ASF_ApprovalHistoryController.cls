@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions,PMD.PropertyNamingConventions')
 public without sharing class ASF_ApprovalHistoryController {
     
     public static final String APPROVE_ACTION = 'Approve';

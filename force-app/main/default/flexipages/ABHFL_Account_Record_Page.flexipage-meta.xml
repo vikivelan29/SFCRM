@@ -9,6 +9,9 @@
                         <valueListItems>
                             <value>Account.Update_Fields_ViaFlow</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Account.New_Lead</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -624,16 +627,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;Christmas Bonanza - Claim your 0 fee insurance policy by 31st Dec&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentName>abhfl_OdpAlerts</componentName>
+                <identifier>c_abhfl_OdpAlerts</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-0f92a67e-8952-49ed-97ca-edfd95668148</name>
@@ -672,6 +667,13 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

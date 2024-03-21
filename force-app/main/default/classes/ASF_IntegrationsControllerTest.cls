@@ -108,4 +108,39 @@ private class ASF_IntegrationsControllerTest {
     }   
 
 
+    @isTest
+    static void testRunIntegrationsBulk(){
+    
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-05', 'Pending with Initiator');
+        for(ASF_Integration__c integ : prepIntegrations){
+            integ.Query_Fields__c = 'Id';
+        }
+        update prepIntegrations;
+        Case caseRec = [
+            SELECT Id
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-05' LIMIT 1
+        ];
+
+        ASF_Integration__c prePopInt;
+        for(ASF_Integration__c integ : prepIntegrations){
+            if(integ.External_Id__c == 'ASF_INT_01'){
+                prePopInt = integ;
+            }
+        }
+
+        // For Testing purpose, Case record is not being passed, since the response is hard coded
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> retVal = ASF_IntegrationsController.runIntegration(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{prePopInt}}, new List<Case>{caseRec});
+        
+        ASF_Case_Integration__c caseIntRec = [
+            SELECT Id, Status__c
+            FROM ASF_Case_Integration__c
+            WHERE Case__c =: caseRec.Id
+            AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c
+        ];
+        system.assertEquals('Success', retVal.get(caseRec.Id).status);
+        system.assertEquals(caseIntRec.Status__c, 'Pending');
+
+    }
+
 }

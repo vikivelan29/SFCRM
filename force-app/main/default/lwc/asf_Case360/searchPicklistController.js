@@ -82,7 +82,8 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
     });
     if (bRecordLoaded) {
 
-        for (var item in caseFieldsMetadata) {
+        for (var item=0;item<caseFieldsMetadata.length; item++){//in caseFieldsMetadata) {
+            console.log('item ---> '+item+' --> '+caseFieldsMetadata[item])
             if (caseFieldsMetadata[item].bSearchablePicklist || caseFieldsMetadata[item].bMultiSelectSearchablePicklist) {
                 templ.querySelectorAll('c-asf_searchable-picklist').forEach(field => {
                     if (field.fieldname == caseFieldsMetadata[item].FieldAPINAme) {
@@ -219,25 +220,28 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
                 });
             }
             else {
-                for (var item in caseFieldsMetadata) {
+                /*for (var item in caseFieldsMetadata) {
                     templ.querySelectorAll('lightning-input-field').forEach((field) => {
                         if (field.fieldName == caseFieldsMetadata[item].FieldAPINAme) {
                             if (caseFieldsMetadata[item].UpdateAt) {
                                 if (caseFieldsMetadata[item].UpdateAt.includes(currentStep)) {
                                     if (caseFieldsMetadata[item].ControllingField == null && !caseFieldsMetadata[item].useControllingFormula) {
-                                        field.disabled = false;
-                                        hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
+                                        // field.disabled = false;
+                                        // hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
                                     }
                                     else{
                                         var controllingField = caseFieldsMetadata.find(item1 => item1.FieldAPINAme == caseFieldsMetadata[item].ControllingField);
-                                        templ.querySelectorAll('[fieldName = "'+controllingField.FieldAPINAme+'"]').forEach(ele =>{
-                                            if(ele.value == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula){
-                                                field.disabled = false;
-                                                hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                            }
-                                        })
+                                        if(controllingField != undefined && controllingField != null){
+                                            templ.querySelectorAll('[fieldName = "'+controllingField.FieldAPINAme+'"]').forEach(ele =>{
+                                                if(ele.value == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula){
+                                                    field.disabled = false;
+                                                    hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
+                                                }
+                                            })
+                                        }
+                                        
                                         if (caseExtensionObj) {
-                                            if (caseExtensionObj[controllingField.FieldAPINAme] == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula) {
+                                            if (controllingField != null && controllingField != undefined && caseExtensionObj[controllingField.FieldAPINAme] == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula) {
                                                 field.disabled = false;
                                                 hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
                                                 //check for mandatory
@@ -295,7 +299,7 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
                             }
                         }
                     });
-                }
+                }*/
 
 
             }

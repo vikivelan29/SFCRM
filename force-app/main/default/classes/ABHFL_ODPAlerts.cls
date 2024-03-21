@@ -20,22 +20,25 @@ public with sharing class ABHFL_ODPAlerts {
     public static List<ODPAlertResponse> getOdpAlerts(Id AccountId, boolean isABFL){
         List<ODPAlertResponse> odpAlertResponseList = new List<ODPAlertResponse>();
         String integrationName;
-        try{
-            Account accObj = [SELECT Id,Client_Code__c FROM Account WHERE Id =: AccountId];
-            //New
-            if(isABFL){
-                integrationName = ABFL_Constants.ODP_ALERTS;
+        Account accObj = [SELECT Id,Client_Code__c, Business_Unit__c FROM Account WHERE Id =: AccountId];
+        //New
+        if(isABFL){
+            integrationName = ABFL_Constants.ODP_ALERTS;
+        }else{
+            integrationName = ABHFL_Constants.ODP_ALERTS;
+        }
+        if(accObj.Client_Code__c != null){
+            String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
+            
+            ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
+            
+            if(odpResponseWrp.responseBody == '[]'){
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
             }else{
-                integrationName = ABHFL_Constants.ODP_ALERTS;
-            }
-            If(accObj.Client_Code__c != null){
-                String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
-                
-                ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
             }
-        }catch(Exception e){
-            
+        }else{
+            throw new AuraHandledException(label.ODP_Client_Code_Msg);
         }
         return odpAlertResponseList;
     }

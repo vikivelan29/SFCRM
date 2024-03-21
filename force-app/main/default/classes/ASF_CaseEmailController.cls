@@ -6,7 +6,7 @@
 * @description  :  Class for Email Templates
 *********************************************************/
 
-public class ASF_CaseEmailController {
+public without sharing class ASF_CaseEmailController {
     /*********************************************************
     * @description - Use for Store case record.    
     *********************************************************/

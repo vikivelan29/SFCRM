@@ -1,19 +1,15 @@
-import { api, LightningElement, track, wire } from 'lwc';
+import { api, LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Case_Owner from '@salesforce/schema/Case.OwnerId';
 import getCheckList from '@salesforce/apex/ASF_GetCaseRelatedDetails.getPendingChecklists';
 import updateMyCheckList from '@salesforce/apex/ASF_GetCaseRelatedDetails.updateCheckList';
-import updateChecklistComment from '@salesforce/apex/ASF_GetCaseRelatedDetails.updateChecklistComment';
 import { refreshApex } from '@salesforce/apex';
 import userId from '@salesforce/user/Id';
 import { NavigationMixin } from 'lightning/navigation';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import CHECKLIST_OBJECT from '@salesforce/schema/ASF_Checklist__c';
-import checkListStatus from '@salesforce/schema/ASF_Checklist__c.Status__c';
 import Case_Status from '@salesforce/schema/Case.Status';
 import Case_Stage from '@salesforce/schema/Case.Stage__c';
+import { reduceErrors } from 'c/asf_ldsUtils';
 const fields = [Case_Owner, Case_Status, Case_Stage];
 
 
@@ -22,20 +18,25 @@ import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE,
 export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(LightningElement) {
     @api recordId;
     accData;
-    errorData;
-    value;
-    event2;
-    recordCheckId;
     areDetailsVisible = false;
     ownerIdCase = userId;
-    checklistData;
     wiredAccountsResult;
-    listRecords = [];
+    listRecords = {};
     hasRecord = false;
     isDisabled = true;
+    get isAnyStageMatchChecklistPresent(){
+        let output = false;
+        if(this.accData){
+            let matches = this.accData.find(item=>{
+                return item.Stage_Matched__c == true;
+            });
+            if(matches){
+                output = true;
+            }
+        }
+        return output;
+    }
     @api realFormData;
-    @wire(getObjectInfo, { objectApiName: CHECKLIST_OBJECT })
-    checkListInfo;
 
     get options() {
         return [
@@ -68,9 +69,6 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
     }
     connectedCallback() {
-        // this.event2 = setInterval(() => {
-        //     refreshApex(this.wiredAccountsResult);
-        // }, 1000);
 
         this.refreshContainerID = registerRefreshContainer(this.template.host, this.refreshContainer.bind(this));
     }
@@ -78,6 +76,83 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         clearInterval(this.event2);
         unregisterRefreshContainer(this.refreshContainerID);
     }
+    
+    handleChange(event) {
+        let value = event.detail.value;
+        let selectedRecordId = event.target.dataset.id;
+        let fieldAPI = event.target.dataset.field;
+        this.isDisabled = false;
+        if(Object.hasOwn(this.listRecords, selectedRecordId)){
+            let checklist = this.listRecords[selectedRecordId];
+            checklist[fieldAPI] = value;
+            this.listRecords[selectedRecordId] = checklist;
+        }else{
+            let checklist = {};
+            checklist['Id'] = selectedRecordId;
+            checklist[fieldAPI] = value;
+            this.listRecords[selectedRecordId] = checklist;
+        }
+
+    }
+    handleSave(event) {
+        
+        console.log('Refresh Apex called');
+        updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
+            console.log('Refresh Apexsuccess called');
+            refreshApex(this.wiredAccountsResult);
+            const event = new ShowToastEvent({
+                title: 'Success',
+                message: 'Records are updated sucessfully',
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+        })
+        .catch(error => {
+            //this.showError('error', 'Error occured', error);
+            if(JSON.stringify(error).includes('max length=255')){
+                console.log('what is therror' + JSON.stringify(error));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error updating record',
+                        message: 'Length must be less than or equal to 255 characters for comments',
+                        variant: 'error',
+                    }),
+                );      
+            }            
+        })
+    }
+
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
+    }
+
+    refreshContainer(refreshPromise) {
+        if (refreshPromise) {
+            return refreshPromise
+                .then((status) => {
+                    if (status === REFRESH_COMPLETE) {
+                        refreshApex(this.wiredAccountsResult);
+                    } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
+                        console.warn("Done, with issues refreshing some components");
+                    } else if (status === REFRESH_ERROR) {
+                        console.error("Major error with refresh.");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
+
+    //Old methods
+    /*
     handleInputChange(event) {
         if (this.areDetailsVisible == true) {
             this.textValue = event.detail.value;
@@ -97,51 +172,5 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
                 this.error = error.message;
             });
     }
-    handleChange(event) {
-        this.value = event.detail.value;
-        const selectedRecordId = event.target.dataset.id;
-        console.log('trueOwnerId', this.areDetailsVisible);
-        console.log("inputno", this.value);
-        console.log("record", selectedRecordId);
-        this.isDisabled = false;
-        this.listRecords.push({ Id: event.target.dataset.id, [event.target.dataset.field]: event.detail.value });
-        console.log("newrealform", this.listRecords);
-
-    }
-    handleSave(event) {
-        
-        console.log('Refresh Apex called');
-        updateMyCheckList({ recordUpdate: this.listRecords }).then(() => {
-            console.log('Refresh Apexsuccess called');
-            refreshApex(this.wiredAccountsResult);
-            const event = new ShowToastEvent({
-                title: 'Success',
-                message: 'Records are updated sucessfully',
-                variant: 'success',
-                mode: 'dismissable'
-            });
-            this.dispatchEvent(event);
-        });
-    }
-
-
-
-    refreshContainer(refreshPromise) {
-        if (refreshPromise) {
-            return refreshPromise
-                .then((status) => {
-                    if (status === REFRESH_COMPLETE) {
-                        refreshApex(this.wiredAccountsResult);
-                    } else if (status === REFRESH_COMPLETE_WITH_ERRORS) {
-                        console.warn("Done, with issues refreshing some components");
-                    } else if (status === REFRESH_ERROR) {
-                        console.error("Major error with refresh.");
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-    }
- 
+    */
 }

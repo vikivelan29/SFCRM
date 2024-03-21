@@ -126,10 +126,10 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
     // @Description - Firing Platform Event to make Callout for Ebot Feedback Api.
     public void firePlatformEvtForCallout(ASF_Case_Integration__c caseInteg, String jsonBody, String caseSubType) {
 
-        ASF_Case_Integration__c caseInt = [Select Name from ASF_Case_Integration__c where id =: caseInteg.Id];
+        ASF_Case_Integration__c caseInt = [SELECT Name, Case__r.Business_Unit__c FROM ASF_Case_Integration__c WHERE id =: caseInteg.Id];
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-        caseIntOut.Business_Unit__c  = 'ABHFL';
+        caseIntOut.Business_Unit__c  = String.isNotBlank(caseInt.Case__r.Business_Unit__c) ? caseInt.Case__r.Business_Unit__c : '';
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = 'Ebot Feedback';
         caseIntOut.ServiceName__c  = 'eBotFeedback';
@@ -147,5 +147,7 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
 
     }
 
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 
 }

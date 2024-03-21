@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
     //getAssetDetails
@@ -107,7 +108,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.isSensitive = config.Sensitive_field__c;
             item.FieldLabelName = getLabelfromAPIName(config.ObjectAPIName__c,config.FieldAPIName__c);
             // System.debug(config.Update__c + config.Update__c.contains(status));
-            
+            item.ReadOnly = false;
             if(item.UpdateAtList != null && item.UpdateAtList.size() > 0 ){ 
                 if(item.UpdateAtList.contains(status) && config.Controlling_field__c == null){
                     item.ReadOnly = false;
@@ -116,7 +117,9 @@ public without sharing class ASF_GetCaseRelatedDetails {
                     item.ReadOnly = true;
                 }
             }
-            
+            Schema.DescribeFieldResult dfr = Schema.getGlobalDescribe().get(config.ObjectAPIName__c).getDescribe().fields.getMap().get(config.FieldAPIName__c).getDescribe();
+            item.ReadOnly = item.ReadOnly?item.ReadOnly:!dfr.isUpdateable();
+
             if(item.RequiredAtList != null && item.RequiredAtList.size() >0 ){   
                 if(item.RequiredAtList.contains(status) && config.Controlling_field__c == null){
                     item.Required = true;
@@ -175,6 +178,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         soql = 'SELECT '+ soql +' FROM Case WHERE Id =: caseId ';
         System.debug('SOQL is: '+soql);
         List<Sobject> queryResponseList = new List<Sobject>();
+        soql = String.escapeSingleQuotes(soql);
         queryResponseList = Database.query(soql); 
         System.debug('Query result is: '+queryResponseList);
         Sobject queryResponseRec = queryResponseList.size() > 0 ?queryResponseList.get(0) : NULL;
@@ -310,7 +314,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     @AuraEnabled(cacheable= true)
     public static List<ASF_Checklist__c> getPendingChecklists(string caseId){
-        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c from ASF_Checklist__c where Case__c  =: caseId];
+        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
     }
     @AuraEnabled(cacheable= true)
     public static List< ASF_Case_Approv__c > getCaseApprovalRecords(string caseId){
@@ -341,12 +345,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateCheckList(List<ASF_Checklist__c> recordUpdate){
-        Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateChecklistRecords.putall(recordUpdate);         
-        }
+    public static void updateCheckList(Map<Id,ASF_Checklist__c> updateChecklistRecords){
+        //Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
+        system.debug('receivedPara '+ updateChecklistRecords);
+        // if(!recordUpdate.isEmpty()){
+        //     updateChecklistRecords.putall(recordUpdate);         
+        // }
         if(updateChecklistRecords.size()>0){
             update updateChecklistRecords.values();
         }
@@ -354,12 +358,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateTask(List<Task> recordUpdate){
-        Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateTaskRecords.putall(recordUpdate);         
-        }
+    public static void updateTask(Map<Id,Task> updateTaskRecords){
+        // Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
+        // system.debug('receivedPara '+ recordUpdate);
+        // if(!recordUpdate.isEmpty()){
+        //     updateTaskRecords.putall(recordUpdate);         
+        // }
         if(updateTaskRecords.size()>0){
             update updateTaskRecords.values();
         }

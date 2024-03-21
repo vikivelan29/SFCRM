@@ -4,11 +4,19 @@
     <protected>false</protected>
     <values>
         <field>CCC_External_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">RREPSWNTHFC</value>
     </values>
     <values>
         <field>Duration_Of_Closure__c</field>
         <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Auto_Closure_Of_Cases_VF</value>
+    </values>
+    <values>
+        <field>SMS_Template__c</field>
+        <value xsi:type="xsd:string">ABHFL_Auto_Closure</value>
     </values>
     <values>
         <field>Stage__c</field>

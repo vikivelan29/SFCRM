@@ -1,4 +1,5 @@
-public class ASF_FieldSetController {
+@SuppressWarnings('PMD.PropertyNamingConventions')
+public without sharing class ASF_FieldSetController {
     
     public static Schema.FieldSet fieldSet = null;
     

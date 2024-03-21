@@ -9,7 +9,7 @@ public class ABHFL_EbotWrapper {
         public String ASONDATE;
         public String DISBURSTMENTTYPE;
         public String FROMDATE;
-        public Integer FROMYEAR;
+        public String FROMYEAR;
         public String ISCORRUPTED;
         public String ISMULTILAN;
         public String ISMULTIPLEDATEFORMATE;
@@ -21,11 +21,11 @@ public class ABHFL_EbotWrapper {
         public String LANCOMMENT;
         public String LOB;
         public String TODATE;
-        public Integer TOYEAR;
+        public String TOYEAR;
         public String Template1;
         public String Template2;
         public String Template3;
         public String UNREGISTEREDCATEGORY;
-        public List<String> LAN_NOS;
+        public List<String> EBOTLAN;
     }
 }

@@ -88,7 +88,7 @@ public With Sharing class ABHFL_CloneCase{
                                                         ASF_Is_Cloneable__c, Type__c, Sub_Type__c  
                                                         FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];*/
             
-            for(String lanNo : ebotResponseWrp.LAN_NOS){
+            for(String lanNo : ebotResponseWrp.EBOTLAN){
                 Case cloneCaseRecord = new Case ();
                 cloneCaseRecord  = caseObj.clone(false,true,false,false);
                 cloneCaseRecord.Cloned_From__c = caseRec.Id;

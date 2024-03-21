@@ -11,7 +11,7 @@
       <div class="slds-grid slds-gutters">
          <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
             <lightning-input type="text" label="" onchange={valChange}
-               placeholder="Enter Customer Name/ Client Code/Email/Phone/LAN #/ Prospect Name"></lightning-input>
+               placeholder="Enter Customer Name/ Client Code/ Email/ Mobile/ LAN#/ PAN#/ Prospect Name"></lightning-input>
          </div>
          <div class="slds-col slds-size_1-of-3 slds-m-left_medium slds-p-top_medium">
             <lightning-button variant="brand" label="Create Prospect" title="Primary action"
@@ -23,7 +23,7 @@
             <br />
             <strong>Select Customer/ Prospect </strong>
             <lightning-datatable key-field="recordId" data={accData} data-id="accTable" class="colorWhite" max-row-selection=1
-               onrowselection={handleAccAction} columns={accCols} selected-rows={preSelectedRows}>
+               onrowselection={handleAccAction} columns={accCols} selected-rows={preSelectedRows}> 
             </lightning-datatable>
          </div>
       </div>
@@ -42,9 +42,11 @@
                   </lightning-layout-item>
                </lightning-layout>
                <br />
-               <lightning-datatable key-field="Id" data-id="asstTable" max-row-selection="1" data={asstData}
-                  class="colorWhite" columns={asstCols} selected-rows={preSelectedAsset} onrowselection={handleAsstAction}>
-               </lightning-datatable>
+               <div style="overflow-x: auto;">
+                  <lightning-datatable key-field="Id" data-id="asstTable" max-row-selection="1" data={asstData}
+                     class="colorWhite" columns={asstCols} selected-rows={preSelectedAsset} onrowselection={handleAsstAction}>
+                  </lightning-datatable>
+               </div>
             </div>
          </div>
       </template>

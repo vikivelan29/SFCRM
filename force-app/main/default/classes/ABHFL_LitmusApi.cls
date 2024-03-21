@@ -8,6 +8,8 @@
 
 public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 
+    public static boolean isRecursive = true;
+
     public Case getCaseRec(String caseId){
         Case caseRecord = [
             SELECT Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c,
@@ -80,8 +82,10 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
         
         ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
-        callLitmusApi(integ, caseRec.Id);
-        response.status = 'Success';
+        if(isRecursive) {
+            callLitmusApi(integ, caseRec.Id);
+            response.status = 'Success';
+        }
         return response;
     }
 
@@ -105,7 +109,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRecord.Id
-                                                               AND Integration_Ext_Id__c =:integrtn.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c = 'ABHFL Litmus Api' and Type__c = 'Litmus' WITH SECURITY_ENFORCED];
 
         if(existingCaseIntRecords.size()>0){
         	for(ASF_Case_Integration__c cInt : existingCaseIntRecords){
@@ -117,13 +121,16 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         String jsonBody = generateReqBody(caseRecord, cccRec);
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Case__c  = caseRecord.Id;
-        caseInt.Integration_Ext_Id__c = integrtn.External_Id__c;
+        caseInt.Integration_Ext_Id__c = 'ABHFL Litmus Api';
+        caseInt.Type__c = 'Litmus';
         caseInt.Status__c = 'Pending';
         insert caseInt;
 
         if(String.isNotBlank(jsonBody)) {
             firePlatformEvtForCallout(caseInt, jsonBody);
         }
+
+        isRecursive = false;
     }
 
     // @Description - Preparing JSON body for Litmus Api.
@@ -195,4 +202,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 		public String tag_ageing;
 		public String appId;
     }
+
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }

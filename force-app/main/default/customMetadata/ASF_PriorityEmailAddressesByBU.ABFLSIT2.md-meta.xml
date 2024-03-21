@@ -10,7 +10,7 @@
         <field>Business_Unit__c</field>
         <value xsi:type="xsd:string">ABFL</value>
     </values>
-    <values>
+        <values>
         <field>Default_Queue_Dev_Name__c</field>
         <value xsi:type="xsd:string">ABFL Digital CS</value>
     </values>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Priority_Index__c</field>
-        <value xsi:type="xsd:double">13.0</value>
+        <value xsi:type="xsd:double">14.0</value>
     </values>
     <values>
         <field>Send_to_EBOT__c</field>

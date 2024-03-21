@@ -35,6 +35,10 @@
         <value xsi:type="xsd:string">Branch</value>
     </values>
     <values>
+        <field>Sub_Source__c</field>
+        <value xsi:type="xsd:string">Walkin,Letter,Outbound</value>
+    </values>
+    <values>
         <field>Type__c</field>
         <value xsi:type="xsd:string">LOB</value>
     </values>

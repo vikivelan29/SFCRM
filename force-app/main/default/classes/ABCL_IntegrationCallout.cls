@@ -6,6 +6,7 @@
 *Description  :  Outbound Callout Logger
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
+    public static string caseId;
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - executeCallout
@@ -66,7 +67,9 @@ public with sharing class ABCL_IntegrationCallout {
         
         return integrationResponse;
     }
-    
+    public IntegrationResponseWrapper executeCaseCallout( String integrationName,string payload,Map<String,String> urlParameters){
+        return executeCallout( integrationName, payload, urlParameters);
+    }
     public static ABCL_Integrations__mdt  getIntegrationMetadata(string integrationName){
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
                                                                     Mock_Status_Code__c,Mock_Response_Resource__c,
@@ -113,11 +116,15 @@ public with sharing class ABCL_IntegrationCallout {
         }
         
         if(integrationMdt.Full_Log__c || (integrationMdt.Exception_Log__c && hasError)){
+            if(String.isNotBlank(caseId)){
+                integrationLog.Case__c = caseId;
+            }
             if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert integrationLog;
                 storeResponseAttachment(integrationMdt,integrationResponse,integrationLog.Id);
             }
         }
+        system.debug('integrationLog:'+integrationLog);
         
         return integrationResponse;
     }

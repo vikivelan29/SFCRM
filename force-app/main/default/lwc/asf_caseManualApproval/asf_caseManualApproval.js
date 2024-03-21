@@ -14,6 +14,7 @@ import APPROVALTYPE from '@salesforce/schema/ASF_Case_Approv__c.Approval_Type__c
 //import APPROVALPATTERN from '@salesforce/schema/ASF_Case_Approv__c.Approval_Pattern__c';
 import CASENUM from '@salesforce/schema/Case.CaseNumber';
 import CASESTAGE from '@salesforce/schema/Case.Stage__c'
+import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c'
 import LightningAlert from 'lightning/alert';
 import getCommunity from "@salesforce/apex/ASF_ApprovalHistoryController.isCommunity";
 
@@ -28,6 +29,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
     arr_fields = [];
     caseNumber = '';
     caseStage = '';
+    businessUnit='';
     isClicked = false;
     showSendButton = false;
 
@@ -45,11 +47,12 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
     get headerTitle() {
         return 'Approval for Service Request ' + this.caseNumber;
     }
-    @wire(getRecord, { recordId: '$recordId', fields: [CASENUM, CASESTAGE] })
+    @wire(getRecord, { recordId: '$recordId', fields: [CASENUM, CASESTAGE, CASE_BUSINESSUNIT] })
     wireUser({ error, data }) {
         if (data) {
             this.caseNumber = data.fields.CaseNumber.value;
             this.caseStage = data.fields.Stage__c.value;
+            this.businessUnit =data.fields.Business_Unit__c.value;
         }
     }
 
@@ -247,6 +250,10 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         }
 
         fields.TypeOfApproval__c = 'Manual';
+        if(this.businessUnit != null && this.businessUnit != undefined){
+            fields.Business_Unit__c= this.businessUnit;
+        }
+
         if (isValid) {
             this.template.querySelectorAll('lightning-input-field').forEach(ele => {
                 if (!fields.hasOwnProperty(ele.fieldName) && !ele.parentElement.parentElement.className.includes('slds-hide')) {

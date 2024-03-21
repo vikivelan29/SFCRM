@@ -14,7 +14,16 @@ public class ABCL_IntegrationCallout_Test {
         ABCL_Integrations__mdt intMetadata = new ABCL_Integrations__mdt();
         intMetadata.Exception_Log__c = true;
         intMetadata.StoreAsAttachment__c = true;
+        ABCL_Integrations__mdt intMetadata1 = new ABCL_Integrations__mdt();
+        intMetadata1.Exception_Log__c = true;
+        intMetadata1.StoreAsAttachment__c = true;
+        intMetadata1.EnableMockResponse__c = true;
+        intMetadata1.Mock_Response_Resource__c = 'ComplaintInvestigationMockResponse';
         ABCL_IntegrationCallout.IntegrationResponseWrapper failedResponse = ABCL_IntegrationCallout.handleResponse(intMetadata,response,true);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper res = ABCL_IntegrationCallout.getStaticResource(intMetadata1, response);
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        insert caseInt;
+        ABCL_IntegrationCallout.storeResponseAttachment(intMetadata1, response, caseInt.Id);
         System.assertEquals(true,failedResponse != null,'PASS');
     }
 }

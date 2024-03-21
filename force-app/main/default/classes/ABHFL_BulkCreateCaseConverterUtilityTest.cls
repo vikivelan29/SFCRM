@@ -70,7 +70,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtilityTest {
 
     @IsTest
     static void testprepareDownloadTemplate() {        
-        List<String> columnNames = new List<String>{'Loan Account No', 'Issue Type Code', 'Source', 'Description', 'Block Customer Communication'};
+        List<String> columnNames = new List<String>{'Loan Account No', 'Issue Type Code', 'Source', 'Sub Source', 'Description', 'Block Customer Communication'};
         Case caserec = [Select Id from Case LIMIT 1];
         Test.startTest();
         ABHFL_BulkCreateCaseConverterUtility utility = new ABHFL_BulkCreateCaseConverterUtility();
@@ -81,7 +81,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtilityTest {
 
     @IsTest
     static void testprepareDownloadTemplate2() {        
-        List<String> columnNames = new List<String>{'Loan Account No', 'Issue Type Code', 'Source', 'Description', 'Block Customer Communication'};
+        List<String> columnNames = new List<String>{'Loan Account No', 'Issue Type Code', 'Source', 'Sub Source', 'Description', 'Block Customer Communication'};
         ListView lv = [Select Id, SobjectType, DeveloperName from ListView where SobjectType = 'Case' and DeveloperName = 'RecentlyViewedCases' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new ASF_ListViewAPIMock());
         Test.startTest();

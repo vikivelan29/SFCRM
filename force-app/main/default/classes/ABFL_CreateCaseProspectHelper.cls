@@ -9,7 +9,7 @@ public class ABFL_CreateCaseProspectHelper {
         // Filter cases based on BU
         Map<String, Case> prospectPanMap = new Map<String, Case>();
         for(Case individualCase : newItems){
-            if(individualCase.Business_Unit__c=='ABFL' && individualCase.AccountId == null && individualCase.Prospect_payload__c!=null){
+            if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(individualCase.Business_Unit__c) && individualCase.AccountId == null && individualCase.Prospect_payload__c!=null){
                 ProspectSearch prospect = (ProspectSearch)JSON.deserialize(individualCase.Prospect_payload__c,ProspectSearch.class);
                 prospectPanMap.put(prospect.PANNO, individualCase);
             }

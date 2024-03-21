@@ -438,6 +438,7 @@
                 <targetReference>Send_Stage_1_SLA_Broken_Email</targetReference>
             </connector>
             <label>Stage SLA Broken</label>
+            <maxBatchSize>1</maxBatchSize>
             <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>Stage_SLA_1__c</recordField>
@@ -449,6 +450,7 @@
                 <targetReference>Mark_Overall_Case_SLA_Broken</targetReference>
             </connector>
             <label>CASE overall SLA</label>
+            <maxBatchSize>1</maxBatchSize>
             <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>Overall_Case_Closure_SLA__c</recordField>
@@ -471,6 +473,7 @@
                 <targetReference>Send_SLA2_Broken_Email</targetReference>
             </connector>
             <label>SLA2 Broken</label>
+            <maxBatchSize>1</maxBatchSize>
             <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>Stage_SLA_2__c</recordField>
@@ -482,6 +485,7 @@
                 <targetReference>SLA_3_Broken_Email</targetReference>
             </connector>
             <label>SLA3 Broken</label>
+            <maxBatchSize>1</maxBatchSize>
             <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>Stage_SLA_3__c</recordField>

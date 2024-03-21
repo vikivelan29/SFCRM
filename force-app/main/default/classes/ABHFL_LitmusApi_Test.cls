@@ -58,4 +58,35 @@ public with sharing class ABHFL_LitmusApi_Test {
 		  	System.assertEquals('Success', res.status);   
         Test.stopTest();
       }
+
+      @isTest 
+    static void evaluateTestMethodBulk() {
+    
+        ABHFL_LitmusApi litmusApiObj = new ABHFL_LitmusApi();
+        List<Case> caseLst = [Select id, Sub_Type_Text__c, Status, Nature__c, Notes__c From Case];
+        caseLst[0].Status = 'Resolved';
+        update caseLst;
+            
+        Test.startTest();
+            Map<Id, ASF_IntegrationsController.IntegrationWrapper> result = litmusApiObj.evaluate(new List<Case>{caseLst[0]});
+            //System.assertEquals('Success', result.get(caseLst[0].Id).status);	
+        Test.stopTest();
+    }
+
+    /****************************************************
+       * @description - Test Method for run Method
+      *****************************************************/
+      @isTest 
+      static void runTestMethodBulk() {
+          
+        ABHFL_LitmusApi litmusApiObj = new ABHFL_LitmusApi();
+        ASF_Integration__c integ = new ASF_Integration__c();
+          
+        List<Case> caseLst = [Select id, Notes__c From Case];
+          
+        Test.startTest();
+          	Map<Id, ASF_IntegrationsController.IntegrationWrapper> res = litmusApiObj.run(new Map<Id, List<ASF_Integration__c>>{caseLst[0].Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseLst[0]});
+		  	//System.assertEquals('Success', res.get(caseLst[0].Id).status);   
+        Test.stopTest();
+      }
 }
