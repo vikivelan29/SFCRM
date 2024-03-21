@@ -8,8 +8,8 @@
 public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHandler {
     
     public override void beforeInsert(List<SObject> newItems){
-        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
-        ABCL_SendEmailValidation.validateUsersTeam(newItems);
+        //ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
+        //ABCL_SendEmailValidation.validateUsersTeam(newItems);
         
         
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
@@ -63,5 +63,9 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
             );
             EventBus.publish(ate);
         }
-    }   
+    } 
+    public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
+        ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
+        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
+    }
 }
