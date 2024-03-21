@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>Asset.LAN__c</members>
-		<name>CustomField</name>
-	</types>
-	<types>
-		<members>API_Admin_User_PS</members>
-		<members>Admin_User</members>
-		<name>PermissionSet</name>
-	</types>
-	<version>58.0</version>
+    <types>
+        <members>Case.ABFL_SR_Snapshot</members>
+        <name>QuickAction</name>
+		</types>
+
+
+
+    <version>58.0</version>
 </Package>
