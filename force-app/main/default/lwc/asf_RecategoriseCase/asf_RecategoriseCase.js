@@ -106,6 +106,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     oldCaseDetails ;
     currentCCCId;
     oldCCCIdFields = '';
+    currentNature = '';
+    currentUserFullName = '';
     selectedType;
     selectedSubType;
     recategorizeEnabled;
@@ -413,8 +415,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
+        let currentDateVal = new Date();
+        let formattingOptions = {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        };
+        let currentDateLocale = currentDateVal.toLocaleDateString(undefined, formattingOptions);
         let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
-        let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + this.currentCCCId + ' - ' + typeSubTypeText;
+        let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
@@ -671,8 +680,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
             this.oldCCCIdFields = (caseparsedObject.oldCCCIdFields__c == undefined || caseparsedObject.oldCCCIdFields__c == null)?'':caseparsedObject.oldCCCIdFields__c;
+            this.currentNature = (caseparsedObject.Nature__c == undefined || caseparsedObject.Nature__c == null)?'':caseparsedObject.Nature__c;
             this.selectedType = caseparsedObject.Type_Text__c;
             this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
+            this.currentUserFullName = this.oldCaseDetails.currentUserName;
             /* CHECK IF THE CASE IS RETURNING ACCOUNT OR NOT. IN CASE OF PROSPECT RELATED CASES
             /* ACCOUNT IS COMING AS NULL.
             /* Author - Virendra

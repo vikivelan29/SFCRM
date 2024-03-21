@@ -17,10 +17,10 @@
                             </lightning-button>
                         </lightning-layout-item>
 
-                        <lightning-layout-item size="12" padding="around-small">
-                            <template if:true={boolShowNoData}>
-                                <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
-                            </template>
+                    <lightning-layout-item size="12" padding="around-small" style="position: relative;">
+                        <template if:true={boolShowNoData}>
+                            <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
+                        </template>
 
                             <template if:false={boolShowNoData}>
                                 <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
@@ -124,7 +124,7 @@
             
         </div>
         <div slot="footer">
-            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> &nbsp;
             <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
                 onclick={updateCaseHandler}></lightning-button>
         </div>
