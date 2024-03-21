@@ -162,7 +162,15 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api
     checkValidity(e){
         if(this.template.querySelector('lightning-input')){
-            return this.template.querySelector('lightning-input').reportValidity();
+            if(this.columnName == 'Revised_EMI_Tenure__c'){
+                return this.template.querySelector('lightning-input').reportValidity();
+            } else if(this.columnName == 'Revised_ROI__c'){
+                if(this.template.querySelector('lightning-input').value < 100){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }else {
             return true;
         }

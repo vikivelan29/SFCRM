@@ -2,25 +2,6 @@
 public class Asf_BranchMasterTrigger_Test {
     @TestSetup
     static void setup() {
-        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];  
-        Blob b = Crypto.GenerateAESKey(128);
-        String h = EncodingUtil.ConvertTohex(b);
-        String uid = h.SubString(0,8); 
-        User u = new User(Alias = uid, Email= uid + '@testdomain.com', 
-                          EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                          LocaleSidKey='en_IN', ProfileId = p.Id, 
-                          TimeZoneSidKey='Asia/Kolkata', UserName= uid + '@testdomain.com'); 
-        insert u;
-        PermissionSetGroup psg = [select Id, Status from PermissionSetGroup where DeveloperName='Super_Admin'];
-        
-        
-        if(psg.Status != 'Updated'){
-            Test.calculatePermissionSetGroup(psg.Id);
-            insert new PermissionSetAssignment(PermissionSetGroupId = psg.Id, AssigneeId = u.Id);
-        }
-
-
-        System.runAs(u){
             Group g1 = new Group(Name='TestGroup1', type='Queue');     
             insert g1;
             Group g2 = new Group(Name='Test-Group', type='Queue');
@@ -29,7 +10,6 @@ public class Asf_BranchMasterTrigger_Test {
 			insert bm;
             Branch_Master__c bm1 = new Branch_Master__c(Name = 'testBranchMaster1', Branch_Queue_Id__c = '12345678');      
 			insert bm1;
-        }
     }
 
     @IsTest

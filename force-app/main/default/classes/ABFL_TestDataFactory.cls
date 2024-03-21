@@ -209,6 +209,12 @@ public class ABFL_TestDataFactory {
                                                                  KYCCOMPLIED__c='Some Text',
                                                                  IsRegisteredCustomer__c='Yes',
                                                                  SUBSOURCE__c= 'SUBSOURCE',
+                                                                 Frequency__c = 'M',
+                                                                 To_Date__c = System.Today()+6,
+                                                                 From_Date__c = System.Today()+2,
+                                                                 EMI_Amount__c = 5000,
+                                                                 New_Bank_Account_No__c = '123356666',
+                                                                 Bank_IFSC_Code__c = '12345',
                                                                  Lock_in_Period__c = 'No'
                                                                 );
         caseDetailList.add(caseDetail);

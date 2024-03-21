@@ -34,7 +34,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
         }
     }
 
-    @wire(getPaymentsForCase, {caseId:'$recordId'})
+   @wire(getPaymentsForCase, {caseId:'$recordId'})
     getPaymentsWire(paymentRecords) {
         this.serverPayments = paymentRecords;
         if(paymentRecords.data && paymentRecords.data.length > 0){
@@ -44,6 +44,7 @@ export default class Abhfl_MultiplePayments extends LightningElement {
                 //if(this.record[i].Id)
                 console.log(records[i].Id);
                 records[i].key = `${records[i].Id}`;
+                records[i].formattedDate = this.formatDate(records[i].Date__c);
             }
             this.payments = records;
             if(this.stageVal){
@@ -51,6 +52,16 @@ export default class Abhfl_MultiplePayments extends LightningElement {
             }
         }
     }
+    formatDate(dateString) {
+        const dateObj = new Date(dateString);
+        const day = dateObj.getDate();
+        const month = dateObj.getMonth() + 1;
+        const year = dateObj.getFullYear();
+        const formattedDay = day < 10 ? '0' + day : day;
+        const formattedMonth = month < 10 ? '0' + month : month;
+        return `${formattedDay}/${formattedMonth}/${year}`;
+    }
+
 
     handleDataChange(event){
         let element = this.payments.find(ele  => ele.key === event.target.dataset.id);

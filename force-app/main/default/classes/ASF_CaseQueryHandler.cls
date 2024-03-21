@@ -45,7 +45,7 @@ public with sharing class ASF_CaseQueryHandler {
                                         FROM ASF_Checklist__c
                                         WHERE
                                         Mandatory__c = TRUE
-                                        AND Status__c NOT IN ('Completed')
+                                        AND Status__c NOT IN ('Completed','Rejected')
                                         AND Case__c = :caseIds
                                         AND Stage_Name__c = :caseStages];
         }

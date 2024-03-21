@@ -243,19 +243,11 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.filesUploaded = event.target.files[0];
             this.fileName = event.target.files[0].name; 
             let strFileExt = this.fileName.substring(this.fileName.lastIndexOf('.')+1, this.fileName.length) || this.fileName;
-
-            let arrFileExtn = this.fileName.split('.');
-            for(var i=0;i<arrFileExtn.length;i++){
-                let tempExtn = arrFileExtn[i];
-                if(tempExtn != null && tempExtn != undefined){
-                    tempExtn = tempExtn.toUpperCase();
-                    if(tempExtn!='CSV' && i != 0){
-                        this.boolCSVCheck = false;
-                        this.foundFileWithNotAllowedExtn = true;
-                        this.strCSVFileError = 'You are trying to upload file with multiple extension. Please select file with only one and .csv extension.';
-                        break;
-                    }
-                }     
+            let arrFileExtn = this.fileName.slice(-4);
+            if(arrFileExtn.toLowerCase() != '.csv'){
+                this.boolCSVCheck = false;
+                this.foundFileWithNotAllowedExtn = true;
+                this.strCSVFileError = 'Invalid file extension or file format.';
             }
 
             if(!this.foundFileWithNotAllowedExtn){

@@ -26,8 +26,9 @@
         List<ColumnName> colmnNameList   = fieldApiNameOnBasisOfLOBObj.columnNameList;
         String fieldMapping = fieldApiNameOnBasisOfLOBObj.fieldMappingForCase;
         String allFieldApiNameString = String.join(fieldApiNamList,',');
+        String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + allFieldApiNameString + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
+        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
         System.debug('***dynamicQuery:'+dynamicQuery);
         List<Sobject> assetRecLst = Database.query(dynamicQuery);
 

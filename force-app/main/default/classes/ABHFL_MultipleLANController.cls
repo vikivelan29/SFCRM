@@ -276,8 +276,10 @@ public with sharing class ABHFL_MultipleLANController {
             dataServiceRequest.CLIENT_CODE =assetRecord.Account.Client_Code__c;
             dataServiceRequest.LAN = assetRecord.LAN__c;
             String dataServiceRequestBody = JSON.serialize(dataServiceRequest);
+            system.debug('dataServiceRequestBody'+dataServiceRequestBody);
             ABCL_IntegrationCallout.IntegrationResponseWrapper dataServiceResponse = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.DATASERVICE_INTEGRATION_METADATA,dataServiceRequestBody,null);
             if(dataServiceResponse.statusCode == 200 && String.isNotBlank(dataServiceResponse.responseBody)){
+                system.debug('dataServiceResponse.responseBody'+dataServiceResponse.responseBody);
                 ABHFL_DataServiceDetailsController.A3SSummaryData dataServiceResponseWrapper = (ABHFL_DataServiceDetailsController.A3SSummaryData)JSON.deserialize(dataServiceResponse.responseBody,ABHFL_DataServiceDetailsController.A3SSummaryData.class);
                 assetDetail = dataServiceConverter(dataServiceResponseWrapper,assetRecord,caseRecId);
             }
@@ -309,18 +311,18 @@ public with sharing class ABHFL_MultipleLANController {
         assetDetail.Is_NACH__c = loanStatusRow.NACH == 'Yes'? 'NACH Registered' : 'NACH Not Registered';
         assetDetail.Loan_Status__c = loanStatusRow.LOANSTATUS;
         assetDetail.Constitution__c = loanStatusRow.CONSTITUTION;
-        assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod);
+        assetDetail.Fixed_Period__c = loanStatusRow.FixedPeriod != null ? Decimal.valueOf(loanStatusRow.FixedPeriod) : null;
         //assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod) > 0 ? 'Fixed Period > 0' : '';
         assetDetail.VAN__c = loanStatusRow.VAN;
-        assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB);
+        assetDetail.MOB__c = loanStatusRow.MOB != null ? Date.valueof(loanStatusRow.MOB) : null;
         //assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : 'MOB > 6 months';
         assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS;
         //assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS != 'Standard' ? 'Not Standard' : 'Standard';
-        assetDetail.Amount_Overdue__c = Decimal.valueof(loanInfoRow.AMOUNT_OVERDUE);
+        assetDetail.Amount_Overdue__c = loanInfoRow.AMOUNT_OVERDUE != null ? Decimal.valueof(loanInfoRow.AMOUNT_OVERDUE) : null;
         //assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
-        assetDetail.Current_Balance__c = Decimal.valueof(loanInfoRow.CURRENT_BALANCE);
+        assetDetail.Current_Balance__c = loanInfoRow.CURRENT_BALANCE != null ? Decimal.valueof(loanInfoRow.CURRENT_BALANCE) : null;
         assetDetail.LAN__c = assetRecord.LAN__c;//loanInfoRow.LOAN_ACCOUNT_NUMBER;
-        assetDetail.Interest_Rate__c = Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4));
+        assetDetail.Interest_Rate__c = loanInfoRow.INTEREST_RATE != null ? Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4)) : null;
         assetDetail.ARR__c = Decimal.valueof(loanStatusRow.BPLR.Left(4));
         assetDetail.Asset__c = assetRecord.Id;
         assetDetail.Case__c = caseRecId;

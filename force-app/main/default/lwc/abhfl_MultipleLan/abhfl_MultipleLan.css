@@ -10,12 +10,11 @@
 
 .multiColumnTable{
     table-layout: fixed;
-    width: 120%;
+    width: 1200px;
 }
 
 .singleColumnTable{
     table-layout: fixed;
-    width: 100%;
 }
 
 .deleteCol{

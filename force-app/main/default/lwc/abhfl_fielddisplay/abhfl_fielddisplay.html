@@ -28,7 +28,6 @@
     </template> 
     <template lwc:elseif={displayCombo}>
         <select onchange={handleChange} class="slds-select" name="selection" disabled={defaultDisableVal} onclick={handleClick}>
-            <option value=""></option>
             <template for:each={options} for:item = "item" for:index="indexVar">
                 <option key={item.value} value={item.value}>{item.label}</option>    
             </template>

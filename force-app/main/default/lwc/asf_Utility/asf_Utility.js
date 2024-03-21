@@ -19,6 +19,7 @@ import CASE_STATUS_FIELD from '@salesforce/schema/Case.Status';
 import REJECTION_DETAILS from '@salesforce/schema/Case.Rejected_Reason__c';
 import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
+import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -101,7 +102,11 @@ export class asf_Utility {
 
         fields[ID_FIELD.fieldApiName] = parentJS.recordId;
         fields[NEW_STAGE.fieldApiName] = true;
-        
+
+        if(parentJS.noAutoCommValue){
+            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        }
+
        if(!parentJS.rejectCase){
         if(source != 'Email'){
            fields[SUBJECT_FIELD.fieldApiName] = 'Case - '+selected.Type__c;
@@ -113,7 +118,7 @@ export class asf_Utility {
        
        fields[NATURE_FIELD.fieldApiName] = parentJS.natureVal;
        //fields[PRODUCT_FIELD.fieldApiName] = parentJS.productVal;
-       fields[SOURCE_FIELD.fieldApiName] = source;
+       //fields[SOURCE_FIELD.fieldApiName] = source;
        //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 

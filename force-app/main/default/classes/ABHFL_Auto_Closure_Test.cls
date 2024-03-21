@@ -17,7 +17,11 @@ public with sharing class ABHFL_Auto_Closure_Test {
 
         String inpputString1 = '2024-01-05T01:44:00.000Z';
         DateTime resultDateTime1 = DateTime.ValueofGmt(inpputString1.replace('T', ' '));
-
+		
+        Contact ct = new Contact();
+        ct.LastName = 'Contact 1';
+        insert ct;
+        
         ABHFL_Case_Detail__c caseDet1 = new ABHFL_Case_Detail__c();
         caseDet1.Payment_Link_Trigger_Time__c = resultDateTime1;
 

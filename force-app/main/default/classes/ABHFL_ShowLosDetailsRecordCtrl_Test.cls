@@ -7,14 +7,16 @@ private class ABHFL_ShowLosDetailsRecordCtrl_Test {
         Lead testLead = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
-            Company = 'Test Company'
+            Company = 'Test Company',
+             mobilephone = '1234567890'
         );
         insert testLead;
         
         Lead testLead2 = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
-            Company = 'Test Company'
+            Company = 'Test Company',
+            mobilephone = '1234567890'
         );
         insert testLead2;
 
@@ -38,4 +40,4 @@ private class ABHFL_ShowLosDetailsRecordCtrl_Test {
         System.assertNotEquals(null, result, 'LOS Details record not found for the given leadId');
         // Add any additional assertions based on your requirements
     }
-}
+} 

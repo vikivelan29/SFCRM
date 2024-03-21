@@ -131,6 +131,14 @@
                                             </template>
 
                                         </template>
+                                        <template if:true={showAutoComm}>
+                                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                                            label="No Auto Communication"
+                                                            options={noAutoCommOptions}
+                                                            value={noAutoCommValue}
+                                                            onchange={handleAutoCommChange}>
+                                            </lightning-checkbox-group>
+                                        </template>
                                         <template if:true={complaintLevelVisible}>
                                             <lightning-record-edit-form object-api-name="Case">
                                                 <lightning-input-field class="slds-hide" variant="label-stacked"

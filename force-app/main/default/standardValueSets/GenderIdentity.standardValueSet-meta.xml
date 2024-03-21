@@ -26,4 +26,9 @@
         <default>false</default>
         <label>Others</label>
     </standardValue>
+    <standardValue>
+        <fullName>Transgender</fullName>
+        <default>false</default>
+        <label>Transgender</label>
+    </standardValue>
 </StandardValueSet>

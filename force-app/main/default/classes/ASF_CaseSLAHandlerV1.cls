@@ -359,7 +359,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     
     
     
-    public static void updateOldCaseSLAHistory(List<Case> newCases){
+    public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
         for(Case c:newCases){
             caseIdSet.add(c.Id);
@@ -416,10 +416,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                          }
                                                      }
         }
-        if (slaHistoryList != null) {
+        if (!slaHistoryList.isEmpty()) {
             update slaHistoryList;
+            return true;
         }
-        
+        return false;
     }
     
     /*
@@ -446,8 +447,14 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            updateOldCaseSLAHistory(modifiedCases); 
-            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            //If the updateOldCaseSLAHistory didnt find any existing record to update,
+            // that means its actually an insert happening and its internal Case after update happening
+            // assignment rules are assigning ownerid
+            // so skip creating new SLA history, 
+            // the after insert will call insertSLAHistory and will create one entry.
+            if(updateOldCaseSLAHistory(modifiedCases)){ 
+                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            }
         }
     }
     /*

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>CCC_External_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">hfl009</value>
     </values>
     <values>
         <field>Duration_Of_Closure__c</field>

@@ -7,18 +7,18 @@ window.validateFile = function(inputData) {
             return 'Please make sure the uploaded csv file columns are as per the template';
         } 
 
-        if(inputData.processName === 'ABHFL_Bulk_Create_Case'){
-            result = abhflCreateValidation(inputData);
+        // if(inputData.processName === 'ABHFL_Bulk_Create_Case'){
+        //     result = abhflCreateValidation(inputData);
 
-        }else if(inputData.processName === 'ABHFL_Bulk_Close_Case'){
-            result = abhflCloseValidation(inputData);
+        // }else if(inputData.processName === 'ABHFL_Bulk_Close_Case'){
+        //     result = abhflCloseValidation(inputData);
 
-        }else if(inputData.processName === 'ABFL_Bulk_Create_Case'){
-            result = abflCreateValidation(inputData);
+        // }else if(inputData.processName === 'ABFL_Bulk_Create_Case'){
+        //     result = abflCreateValidation(inputData);
 
-        }else if(inputData.processName === 'ABFL_Bulk_Close_Case'){
-            result = abflCloseValidation(inputData);
-        }
+        // }else if(inputData.processName === 'ABFL_Bulk_Close_Case'){
+        //     result = abflCloseValidation(inputData);
+        // }
 
     return result;
 }
