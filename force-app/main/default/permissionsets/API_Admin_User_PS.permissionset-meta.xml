@@ -6839,6 +6839,10 @@
         <recordType>PersonAccount.Individual</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabSettings>
+        <tab>STG_Customer__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>AssignTopics</name>
