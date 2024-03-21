@@ -58,6 +58,13 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
         return this.displayType == undefined || this.displayType == 'Timer';
     }
 
+    get overallTAT_Timer(){
+        return this.outside ? 'Outside TAT' : 'Within TAT';
+    }
+    get stageTAT_Timer(){
+        return this.stageOutside ? 'Outside TAT' : 'Within TAT';
+    }
+
     async loadData() {
         let slaMap = await getDataOnLoad({ caseId: this.recordId }).catch(error => { console.log(error) });
         if (slaMap) {
