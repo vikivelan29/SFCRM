@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
+	<meta content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="format-detection" content="telephone=no" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 					padding: 0;
@@ -139,8 +139,6 @@
 							
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
-									<div>&nbsp;</div>
-
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										
 											<tr>
@@ -148,14 +146,7 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px; margin-left: 4px;">
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												Dear Customer<br />
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer<br />
 												Greetings from Aditya Birla Housing Finance Limited<br />
 												<br />
 												This is with reference towards change in Rate of Interest of your Loan Account Numbers - {{{Case.Masked_LAN__c}}}<br />
@@ -190,9 +181,6 @@
 												Retention Team<br />
 												Aditya Birla Housing Finance Limited</div>
 												</td>
-											</tr>
-											<tr>
-												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">&nbsp;</td>
 											</tr>
 										
 									</table>
