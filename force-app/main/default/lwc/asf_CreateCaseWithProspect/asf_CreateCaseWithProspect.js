@@ -307,7 +307,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         event.preventDefault();
 
         this.disableCreateBtn = true;
-
+        this.noAutoCommValue = [];
 
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
