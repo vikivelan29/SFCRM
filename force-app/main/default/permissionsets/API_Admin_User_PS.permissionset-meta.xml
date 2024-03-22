@@ -4586,6 +4586,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Skip_Dedupe__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.SlaExitDate</field>
         <readable>true</readable>
     </fieldPermissions>
