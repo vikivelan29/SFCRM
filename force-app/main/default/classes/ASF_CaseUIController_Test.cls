@@ -26,6 +26,11 @@ public class ASF_CaseUIController_Test {
         ast.Name = 'aas';
         insert ast;
         
+        LAN_Mapping__c lanMap = new LAN_Mapping__c();
+        lanMap.Customer__c = a.Id;
+        lanMap.LAN__c = ast.Id;
+        insert lanMap;
+        
         Contact con = new Contact();
         con.Lastname ='Test con';
         con.AccountId = a.Id;
