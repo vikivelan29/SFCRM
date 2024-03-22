@@ -83,18 +83,26 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }
-         //Added by Dhinesh for Preclosure - when categorized land on next stage.
-        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c)){
-            caseRecord.MoveToNext__c = TRUE;
-            update caseRecord;
-        }
+        Case caseRec = [SELECT Id,Is_Duplicate__c,CCC_External_Id__c,Stage__c,MoveToNext__c FROM Case WHERE Id =: caseRecord.Id];
+        //Added by Dhinesh for Preclosure - when categorized land on next stage.
+        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c) && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
+            List<ASF_Checklist__c> paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseRec.Id AND Label__c = 'Create Payment' LIMIT 1];
+            if (!paymentChecklists.isEmpty()) {
+                // Checklist found, update checklist status to 'Completed'
+                ASF_Checklist__c paymentChecklist = paymentChecklists[0];
+                paymentChecklist.Status__c = 'Completed';
+                                update paymentChecklist;
+             }
+            caseRec.MoveToNext__c = TRUE;
+            update caseRec;
+        } 
         /*ASF_Case_Category_Config__c categoryConfig = [Select Nature__c from ASF_Case_Category_Config__c 
                                                       where CCC_External_Id__c =: ebotResponse.CASESUBTYPE Limit 1];
         if(categoryConfig.Nature__c == 'Complaint'){
             caseRecord.MoveToNext__c = true;
             update caseRecord;
         }*/
-        if(ebotResponse.ISREGISTRED == 'No'){
+        if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
             caseRecord.Stage__c ='Resolved';
             update caseRecord;
         }
