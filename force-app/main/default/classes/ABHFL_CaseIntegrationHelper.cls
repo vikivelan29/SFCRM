@@ -43,7 +43,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Is_Trail__c = ebotResponse.ISTRAIL;
         caseDetails.Lan_Comment__c = ebotResponse.LANCOMMENT;
         caseDetails.Unregistered_Category__c = ebotResponse.UNREGISTEREDCATEGORY;
-        caseDetails.Skip_Dedupe__c = true;
+        //caseDetails.Skip_Dedupe__c = true;
        //End
        if(ebotResponse.ISREGISTRED == 'No'){
             caseDetails.Is_FTR__c = true;
@@ -58,6 +58,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.CCC_External_Id__c = ebotResponse.CASESUBTYPE;
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+        caseRecord.Skip_Dedupe__c = true;
 
         if( ebotResponse.ISREPEAT == 'Yes'){
             caseRecord.Technical_Source__c = 'LWC';
