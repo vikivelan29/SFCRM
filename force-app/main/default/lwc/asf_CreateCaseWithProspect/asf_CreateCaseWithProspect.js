@@ -307,7 +307,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         event.preventDefault();
 
         this.disableCreateBtn = true;
-
+        this.noAutoCommValue = [];
 
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
@@ -401,14 +401,14 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
-                //this.showError('error', 'Oops! Error occured', error);
-
                 this.loaded = true;
                 this.isNotSelected = true;
                 this.createCaseWithAll = false;
                 this.disableCreateBtn = false;
                 this.boolShowNoData = true;
                 this.searchKey = undefined;
+                this.showError('error', 'Oops! Error occured', error);
+
 
             })
 
@@ -427,6 +427,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     
       handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
+        console.log('event.detail.value=='+event.detail.value);
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;
