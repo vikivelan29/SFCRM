@@ -49,7 +49,7 @@ public without sharing class ABHFL_CTSTHelper {
         for(ASF_Case_Category_Config__c ccc : caseCategoryConfigs){
             cccIds.add(ccc.CCC_External_Id__c);
         }
-        for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, Asset.LAN__c, LAN__c
+        for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
                            	FROM Case 
                             WHERE (AccountId IN :accIdVsCases.keySet())
                            	AND CCC_External_Id__c IN :cccVsAccIds.keySet()
@@ -188,7 +188,7 @@ public without sharing class ABHFL_CTSTHelper {
         	
         
         if(!cccVsAccIds.isEmpty()){
-        	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, AssetId, LAN__c
+        	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
                                 FROM Case 
                                 WHERE (/*Client_Code_Text__c IN : accIdVsCases.keySet() OR*/ AccountId IN :accIdVsCases.keySet())
                                 AND CCC_External_Id__c IN :cccVsAccIds.keySet()
