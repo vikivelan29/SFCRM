@@ -44,7 +44,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
-    }
+            }
     // INSERT CONTEXT - ENDS HERE
     
     // UPDATE CONTEXT - ENDS HERE
@@ -54,7 +54,11 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         System.debug('Inside executeAfterASFCodeInBeforeUpdate');
-         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
+        if(Label.ABHFL_Case_Dedupe_Active=='Active'){
+        	ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
+        }
+        
+        ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         
         
     }
