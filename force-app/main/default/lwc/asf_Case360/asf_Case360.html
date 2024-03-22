@@ -267,6 +267,11 @@
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">Case Closure</h1>
                                 </div>
+                                <template if:true={showErrors}>
+                                    <div class="slds-notify slds-notify_alert slds-alert_error">
+                                        <div class="slds-var-p-horizontal_small">{errorMessage}</div>
+                                    </div>
+                                </template>
                                 <div class="slds-modal__content slds-p-around_medium">
                                     <lightning-radio-group name="closureType" label="Closure Type"
                                         options={closureTypeOptions} value={closureTypeSelected} type="button"
@@ -293,7 +298,7 @@
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelClose}></lightning-button>
-                                    <lightning-button class="slds-m-around_small" label="Save"
+                                    <lightning-button class="slds-m-around_small" label="Save" disabled={notApplicable}
                                         onclick={closeTheCase}></lightning-button>
                                 </div>
                             </div>

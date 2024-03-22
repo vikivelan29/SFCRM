@@ -34,6 +34,10 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Nature__c</picklist>
@@ -95,6 +99,10 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABWM Email</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -142,6 +150,38 @@
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed as Exception</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient/incomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Customer Confirmation/documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complaint Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partially Resolved</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -236,6 +276,10 @@
         </values>
         <values>
             <fullName>RA Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RBI</fullName>
             <default>false</default>
         </values>
         <values>

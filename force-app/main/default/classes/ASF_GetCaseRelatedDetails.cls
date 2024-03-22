@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
     //getAssetDetails
@@ -177,6 +178,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         soql = 'SELECT '+ soql +' FROM Case WHERE Id =: caseId ';
         System.debug('SOQL is: '+soql);
         List<Sobject> queryResponseList = new List<Sobject>();
+        soql = String.escapeSingleQuotes(soql);
         queryResponseList = Database.query(soql); 
         System.debug('Query result is: '+queryResponseList);
         Sobject queryResponseRec = queryResponseList.size() > 0 ?queryResponseList.get(0) : NULL;

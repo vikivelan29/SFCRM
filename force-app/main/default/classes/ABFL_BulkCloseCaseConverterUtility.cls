@@ -1,3 +1,5 @@
+@SuppressWarnings('PMD.ApexSOQLInjection')
+
 public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -30,7 +32,20 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
             String caseNumber = String.isNotBlank(keyValueMap.get('Case number'))?keyValueMap.get('Case number').trim():keyValueMap.get('Case number');
             String resolutionComments = String.isNotBlank(keyValueMap.get('Resolution Comment'))?keyValueMap.get('Resolution Comment').trim():keyValueMap.get('Resolution Comment');
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
-
+            if(caseNumber == null || caseNumber.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case number is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(resolutionComments == null || resolutionComments.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Resolution Comments is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
@@ -112,6 +127,7 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
             System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){

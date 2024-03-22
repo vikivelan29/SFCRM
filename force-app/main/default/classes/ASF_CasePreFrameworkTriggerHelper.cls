@@ -41,9 +41,15 @@ public class ASF_CasePreFrameworkTriggerHelper {
                         cs.Business_Unit__c = ASF_Constants.mCaseOriginVsBusinessUnit.get(caseOrigin);
                     }
                 }
+                /* ADDED LOGIC TO CONSIDER ABFL AND ABWM AS ABFL ONLY.
+                 */
+                String caseRecBU = cs.Business_Unit__c;
+                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRecBU)){
+                    caseRecBU = 'ABFL';
+                }
                 
-                if(mBHName.containsKey(cs.Business_Unit__c)){
-                    cs.BusinessHoursId = mBHName.get(cs.Business_Unit__c);
+                if(mBHName.containsKey(caseRecBU)){
+                    cs.BusinessHoursId = mBHName.get(caseRecBU);
                 }
                 Long sla1Sec;
                 if( mapGroupsByName.get(cs.OwnerId) != NULL && mapSLA_Owner.get(mapGroupsByName.get(cs.OwnerId)) != NULL ){

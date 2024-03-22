@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Origin__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Case Origin</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Email</fullName>
+                <default>true</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Phone</fullName>
+                <default>false</default>
+                <label>Phone</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+                <label>Facebook</label>
+            </value>
+            <value>
+                <fullName>Twitter</fullName>
+                <default>false</default>
+                <label>Twitter</label>
+            </value>
+            <value>
+                <fullName>Payments Email</fullName>
+                <default>false</default>
+                <label>Payments Email</label>
+            </value>
+            <value>
+                <fullName>ABFL Email</fullName>
+                <default>false</default>
+                <label>ABFL Email</label>
+            </value>
+            <value>
+                <fullName>ABHFL Email</fullName>
+                <default>false</default>
+                <label>ABHFL Email</label>
+            </value>
+            <value>
+                <fullName>ABFL WM CHAT</fullName>
+                <default>false</default>
+                <label>ABFL WM CHAT</label>
+            </value>
+            <value>
+                <fullName>ABWM Email</fullName>
+                <default>false</default>
+                <label>ABWM Email</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

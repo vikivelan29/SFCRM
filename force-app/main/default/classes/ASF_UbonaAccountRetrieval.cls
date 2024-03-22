@@ -1,4 +1,4 @@
-global class ASF_UbonaAccountRetrieval{
+global without sharing class ASF_UbonaAccountRetrieval{
 
 webService static String getAccount(String phone,String lob,String clientCode) {
    

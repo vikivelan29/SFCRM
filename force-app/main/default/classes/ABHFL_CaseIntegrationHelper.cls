@@ -21,6 +21,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
     *****************************************************************************************************************/   
     public static void eBotResponseHandler(String caseId,ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse){
         
+        List<String> validSubTypesForMovetoNext = new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC','RLOAPRONHFC','REFCL001'};
         ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
         caseDetails.Ebot_Owner_Full_Name__c  = ebotResponse.OWNERFULLNAME;
         caseDetails.Confidence_Score__c  = ebotResponse.CONFIDENCESCORE != null ? Decimal.valueof(ebotResponse.CONFIDENCESCORE) : 0;
@@ -42,6 +43,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Is_Trail__c = ebotResponse.ISTRAIL;
         caseDetails.Lan_Comment__c = ebotResponse.LANCOMMENT;
         caseDetails.Unregistered_Category__c = ebotResponse.UNREGISTEREDCATEGORY;
+        //caseDetails.Skip_Dedupe__c = true;
        //End
        if(ebotResponse.ISREGISTRED == 'No'){
             caseDetails.Is_FTR__c = true;
@@ -56,6 +58,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.CCC_External_Id__c = ebotResponse.CASESUBTYPE;
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+        caseRecord.Skip_Dedupe__c = true;
 
         if( ebotResponse.ISREPEAT == 'Yes'){
             caseRecord.Technical_Source__c = 'LWC';
@@ -81,6 +84,11 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }
+         //Added by Dhinesh for Preclosure - when categorized land on next stage.
+        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.MoveToNext__c = TRUE;
+            update caseRecord;
+        }
         /*ASF_Case_Category_Config__c categoryConfig = [Select Nature__c from ASF_Case_Category_Config__c 
                                                       where CCC_External_Id__c =: ebotResponse.CASESUBTYPE Limit 1];
         if(categoryConfig.Nature__c == 'Complaint'){
@@ -88,7 +96,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
             update caseRecord;
         }*/
         if(ebotResponse.ISREGISTRED == 'No'){
-            caseRecord.MoveToNext__c =true;
+            caseRecord.Stage__c ='Resolved';
             update caseRecord;
         }
 

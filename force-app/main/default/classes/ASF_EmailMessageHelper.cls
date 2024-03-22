@@ -4,7 +4,7 @@
 * @Author - Virendra Patil
 * 
 *****************************************************************************************************************/
-public class ASF_EmailMessageHelper {
+public without sharing class ASF_EmailMessageHelper {
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
 */

@@ -5,6 +5,7 @@
                    lwc component to display the case fields for edit
 ********************************************************
 */
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 public with sharing class ASF_CaseEditPageController {
   
     @AuraEnabled(cacheable=true)

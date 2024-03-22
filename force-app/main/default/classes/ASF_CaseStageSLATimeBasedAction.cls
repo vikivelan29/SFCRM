@@ -1,4 +1,4 @@
-public class ASF_CaseStageSLATimeBasedAction {
+public without sharing class ASF_CaseStageSLATimeBasedAction {
    
     @InvocableMethod(label='Send Stage 1 SLA Broken Email Reminders')
     public static void sendEmailSLABroke(List<String> casesList) {

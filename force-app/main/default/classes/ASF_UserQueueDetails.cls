@@ -1,4 +1,4 @@
-public class ASF_UserQueueDetails {
+public without sharing class ASF_UserQueueDetails {
     
     @Auraenabled
     public static boolean getUserQueueDetails(Id userId,Id caseId){

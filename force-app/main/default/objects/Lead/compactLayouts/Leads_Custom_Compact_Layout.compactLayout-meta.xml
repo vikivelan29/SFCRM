@@ -5,5 +5,6 @@
     <fields>Company</fields>
     <fields>MobilePhone</fields>
     <fields>Email</fields>
+    <fields>Lead_Stage__c</fields>
     <label>Leads Custom Compact Layout</label>
 </CompactLayout>

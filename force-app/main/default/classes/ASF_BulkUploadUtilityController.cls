@@ -2,11 +2,7 @@ public with sharing class ASF_BulkUploadUtilityController {
     @AuraEnabled
     public static ChunkLoadWrapper insertHeaderRowWithLineItems(List<ASF_Bulk_Upload_Line_Item__c> lineItems, Integer totalRowCount, String templateName){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
-        returnWrap = validateChunk(lineItems);
-        if(String.isNotBlank(returnWrap.errorMessage)){
-            returnWrap.isSuccess = false;
-            return returnWrap;
-        }
+
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
         headObj.Template_Name__c = templateName;
         headObj.Total_Rows__c = totalRowCount;
@@ -26,18 +22,13 @@ public with sharing class ASF_BulkUploadUtilityController {
     @AuraEnabled
     public static ChunkLoadWrapper insertLineItemsChunk(List<ASF_Bulk_Upload_Line_Item__c> lineItems){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
-        returnWrap = validateChunk(lineItems);
-        if(String.isNotBlank(returnWrap.errorMessage)){
-            returnWrap.isSuccess = false;
-            return returnWrap;
-        }
         System.debug('total line items in this chunk'+lineItems.size());
         insert lineItems;
         returnWrap.isSuccess = true;
         return returnWrap;
     }
 
-    @AuraEnabled
+   /* @AuraEnabled
     public static ChunkLoadWrapper insertLastLineItemsChunk(List<ASF_Bulk_Upload_Line_Item__c> lineItems, Id headRowId){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
         returnWrap = insertLineItemsChunk(lineItems);
@@ -50,7 +41,7 @@ public with sharing class ASF_BulkUploadUtilityController {
         }
 
         return returnWrap;
-    }
+    } */
 
     @AuraEnabled
     public static ChunkLoadWrapper markUploadCompleted(Id headRowId){
@@ -67,6 +58,8 @@ public with sharing class ASF_BulkUploadUtilityController {
     @AuraEnabled
     public static ChunkLoadWrapper startProcessingChunks(Id headRowId, Integer totalRowCount, String templateName){
         ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
+        returnWrap = markUploadCompleted(headRowId);
+    
         ASF_Bulk_Upload_Header__c headRow;
         //Initiate next step
         if(totalRowCount > Integer.valueOf(Label.ASF_BulkThresholdForQueueable)){
@@ -82,6 +75,7 @@ public with sharing class ASF_BulkUploadUtilityController {
             List<ASF_Bulk_Case_Processor__e> peList = new List<ASF_Bulk_Case_Processor__e>();
             Map<Id, ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new Map<Id, ASF_Bulk_Upload_Line_Item__c>();
             for(ASF_Bulk_Upload_Line_Item__c lineItem : [Select Id, Name from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c = :headRowId and Status__c = 'Pending' order by Name]){
+                
                 recordIds += lineItem.Id+';';
                 lineItem.Status__c = 'Event fired';
                 lineItem.Event_Fired_Date__c = System.now();
@@ -91,7 +85,7 @@ public with sharing class ASF_BulkUploadUtilityController {
                     chunkPE.Record_IDs__c = recordIds;
                     peList.add(chunkPE);
                     recordIds = '';
-                    index = 0;
+                    index = -1;
                 }
                 index++;
             }
@@ -125,14 +119,15 @@ public with sharing class ASF_BulkUploadUtilityController {
                     }  
                     index++;     
                 }
-                if(anySuccess){
+                ASF_Bulk_Upload_Header__c headRec = [Select Status__c from ASF_Bulk_Upload_Header__c where Id = :headRowId];
+                if(anySuccess && headRec.Status__c == 'Upload Completed'){
                     returnWrap.isSuccess = true;
                     returnWrap.successMessageIfAny = 'Upload completed, processing started';
                     headRow = new ASF_Bulk_Upload_Header__c();
                     headRow.Id = headRowId;
                     headRow.Status__c = 'Processing';
                 }else{
-                    returnWrap.isSuccess = false;
+                    returnWrap.isSuccess = true;
                     returnWrap.successMessageIfAny = 'Upload completed, processing could not start. System will try to restart the processing after sometime.';
                 }
             }else{
@@ -146,17 +141,6 @@ public with sharing class ASF_BulkUploadUtilityController {
             if(headRow != null){
                 update headRow; //updates header's status to Processing
             }
-        }
-        return returnWrap;
-    }
-
-    private static ChunkLoadWrapper validateChunk(List<ASF_Bulk_Upload_Line_Item__c> lineItems) {
-        ChunkLoadWrapper returnWrap = new ChunkLoadWrapper();
-        if(lineItems == null || lineItems.size() == 0){
-            returnWrap.errorMessage = 'No Line Items found';
-        }
-        else if(lineItems.size() > 1000){
-            returnWrap.errorMessage = 'Chunk size should not exceed 1000 rows';
         }
         return returnWrap;
     }

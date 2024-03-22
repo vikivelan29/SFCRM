@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 private class ASF_CommPETriggerHandler_Test {
     @testSetup

@@ -85,4 +85,8 @@
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <tabSettings>
+        <tab>ASF_Bulk_Upload_Header__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

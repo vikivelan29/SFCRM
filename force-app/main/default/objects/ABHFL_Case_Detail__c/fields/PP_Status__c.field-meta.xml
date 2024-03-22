@@ -11,14 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Payment Done</fullName>
+                <fullName>Part Payment Done</fullName>
                 <default>false</default>
-                <label>Payment Done</label>
+                <label>Part Payment Done</label>
             </value>
             <value>
-                <fullName>Payment Not Done</fullName>
+                <fullName>Part Payment Not Done</fullName>
                 <default>false</default>
-                <label>Payment Not Done</label>
+                <label>Part Payment Not Done</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -1,31 +1,53 @@
 <template>
-    <lightning-card title="Recent Case Comments" icon-name="standard:case_comment">
-        
-        <template if:true={displayCaseComments}>
-          <div class="slds-scrollable" style="height:27rem;width:unset">
-                <ul class="slds-m-around_medium">
-                    <template for:each={caseComments} for:item="comment">
-                        
-                        <li key={comment.Id}>
-                            <!--<p>
-                                <a href={comment.ParentId} target="_blank">{comment.Parent.CaseNumber}</a>
-                            </p>-->
-                            <p>
-                                <b>Related To: </b> <a href="javascript:void(0);" onclick={handleCaseClick} data-caseid={comment.ParentId} target="_blank">{comment.Parent.CaseNumber}</a>
-                            </p>
-                            <p><b>Comments Date:</b> {comment.CreatedDate}</p>
-                            <p>{comment.CommentBody}</p>
-                            <br/>
-                        </li>
-                    </template>
-                </ul>
+    <lightning-card title="Recent Case Comments" icon-name="standard:case_comment" class="display: flex">
+        <div style="display: flex; flex-direction: column">    
+            <div style="display: flex; justify-content: flex-end">
+                <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh"  title="Refresh" onclick={refreshData}></lightning-button-icon>
             </div>
-        </template>
-
-        <template if:false={displayCaseComments}>
-            <div style="font-size: medium;" class="slds-align_absolute-center">
-                No Case Comments found !
+            <br>
+            <div>
+                <template if:true={displayCaseComments}>
+                
+                        <div class="slds-scrollable" style="height:27rem;width:unset">
+                            <ul class="slds-m-around_medium">
+                                <template for:each={caseComments} for:item="comment">
+                                    
+                                    <li key={comment.Id}>
+                                        <!--<p>
+                                            <a href={comment.ParentId} target="_blank">{comment.Parent.CaseNumber}</a>
+                                        </p>-->
+                                        <p>
+                                            <b>Related To: </b> <a href="javascript:void(0);" onclick={handleCaseClick} data-caseid={comment.ParentId} target="_blank">{comment.Parent.CaseNumber}</a>
+                                        </p>
+                                        <p><b>Comments Date:</b> 
+                                            <lightning-formatted-date-time
+                                            value={comment.LastModifiedDate}
+                                            year="numeric"
+                                            month="numeric"
+                                            day="numeric"
+                                            hour="2-digit"
+                                            minute="2-digit">
+                                            </lightning-formatted-date-time></p>
+                                        <p>{comment.CommentBody}</p>
+                                        <br/>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                
+                </template>
             </div>
-        </template>
+            <br>
+            <div>
+                <template if:false={displayCaseComments}>
+                    <div style="font-size: medium;" class="slds-align_absolute-center">
+                        No Case Comments found !
+                    </div>
+                </template>
+            </div>
+            <template if:true={isLoaded}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+        </div>  
     </lightning-card>
 </template>

@@ -28,7 +28,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
     //     this.headIdToTemplateNameMap = headIdToTemplateNameMap;
     // }
 
-    public void process() {
+    public void process(String triggerName) {
         Map<String, String> templateNameToApexClassMap = new Map<String,String>();
         for(ASF_Bulk_Row_to_Record_Converter_Config__mdt converterMDT : [Select Id,Apex_Class_Name__c, Template_Name__c, Active__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt where Template_Name__c IN :headIdToTemplateNameMap.values() AND Active__c = true]){
             templateNameToApexClassMap.put(converterMDT.Template_Name__c, converterMDT.Apex_Class_Name__c); 
@@ -81,47 +81,62 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             index++;
         }
 
-        ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
-        List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
-        ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
+        try{
+            ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
+            List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
+            ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
 
-        Set<Id> caseIds = new Set<Id>();
-        Map<Id, String> caseNumberMap = new Map<Id, String>();
-        for(Database.UpsertResult sr : srList){
-            if(sr.isSuccess() && sr.isCreated()){
-                caseIds.add(sr.getId());
-            }
-        }
-
-        if(!caseIds.isEmpty()){
-            for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
-                caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
-            }
-        }
-        index = 0;
-        for(Database.UpsertResult sr : srList){
-            Id lineItemId = indexToLineItemIdMap.get(index);
-            Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
-            if(sr.isSuccess()){
-                System.debug('Success case number'+recordsForDML[index]);
-                jsonMap.put('Result', 'SUCCESS');
-                jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
-            }else{
-                jsonMap.put('Result', 'FAILURE');
-                String errorMessage = '';
-                for(Database.Error err : sr.getErrors()) {
-                    System.debug('The following error has occurred.');                    
-                    errorMessage += err.getStatusCode() + ': ' + err.getMessage();
-                    errorMessage += ' : ' +err.getFields();
+            Set<Id> caseIds = new Set<Id>();
+            Map<Id, String> caseNumberMap = new Map<Id, String>();
+            for(Database.UpsertResult sr : srList){
+                if(sr.isSuccess() && sr.isCreated()){
+                    caseIds.add(sr.getId());
                 }
-                jsonMap.put('Message', errorMessage);
             }
-            System.debug('jsonMap'+jsonMap);
-            System.debug('jsonMap Serialized'+ JSON.serialize(jsonMap));
-            jsonResults.put(lineItemId, JSON.serialize(jsonMap));
-            index++;
+
+            if(!caseIds.isEmpty()){
+                for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
+                    caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
+                }
+            }
+            index = 0;
+            for(Database.UpsertResult sr : srList){
+                Id lineItemId = indexToLineItemIdMap.get(index);
+                Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
+                if(sr.isSuccess()){
+                    System.debug('Success case number'+recordsForDML[index]);
+                    jsonMap.put('Result', 'SUCCESS');
+                    jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
+                }else{
+                    jsonMap.put('Result', 'FAILURE');
+                    String errorMessage = '';
+                    for(Database.Error err : sr.getErrors()) {
+                        System.debug('The following error has occurred.');                    
+                        errorMessage += err.getStatusCode() + ': ' + err.getMessage();
+                        errorMessage += ' : ' +err.getFields();
+                    }
+                    jsonMap.put('Message', errorMessage);
+                }
+                System.debug('jsonMap'+jsonMap);
+                System.debug('jsonMap Serialized'+ JSON.serialize(jsonMap));
+                jsonResults.put(lineItemId, JSON.serialize(jsonMap));
+                index++;
+            }
         }
-        
+        catch(Exception err){
+            //Any generic exception or
+            //since its processing 2 or more different headers, same case can be under 2 different headers, trying to close
+            //System.ListException: Before Insert or Upsert list must not have two identically equal elements
+            for(Integer lineItemIndex : indexToLineItemIdMap.keySet()){
+                Id lineItemId = indexToLineItemIdMap.get(lineItemIndex);
+                Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
+                jsonMap.put('Result', 'FAILURE');
+                jsonMap.put('Message', err.getMessage());
+                jsonResults.put(lineItemId, JSON.serialize(jsonMap));
+            }
+        }
+
+
         List<ASF_Bulk_Upload_Line_Item__c> lineItemsToUpdate = new List<ASF_Bulk_Upload_Line_Item__c>();
         for(Id lineItemId : jsonResults.keySet()){
             ASF_Bulk_Upload_Line_Item__c lineItem = new ASF_Bulk_Upload_Line_Item__c();
@@ -137,35 +152,43 @@ public with sharing class ASF_BulkCaseProcessorUtility {
         update lineItemsToUpdate;
 
 
-        Boolean areLineItemsPending = true;
         Set<Id> headIds = headIdToTemplateNameMap.keySet();
-        List<AggregateResult> arList = [Select Bulk_Upload_Header__c, count(Id) from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c IN :headIdToTemplateNameMap.keySet() AND (Status__c = 'Pending' OR Status__c = 'Event fired') group by Bulk_Upload_Header__c];
         List<ASF_Bulk_Upload_Header__c> headersToUpdate = new List<ASF_Bulk_Upload_Header__c>();
+        List<ASF_Bulk_Upload_Header__c> fetchedHeaders = [Select Id, Status__c, (Select Id, Status__c from Bulk_Upload_Line_Items__r where Status__c = 'Pending' OR Status__c = 'Event fired') from ASF_Bulk_Upload_Header__c where Id IN :headIdToTemplateNameMap.keySet() FOR UPDATE];
+        System.debug('fetchedHeaders'+fetchedHeaders);
+        for(ASF_Bulk_Upload_Header__c head : fetchedHeaders){
+            if(head.Bulk_Upload_Line_Items__r.size() > 0){
+                headIds.remove(String.valueOf(head.Id));
+                break;
+            }
+        }
+
+
+        // for(ASF_Bulk_Upload_Line_Item__c remainingLineItem : [Select Id, Bulk_Upload_Header__c from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c IN :headIdToTemplateNameMap.keySet() AND (Status__c = 'Pending' OR Status__c = 'Event fired') FOR UPDATE]){
+        //     if(!headerToRemainingLineItemCount.containsKey(remainingLineItem.Bulk_Upload_Header__c)){
+        //         headerToRemainingLineItemCount.put(remainingLineItem.Bulk_Upload_Header__c, 0);
+        //     }
+        //     headerToRemainingLineItemCount.put(remainingLineItem.Bulk_Upload_Header__c, headerToRemainingLineItemCount.get(remainingLineItem.Bulk_Upload_Header__c) + 1);
+        // }
+        /*List<AggregateResult> arList = [Select Bulk_Upload_Header__c, count(Id) from ASF_Bulk_Upload_Line_Item__c where Bulk_Upload_Header__c IN :headIdToTemplateNameMap.keySet() AND (Status__c = 'Pending' OR Status__c = 'Event fired') group by Bulk_Upload_Header__c FOR UPDATE];
+        System.debug(triggerName+' arList '+arList);
+        
         if(!arList.isEmpty()){
             for(AggregateResult ar : arList){
                 //result returned in Aggregate Query means atleat one pending record found
                 headIds.remove(String.valueOf(ar.get('Bulk_Upload_Header__c')));
             }
         }
+        */
+        
         for(Id headId : headIds){
             ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
             headObj.Id = headId;
             headObj.Status__c = 'Processed';
             headersToUpdate.add(headObj);
-            //areLineItemsPending = false;
         }
         update headersToUpdate;
         //TODO: For completed headers, send email
-
-        /*
-        if(this.isQueueableProcessing == true && areLineItemsPending){
-            for(Id headId : headIdToTemplateNameMap.keySet()){
-                //Only one head row Id and template name is passed for Queueable mode, so this loop will execute only one and enqueue only one Queueable.
-                ASF_BulkCaseProcessorQueueable processor = new ASF_BulkCaseProcessorQueueable(headId, headIdToTemplateNameMap.get(headId));
-                System.enqueueJob(processor);
-            }
-        }
-        */
     }
 
     public class ConvertionResult{

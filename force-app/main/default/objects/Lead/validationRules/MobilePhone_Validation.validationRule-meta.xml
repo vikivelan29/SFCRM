@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MobilePhone_Validation</fullName>
+    <active>true</active>
+    <description>Mobile Phone having 10 Digit without accepting the character</description>
+    <errorConditionFormula>OR(!ISNUMBER(MobilePhone),LEN(MobilePhone) &lt;&gt; 10, CONTAINS(MobilePhone,&apos;.&apos;))</errorConditionFormula>
+    <errorMessage>Mobile Number must have only numeric value with 10 digits.</errorMessage>
+</ValidationRule>

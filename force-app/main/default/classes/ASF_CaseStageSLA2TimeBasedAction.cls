@@ -1,7 +1,7 @@
 /**
  * Test class: ASF_CaseStageSLA2TimeBasedActionTest
  */
-public class ASF_CaseStageSLA2TimeBasedAction {
+public without sharing class ASF_CaseStageSLA2TimeBasedAction {
     @InvocableMethod(label='Send Stage 1 SLA 2 Broken Email Reminders')
     public static void sendEmailSLA2Broke(List<String> scope){
 

@@ -407,7 +407,7 @@
         <locationX>254</locationX>
         <locationY>0</locationY>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2 AND 3 AND 4 AND (5 OR 6 OR 7 OR 8 OR 9)</filterLogic>
+        <filterLogic>1 AND 2 AND (3 OR 10 )AND 4 AND (5 OR 6 OR 7 OR 8 OR 9)</filterLogic>
         <filters>
             <field>IsClosed</field>
             <operator>EqualTo</operator>
@@ -469,6 +469,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Not classified</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ABWM</stringValue>
             </value>
         </filters>
         <object>Case</object>

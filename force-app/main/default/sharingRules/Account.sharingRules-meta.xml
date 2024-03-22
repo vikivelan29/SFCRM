@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>All_ABFL_Customer_To_ABFL_User</fullName>
+        <fullName>ABFL_Customer_Access</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
             <caseAccessLevel>Read</caseAccessLevel>
             <contactAccessLevel>Read</contactAccessLevel>
             <opportunityAccessLevel>None</opportunityAccessLevel>
         </accountSettings>
-        <label>All ABFL Customer To ABFL User</label>
+        <label>ABFL Customer Access</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABFL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABWM</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

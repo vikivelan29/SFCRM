@@ -3,7 +3,7 @@
  * Every trigger handler class must extend this class and 
  * implement the required methods only. 
 */
-
+@SuppressWarnings('PMD.MethodNamingConventions')
 public virtual class ASF_VTriggerHandler {
     public virtual void BeforeInsert(List<SObject> newItems){system.debug('Virtual');}
  

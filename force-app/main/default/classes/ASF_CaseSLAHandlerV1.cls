@@ -54,7 +54,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
-        long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
+        long sla1Sec;
+        long sla2Sec;
+        long sla3Sec;
+        long closeSlaSec;  
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
         if(c.Reopened__c){
@@ -149,7 +152,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     }
                     Case updatedCase = casesToUpdate.get(c.Id);
                     map<string,long> slaMap = getSLAFieldValues(s,c,null);
-                    long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
+                    long sla1Sec;
+                    long sla2Sec;
+                    long sla3Sec;
+                    long closeSlaSec ;  
                     updatedCase.BusinessHoursId = c.BusinessHoursId;
                     if(businesssHrsMap.containsKey(index)){
                         // if(string.valueOf(c.OwnerId).startsWith('005')){
@@ -353,7 +359,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     
     
     
-    public static void updateOldCaseSLAHistory(List<Case> newCases){
+    public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
         for(Case c:newCases){
             caseIdSet.add(c.Id);
@@ -410,10 +416,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                          }
                                                      }
         }
-        if (slaHistoryList != null) {
+        if (!slaHistoryList.isEmpty()) {
             update slaHistoryList;
+            return true;
         }
-        
+        return false;
     }
     
     /*
@@ -427,8 +434,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<Id,Case> modifiednewCasesMap = new Map<Id,Case>();
         Map<Id,Case> modifiedoldCasesMap = new Map<Id,Case>(); 
         for(Case c : newCases.values() ){
-            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == true){
-                //If movetonext stage transaction, skip it, as stage was updated already from updateCasesFinally method, SLA history is already created.
+            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == false){
+                //If movetonext is setting to false, skip it, means its a internal update.
                 continue;                
             }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
@@ -440,8 +447,14 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            updateOldCaseSLAHistory(modifiedCases); 
-            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            //If the updateOldCaseSLAHistory didnt find any existing record to update,
+            // that means its actually an insert happening and its internal Case after update happening
+            // assignment rules are assigning ownerid
+            // so skip creating new SLA history, 
+            // the after insert will call insertSLAHistory and will create one entry.
+            if(updateOldCaseSLAHistory(modifiedCases)){ 
+                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            }
         }
     }
     /*
@@ -746,7 +759,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = casesToUpdate.get(caseRec.Id);
                 string mapKey = newCases.get(i).CCC_External_Id__c + newCases.get(i).Stage__c;
 
-                Long sla1Sec,sla2Sec,sla3Sec,closeSlaSec;
+                Long sla1Sec;
+                long sla2Sec;
+                long sla3Sec;
+                long closeSlaSec;
                 if(slaObject != null){
                     map<string,long> slaMap = getSLAFieldValues(slaObject,newCases.get(i),oldCases.get(i));
                     

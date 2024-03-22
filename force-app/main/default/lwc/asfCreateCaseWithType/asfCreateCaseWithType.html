@@ -66,6 +66,12 @@
                             read-only
                                         required>
                             </lightning-combobox> 
+                            <lightning-combobox data-id="Sub_Source__c" class="slds-hide"
+                                label="Sub Source"
+                                options={subSourceFldOptions}
+                                value={subSourceFldValue}
+                                onchange={handleSubSourceFunc}>
+                            </lightning-combobox> 
                         </template>
                    <!--- </div></div> -->
                         <template if:true={boolAllChannelVisible}>
@@ -87,7 +93,7 @@
                     </template>  
 
                     <template if:true={isPhoneInbound}>
-                        <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                        <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
                     </template>
 
                     <template if:true={isTransactionRelated}>

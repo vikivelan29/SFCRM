@@ -55,7 +55,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-
+		List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHFL_Constants.ERROR;
@@ -70,12 +70,16 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
                 //return new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
         return resultMap;
     }

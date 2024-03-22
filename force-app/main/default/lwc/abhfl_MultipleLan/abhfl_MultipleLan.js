@@ -38,6 +38,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     stagesAllowingFetchAll;
     stagesAllowingFileUpload;
     amIOwner;
+    sizeClass = 'multiColumnTable';
 
     @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
     case;
@@ -349,29 +350,44 @@ export default class Abhfl_MultipleLan extends LightningElement {
     saveRecords(e){
         this.checkAccessbilityforCurrentStage();
         if(this.enableSave){
+            let validityCheck = true;
+            this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{
+                let response = result.checkValidity();
+                if(!response){
+                    validityCheck = false;
+                }
+            });               
             console.log(e);
-            let updateRecords = [];
-            for(let record in this.childTableRecords){
-                updateRecords.push(this.childTableRecords[record].detail);
-            }
-            this.displaySpinner = true;
-            if(updateRecords.length){
-                upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
-                    console.log(result);
-                    this.displaySpinner = false;
-                    this.showToast({
-                        title: "Success",
-                        message: "Records Updated",
-                        variant: "success",
-                    });
-                }).catch((error) => {
-                    console.log(error);
-                    this.showToast({
-                        title: "Error Updating Records",
-                        message: error.body.message,
-                        variant: "error",
-                    });
-                })
+            if(validityCheck){
+                let updateRecords = [];
+                for(let record in this.childTableRecords){
+                    updateRecords.push(this.childTableRecords[record].detail);
+                }
+                this.displaySpinner = true;
+                if(updateRecords.length){
+                    upsertRecords({assetDetails : JSON.stringify(updateRecords), recId : this.recordId}).then((result) => {
+                        console.log(result);
+                        this.displaySpinner = false;
+                        this.showToast({
+                            title: "Success",
+                            message: "Records Updated",
+                            variant: "success",
+                        });
+                    }).catch((error) => {
+                        console.log(error);
+                        this.showToast({
+                            title: "Error Updating Records",
+                            message: error.body.message,
+                            variant: "error",
+                        });
+                    })
+                }
+            } else {
+                this.showToast({
+                    title: "Error",
+                    message: "Please enter valid values",
+                    variant: "error",
+                });
             }
         } else {
             let errMsg;
@@ -451,12 +467,11 @@ export default class Abhfl_MultipleLan extends LightningElement {
         this.amIOwner = this.case.data.fields.OwnerId.value == this.userId ? true : false;
         if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
             this.enableSave = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?true:false:false;
+            this.disableEditField = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?false:true:true;
             if(this.amIOwner && this.case.data.fields.Stage__c.value == 'CPU PP'){
                 this.enableSave = true;
             }
-        }
-        if(this.stagesAllowingFieldEdit && this.stagesAllowingFieldEdit.length > 0){
-            this.disableEditField = this.amIOwner?this.stagesAllowingFieldEdit.includes(currStage)?false:true:true;
+            this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.refresh(this.disableEditField);});
         }
         if(this.stagesAllowingAddRows && this.stagesAllowingAddRows.length > 0){
             this.enableRowSelection = this.amIOwner?this.stagesAllowingAddRows.includes(currStage)?true:false:false;
@@ -495,7 +510,33 @@ export default class Abhfl_MultipleLan extends LightningElement {
         });      
     }
 
+    checkEditFieldPermissions(e){
+        this.checkAccessbilityforCurrentStage();
+        let errMsg;
+        if(this.amIOwner){
+            errMsg = "You are not allowed to edit the field in the " + this.case.data.fields.Stage__c.value + " stage.";
+        }else {
+            errMsg = "You are not allowed to edit fields for a Case not asssigned to you.";
+        }
+        this.showToast({
+            title: "Info",
+            message: errMsg,
+            variant: "info",
+        });      
+    }
+
     refresh(e){
         this.checkAccessbilityforCurrentStage();
+    }
+
+    renderedCallback(e){
+        if(this.childColumns && this.childColumns.length <= 3){
+            this.sizeClass = 'singleColumnTable';
+        }
+        if(this.template.querySelector("table[name='childTable']")){
+            this.template.querySelector("table[name='childTable']").classList.add(this.sizeClass);
+            
+        }
+        
     }
 }

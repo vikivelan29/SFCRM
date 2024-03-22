@@ -34,9 +34,17 @@ public with sharing class ABCL_CommonCLass {
 
         for(Case csRec : newCaseLst) {
             if(String.isNotBlank(csRec.Business_Unit__c)) {
-                String bussUnit = csRec.Business_Unit__c; 
-                if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                if(csRec.Business_Unit__c == 'ABWM'){
+                  String bussUnit = 'ABFL'; 
+                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
+                }
+                else{
+                	String bussUnit = csRec.Business_Unit__c; 
+                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
                     setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
                 }
             }
         }
@@ -60,7 +68,13 @@ public with sharing class ABCL_CommonCLass {
         
             for(Case csRec : newCaseLst) {  
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
-                    String busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    String busshrId ='';
+                    if(csRec.Business_Unit__c == 'ABWM'){
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
+                    }
+                    else{
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    }
                     csRec.BusinessHoursId = busshrId;
                 }
             }

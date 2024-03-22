@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ClassNamingConventions')
 public with sharing class ASF_CustomerAndProspectSearch {
     
     @AuraEnabled

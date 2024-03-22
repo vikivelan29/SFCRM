@@ -154,7 +154,6 @@ public class ABFL_RetailController_Test{
         Assert.isTrue(res.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank');
     }
-    
     public class MockHttpResponseGenerator implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             

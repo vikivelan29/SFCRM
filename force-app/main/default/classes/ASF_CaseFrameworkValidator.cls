@@ -55,7 +55,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                 if (caseRecord.get(fieldCheckStr) != null) {
                     if(fieldList[0].contains('__r')){
                         sobject rs = caseRecord.getSobject(fieldList[0]);
-                        caseRecordValue = rs == null ? null :  String.valueOf(rs.get(fieldList[1]));
+                        caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
                     }
                 }else{
                     caseRecordValue = '0';
@@ -279,7 +279,7 @@ public with sharing class ASF_CaseFrameworkValidator {
     public static Map<Id, String> validateIntegrations(List<Case> currentCases, Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap){
         // Get Incomplete, Mandatory Integrations from Query Handler for this
         String result = 'Success';
-        Map<String, ASF_Integration__c> asfIntExtIds = new Map<String, ASF_Integration__c>();
+        Map<String, Map<String, ASF_Integration__c>> asfIntExtIds = new Map<String, Map<String, ASF_Integration__c>>();
         Map<Id, String> resultMap = new Map<Id, String>();
 
         Set<Id> caseIds = new Set<Id>();
@@ -292,13 +292,19 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         List<ASF_Integration__c> mandatoryIntegrations = ASF_CaseQueryHandler.getIntegrationsFromConfig(stageConfigIds);
         for (ASF_Integration__c mandatoryInt :  mandatoryIntegrations){
-            asfIntExtIds.put(mandatoryInt.External_Id__c, mandatoryInt);
+            if(!asfIntExtIds.containsKey(mandatoryInt.C3ExternalId__c)){
+                asfIntExtIds.put(mandatoryInt.C3ExternalId__c, new Map<String, ASF_Integration__c>());
+            }
+            asfIntExtIds.get(mandatoryInt.C3ExternalId__c).put(mandatoryInt.External_Id__c, mandatoryInt);
         }
         
         if(asfIntExtIds.size() >0){
-            
+            Set<String> intExtIds = new Set<String>();
+            for(Map<String, ASF_Integration__c> eachMap : asfIntExtIds.values()){
+                intExtIds.addAll(eachMap.keySet());
+            }
             // Get Case Integration Records for the above Integrations, to Determin if Validated Successfully
-            List<ASF_Case_Integration__c> caseIntegrations = ASF_CaseQueryHandler.getCaseRelatedIntegrations(asfIntExtIds.keySet(), caseIds);
+            List<ASF_Case_Integration__c> caseIntegrations = ASF_CaseQueryHandler.getCaseRelatedIntegrations(intExtIds, caseIds);
             Map<String, boolean> caseIntSuccessMap = new Map<String, boolean>();
             for(ASF_Case_Integration__c caseInt : caseIntegrations){
                 String key = caseInt.Case__c+caseInt.Integration_Ext_Id__c;
@@ -310,13 +316,16 @@ public with sharing class ASF_CaseFrameworkValidator {
             Map<Id, List<String>> invalidIntegrationsPerCase = new Map<Id, List<String>>();
             for(Case caseRec : currentCases){
                 resultMap.put(caseRec.Id, result);//Defaulting to success
-                for(string extId : asfIntExtIds.keySet()){
-                    String key = caseRec.Id+extId;
-                    if(caseIntSuccessMap.containsKey(key) &&  !caseIntSuccessMap.get(key)){
-                        if(invalidIntegrationsPerCase.containsKey(caseRec.Id)){
-                            invalidIntegrationsPerCase.get(caseRec.Id).add(asfIntExtIds.get(extId).Display_Name__c);
-                        }else {
-                            invalidIntegrationsPerCase.put(caseRec.Id, new List<String>{asfIntExtIds.get(extId).Display_Name__c});
+                if(asfIntExtIds.containsKey(caseRec.CCC_External_Id__c)){
+                    Map<String, ASF_Integration__c> asfIntExtIdsPerCase = asfIntExtIds.get(caseRec.CCC_External_Id__c);
+                    for(string extId : asfIntExtIdsPerCase.keySet()){
+                        String key = caseRec.Id+extId;
+                        if(!caseIntSuccessMap.containsKey(key) || !caseIntSuccessMap.get(key)){
+                            if(invalidIntegrationsPerCase.containsKey(caseRec.Id)){
+                                invalidIntegrationsPerCase.get(caseRec.Id).add(asfIntExtIdsPerCase.get(extId).Display_Name__c);
+                            }else {
+                                invalidIntegrationsPerCase.put(caseRec.Id, new List<String>{asfIntExtIdsPerCase.get(extId).Display_Name__c});
+                            }
                         }
                     }
                 }

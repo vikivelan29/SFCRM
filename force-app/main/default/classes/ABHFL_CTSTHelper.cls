@@ -10,6 +10,259 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
 
+    public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
+        
+        List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
+        Map<String, List<Case>> accIdVsCases = new Map<String, List<Case>>();
+        Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
+        Map<String,Set<String>> cccVsAccIds = new Map<String,Set<String>>();
+        Set<String> cccIds = new Set<String>();
+        for(Case c: caseList){
+            if(c.AccountId!=null && 
+               	c.CCC_External_Id__c!=null && 
+               	c.AssetId!=null &&
+                c.CCC_External_Id__c!='qbccdd01')
+            {
+                if((!accIdVsCases.containsKey(c.AccountId))){
+                        system.debug('in if');
+                        accIdVsCases.put(c.AccountId, new List<Case>());
+                        accIdVsCases.get(c.AccountId).add(c);
+                }
+                
+                if(!cccVsAccIds.containsKey(c.CCC_External_Id__c)){
+                    cccVsAccIds.put(c.CCC_External_Id__c, new Set<String>());
+                    cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
+                } 
+                    
+
+                if((!lanVsCases.containsKey(c.AssetId))){
+                    {
+                        lanVsCases.put(c.AssetId, new List<Case>());
+                        lanVsCases.get(c.AssetId).add(c);
+                    }
+                }
+            }
+		}
+        
+        caseCategoryConfigs = [SELECT ID,Type__c, Sub_Type__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsAccIds.keySet()];
+        
+        for(ASF_Case_Category_Config__c ccc : caseCategoryConfigs){
+            cccIds.add(ccc.CCC_External_Id__c);
+        }
+        for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, Asset.LAN__c, LAN__c
+                           	FROM Case 
+                            WHERE (AccountId IN :accIdVsCases.keySet())
+                           	AND CCC_External_Id__c IN :cccVsAccIds.keySet()
+                           	AND (AssetId IN :lanVsCases.keySet())
+                           	AND isClosed!=true])
+        {
+            if(cccIds.contains(dupeCase.CCC_External_Id__c)){
+                /*if(accIdVsCases.containsKey(dupeCase.Client_Code_Text__c)){// || ){
+                    for(Case c: accIdVsCases.get(dupeCase.Client_Code_Text__c)){
+                        if(lanVsCases.containsKey(c.LAN__c) || lanVsCases.containsKey(c.Asset.LAN__c)){
+                            if(dupeCase.SLA_Broken_DateTime__c!=null){
+                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                            }else{
+                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                            }
+                        }
+					}
+                }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
+                    for(Case c: accIdVsCases.get(dupeCase.AccountId)){
+                        if(lanVsCases.containsKey(c.AssetId)){
+                            if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                
+                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                            }else{
+                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                            }
+                        }
+					}
+                }
+            }
+        }
+    }
+    
+    public static void runDuplicateCheckForUpdate(List<Case> caseList, Map<Id, Case> oldCaseMap){//AM-ABHFL Case DEDUPE
+        List<ASF_Case_Category_Config__c> caseCategoryConfigsForAcc = new List<ASF_Case_Category_Config__c>();
+        //List<ASF_Case_Category_Config__c> caseCategoryConfigsForLead = new List<ASF_Case_Category_Config__c>();
+        Map<String, List<Case>> accIdVsCases = new Map<String, List<Case>>();
+        //Map<String, List<Case>> leadIdVsCases = new Map<String, List<Case>>();
+        Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
+        Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
+        //Map<String,Set<Id>> cccVsLeadIds = new Map<String,Set<Id>>();
+        Set<String> cccIdsForAcc = new Set<String>();
+        //Set<String> cccIdsForLead = new Set<String>();
+        RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
+        for(Case c: caseList){
+            /*system.debug('c.CCC_External_Id__c:'+c.CCC_External_Id__c);
+            system.debug('c.oldCaseMap.get(c.Id).CCC_External_Id__c:'+oldCaseMap.get(c.Id).CCC_External_Id__c);
+            system.debug('c.Client_Code_Text__c:'+c.Client_Code_Text__c);
+            system.debug('c.oldCaseMap.get(c.Id).Client_Code_Text__c:'+oldCaseMap.get(c.Id).Client_Code_Text__c);
+            system.debug('c.AccountId:'+c.AccountId);
+            system.debug('c.oldCaseMap.get(c.Id).AccountId:'+oldCaseMap.get(c.Id).AccountId);
+            system.debug('c.LAN__c:'+c.LAN__c);
+            system.debug('c.oldCaseMap.get(c.Id).LAN__c:'+oldCaseMap.get(c.Id).LAN__c);
+            system.debug('c.AssetId:'+c.AssetId);
+            system.debug('c.oldCaseMap.get(c.Id).AssetId:'+oldCaseMap.get(c.Id).AssetId);*/
+            if(c.Business_Unit__c=='ABHFL' && 
+               		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
+                	//c.Client_Code_Text__c != oldCaseMap.get(c.Id).Client_Code_Text__c ||
+                	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
+                	//c.LAN__c != oldCaseMap.get(c.Id).LAN__c || 
+                	c.AssetId != oldCaseMap.get(c.Id).AssetId)) //&&
+              	//c.Nature__c=='Request')
+            {
+                if((/*c.Client_Code_Text__c!=null  || */c.AccountId!=null) && 
+                    c.CCC_External_Id__c!=null && 
+                    (/*c.LAN__c!=null || */c.AssetId!=null) && 
+                    c.CCC_External_Id__c!='qbccdd01' && 
+                    c.Source__c=='Email'
+                    )
+            	{                
+                    if((!accIdVsCases.containsKey(c.AccountId))/* || (!accIdVsCases.containsKey(c.Client_Code_Text__c))*/){
+                        //if(c.AccountId!=null){
+                            accIdVsCases.put(c.AccountId, new List<Case>());
+                            accIdVsCases.get(c.AccountId).add(c);
+                        /*}else{
+                            accIdVsCases.put(c.Client_Code_Text__c, new List<Case>());
+                            accIdVsCases.get(c.Client_Code_Text__c).add(c);
+                        }*/
+                    }
+                    
+                    
+                    if(!cccVsAccIds.containsKey(c.CCC_External_Id__c)){
+                        cccVsAccIds.put(c.CCC_External_Id__c, new Set<Id>());
+                        cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
+                    } 
+                    //if(c.AccountId!=null){
+                        //cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
+                    /*}else{
+                        cccVsAccIds.get(c.CCC_External_Id__c).add(c.Client_Code_Text__c);
+                    }*/
+                    
+                    
+                    if(/*(!lanVsCases.containsKey(c.LAN__c)) || */(!lanVsCases.containsKey(c.AssetId))){
+                        /*if(c.LAN__c!=null){
+                            lanVsCases.put(c.LAN__c, new List<Case>());
+                            lanVsCases.get(c.LAN__c).add(c);
+                        }else{*/
+                            lanVsCases.put(c.AssetId, new List<Case>());
+                            lanVsCases.get(c.AssetId).add(c);
+                        //}
+                    }
+                }/*else if(c.Lead__c!=null &&
+                        (c.Client_Code_Text__c==null  && c.AccountId==null) &&
+                        c.CCC_External_Id__c!=null &&
+                        c.CCC_External_Id__c!='qbccdd01' && 
+                        c.Source__c=='Email' &&
+                        c.Lead__c != oldCaseMap.get(c.Id).Lead__c)
+                {
+                    if((!leadIdVsCases.containsKey(c.Lead__c))){
+                        leadIdVsCases.put(c.Lead__c, new List<Case>());
+                    }
+                    leadIdVsCases.get(c.Lead__c).add(c);
+                    
+                    
+                    if(!cccVsLeadIds.containsKey(c.CCC_External_Id__c)){
+                        cccVsLeadIds.put(c.CCC_External_Id__c, new Set<Id>());
+                    } 
+                    cccVsLeadIds.get(c.CCC_External_Id__c).add(c.Lead__c);
+                }*/
+            }
+        }
+        
+        
+        if(!cccVsAccIds.isEmpty()){
+        	caseCategoryConfigsForAcc = [SELECT ID,Type__c, Sub_Type__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsAccIds.keySet()];    
+            for(ASF_Case_Category_Config__c ccc : caseCategoryConfigsForAcc){
+                cccIdsForAcc.add(ccc.CCC_External_Id__c);
+            }
+        }
+        /*if(!cccVsLeadIds.isEmpty()){
+            caseCategoryConfigsForLead = [SELECT ID,Type__c, Sub_Type__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsLeadIds.keySet()];
+            for(ASF_Case_Category_Config__c ccc : caseCategoryConfigsForLead){
+                cccIdsForLead.add(ccc.CCC_External_Id__c);
+            }
+        }*/
+        	
+        
+        if(!cccVsAccIds.isEmpty()){
+        	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, AssetId, LAN__c
+                                FROM Case 
+                                WHERE (/*Client_Code_Text__c IN : accIdVsCases.keySet() OR*/ AccountId IN :accIdVsCases.keySet())
+                                AND CCC_External_Id__c IN :cccVsAccIds.keySet()
+                                AND (AssetId IN :lanVsCases.keySet()/* OR LAN__c IN :lanVsCases.keySet()*/)
+                                AND isClosed!=true])
+            {
+                if(cccIdsForAcc.contains(dupeCase.CCC_External_Id__c)){
+                    /*if(accIdVsCases.containsKey(dupeCase.Client_Code_Text__c)){// || ){
+                        for(Case c: accIdVsCases.get(dupeCase.Client_Code_Text__c)){
+                            if(lanVsCases.containsKey(c.LAN__c) || lanVsCases.containsKey(c.AssetId)){
+                                if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
+                                    c.Stage__c = 'Duplicate';
+                                    c.Is_Duplicate__c = true;
+                                    c.ParentId = dupeCase.Id;
+                                    //casesToClose.add(c);
+                                }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
+                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                                    }else{
+                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                                    }
+                                }
+                            }
+                        }
+                    }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
+                        for(Case c: accIdVsCases.get(dupeCase.AccountId)){
+                            if(/*lanVsCases.containsKey(c.LAN__c) || */lanVsCases.containsKey(c.AssetId)){
+                                if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
+                                    c.Stage__c = 'Duplicate';
+                                    c.Is_Duplicate__c = true;
+                                    c.ParentId = dupeCase.Id;
+                                    //casesToClose.add(c);
+                                }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
+                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                                    }else{
+                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }    
+        }
+        
+        
+        /*if(!cccVsLeadIds.isEmpty()){
+        	for(Case dupeCase: [SELECT Id, CaseNumber, Client_Code_Text__c, Account.Client_Code__c, CCC_External_Id__c, Asset.LAN__c, LAN__c
+                                FROM Case 
+                                WHERE Lead__c IN : leadIdVsCases.keySet()
+                                AND CCC_External_Id__c IN :cccVsLeadIds.keySet()
+                                AND isClosed!=true])
+            {
+                if(cccIdsForLead.contains(dupeCase.CCC_External_Id__c)){
+                    if(leadIdVsCases.containsKey(dupeCase.Lead__c)){
+                        for(Case c: leadIdVsCases.get(dupeCase.Lead__c)){
+                            c.Stage__c = ABHFL_Constants.RESOLVED;
+                            //c.Is_Duplicate__c = true; 
+                            c.addError('Existing case available in CRM: '+dupeCase.CaseNumber);
+                            casesToClose.add(c);
+                        }
+                    }
+                }
+            }    
+        }*/
+        
+        /*
+        if(casesToClose.size()>0){
+        	update casesToClose;    
+        }*/
+    }
+    
     //Dhinesh
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
     // List of valid subTypes
@@ -33,49 +286,95 @@ public without sharing class ABHFL_CTSTHelper {
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
+        String ownerName = '';
+        Case caseRec = [SELECT Id,Source__c,CreatedBy.Name,CreatedById from Case where id =: caseRecord.id];
     	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
     	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
         List<String> customerServiceSubTypes = new List<String>{'hfl060'};
-    	Group emailNonFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-    	Group emailFinancialQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        Group customerServiceQueue = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
+    	Group emailNonFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+    	Group emailFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
 		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
     	if (emailNonFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailNonFinancialQueue.Id;
+            ownerName = emailNonFinancialQueue.Name;
         	}
     	}
 
     	if (emailFinancialSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = emailFinancialQueue.Id;
+            ownerName = emailFinancialQueue.Name;
         		}
     	}
         if (customerServiceSubTypes.contains(subType)) {
-        	if (caseRecord.Source__c == ABHFL_Constants.BRANCH) {
-            updatedCase.OwnerId = caseRecord.CreatedById;
+        	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
+            updatedCase.OwnerId = caseRec.CreatedById;
+            ownerName = caseRec.CreatedBy.Name;
         	} else {
             updatedCase.OwnerId = customerServiceQueue.Id;
+            ownerName = customerServiceQueue.Name;
         		}
     	}
 
     	if (subType == 'RRSDPRSHFC01') {
-        	updatedCase.OwnerId = emailNonFinancialQueue.Id;
+        	updatedCase.OwnerId = emailFinancialQueue.Id;
+            ownerName = emailFinancialQueue.Name;
     	}
-        List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
+        List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
     	if (slaHistory.size() > 0) {
-        	delete slaHistory;
+            slaHistory[0].Current_Owner_Id__c = updatedCase.OwnerId;
+            if(ownerName != ''){
+                slaHistory[0].Current_Owner__c = ownerName;
+            }
+            
+        	update slaHistory;
     	}
-        //ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
     	update new List<Case>{ updatedCase };
+		ASF_TriggerSkipperUtility.resetTriggerRun('Case');
 	}
+
+    //Dhinesh - Stop at banking stage on forward movement after a backward movement.
+    public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+        // List of valid subTypes
+    	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        
+    	for (Case caseRecord : caseList) {
+        	Case originalCase = oldCaseMap.get(caseRecord.Id);
+
+        	String previousStage = originalCase.Stage__c;	
+        	String currentStage = caseRecord.Stage__c;
+        	String subType = caseRecord.CCC_External_Id__c;
+            system.debug(caseRecord.moved_back__c);
+    
+
+        // Check if the previous stage was 'Open', the current stage is not 'Open',
+        // and the sub_Type_Text__c is one of the valid subTypes
+        	if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
+            	changeStagetoCPUBanking(caseRecord);
+                ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
+        	}
+            
+    	}
+	}
+    
+    public static void changeStagetoCPUBanking(Case caseRecord) {
+        Group CPUQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_CPU_Banking_Team' WITH SECURITY_ENFORCED LIMIT 1];
+        caseRecord.Stage__c ='CPU Banking';
+        caseRecord.Status ='In Progress';
+        caseRecord.OwnerId = CPUQueue.Id;
+    }
     //Dhinesh
     public static Map<Id, Case> assignCaseToBranch(List<Case> caseRecords) {
         
@@ -206,9 +505,9 @@ public without sharing class ABHFL_CTSTHelper {
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, SAP_Code__c, ROM_AOM__c FROM Branch_Master__c WHERE SAP_Code__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c, UniqueKey__c, ROM_AOM__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
-                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.SAP_Code__c), branch);
+                caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
                 if(caseIdToBranchMap.get(caseRec.Id).ROM_AOM__c != null){
@@ -269,10 +568,11 @@ public without sharing class ABHFL_CTSTHelper {
     //Dhinesh - 1/29 Backward Movement Email Communication
     public static void backwardMovementEmail(List<Case> caseList, Map<Id, Case> oldCaseMap){
         List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+        Set<Id> caseDetailIds = new Set<Id>();
         for (Case caseRecord : caseList) {
         	Case originalCase = oldCaseMap.get(caseRecord.Id);
-
-        	String previousStage = originalCase.Stage__c;	
+            
+            String previousStage = originalCase.Stage__c;	
         	String currentStage = caseRecord.Stage__c;
         	String subType = caseRecord.CCC_External_Id__c;
 
@@ -283,12 +583,21 @@ public without sharing class ABHFL_CTSTHelper {
             //for Shortfall email/sms - only for Pre Closure (hfl060)
             
             if ('CPU FCL Issuance'.equals(previousStage) && 'Open'.equals(currentStage) && 'hfl060'.equals(subType) && caseRecord.Business_Unit__c == 'ABHFL') {
-                ABHFL_Case_Detail__c caseDetail =  [SELECT Id,Shortfall_Amount__c FROM ABHFL_Case_Detail__c WHERE Id =: caseRecord.ABHFL_Case_Detail__c];
-                if(caseDetail.Shortfall_Amount__c !=  Null){
-                   ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,ABHFL_Constants.SHORTFALL_TEMPLATE, 
-                                                                ABHFL_Constants.SHORTFALL_SMS, False); 
-                }
+                 caseDetailIds.add(caseRecord.ABHFL_Case_Detail__c);
             }
+            
+    	}
+        if (!caseDetailIds.isEmpty()) {
+        		Map<Id, ABHFL_Case_Detail__c> caseDetailMap = new Map<Id, ABHFL_Case_Detail__c>([SELECT Id, Shortfall_Amount__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]);
+        
+        		for (Case caseRecord : caseList) {
+            		if (caseDetailMap.containsKey(caseRecord.ABHFL_Case_Detail__c)) {
+                		ABHFL_Case_Detail__c caseDetail = caseDetailMap.get(caseRecord.ABHFL_Case_Detail__c);
+                		if (caseDetail.Shortfall_Amount__c != null) {
+                    		ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, ABHFL_Constants.SHORTFALL_TEMPLATE, ABHFL_Constants.SHORTFALL_SMS, false); 
+                		}
+            		    }
+        		}
     	}
     }
     public static void sendEmail(Case caseRecord){
@@ -581,6 +890,10 @@ public without sharing class ABHFL_CTSTHelper {
             } 
         }
 
+        if(cccExternalIdList.size() == 0) {
+            return;
+        }
+
         List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Amount__c, CCC_External_Id__c
                                                 FROM Doc_Charge__mdt
                                                 WHERE CCC_External_Id__c =:cccExternalIdList];
@@ -715,4 +1028,103 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
     
+    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+        List<String> validCTSTs= new List<String>{'hfl069','RLOAPRONHFC','RRESRONTHFC','RRESROONHFC','REFCL001','RRSDPRSHFC01'};
+        List<String> validCTSTsEditFields= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
+        List<String> validCTSTsCPUPP = new List<String>{'hfl069','RRESRONTHFC'};
+        List<String> validCTSTsROI= new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC'};
+        List<String> validStagesForRevisedEMITenure= new List<String>{'Resolved','Pending Amortization'};
+        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,Technical_Source__c,
+                                                                     (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
+                                                                      from Asset_Details__r)
+                                                                      from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
+        for(Id recId : caseIdCaseMovementWrapperMap.keySet()){
+            if(caseRecordsPaymentDetailsMap.containsKey(recId)){
+                Case caseRec = caseRecordsPaymentDetailsMap.get(recId);
+                if(validCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.Technical_Source__c == 'LWC'){
+                    ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+                    caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
+                    caseStgValidationWrapper.isCaseUpdated = false;
+                    
+                    if(caseRec.Asset_Details__r.size() == 0){
+                        caseStgValidationWrapper.errorMessage = 'Please select atleast one LAN';
+                        caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+                    } else if(caseRec.Asset_Details__r.size() >= 0 && validCTSTsEditFields.contains(caseRec.CCC_External_Id__c)){
+                        Boolean assetRecordComplete = true;
+                        for(integer i = 0; i < caseRec.Asset_Details__r.size(); i++){
+                            ABHFL_Asset_Detail__c assetDetail = caseRec.Asset_Details__r[i];
+                            if(validCTSTsROI.contains(caseRec.CCC_External_Id__c)){
+                                if(assetDetail.Revised_ROI__c == null || assetDetail.Revised_ROI__c == 0 || 
+                                   String.isBlank(assetDetail.Impact__c) || String.isBlank(assetDetail.Cycle_Date__c)){
+                                    assetRecordComplete = false;
+                                    break;
+                                }
+                            }
+
+                            if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
+                                if(assetDetail.Revised_EMI_Tenure__c == null || assetDetail.Revised_EMI_Tenure__c == 0){
+                                    assetRecordComplete = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(!assetRecordComplete){
+                            caseStgValidationWrapper.errorMessage = 'Please fill all the information on the LAN Record';
+                            caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+                        }
+                    }
+                }
+            }
+        }
+
+        return caseIdCaseMovementWrapperMap;
+    }
+    
+    public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailFileUploadStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
+        List<String> validCTSTs = new List<String>{'REFCL001','RLOAPRONHFC','RRSDPRSHFC01'};
+        Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,Technical_Source__c,
+                                                                     (Select id,Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c
+                                                                      from Asset_Details__r)
+                                                                      from Case where id in: caseIdCaseMovementWrapperMap.keySet()]);
+
+        List<Case> validCases = new List<Case>();
+        Set<Id> assetDetailIds = new Set<Id>();
+        for(Case caseRecord : caseRecordsPaymentDetailsMap.values()){
+            if(validCTSTs.contains(caseRecord.CCC_External_Id__c) && caseRecord.Stage__c == 'Resolved'){
+                validCases.add(caseRecord);
+                for(ABHFL_Asset_Detail__c assetDetail : caseRecord.Asset_Details__r){
+                    assetDetailIds.add(assetDetail.Id);
+                }
+            }
+        }          
+
+        Map<Id,Id> assetDetailIdContentIdMap = new Map<Id,Id>();
+        if(assetDetailIds.size() > 0){
+            List<ContentDocumentLink> contentDocLinkList = [Select id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId in: assetDetailIds];
+
+            for(ContentDocumentLink docLink : contentDocLinkList){
+                assetDetailIdContentIdMap.put(docLink.LinkedEntityId,docLink.ContentDocumentId);
+            }
+        }
+
+        for(Case caseRec : validCases){
+            Boolean attachmentPresent = true;
+            for(ABHFL_Asset_Detail__c assetDetail : caseRec.Asset_Details__r){
+                if(!assetDetailIdContentIdMap.containsKey(assetDetail.Id)){
+                    attachmentPresent = false;
+                    break;
+                }
+            }
+            if(!attachmentPresent){
+                ASF_CaseMovementHelper.CaseStageValidationWrapper caseStgValidationWrapper = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+                caseStgValidationWrapper.status = ABHFL_Constants.ERROR;
+                caseStgValidationWrapper.isCaseUpdated = false;
+                caseStgValidationWrapper.errorMessage = 'Please upload a document for all LANs';
+                caseIdCaseMovementWrapperMap.put(caseRec.Id,caseStgValidationWrapper);
+            }
+        }
+
+        return caseIdCaseMovementWrapperMap;
+    }
+
 }

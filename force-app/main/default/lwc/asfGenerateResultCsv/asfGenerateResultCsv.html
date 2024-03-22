@@ -6,10 +6,13 @@
                 </lightning-button>
         </template>
         <template if:false={reqfromLwc}>
-            <template lwc:if={downloadFailed}>
-                <lightning-card title="">
-                    <p>The operation is still in progress. You can download the result once it is complete! </p>
-                </lightning-card>
+            <lightning-card title="">
+            <template if:true={downloadFailed}>
+                <p class="slds-p-left_medium">{failureMessage}</p>
             </template>
+            <template if:false={downloadFailed}>
+                <p class="slds-p-left_medium">{loadingMessage}</p>
+            </template>
+        </lightning-card>
         </template>
 </template>

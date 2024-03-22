@@ -5,7 +5,7 @@
 * Last Modified: 05/01/2024
 * Description  : Class is having all the E2C Validation of Email Boxes logic.
 *********************************************************/
-
+@SuppressWarnings('PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
     public class multipleEmail2CaseAddressException extends exception{}
     
@@ -37,7 +37,8 @@ public without sharing class ASF_Email2CaseHandler {
         
         for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                               Business_Unit__c, Email2CaseAddress__c, 
-                                                              Default_Queue_Dev_Name__c, Send_to_EBOT__c 
+                                                              Default_Queue_Dev_Name__c, Send_to_EBOT__c,
+                                                              Case_Business_Unit__c, Case_Origin__c
                                                               FROM ASF_PriorityEmailAddressesByBU__mdt
                                                               WHERE Email2CaseAddress__c =: winningEmailAddr])
         {
@@ -63,6 +64,12 @@ public without sharing class ASF_Email2CaseHandler {
                             c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                             if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                 c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                            }
+                            if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
+                                c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 
+                            }
+                            if(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c == ABFL_Constants.WMCHATCASEORIGIN){
+                                c.Origin = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c;
                             }
                             caseToUpdate.add(c);
                         }
@@ -136,8 +143,12 @@ public without sharing class ASF_Email2CaseHandler {
                     boolean bSendToEbot = false;
                     
                     Case c = mCases.get(msg.ParentId);
+                    String caseBusinessUnit = c.Business_Unit__c;
+                    if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseBusinessUnit)){
+                        caseBusinessUnit = 'ABFL';
+                    }
                     
-                    List<ASF_PriorityEmailAddressesByBU__mdt> tempPriorityEmailByBU = mBUVsPriorityEmails.get(c.Business_Unit__c);
+                    List<ASF_PriorityEmailAddressesByBU__mdt> tempPriorityEmailByBU = mBUVsPriorityEmails.get(caseBusinessUnit);
                     if(tempPriorityEmailByBU == null){
                         tempPriorityEmailByBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
                     }
