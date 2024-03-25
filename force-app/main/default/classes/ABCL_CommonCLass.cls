@@ -115,4 +115,18 @@ public with sharing class ABCL_CommonCLass {
         }
         
     }
+    //This method bypasses the validation rule for System Admin and API profiles
+    public static boolean bypassValidation(){
+        boolean result = false;
+        
+        List<Id> bypassProfileId = new List<Id>();
+        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
+            bypassProfileId.add(profRec.Id);
+        }
+        //Bypass owner validations for the sys admin and Integration Profiles
+        if(bypassProfileId.contains(UserInfo.getProfileId())){
+            return true;
+        }
+        return result;
+    }
 }

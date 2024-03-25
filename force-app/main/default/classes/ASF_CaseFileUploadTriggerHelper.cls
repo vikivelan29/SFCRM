@@ -1,11 +1,10 @@
-public with sharing class ASF_CaseFileUploadTriggerHelper {
+public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_File_Update_Validation');
     
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
-        
-        if(ASF_CaseFileUploadTriggerHelper.bypassValidation() && !Test.isRunningTest()){
-           return;
+        if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
+            return;
         }
         Boolean isDelete = newList==null ? true : false;
         List<ContentDocumentLink> contentDocLinkList = isDelete ? oldMap.values() : newList;
@@ -43,7 +42,7 @@ public with sharing class ASF_CaseFileUploadTriggerHelper {
         }
     }
     public static void validateCaseFileUpdate(Map<Id, ContentDocument> newMap, Map<Id, ContentDocument> oldMap){
-        if(ASF_CaseFileUploadTriggerHelper.bypassValidation() && !Test.isRunningTest()){
+        if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
             return;
         }
         Boolean isDelete = newMap==null ? true : false;
@@ -82,16 +81,32 @@ public with sharing class ASF_CaseFileUploadTriggerHelper {
             }
         } 
     } 
-    public static boolean bypassValidation(){
-        boolean result = false;
-        
-        List<Id> bypassProfileId = new List<Id>();
-        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
-            bypassProfileId.add(profRec.Id);
+    @AuraEnabled
+    public static String fetchContentDoc(String contentVersionId) {
+        String docId = '';
+        if(contentVersionId != null){
+            try{
+                Id contentDocumentId = [SELECT Id, ContentDocumentId from ContentVersion where Id =: contentVersionId LIMIT 1].contentDocumentId;
+				docId = contentDocumentId;           
+            }catch(Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        	}
         }
-        //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId())){
-            return true;
+        return docId;
+    }
+    @AuraEnabled
+    public static String deleteFileById(String fileId) {
+        String result = 'Error';
+        if(fileId != null){
+            try{
+                String contentDocId = ASF_CaseFileUploadTriggerHelper.fetchContentDoc(fileId);
+                ContentDocument contentDocRec = [SELECT Id from ContentDocument where Id =: contentDocId];
+                delete contentDocRec; 
+                result = contentDocId;
+                
+            }catch(Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        	}  
         }
         return result;
     }
