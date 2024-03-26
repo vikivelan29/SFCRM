@@ -70,13 +70,12 @@ public without sharing class ABHFL_CTSTHelper {
                 }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
                     for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                         if(lanVsCases.containsKey(c.AssetId)){
-                            /*if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                We have an existing case no. (dynamic field case id ) available in CRM related to (dynamic field of case sub type) for this LAN no. The Resolution Date is (dynamic field date & time)
-                               	c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
+                            if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                             }else{
-                               	c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));  
-                            }*/
-                            c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                            }
+                            //c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                         }
 					}
                 }
@@ -223,12 +222,12 @@ public without sharing class ABHFL_CTSTHelper {
                                     c.ParentId = dupeCase.Id;
                                     //casesToClose.add(c);
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    /*if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
                                         c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                                     }else{
                                       	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }*/
-                                    c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
+                                    }
+                                    //c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                                 }
                             }
                         }
