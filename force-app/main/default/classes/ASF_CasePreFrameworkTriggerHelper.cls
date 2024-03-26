@@ -28,6 +28,9 @@ public class ASF_CasePreFrameworkTriggerHelper {
         for(Case cs : newItems){
             if(cs.RecordTypeId == interactionId){
                 cs.Source__c = 'Email';
+                if(ASF_Constants.mCaseOriginVsSource.Keyset().contains(cs.Origin)){
+                    cs.Source__c = ASF_Constants.mCaseOriginVsSource.get(cs.Origin);
+                }
                 cs.Channel__c = 'Email';
                 cs.Technical_Source__c = 'Email';
                 cs.BusinessHoursId = bh.Id;
