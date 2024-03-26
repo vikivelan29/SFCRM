@@ -49,6 +49,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                     } 
                     this.story_328_329_330();              
                 }
+                else {
+                    this.isLoaded = false;
+                }
             }
         }
         else if (this.objectApiName == 'Account') {
