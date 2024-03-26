@@ -90,7 +90,7 @@
     <dashboardType>LoggedInUser</dashboardType>
     <description>Overview of ABHFL Users</description>
     <isGridLayout>true</isGridLayout>
-    <runningUser>prajwalvarun.sharma@salesforce.com</runningUser>
+    <runningUser>abcl.automation@adityabirlacapital.com</runningUser>
     <textColor>#000000</textColor>
     <title>Users Overview</title>
     <titleColor>#000000</titleColor>

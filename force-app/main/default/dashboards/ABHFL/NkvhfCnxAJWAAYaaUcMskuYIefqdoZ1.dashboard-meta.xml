@@ -392,7 +392,7 @@
     <dashboardType>LoggedInUser</dashboardType>
     <description>Overview of ABHFL Active Cases by QRC</description>
     <isGridLayout>true</isGridLayout>
-    <runningUser>prajwalvarun.sharma@salesforce.com</runningUser>
+    <runningUser>abcl.automation@adityabirlacapital.com</runningUser>
     <textColor>#000000</textColor>
     <title>Active QRC Overview</title>
     <titleColor>#000000</titleColor>
