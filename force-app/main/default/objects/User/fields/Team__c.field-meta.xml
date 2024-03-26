@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>ABHFL</label>
             </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
