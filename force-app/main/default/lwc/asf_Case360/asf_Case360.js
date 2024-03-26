@@ -255,7 +255,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     break;
                 }
             }
-            if (stgData.Is_Approval_Stage__c) {
+            if (stgData && stgData.Is_Approval_Stage__c) {
                 let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                 if (latestCaseApprovalStatus.trim().toLowerCase() == 'pending') {
                     return true;
