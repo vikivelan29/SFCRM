@@ -438,6 +438,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 //If movetonext is setting to false, skip it, means its a internal update.
                 continue;                
             }
+            if(newCases.get(c.Id).Reopened_DateTime__c != oldCases.get(c.Id).Reopened_DateTime__c && newCases.get(c.Id).Reopened__c == true){
+                //If Reopened_DateTime__c is changing, skip it, means its the actual reopen DML, 
+                //the internal DML from checkAndProcessReopenCase method would create the SLA history for stage change and owner change
+                continue;
+            }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
             newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
                 modifiedCases.add(c);  
