@@ -2243,11 +2243,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LAN_Mapping__c.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2909,6 +2904,10 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Knowledge__kav.FAQ</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
@@ -2937,8 +2936,4 @@
         <tab>standard-Knowledge</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <recordTypeVisibilities>
-        <recordType>Knowledge__kav.FAQ</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-</PermissionSet>
+    </PermissionSet>
