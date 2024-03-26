@@ -2822,6 +2822,15 @@
         <object>DMS_Files__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+<objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Knowledge__kav</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
@@ -2870,6 +2879,10 @@
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+<recordTypeVisibilities>
+        <recordType>Knowledge__kav.FAQ</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Lead.Sales</recordType>
         <visible>true</visible>
@@ -2883,7 +2896,11 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
-        <tab>standard-Asset</tab>
+        <tab>Knowledge__kav</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Knowledge</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
