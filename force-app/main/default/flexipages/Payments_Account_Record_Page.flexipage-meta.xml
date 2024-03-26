@@ -63,19 +63,19 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.SUBJECT</value>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.PRIORITY</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE_DATE_ONLY</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>OWNER_NAME</value>
+                            <value>Escalation_Indicator__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
