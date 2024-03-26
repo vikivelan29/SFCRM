@@ -8,8 +8,8 @@
 public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHandler {
     
     public override void beforeInsert(List<SObject> newItems){
-        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
-        ABCL_SendEmailValidation.validateUsersTeam(newItems);
+        //ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
+        //ABCL_SendEmailValidation.validateUsersTeam(newItems);
         
         
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
@@ -47,9 +47,11 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         
         // IF EVERYTHING IS SUCCESSFUL THEN ONLY TRIGGER EBOT CODE.
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE
-        
+        ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
+        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newEmails.values());
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
         // invoke ABFL E2C Case creation checks        
+        // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
         if(sEMIds.size()>0){
             Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
                 Payload__c=JSON.serialize(sEMIds),
@@ -59,5 +61,9 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
             );
             EventBus.publish(ate);
         }
-    }   
+    } 
+    public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
+        ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
+        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
+    }
 }
