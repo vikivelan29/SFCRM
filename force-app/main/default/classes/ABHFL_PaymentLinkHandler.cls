@@ -28,14 +28,14 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         //Dhinesh - to check for approvals 
         List<ASF_Case_Approv__c> approvals = [SELECT Id,Approval_Status__c FROM ASF_Case_Approv__c WHERE SR__c =: caseRecord.Id];
         List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC','REFCL001'};
-        Boolean approvalPending = false;
+        Boolean approvalPending = true;
         if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvals.isEmpty()){
             result.status = ABHFL_Constants.ERROR;
             result.response = 'Case is not Approved, Please create an Approval';
         }
         for(ASF_Case_Approv__c approval : approvals) {
-                if (approval.Approval_Status__c != 'Approved') {
-                    approvalPending = true;
+                if (approval.Approval_Status__c == 'Approved') {
+                    approvalPending = false;
                     break; // No need to continue checking once one is found
             }
         }
