@@ -71,6 +71,13 @@
         <value>Disbursement_History</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_LOD_Calendar_Year</fullName>
         <language>en_US</language>
         <protected>false</protected>
