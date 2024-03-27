@@ -49,7 +49,7 @@ public without sharing class ABHFL_CTSTHelper {
         for(ASF_Case_Category_Config__c ccc : caseCategoryConfigs){
             cccIds.add(ccc.CCC_External_Id__c);
         }
-        for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, Asset.LAN__c, LAN__c
+        for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
                            	FROM Case 
                             WHERE (AccountId IN :accIdVsCases.keySet())
                            	AND CCC_External_Id__c IN :cccVsAccIds.keySet()
@@ -70,12 +70,13 @@ public without sharing class ABHFL_CTSTHelper {
                 }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
                     for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                         if(lanVsCases.containsKey(c.AssetId)){
-                            if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                
-                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                            /*if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                We have an existing case no. (dynamic field case id ) available in CRM related to (dynamic field of case sub type) for this LAN no. The Resolution Date is (dynamic field date & time)
+                               	c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                             }else{
-                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                            }
+                               	c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));  
+                            }*/
+                            c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                         }
 					}
                 }
@@ -188,7 +189,7 @@ public without sharing class ABHFL_CTSTHelper {
         	
         
         if(!cccVsAccIds.isEmpty()){
-        	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, Client_Code_Text__c, AccountId, CCC_External_Id__c, AssetId, LAN__c
+        	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
                                 FROM Case 
                                 WHERE (/*Client_Code_Text__c IN : accIdVsCases.keySet() OR*/ AccountId IN :accIdVsCases.keySet())
                                 AND CCC_External_Id__c IN :cccVsAccIds.keySet()
@@ -222,12 +223,12 @@ public without sharing class ABHFL_CTSTHelper {
                                     c.ParentId = dupeCase.Id;
                                     //casesToClose.add(c);
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                    /*if(dupeCase.SLA_Broken_DateTime__c!=null){
                                         c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                                     }else{
                                       	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }
-                                    
+                                    }*/
+                                    c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                                 }
                             }
                         }

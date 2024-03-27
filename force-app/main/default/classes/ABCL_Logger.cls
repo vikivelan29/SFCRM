@@ -1,7 +1,15 @@
 /**
- * Simple in memory low cpu logging
- **/
-public class ABCL_Logger {
+ * @description       : Simple in memory low cpu logging
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 03-27-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   03-27-2024   rsinghnagar@salesforce.com   Initial Version
+**/
+
+public with sharing class ABCL_Logger {
 	private static Boolean enableEL = false;
     private static LogScope current;
     private static LogScope root;    

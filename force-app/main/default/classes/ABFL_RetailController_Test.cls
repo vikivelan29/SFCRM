@@ -142,6 +142,18 @@ public class ABFL_RetailController_Test{
         Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank');
     }
     
+    @isTest
+    static void testRealTimeIGetCRMDetails(){
+        Asset assetRecord = [SELECT Id
+                             FROM Asset
+                             LIMIT 1];
+        Test.setMock(HttpCalloutMock.class, new ABFL_RetailController_Test.MockHttpResponseGenerator());
+        Test.startTest();
+        ABFL_RetailController.ResponseWrapper res = ABFL_RetailController.invokeAPI('RTL_RealTime_GetCRMDetails', assetRecord.Id);
+        Test.stopTest();
+        Assert.isTrue(res.statusCode == 200, 'Status Code should not be equal to 200');
+        Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank');
+    }
     public class MockHttpResponseGenerator implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             
