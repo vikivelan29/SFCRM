@@ -170,15 +170,14 @@ public without sharing class ASF_GetCaseRelatedDetails {
         for(String rec : newList){
             //Schema.SobjectField eachField;
             if(String.isBlank(soql)){
-                soql = rec;
+                soql = String.escapeSingleQuotes(rec);
             }else{
-                soql = soql+', '+rec;
+                soql = String.escapeSingleQuotes(soql+', '+rec);
             }
         }
-        soql = 'SELECT '+ soql +' FROM Case WHERE Id =: caseId ';
+        soql = String.escapeSingleQuotes('SELECT '+ soql +' FROM Case WHERE Id =: caseId ');
         System.debug('SOQL is: '+soql);
         List<Sobject> queryResponseList = new List<Sobject>();
-        soql = String.escapeSingleQuotes(soql);
         queryResponseList = Database.query(soql); 
         System.debug('Query result is: '+queryResponseList);
         Sobject queryResponseRec = queryResponseList.size() > 0 ?queryResponseList.get(0) : NULL;
