@@ -1,10 +1,12 @@
-<html>
+<html style="overflow-y: hidden;">
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear Customer,<br />
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,<br />
 <br />
 Thank you for contacting us. Your service request ID is {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}, we will respond to you by {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
 <br />
-Regards, -Aditya Birla Finance Limited</body>
+Regards, -Aditya Birla Finance Limited</p>
+</body>
 </html>

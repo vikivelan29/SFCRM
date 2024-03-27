@@ -75,7 +75,7 @@ export default class Abfl_base_view_screen extends LightningElement {
 			this.isLoading = false;
 		} catch (error) {
 			this.isLoading = false;
-			console.log("An error occurred: " + error);
+			console.log("An error occurred: " + JSON.stringify(error));
 		}
 	}
 

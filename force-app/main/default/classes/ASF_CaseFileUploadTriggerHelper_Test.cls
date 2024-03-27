@@ -47,4 +47,19 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         }
         Test.StopTest();   
     }
+    static testmethod void fetchContentDocTest() {
+
+        Test.StartTest();
+        Id ContentVerisonId = [SELECT Id FROM ContentVersion LIMIT 1].Id;
+        String result = ASF_CaseFileUploadTriggerHelper.fetchContentDoc(ContentVerisonId);
+        Test.StopTest();   
+    }
+    static testmethod void deleteFileByIdTest() {
+
+        Test.StartTest();
+        Id ContentVerisonId = [SELECT Id FROM ContentVersion LIMIT 1].Id;
+        String result = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonId);
+        Assert.areNotEqual('Error', result, 'result cannot be Error');
+        Test.StopTest();   
+    }
 }

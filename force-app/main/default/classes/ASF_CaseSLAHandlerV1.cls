@@ -359,7 +359,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     
     
     
-    public static void updateOldCaseSLAHistory(List<Case> newCases){
+    public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
         for(Case c:newCases){
             caseIdSet.add(c.Id);
@@ -416,10 +416,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                          }
                                                      }
         }
-        if (slaHistoryList != null) {
+        if (!slaHistoryList.isEmpty()) {
             update slaHistoryList;
+            return true;
         }
-        
+        return false;
     }
     
     /*
@@ -437,6 +438,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 //If movetonext is setting to false, skip it, means its a internal update.
                 continue;                
             }
+            if(newCases.get(c.Id).Reopened_DateTime__c != oldCases.get(c.Id).Reopened_DateTime__c && newCases.get(c.Id).Reopened__c == true){
+                //If Reopened_DateTime__c is changing, skip it, means its the actual reopen DML, 
+                //the internal DML from checkAndProcessReopenCase method would create the SLA history for stage change and owner change
+                continue;
+            }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
             newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
                 modifiedCases.add(c);  
@@ -446,8 +452,14 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            updateOldCaseSLAHistory(modifiedCases); 
-            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            //If the updateOldCaseSLAHistory didnt find any existing record to update,
+            // that means its actually an insert happening and its internal Case after update happening
+            // assignment rules are assigning ownerid
+            // so skip creating new SLA history, 
+            // the after insert will call insertSLAHistory and will create one entry.
+            if(updateOldCaseSLAHistory(modifiedCases)){ 
+                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            }
         }
     }
     /*

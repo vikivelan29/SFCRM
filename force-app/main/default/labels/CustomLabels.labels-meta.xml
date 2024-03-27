@@ -71,6 +71,13 @@
         <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority,All LANs:All LANs,Applicant Type(COAPPL):Applicant Type(COAPPL),Applicant Type(PRAPPL):Applicant Type(PRAPPL)</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Data_Service_Sections</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -377,7 +384,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>No Reply Address</value>
+        <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
         <fullName>Allowed_Domain</fullName>
@@ -399,6 +406,13 @@
         <protected>false</protected>
         <shortDescription>Case Closed Error Message</shortDescription>
         <value>You are not allowed to edit a Closed Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
+        <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
         <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>

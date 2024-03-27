@@ -20,7 +20,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
     * @Description - Processing Ebot Response
     *****************************************************************************************************************/   
     public static void eBotResponseHandler(String caseId,ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse){
-           
+        
         List<String> validSubTypesForMovetoNext = new List<String>{'hfl069','RRESRONTHFC','RRESROONHFC','RLOAPRONHFC','REFCL001'};
         ABHFL_Case_Detail__c caseDetails = new ABHFL_Case_Detail__c();
         caseDetails.Ebot_Owner_Full_Name__c  = ebotResponse.OWNERFULLNAME;
@@ -43,6 +43,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseDetails.Is_Trail__c = ebotResponse.ISTRAIL;
         caseDetails.Lan_Comment__c = ebotResponse.LANCOMMENT;
         caseDetails.Unregistered_Category__c = ebotResponse.UNREGISTEREDCATEGORY;
+        //caseDetails.Skip_Dedupe__c = true;
        //End
        if(ebotResponse.ISREGISTRED == 'No'){
             caseDetails.Is_FTR__c = true;
@@ -57,6 +58,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         caseRecord.CCC_External_Id__c = ebotResponse.CASESUBTYPE;
         caseRecord.Comments = ebotResponse.COMMENT;
         caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+        caseRecord.Skip_Dedupe__c = true;
 
         if( ebotResponse.ISREPEAT == 'Yes'){
             caseRecord.Technical_Source__c = 'LWC';
@@ -82,18 +84,26 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         if(Schema.sObjectType.Case.isUpdateable()){
             update caseRecord;
         }
-         //Added by Dhinesh for Preclosure - when categorized land on next stage.
-        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c)){
-            caseRecord.MoveToNext__c = TRUE;
-            update caseRecord;
-        }
+        Case caseRec = [SELECT Id,Is_Duplicate__c,CCC_External_Id__c,Stage__c,MoveToNext__c FROM Case WHERE Id =: caseRecord.Id];
+        //Added by Dhinesh for Preclosure - when categorized land on next stage.
+        if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c) && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
+            List<ASF_Checklist__c> paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseRec.Id AND Label__c = 'Create Payment' LIMIT 1];
+            if (!paymentChecklists.isEmpty()) {
+                // Checklist found, update checklist status to 'Completed'
+                ASF_Checklist__c paymentChecklist = paymentChecklists[0];
+                paymentChecklist.Status__c = 'Completed';
+                                update paymentChecklist;
+             }
+            caseRec.MoveToNext__c = TRUE;
+            update caseRec;
+        } 
         /*ASF_Case_Category_Config__c categoryConfig = [Select Nature__c from ASF_Case_Category_Config__c 
                                                       where CCC_External_Id__c =: ebotResponse.CASESUBTYPE Limit 1];
         if(categoryConfig.Nature__c == 'Complaint'){
             caseRecord.MoveToNext__c = true;
             update caseRecord;
         }*/
-        if(ebotResponse.ISREGISTRED == 'No'){
+        if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
             caseRecord.Stage__c ='Resolved';
             update caseRecord;
         }

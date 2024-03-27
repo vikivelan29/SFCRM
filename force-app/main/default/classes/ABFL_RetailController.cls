@@ -43,6 +43,9 @@ public without sharing class ABFL_RetailController{
             when 'RTL_RealTime_InstallPmntDtls'{
                 intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA, requestPayload, null));
             }
+            when 'RTL_RealTime_GetCRMDetails'{
+                intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.RTL_GETCRMDETAILS_INTEGRATION_METADATA, requestPayload, null));
+            }
         }
 
         System.debug('status code: '+intResponseWrapper.statusCode);

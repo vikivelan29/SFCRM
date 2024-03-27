@@ -4,5 +4,6 @@
     <label>ABHFL User</label>
     <permissionSets>ABHFL_User_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
+    <permissionSets>Single_Sign_On_PS</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

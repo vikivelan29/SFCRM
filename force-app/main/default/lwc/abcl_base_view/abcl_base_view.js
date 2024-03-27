@@ -102,6 +102,6 @@ export function invokeCore(apiId, payloadInfo) {
 			}
 		})
 		.catch((error) => {
-			console.log('error:' + error);
+			console.log('error:' + JSON.stringify(error));
 		});
 }

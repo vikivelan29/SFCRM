@@ -3,7 +3,6 @@
  *Author       :  Udit Singhal
  *Description  :  Update STP Flow
  *********************************************************/
-//@SuppressWarnings('PMD.CognitiveComplexity', 'PMD.AvoidDeeplyNestedIfStmts')
 public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
     public enum Response{
         STP_SUCCESS, 
@@ -102,12 +101,10 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
         }
         if(!addlCheckPassedCases.isEmpty()){
             // i.e. Additional check were successful
-            Set<String> intIds = new Set<String>();
+            Set<Id> intIds = new Set<Id>();
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
-                        intIds.add(integ.External_Id__c);
-                    }
+                    intIds.add(integ.External_Id__c);
                 }
             }
 
@@ -137,18 +134,16 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id))
                 {
-                    if(integ.Processing_Class__c == 'ABFL_InvokeSTPProcess'){
-                        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
-                            Case__c = caseRec.Id, 
-                            Integration_Ext_Id__c = integ.External_Id__c, 
-                            Status__c = ABFL_Constants.PENDING, 
-                            Response__c = ABFL_Constants.WAITING_API_RESPONSE
-                        );
-                        if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
-                            caseInt.Is_Validation_Success__c = true;
-                        }
-                        newCaseIntegrations.add(caseInt);
+                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(
+                        Case__c = caseRec.Id, 
+                        Integration_Ext_Id__c = integ.External_Id__c, 
+                        Status__c = ABFL_Constants.PENDING, 
+                        Response__c = ABFL_Constants.WAITING_API_RESPONSE
+                    );
+                    if (integ.STP_API_Identifier__c == 'SOA_Corp' || integ.STP_API_Identifier__c == 'InterestDebitNote_Corp'){
+                        caseInt.Is_Validation_Success__c = true;
                     }
+                    newCaseIntegrations.add(caseInt);
                 }
             }
             insert newCaseIntegrations;
@@ -264,8 +259,15 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                             System.debug('@@@resultWrap'+resultWrap);
-                            resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
-                            update resultWrap.get(caseRecord.Id).caseToBeUpdated;
+                            if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage)){
+                                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                                update resultWrap.get(caseRecord.Id).caseToBeUpdated;
+                            }else{
+                                ABCL_Logger.enableExceptionLogging();
+                                ABCL_Logger.push('ABFL_InvokeSTPProcess.processResponse');
+                                ABCL_Logger.message(resultWrap.get(caseRecord.Id).errorMessage);
+                                ABCL_Logger.emit();
+                            }
                         }
                     }
                 }

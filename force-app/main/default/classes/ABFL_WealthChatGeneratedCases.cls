@@ -9,6 +9,7 @@ public with sharing class ABFL_WealthChatGeneratedCases {
     public static void execute(list<EmailMessage> emailMessageList){
         Map<Id,String> mapCaseIdToEmailId = new  Map<Id,String>(); // Map to hold Case Ids with the EmailId
         Map<Id,String> mapCaseIdToMobile = new  Map<Id,String>(); // Map to hold Case Ids with the EmailId
+        Set<Id> caseIdsToSendAcknowledgement = new Set<Id>();
         for(EmailMessage msg : emailMessageList){
             if( msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType ){
                 boolean bEligible = false;
@@ -35,6 +36,9 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                     if(extractedMobile != null || extractedMobile != ''){
                         mapCaseIdToMobile.put(msg.ParentId, extractedMobile);
                     }
+                    //CHECK IF THE WINNING ADDRESS IS SCENARIO 4 EMAIL ADDRESS - 
+                    // CREATE SET OF CASE ID OF SUCH EMAILS.
+                    caseIdsToSendAcknowledgement.add(msg.ParentId);
                 } 
             }
         }
@@ -47,7 +51,18 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                 c.SuppliedPhone = mapCaseIdToMobile.get(c.Id) !=null ? mapCaseIdToMobile.get(c.Id) : c.SuppliedPhone;
                 casesToUpdate.add(c);
             }
+            
         }
+        // CHECK IF THE CASE ORIGIN is ABWM Email if true then send Acknowledgement email.
+        if(caseIdsToSendAcknowledgement.size()>0){
+            for(case caseobj: ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendAcknowledgement)){
+                if(caseobj.Origin == ABFL_Constants.ABWMEMAIL){
+                	ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseobj, ABFL_Constants.WMEMAILTEMPLATENAME, caseobj.SuppliedEmail, '', '');
+                }
+            }
+        }
+            
+            
         //Check if the casesToUpdate list is empty or not
         if(!casesToUpdate.isEmpty() && casesToUpdate.size()>0){
             ASF_TriggerSkipperUtility.markTriggerRun('Case'); // to disable the trigger
