@@ -2,13 +2,13 @@
  * @description       : ABFL_E2C_CreationRules
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 02-09-2024
+ * @last modified on  : 03-27-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
 **/
-public class ABFL_E2C_CreationRules {
+public without sharing class ABFL_E2C_CreationRules {
     // Main entry point to handle blocked email  messages
     public static void checkCreationRules(List<EmailMessage> emailMessages) {
         if(!emailMessages.isEmpty()){
