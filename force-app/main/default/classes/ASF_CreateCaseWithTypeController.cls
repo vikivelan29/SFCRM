@@ -2,6 +2,7 @@
 * Description      - Class for handling the data query on the LWC CreateCaseWithType
 ********************************************************
 */
+@SuppressWarnings('PMD.ApexSOQLInjection')
 public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper objCaseDetailsWrapper = new CaseDetailsWrapper();
     public static final String STRING_ALL = 'All';
@@ -148,27 +149,27 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
        if(isasset == 'true'){
             dynamicQuery += ' Only_CRN_Mandatory__c = true AND ('+
-                'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+                'Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
             
         }else if(isasset == 'closeCRN'){
             dynamicQuery += '  ('+
-                'Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+                'Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }else if(isasset == 'Prospect'){
             // For Prospect Search cases.
             dynamicQuery += ' Is_Prospect_Related__c = true AND '+
-                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
-                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+                '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
           else if(isasset == 'false' && userBu == 'ABFL' && assetLob !=null && assetLob != 'Not classified' ){
             system.debug('abflbusinessunit');
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
-                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
-                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')'+' AND LOB__c =\''+ String.escapeSingleQuotes(assetLob)+'\'';
+                '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')'+' AND LOB__c =\''+ String.escapeSingleQuotes(assetLob)+'\'';
         }
         else{
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
-                '(Sub_Type__c LIKE \'' + searchKeyword + '\' OR Type__c LIKE \'' + searchKeyword + '\' OR ' +
-                'Type_Synonyms__c LIKE \'' + searchKeyword + '\')';
+                '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
         system.debug('dynamicQuery'+dynamicQuery);
         

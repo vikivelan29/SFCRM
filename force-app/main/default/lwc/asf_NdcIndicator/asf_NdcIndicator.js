@@ -9,7 +9,6 @@ export default class Asf_customernpsresult extends LightningElement {
     @api recordId;
     nps = undefined;
     @api objectApiName;
-
     @track caseRecord;
     @track records;
     @track fieldArr = 'id,Nature__c';
@@ -25,7 +24,7 @@ export default class Asf_customernpsresult extends LightningElement {
     customLabel = {
         Days_For_Repeated_Indicator
     };
-    
+
     @wire (getNpsScore,{customerId: '$recordId'})
 	npsScore({data, error}){
 		if(data) {
@@ -41,6 +40,15 @@ export default class Asf_customernpsresult extends LightningElement {
     get showCustomerNPSbyNumber() {
         if (this.nps == 0 || this.nps == undefined) {
             return "❌";
+        }
+        else if(this.nps > 0 && this.nps <= 3){
+            return "🙁";
+        }
+        else if(this.nps > 3 &&  this.nps <= 6){
+            return "😐";
+        }
+        else if(this.nps > 6 && this.nps <= 10){
+            return "😁";
         }
         else {
             return this.nps;
