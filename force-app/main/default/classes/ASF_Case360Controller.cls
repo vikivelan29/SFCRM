@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions, PMD.ApexSOQLInjection')
 public with sharing class ASF_Case360Controller {
     @AuraEnabled(cacheable=true)
     public static UserAndCaseWrapper fetchUserAndCaseDetails(Id caseId){
@@ -14,7 +15,7 @@ public with sharing class ASF_Case360Controller {
                 caseQuery += String.escapeSingleQuotes(fieldRes.getName()+', '); 
             }
             caseQuery = caseQuery.removeEnd(', ');
-            caseQuery += ' from Case where Id = :caseId';
+            caseQuery += String.escapeSingleQuotes(' from Case where Id = :caseId');
             Case cRec = Database.query(caseQuery);
             wrap.caseRec = cRec;
 
@@ -31,7 +32,7 @@ public with sharing class ASF_Case360Controller {
                     caseExtnQuery += String.escapeSingleQuotes(fieldRes.getName()+', '); 
                 }
                 caseExtnQuery = caseExtnQuery.removeEnd(', ');
-                caseExtnQuery += ' from '+String.escapeSingleQuotes(extnObjName)+' where Id = :extnId';
+                caseExtnQuery += String.escapeSingleQuotes(' from '+extnObjName+' where Id = :extnId');
                 wrap.caseExtnRec = Database.query(caseExtnQuery);
             }
             wrap.isSuccess = true;

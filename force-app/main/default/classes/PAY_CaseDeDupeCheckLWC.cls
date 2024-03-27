@@ -1,4 +1,4 @@
-public class PAY_CaseDeDupeCheckLWC {
+public with sharing class PAY_CaseDeDupeCheckLWC {
     @AuraEnabled
     public static void getDuplicateCases(List<Case> cases, String transactionNo)
     {
