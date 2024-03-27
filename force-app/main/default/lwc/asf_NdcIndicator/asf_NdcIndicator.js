@@ -41,13 +41,13 @@ export default class Asf_customernpsresult extends LightningElement {
         if (this.nps == 0 || this.nps == undefined) {
             return "❌";
         }
-        else if(this.nps > 0 || this.nps <= 3){
+        else if(this.nps > 0 && this.nps <= 3){
             return "🙁";
         }
-        else if(this.nps > 3 || this.nps <= 6){
+        else if(this.nps > 3 &&  this.nps <= 6){
             return "😐";
         }
-        else if(this.nps > 6 || this.nps <= 10){
+        else if(this.nps > 6 && this.nps <= 10){
             return "😁";
         }
         else {
