@@ -24,23 +24,21 @@ public without sharing class ABHFL_CTSTHelper {
                 c.CCC_External_Id__c!='qbccdd01')
             {
                 if((!accIdVsCases.containsKey(c.AccountId))){
-                        system.debug('in if');
-                        accIdVsCases.put(c.AccountId, new List<Case>());
-                        accIdVsCases.get(c.AccountId).add(c);
+                   	accIdVsCases.put(c.AccountId, new List<Case>());
                 }
+                accIdVsCases.get(c.AccountId).add(c);
+                
                 
                 if(!cccVsAccIds.containsKey(c.CCC_External_Id__c)){
                     cccVsAccIds.put(c.CCC_External_Id__c, new Set<String>());
-                    cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
-                } 
+                }
+                cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
                     
 
                 if((!lanVsCases.containsKey(c.AssetId))){
-                    {
-                        lanVsCases.put(c.AssetId, new List<Case>());
-                        lanVsCases.get(c.AssetId).add(c);
-                    }
+                    lanVsCases.put(c.AssetId, new List<Case>());
                 }
+                lanVsCases.get(c.AssetId).add(c);
             }
 		}
         
@@ -57,25 +55,15 @@ public without sharing class ABHFL_CTSTHelper {
                            	AND isClosed!=true])
         {
             if(cccIds.contains(dupeCase.CCC_External_Id__c)){
-                /*if(accIdVsCases.containsKey(dupeCase.Client_Code_Text__c)){// || ){
-                    for(Case c: accIdVsCases.get(dupeCase.Client_Code_Text__c)){
-                        if(lanVsCases.containsKey(c.LAN__c) || lanVsCases.containsKey(c.Asset.LAN__c)){
-                            if(dupeCase.SLA_Broken_DateTime__c!=null){
-                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                            }else{
-                               	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                            }
-                        }
-					}
-                }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
+                if(accIdVsCases.containsKey(dupeCase.AccountId)){
                     for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                         if(lanVsCases.containsKey(c.AssetId)){
+                            String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
                             if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                             }else{
-                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
                             }
-                            //c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                         }
 					}
                 }
@@ -85,90 +73,41 @@ public without sharing class ABHFL_CTSTHelper {
     
     public static void runDuplicateCheckForUpdate(List<Case> caseList, Map<Id, Case> oldCaseMap){//AM-ABHFL Case DEDUPE
         List<ASF_Case_Category_Config__c> caseCategoryConfigsForAcc = new List<ASF_Case_Category_Config__c>();
-        //List<ASF_Case_Category_Config__c> caseCategoryConfigsForLead = new List<ASF_Case_Category_Config__c>();
         Map<String, List<Case>> accIdVsCases = new Map<String, List<Case>>();
-        //Map<String, List<Case>> leadIdVsCases = new Map<String, List<Case>>();
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
-        //Map<String,Set<Id>> cccVsLeadIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
-        //Set<String> cccIdsForLead = new Set<String>();
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
-            /*system.debug('c.CCC_External_Id__c:'+c.CCC_External_Id__c);
-            system.debug('c.oldCaseMap.get(c.Id).CCC_External_Id__c:'+oldCaseMap.get(c.Id).CCC_External_Id__c);
-            system.debug('c.Client_Code_Text__c:'+c.Client_Code_Text__c);
-            system.debug('c.oldCaseMap.get(c.Id).Client_Code_Text__c:'+oldCaseMap.get(c.Id).Client_Code_Text__c);
-            system.debug('c.AccountId:'+c.AccountId);
-            system.debug('c.oldCaseMap.get(c.Id).AccountId:'+oldCaseMap.get(c.Id).AccountId);
-            system.debug('c.LAN__c:'+c.LAN__c);
-            system.debug('c.oldCaseMap.get(c.Id).LAN__c:'+oldCaseMap.get(c.Id).LAN__c);
-            system.debug('c.AssetId:'+c.AssetId);
-            system.debug('c.oldCaseMap.get(c.Id).AssetId:'+oldCaseMap.get(c.Id).AssetId);*/
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
-                	//c.Client_Code_Text__c != oldCaseMap.get(c.Id).Client_Code_Text__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
-                	//c.LAN__c != oldCaseMap.get(c.Id).LAN__c || 
-                	c.AssetId != oldCaseMap.get(c.Id).AssetId)) //&&
-              	//c.Nature__c=='Request')
+                	c.AssetId != oldCaseMap.get(c.Id).AssetId))
             {
-                if((/*c.Client_Code_Text__c!=null  || */c.AccountId!=null) && 
+                if((c.AccountId!=null) && 
                     c.CCC_External_Id__c!=null && 
-                    (/*c.LAN__c!=null || */c.AssetId!=null) && 
+                    (c.AssetId!=null) && 
                     c.CCC_External_Id__c!='qbccdd01' && 
                     c.Source__c=='Email'
                     )
             	{                
-                    if((!accIdVsCases.containsKey(c.AccountId))/* || (!accIdVsCases.containsKey(c.Client_Code_Text__c))*/){
-                        //if(c.AccountId!=null){
-                            accIdVsCases.put(c.AccountId, new List<Case>());
-                            accIdVsCases.get(c.AccountId).add(c);
-                        /*}else{
-                            accIdVsCases.put(c.Client_Code_Text__c, new List<Case>());
-                            accIdVsCases.get(c.Client_Code_Text__c).add(c);
-                        }*/
+                    if((!accIdVsCases.containsKey(c.AccountId))){
+                       	accIdVsCases.put(c.AccountId, new List<Case>());
                     }
+                    accIdVsCases.get(c.AccountId).add(c);
                     
                     
                     if(!cccVsAccIds.containsKey(c.CCC_External_Id__c)){
                         cccVsAccIds.put(c.CCC_External_Id__c, new Set<Id>());
-                        cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
-                    } 
-                    //if(c.AccountId!=null){
-                        //cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
-                    /*}else{
-                        cccVsAccIds.get(c.CCC_External_Id__c).add(c.Client_Code_Text__c);
-                    }*/
-                    
-                    
-                    if(/*(!lanVsCases.containsKey(c.LAN__c)) || */(!lanVsCases.containsKey(c.AssetId))){
-                        /*if(c.LAN__c!=null){
-                            lanVsCases.put(c.LAN__c, new List<Case>());
-                            lanVsCases.get(c.LAN__c).add(c);
-                        }else{*/
-                            lanVsCases.put(c.AssetId, new List<Case>());
-                            lanVsCases.get(c.AssetId).add(c);
-                        //}
                     }
-                }/*else if(c.Lead__c!=null &&
-                        (c.Client_Code_Text__c==null  && c.AccountId==null) &&
-                        c.CCC_External_Id__c!=null &&
-                        c.CCC_External_Id__c!='qbccdd01' && 
-                        c.Source__c=='Email' &&
-                        c.Lead__c != oldCaseMap.get(c.Id).Lead__c)
-                {
-                    if((!leadIdVsCases.containsKey(c.Lead__c))){
-                        leadIdVsCases.put(c.Lead__c, new List<Case>());
+                    cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
+                    
+                    
+                    if((!lanVsCases.containsKey(c.AssetId))){
+                       	lanVsCases.put(c.AssetId, new List<Case>());
                     }
-                    leadIdVsCases.get(c.Lead__c).add(c);
-                    
-                    
-                    if(!cccVsLeadIds.containsKey(c.CCC_External_Id__c)){
-                        cccVsLeadIds.put(c.CCC_External_Id__c, new Set<Id>());
-                    } 
-                    cccVsLeadIds.get(c.CCC_External_Id__c).add(c.Lead__c);
-                }*/
+                    lanVsCases.get(c.AssetId).add(c);
+                }
             }
         }
         
@@ -179,55 +118,31 @@ public without sharing class ABHFL_CTSTHelper {
                 cccIdsForAcc.add(ccc.CCC_External_Id__c);
             }
         }
-        /*if(!cccVsLeadIds.isEmpty()){
-            caseCategoryConfigsForLead = [SELECT ID,Type__c, Sub_Type__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsLeadIds.keySet()];
-            for(ASF_Case_Category_Config__c ccc : caseCategoryConfigsForLead){
-                cccIdsForLead.add(ccc.CCC_External_Id__c);
-            }
-        }*/
         	
         
         if(!cccVsAccIds.isEmpty()){
         	for(Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
                                 FROM Case 
-                                WHERE (/*Client_Code_Text__c IN : accIdVsCases.keySet() OR*/ AccountId IN :accIdVsCases.keySet())
+                                WHERE (AccountId IN :accIdVsCases.keySet())
                                 AND CCC_External_Id__c IN :cccVsAccIds.keySet()
-                                AND (AssetId IN :lanVsCases.keySet()/* OR LAN__c IN :lanVsCases.keySet()*/)
+                                AND (AssetId IN :lanVsCases.keySet())
                                 AND isClosed!=true])
             {
                 if(cccIdsForAcc.contains(dupeCase.CCC_External_Id__c)){
-                    /*if(accIdVsCases.containsKey(dupeCase.Client_Code_Text__c)){// || ){
-                        for(Case c: accIdVsCases.get(dupeCase.Client_Code_Text__c)){
-                            if(lanVsCases.containsKey(c.LAN__c) || lanVsCases.containsKey(c.AssetId)){
-                                if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
-                                    c.Stage__c = 'Duplicate';
-                                    c.Is_Duplicate__c = true;
-                                    c.ParentId = dupeCase.Id;
-                                    //casesToClose.add(c);
-                                }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                    }else{
-                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }
-                                }
-                            }
-                        }
-                    }else*/ if(accIdVsCases.containsKey(dupeCase.AccountId)){
+                    if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
-                            if(/*lanVsCases.containsKey(c.LAN__c) || */lanVsCases.containsKey(c.AssetId)){
+                            if(lanVsCases.containsKey(c.AssetId)){
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = 'Duplicate';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
-                                    //casesToClose.add(c);
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
+                                    String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
                                     if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                                     }else{
-                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
                                     }
-                                    //c.addError('We have an existing case no. '+dupeCase.CaseNumber+' available in CRM related to '+dupeCase.Sub_Type_Text__c+' for this LAN no. The Resolution Date is '+dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST'));
                                 }
                             }
                         }
@@ -235,32 +150,6 @@ public without sharing class ABHFL_CTSTHelper {
                 }
             }    
         }
-        
-        
-        /*if(!cccVsLeadIds.isEmpty()){
-        	for(Case dupeCase: [SELECT Id, CaseNumber, Client_Code_Text__c, Account.Client_Code__c, CCC_External_Id__c, Asset.LAN__c, LAN__c
-                                FROM Case 
-                                WHERE Lead__c IN : leadIdVsCases.keySet()
-                                AND CCC_External_Id__c IN :cccVsLeadIds.keySet()
-                                AND isClosed!=true])
-            {
-                if(cccIdsForLead.contains(dupeCase.CCC_External_Id__c)){
-                    if(leadIdVsCases.containsKey(dupeCase.Lead__c)){
-                        for(Case c: leadIdVsCases.get(dupeCase.Lead__c)){
-                            c.Stage__c = ABHFL_Constants.RESOLVED;
-                            //c.Is_Duplicate__c = true; 
-                            c.addError('Existing case available in CRM: '+dupeCase.CaseNumber);
-                            casesToClose.add(c);
-                        }
-                    }
-                }
-            }    
-        }*/
-        
-        /*
-        if(casesToClose.size()>0){
-        	update casesToClose;    
-        }*/
     }
     
     //Dhinesh
