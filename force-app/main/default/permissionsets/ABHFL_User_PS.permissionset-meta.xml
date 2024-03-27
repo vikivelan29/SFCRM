@@ -2904,8 +2904,4 @@
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
-        <tab>standard-Knowledge</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
 </PermissionSet>
