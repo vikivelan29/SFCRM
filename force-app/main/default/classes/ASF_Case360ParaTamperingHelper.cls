@@ -73,9 +73,8 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                      //Query Case Object.
                                                      if(ob.trim().toUpperCase() == 'CASE'){
                                                          String q = 'SELECT ID, ';
-                                                         q += String.JOIN(mObjFieldsForQuery.get('CASE'),',');
+                                                         q += String.escapeSingleQuotes(String.JOIN(mObjFieldsForQuery.get('CASE'),','));
                                                          q += ' FROM CASE WHERE ID =:caseId';
-                                                         q = String.escapeSingleQuotes(q);
                                                          List<Case> cases = Database.query(q);
                                                          if(cases.size()>0){
                                                              mObjRecord.put('CASE',cases[0]);
@@ -85,10 +84,9 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                          // Query Case Related Object.
                                                          if(extensionObjId != null && extensionObjId != ''){
                                                              String q = 'SELECT ID, ';
-                                                             q += String.JOIN(mObjFieldsForQuery.get(ob),',');
-                                                             q += ' FROM '+ob+' WHERE Id =:extensionObjId';
+                                                             q += String.escapeSingleQuotes(String.JOIN(mObjFieldsForQuery.get(ob),','));
+                                                             q += ' FROM '+String.escapeSingleQuotes(ob)+' WHERE Id =:extensionObjId';
                                                              System.debug(q);
-                                                             q = String.escapeSingleQuotes(q);
                                                              List<sObject> caseRelatedRecords = Database.query(q);
                                                              if(caseRelatedRecords.size()>0){
                                                                  sObject o = caseRelatedRecords[0];
