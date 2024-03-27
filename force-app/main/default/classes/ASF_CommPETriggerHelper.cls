@@ -420,10 +420,9 @@ public without sharing class ASF_CommPETriggerHelper {
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> temp_cIds = caseIds;
-            query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.join(temp, ',');
+            query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :temp_cIds FOR UPDATE';
-            query = String.escapeSingleQuotes(query);
         }
         List<Case> cases = (List<case>)Database.query(query);
         mCases = new Map<Id,Case>(cases);
