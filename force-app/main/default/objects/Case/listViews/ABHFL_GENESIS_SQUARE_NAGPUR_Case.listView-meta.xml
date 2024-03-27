@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_GENESIS_SQUARE_NAGPUR_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL GENESIS SQUARE # NAGPUR</label>
+  <queue>ABHFL_GENESIS_SQUARE_NAGPUR</queue>
+  <sharedTo>
+    <group>ABHFL_GENESIS_SQUARE_NAGPUR_G</group>
+  </sharedTo>
+</ListView>
