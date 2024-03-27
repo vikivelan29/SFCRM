@@ -2,6 +2,7 @@
 * Description      - Class for handling the data query on the LWC CreateCaseWithType
 ********************************************************
 */
+@SuppressWarnings('PMD.ApexSOQLInjection')
 public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper objCaseDetailsWrapper = new CaseDetailsWrapper();
     public static final String STRING_ALL = 'All';
