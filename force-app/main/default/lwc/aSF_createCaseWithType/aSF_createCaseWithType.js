@@ -88,6 +88,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     noAutoCommValue = [];
     showAutoComm = false;
     isCloseCase = false;
+    closeCaseWithoutCusButton = '';
 
 
     @api propertyValue;
@@ -335,6 +336,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
+    inpArg['closeCaseWithoutCusButton'] = this.closeCaseWithoutCusButton;
     let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
@@ -901,7 +903,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isCloseCase = true;
-
+        this.closeCaseWithoutCusButton= 'true';
         this.withoutAsset = 'closeCRN';
         this.showSRModal = true;
         this.complaintLevelVisible = false;
