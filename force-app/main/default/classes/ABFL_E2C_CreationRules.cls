@@ -87,7 +87,7 @@ public class ABFL_E2C_CreationRules {
         expectedValue=expectedValue.toLowerCase();
         switch on operator {
             when 'Does Not Contain'{
-                retVal = actualValue.equals(expectedValue);
+                retVal = actualValue.contains(expectedValue);
             }
             when 'Not Equals To'{
                 retVal = actualValue == expectedValue;
