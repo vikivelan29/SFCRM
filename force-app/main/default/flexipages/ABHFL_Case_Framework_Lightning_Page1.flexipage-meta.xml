@@ -623,23 +623,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aSF_pendingCaseTaskEdit</componentName>
-                <identifier>c_aSF_pendingCaseTaskEdit</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Has_Open_Tasks__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-77d09b9e-d259-4579-b2c3-424663c7920c</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>aSF_CaseApprovalRecords</componentName>
                 <identifier>c_aSF_CaseApprovalRecords</identifier>
             </componentInstance>
