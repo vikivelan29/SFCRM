@@ -10,6 +10,7 @@ Ver   Date         Author                               Modification
 1.0   16 Jan 2024   Virendra Patil                      Initial Version
 *********************************************************
 */
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_CustomerEmailInvocable_Test {
     @TestSetup

@@ -2,11 +2,14 @@ public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvoc
     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
         List<Case> hfl003Cases = new List<Case>();
+        List<Case> hfl013Cases = new List<Case>();
         List<Case> otherCases = new List<Case>();
         for(Case caseRec : caseRecords){
             if(caseRec.CCC_External_Id__c == 'hfl003'){
                 //Assign to Branch for Address Change
                 hfl003Cases.add(caseRec);
+            }else if(caseRec.CCC_External_Id__c == 'hfl013'){
+                hfl013Cases.add(caseRec);
             }else{
                 //Assign to Branch for other Requests
                 otherCases.add(caseRec);
@@ -19,6 +22,9 @@ public class ABHFL_requestInProgressApexClass implements ASF_CaseStageClassInvoc
 
         if(!otherCases.isEmpty()){
             returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseToBranch(otherCases));
+        }
+        if(!hfl013Cases.isEmpty()){
+            returnedUpdatedCaseMap.putAll(ABHFL_CTSTHelper.assignCaseCollateralDocs(hfl013Cases));
         }
 
         for(Case caseRec : caseRecords){

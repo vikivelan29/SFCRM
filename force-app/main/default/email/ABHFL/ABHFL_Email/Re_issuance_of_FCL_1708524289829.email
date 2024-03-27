@@ -146,33 +146,25 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family: 'Arial'; font-size: 16px; line-height: 25px;  color: #4d4d4f; padding-top: 0px; padding-left: 0px; padding-right: 0px;" valign="top">
-												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
-												</style>
-												Dear Customer,<br />
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												Greetings from Aditya Birla Housing Finance limited<br />
 												<br />
-												We write to you with reference to your request for foreclosure letter of your ABHFL Loan Account No. &lt;/LAN &gt; and &lt;/LAN&gt;<br />
+												@@We write to you with reference to your request for foreclosure letter of your ABHFL Loan Account No. ##Asset_Details__r.Masked_Lan__c##<br />
+												@@<br />
 												<br />
-												We request you to make payment towards the Foreclosure Statement charges of &lt;/ statement charges&gt; via online transfer.<br />
+												We request you to make payment towards the Foreclosure Statement charges of $$ABHFL_Case_Detail__r.Payable_Charges__c$$ + 18% GST using the link provided here $$ABHFL_Case_Detail__r.Payment_Link__c$$ via online transfer.<br />
 												<br />
 												You pay the charges via online transfer using the below virtual account details:<br />
-												Beneficiary Name Aditya Birla Housing Finance Limited<br />
-												Beneficiary Account Number ZABHFLPUN0102871<br />
+												Beneficiary Name&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Aditya Birla Housing Finance Limited<br />
+												Beneficiary Account Number&nbsp; $$Asset.VAN__c$$<br />
 												(This account is only meant for Electronic fund transfer in the Aditya Birla Account, hence don’t use this for direct cheque/cash banking. In case you want to deposit the cheque please visit our branch and handover the cheque to our Customer service team for physical banking).<br />
 												Beneficiary Bank &amp; Branch<br />
 												IndusInd Bank , Ground floor, maker chambers IV, Nariman Point, Mumbai – 400021.<br />
 												<br />
-												IFSC Code INDB0000006<br />
-												Account Type Current Account<br />
-												Remarks Please mention your Loan Account Number in remarks while transferring amount.<br />
+												IFSC Code&nbsp; &nbsp; &nbsp; INDB0000006<br />
+												Account Type&nbsp; Current Account<br />
+												Remarks&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Please mention your Loan Account Number in remarks while&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; transferring amount.<br />
 												Kindly reply to the same email with UTR number or share a copy of the pay slip, once the payment has been made.<br />
 												<br />
 												Please do not change the subject line of this email in order to help us serve you better.<br />
@@ -186,7 +178,7 @@
 												Alternatively, you can also login to your One ID by clicking here to instantly access a host of services on your Home Loan account.<br />
 												<br />
 												Warm Regards,<br />
-												Aditya Birla Housing Finance Limited"</div>
+												Aditya Birla Housing Finance Limited</div>
 												</td>
 											</tr>
 										

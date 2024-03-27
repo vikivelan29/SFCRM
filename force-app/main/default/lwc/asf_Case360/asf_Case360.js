@@ -223,7 +223,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     refreshContainerID;
 
     resolutionReasonPopUpFld = ''; //VIRENDRA - ADDED FOR RESOLUTION COMMENT ON POPUP.
-
+    notApplicable = false;
     //Optimization variables
     allowRenderedCallback = false;
     loadReady = false;
@@ -233,6 +233,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     showForwardStages = false;
     closureTypeSelected = 'resolved';
     selectedStage;
+    showErrors = false;
+    errorMessage;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -255,7 +257,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     break;
                 }
             }
-            if (stgData.Is_Approval_Stage__c) {
+            if (stgData && stgData.Is_Approval_Stage__c) {
                 let latestCaseApprovalStatus = this.caseApprovalRecord.Approval_Status__c;
                 if (latestCaseApprovalStatus.trim().toLowerCase() == 'pending') {
                     return true;
@@ -876,6 +878,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     setRejectedReason(event) {
         this.rejectedReason = event.target.value;
+        if (this.rejectedReason && this.rejectedReason.length >255) {
+            this.notApplicable=true;
+            this.showErrors=true;
+            this.errorMessage = 'Length must be less than or equal to 255 characters for Close Unresolved Details';   
+        }
+        else{
+            this.notApplicable=false;
+            this.showErrors=false;
+
+        }
     }
     handleRejReasonChange(event) {
         this.selectedReason = event.target.value;

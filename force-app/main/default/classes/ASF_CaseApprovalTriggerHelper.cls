@@ -1,4 +1,4 @@
-public class ASF_CaseApprovalTriggerHelper {
+public without sharing class ASF_CaseApprovalTriggerHelper {
     
     /*
 * 1. pending : Move next Stage

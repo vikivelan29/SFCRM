@@ -1,0 +1,11 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,<br />
+Thank you for contacting us. The reference number generated for your request is {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}.<br />
+We are reviewing your request and will respond to you shortly.<br />
+Regards, Wealth -Aditya Birla Finance Limited</p>
+</body>
+</html>

@@ -1430,7 +1430,7 @@ public with sharing class ASF_TestDataFactory {
         fieldConfigs.add(field2);
         insert fieldConfigs;
     
-        Group testGroup = [Select Id from Group where DeveloperName ='Payment_Service_Desk' LIMIT 1];
+        Group testGroup = [Select Id from Group where DeveloperName ='Payments_Service_Desk' LIMIT 1];
         Group testGroupError = [Select Id from Group where DeveloperName ='DefaultErrorQueue' LIMIT 1];
             
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
@@ -1805,7 +1805,8 @@ public with sharing class ASF_TestDataFactory {
         ld.RecordTypeId = Schema.SObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
     public static Lead createSalesProspectRecord(){
@@ -1815,7 +1816,8 @@ public with sharing class ASF_TestDataFactory {
         ld.Sales_Prospect__c = true;
         ld.Company = 'Salesforce';
         ld.Email = 'invalid.invalid@invalid.com.net';
-        ld.MobilePhone = '98INVALIDNUM';
+        //ld.MobilePhone = '98INVALIDNUM';
+        ld.MobilePhone = '1234567890';
         return ld;
     }
 

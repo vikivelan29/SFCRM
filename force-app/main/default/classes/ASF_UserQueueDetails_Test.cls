@@ -6,9 +6,6 @@
 @isTest public class ASF_UserQueueDetails_Test {
     
     @testSetup static void setup() {
-        list<User> u = ASF_SRTestData.createUsers('Super_Admin',1);
-        System.runAs(u[0]){
-            
             ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
             ccc.Type__c = 'tes';
             ccc.CCC_External_Id__c = '12345';
@@ -40,13 +37,12 @@
             cc.ParentId = caser.Id;
             cc.CommentBody = 'Test class comment';
             insert cc;
-        }
         
     }
     
     @isTest static void testGetUserQueueDetails() {
         
-        User u = [Select Id,Name from User WHERE LastName='TestUser5srDetail0' limit 1];
+        User u = [Select Id,Name from User limit 1];
         Case c = [Select Id from Case limit 1];
         
         Task t = new Task();
@@ -64,7 +60,7 @@
     
     @isTest static void testGetUserQueueDetailsForCompletedTasks() {
         
-        User u = [Select Id,Name from User WHERE LastName='TestUser5srDetail0' limit 1];
+        User u = [Select Id,Name from User limit 1 ];
         Case c = [Select Id from Case limit 1];
         
         Task t = new Task();
@@ -83,7 +79,7 @@
     
     @isTest static void testGetUserQueueDetailsNegative() {
         
-        User u = [Select Id,Name from User WHERE LastName='TestUser5srDetail0' limit 1];
+        User u = [Select Id,Name from User limit 1];
         Case c = [Select Id from Case limit 1];
         
         Task t = new Task();

@@ -6,7 +6,7 @@
 *@description  :  General Utility Class for Integration 
 *********************************************************/
 public with sharing class ABCL_IntegrationCommonUtility {
-    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
+    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - fetchStpTemplates
@@ -92,7 +92,14 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     public static List<Database.SaveResult> createPELogAndinvokeCommPEevent(List<Case> caseRecs, Map<Id, String> emailTemplateMap, Map<Id, String> smsMetadataMap, Map<Id, Boolean> isTransferredMap){
         Map<Id, PE_Logger__c> loggerMap = new Map<Id, PE_Logger__c>();
+        Set<Id> setOfCaseIds = new Set<Id>();
+
         for(Case caseRec : caseRecs){
+            setOfCaseIds.add(caseRec.Id);
+        }
+        List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds];
+
+        for(Case caseRec : csList){
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.AccountId__c = caseRec.AccountId;
             peLogger.CCCExternalId__c = caseRec.CCC_External_Id__c;
@@ -105,19 +112,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.CustomMetadataName__c = smsMetadataMap!= null?smsMetadataMap.get(caseRec.Id):null;
             peLogger.Email_Template_Name__c = emailTemplateMap != null?emailTemplateMap.get(caseRec.Id):null;
             peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
+            peLogger.LOB__c = caseRec.Business_Unit__c;  
+            peLogger.Lead__c = caseRec.Lead__c;
             Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
-            if(!caseFieldValMap.containsKey('Business_Unit__c') || !caseFieldValMap.containsKey('Lead__c')){
-                Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id];
-                peLogger.LOB__c = caseRecord.Business_Unit__c;
-                peLogger.Lead__c = caseRecord.Lead__c;              
-            } else {
-                if(!caseFieldValMap.containsKey('Business_Unit__c')){
-                    peLogger.LOB__c = caseRec.Business_Unit__c;    
-                }
-                if(!caseFieldValMap.containsKey('Lead__c')){
-                    peLogger.LOB__c = caseRec.Lead__c;    
-                }
-            }
+
             if(isTransferredMap.get(caseRec.Id)){
                 peLogger.Is_Attachment__c = true;
                 //peLogger.Content_Version_Ids__c='0689I000001DJPFQA4';
@@ -188,7 +186,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 peLogger.LOB__c = caseRec.Business_Unit__c;    
             }
             if(!caseFieldValMap.containsKey('Lead__c')){
-                peLogger.LOB__c = caseRec.Lead__c;    
+                peLogger.Lead__c = caseRec.Lead__c;    
             }
         }
         if(isTransferred){
@@ -310,6 +308,12 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 count += 1;
                 contentDocumentVersionMap.put(version.ContentDocumentId,count);
             }
+            string leadId = '';
+            if(caseRecord.Asset.Lead_Id__c != null){
+                leadId = caseRecord.Asset.Lead_Id__c;
+            } else if(caseRecord.Lead__c != null){
+                leadId = caseRecord.Lead__c;
+            }
             List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
             for(ContentVersion fileVersion : contentVersionList){
                 DMS_Files__c fileRec = new DMS_Files__c();
@@ -320,13 +324,17 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.File_Name__c = fileVersion.Title;
                 fileRec.Has_Multiple_Versions__c = versionCount > 1 ? true : false;
                 fileRec.Is_Latest_Version__c = versionCount == Integer.valueof(fileVersion.VersionNumber) ? true : false;
-                fileRec.Status__c = ABHFL_Constants.PENDING;
                 fileRec.Version_Number__c = fileVersion.VersionNumber;
                 fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
                 DateTime currentDateTime = System.now();
                 fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = fileVersion.FileExtension;
                 fileRec.Next_Retry__c = System.now().addMinutes(15);
+                if(String.isBlank(leadId)){
+                    fileRec.Status__c = ABHFL_Constants.CANCELED;
+                } else {
+                    fileRec.Status__c = ABHFL_Constants.PENDING;
+                }
                 fileRecList.add(fileRec);
             }
             if(fileRecList.size() > 0){
@@ -337,39 +345,33 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 }
                 //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
-                string leadId = '';
                 string mobile = '';
-                if(caseRecord.Asset.Lead_Id__c != null){
-                    leadId = caseRecord.Asset.Lead_Id__c;
-                } else if(caseRecord.Lead__c != null){
-                    leadId = caseRecord.Lead__c;
-                } else {
-                    leadId = caseRecord.CaseNumber;
-                }
-                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL == caseRecord.Account.RecordType.Name){
+                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL == caseRecord.Account.RecordType.Name){
                     mobile = caseRecord.Account.PersonMobilePhone;
                 }else {
                     mobile = caseRecord.Account.Phone;
                 }
                 for(DMS_Files__c file : fileRecList){
-                    dmsEventList.add(new DMS_File_Transfer__e(
-                        Business_Unit__c = file.Business_Unit__c,
-                        CaseNumber__c = caseRecord.CaseNumber,
-                        ContentVersionId__c = file.ContentVersionId__c,
-                        Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
-                        DMS_External_ID__c = file.DMS_External_ID__c,
-                        File_Name__c = file.File_Name__c,
-                        Is_Latest_Version__c = file.Is_Latest_Version__c,
-                        Version_Number__c = file.Version_Number__c,
-                        Application_ID__c = caseRecord.Asset.LAN__c,
-                        Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
-                        File_Extension__c = file.File_Extension__c,
-                        Doc_SubType__c = caseRecord.Sub_Type_Text__c,
-                        Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
-                        Lead_ID__c = leadId,
-                        Contact_No__c = mobile,
-                        Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
-                    ));
+                    if(file.Status__c == ABHFL_Constants.PENDING){
+                        dmsEventList.add(new DMS_File_Transfer__e(
+                            Business_Unit__c = file.Business_Unit__c,
+                            CaseNumber__c = caseRecord.CaseNumber,
+                            ContentVersionId__c = file.ContentVersionId__c,
+                            Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
+                            DMS_External_ID__c = file.DMS_External_ID__c,
+                            File_Name__c = file.File_Name__c,
+                            Is_Latest_Version__c = file.Is_Latest_Version__c,
+                            Version_Number__c = file.Version_Number__c,
+                            Application_ID__c = caseRecord.Asset.LAN__c,
+                            Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
+                            File_Extension__c = file.File_Extension__c,
+                            Doc_SubType__c = caseRecord.Sub_Type_Text__c,
+                            Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
+                            Lead_ID__c = leadId,
+                            Contact_No__c = mobile,
+                            Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
+                        ));
+                    }
                 }
                 if(dmsEventList.size() > 0){
                     List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);

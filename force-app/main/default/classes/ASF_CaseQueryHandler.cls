@@ -45,7 +45,7 @@ public with sharing class ASF_CaseQueryHandler {
                                         FROM ASF_Checklist__c
                                         WHERE
                                         Mandatory__c = TRUE
-                                        AND Status__c NOT IN ('Completed')
+                                        AND Status__c NOT IN ('Completed','Rejected')
                                         AND Case__c = :caseIds
                                         AND Stage_Name__c = :caseStages];
         }
@@ -79,7 +79,7 @@ public with sharing class ASF_CaseQueryHandler {
     
     public static List<ASF_Integration__c> getIntegrationsFromConfig(Set<Id> caseStageConfigIds){
         if(cccIntegrations == null){
-            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c
+            cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c
                                FROM ASF_Integration__c
                                WHERE Mandatory_At_Stage_Movement__c = true
                                AND Case_Stage_Config__c =: caseStageConfigIds];

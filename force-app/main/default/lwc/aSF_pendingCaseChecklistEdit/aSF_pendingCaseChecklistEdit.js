@@ -9,6 +9,7 @@ import userId from '@salesforce/user/Id';
 import { NavigationMixin } from 'lightning/navigation';
 import Case_Status from '@salesforce/schema/Case.Status';
 import Case_Stage from '@salesforce/schema/Case.Stage__c';
+import { reduceErrors } from 'c/asf_ldsUtils';
 const fields = [Case_Owner, Case_Status, Case_Stage];
 
 
@@ -96,7 +97,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     handleSave(event) {
         
         console.log('Refresh Apex called');
-        updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(() => {
+        updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);
             const event = new ShowToastEvent({
@@ -106,10 +107,31 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
                 mode: 'dismissable'
             });
             this.dispatchEvent(event);
-        });
+        })
+        .catch(error => {
+            //this.showError('error', 'Error occured', error);
+            if(JSON.stringify(error).includes('max length=255')){
+                console.log('what is therror' + JSON.stringify(error));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error updating record',
+                        message: 'Length must be less than or equal to 255 characters for comments',
+                        variant: 'error',
+                    }),
+                );      
+            }            
+        })
     }
 
-
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
+    }
 
     refreshContainer(refreshPromise) {
         if (refreshPromise) {

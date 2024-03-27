@@ -9,7 +9,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     
     public override void beforeInsert(List<SObject> newItems){
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
-        ABCL_SendEmailValidation.validateUsersTeam(newItems);
+        //ABCL_SendEmailValidation.validateUsersTeam(newItems);
         
         
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
@@ -29,6 +29,15 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     * @Description - After Insert Handler for Email Message
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
+
+        // set of qualified email messages
+        Set<Id> sEMIds = new Set<Id>();
+        for(EmailMessage mesg: (List<EmailMessage>)newEmails.values()){
+            if(mesg.Incoming==true && mesg.ParentId.getSObjectType() == Case.sObjectType){
+                sEMIds.add(mesg.Id);
+            }
+        } 
+        System.debug('***semids:'+sEMIds);
         
         // Check creation rules for ABFL BU - Can't be used in before as we need case details for logic
         ABFL_E2C_CreationRules.checkCreationRules(ABCL_EmailMessageHelper.getEligibles(newEmails.values()));
@@ -38,13 +47,23 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         
         // IF EVERYTHING IS SUCCESSFUL THEN ONLY TRIGGER EBOT CODE.
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE
-        
+        ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
+        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newEmails.values());
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
+        ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
         // invoke ABFL E2C Case creation checks
         
         // US- PR970457-575(ABWM chat originated cases) WEALTHCHATGENERATED CASES UPDATE SUPPLIED EMAIL WHICH IS ETRACTED FROM EMAIL BODY
         ABFL_WealthChatGeneratedCases.execute(newEmails.values());
-    }
-    
-    
+        // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
+        if(sEMIds.size()>0){
+            Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
+                Payload__c=JSON.serialize(sEMIds),
+                ATF_Settings__c='ABFL_IncrementEmailCount',
+                Run_By__c=UserInfo.getUserId()
+                // UUID__c=UUID.randomUUID()
+            );
+            EventBus.publish(ate);
+        }
+    }   
 }

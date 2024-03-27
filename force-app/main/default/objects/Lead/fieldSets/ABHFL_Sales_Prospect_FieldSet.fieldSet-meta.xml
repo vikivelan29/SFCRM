@@ -63,9 +63,9 @@
         <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>SPOC_Name__c</field>
+        <field>ABHFL_Prospect_Type__c</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <label>ABHFL Sales Prospect FieldSet</label>
 </FieldSet>

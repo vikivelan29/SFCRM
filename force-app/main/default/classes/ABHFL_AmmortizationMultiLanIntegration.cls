@@ -48,10 +48,10 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         List<String> maskedFullLans=new List<String>();
         List<ASF_Case_Category_Config__c> cccRecord = [SELECT Id, CCC_External_Id__c, Rejected_Case_Email_Template__c, 
                                                            Rejected_Case_SMS_Metadata__c FROM ASF_Case_Category_Config__c
-                                                           WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c WITH SECURITY_ENFORCED];
+                                                           WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c];
         for(ABHFL_Asset_Detail__c assetDetail : relatedAssets){
             //Check for mandatory API conditions & Check for Loan Disbursement Status
-        	if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
+                    	if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
               assetDetail.Asset__r.Loan_Disbursement_Status__c != null &&
               assetDetail.Asset__r.Loan_Disbursement_Status__c != 'Partially')
             {
@@ -75,11 +75,13 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         if(Schema.sObjectType.ABHFL_Case_Detail__c.isUpdateable()){
           	update caseDetail;
         }
-            
+        
         if(allPartialLoans && Schema.sObjectType.Case.isUpdateable()){
           	result.status = ABHFL_Constants.ERROR;
            	result.response = Custom_Messages__mdt.getInstance('MultiAMORT_Evaluate_Disbursed_Partially').Message__c;
-            caseRecord.MoveToNext__c = true;
+            Group csQueue = [SELECT Id FROM Group WHERE Type =:ABHFL_Constants.QUEUE AND DeveloperName ='ABHFL_Email_Financial_Team'  Limit 1];
+        	caseRecord.OwnerId = csQueue.Id;
+            //caseRecord.MoveToNext__c = true;
             
             update caseRecord;
             
@@ -110,12 +112,12 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     {
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c FROM ASF_Case_Integration__c
                                                                WHERE Case__c =:caseRec.Id 
-                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c WITH SECURITY_ENFORCED];
+                                                               AND Integration_Ext_Id__c =:intSpec.External_Id__c ];
         if(existingCaseIntRecords.size()>0){
           	  cancelExistingCaseIntRecords(existingCaseIntRecords);
         }
         
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id WITH SECURITY_ENFORCED];
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
         
         List<ABHFL_Asset_Detail__c> allRelatedAssetsFCROI = [SELECT Id, Asset__r.LAN__c, Asset__r.Loan_Disbursement_Status__c,
                                                    AmmortApiStatus__c
@@ -159,7 +161,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     
     private void cancelExistingCaseIntRecords(List<ASF_Case_Integration__c> existingCaseIntRecords){
         for(ASF_Case_Integration__c caseInt : existingCaseIntRecords){
-            if(caseInt.Status__c == ABHFL_Constants.PENDING){
+            if(caseInt.Status__c == ABHFL_Constants.PENDING || caseInt.Status__c == ABHFL_Constants.FAILURE){
                 caseInt.Status__c = ABHFL_Constants.CANCELED;  
             }
         }
@@ -206,7 +208,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                         	Channel__c, Source__c, AccountId, ContactId, 
                         	Attachment_Status__c, No_Auto_Communication__c
                         FROM Case
-                        WHERE Id =: caseInteg.Case__c WITH SECURITY_ENFORCED];
+                        WHERE Id =: caseInteg.Case__c ];
         Map<String, Integer> statusCountMap = new Map<String, Integer>();
         AggregateResult[] groupedResults = [SELECT COUNT(Id) recordCount, Status__c FROM ASF_Case_Integration__c
                                                 WHERE Case__c=:caseRec.Id GROUP BY Status__c];
@@ -237,7 +239,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         }
         if(statusCountMap.get('Failure')>0 && statusCountMap.get('Pending')==0){
 			//assign to non financial team  
-           	Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM WITH SECURITY_ENFORCED Limit 1];
+           	Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
             caseRec.OwnerId = csQueue.Id;
             update caseRec;
         }

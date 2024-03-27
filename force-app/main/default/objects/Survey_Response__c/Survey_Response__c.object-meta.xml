@@ -163,4 +163,5 @@
     <pluralLabel>Survey Responses</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

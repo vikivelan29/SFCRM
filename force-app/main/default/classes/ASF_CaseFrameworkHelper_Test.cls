@@ -5,6 +5,7 @@
  * @last modified on  : 11-22-2023
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
 @isTest
 public class ASF_CaseFrameworkHelper_Test {
     
@@ -156,7 +157,7 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void addChecklistsTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Checklists');
-        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c, Business_Unit__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
         for(case caseRec : caseList){
              allCaseRules.put(caseRec.Id, caseRuleList);
@@ -266,7 +267,7 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void runIntRulesListTest() {
         List<ASF_Integration__c> caseIntList =[Select Id, External_Id__c, Case_Stage_Config__c, Type__c, When_to_Appear__c, Display_Name__c, 
-                                               Auto_Run_on_Load__c, Processing_Class__c
+                                               Auto_Run_on_Load__c, Processing_Class__c, Query_Fields__c
                                                FROM ASF_Integration__c];
         List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case];
         Map<Id, List<ASF_Integration__c>> allIntegrations = new Map<Id, List<ASF_Integration__c>>();

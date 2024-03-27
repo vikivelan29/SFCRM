@@ -81,6 +81,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         //     WHERE Id =: caseRec.Id 
         // ];
         List<Case> caseRecords = new List<Case>();
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
@@ -127,11 +128,15 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
         return resultMap;
     }

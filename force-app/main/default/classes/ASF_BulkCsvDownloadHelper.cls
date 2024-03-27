@@ -5,7 +5,8 @@
 * @last modified on  : 23-Feb-24
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public class ASF_BulkCsvDownloadHelper {
+@SuppressWarnings('PMD.ApexSuggestUsingNamedCred')
+public without sharing class ASF_BulkCsvDownloadHelper {
 
     public static List<String> selectedRecIdList = new List<String>();
     public static ASF_Bulk_Row_to_Record_Converter_Config__mdt configMetaRec = new ASF_Bulk_Row_to_Record_Converter_Config__mdt();
@@ -79,7 +80,7 @@ public class ASF_BulkCsvDownloadHelper {
         List<Sobject> resultSobjectList = new List<Sobject>();
         if(bulkHeaderId != null){
             resultSobjectList = [select Result_JSON_Data__c, JSON_Data__c from ASF_Bulk_Upload_Line_Item__c where 
-                                Bulk_Upload_Header__c =: bulkHeaderId and Bulk_Upload_Header__r.Status__c = 'Processed' order by name asc];
+                                Bulk_Upload_Header__c =: bulkHeaderId and Bulk_Upload_Header__r.Status__c = 'Processed' order by name asc LIMIT 50000];
         }
         return resultSobjectList;
     }

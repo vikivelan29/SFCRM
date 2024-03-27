@@ -71,6 +71,7 @@ public with sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Systeminitiated__c = true;
                                 checklistRecord.Case__c = caseRec.Id;
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
+                                checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
                                 checklistList.add(checklistRecord);
                             }
@@ -332,15 +333,19 @@ public with sharing class ASF_CaseFrameworkHelper {
         List<Case> applicableCases = new List<Case>();
         Map<Id, List<ASF_Integration__c>> eligibleIntegrationsMap = new Map<Id, List<ASF_Integration__c>>();
 		for (Case caseRec : caseList){
-            for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                if(integ.Auto_Run_on_Load__c){
-                    if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
-                        eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
-                        applicableCases.add(caseRec);
+            if(allIntegrations.get(caseRec.Id)!=null){
+                for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
+                    if(integ.Auto_Run_on_Load__c){
+                        if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
+                            eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
+                            applicableCases.add(caseRec);
+                        }
+                        eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                     }
-                    eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                 }
             }
+                
+            
         }
 
         if(!applicableCases.isEmpty()){

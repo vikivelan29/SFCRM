@@ -11,7 +11,7 @@ public with sharing class ASF_Case360Controller {
             for(String fieldName : mapOfFields.keySet()) 
             {
                 Schema.DescribeFieldResult fieldRes = mapOfFields.get(fieldName).getDescribe();
-                caseQuery += fieldRes.getName()+', '; 
+                caseQuery += String.escapeSingleQuotes(fieldRes.getName()+', '); 
             }
             caseQuery = caseQuery.removeEnd(', ');
             caseQuery += ' from Case where Id = :caseId';
@@ -28,10 +28,10 @@ public with sharing class ASF_Case360Controller {
                 for(String fieldName : mapOfFieldsExtn.keySet()) 
                 {
                     Schema.DescribeFieldResult fieldRes = mapOfFieldsExtn.get(fieldName).getDescribe();
-                    caseExtnQuery += fieldRes.getName()+', '; 
+                    caseExtnQuery += String.escapeSingleQuotes(fieldRes.getName()+', '); 
                 }
                 caseExtnQuery = caseExtnQuery.removeEnd(', ');
-                caseExtnQuery += ' from '+extnObjName+' where Id = :extnId';
+                caseExtnQuery += ' from '+String.escapeSingleQuotes(extnObjName)+' where Id = :extnId';
                 wrap.caseExtnRec = Database.query(caseExtnQuery);
             }
             wrap.isSuccess = true;

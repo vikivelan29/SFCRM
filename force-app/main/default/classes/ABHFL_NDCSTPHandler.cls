@@ -82,6 +82,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Check for mandatory API conditions
@@ -110,7 +111,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                         }
                         //check with Ashish this is not working as expected.
                         Case updatedCase = new Case(Id=caseRecord.Id);
-                        updatedCase.Stage__c = 'Resolved';
+                        updatedCase.MoveToNext__c = true;
                         result.updatedCase = updatedCase;
                         result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailedCaseClosed').Message__c;  
                     } else {
@@ -119,13 +120,25 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 }
             }
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
-                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                /*caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     update caseRecord;
+                }*/
+                /*Case updatedCase = new Case(Id=caseRecord.Id);
+                updatedCase.MoveToNext__c = true;
+                result = new ASF_IntegrationsController.IntegrationWrapper();
+                result.updatedCase = updatedCase;*/
+                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                if(Schema.sObjectType.Case.isUpdateable()){
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
 
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
@@ -297,7 +310,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
     public void processResponse(ASF_Case_Integration__c caseInt){
         Boolean integrationFailure = true;
         Boolean previousStatus;
-        Case caseRecord = [SELECT Id,Source__c,AccountId,CCC_External_Id__c,ContactId,OwnerId,CreatedById,Asset.LAN__c,Asset.Account_Status__c,
+        Case caseRecord = [SELECT Id,MoveToNext__c,Source__c,AccountId,CCC_External_Id__c,ContactId,OwnerId,CreatedById,Asset.LAN__c,Asset.Account_Status__c,
                            Asset.Branch__r.Branch_Queue_Id__c,ABHFL_Case_Detail__r.STP_Request_Type__c,ABHFL_Case_Detail__r.STP_Failure__c,No_Auto_Communication__c
                            FROM Case WHERE Id =: caseInt.Case__c];
         Boolean isTransferred = false;
@@ -316,7 +329,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord,
                                                                             emailTemplateMap.get('Resolved'), smsMetadataMap.get('Resolved'), isTransferred);          
                 }
-                caseRecord.Stage__c = 'Resolved';
+                caseRecord.MoveToNext__c = true;
                 update caseRecord;        
             } else {
                 handleFailure(caseRecord);

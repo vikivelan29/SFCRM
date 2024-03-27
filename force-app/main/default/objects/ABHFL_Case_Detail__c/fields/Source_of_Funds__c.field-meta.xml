@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Internal BT</label>
             </value>
+            <value>
+                <fullName>Loan Cancellation</fullName>
+                <default>false</default>
+                <label>Loan Cancellation</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

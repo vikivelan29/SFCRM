@@ -4,7 +4,7 @@
 * @Author - Virendra Patil
 * 
 *****************************************************************************************************************/
-public class ASF_EmailMessageHelper {
+public without sharing class ASF_EmailMessageHelper {
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
 */
@@ -43,6 +43,10 @@ public class ASF_EmailMessageHelper {
         }
     }
  
+    /**
+     * When customer replies to an existing email2case email thread for which the original case was closed, 
+     * case should be reopened if certain criteria's are met, or a new case should be created in other cases.
+     */
     public static void checkAndReopenClosedCases(List<EmailMessage> newEmails) {
         Set<Id> caseIds = new Set<Id>();
         Map<Id, EmailMessage> caseIdToEmailMessageMap = new Map<Id, EmailMessage>();
@@ -58,9 +62,11 @@ public class ASF_EmailMessageHelper {
         if(!caseIds.isEmpty()){
             Map<Id, Case> oldCaseIdToNewCaseMap = new Map<Id, Case>();
             List<Case> casesToReopen = new List<Case>();
+            Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
             List<Case> existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
             CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
-            Technical_Source__c, Nature__c, ContactId
+            Technical_Source__c, Nature__c, ContactId,
+            (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
             FROM Case 
             WHERE Id IN :caseIds];
             
@@ -83,14 +89,25 @@ public class ASF_EmailMessageHelper {
                             // else create new case and reparent EmailMessage
                             Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
                             oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
+                            firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                         }
                     }else {
                         // else create new case and reparent EMailMessage
                         Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
                         oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
+                        firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                     }
                 }else {
                     //not closed, then do nothing
+                }
+            }
+            if(!firstOwnerToOldCases.isEmpty()){
+                for(Group gObj : [SELECT Id, Type, Name FROM Group WHERE Name IN :firstOwnerToOldCases.keySet()]){
+                    for(Id caseId : firstOwnerToOldCases.get(gObj.Name)){
+                        Case newCase = oldCaseIdToNewCaseMap.get(caseId);
+                        newCase.OwnerId = gObj.Id;
+                        oldCaseIdToNewCaseMap.put(caseId, newCase);
+                    }
                 }
             }
             if(!casesToReopen.isEmpty()){
@@ -106,6 +123,18 @@ public class ASF_EmailMessageHelper {
                 }
             }
         }
+    }
+
+    private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+        String firstOwner;
+        if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
+            firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
+            if(!theMap.containsKey(firstOwner)){
+                theMap.put(firstOwner, new Set<Id>());
+            }
+            theMap.get(firstOwner).add(caseRec.Id);
+        }
+        return theMap;
     }
 
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {

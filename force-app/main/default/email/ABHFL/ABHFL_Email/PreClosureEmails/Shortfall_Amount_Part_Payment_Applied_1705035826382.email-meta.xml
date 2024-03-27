@@ -2,10 +2,10 @@
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Shortfall Amount - Part Payment Applied</name>
+    <name>Shortfall Amount Part Payment Applied</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Payment Details // Shortfall amount received</subject>
+    <subject>Payment Details-Shortfall amount received</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

@@ -69,6 +69,9 @@ export default class Asf_CurrentHoldings extends LightningElement {
     *****************************************************/
 
     async connectedCallback() {
+        if(!this.accountId) {
+            this.accountId = this.recordId;
+        }
         try{
             if(FORM_FACTOR == 'Large'){
                 this.isDesktop = true;

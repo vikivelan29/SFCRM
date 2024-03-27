@@ -58,4 +58,32 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Payments_CCC_Extended_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Payments CCC Extended Sharing Rule</label>
+        <sharedTo>
+            <group>Payment_LOB_Admin</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Payments</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Payments_CCC_Sharing_Rules</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Payments CCC Sharing Rules</label>
+        <sharedTo>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Payments</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>

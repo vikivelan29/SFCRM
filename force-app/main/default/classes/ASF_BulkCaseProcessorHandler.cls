@@ -21,14 +21,15 @@ public with sharing class ASF_BulkCaseProcessorHandler extends ASF_VTriggerHandl
         //Fetch Trigger Config to check if active
         ASF_Bulk_Case_Processor_Trigger_Config__mdt configMDT = ASF_Bulk_Case_Processor_Trigger_Config__mdt.getInstance('BulkCaseProcessor_'+this.triggerName);
         if(configMDT != null && configMDT.Config_Active__c == true){
-            
+            System.debug('Total PE received'+newMap.size());
             //filter based on ReplayId's last character
             List<ASF_Bulk_Case_Processor__e> eligiblePERecs = new List<ASF_Bulk_Case_Processor__e>();
             eligiblePERecs = this.doLoadBalancing((List<ASF_Bulk_Case_Processor__e>)newMap.values());
+            System.debug(this.triggerName+'trigger received '+eligiblePERecs.size());
             if(!eligiblePERecs.isEmpty()){
                 //invoke Processor Utility
                 ASF_BulkCaseProcessorUtility utility = new ASF_BulkCaseProcessorUtility(eligiblePERecs);
-                utility.process();
+                utility.process(this.triggerName);
             }
         }
     }
@@ -54,6 +55,7 @@ public with sharing class ASF_BulkCaseProcessorHandler extends ASF_VTriggerHandl
         for(ASF_Bulk_Case_Processor__e peRec : peChunk){
             String lastChar = peRec.ReplayId.right(1);
             Integer modNumber = Math.mod(Integer.valueOf(lastChar), triggerIndexMap.size());
+            System.debug('PE ID'+peRec.EventUuid);
             if(triggerIndexMap.containsKey(fullTriggerName) && triggerIndexMap.get(fullTriggerName) == modNumber){
                 returnList.add(peRec);
             }

@@ -4,7 +4,7 @@
   * @LOB - ABHFL
   * @Description -  Test class for Asf_FetchAssetRelatedToAccountController class.
   *****************************************************************************************************************/
-
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public with sharing class Asf_FetchAssetRelatedToAccountCntrl_Test {
 

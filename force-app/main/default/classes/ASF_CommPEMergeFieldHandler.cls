@@ -75,19 +75,19 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                     }
                 }
                 if(iRelLevel == 1){
-                    fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                    fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
                 }
                 else if(iRelLevel ==2){
-                    fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]);
+                    fieldValue = String.valueOf(caseRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]));
                 }
                 else if(iRelLevel ==3){
-                    fieldValue = (String) caseRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]);
+                    fieldValue = String.valueOf(caseRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]));
                 }
                 else{
-                    fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                    fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
                 }
                     System.debug('fieldValue --> '+fieldValue);
-                //fieldValue = (String) caseRecord.getSobject(arr[0])?.get(arr[1]);
+                //fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
             }else{
                 
                 Schema.DisplayType FldType = casefieldInfo.get(mergeField).getDescribe().getType();
@@ -109,7 +109,7 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                 else{
                     System.debug('caseRecord.get(mergeField) --> '+caseRecord);
                     System.debug('caseRecord.get(mergeField) --> '+mergeField);
-                    fieldValue = (String) caseRecord.get(mergeField);
+                    fieldValue = String.valueOf(caseRecord.get(mergeField));
                 }
             }
             

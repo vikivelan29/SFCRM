@@ -63,7 +63,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-        
+        List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Checking for mandatory API conditions
@@ -82,11 +82,15 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-                    update caseRecord;
+                    downloadStpCases.add(caseRecord);
+                    //update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
             resultMap.put(caseRecord.Id, result);
+        }
+        if(downloadStpCases.size()>0){
+            update downloadStpCases;
         }
         
         return resultMap;
@@ -115,14 +119,14 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
             }           
         }
             
-        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];    
+        Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c,ABHFL_Case_Detail__r.As_On_Date__c  FROM Case where Id =: caseRec.Id ];    
                 
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Case__c  = caseRec.Id;
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
         caseInt.Status__c = ABHFL_Constants.PENDING;
         caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-        caseInt.Request__c = JSON.serialize(new BCLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseInt.Request__c = JSON.serialize(new BCLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c,caseRecord.ABHFL_Case_Detail__r.As_On_Date__c));
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             INSERT caseInt; 
@@ -135,7 +139,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
         caseIntOut.Case_Integration_ID__c = caseInte.Name;
         caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-        caseIntOut.Request_Payload__c  =  JSON.serialize(new BCLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+        caseIntOut.Request_Payload__c  =  JSON.serialize(new BCLRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c,caseRecord.ABHFL_Case_Detail__r.As_On_Date__c));
         caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
         
@@ -200,14 +204,14 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABHFL_Constants.PENDING;
                     caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
-                    caseInt.Request__c = JSON.serialize(new BCLRequestWrapper(caseRec.CaseNumber,caseRec.Asset.Lan__c));
+                    caseInt.Request__c = JSON.serialize(new BCLRequestWrapper(caseRec.CaseNumber,caseRec.Asset.Lan__c,caseRec.ABHFL_Case_Detail__r.As_On_Date__c));
                     newCaseIntegrations.add(caseInt);
 
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
                     caseIntOut.Business_Unit__c  = caseRec.Business_Unit__c;
                     //caseIntOut.Case_Integration_ID__c = caseInte.Name;
                     caseIntOut.Integration_Name__c  = integ.Display_Name__c;
-                    caseIntOut.Request_Payload__c  =  JSON.serialize(new BCLRequestWrapper(caseRec.CaseNumber,caseRec.Asset.Lan__c));
+                    caseIntOut.Request_Payload__c  =  JSON.serialize(new BCLRequestWrapper(caseRec.CaseNumber,caseRec.Asset.Lan__c,caseRec.ABHFL_Case_Detail__r.As_On_Date__c));
                     caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRec.Id);
@@ -344,14 +348,16 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         public string lan;
         public string reportName;
         public string documentType;
+        public string asOnDate;
         
-        BCLRequestWrapper(string caseNumber,string lanNo){
+        BCLRequestWrapper(string caseNumber,string lanNo,date asOnDate){
             this.caseId = caseNumber;
             this.souce = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
             this.reportName = ABHFL_Constants.BKL;
             this.documentType = ABHFL_Constants.BINARY_DATA;
+            this.asOnDate = asOnDate.day()+'-'+asOnDate.month()+'-'+asOnDate.year();
         }
     }
 }

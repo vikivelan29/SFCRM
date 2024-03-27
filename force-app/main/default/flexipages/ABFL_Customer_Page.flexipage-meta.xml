@@ -120,6 +120,36 @@
                 <identifier>RecordNPS_Score_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Customer_Category__c</fieldItem>
+                <identifier>RecordCustomer_Category_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Date_Of_Incorporation__c</fieldItem>
+                <identifier>RecordDate_Of_Incorporation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.TAN_Number__c</fieldItem>
+                <identifier>RecordTAN_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -815,6 +845,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>rows</name>
+                    <value>15</value>
+                </componentInstanceProperties>
+                <componentName>abfl_AccRecentCaseComments</componentName>
+                <identifier>c_abfl_AccRecentCaseComments</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-db05483f-626f-44d9-867f-82c91ecbe35c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -870,6 +914,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-db05483f-626f-44d9-867f-82c91ecbe35c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Case Comments</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

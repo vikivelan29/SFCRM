@@ -46,6 +46,9 @@ public with sharing class ASF_RecategoriseCaseController {
                                         isClosed,
                                         Priority,
                                         Is_Recategorise_Allowed__c,
+                                        oldCCCIdFields__c,
+                                        Type_Text__c,
+                                        Sub_Type_Text__c,
                                         (SELECT Stage__c,
                                                 Stage_End_Date__c,
                                                 is_Running_Record__c    
@@ -70,6 +73,7 @@ public with sharing class ASF_RecategoriseCaseController {
         // }
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
+        resultMap.put('currentUserName', UserInfo.getName());
         return resultMap;
     }
 
@@ -81,7 +85,7 @@ public with sharing class ASF_RecategoriseCaseController {
         Hence its important to persist losing fields in  oldCCCIdFields__c which will have al fields in JSON
     */
     @AuraEnabled
-    public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson){
+    public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson, String typeSubTypeText){
         /*
         newCaseJson looks like below
         '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
@@ -121,9 +125,9 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.typeSubTypeMismatch__c = false;
         toUpdateCase.Type_Sub_Type_Mismatch_Reason__c = null;
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
-        toUpdateCase.oldCCCIdFields__c = oldCCCId;
+        toUpdateCase.oldCCCIdFields__c = (String)caseObject.get('oldCCCIdFields__c');
         toUpdateCase.Bot_Feedback__c = (String)caseObject.get('Bot_Feedback__c');
-        ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :toUpdateCase.CCC_External_Id__c Limit 1];
+        //ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :oldCCCId Limit 1];
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;
        /*
@@ -138,12 +142,11 @@ public with sharing class ASF_RecategoriseCaseController {
         List<ASF_Case_SLA_History__c> slaHistoryToUpdate = new List<ASF_Case_SLA_History__c>();
         for(ASF_Case_SLA_History__c r : slaHistoryList ){
             if(r.oldExternalId__c == null){
-                r.oldExternalId__c   = oldCCCId;
-                r.OldTypeSubType__c = cccRecord.type__c + ' - ' + cccRecord.Sub_Type__c;
+                r.oldExternalId__c = oldCCCId;
+                r.OldTypeSubType__c = typeSubTypeText;
                 slaHistoryToUpdate.add(r);
             }
         }
-
         update slaHistoryToUpdate;
         
         

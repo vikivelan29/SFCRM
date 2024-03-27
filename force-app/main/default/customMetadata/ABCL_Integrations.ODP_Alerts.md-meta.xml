@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">https://ezgatewayuat.insideabc.com</value>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abhfl/odpeventoutcome</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Full_Log__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>HTTP_Headers__c</field>
@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Protocol__c</field>
-        <value xsi:type="xsd:string">Post</value>
+        <value xsi:type="xsd:string">POST</value>
     </values>
     <values>
         <field>StoreAsAttachment__c</field>

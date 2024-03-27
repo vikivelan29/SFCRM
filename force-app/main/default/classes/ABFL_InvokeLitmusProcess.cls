@@ -22,47 +22,53 @@ public without sharing class ABFL_InvokeLitmusProcess{
             Set<Id> caseIdSet = new Set<Id>();
             Set<Id> casesToFurtherProcessSet = new Set<Id>();
             Set<String> cccExternalIdSet = new Set<String>();
-            
+            SET<ID> setExpectedLogic = new SET<ID>();
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case>();
             Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
             
             List<Case> litmusApiCasesList = new List<Case>();
-            
-            caseIdToRecordMap = ABFL_SOQL_Case.getCases(newCaseMap.keySet());
-            
-            for (Case caseRecord : caseIdToRecordMap.values()){
-                
-                String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-                String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
-                
-                System.debug('caseRecord.IsClosed: '+(caseRecord.IsClosed));
-                System.debug('caseRecord.Status: '+(caseRecord.Status));
-                System.debug('Lock_in_Period__c: '+(caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c));
-                System.debug('LAN__c: '+(caseRecord.Asset.LAN__c));
-                System.debug('Business_Unit__c: '+(caseRecord.Business_Unit__c));
-
-                if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
-                    casesToFurtherProcessSet.add(caseRecord.Id);
-                    cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
-                }
+            for (Case caseRec : newCaseMap.values()){
+               if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c)){
+                	setExpectedLogic.add(caseRec.Id); 
+                } 
             }
-            
-            if (cccExternalIdSet.size() > 0){
-                cccIdToRecordsMap = ABFL_SOQL_Util.getCccIdToRecordMap(cccExternalIdSet);
-                System.debug('cccIdToRecordsMap: ' + cccIdToRecordsMap);
+            if(!setExpectedLogic.isEmpty()){
+                caseIdToRecordMap = ABFL_SOQL_Case.getCases(setExpectedLogic);
                 
-                for (Id caseId : casesToFurtherProcessSet){
-                    Case caseRecord = caseIdToRecordMap.get(caseId);
-                    ASF_Case_Category_Config__c cccRecord = cccIdToRecordsMap.get(caseRecord.CCC_External_Id__c);
+                for (Case caseRecord : caseIdToRecordMap.values()){
                     
-                    if (cccRecord.Litmus_Trigger__c == true){
-                        litmusApiCasesList.add(caseRecord);
+                    String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+                    String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+                    
+                    System.debug('caseRecord.IsClosed: '+(caseRecord.IsClosed));
+                    System.debug('caseRecord.Status: '+(caseRecord.Status));
+                    System.debug('Lock_in_Period__c: '+(caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c));
+                    System.debug('LAN__c: '+(caseRecord.Asset.LAN__c));
+                    System.debug('Business_Unit__c: '+(caseRecord.Business_Unit__c));
+    
+                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
+                        casesToFurtherProcessSet.add(caseRecord.Id);
+                        cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
                     }
                 }
-            }
-            
-            if (litmusApiCasesList.size() > 0){
-                callLitmusAPI(litmusApiCasesList, cccIdToRecordsMap);
+                
+                if (cccExternalIdSet.size() > 0){
+                    cccIdToRecordsMap = ABFL_SOQL_Util.getCccIdToRecordMap(cccExternalIdSet);
+                    System.debug('cccIdToRecordsMap: ' + cccIdToRecordsMap);
+                    
+                    for (Id caseId : casesToFurtherProcessSet){
+                        Case caseRecord = caseIdToRecordMap.get(caseId);
+                        ASF_Case_Category_Config__c cccRecord = cccIdToRecordsMap.get(caseRecord.CCC_External_Id__c);
+                        
+                        if (cccRecord.Litmus_Trigger__c == true){
+                            litmusApiCasesList.add(caseRecord);
+                        }
+                    }
+                }
+                
+                if (litmusApiCasesList.size() > 0){
+                    callLitmusAPI(litmusApiCasesList, cccIdToRecordsMap);
+                }
             }
         } catch (Exception e){
             ABCL_Logger.enableExceptionLogging();

@@ -2,12 +2,6 @@
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABHFL_Kolkata_Branch</name>
-    <queueMembers>
-        <users>
-            <user>mayur.gorle-v@adityabirlacapital.com.abhfluat</user>
-            <user>roshni.nhavkar-v@adityabirlacapital.com.abhfluat</user>
-        </users>
-    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

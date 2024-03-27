@@ -24,7 +24,7 @@ public without sharing class ABFL_E2C_CreationRules {
                 Set<Id> abflCaseIds = new Set<Id>();
                 for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
                     // Check if the case origin is 'ABFL Email'
-                    if (c.origin == 'ABFL Email') {
+                    if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
                         abflCaseIds.add(c.Id);
                     }
                 }  
@@ -87,7 +87,7 @@ public without sharing class ABFL_E2C_CreationRules {
         expectedValue=expectedValue.toLowerCase();
         switch on operator {
             when 'Does Not Contain'{
-                retVal = actualValue.equals(expectedValue);
+                retVal = actualValue.contains(expectedValue);
             }
             when 'Not Equals To'{
                 retVal = actualValue == expectedValue;

@@ -3,7 +3,7 @@
  * After Update, when Response is received from External System on
  * Case Integration, the processing of response needs to be done
  */
-public class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
+public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
     
     public static Boolean TriggerDisabled = false;
     

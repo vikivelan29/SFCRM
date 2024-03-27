@@ -8,7 +8,8 @@
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-public class ASF_CommPETriggerHelper {
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions')
+public without sharing class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
     public static Map<String,Customer_Notification_Config__mdt> mCommConfigMetaName = new Map<String,Customer_Notification_Config__mdt>();
@@ -419,7 +420,7 @@ public class ASF_CommPETriggerHelper {
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> temp_cIds = caseIds;
-            query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.join(temp, ',');
+            query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :temp_cIds FOR UPDATE';
         }
