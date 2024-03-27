@@ -2243,11 +2243,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LAN_Mapping__c.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2746,6 +2741,10 @@
         <field>User.managerGroupId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHFL User PS</label>
     <objectPermissions>
@@ -2909,6 +2908,10 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Knowledge__kav.FAQ</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
@@ -2937,8 +2940,4 @@
         <tab>standard-Knowledge</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <recordTypeVisibilities>
-        <recordType>Knowledge__kav.FAQ</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-</PermissionSet>
+    </PermissionSet>

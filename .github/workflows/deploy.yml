@@ -7,7 +7,8 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
-        ##- Preprod-sandbox
+        - Preprod-sandbox
+        - prodution-org
         default: 'Preprod-sandbox'
         required: true
       validateOnly:
@@ -64,3 +65,16 @@ jobs:
           sfdx_auth_url: ${{ secrets.SFDX_ABCL_PREPROD_FS }}
           environmentName: ${{ github.event.inputs.environment }}
           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+  deploy-prod-sandbox:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == 'prodution-org' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to preprod sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          sfdx_auth_url: ${{ secrets.SFDX_ABCL_PROD }}
+          environmentName: ${{ github.event.inputs.environment }}
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+          
