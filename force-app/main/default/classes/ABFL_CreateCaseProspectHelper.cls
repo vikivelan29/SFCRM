@@ -4,7 +4,7 @@
 * Description : Inbound API to Create Case
 *****************************************************************************/
 
-public class ABFL_CreateCaseProspectHelper {
+public with sharing class ABFL_CreateCaseProspectHelper {
     public static void beforeInsertMethod(List<Case> newItems){
         // Filter cases based on BU
         Map<String, Case> prospectPanMap = new Map<String, Case>();

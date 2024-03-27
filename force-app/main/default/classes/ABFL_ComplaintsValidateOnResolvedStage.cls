@@ -2,23 +2,20 @@
 *@Class        :  ABFL_ComplaintsValidateOnResolvedStage 
 *@Author       :  Sai Rahul
 *@Created Date :  02/09/2024
-*@Last Modified:  02/09/2024
+*@Last Modified:  03/15/2024 - APEX PMD fixes - Code Refactored - Sankashu
 *@description  :  Class for Complaints Case Validation for ABFL
 *********************************************************/
-
-Public class ABFL_ComplaintsValidateOnResolvedStage {
+public with sharing class ABFL_ComplaintsValidateOnResolvedStage {
     
     /****************************************************************************************************************
-* @BusinessUnit - ABFL
-* @LOBs - 'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'
-* @Function - RCA Fields validation on Verification Stage for Complaints Cases except Wealth LOB
-* @param  - Case record 
-* @description - invoked when tried to Close case without filling RCA fields on Verification Stage
-*****************************************************************************************************************/
+    * @BusinessUnit - ABFL
+    * @LOBs - 'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'
+    * @Function - RCA Fields validation on Verification Stage for Complaints Cases except Wealth LOB
+    * @param  - Case record 
+    * @description - invoked when tried to Close case without filling RCA fields on Verification Stage
+    *****************************************************************************************************************/
     public static Map<Id,Set<String>> validateRCAfields(Set<Id> caseIds)
-    {
-        
-        
+    {   
         Map<Id,Set<String>> mCaseIdVsBlankFields = new Map<Id,Set<String>>();
         
         
@@ -28,21 +25,7 @@ Public class ABFL_ComplaintsValidateOnResolvedStage {
             return new Map<Id,Set<String>>();
         }
         
-        Map<Id,Case> cases = new Map<Id,Case>([SELECT Business_Unit__c,
-                                               ABFL_Case_Detail__r.Case_Categorisation__c,
-                                               ABFL_Case_Detail__r.Correct_Category__c,
-                                               ABFL_Case_Detail__r.Correct_Call_Type__c,
-                                               ABFL_Case_Detail__r.Correct_Sub_Type__c,
-                                               ABFL_Case_Detail__r.Voice_of_Customer__c,
-                                               ABFL_Case_Detail__r.Primary_Erring_Unit__c,
-                                               ABFL_Case_Detail__r.Financial_Impact__c,
-                                               ABFL_Case_Detail__r.Diputed_Amount__c,
-                                               ABFL_Case_Detail__r.Refund_Amount__c,
-                                               ABFL_Case_Detail__r.Action_Taken__c,
-                                               ABFL_Case_Detail__r.Grievance_Type__c,
-                                               CCC_External_Id__c
-                                               FROM Case 
-                                               WHERE Id = :caseIds WITH SECURITY_ENFORCED]);
+        Map<Id,Case> cases = new Map<Id,Case>(ABFL_SOQL_Case.getCasedetails(caseIds));
         
         for(Case c : cases.values()){
             cccExtIds.add(c.CCC_External_Id__c);
@@ -54,12 +37,10 @@ Public class ABFL_ComplaintsValidateOnResolvedStage {
         
         for(ASF_Case_Category_Config__c cccRecord : ccRecords){
             if(!mCCCExtIdVsCCCRecord.containsKey(cccRecord.CCC_External_Id__c))
+            {
                 mCCCExtIdVsCCCRecord.put(cccRecord.CCC_External_Id__c,cccRecord);
+            }
         }
-        /*ASF_Case_Category_Config__c cccRec = [select LOB__c,Business_Unit__c 
-FROM ASF_Case_Category_Config__c
-WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];           
-*/
         
         for(Case caseR : cases.values()){
             ASF_Case_Category_Config__c cccRec = mCCCExtIdVsCCCRecord.containsKey(caseR.CCC_External_Id__c) ? mCCCExtIdVsCCCRecord.get(caseR.CCC_External_Id__c) : null;
@@ -75,15 +56,25 @@ WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                     blankFields.add('Case Categorization');               
                 }
                 else if(caseR.ABFL_Case_Detail__r.Case_Categorisation__c == 'Incorrect')
-                {
-                    if(String.isBlank(caseR.ABFL_Case_Detail__r.Correct_Category__c))
-                        blankFields.add('Correct Category');                        
-                    if(String.isBlank(caseR.ABFL_Case_Detail__r.Correct_Call_Type__c))  
-                        blankFields.add('Correct Call Type'); 
-                    if(String.isBlank(caseR.ABFL_Case_Detail__r.Correct_Sub_Type__c))
-                        blankFields.add('Correct Sub Type');   
+                {   
+                    Map<String, String> fieldsExtensionMap1 = new Map<String, String>{
+                        'Correct Category' => caseR.ABFL_Case_Detail__r.Correct_Category__c,
+                        'Correct Call Type' => caseR.ABFL_Case_Detail__r.Correct_Call_Type__c ,
+                        'Correct Sub Type' => caseR.ABFL_Case_Detail__r.Correct_Sub_Type__c 
+                    };
+
+                    for(String fieldExt :fieldsExtensionMap1.keySet())
+                    {
+                        
+                        if(String.isBlank(fieldsExtensionMap1.get(fieldExt)))
+                        {
+                            blankFields.add(fieldExt);
+                        }
+                    }
+                    fieldsExtensionMap1.clear();// emptying the Map
                 }
-                
+
+                               
                 if(String.isBlank(caseR.ABFL_Case_Detail__r.Voice_of_Customer__c))
                 {
                     blankFields.add('Voice of Customer');                    
@@ -98,11 +89,20 @@ WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                     blankFields.add('Financial Impact'); 
                 }
                 else if(caseR.ABFL_Case_Detail__r.Financial_Impact__c == 'Yes')
-                {
-                    if((caseR.ABFL_Case_Detail__r.Diputed_Amount__c) == null)
-                        blankFields.add('Diputed Amount');
-                    if((caseR.ABFL_Case_Detail__r.Refund_Amount__c) == null)  
-                        blankFields.add('Refund Amount');  
+                {   
+                    Map<String, Decimal> fieldsExtensionMap2 = new Map<String, Decimal>{
+                        'Diputed Amount' => caseR.ABFL_Case_Detail__r.Diputed_Amount__c,
+                        'Refund Amount' => caseR.ABFL_Case_Detail__r.Refund_Amount__c  
+                    };
+                    
+                    for(String field :fieldsExtensionMap2.keySet()){
+                        
+                        if(fieldsExtensionMap2.get(field) == null)
+                        {
+                            blankFields.add(field);
+                        }
+                    }
+                    fieldsExtensionMap2.clear();//emptying the Map
                 }
                 
                 if(String.isBlank(caseR.ABFL_Case_Detail__r.Action_Taken__c))
@@ -115,16 +115,12 @@ WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c WITH SECURITY_ENFORCED];
                     blankFields.add('Grievance Type');                    
                 }
                 
-                if(!mCaseIdVsBlankFields.containsKey(caseR.Id))
+                if(!mCaseIdVsBlankFields.containsKey(caseR.Id)){
                     mCaseIdVsBlankFields.put(caseR.Id,blankFields);
-                
+                }
             }
             
         }
-        
-        
         return mCaseIdVsBlankFields;            
     }
-    
-    
 }
