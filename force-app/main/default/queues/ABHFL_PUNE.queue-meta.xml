@@ -6,10 +6,6 @@
         <publicGroups>
             <publicGroup>ABHFL_PUNE_G</publicGroup>
         </publicGroups>
-        <users>
-            <user>abhfltest01@salesforce.com</user>
-            <user>abhfltestuser2@salesforce.com.uat</user>
-        </users>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
