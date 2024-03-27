@@ -8,7 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions,PMD.ApexSOQLInjection')
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
