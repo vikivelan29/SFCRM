@@ -25,7 +25,6 @@
     <values>
         <field>SMS_Entity_Id__c</field>
         <value xsi:type="xsd:string">1101412910000010488</value>
-        <value xsi:nil="true"/>
     </values>
     <values>
         <field>SMS_Merge_Fields_CSV__c</field>
@@ -34,7 +33,6 @@
     <values>
         <field>SMS_Sender_Id__c</field>
         <value xsi:type="xsd:string">HFLABC</value>
-        <value xsi:nil="true"/>
     </values>
     <values>
         <field>SMS_Template_Name__c</field>
