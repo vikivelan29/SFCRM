@@ -1,4 +1,4 @@
-global class ListViewBlockEventCondition implements TxnSecurity.EventCondition {
+global with sharing class ListViewBlockEventCondition implements TxnSecurity.EventCondition {
     
     public boolean evaluate(SObject event) {
         switch on event{
