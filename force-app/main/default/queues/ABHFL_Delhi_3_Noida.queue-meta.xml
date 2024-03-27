@@ -6,12 +6,6 @@
         <publicGroups>
             <publicGroup>ABHFL_Delhi_3_Noida_G</publicGroup>
         </publicGroups>
-        <users>
-            <user>bhavana.nagalla@olooptech.com.abcl.preprod</user>
-            <user>prachi@techforceservices.com.au.abcl.preprod1</user>
-            <user>vinita.jain@salesforce.com.abcl.preprod</user>
-            <user>ymishra@salesforce.com.abcl.preprod1</user>
-        </users>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
