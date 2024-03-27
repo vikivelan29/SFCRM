@@ -7,6 +7,5 @@
         <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
         <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         <roleAndSubordinates>ABFL_Sales</roleAndSubordinates>
-        <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
     </sharedTo>
 </EmailFolder>
