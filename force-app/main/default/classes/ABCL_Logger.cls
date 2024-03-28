@@ -1,7 +1,7 @@
 /**
  * Simple in memory low cpu logging
  **/
-public class ABCL_Logger {
+public with sharing class ABCL_Logger {
 	private static Boolean enableEL = false;
     private static LogScope current;
     private static LogScope root;    
