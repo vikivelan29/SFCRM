@@ -8,6 +8,7 @@ import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRec
 import ACCOUNT_CRN_FIELD from '@salesforce/schema/Case.Client_Code__c';
 import ASSET_FIELD from '@salesforce/schema/Case.AssetId';
 import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
+import { reduceErrors } from 'c/asf_ldsUtils';
 
 
 
@@ -446,7 +447,9 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
             })
             .catch(error => {
-                console.log('@@@ERROR - '+error);
+            this.showError('error', 'Error occured', error);
+            console.log('@@@ERRORJSON - '+JSON.stringify(error));
+
             });
 
 
@@ -485,6 +488,14 @@ export default class Asf_CRNTagging extends LightningElement {
 
     // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
 
-      
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
+    }
 
 }
