@@ -8,7 +8,7 @@
 public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHandler {
     
     public override void beforeInsert(List<SObject> newItems){
-        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
+        //ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
         //ABCL_SendEmailValidation.validateUsersTeam(newItems);
         
         
@@ -50,7 +50,6 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newEmails.values());
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
-        ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
         // invoke ABFL E2C Case creation checks
         
         // US- PR970457-575(ABWM chat originated cases) WEALTHCHATGENERATED CASES UPDATE SUPPLIED EMAIL WHICH IS ETRACTED FROM EMAIL BODY
@@ -65,5 +64,9 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
             );
             EventBus.publish(ate);
         }
-    }   
+    } 
+    public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
+        ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
+        ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
+    }
 }
