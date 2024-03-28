@@ -1,0 +1,14 @@
+{
+    "EMI_Type": "Test",
+    "Chequeno": "XYZ123",
+    "Loanschedule": "1234",
+    "Due_date": "12-01-2024",
+    "LoanAccountno": "ABC1234",
+    "System": "XYZ",
+    "EMI_Date": "12-02-2024",
+    "Repaymentno": "ABC1234",
+    "Lob": "ABFL",
+    "Repayment_date": "12-03-2024",
+    "Last_Payment_Made": "12-03-2024",
+    "Overdue_days": "12"
+}

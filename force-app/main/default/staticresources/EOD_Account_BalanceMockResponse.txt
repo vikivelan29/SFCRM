@@ -1,0 +1,10 @@
+{
+    "PenalCharges": "1000",
+    "OutstandingAmount": "1000",
+    "Currentoverdue": "1000",
+    "Interest_Payment_for_current_month": "JAN",
+    "principle_os": "1000",
+    "LOB": "1000",
+    "LOANACCOUNTNO": "ABCXYZ",
+    "SYSTEM": "XYZ"
+}
