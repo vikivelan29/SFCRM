@@ -55,7 +55,7 @@ public with sharing class  ASF_CaseUIController {
     
     //get Asset Records for the time of selection while creating Case
     @AuraEnabled(Cacheable=true)
-    public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected) {
+    public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected,String currentCaseId) {
         List<searchResponse> lstResponse = new List<searchResponse>();
         
         if(userInp!=null){
@@ -102,17 +102,19 @@ public with sharing class  ASF_CaseUIController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c);
+                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'');
                         
                         lstResponse.add(resp);
                     }     
                 }
             } else{
-                Id accId = [select Id from account where Client_Code__c =: userInp].Id;
-                accIdSet.add(accId);
+                Case currentCase = [SELECT Id,AccountId FROM Case WHERE Id =:currentCaseId];
+                if(currentCase.AccountId != null){
+                    accIdSet.add(currentCase.AccountId);
+                }
             }
             
-            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount from account where ID IN:accIdSet];
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name from account where ID IN:accIdSet];
             Map<Id,contact> accIdConMap = new Map<Id,contact>();
             Set<Id> businessAccIdSet = new Set<Id>();
             for(Account accRec : accList){
@@ -126,12 +128,12 @@ public with sharing class  ASF_CaseUIController {
             for(Account customer : accList){
                 searchResponse custResp;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c);
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c);
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name);
                 }
                 
                 lstResponse.add(custResp);
@@ -190,6 +192,7 @@ public with sharing class  ASF_CaseUIController {
                 if(cont.size() > 0){// If contact found
                 cs.ContactId = cont[0].Id;// UAT Bug fix Cases tagging to multiple Accounts
                 }
+                cs.Lead__c = null;
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
@@ -292,9 +295,11 @@ public with sharing class  ASF_CaseUIController {
         public String mobile{get;set;}
         @AuraEnabled
         public String pan{get;set;}
+        @AuraEnabled
+        public string objectRecordType{get;set;}
         
         public searchResponse(String recId, String objType,String name,String clientCode,
-                            String emailId,String mobile,String pan){
+                            String emailId,String mobile,String pan,String objRecordType){
             this.recordId = recId;
             this.objectType = objType;
             this.name = name;
@@ -302,6 +307,7 @@ public with sharing class  ASF_CaseUIController {
             this.emailId = emailId;
             this.mobile = mobile;
             this.pan = pan;
+            this.objectRecordType = objRecordType;
         }
         
     }

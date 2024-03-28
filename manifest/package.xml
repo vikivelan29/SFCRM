@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
    <types>
-        <members>Case.ABFL_SR_Snapshot</members>
-        <name>QuickAction</name>
-	</types>
+        <members>asf_RecategoriseCase</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>ASF_RecategoriseCaseController</members>
+        <members>ASF_GetCaseRelatedDetails</members>
+        <members>ASF_CaseUIController</members>
+        <members>ASF_CreateCaseWithTypeController</members>
+        <name>ApexClass</name>
+    </types>
     <version>58.0</version>
 </Package>

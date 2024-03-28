@@ -117,9 +117,9 @@ public without sharing class ASF_GetCaseRelatedDetails {
                     item.ReadOnly = true;
                 }
             }
-            Schema.DescribeFieldResult dfr = Schema.getGlobalDescribe().get(config.ObjectAPIName__c).getDescribe().fields.getMap().get(config.FieldAPIName__c).getDescribe();
+Schema.DescribeFieldResult dfr = Schema.getGlobalDescribe().get(config.ObjectAPIName__c).getDescribe().fields.getMap().get(config.FieldAPIName__c).getDescribe();
             item.ReadOnly = item.ReadOnly?item.ReadOnly:!dfr.isUpdateable();
-
+            
             if(item.RequiredAtList != null && item.RequiredAtList.size() >0 ){   
                 if(item.RequiredAtList.contains(status) && config.Controlling_field__c == null){
                     item.Required = true;
@@ -348,7 +348,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         //Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
         system.debug('receivedPara '+ updateChecklistRecords);
         // if(!recordUpdate.isEmpty()){
-        //     updateChecklistRecords.putall(recordUpdate);         
+            //     updateChecklistRecords.putall(recordUpdate);         
         // }
         if(updateChecklistRecords.size()>0){
             update updateChecklistRecords.values();
@@ -361,7 +361,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         // Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
         // system.debug('receivedPara '+ recordUpdate);
         // if(!recordUpdate.isEmpty()){
-        //     updateTaskRecords.putall(recordUpdate);         
+            //     updateTaskRecords.putall(recordUpdate);         
         // }
         if(updateTaskRecords.size()>0){
             update updateTaskRecords.values();
