@@ -260,7 +260,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                             System.debug('@@@resultWrap'+resultWrap);
                             if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage)){
-                                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = caseInteg.CreatedById;
                                 update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                             }else{
                                 ABCL_Logger.enableExceptionLogging();
