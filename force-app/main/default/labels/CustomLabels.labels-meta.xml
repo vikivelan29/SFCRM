@@ -57,13 +57,6 @@
         <value>Resolved By STP</value>
     </labels>
     <labels>
-        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
-        <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>

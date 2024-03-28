@@ -59,7 +59,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>,Branch,Call Center,Chatbot,Customer Portal,Email,IVR Inbound,IVR-no email,Internal Usage,Payment Link,RM-no email,Social Media,SystemIntegration,Voice Bot,Walk-In,Webform,Welcome BOT,WhatsApp</value>
+            <value>,Branch,Call Center,Chatbot,Customer Portal,Email,IVR Inbound,IVR-No Email,Internal Usage,Payment Link,RM-No Email,Social Media,SystemIntegration,Voice Bot,Walk-In,Webform,Welcome BOT,WhatsApp</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
