@@ -14,9 +14,12 @@ public class ABFL_ENACH_Status_Controller {
             ABCL_Integrations__mdt enachStatusIntegrationRec = ABCL_Integrations__mdt.getInstance(integrationName);
             String merchantId = enachStatusIntegrationRec.Merchant_Id__c;
             String payload =  ABCL_Encryption.encrypt(JSON.serialize(new EnachStatusReqest(merchantId, customerId)));
-            ABCL_IntegrationCallout.IntegrationResponseWrapper enachResponse = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
+            String conPayload = JSON.serialize(new Map<String, Object>{'content' => payload});
+            ABCL_IntegrationCallout.IntegrationResponseWrapper enachResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
             if(enachResponse.responseBody != null){
-                response = new ResponseWrapper(enachResponse.statusCode,enachResponse.responseBody.toString());
+                System.debug(' response Body ==> '+enachResponse.responseBody);
+                String res = ABCL_Encryption.decrypt(enachResponse.responseBody.remove('"'));
+                response = new ResponseWrapper(enachResponse.statusCode,res);
             }
             System.debug('response==> '+response);
             return response;
@@ -26,10 +29,10 @@ public class ABFL_ENACH_Status_Controller {
     }
 
     public class EnachStatusReqest{
-        String pl_Merchant_Id;
+        String pl_merchant_id;
         String customer_Id;
-        EnachStatusReqest(String pl_Merchant_Id, String customer_Id){
-            this.pl_merchant_Id = pl_Merchant_Id;
+        EnachStatusReqest(String mId, String customer_Id){
+            this.pl_merchant_id = mId;
             this.customer_Id = customer_Id;
         }
     }

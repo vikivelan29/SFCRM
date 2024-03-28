@@ -57,6 +57,13 @@ export default class AbflENACHStatus extends LightningElement {
 
             }).catch(error=>{
                 console.log('error ==> ', error);
+                let message = "Unknown error";
+                if (Array.isArray(error.body)) {
+                    message = error.body.map((e) => e.message).join(", ");
+                } else if (typeof error.body.message === "string") {
+                    message = error.body.message;
+                }
+                this.showToast('Error', message, 'error');
                 this.isLoading = false;
             })
         }
