@@ -7,8 +7,8 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
-        - Preprod-sandbox
-        - prodution-org
+        ##- Preprod-sandbox
+        ##- prodution-org
         default: 'Preprod-sandbox'
         required: true
       validateOnly:
