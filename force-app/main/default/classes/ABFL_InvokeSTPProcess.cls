@@ -298,7 +298,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         Map<Id, Id> mapCaseIdCreatedId = new Map<Id, Id>();
         for(ASF_Case_Integration__c caseIntg: [SELECT Name, CreatedById FROM ASF_Case_Integration__c WHERE Case__c IN :caseList 
-                                             AND Status__c = :ABFL_Constants.PENDING]) {
+                                             AND Status__c = :ABFL_Constants.PENDING AND Type__c = 'BRE']) {
                                             mapCaseIdCreatedId.put(caseIntg.Case__c, caseIntg.Id);
                                              }
         //List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);

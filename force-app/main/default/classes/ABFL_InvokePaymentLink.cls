@@ -5,7 +5,6 @@
 *Last Modified:  28/03/2024
 *Description  :  ABFL_InvokePaymentLink */
 public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvocable {
-    public Enach_data enach_data;
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
@@ -20,7 +19,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         
-        if(caseRecord.ABFL_Case_Detail__r.EMI_Amount__c == null) { // Check Amount
+        if(caseRecord.ABFL_Case_Detail__r.Amount__c == null) { // Check Amount
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_AMOUNT_ERROR;
         }
@@ -45,54 +44,50 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
                 Case__c  = caseRec.Id,
                 Integration_Ext_Id__c = integRec.External_Id__c,
                 Status__c = ABFL_Constants.PENDING,
-                Type__c = 'Enach', // Identifier needs to be passed to middleware
+                Type__c = 'Payment', // Identifier needs to be passed to middleware
                 Response__c = ABFL_Constants.WAITING_API_RESPONSE
             );
         }
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         // Fire Actual Integration---Ends
-        createEnachRegistration(integRec, caseRecord);
+        createPaymentLink(integRec, caseRecord);
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.WAITING_API_RESPONSE;
         return result;        
     }
     
     private static void createPaymentLink(ASF_Integration__c integRec, Case caseRecord) {
-        List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Enach');
-        Enach_data enachData = new Enach_data();
-        EnachRegistration payload = new EnachRegistration();
+        List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Payment');
+        PaymentData paymentData = new PaymentData();
+        PaymentLink payload = new PaymentLink();
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
-        DateTime today = Date.now();
-        String mercOrderDate = DateTime.newInstance(today.year(), today.month(), today.day(), today.hour(), today.minute(), today.second()).format('YYYYMMDDhhmiss')
-        Date toDate = caseRecord.ABFL_Case_Detail__r.To_Date__c;
-        String endDate = toDate != null ? DateTime.newInstance(toDate.year(), toDate.month(), toDate.day()).format('YYYYMMdd'): null;
-        Date fromDate = caseRecord.ABFL_Case_Detail__r.From_Date__c;
-        String startDate = fromDate != null ? DateTime.newInstance(fromDate.year(), fromDate.month(), fromDate.day()).format('YYYYMMdd'): null;
+        String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
         
-        enachData.merc_order_id = ABCL_Encryption.getENachInt().Merchant_Id__c;
-        enachData.merc_order_date = mercOrderDate;
-        enachData.merc_id = mobileNo;
-        enachData.amount =String.ValueOf(caseRecord.ABFL_Case_Detail__r.EMI_Amount__c);
-        enachData.return_url = 'https://yym2qh8gwi.execute-api.ap-south-1.amazonaws.com/resultpage';
-        enachData.product_type = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
-        enachData.product_id = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
-        enachData.customer_id = caseRecord.Client_Code__c;
-        enachData.customer_name = name;
-        enachData.customer_email = emailId;
-        enachData.customer_phone = mobileNo;
-        enachData.udf1 = '';
-        enachData.udf2 = '';
-        enachData.invoice_No = caseRecord.LAN__c;
-        enachData.orderDesc = '';
-        enachData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
-        enachData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
-        enachData.payment_mode = 'nach';
+        paymentData.merc_order_id = caseRecord.caseNumber+mercOrderDate;
+        paymentData.merc_order_date = mercOrderDate;
+        paymentData.merc_id = ABCL_Encryption.getENachInt().Merchant_Id__c;
+        paymentData.amount =String.ValueOf(caseRecord.ABFL_Case_Detail__r.Amount__c);
+        paymentData.return_url = 'https://yym2qh8gwi.execute-api.ap-south-1.amazonaws.com/resultpage';
+        paymentData.product_type = '';
+        paymentData.product_id = '';
+        paymentData.customer_id = caseRecord.Client_Code__c;
+        paymentData.customer_name = name;
+        paymentData.customer_email = emailId;
+        paymentData.customer_phone = mobileNo;
+        paymentData.udf1 = '';
+        paymentData.udf2 = '';
+        paymentData.invoice_No = '';
+        paymentData.orderDesc = '';
+        paymentData.account_no = '';
+        paymentData.account_ifsc = '';
+        paymentData.payment_mode = 'nach';
 
         
-        payload.enach_data = enachData;
+        payload.payment_data = paymentData;
         System.debug('@@@payloadWrap'+JSON.serialize(payload));
+        System.debug('@@@name'+name);
          
         Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
@@ -111,6 +106,8 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         try {
+            // String decryptedResponse = caseInteg.Response__c;
+            //Always decrpting whether it's success or failure
             String decryptedResponse = ABCL_Encryption.decrypt(caseInteg.Response__c);
             //Updating to show decrypted response on UI
             //As Trigger is in After update context same record can't be directly updated
@@ -123,18 +120,19 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
                 ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
                 Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 System.debug('@@@decryptedResponse'+decryptedResponse);
-                ABFL_EnachRegistrationResponse jsonMap = (ABFL_EnachRegistrationResponse)JSON.deserialize(decryptedResponse, ABFL_EnachRegistrationResponse.class);
-                if(jsonMap.registration_data.return_code == '0000' && jsonMap.registration_data.registration_link != '') {
+                ABFL_PaymentLinkResponse response = (ABFL_PaymentLinkResponse)JSON.deserialize(decryptedResponse, ABFL_PaymentLinkResponse.class);
+                if((response.order_data.status_code == '0300'  || response.order_data.status_code == '0002')&& response.order_data.links.payment_link_web != '') {
                     
                     ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
                     caseDetail.Id = caseRecord.ABFL_Case_Detail__c;    
-                    caseDetail.Registration_Link__c  = jsonMap.registration_data.registration_link;
+                    caseDetail.Registration_Link__c  = response.order_data.links.payment_link_web;
                     if(Schema.sObjectType.ABFL_Case_Detail__c.isUpdateable()){
                         update caseDetail;
                     }
                     ASF_Integration__c intRec = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                   
+                    System.debug('@@@intRec.Temp'+intRec.STP_Template__c);
                     if (String.isNotBlank(intRec.STP_Template__c)){
+                        //Payment link request
                         Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, false);
                         
                         Boolean isEmailSentToCustomer = true;
@@ -155,25 +153,30 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         }
         
     }
-    public class Enach_data {
-		public String pl_merchant_id;
-		public String customer_Id;
-		public String customer_mobile_no;
-		public String customer_name;
-		public String customer_email_id;
-		public String customer_bank_ifsc;
-		public String customer_bank_acc_no;
+    public class PaymentData {
+		public String merc_order_id;
+		public String merc_order_date;
+		public String merc_id;
 		public String amount;
-		public String start_date;
-		public String end_date;
-		public String frequency;
-        public String lan;
-		public String debit_type;
 		public String return_url;
+		public String product_type;
+		public String product_id;
+		public String customer_id;
+		public String customer_name;
+		public String customer_email;
+		public String customer_phone;
+        public String udf1;
+		public String udf2;
+		public String invoice_No;
+        public String orderDesc;
+        public String account_no;
+        public String account_ifsc;
+        public String payment_mode;
 	}
-    public class EnachRegistration {
-        Enach_data enach_data;
+    public class PaymentLink {
+        PaymentData payment_data;
     }
+
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }
