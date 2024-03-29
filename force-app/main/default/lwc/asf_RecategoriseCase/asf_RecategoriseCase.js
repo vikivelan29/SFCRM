@@ -908,10 +908,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
 
     getIsAssetValue(){
-        if(this.assetId != null && this.assetId != undefined){
+        if(this.assetId && this.assetId != null && this.assetId != undefined){
             return 'false';
         }
-        else if(this.leadId != null && this.leadId != undefined){
+        else if(this.leadId && this.leadId != null && this.leadId != undefined){
             return 'Prospect';
         }
         return this.isasset;

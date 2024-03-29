@@ -178,7 +178,7 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled
-    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber) {
+    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber, Boolean reqFromRecat) {
         
         Case cs = new Case();
         cs.Id = caseId;
@@ -206,6 +206,9 @@ public with sharing class  ASF_CaseUIController {
             cs.AssetId  = assetId ;
         if(faNumber != '')
             cs.LAN__c = faNumber;
+        if(reqFromRecat){
+            cs.Recategorisation_Date__c = system.now();
+        }
         update cs;
         
     }

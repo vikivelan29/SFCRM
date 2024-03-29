@@ -135,8 +135,8 @@ newCaseJson looks like below
         // VIRENDRA - ENDS HERE.
         toUpdateCase.CCC_External_Id__c = (String)caseObject.get('CCC_External_Id__c');
         toUpdateCase.Nature__c = (String)caseObject.get('Nature__c');
-        toUpdateCase.Source__c = (String)caseObject.get('Source__c');
-        toUpdateCase.Channel__c = (String)caseObject.get('Channel__c'); 
+        //toUpdateCase.Source__c = (String)caseObject.get('Source__c');
+        //toUpdateCase.Channel__c = (String)caseObject.get('Channel__c'); 
         toUpdateCase.Case_Stage_Change_Date__c = system.now();
         toUpdateCase.Recategorisation_Date__c = system.now();
         toUpdateCase.typeSubTypeMismatch__c = false;
