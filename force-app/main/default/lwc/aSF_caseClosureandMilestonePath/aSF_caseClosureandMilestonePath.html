@@ -130,9 +130,14 @@
                                     </p>
                                 </div>
                                 
-                            </div> <div>
-                                <p class="slds-text-body_small">{sla3TAT}</p>
-                                </div>
+                            </div> 
+                            <div>
+                                <template lwc:if={caseObj}>
+                                    <template lwc:if={caseObj.Stage_SLA_3__c}>
+                                        <p class="slds-text-body_small">{sla3TAT}</p>
+                                    </template>
+                                </template>
+                            </div>
                         </div>
                         <lightning-button-icon icon-name={iconName} size="small" class="slds-m-left--medium"
                                 alternative-text="expand" title="expand" onclick={openAllPanels}></lightning-button-icon>
