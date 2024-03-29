@@ -604,6 +604,9 @@
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Ageing_Business_Days__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -978,6 +981,12 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>asf_NdcIndicator</componentName>
+                <identifier>c_asf_NdcIndicator</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
