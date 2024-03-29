@@ -153,7 +153,7 @@
 												@@We write to you with reference to your request for foreclosure letter of your ABHFL Loan Account No. ##Asset_Details__r.Masked_Lan__c##<br />
 												@@<br />
 												<br />
-												We request you to make payment towards the Foreclosure Statement charges of $$ABHFL_Case_Detail__r.Payable_Charges__c$$ + 18% GST using the link provided here $$ABHFL_Case_Detail__r.Payment_Link__c$$ via online transfer.<br />
+												We request you to make payment towards the Foreclosure Statement charges of $$ABHFL_Case_Detail__r.Payable_Charges__c$$ which is inclusive of 18% GST, using the link provided here $$ABHFL_Case_Detail__r.Payment_Link__c$$ via online transfer.<br />
 												<br />
 												You pay the charges via online transfer using the below virtual account details:<br />
 												Beneficiary Name&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Aditya Birla Housing Finance Limited<br />
