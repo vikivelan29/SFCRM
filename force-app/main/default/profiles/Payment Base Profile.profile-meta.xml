@@ -3474,6 +3474,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>LAN_Mapping__c.Customer__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>LAN_Mapping__c.LAN__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4194,6 +4199,26 @@
         <endAddress>103.144.216.50</endAddress>
         <startAddress>103.144.216.50</startAddress>
     </loginIpRanges>
+<loginIpRanges>
+        <description>Concentrix IP 10</description>
+        <endAddress>116.90.246.101</endAddress>
+        <startAddress>116.90.246.101</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 8</description>
+        <endAddress>125.18.7.131</endAddress>
+        <startAddress>125.18.7.131</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 9</description>
+        <endAddress>125.18.7.140</endAddress>
+        <startAddress>125.18.7.140</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 5</description>
+        <endAddress>125.18.9.206</endAddress>
+        <startAddress>125.18.9.193</startAddress>
+    </loginIpRanges>
     <loginIpRanges>
         <description>Concentrix IP 1</description>
         <endAddress>172.16.98.254</endAddress>
@@ -4203,6 +4228,21 @@
         <description>Concentrix IP 2</description>
         <endAddress>172.25.62.254</endAddress>
         <startAddress>172.25.62.0</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 6</description>
+        <endAddress>219.64.15.33</endAddress>
+        <startAddress>219.64.15.33</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 7</description>
+        <endAddress>219.64.15.34</endAddress>
+        <startAddress>219.64.15.34</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 4</description>
+        <endAddress>219.64.15.62</endAddress>
+        <startAddress>219.64.15.49</startAddress>
     </loginIpRanges>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -4413,6 +4453,10 @@
         <enabled>true</enabled>
         <name>ExportReport</name>
     </userPermissions>
+<userPermissions>
+        <enabled>true</enabled>
+        <name>IsSsoEnabled</name>
+    </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>LightningConsoleAllowedForUser</name>
@@ -4449,11 +4493,7 @@
         <enabled>true</enabled>
         <name>SubmitMacrosAllowed</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>SubscribeToLightningReports</name>
-    </userPermissions>
-    <userPermissions>
+        <userPermissions>
         <enabled>true</enabled>
         <name>TransactionalEmailSend</name>
     </userPermissions>
