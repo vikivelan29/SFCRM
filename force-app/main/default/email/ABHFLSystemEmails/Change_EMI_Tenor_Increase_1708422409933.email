@@ -161,7 +161,7 @@
 												<br />
 												We write to you with reference to your Service Request {{{Case.CaseNumber}}} &amp; for {{{Case.Type_Text__c}}}&nbsp;{{{Case.Sub_Type_Text__c}}}<br />
 												<br />
-												We requests you to pay, Loan reschedule charges of 0.50% on the Current principal Outstanding + GST applicable using the link Provided here $$ABHFL_Case_Detail__r.Payment_Link__c$$<br />
+												We requests you to pay, Loan reschedule charges of 0.50% on the Current principal Outstanding along with applicable GST using the link Provided here $$ABHFL_Case_Detail__r.Payment_Link__c$$<br />
 												<br />
 												For any queries, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. You may also access your loan documents at a click of the button through our digital channels. We are pleased to inform you that we are now on WhatsApp. Send a “Hi” to 8828800032 and get instant access to a host of services on your Home Loan Account.<br />
 												<br />
