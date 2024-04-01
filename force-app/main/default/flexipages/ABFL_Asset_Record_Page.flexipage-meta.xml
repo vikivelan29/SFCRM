@@ -276,10 +276,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-37cd3d7f-a7a9-444c-97a0-dcc644f18ffd</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>title</name>
                     <value>ENACH Status</value>
                 </componentInstanceProperties>
