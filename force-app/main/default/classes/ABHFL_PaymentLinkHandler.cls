@@ -15,10 +15,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [SELECT Id,Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
+        Case caseRecord = [SELECT Id,AccountId, Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
                             ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
                            FROM Case WHERE Id =: caseRec.Id];
-
+		List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
         List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
 
         //Check for mandatory API conditions
@@ -50,9 +50,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
         }
         
-        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL && String.isBlank(caseRecord.Account.Office_Email__c)){
-            result.status = ABHFL_Constants.ERROR;
-            result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;             
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL /*&& String.isBlank(caseRecord.Account.Office_Email__c) String.isBlank(con[0].Email)*/){
+            if(con.size()>0){
+                if(String.isBlank(con[0].Email)){
+                    result.status = ABHFL_Constants.ERROR;
+            		result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;
+                }
+            }else{
+                result.status = ABHFL_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;
+            }                 
         }
         
         if(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c == null){
@@ -106,7 +113,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         result.status = ABHFL_Constants.ERROR;
 
         
-        Case caseRecord = [SELECT Id,Account.PersonMobilePhone,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.Loan_ID__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
+        Case caseRecord = [SELECT Id,AccountId, Account.PersonMobilePhone,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.Loan_ID__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
@@ -246,9 +253,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string ParentcaseID;
 
         public PaytmRequestWrapper(Case caseRecord){
+            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.Loan_ID__c;
-            this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Office_Email__c:caseRecord.Account.PersonEmail;
+            this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/con[0].Email:caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
             this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
