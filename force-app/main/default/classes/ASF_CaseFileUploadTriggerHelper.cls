@@ -1,6 +1,6 @@
 public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
-    public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_File_Update_Validation');
+    public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
     
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
