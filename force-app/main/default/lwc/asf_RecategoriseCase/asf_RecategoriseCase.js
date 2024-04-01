@@ -38,12 +38,12 @@ import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeed
 
 
 import CUSTOMERPROSPECTSEARCH from "./reparentingCase.html";
-import RECATEGORISATIONUI from './asf_RecategoriseCase.html';
+//import RECATEGORISATIONUI from './asf_RecategoriseCase.html';
 
 import { getCurrentCustomer,setSelectedAccount,setSelectedAsset,updateAccountAndAssetOnCase } from './reparentinghelper.js';
 import { getConstants } from './constants.js';
-import getMatchingAccount from '@salesforce/apex/ASF_CaseUIController.getMatchingAccount';
-import getMatchingContacts from '@salesforce/apex/ASF_CaseUIController.getMatchingContacts';
+//import getMatchingAccount from '@salesforce/apex/ASF_CaseUIController.getMatchingAccount';
+//import getMatchingContacts from '@salesforce/apex/ASF_CaseUIController.getMatchingContacts';
 
 
 
