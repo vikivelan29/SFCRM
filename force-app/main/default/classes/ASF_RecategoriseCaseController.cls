@@ -378,9 +378,9 @@ Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobil
                         if(cccRecord.LOB__c.equalsIgnoreCase(recordLOB) && recordLOB == 'Wealth'){
                             bReturnVal = true;
                         }
-                    }
-                    else if(objType == 'Lead' && cccRecord.Is_Prospect_Related__c){
-                        bReturnVal = true;
+                        else if(objType == 'Lead' && cccRecord.Is_Prospect_Related__c){
+                        	bReturnVal = true;
+                    	}
                     }
                 }
             }
