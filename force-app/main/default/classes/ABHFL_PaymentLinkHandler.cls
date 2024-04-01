@@ -50,9 +50,16 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
         }
         
-        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL && /*String.isBlank(caseRecord.Account.Office_Email__c)*/ String.isBlank(con[0].Email)){
-            result.status = ABHFL_Constants.ERROR;
-            result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;             
+        if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL /*&& String.isBlank(caseRecord.Account.Office_Email__c) String.isBlank(con[0].Email)*/){
+            if(con.size()>0){
+                if(String.isBlank(con[0].Email)){
+                    result.status = ABHFL_Constants.ERROR;
+            		result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;
+                }
+            }else{
+                result.status = ABHFL_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('PaymentLink_BusinessEmailMissing').Message__c;
+            }                 
         }
         
         if(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c == null){

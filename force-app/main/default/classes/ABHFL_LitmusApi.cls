@@ -145,7 +145,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 
         userPhne = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
         //userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
-        userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : con[0].Email;
+        userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : (con.size()>0?con[0].Email:'');
 
         LitmusApiWrapper litmusApiWrappObj = new LitmusApiWrapper();
         litmusApiWrappObj.appId = cccRecord.Litmus_Project__c;
