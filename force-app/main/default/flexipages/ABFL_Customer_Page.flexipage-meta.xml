@@ -983,12 +983,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_NdcIndicator</componentName>
-                <identifier>c_asf_NdcIndicator</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-e7212b34-c811-4c85-8cb8-1ec2c8fd97cf</value>
