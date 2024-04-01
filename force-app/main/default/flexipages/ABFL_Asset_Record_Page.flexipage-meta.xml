@@ -257,16 +257,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abflENACHStatus</componentName>
-                <identifier>c_abflENACHStatus</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-37cd3d7f-a7a9-444c-97a0-dcc644f18ffd</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
