@@ -419,6 +419,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                             caseRecFromMap.Stage__c = resultWrap.caseToBeUpdated.Stage__c;
                             caseRecFromMap.Status = resultWrap.caseToBeUpdated.Status;
+                            caseRecFromMap.ForceModifySLAHistory__c = System.now().getTime();
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
@@ -438,6 +439,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             for(String fieldName : populatedFieldMap.keySet()){
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
+                            caseRecFromMap.ForceModifySLAHistory__c = System.now().getTime();
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
