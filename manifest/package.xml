@@ -11,7 +11,7 @@
         <members>ASF_CaseUIController</members>
         <members>ASF_CreateCaseWithTypeController</members>
         <members>ASF_CaseTriggerModularHelper</members>
-        <!--<members>ASF_CaseUIController_Test</members>-->
+        <members>ASF_CaseUIController_Test</members>
         <members>ASF_RecategoriseCaseControllerTest</members>
         <members>ASF_GetCaseRelatedDetails_Test</members>
         <members>ASF_CreateCaseWithTypeController_Test</members>
