@@ -70,12 +70,12 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                 if(!closedCaseIds.isEmpty() && contentDocandLinkMap.containsKey(contentDocRec.Id)){
                     List<Id> linkedDocIds = contentDocandLinkMap.get(contentDocRec.Id);
                     for(Id linkedDocRec : linkedDocIds){
-                        if(closedCaseIds.contains(contentDocLinkandCaseMap.get(linkedDocRec))){
+                        if(closedCaseIds.contains(contentDocLinkandCaseMap.get(linkedDocRec)) && !ASF_ContentDocumentTriggerHandler.beforeInsertProcessed){
                             contentDocRec.addError(System.Label.ASF_File_Update_Validation);
                         }
                     }    
                 }  
-                if(!isSuperUser && UserInfo.getUserId() != contentDocRec.OwnerId){
+                if(!isSuperUser && UserInfo.getUserId() != contentDocRec.OwnerId && !ASF_ContentDocumentTriggerHandler.beforeInsertProcessed){
                     contentDocRec.addError(System.Label.ASF_File_Update_Val_Message);
                 }
             }
