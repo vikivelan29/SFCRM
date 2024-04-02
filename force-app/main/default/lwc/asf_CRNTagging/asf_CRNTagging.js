@@ -298,7 +298,8 @@ export default class Asf_CRNTagging extends LightningElement {
                 accountId: this.selectedCustomer,
                 assetId: selectedAsstId,
                 caseId: this.recordId,
-                faNumber: selectedFANum
+                faNumber: selectedFANum,
+                reqFromRecat: false
             })
                 .then(result => {
                     const event = new ShowToastEvent({
@@ -496,9 +497,6 @@ export default class Asf_CRNTagging extends LightningElement {
     handleBack(event){
         this.showProspectCreation = false;
     }
-
-    // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
-
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);
         const event = new ShowToastEvent({
@@ -508,5 +506,9 @@ export default class Asf_CRNTagging extends LightningElement {
         });
         this.dispatchEvent(event);
     }
+
+    // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
+
+      
 
 }

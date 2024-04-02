@@ -15,6 +15,10 @@ import BOT_FEEDBACK_FIELD from '@salesforce/schema/Case.Bot_Feedback__c';
 import CASE_BU_FIELD from '@salesforce/schema/Case.Business_Unit__c';
 import SENTTOBOT_FIELD from '@salesforce/schema/Case.Sent_to_EBOT__c';
 import OLDCCCIDFIELDS from '@salesforce/schema/Case.oldCCCIdFields__c';
+import CASE_ACCOUNT_ID from '@salesforce/schema/Case.AccountId';
+import CASE_ASSET_ID from '@salesforce/schema/Case.AssetId';
+import CASE_ASSET_LAN_NUMBER from '@salesforce/schema/Case.Asset.LAN__c';
+import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 
@@ -30,6 +34,19 @@ import getCaseRecordDetails from '@salesforce/apex/ASF_RecategoriseCaseControlle
 import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.updateCaseWithNewCCCId';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
 import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeedbackApi';
+
+
+
+import CUSTOMERPROSPECTSEARCH from "./reparentingCase.html";
+//import RECATEGORISATIONUI from './asf_RecategoriseCase.html';
+
+import { getCurrentCustomer,setSelectedAccount,setSelectedAsset,updateAccountAndAssetOnCase } from './reparentinghelper.js';
+import { getConstants } from './constants.js';
+//import getMatchingAccount from '@salesforce/apex/ASF_CaseUIController.getMatchingAccount';
+//import getMatchingContacts from '@salesforce/apex/ASF_CaseUIController.getMatchingContacts';
+
+
+
 
 export default class asf_RecategoriseCase extends NavigationMixin(LightningElement) {
     searchKey;
@@ -113,8 +130,41 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     recategorizeEnabled;
     sendBotFeedback = true;
     showBotFeedback = false;
-     
-    @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD] })
+
+    /* Virendra - FOR REPARENTING USE CASE */
+    accData;
+    selectedCustomer;
+    selectedCustomerName ='';
+    selectedCustomerClientCode = '';
+    selectedLoanAccNumber = '';
+    selectedLANLOB = '';
+    selectedAssetId = '';
+    asstData;
+    initialRecords;
+    selectedAsset;
+    originalCCCValue;
+    preselectedCustomerName = '';
+    preselectedLoanAccountNumber = '';
+    @track allCustomerRelatedAssets;
+    @track showLANForCustomer = false;
+    accCols = getConstants.ACCOUNT_COLUMNS;
+    asstCols = getConstants.ASSET_COLUMNS;
+    caseAccountClientCode = '';
+    showWhenCCCEligible = false;
+    showWhenCCCNotEligible = false;
+    bProceedToRecategorisation =false;
+    showCustomerSelection = true;
+    isAssetChange = false;
+    recategorisationOptions = getConstants.RECATEGORISATION_OPTIONS;
+    recategorisationBtn1Lable = getConstants.RECATEGORISATION_UPD_ACC;
+    recategorisationBtn2Lable = getConstants.RECATEGORISATION_PROCEED;
+    eligibleWithNewCustomerCSTSMsg = getConstants.CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
+    noneligibleWithNewCustomerCSTMsg  = getConstants.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
+
+    
+    /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
+    */
+    @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER] })
     wiredRecord({ error, data }) {
         if (data) {
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
@@ -123,17 +173,23 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.showBotFeedback = true;
             }
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
+            this.originalCCCValue = getFieldValue(data,CCC_FIELD);
+            this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
         } else if (error) {
             console.error('Error loading record', error);
         }
     }
 
+    /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
+    */
     renderedCallback(){
         Promise.all([
             loadStyle(this, overrideCSSFile)
         ]);
     }
-    //utility method
+
+    /* UTILITY METHOD TO SHOW ERROR MESSAGE.
+    */
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);
         const event = new ShowToastEvent({
@@ -143,6 +199,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         });
         this.dispatchEvent(event);
     }
+
     connectedCallback() {
         //api record id was not working
         console.log('this.recordId',this.recordId);
@@ -175,8 +232,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
+        let isthisNotAssetRelated = this.getIsAssetValue();
  
-        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
+        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -234,7 +292,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.sourceValues = [];
      
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-       /* if (selected) {
+        /* if (selected) {
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
         }
@@ -425,6 +483,19 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
         let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
+        // VIRENDRA - ADDED BELOW CHECKS FOR REPARENTING - 
+        console.log('this.accountId --> '+this.accountId);
+        console.log('this.selectedCustomer --> '+this.selectedCustomer);
+        
+        if(this.accountId != '' && this.accountId != undefined && this.accountId != null){
+            fields[CASE_ACCOUNT_ID.fieldApiName]=this.accountId;
+            fields[CASE_ASSET_ID.fieldApiName]=this.assetId;
+        }
+        else if(this.leadId != '' && this.leadId != undefined && this.leadId != null){
+            fields[CASE_LEAD_ID.fieldApiName]=this.leadId;
+        }
+        
+
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
         
@@ -677,6 +748,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             var caseparsedObject = JSON.parse(this.oldCaseDetails.caseDetails);
             this.accountId = caseparsedObject.AccountId;
             this.assetId = caseparsedObject.AssetId;
+            if(this.assetId != '' && this.assetId != undefined && this.assetId != undefined){
+                this.preselectedLoanAccountNumber = caseparsedObject.Asset.LAN__c;
+            }
+            
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
             this.oldCCCIdFields = (caseparsedObject.oldCCCIdFields__c == undefined || caseparsedObject.oldCCCIdFields__c == null)?'':caseparsedObject.oldCCCIdFields__c;
@@ -684,6 +759,13 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.selectedType = caseparsedObject.Type_Text__c;
             this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
             this.currentUserFullName = this.oldCaseDetails.currentUserName;
+            if(caseparsedObject.Account != null && caseparsedObject.Account != undefined){
+                if(caseparsedObject.Account.Client_Code__c != undefined && caseparsedObject.Account.Client_Code__c != null){
+                    this.caseAccountClientCode = caseparsedObject.Account.Client_Code__c;
+                }
+            }
+            
+           
             /* CHECK IF THE CASE IS RETURNING ACCOUNT OR NOT. IN CASE OF PROSPECT RELATED CASES
             /* ACCOUNT IS COMING AS NULL.
             /* Author - Virendra
@@ -767,6 +849,126 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         });
     }
 
+    /* Virendra - REPARENTING USE CASE START HERE - */
+    render() {
+        return CUSTOMERPROSPECTSEARCH;
+      }
 
+    valChange(event) {
+        getCurrentCustomer(event,this);
+        
+    }
+    handleAccAction(event){
+        this.showWhenCCCEligible = false;
+        this.showWhenCCCNotEligible = false;
+        setSelectedAccount(event,this);
+    }
+    handleAsstAction(event){
+        setSelectedAsset(event,this);
+        
+    }
+    handleAccountAssetUpd(event){
+        updateAccountAndAssetOnCase(event,this);
+
+    }
+    handleProceedToRecategorised(event){
+        this.bProceedToRecategorisation = true;
+        this.showCustomerSelection = false;
+    }
+    get showRecategorisationDiv(){
+        if(this.recategorizeEnabled == true && this.bProceedToRecategorisation == true){
+            //console.log(this.refs.myDiv);
+            console.log(this.template.querySelectorAll('[data-id="mydummydiv"]'));
+
+            return true;
+        }
+        return false;
+    }
+    get initialOptions(){
+        return getConstants.INITIAL_OPTIONS;
+    }
+
+    handleChangeAsset(event){
+        this.isAssetChange = true;
+        this.bProceedToRecategorisation = false;
+    }
+    handleChangeCTST(event){
+        this.bProceedToRecategorisation = true;
+        this.isAssetChange = false
+
+    }
+    get showRecategorisationOptions(){
+        if(this.recategorizeEnabled){
+            if(!this.isAssetChange && !this.bProceedToRecategorisation){
+                return true;
+            }
+        }
+        return false;
+        
+    }
+
+    getIsAssetValue(){
+        if(this.assetId && this.assetId != null && this.assetId != undefined){
+            return 'false';
+        }
+        else if(this.leadId && this.leadId != null && this.leadId != undefined){
+            return 'Prospect';
+        }
+        return this.isasset;
+    }
+    getAssetLOB(){
+        if(this.assetLOB != null && this.assetLOB != undefined && this.selectedLANLOB != null & this.selectedLANLOB !=undefined){
+            if(this.assetLOB != this.selectedLANLOB){
+                return this.selectedLANLOB;
+            }
+            else{
+                return this.assetLOB;
+            }
+        }
+        return this.assetLOB;
+    }
+
+    get currentCustomersAssets(){
+        if(this.asstData != null && this.asstData != undefined && this.asstData.length >0){
+            return this.asstData;
+        }
+        if(this.allCustomerRelatedAssets != null && this.allCustomerRelatedAssets != undefined && this.allCustomerRelatedAssets.length >0){
+            return this.allCustomerRelatedAssets;
+        }
+    }
+    
+    get currentCustomerSelectedAsset(){
+
+    }
+    handleSearch(event) {
+        const searchKey = event.target.value.toLowerCase();
+
+        if (searchKey) {
+            this.asstData = this.initialRecords;
+            if (this.asstData) {
+
+                let searchRecords = [];
+
+                for (let record of this.asstData) {
+                    let valuesArray = Object.values(record);
+
+                    for (let val of valuesArray) {
+                        let strVal = String(val);
+
+                        if (strVal) {
+
+                            if (strVal.toLowerCase().includes(searchKey)) {
+                                searchRecords.push(record);
+                                break;
+                            }
+                        }
+                    }
+                }
+                this.asstData = searchRecords;
+            }
+        } else {
+            this.asstData = this.initialRecords;
+        }
+    }
 
 }
