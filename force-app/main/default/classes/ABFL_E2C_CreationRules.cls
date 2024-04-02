@@ -1,14 +1,17 @@
 /**
- * @description       : ABFL_E2C_CreationRules
+ * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 02-09-2024
+ * @last modified on  : 03-27-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
+ * 2.0 	 02-04-2024	  rajender.kumar@manras.com   areAllWordsPresent function created
 **/
-public class ABFL_E2C_CreationRules {
+// supressing this as the code is meant as a mini framework and thus might have below PMD issues
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
+public with sharing class ABFL_E2C_CreationRules {
     // Main entry point to handle blocked email  messages
     public static void checkCreationRules(List<EmailMessage> emailMessages) {
         if(!emailMessages.isEmpty()){
@@ -22,7 +25,8 @@ public class ABFL_E2C_CreationRules {
             if (!caseIds.isEmpty()){
                 // Set to store Case Ids related to ABFL Email
                 Set<Id> abflCaseIds = new Set<Id>();
-                for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
+                //for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
+                    for (Case c : ASF_EmailMessageQueryHandler.getCaseRecords(caseIds)) {
                     // Check if the case origin is 'ABFL Email'
                     if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
                         abflCaseIds.add(c.Id);
@@ -87,7 +91,7 @@ public class ABFL_E2C_CreationRules {
         expectedValue=expectedValue.toLowerCase();
         switch on operator {
             when 'Does Not Contain'{
-                retVal = actualValue.equals(expectedValue);
+                retVal = areAllWordsPresent(expectedValue, actualValue);
             }
             when 'Not Equals To'{
                 retVal = actualValue == expectedValue;
@@ -95,4 +99,38 @@ public class ABFL_E2C_CreationRules {
         }
         return retVal;
     }
+    
+    /**
+     * Check if all words from the expectedValue are present in the actualValue 
+     * in the same order and return true if matched, otherwise false.
+     */
+    private static Boolean areAllWordsPresent(String expectedValue, String actualValue) {
+        // Split strings into arrays of words
+        List<String> expectedWords = new List<String>(expectedValue.toLowerCase().split(' '));
+        List<String> actualWords = new List<String>(actualValue.toLowerCase().split(' '));
+        
+        // Index to keep track of position in expectedWords
+        Integer expectedIndex = 0;
+        
+        // Check if actualValue contains expectedValue
+        if (actualValue.contains(expectedValue)) {
+            // Iterate through words in actualValue
+            for (String word : actualWords) {
+                // Check if the current word matches the next word in expectedValue
+                if (expectedIndex < expectedWords.size() && expectedWords[expectedIndex] == word) {
+                    expectedIndex++;
+                } 
+                // If all words from expectedValue are found in actualValue, return true
+                else if (word.contains(expectedWords[expectedIndex])) {
+                    return false;
+                }
+            }
+            
+            // If not all words from expectedValue were found in actualValue in the same order, return false
+            return expectedIndex == expectedWords.size();
+        }
+        
+        // If actualValue does not contain expectedValue, return false
+        return false;
+    } 
 }

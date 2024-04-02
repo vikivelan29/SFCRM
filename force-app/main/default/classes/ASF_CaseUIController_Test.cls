@@ -26,6 +26,11 @@ public class ASF_CaseUIController_Test {
         ast.Name = 'aas';
         insert ast;
         
+        LAN_Mapping__c lanMap = new LAN_Mapping__c();
+        lanMap.Customer__c = a.Id;
+        lanMap.LAN__c = ast.Id;
+        insert lanMap;
+        
         Contact con = new Contact();
         con.Lastname ='Test con';
         con.AccountId = a.Id;
@@ -103,8 +108,8 @@ public class ASF_CaseUIController_Test {
         System.debug('@@@ass'+ass+' '+ wrapper);
         ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
-        
-        ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
+        Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         

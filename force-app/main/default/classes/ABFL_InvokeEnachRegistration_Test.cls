@@ -66,8 +66,10 @@ public class ABFL_InvokeEnachRegistration_Test {
             List<ASF_Case_Category_Config__c> caseCat =  ABFL_TestDataFactory.createCaseCategoryConfig(true);
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfig(caseCat[0].Id, true);
+
+            Id  caseStageID = caseStage[0].StageName__c == 'Open'?caseStage[0].Id: caseStage[1].Id;
             ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
-            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStage[0].Id,true,'ABFL_InvokeEnachRegistration', 'eNachRegistration ');
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageID,true,'ABFL_InvokeEnachRegistration', 'eNachRegistration ');
             /*for(ASF_Integration__c integ : intConfigList){
                 integ.Query_Fields__c = 'Id,ABFL_Case_Detail__c, Account.Name, Technical_Source__c, Source__c';
             }*/
@@ -104,7 +106,7 @@ public class ABFL_InvokeEnachRegistration_Test {
      @isTest
     static void testUpdateSTPFlowIVR_NoEmail(){
         ASF_Integration__c intg = [SELECT Id,STP_API_Identifier__c FROM ASF_Integration__c LIMIT 1];
-        intg.STP_API_Identifier__c = 'BRE_Foreclosure_Retail';
+        intg.STP_API_Identifier__c = 'eNachRegistration';
         intg.STP_Config_External_Id__c = 'CCC-CC-CCLTD-01';
         update intg;
         List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');

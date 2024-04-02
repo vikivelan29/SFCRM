@@ -49,6 +49,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                     } 
                     this.story_328_329_330();              
                 }
+                else {
+                    this.isLoaded = false;
+                }
             }
         }
         else if (this.objectApiName == 'Account') {
@@ -94,9 +97,13 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     async story_328_329() {
         let iconAttrObjOC = {};
         let sobRecords = await getRecords({ fields: this.fieldArr, objectName: this.objectApiName, whereClause: this.whereClauseForOC });
+        iconAttrObjOC.dataId = '[data-id="Open_Complaint_Indicator"]';
         if (sobRecords && sobRecords.length > 0) {
-            iconAttrObjOC.dataId = '[data-id="Open_Complaint_Indicator"]';
             iconAttrObjOC.variant = 'error';
+            this.addAndChangeAttributes(iconAttrObjOC);
+        }
+        else {
+            iconAttrObjOC.variant = '';
             this.addAndChangeAttributes(iconAttrObjOC);
         }
         this.isLoaded = false;

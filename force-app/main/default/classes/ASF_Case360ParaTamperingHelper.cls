@@ -1,4 +1,4 @@
-@SuppressWarnings('PMD.FormalParameterNamingConventions')
+@SuppressWarnings('PMD.FormalParameterNamingConventions, PMD.ApexSOQLInjection')
 public without sharing class ASF_Case360ParaTamperingHelper {
     public static Map<String,Map<String,Schema.SObjectField>> mObjField = new Map<String,Map<String,Schema.SObjectField>>();
     public static Map<String,Set<String>> mObjVsFields = new Map<String,Set<String>>();
@@ -73,9 +73,8 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                      //Query Case Object.
                                                      if(ob.trim().toUpperCase() == 'CASE'){
                                                          String q = 'SELECT ID, ';
-                                                         q += String.JOIN(mObjFieldsForQuery.get('CASE'),',');
-                                                         q += ' FROM CASE WHERE ID =:caseId';
-                                                         q = String.escapeSingleQuotes(q);
+                                                         q += String.escapeSingleQuotes(String.JOIN(mObjFieldsForQuery.get('CASE'),','));
+                                                         q += String.escapeSingleQuotes(' FROM CASE WHERE ID =:caseId');
                                                          List<Case> cases = Database.query(q);
                                                          if(cases.size()>0){
                                                              mObjRecord.put('CASE',cases[0]);
@@ -85,10 +84,9 @@ public without sharing class ASF_Case360ParaTamperingHelper {
                                                          // Query Case Related Object.
                                                          if(extensionObjId != null && extensionObjId != ''){
                                                              String q = 'SELECT ID, ';
-                                                             q += String.JOIN(mObjFieldsForQuery.get(ob),',');
-                                                             q += ' FROM '+ob+' WHERE Id =:extensionObjId';
+                                                             q += String.escapeSingleQuotes(String.JOIN(mObjFieldsForQuery.get(ob),','));
+                                                             q += String.escapeSingleQuotes(' FROM '+ob+' WHERE Id =:extensionObjId');
                                                              System.debug(q);
-                                                             q = String.escapeSingleQuotes(q);
                                                              List<sObject> caseRelatedRecords = Database.query(q);
                                                              if(caseRelatedRecords.size()>0){
                                                                  sObject o = caseRelatedRecords[0];

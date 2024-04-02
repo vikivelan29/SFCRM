@@ -173,9 +173,11 @@ public without sharing class ABFL_InvokeLitmusProcess{
         public String tag_sub_type;
         public String tag_ccc;
         public String tag_lan;
+        public String tag_business_unit;
         
         public ABFL_LITMUS_Wrapper(Case caseRecord){
             this.app_id = System.Label.ABFL_LITMUS_PROJECT_ID;
+            this.tag_business_unit = caseRecord.Business_Unit__c;
             this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
             this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
             this.customer_id = caseRecord.AccountId;

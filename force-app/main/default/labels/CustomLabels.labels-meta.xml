@@ -57,13 +57,6 @@
         <value>Resolved By STP</value>
     </labels>
     <labels>
-        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
-        <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -196,6 +189,20 @@
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithFA</shortDescription>
         <value>Create Case with LAN</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
@@ -384,7 +391,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>No Reply Address</value>
+        <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
         <fullName>Allowed_Domain</fullName>

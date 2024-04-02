@@ -51,13 +51,13 @@ public class ASF_RecategoriseCaseControllerTest {
         LOB_Master__c lob = new LOB_Master__c(LOB_Code__c = 'ABC', BusinessUnit__c = 'ABHFL');
         insert lob;
         Asset ast = new Asset(
-        Name='AccountFinacial'
+        Name='TestAccountFinacial'
         ,AccountId=acc.Id
         , LOB_Code__c = lob.Id
         ,Price=100
         //,Financial_Account_Number__c = '0123456789123'
         );
-        ast.Name = 'AccountFinacial';
+        ast.Name = 'TestAccountFinacial';
         ast.Aggrement_Date__c = Date.newInstance(2023, 06, 09);
         ast.Application_Number__c = '12345';
         ast.Approved_Date__c = Date.newInstance(2023, 06, 10);
@@ -115,5 +115,45 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_RecategoriseCaseController.fetchCCCDetails(casesList[0].CCC_External_Id__c);
         Test.stopTest();
         
+    }
+    @IsTest
+    static void getMatchingAccountTest(){
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+        casesList[0].Technical_Source__c = 'LWC';
+        casesList[0].AccountId = [select id from account LIMIT 1].Id;
+        insert casesList;
+        Test.startTest();
+        ASF_RecategoriseCaseController.getMatchingAccount('12345',false,casesList[0].Id);
+        ASF_RecategoriseCaseController.getMatchingAccount('12345',true,casesList[0].Id);
+        Test.stopTest();
+    }
+    @IsTest
+    static void validateIfCurrentCTSTForAccountAndAssetTest(){
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+        ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
+        Id accountId = [select id from account LIMIT 1].Id;
+        Id assetId = [select id from asset where accountId =: accountId LIMIT 1].Id;
+        casesList[0].Technical_Source__c = 'LWC';
+        casesList[0].AccountId = accountId;
+        casesList[0].AssetId = assetId;
+        insert casesList;
+        Test.startTest();
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndAsset(accountId,assetId,config.CCC_External_Id__c);
+        Test.stopTest();
+    }
+    @IsTest
+    static void validateIfCurrentCTSTForAccountAndPropectTest(){
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+        ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
+        Id accountId = [select id from account LIMIT 1].Id;
+        casesList[0].Technical_Source__c = 'LWC';
+        casesList[0].AccountId = accountId;
+        insert casesList;
+        Test.startTest();
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndPropect(accountId,config.CCC_External_Id__c);
+        Test.stopTest();
     }
 }

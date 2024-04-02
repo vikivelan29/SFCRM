@@ -308,7 +308,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
 
         this.disableCreateBtn = true;
 
-
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
 
@@ -361,7 +360,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
         
-
+        this.noAutoCommValue = [];
+        
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
                 if(result.DuplicateLead != null && result.DuplicateLead != undefined){
@@ -427,6 +427,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     
       handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
+        console.log('event.detail.value=='+event.detail.value);
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;

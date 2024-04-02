@@ -1,0 +1,30 @@
+{
+"enach_data": {
+"pl_enach_id": "NACH3DLPF6XY6",
+"pl_merchant_id": "MRC7734",
+"customer_Id": "19531",
+"customer_mobile_no": "7999999999",
+"customer_name": "Ramesh Prasad Kulkarni",
+"customer_bank_ifsc": "HDFC0000256",
+"customer_bank_acc_no": "50100283104907",
+"amount": "10.00",
+"start_date": "Sat Sep 23 00:00:00 IST 2023",
+"end_date": "Wed Aug 20 00:00:00 IST 2025",
+"debit_type": "MAXAMOUNT",
+"frequency": "V",
+"return_url": "http://localhost:3000/resultpage",
+"status": "PENDING",
+"status_code": "0002",
+"response_code": "R1000",
+"mandate_type": "powered",
+"online_mandate": "Y"
+},
+"registration_data": {
+"pl_enach_id": "NACH3DLPF6XY6",
+"created_date": "20230922",
+"registration_link":
+"https://qa.phicommerce.com/pg/portal/pay/enachRequest?requestID=19531&actionType=viewRequest&merchantid=T_05014",
+"return_code": "0000",
+"resp_description": "Request accepted successfully"
+}
+}
