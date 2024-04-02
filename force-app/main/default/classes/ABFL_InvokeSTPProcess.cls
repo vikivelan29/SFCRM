@@ -259,8 +259,8 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                             System.debug('@@@resultWrap'+resultWrap);
-                            if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage) && caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname){
-                                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                            if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage)){
+                                if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
                                 update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                             }else{
                                 ABCL_Logger.enableExceptionLogging();
