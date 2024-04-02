@@ -720,7 +720,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -733,6 +733,27 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Recategorisation_Date__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.AccountId</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Lead__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Lead__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -872,7 +893,8 @@
         </rules>
     </decisions>
     <description>added condition to send an email for ABFL when case is categorized .
-Added condition to send email/sms when case status is Closed Duplicate</description>
+Added condition to send email/sms when case status is Closed Duplicate
+Added logic to send welcome email on account recat</description>
     <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
