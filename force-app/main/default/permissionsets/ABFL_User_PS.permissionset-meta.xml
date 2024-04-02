@@ -2759,6 +2759,10 @@
         <field>ASF_Case_Approv__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL User PS</label>
     <objectPermissions>
