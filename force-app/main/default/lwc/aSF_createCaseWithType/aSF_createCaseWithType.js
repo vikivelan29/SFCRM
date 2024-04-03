@@ -917,6 +917,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.closeCaseWithoutCusButton= 'true';
         this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';
