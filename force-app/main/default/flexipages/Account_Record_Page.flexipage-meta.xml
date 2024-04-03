@@ -132,8 +132,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PersonBirthdate__pc</fieldItem>
-                <identifier>RecordPersonBirthdate_pcField</identifier>
+                <fieldItem>Record.PersonBirthdate</fieldItem>
+                <identifier>RecordPersonBirthdateField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
