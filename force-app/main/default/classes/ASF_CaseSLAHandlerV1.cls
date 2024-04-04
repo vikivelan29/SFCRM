@@ -266,7 +266,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
-            slaHistory.Actioned_By__c = UserInfo.getName();
+            slaHistory.Actioned_By__c = c.Owner.Name; //UserInfo.getName();
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
                 slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
             }
@@ -444,7 +444,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 continue;
             }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
-            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
+            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c ||
+            newCases.get(c.Id).ForceModifySLAHistory__c != oldCases.get(c.Id).ForceModifySLAHistory__c){
                 modifiedCases.add(c);  
                 modifiednewCasesMap.put(c.Id,c);  
                 modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 

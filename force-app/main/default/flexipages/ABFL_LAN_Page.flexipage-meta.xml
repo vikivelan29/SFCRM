@@ -364,6 +364,16 @@
                 <identifier>RecordApproved_Limit_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Repayment_Mode__c</fieldItem>
+                <identifier>RecordRepayment_Mode_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-77b739eb-b0c8-4fb1-966a-aaf2f3fdacf8</name>
         <type>Facet</type>
     </flexiPageRegions>

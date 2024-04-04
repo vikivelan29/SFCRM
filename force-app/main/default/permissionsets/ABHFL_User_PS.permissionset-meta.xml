@@ -5,35 +5,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CaseTriggerBUSpecificHandler</apexClass>
+        <apexClass>ABCL_EBotFeedback</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABCL_EBotFeedback</apexClass>
-        <enabled>true</enabled>
-    </classAccesses><classAccesses>
         <apexClass>ABFL_Constants</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_BulkCsvController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_BulkUploadUtilityController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHFL_DataServiceClass</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABCL_EBotFeedback</apexClass>
-
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -66,10 +42,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHFL_ComplaintInvestigationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHFL_RoiHistoryClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -113,11 +85,39 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHFL_RoiHistoryClass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_SanctionLetterIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_BulkCsvController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkDownloadVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkUploadUtilityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseTriggerBUSpecificHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -144,10 +144,6 @@
         <apexClass>FrameworkFunctionalityExtender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>Asf_NpsIndicatiorController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Calendar_Year__mdt</name>
@@ -156,26 +152,6 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Repeated__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Competition_ROI__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.New_Mobile_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Asset_Detail__c.Revised_EMI_Tenure__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
@@ -221,7 +197,7 @@
         <field>ABHFL_Asset_Detail__c.Current_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Cycle_Date__c</field>
         <readable>true</readable>
@@ -303,6 +279,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Revised_EMI_Tenure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Revised_ROI__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -319,11 +300,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.AWB_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.BT_Banks__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -374,6 +350,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Attachment_in_DMS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.BT_Banks__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -452,8 +433,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Competition_ROI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -464,16 +455,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Complaint_number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Refund_Amount_TDS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Refund_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -569,11 +550,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Department_dependency__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -868,6 +844,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.New_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.OCR_Remark__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1053,12 +1034,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Refund_Amount_TDS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Refund_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Rekyc_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Repayment_Mode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Repeated__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2098,11 +2094,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.PersonBirthdate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Preferred_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2178,6 +2169,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>DMS_Files__c.File_Extension__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>DMS_Files__c.File_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2191,7 +2187,7 @@
         <field>DMS_Files__c.Is_Latest_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
-<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Next_Retry__c</field>
         <readable>true</readable>
@@ -2214,11 +2210,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Version_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>DMS_Files__c.File_Extension__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2422,7 +2413,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Lead.Address</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2442,7 +2433,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Lead.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2518,7 +2509,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Lead_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Login_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2589,6 +2590,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.SM_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.SPOC_Name_Formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2721,6 +2727,10 @@
         <field>User.managerGroupId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHFL User PS</label>
     <objectPermissions>
@@ -2831,7 +2841,7 @@
         <object>DMS_Files__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-<objectPermissions>
+    <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
@@ -2876,7 +2886,7 @@
         <object>Product2</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-   <pageAccesses>
+    <pageAccesses>
         <apexPage>ABHFL_ComplaintInvestigationPDF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -2888,7 +2898,7 @@
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
-<recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Knowledge__kav.FAQ</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -2912,4 +2922,8 @@
         <tab>standard-Knowledge</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>TransferAnyCase</name>
+    </userPermissions>
 </PermissionSet>

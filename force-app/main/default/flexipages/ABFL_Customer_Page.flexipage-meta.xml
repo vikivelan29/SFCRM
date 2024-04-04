@@ -224,6 +224,16 @@
                 <identifier>RecordLine_of_Business_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Gross_Net_Confirmation__c</fieldItem>
+                <identifier>RecordGross_Net_Confirmation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-85ca64d8-f6ae-487f-b640-ed7f1fc3f3fb</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -603,6 +613,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Ageing_Business_Days__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

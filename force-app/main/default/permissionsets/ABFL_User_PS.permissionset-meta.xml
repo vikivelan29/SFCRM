@@ -29,6 +29,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABFL_AccRecentCaseCommController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_IntegrationCommonUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -94,6 +98,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CustomerEmailInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -224,6 +236,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Charge_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -431,6 +448,11 @@
         <field>ABFL_Case_Detail__c.Issue_Type__c</field>
         <readable>true</readable>
 	</fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Junk_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.KYCComplied__c</field>
@@ -2751,6 +2773,10 @@
         <field>ASF_Case_Approv__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL User PS</label>
     <objectPermissions>
@@ -2869,6 +2895,10 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabSettings>
+        <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>TransferAnyCase</name>

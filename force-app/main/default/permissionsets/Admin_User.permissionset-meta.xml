@@ -123,6 +123,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Charge_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Closure_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -316,6 +321,11 @@
         <field>ABFL_Case_Detail__c.Issue_Type__c</field>
         <readable>true</readable>
 	</fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Junk_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.KYCComplied__c</field>
@@ -5049,11 +5059,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Permanent_Addr_Flag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.PersonBirthdate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

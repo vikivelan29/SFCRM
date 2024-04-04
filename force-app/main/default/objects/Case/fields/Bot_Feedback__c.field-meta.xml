@@ -42,21 +42,25 @@
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Incorrect Classification</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Manually case created</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Uncategorised</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Multiple Intent</valueName>
         </valueSettings>
         <valueSettings>

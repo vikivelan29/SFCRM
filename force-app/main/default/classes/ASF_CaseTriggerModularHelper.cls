@@ -46,10 +46,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
             nextStageMap.put(caseRec.Id, caseRec.Stage__c);
             
             if(isUpdate){
-                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                    && caseRec.CCC_External_Id__c != null){
+                system.debug('recat date--'+caseRec.Recategorisation_Date__c+'--'+oldMap.get(caseRec.Id).Recategorisation_Date__c);
+                if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null) || 
+                   ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
+                   ((caseRec.AccountId != oldMap.get(caseRec.Id).AccountId) || 
+                   (caseRec.AssetId != oldMap.get(caseRec.Id).AssetID)))){
                         //Only in case of interaction to framework conversion
                         //or recategorization
+                        //or Reparenting Account
+                        //or Reparenting Asset
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
                 }
                  
@@ -419,6 +425,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                             caseRecFromMap.Stage__c = resultWrap.caseToBeUpdated.Stage__c;
                             caseRecFromMap.Status = resultWrap.caseToBeUpdated.Status;
+                            caseRecFromMap.ForceModifySLAHistory__c = System.now().getTime();
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
@@ -438,6 +445,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             for(String fieldName : populatedFieldMap.keySet()){
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
+                            caseRecFromMap.ForceModifySLAHistory__c = System.now().getTime();
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
