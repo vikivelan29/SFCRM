@@ -9,14 +9,14 @@
  * 1.0      28-12-2023     svyavhare@salesforce.com          Initial Version
  **/
 
-public with sharing class ABFL_OdpAltertsComtroller {
+public with sharing class ABFL_OdpAltertsController {
 
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - getOdpAlerts
-    * @param AccountId - Account Id getting from ABFL_OdpAltertsComtroller Lwc Component.
+    * @param AccountId - Account Id getting from ABFL_OdpAltertsController Lwc Component.
     * @return - List<ODPAlertResponse>
-    * @description - Invoked from the ABFL_OdpAltertsComtroller Lwc components to get ODP Alerts
+    * @description - Invoked from the ABFL_OdpAltertsController Lwc components to get ODP Alerts
     *****************************************************************************************************************/
 
     @auraEnabled

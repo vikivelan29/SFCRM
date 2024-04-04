@@ -1,10 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
-import { getRecord } from 'lightning/uiRecordApi';
-import Id from '@salesforce/user/Id';
-import getOdpAlerts from '@salesforce/apex/ABFL_OdpAltertsComtroller.getOdpAlerts';
-import getConstants from '@salesforce/apex/ABHFL_Constants.getAllConstants';
-import getConstantsABFL from '@salesforce/apex/ABFL_Constants.getAllConstants'; //new code for ABFL
-import businessUnitType from '@salesforce/schema/User.Business_Unit__c';
+import getOdpAlerts from '@salesforce/apex/ABFL_OdpAltertsController.getOdpAlerts';
 
 export default class Abhfl_OdpAlerts extends LightningElement {
     @api recordId ;
@@ -18,17 +13,6 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     connectedCallback(){
        this.odpAlerts();
     }
-
-    // @wire(getRecord, { recordId: Id, fields: [businessUnitType]}) 
-    // currentUserInfo({error, data}) {
-    //     if (data) {
-    //         this.userType = data.fields.Business_Unit__c.value;
-    //         console.log('***this.userType'+this.userType);
-    //         this.callODPAlerts();
-    //     } else if (error) {
-    //         this.handleError(error);
-    //     }
-    // }
 
     odpAlerts(){
         this.showSpinner = true;
