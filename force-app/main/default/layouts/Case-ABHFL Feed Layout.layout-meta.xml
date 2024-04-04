@@ -6,19 +6,19 @@
         <compactFeed>true</compactFeed>
         <feedFilterPosition>LeftFixed</feedFilterPosition>
         <feedFilters>
+            <feedFilterType>AllUpdates</feedFilterType>
+        </feedFilters>
+        <feedFilters>
             <feedFilterType>FeedItemType</feedFilterType>
             <feedItemType>EmailMessageEvent</feedItemType>
         </feedFilters>
         <feedFilters>
+            <feedFilterName>Case.Posts</feedFilterName>
+            <feedFilterType>Custom</feedFilterType>
+        </feedFilters>
+        <feedFilters>
             <feedFilterType>FeedItemType</feedFilterType>
             <feedItemType>CallLogPost</feedItemType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>FeedItemType</feedFilterType>
-            <feedItemType>ChangeStatusPost</feedItemType>
-        </feedFilters>
-        <feedFilters>
-            <feedFilterType>AllUpdates</feedFilterType>
         </feedFilters>
         <fullWidthFeed>true</fullWidthFeed>
         <hideSidebar>true</hideSidebar>
