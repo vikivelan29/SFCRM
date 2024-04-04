@@ -127,20 +127,50 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_RecategoriseCaseController.getMatchingAccount('12345',false,casesList[0].Id);
         ASF_RecategoriseCaseController.getMatchingAccount('12345',true,casesList[0].Id);
         Test.stopTest();
-    }
+    } 
     @IsTest
     static void validateIfCurrentCTSTForAccountAndAssetTest(){
         ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
-        ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
-        Id accountId = [select id from account LIMIT 1].Id;
-        Id assetId = [select id from asset where accountId =: accountId LIMIT 1].Id;
+        ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c, LOB__c from ASF_Case_Category_Config__c LIMIT 1];
+        config.LOB__c = 'Retail - Secured';
+        config.Business_Unit__c = 'ABFL';
+        update config;
+        
+        Account accountRec = [select id,Business_Unit__c,Line_of_Business__c from account LIMIT 1];
+        accountRec.Business_Unit__c = 'ABFL';
+        accountRec.Line_of_Business__c = 'ABFL';
+        update accountRec;
+        
+        Asset assetRec = [select id,Business_Unit__c,LOB__c from asset where accountId =: accountRec.Id LIMIT 1];
+        assetRec.Business_Unit__c = 'ABFL';
+        assetRec.LOB__c = 'Retail - Secured';
+        assetRec.AccountId = accountRec.Id;
+        update assetRec;
+        
         casesList[0].Technical_Source__c = 'LWC';
-        casesList[0].AccountId = accountId;
-        casesList[0].AssetId = assetId;
+        casesList[0].AccountId = accountRec.Id;
+        casesList[0].AssetId = assetRec.Id;
         insert casesList;
+        
         Test.startTest();
-        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndAsset(accountId,assetId,config.CCC_External_Id__c);
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndAsset(accountRec.Id,assetRec.Id,config.CCC_External_Id__c);
+        
+        config.LOB__c = 'Retail - Secured';
+        config.Business_Unit__c = 'Payments';
+        config.Custom_Segment__c = 'Individual';
+        update config;
+        
+        accountRec.Business_Unit__c = 'Payments';
+        accountRec.Line_of_Business__c = 'Payments';
+        update accountRec;
+        
+        assetRec.Business_Unit__c = 'Payments';
+        assetRec.LOB__c = 'Retail - Secured';
+        update assetRec;
+        
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndAsset(accountRec.Id,assetRec.Id,config.CCC_External_Id__c);
+        
         Test.stopTest();
     }
     @IsTest
@@ -148,12 +178,30 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
         ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
-        Id accountId = [select id from account LIMIT 1].Id;
+        Account accountRec = [select id,Business_Unit__c,Line_of_Business__c from account LIMIT 1];
+        accountRec.Business_Unit__c = 'ABFL';
+        accountRec.Line_of_Business__c = 'ABFL';
+        update accountRec;
+        config.Business_Unit__c = 'ABFL';
+        update config;
+        
         casesList[0].Technical_Source__c = 'LWC';
-        casesList[0].AccountId = accountId;
+        casesList[0].AccountId = accountRec.Id;
         insert casesList;
         Test.startTest();
-        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndPropect(accountId,config.CCC_External_Id__c);
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndPropect(accountRec.Id,config.CCC_External_Id__c);
+        Lead testLead = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890',
+            Business_Unit__c = 'Payments'
+        );
+        insert testLead;
+        config.Business_Unit__c = 'Payments';
+        config.Custom_Segment__c = 'Individual';
+        update config;
+        ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndPropect(testLead.Id,config.CCC_External_Id__c);
         Test.stopTest();
     }
 }
