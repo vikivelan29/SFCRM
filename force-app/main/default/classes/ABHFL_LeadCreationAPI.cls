@@ -47,24 +47,33 @@ public with sharing class ABHFL_LeadCreationAPI {
                 leadObj.Sales_Lead_Id__c = responseWrapperObj.id;
                 message = 'Send Lead to CRM is Successful';
             }else{
-                message = responseWrapperObj.Message;
-                leadObj.API_Response_Message__c = responseWrapperObj.Message;
-                leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
-                leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
-                if(responseWrapperObj.Fileds != null && responseWrapperObj.Fileds.size() > 0){
-                    leadObj.API_Error_Fields__c = string.join(responseWrapperObj.Fileds,',');
+                    message = responseWrapperObj.Message;
+                if(responseWrapperObj.Message!=null){
+                    leadObj.API_Response_Message__c = responseWrapperObj.Message.substring(0,Math.min(responseWrapperObj.Message.length(), 255));
                 }
-                
-                if(!Test.isRunningTest() && !executingFromTrigger){
-                    throw new AuraHandledException(message);
-                }
+                    
+                    leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
+                    leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
+                    /*if(responseWrapperObj.Fileds != null && responseWrapperObj.Fileds.size() > 0){
+                        leadObj.API_Error_Fields__c = string.join(responseWrapperObj.Fileds,',');
+                    }*/
+                    try{
+                    	update leadObj;    
+                    }catch(Exception e){
+                        system.debug('Error=='+e.getMessage());
+                    }
+                	
+					
+                	if(!Test.isRunningTest() && !executingFromTrigger){
+                        throw new AuraHandledException('Send Lead to CRM Failed.');
+                    }
             }
             
-            try{
+            /*try{
                 UPDATE leadObj;
             }catch(Exception e){
                 system.debug('Error=='+e.getMessage());
-            }
+            }*/
         }else{
             message = 'Lead is already created Successfully';
         }
