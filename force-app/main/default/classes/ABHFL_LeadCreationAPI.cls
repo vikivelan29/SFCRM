@@ -65,7 +65,8 @@ public with sharing class ABHFL_LeadCreationAPI {
                 	
 					
                 	if(!Test.isRunningTest() && !executingFromTrigger){
-                        throw new AuraHandledException('Send Lead to CRM Failed.');
+                        //throw new AuraHandledException('Send Lead to CRM Failed.');
+                        return 'Send Lead to CRM Failed.';
                     }
             }
             
