@@ -182,11 +182,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
-    renderedCallback(){
+    /*renderedCallback(){
         Promise.all([
             //loadStyle(this, overrideCSSFile)
         ]);
-    }
+    } */
 
     /* UTILITY METHOD TO SHOW ERROR MESSAGE.
     */
@@ -868,8 +868,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         setSelectedAsset(event,this);
         
     }
-    handleAccountAssetUpd(event){
-        updateAccountAndAssetOnCase(event,this);
+    async handleAccountAssetUpd(event){
+        await updateAccountAndAssetOnCase(event,this);
+        let changeArray = [{recordId: this.recordId}];
+        notifyRecordUpdateAvailable(changeArray);
 
     }
     handleProceedToRecategorised(event){

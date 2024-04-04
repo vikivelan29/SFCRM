@@ -135,6 +135,7 @@ public with sharing class ASF_RecategoriseCaseController {
             toUpdateCase.Lead__c = (String)caseObject.get('Lead__c');
             toUpdateCase.AccountId = null;
             toUpdateCase.AssetId = null;
+            toUpdateCase.ContactId = null;
         }
         // VIRENDRA - ENDS HERE.
         toUpdateCase.CCC_External_Id__c = (String)caseObject.get('CCC_External_Id__c');
