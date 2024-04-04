@@ -311,7 +311,7 @@ public without sharing class ASF_CaseEmailController {
                 if(dataType.equals('DATETIME') && fieldValue != ' --- '){
                     if(dateFormat == null || dateFormat==''){
                         datetime datetimeValue = datetime.valueOf(fieldValue);
-                        resultMap.put(field,string.valueOf( datetimeValue.format('MM-dd-yyyy HH:mm:ss', 'IST')));
+                        resultMap.put(field,string.valueOf( datetimeValue.format('dd/MM/yyyy HH:mm:ss', 'IST')));
                     }else{
                         datetime datetimeValue = datetime.valueOf(fieldValue);
                         resultMap.put(field,string.valueOf( datetimeValue.format(dateFormat+' HH:mm:ss', 'IST')));
@@ -319,7 +319,7 @@ public without sharing class ASF_CaseEmailController {
                 }else if(dataType.equals('DATE') && fieldValue != ' --- '){
                     if(dateFormat == null || dateFormat ==''){
                         date dt = date.valueOf(fieldValue);
-                        resultMap.put(field, String.valueOf(dt.year()+'-'+dt.month()+'-'+dt.day()));
+                        resultMap.put(field, String.valueOf(dt.Format()));
                     }else{
                         datetime dt = date.valueOf(fieldValue);
                         resultMap.put(field, String.valueOf(dt.format(dateFormat)));
