@@ -131,29 +131,46 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
+        List<Id> emailMessageIds = new List<Id>();
+        Set<Id> caseIds = new Set<Id>();
         if(fileId != null){
             try{
                 String contentDocId = ASF_CaseFileUploadTriggerHelper.fetchContentDoc(fileId);
                 ContentDocument contentDocRec = [SELECT Id, Title from ContentDocument where Id =: contentDocId];
-                List<ContentDocumentLink> contentdocLinkList = [SELECT Id, LinkedEntityId from ContentDocumentLink 
-                                                         WHERE ContentDocumentId =: contentDocId];
+                List<ContentDocumentLink> contentdocLinkList = [SELECT Id, LinkedEntityId, LinkedEntity.Type from ContentDocumentLink 
+                                                         		WHERE ContentDocumentId =: contentDocId];
                 if(!contentdocLinkList.isEmpty()){
                     List<FeedItem> feedItemList = new List<FeedItem>();
                     for(ContentDocumentLink contentLinkRec : contentdocLinkList){
+                        if(contentLinkRec.LinkedEntity.Type == 'EmailMessage'){
+                            emailMessageIds.add(contentLinkRec.LinkedEntityId);
+                        }else if(contentLinkRec.LinkedEntity.Type == 'Case'){
+                            caseIds.add(contentLinkRec.LinkedEntityId);
+                        }
+                    }
+                    if(!emailMessageIds.isEmpty()){
+                        for(EmailMessage emailMessageRec : [select Id, RelatedToId from EmailMessage where Id IN: emailMessageIds]){
+                            if(String.valueOf(emailMessageRec.RelatedToId).startsWith('500')){
+                                caseIds.add(emailMessageRec.RelatedToId);
+                            }
+                        }
+                    }
+                    for(Id caseId : caseIds){
                         FeedItem feedItem = new FeedItem();
-                        feedItem.ParentId = contentLinkRec.LinkedEntityId;
+                        feedItem.ParentId = caseId;
                         feedItem.Type = 'TextPost';
                         feedItem.Body = 'The file \''+contentDocRec.Title+'\' has been deleted - '+comment;
                         feedItemList.add(FeedItem);
-                    } 
+                    }
+                        
+                    delete contentDocRec;
                     insert feedItemList;
                 } 
-                delete contentDocRec;
                 result = contentDocId;
                 
             }catch(Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        	}  
+            	throw new AuraHandledException(e.getMessage());
+        	} 
         }
         return result;
     }

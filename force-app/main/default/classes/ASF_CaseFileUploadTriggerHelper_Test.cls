@@ -58,7 +58,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
 
         Test.StartTest();
         Id ContentVerisonId = [SELECT Id FROM ContentVersion LIMIT 1].Id;
-        String result = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonId);
+        String result = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonId, 'Test');
         Assert.areNotEqual('Error', result, 'result cannot be Error');
         Test.StopTest();   
     }
