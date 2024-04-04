@@ -122,6 +122,10 @@ public with sharing class ASF_RecategoriseCaseController {
         if((String)caseObject.get('AccountId') != null && (String)caseObject.get('AccountId') != ''){
             toUpdateCase.AccountId = (String)caseObject.get('AccountId');
             toUpdateCase.Lead__c = null;
+            List<Contact> contactList = [SELECT Id from Contact where AccountId = :(String)caseObject.get('AccountId') AND Primary__c = TRUE LIMIT 1];
+            if(!contactList.isEmpty()){
+                toUpdateCase.ContactId = contactList[0].Id;
+            }
         }
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
