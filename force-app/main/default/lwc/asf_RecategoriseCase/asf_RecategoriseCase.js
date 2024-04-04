@@ -468,8 +468,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
        
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
-        fields[SOURCE_FIELD.fieldApiName] = this.strSource;
-        fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
+       // fields[SOURCE_FIELD.fieldApiName] = this.strSource;
+       // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
