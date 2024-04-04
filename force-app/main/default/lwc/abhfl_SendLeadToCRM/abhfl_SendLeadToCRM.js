@@ -9,7 +9,11 @@ export default class Abhfl_SendLeadToCRM extends LightningElement {
         
         sendLead({leadId: this.recordId, executingFromTrigger: false})
         .then(result => {
-            this.showToast('Success', result, 'Success');
+            if(result.includes('Failed')){
+                this.showToast('Error', result, 'error');
+            }else{
+                this.showToast('Success', result, 'Success');
+            }  
         })
 
         .catch(error => {
