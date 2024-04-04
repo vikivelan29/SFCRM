@@ -2,9 +2,9 @@
 //Created by JT & Santanu
 public with sharing class ASF_RecategoriseCaseController {
     /* when agent wants to recategrize , there is existing CCC id.
-So agent should not see current CCC id. But other ids to change,
-Hence this method 
-*/
+    So agent should not see current CCC id. But other ids to change,
+    Hence this method 
+    */
     @AuraEnabled(Cacheable = true)
     public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId, String assetLOB) {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB);
@@ -13,50 +13,50 @@ Hence this method
             if (ccc.CCC_External_Id__c != currentCCCId ){
                 filteredCCCList.add(ccc);
             }
-            
+
         }
         /* IF Filtered List is not having any record, show the ErrorMessage e.g. No Records found for the selected search.
-*/
+         */
         if(filteredCCCList.size()<=0){
             originalList.strErrorMessage = System.Label.ASF_Case_NoRecordMessage;
         }
         originalList.lstCCCrecords = filteredCCCList;
         return originalList;
     }    
-    
+
     @AuraEnabled(Cacheable = false)
     public static Map<String,Object> getCaseRecordDetails( String recId){
         map<String,object> resultMap = new map<String,object>();
-        
+		
         Case currentRecord =  [SELECT id,
-                               RecordType.Name,
-                               CCC_External_Id__c,
-                               Stage__c,
-                               account.Business_Unit__c,
-                               account.recordtype.name,
-                               accountId,
-                               account.Client_Code__c,
-                               assetId,
-                               asset.LAN__c,
-                               asset.LOB__c,
-                               Lead__c,
-                               Lead__r.Business_Unit__c,
-                               Lead__r.recordType.name,
-                               Nature__c,
-                               Source__c,
-                               Channel__c,
-                               isClosed,
-                               Priority,
-                               Is_Recategorise_Allowed__c,
-oldCCCIdFields__c,
-                                        Type_Text__c,
-                                        Sub_Type_Text__c,
-                               (SELECT Stage__c,
-                                Stage_End_Date__c,
-                                is_Running_Record__c    
-                                FROM SR_SLA_Histories__r)  
-                               FROM Case 
-                               WHERE id=:recId];
+                                RecordType.Name,
+                                CCC_External_Id__c,
+                                Stage__c,
+                                account.Business_Unit__c,
+                                account.recordtype.name,
+                                accountId,
+                                account.Client_Code__c,
+                                assetId,
+                                asset.LAN__c,
+                                asset.LOB__c,
+                                Lead__c,
+                                Lead__r.Business_Unit__c,
+                                Lead__r.recordType.name,
+                                Nature__c,
+                                Source__c,
+                                Channel__c,
+                                isClosed,
+                                Priority,
+                                Is_Recategorise_Allowed__c,
+                                oldCCCIdFields__c,
+                                Type_Text__c,
+                                Sub_Type_Text__c,
+                                (SELECT Stage__c,
+                                    Stage_End_Date__c,
+                                    is_Running_Record__c    
+                                    FROM SR_SLA_Histories__r)  
+                                FROM Case 
+                                WHERE id=:recId];
         String extensionObjecAPIname = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(currentRecord.CCC_External_Id__c);
         Set<String> uniqueStages = new Set<String>();
         resultMap.put('recategorizeEnabled',false);
@@ -64,9 +64,9 @@ oldCCCIdFields__c,
             resultMap.put('recategorizeEnabled',true);
         }
         /*
-if there is more than one stage in SR history , then case is moved beyond first stage.
-hence block from recategorize.
-*/
+        if there is more than one stage in SR history , then case is moved beyond first stage.
+        hence block from recategorize.
+        */
         // else {
         //     for(ASF_Case_SLA_History__c g: currentRecord.SR_SLA_Histories__r){
         //         uniqueStages.add(g.stage__c);
@@ -75,23 +75,23 @@ hence block from recategorize.
         // }
         resultMap.put('currentExtensionName',extensionObjecAPIname);
         resultMap.put('caseDetails',JSON.serialize(currentRecord));
-resultMap.put('currentUserName', UserInfo.getName());
+        resultMap.put('currentUserName', UserInfo.getName());
         return resultMap;
     }
     
     /*
-Old external Id is passed along with Case object which will have Nature , Product , Channel and New external Id.
-When external id is changed , there is possibility that extension object might change or new fields might be needed.
-So old external id might have diffrrent fields and now new field wil have different fields.
-If we start showing new fields , then old fields will be there , but no UI. 
-Hence its important to persist losing fields in  oldCCCIdFields__c which will have al fields in JSON
-*/
+    Old external Id is passed along with Case object which will have Nature , Product , Channel and New external Id.
+    When external id is changed , there is possibility that extension object might change or new fields might be needed.
+    So old external id might have diffrrent fields and now new field wil have different fields.
+    If we start showing new fields , then old fields will be there , but no UI. 
+    Hence its important to persist losing fields in  oldCCCIdFields__c which will have al fields in JSON
+    */
     @AuraEnabled
     public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson, String typeSubTypeText){
         /*
-newCaseJson looks like below
-'{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
-*/
+        newCaseJson looks like below
+        '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
+        */
         
         List<ASF_Checklist__c> openCheckLists = [SELECT ID 
                                                  FROM ASF_Checklist__c 
@@ -122,6 +122,10 @@ newCaseJson looks like below
         if((String)caseObject.get('AccountId') != null && (String)caseObject.get('AccountId') != ''){
             toUpdateCase.AccountId = (String)caseObject.get('AccountId');
             toUpdateCase.Lead__c = null;
+            List<Contact> contactList = [SELECT Id from Contact where AccountId = :(String)caseObject.get('AccountId') AND Primary__c = TRUE LIMIT 1];
+            if(!contactList.isEmpty()){
+                toUpdateCase.ContactId = contactList[0].Id;
+            }
         }
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
@@ -131,6 +135,7 @@ newCaseJson looks like below
             toUpdateCase.Lead__c = (String)caseObject.get('Lead__c');
             toUpdateCase.AccountId = null;
             toUpdateCase.AssetId = null;
+            toUpdateCase.ContactId = null;
         }
         // VIRENDRA - ENDS HERE.
         toUpdateCase.CCC_External_Id__c = (String)caseObject.get('CCC_External_Id__c');
@@ -148,10 +153,10 @@ newCaseJson looks like below
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;
         /*
-null check is at done at app level and not at DB level. this is because 
-when we do null check at db , indexinf will go for TOSS
-SLA history is LDV and this will become long running query.
-*/
+        null check is at done at app level and not at DB level. this is because 
+        when we do null check at db , indexinf will go for TOSS
+        SLA history is LDV and this will become long running query.
+        */
         List<ASF_Case_SLA_History__c> slaHistoryList = [SELECT id,
                                                         oldExternalId__c 
                                                         FROM ASF_Case_SLA_History__c 
@@ -168,14 +173,14 @@ SLA history is LDV and this will become long running query.
         
         
         /*
-Use case 1: From stage and To Stage are same. but no owner change. SLA cnange
-Use case 2: From stage and To Stage are different. but no owner change. SLA cnange.
-From Stage may not exist in new stage. 
+        Use case 1: From stage and To Stage are same. but no owner change. SLA cnange
+        Use case 2: From stage and To Stage are different. but no owner change. SLA cnange.
+        From Stage may not exist in new stage. 
 
-TBD Integrations and Approvals will remain 
+        TBD Integrations and Approvals will remain 
 
-1. change of account and asset
-*/
+        1. change of account and asset
+        */
         update toUpdateCase; 
         
     }
@@ -274,7 +279,7 @@ TBD Integrations and Approvals will remain
     }
     
     /* Validate if the Current Asset is eligible for the existing CTST or not.
-*/
+    */
     @AuraEnabled
     public static boolean validateIfCurrentCTSTForAccountAndAsset(String accountId, String assetId, String cccId){
         
