@@ -1,25 +1,39 @@
 public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
-    
+  	    
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
-            return;
+           return;
         }
         Boolean isDelete = newList==null ? true : false;
         List<ContentDocumentLink> contentDocLinkList = isDelete ? oldMap.values() : newList;
         List<ContentDocumentLink> eligibleRecords = new List<ContentDocumentLink>();
-        List<Id> linkedCaseIds = new List<Id>();  
+        List<Id> linkedCaseIds = new List<Id>();
+        Map<Id,ContentDocumentLink> linkedEmIds = new Map<Id,ContentDocumentLink>();
         List<Id> closedCaseIds = new List<Id>();
         List<Id> contentDocIds = new List<Id>();
         Map<Id, ContentDocument> contentDocMap;
-        
+        Map<Id,Id> entityToCaseMap = new Map<Id,Id>();
         for(ContentDocumentLink cdLinkRec : contentDocLinkList){
             if(cdLinkRec.LinkedEntityId.getSObjectType() == Case.SObjectType){
                 linkedCaseIds.add(cdLinkRec.LinkedEntityId);
                 contentDocIds.add(cdLinkRec.ContentDocumentId);
                 eligibleRecords.add(cdLinkRec);
-            }   
+            }
+            else if(cdLinkRec.LinkedEntity.Type == 'EmailMessage'){
+                linkedEmIds.put(cdLinkRec.LinkedEntityId, cdLinkRec);
+                contentDocIds.add(cdLinkRec.ContentDocumentId);
+                eligibleRecords.add(cdLinkRec);
+            }
+        }
+        if(!linkedEmIds.isEmpty()){
+            for(EmailMessage emailMessageRec : [select Id, RelatedToId from EmailMessage where Id IN: linkedEmIds.keySet()]){
+                if(String.valueOf(emailMessageRec.RelatedToId).startsWith('500')){
+                    linkedCaseIds.add(emailMessageRec.RelatedToId);
+                    entityToCaseMap.put(linkedEmIds.get(emailMessageRec.Id).Id, emailMessageRec.RelatedToId);
+                } 
+            }
         }
         if(!linkedCaseIds.isEmpty()){
             for(Case caseRec : [select Id, isClosed from case where ID IN: linkedCaseIds and isClosed = true]){
@@ -32,8 +46,12 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         if(!eligibleRecords.isEmpty()){
             for(ContentDocumentLink cdLinkRec : eligibleRecords){
                 //Validation for Remove from Record of closed case
-                if(!closedCaseIds.isEmpty() && closedCaseIds.contains(cdLinkRec.LinkedEntityId)){
-                    cdLinkRec.addError(System.Label.ASF_File_Update_Validation);
+                if(!closedCaseIds.isEmpty()){
+                    if(cdLinkRec.LinkedEntity.Type == 'EmailMessage' && entityToCaseMap.containsKey(cdLinkRec.LinkedEntityId) && closedCaseIds.contains(entityToCaseMap.get(cdLinkRec.LinkedEntityId))){
+                        cdLinkRec.addError(System.Label.ASF_File_Update_Validation);
+                    } else if(closedCaseIds.contains(cdLinkRec.LinkedEntityId)){
+                        cdLinkRec.addError(System.Label.ASF_File_Update_Validation);
+                    }                    
                 }
                 if(!isSuperUser && UserInfo.getUserId() != contentDocMap.get(cdLinkRec.ContentDocumentId).OwnerId){
                     cdLinkRec.addError(System.Label.ASF_File_Update_Val_Message);
@@ -47,17 +65,33 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         }
         Boolean isDelete = newMap==null ? true : false;
         Map<Id,Id> contentDocLinkandCaseMap = new Map<Id,Id>();
+        Map<Id,ContentDocumentLink> contentDocLinkandEMMap = new Map<Id,ContentDocumentLink>();
         Map<Id,List<Id>> contentDocandLinkMap = new Map<Id,List<Id>>();
         List<Id> closedCaseIds = new List<Id>();
         Map<Id, ContentDocument> contentDocMap = !isDelete ? newMap : oldMap;
      	for(ContentDocumentLink cdLinkRec : [SELECT Id, LinkedEntityId, LinkedEntity.Type, ContentDocumentId FROM ContentDocumentLink WHERE ContentDocumentId IN: contentDocMap.keySet()]){
-                if(cdLinkRec.LinkedEntity.Type == 'Case'){
-                    contentDocLinkandCaseMap.put(cdLinkRec.Id,cdLinkRec.LinkedEntityId);
-                    if(!contentDocandLinkMap.containsKey(cdLinkRec.ContentDocumentId)){
-                        contentDocandLinkMap.put(cdLinkRec.ContentDocumentId, new List<Id>());
-                    }
-                    contentDocandLinkMap.get(cdLinkRec.ContentDocumentId).add(cdLinkRec.Id);
-                }    
+         
+            if(cdLinkRec.LinkedEntity.Type == 'Case'){
+                contentDocLinkandCaseMap.put(cdLinkRec.Id,cdLinkRec.LinkedEntityId);
+                if(!contentDocandLinkMap.containsKey(cdLinkRec.ContentDocumentId)){
+                    contentDocandLinkMap.put(cdLinkRec.ContentDocumentId, new List<Id>());
+                }
+                contentDocandLinkMap.get(cdLinkRec.ContentDocumentId).add(cdLinkRec.Id);
+            }    
+            else if(cdLinkRec.LinkedEntity.Type == 'EmailMessage'){
+                contentDocLinkandEMMap.put(cdLinkRec.LinkedEntityId,cdLinkRec);
+            }
+        }
+        if(!contentDocLinkandEMMap.isEmpty()){
+            for(EmailMessage emailMessageRec : [select Id, RelatedToId from EmailMessage where Id IN: contentDocLinkandEMMap.keySet()]){
+                if(String.valueOf(emailMessageRec.RelatedToId).startsWith('500')){
+                    contentDocLinkandCaseMap.put(contentDocLinkandEMMap.get(emailMessageRec.Id).Id,emailMessageRec.RelatedToId);
+                    if(!contentDocandLinkMap.containsKey(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId)){
+                    contentDocandLinkMap.put(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId, new List<Id>());
+                }
+                contentDocandLinkMap.get(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId).add(contentDocLinkandEMMap.get(emailMessageRec.Id).Id);
+                }
+            }
         }
         if(!contentDocLinkandCaseMap.isEmpty()){
             for(Case caseRec : [select Id, isClosed from case where ID IN: contentDocLinkandCaseMap.values() and isClosed = true]){
@@ -95,13 +129,26 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         return docId;
     }
     @AuraEnabled
-    public static String deleteFileById(String fileId) {
+    public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
         if(fileId != null){
             try{
                 String contentDocId = ASF_CaseFileUploadTriggerHelper.fetchContentDoc(fileId);
-                ContentDocument contentDocRec = [SELECT Id from ContentDocument where Id =: contentDocId];
-                delete contentDocRec; 
+                ContentDocument contentDocRec = [SELECT Id, Title from ContentDocument where Id =: contentDocId];
+                List<ContentDocumentLink> contentdocLinkList = [SELECT Id, LinkedEntityId from ContentDocumentLink 
+                                                         WHERE ContentDocumentId =: contentDocId];
+                if(!contentdocLinkList.isEmpty()){
+                    List<FeedItem> feedItemList = new List<FeedItem>();
+                    for(ContentDocumentLink contentLinkRec : contentdocLinkList){
+                        FeedItem feedItem = new FeedItem();
+                        feedItem.ParentId = contentLinkRec.LinkedEntityId;
+                        feedItem.Type = 'TextPost';
+                        feedItem.Body = 'The file \''+contentDocRec.Title+'\' has been deleted - '+comment;
+                        feedItemList.add(FeedItem);
+                    } 
+                    insert feedItemList;
+                } 
+                delete contentDocRec;
                 result = contentDocId;
                 
             }catch(Exception e) {

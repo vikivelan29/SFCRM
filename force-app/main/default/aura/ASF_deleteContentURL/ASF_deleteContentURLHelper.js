@@ -3,16 +3,19 @@
        var contentDocId = component.get("v.contentDocId");
        var workspaceAPI = component.find("workspace");
         workspaceAPI.getAllTabInfo().then(function(response) {
-            console.log('tabs--'+JSON.stringify(response));
             response.forEach(function(tab) {
                 if(tab.focused){
-                    tab.subtabs.forEach(function(subtab) {
-                        if(subtab.focused){
-                            workspaceAPI.closeTab({tabId: subtab.tabId});
-                        } else if(subtab.recordId === contentDocId){
-                            workspaceAPI.closeTab({tabId: subtab.tabId});
-                        }
-                    });
+                    if(tab.recordId == contentDocId){
+                        workspaceAPI.closeTab({tabId: tab.tabId});
+                    }else{
+                        tab.subtabs.forEach(function(subtab) {
+                            if(subtab.focused){
+                                workspaceAPI.closeTab({tabId: subtab.tabId});
+                            } else if(subtab.recordId === contentDocId){
+                                workspaceAPI.closeTab({tabId: subtab.tabId});
+                            }
+                        });
+                    }  
                 }
             });
             if(reqFrom === 'delete'){
