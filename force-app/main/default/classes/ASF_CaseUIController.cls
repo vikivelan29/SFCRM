@@ -196,6 +196,7 @@ public with sharing class  ASF_CaseUIController {
                 cs.Lead__c = accountId;
                 cs.AccountId = null;
                 cs.AssetId = null;
+                cs.ContactId =null;
             }
             
         }
