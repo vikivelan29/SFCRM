@@ -188,12 +188,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
             
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
-                System.debug('userBu --> '+userBu);
-                System.debug('userBu --> '+ccc.Business_Unit__c);
-
                 if( String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
                    && ccc.Business_Unit__c.contains(userBu)){
-                       System.debug('userBu --> '+userBu + ' === '+ccc.Business_Unit__c);
                        cccset.add(searchResults.get(cccId));  
                    } 
                 

@@ -106,10 +106,18 @@ public class ASF_CaseUIController_Test {
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
         System.debug('@@@ass'+ass+' '+ wrapper);
+        Lead testLead = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        insert testLead;
         ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
-        Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
+        Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
@@ -129,6 +137,13 @@ public class ASF_CaseUIController_Test {
         ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
+        Lead testLead2 = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+		Map<String,sObject> result = ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName);
         //}
         

@@ -448,7 +448,18 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
             })
             .catch(error => {
-                this.showError('error', 'Error occured', error);
+                if(JSON.stringify(error).includes('INSUFFICIENT_ACCESS_OR_READONLY')){
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Error updating record',
+                            message: ' You dont have access to make changes as you are not the owner of the case.',
+                            variant: 'error',
+                        }),
+                    );      
+                }  
+                else{
+                    this.showError('error', 'Error occured', error);
+                } 
                 console.log('@@@ERRORJSON - '+JSON.stringify(error));
 
             });
