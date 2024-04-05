@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abfl/basiccustomerinfo</value>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/getLmsDataDwh/1.0</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
