@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ForceModifySLAHistory__c</fullName>
+    <fullName>SkipModifyingSLAHistory__c</fullName>
     <description>Change in this field forces SLA history recalculation</description>
     <externalId>false</externalId>
-    <label>Force Modify SLA History(Backend)</label>
+    <label>Skip Modifying SLA History(Backend)</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
