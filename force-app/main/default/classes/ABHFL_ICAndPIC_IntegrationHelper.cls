@@ -28,9 +28,9 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
         reqBodyObj.requestType   = 'View';
         reqBodyObj.lan           = lan;
         reqBodyObj.documentType = 'BinaryData';
+        reqBodyObj.financialYear = finYr;
 
         if(integName == 'Interest Certificate') {
-            reqBodyObj.financialYear = finYr;
             reqBodyObj.reportName   = ABHFL_Constants.IC_REPORT_NAME;
             
         }
@@ -127,6 +127,10 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
                 Integer addedfinYr = Integer.valueOf(finYrList[0]) + 1;
                 financialYr = finYrList[0] + '-' + String.valueOf(addedfinYr);
             }
+        } else {
+            Period fyInfo = [SELECT Id, FiscalYearSettings.Name FROM Period WHERE Type = 'Year' AND StartDate <= TODAY AND EndDate >= TODAY limit 1];
+            Integer Fy = Integer.valueOf(fyInfo.FiscalYearSettings.Name) + 1;
+            financialYr = fyInfo.FiscalYearSettings.Name + '-' + String.valueOf(Fy);
         }
         return financialYr;
     }

@@ -10,46 +10,28 @@
             </div>
         </div>
     </div>
-    <div if:true={isAbhflUser} class="container">
-        <div class="lgc-bg">
-            <div class="header">
-                <lightning-button-icon icon-name="action:refresh" variant="brand" alternative-text="Refresh" onclick={odpAlerts}></lightning-button-icon>
-            </div>
-            <div if:false={showErrorMessage} class="bullet-points">
-                <ul>
-                    <template for:each={responseMessage} for:item="res">
-                        <li key={res.messageText}>
-                            <lightning-formatted-rich-text value={res.messageText}></lightning-formatted-rich-text>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-            <br/>
-            <div if:true={showErrorMessage} class="error-message">
-                {responseMessage.body.message}
-            </div>
+    <div class="lgc-bg">
+        <div class="header">
+            <lightning-button-icon icon-name="action:refresh" variant="brand" alternative-text="Refresh" onclick={odpAlerts}></lightning-button-icon>
+        </div>
+        <div if:false={showErrorMessage} class="bullet-points">
+            <ul>
+                <template for:each={responseMessage} for:item="res">
+                    <li key={res.messageText}>
+                        <lightning-formatted-rich-text value={res.messageText}></lightning-formatted-rich-text>
+                    </li>
+                </template>
+            </ul>
+            <template if:false={responseMessage}>
+                <div>
+                    There is no ODP Alert available.
+                </div>
+            </template>
+        </div>
+        <br/>
+        <div if:true={showErrorMessage} class="error-message">
+            {responseMessage.body.message}
         </div>
     </div>
 
-    <!-- For ABFL -->
-    <div if:true={isAbflUser} class="container">
-        <div class="lgc-bg">
-            <div class="header">
-                <lightning-button-icon icon-name="action:refresh" variant="brand" alternative-text="Refresh" onclick={odpAlerts}></lightning-button-icon>
-            </div>
-            <div if:false={showErrorMessage} class="bullet-points">
-                <ul>
-                    <template for:each={responseMessage} for:item="res">
-                        <li key={res.messageText} style="text-align: justify;">
-                            <c-abfl-message-text odp-data={res}></c-abfl-message-text>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-            <br/>
-            <div if:true={showErrorMessage} class="error-message">
-                {responseMessage.body.message}
-            </div>
-        </div>
-    </div>
 </template>
