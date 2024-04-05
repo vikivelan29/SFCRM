@@ -19,7 +19,7 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL Cases to ABHFL Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
