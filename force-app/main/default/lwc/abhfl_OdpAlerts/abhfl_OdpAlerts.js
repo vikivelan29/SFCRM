@@ -32,11 +32,9 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         //let isABFL = this.account.fields.BusinessUnit__c.value == 'ABFL' ? true : false;
         getOdpAlerts({'AccountId':this.recordId, isABFL: false}) //new
         .then(result => {
-            if(result[0].errorCode == undefined){
+            if(result && result.length > 0){
                 this.responseMessage = result;
                 this.showErrorMessage = false;
-            }else{
-                this.handleError(result[0].message);
             }
             this.showSpinner = false;
         })
