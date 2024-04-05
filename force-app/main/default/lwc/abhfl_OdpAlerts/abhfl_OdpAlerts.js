@@ -16,7 +16,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
     responseMessage;
     account;
 
-    @wire(getRecord, { recordId: Id, fields: ACCOUNTFIELDS}) 
+    @wire(getRecord, { recordId: "$recordId", fields: ACCOUNTFIELDS}) 
     accountInfo({error, data}) {
         if (data) {
             this.odpAlerts();
