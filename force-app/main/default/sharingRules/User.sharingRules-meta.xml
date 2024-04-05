@@ -17,10 +17,10 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL User with ABHFL Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABHFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
