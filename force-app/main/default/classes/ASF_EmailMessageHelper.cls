@@ -7,14 +7,14 @@
 public without sharing class ASF_EmailMessageHelper {
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
-*/
+    */
     public static void validateIfGoingFromAuthorizedAddress(List<EmailMessage> newEmails){
         List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
         
         
         /* Check if the request is coming from User Action by Clicking on Quick Action - Email.
-* Return if the request is not from Quick Action. All the automation to have Quiddity as SYNCHRONOUS
-*/
+        * Return if the request is not from Quick Action. All the automation to have Quiddity as SYNCHRONOUS
+        */
         Request reqInfo = Request.getCurrent();
         String currentRequestId = reqInfo.getRequestId();
         Quiddity currentType = reqInfo.getQuiddity();
@@ -46,6 +46,10 @@ public without sharing class ASF_EmailMessageHelper {
     /**
      * When customer replies to an existing email2case email thread for which the original case was closed, 
      * case should be reopened if certain criteria's are met, or a new case should be created in other cases.
+     *  LOB	        Nature	        Reply within 10 days of closure	Reply after 10 days of closure	Manually Reopen allowed by agent?
+     *  Non-Wealth	Complaint	    Reopen	                        New Case	                    Yes, for 10 days
+     *  Non-Wealth	Non-Complaint	New Case	                    New Case	                    No
+     *  Wealth	    Any	            New Case	                    New Case	                    No
      */
     public static void checkAndReopenClosedCases(List<EmailMessage> newEmails) {
         Set<Id> caseIds = new Set<Id>();
@@ -73,8 +77,8 @@ public without sharing class ASF_EmailMessageHelper {
             for(Case caseRec : existingCases){
                 //check if closed or not
                 if(caseRec.IsClosed && caseRec.Origin != null && caseRec.Origin.contains('Email') 
-                    && caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK
-                    && caseRec.Nature__c == 'Complaint'){
+                    && caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
+                    //&& caseRec.Nature__c == 'Complaint'){
                     //if closed, check if reopen allowed or not
                     if(caseRec.Is_Reopen_Allowed__c == true){
                         // if allowed, check if reopen days expired or not
