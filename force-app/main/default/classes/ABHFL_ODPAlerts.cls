@@ -32,8 +32,10 @@ public with sharing class ABHFL_ODPAlerts {
             
             ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
             
-            if(odpResponseWrp.responseBody == '[]'){
-                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
+            if(odpResponseWrp.statusCode != 200){
+                ODPAlertResponse errorResp = new ODPAlertResponse();
+                errorResp.messageText = 'There is no odp alert available';
+                odpAlertResponseList.add(errorResp);
             }else{
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
             }

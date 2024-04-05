@@ -79,6 +79,7 @@ public class ODPAlertResponse {
         }
     }
     
+    public ODPAlertResponse(){}
     
     public static List<ODPAlertResponse> parse(String json) {
         System.JSONParser parser = System.JSON.createParser(json);
