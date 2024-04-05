@@ -105,7 +105,6 @@ const SearchAccountHandler = (event, parentJS) => {
     })
         .then(result => {
             parentJS.accData = result;
-            console.log('adc data--' + JSON.stringify(parentJS.accData));
         })
         .catch(error => {
         });
@@ -113,11 +112,14 @@ const SearchAccountHandler = (event, parentJS) => {
 
 const updateAccountAndAssetOnCase=async (event,parentJS)=>{
     console.log(parentJS.selectedCustomer);
-    console.log(parentJS.selectedAsset.Id);
+    let assetVal = null;
+    if(parentJS.selectedAsset && parentJS.selectedAsset != null){
+        assetVal = parentJS.selectedAsset.Id;
+    }
     parentJS.loaded = false;
     await updateCRN({
         accountId: parentJS.selectedCustomer,
-        assetId: parentJS.selectedAsset.Id,
+        assetId: assetVal,
         caseId: parentJS.recordId,
         faNumber: parentJS.selectedLoanAccNumber,
         reqFromRecat: true
