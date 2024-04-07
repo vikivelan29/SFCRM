@@ -198,6 +198,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
                     caseInt.Status__c = ABHFL_Constants.PENDING;
                     caseInt.Request__c  =  JSON.serialize(new SOARequestWrapper(caseRecord.Asset.Lan__c, toDate, fromDate, caseRecord.caseNumber));
                     caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
+                    newCaseIntegrations.add(caseInt);
 
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
                     caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;

@@ -716,6 +716,10 @@ public class ASF_CaseMovementHelper {
                     apexclassToCases.put(nextStageConfig.BeforeStageApexClass__c, new List<Case>());
                 }
                 apexclassToCases.get(nextStageConfig.BeforeStageApexClass__c).add(caseRec);
+            }else {
+                 CaseStageValidationWrapper caseValidationWrapper = new CaseStageValidationWrapper();
+                 caseValidationWrapper.Status = 'Success';
+                returnWrapperMap.put(caseRec.Id,caseValidationWrapper);
             }
         }
         for(String apexClass : apexclassToCases.keySet()){
