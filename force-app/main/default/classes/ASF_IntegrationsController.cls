@@ -119,12 +119,12 @@ public with sharing class ASF_IntegrationsController {
                 String.join(all_fields, ',') +
                 ' FROM Case WHERE Id IN :caseRecs'
             ));
-            
+            system.debug('apexClassToCasesForEvaluate'+apexClassToCasesForEvaluate);
             for(String apexClass : apexClassToCasesForEvaluate.keySet()){
                 Type customType = Type.forName(apexClass);
                 ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
                 Map<Id, IntegrationWrapper> intResults = instance.evaluate(apexClassToCasesForEvaluate.get(apexClass));
-                
+                system.debug('intResults--->'+intResults);
                 for(Case caseRec : apexClassToCasesForEvaluate.get(apexClass)){
                     if(intResults.containsKey(caseRec.Id)){
                         if(intResults.get(caseRec.Id).status == 'Success'){
@@ -134,18 +134,39 @@ public with sharing class ASF_IntegrationsController {
                             }
                             apexClassToCasesForRun.get(apexClass).add(caseRec);
                         }else{
-                            wrapperMap.put(caseRec.Id, intResults.get(caseRec.Id));//Error response, hence store.
+                            system.debug('caseRec.Id--->'+caseRec.Id);
+                            system.debug('intResults.get(caseRec.Id)--->'+intResults.get(caseRec.Id));
+                            
+                            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                                if(integ.Processing_Class__c == apexClass){
+                                    Decimal currentPriority = integ.Priority__c!=null?integ.Priority__c:999;
+                                    IntegrationWrapper returnWrap = intResults.get(caseRec.Id);
+                                    returnWrap.priority = currentPriority;
+                                    //check if already an entry exists in wrappermap for this case
+                                    //if yes, compare the priority of that integration with current one, smaller the number, higher the priority.
+                                        //keep the higher priority item in the wrappermap, 
+                                        //if already a entry present with same priority, skip entering new entry
+                                    //if no, make an entry in wrapper map with current item
+                                    if(wrapperMap.containsKey(caseRec.Id)){
+                                        if(currentPriority < wrapperMap.get(caseRec.Id).priority){
+                                            wrapperMap.put(caseRec.Id, returnWrap);
+                                        }
+                                    }else{
+                                        wrapperMap.put(caseRec.Id, returnWrap);//Error response, hence store.
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-            
+            system.debug('wrapperMap--->'+wrapperMap);
             // Then run the actual integration
             // if(invokeIntegration.status != 'Success'){
             //     return invokeIntegration;
                 
             // }
-
+            system.debug('apexClassToCasesForRun--->'+apexClassToCasesForRun);
             for(String apexClass : apexClassToCasesForRun.keySet()){
                 Type customType = Type.forName(apexClass);
                 ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
@@ -169,6 +190,7 @@ public with sharing class ASF_IntegrationsController {
                     }
                 }
             }
+            system.debug('wrapperMap Final--->'+wrapperMap);
             return wrapperMap;
         } catch (Exception e) {
             //throw new AuraHandledException(e.getMessage());    
@@ -227,6 +249,8 @@ public with sharing class ASF_IntegrationsController {
         public Id assignToId;
         @AuraEnabled
         public Case updatedCase;
+        @AuraEnabled
+        public Decimal priority;
     }
 
 }

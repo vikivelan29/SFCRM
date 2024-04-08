@@ -159,15 +159,16 @@ public class ASF_CaseMovementHelper {
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                 if(nextStage.status != 'Error'){
                     Case updatedCase = new Case(Id = caseId);
-                    updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
 		    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
                     //When case get to Gateway stage after backward movement, unable to find valid next stage.
                     if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
                     	updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                     	updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
-			resultWrapper.ownerId = nextStage.ownerId;
-		    }
+                        resultWrapper.ownerId = nextStage.ownerId;
+                    }
+                    updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     updatedCase.MoveToNext__c = false;
+                    
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                     
                     // If moved to Previous Stage, Remove Pending Clarification Flag
@@ -219,41 +220,7 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapper.status = 'Success';
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
-                        // CaseStageValidationWrapper beforeResult = validateNextStageEntry(caseRec, nextStage.stageConfig);
-                        // if(beforeResult.status != 'Success'){
-                        //     resultWrapper.errorMessage = beforeResult.errorMessage;
-                        //     resultWrapper.status = 'Error';
-                        //     resultWrapperMap.put(caseRec.Id, resultWrapper);
-                        // }else{
-                        //     String nextStageName = nextStage.stageConfig.StageName__c;
-                        //     //Update assignment, and other case fields
-                        //     Case updatedCase = new Case(Id = caseRec.Id);
-                        //     updatedCase.Stage__c = nextStageName;
-                        //     updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
-                        //     updatedCase.MoveToNext__c = false;
-                        //     // If Validation Layer Returned any fields in Case, append the same
-                        //     // This is returned from Custom Apex Class Run After the Stage Movement
-                        //     if(validationResults.containsKey(caseRec.Id) && validationResults.get(caseRec.Id).isCaseUpdated == true){
-                        //         Map<String, Object> sourceFields = validationResults.get(caseRec.Id).updatedCase.getPopulatedFieldsAsMap();
-                        //         for (String fieldName : sourceFields.keySet()) {
-                        //             updatedCase.put(fieldName, sourceFields.get(fieldName));
-                        //         }
-                        //     }
-
-                        //     // If Before Apex Class Run returned any fields on Case, append the same
-                        //     if(beforeResult != null && beforeResult.isCaseUpdated == true){
-                        //         Map<String, Object> sourceFields = beforeResult.updatedCase.getPopulatedFieldsAsMap();
-                        //         for (String fieldName : sourceFields.keySet()) {
-                        //             updatedCase.put(fieldName, sourceFields.get(fieldName));
-                        //         }
-                        //     }
-                        //     resultWrapper.caseToBeUpdated = updatedCase;
-                        //     resultWrapper.status = 'Success';
-                        //     resultWrapper.nextStageConfig = nextStage.stageConfig;
-                        //     resultWrapper.ownerId = nextStage.ownerId;
-                        //     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
-                        //     resultWrapperMap.put(caseRec.Id, resultWrapper);
-                        // }
+                        
                     }else{
                         resultWrapper.errorMessage = nextStage.errorMessage;
                         resultWrapper.status = 'Error';
@@ -1047,6 +1014,16 @@ public class ASF_CaseMovementHelper {
             externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
         }
 
+        // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
+        List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(externalIds);
+        Map<Id, List<ASF_Case_Rule__c>> stageIdToCaseRulesMap = new Map<Id, List<ASF_Case_Rule__c>>();
+        for(ASF_Case_Rule__c rule : allCaseRules){
+            if(!stageIdToCaseRulesMap.containsKey(rule.Case_Stage_Config__c)){
+                stageIdToCaseRulesMap.put(rule.Case_Stage_Config__c, new List<ASF_Case_Rule__c>());
+            }
+            stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
+        }
+
         for(Case caseRec : currentCases){
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
@@ -1065,17 +1042,61 @@ public class ASF_CaseMovementHelper {
             ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
             caseIdToIsPreviousStageMap.put(caseRec.Id, false);
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                Boolean afterPreviousStage = false;
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
-                    
+                        if(afterPreviousStage){
+                            // If Not Optional, Allot to Next Stage and Break
+                            if(config.Optional_Stage__c){
+                                // Run Stage Movement Rules to check if this is the Next Stage
+                                List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
+                                caseRulesForStage.addAll(stageIdToCaseRulesMap.get(config.Id));
+                                
+                                Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(caseRec, caseRulesForStage);
+                                System.debug('***isStageMovementValid'+isStageMovementValid);
+                                if(isStageMovementValid){
+                                    caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                                    System.debug('***nextStageConfig:'+config);
+                                }
+                                else{
+                                    continue;
+                                }
+                            }
+                            // If Manual, Continue ahead
+                            else if(config.Manual_Stage__c){
+                                continue;
+                            }
+                            else {
+                                caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            }
+                        }
                         if(config.Gateway_Stage__c){
                             caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                            
                         }
                         else if(config.StageName__c == caseRec.Previous_Stage__c) {
-                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                            // Later used to determine the right owner
-                            caseIdToIsPreviousStageMap.put(caseRec.Id, true);
+                            afterPreviousStage = true;
+                            if(config.Optional_Stage__c){
+                                // Run Stage Movement Rules to check if this is the Next Stage
+                                List<ASF_Case_Rule__c> caseRulesForStage = new List<ASF_Case_Rule__c>();
+                                caseRulesForStage.addAll(stageIdToCaseRulesMap.get(config.Id));
+                                
+                                Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(caseRec, caseRulesForStage);
+                                System.debug('***isStageMovementValid'+isStageMovementValid);
+                                if(isStageMovementValid){
+                                    caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                                    // Later used to determine the right owner
+                                    caseIdToIsPreviousStageMap.put(caseRec.Id, true);
+                                    System.debug('***nextStageConfig:'+config);
+                                }
+                                else{
+                                    continue;
+                                }
+                            }else{
+                                caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                                // Later used to determine the right owner
+                                caseIdToIsPreviousStageMap.put(caseRec.Id, true);
+                                System.debug('***nextStageConfig:'+config);
+                            }
                         }
 
                         // If Previously Assigned Stage, Find Previously Assigned Owner
