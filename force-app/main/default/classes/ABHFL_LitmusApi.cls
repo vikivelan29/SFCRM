@@ -178,7 +178,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = 'ABHFL';
-        caseIntOut.ServiceName__c  = ABHFL_Constants.REPORTING_SERVICE;
+        caseIntOut.ServiceName__c  = 'Litmus';//ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = 'Litmus';
         caseIntOut.Request_Payload__c  =  jsonBody;
