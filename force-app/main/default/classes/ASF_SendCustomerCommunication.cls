@@ -10,6 +10,7 @@ public class ASF_SendCustomerCommunication {
         peLogger.Retry_PE__c = true;
         peLogger.Status__c = 'Pending';
         peLogger.LOB__c = caseRec.Business_Unit__c;
+        peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
         if(specificMobileNumber != null && specificMobileNumber != ''){
             peLogger.Send_To_Specific_Mobile__c = TRUE;
             peLogger.Specific_To_MobilePhone__c = specificMobileNumber;
