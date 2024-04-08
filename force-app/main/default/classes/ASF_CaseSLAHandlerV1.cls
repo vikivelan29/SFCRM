@@ -434,18 +434,12 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         Map<Id,Case> modifiednewCasesMap = new Map<Id,Case>();
         Map<Id,Case> modifiedoldCasesMap = new Map<Id,Case>(); 
         for(Case c : newCases.values() ){
-            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == false){
-                //If movetonext is setting to false, skip it, means its a internal update.
+            if(newCases.get(c.Id).SkipModifyingSLAHistory__c != oldCases.get(c.Id).SkipModifyingSLAHistory__c){
+                //Change in this flag indicates internal case updates, which doesnt require SLA history evalutation/creation.
                 continue;                
             }
-            if(newCases.get(c.Id).Reopened_DateTime__c != oldCases.get(c.Id).Reopened_DateTime__c && newCases.get(c.Id).Reopened__c == true){
-                //If Reopened_DateTime__c is changing, skip it, means its the actual reopen DML, 
-                //the internal DML from checkAndProcessReopenCase method would create the SLA history for stage change and owner change
-                continue;
-            }
             if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
-            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c ||
-            newCases.get(c.Id).ForceModifySLAHistory__c != oldCases.get(c.Id).ForceModifySLAHistory__c){
+            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
                 modifiedCases.add(c);  
                 modifiednewCasesMap.put(c.Id,c);  
                 modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 
