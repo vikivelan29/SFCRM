@@ -160,13 +160,13 @@ public class ASF_CaseMovementHelper {
                 if(nextStage.status != 'Error'){
                     Case updatedCase = new Case(Id = caseId);
                     updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
-                    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
+		    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
                     //When case get to Gateway stage after backward movement, unable to find valid next stage.
                     if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
                     	updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                     	updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
-			                resultWrapper.ownerId = nextStage.ownerId;
-                    }
+			resultWrapper.ownerId = nextStage.ownerId;
+		    }
                     updatedCase.MoveToNext__c = false;
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                     
@@ -715,6 +715,10 @@ public class ASF_CaseMovementHelper {
                     apexclassToCases.put(nextStageConfig.BeforeStageApexClass__c, new List<Case>());
                 }
                 apexclassToCases.get(nextStageConfig.BeforeStageApexClass__c).add(caseRec);
+            }else {
+                 CaseStageValidationWrapper caseValidationWrapper = new CaseStageValidationWrapper();
+                 caseValidationWrapper.Status = 'Success';
+                returnWrapperMap.put(caseRec.Id,caseValidationWrapper);
             }
         }
         for(String apexClass : apexclassToCases.keySet()){
