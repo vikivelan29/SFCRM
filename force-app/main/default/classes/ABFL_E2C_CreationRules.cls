@@ -2,7 +2,7 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 03-27-2024
+ * @last modified on  : 03-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -109,28 +109,22 @@ public with sharing class ABFL_E2C_CreationRules {
         List<String> expectedWords = new List<String>(expectedValue.toLowerCase().split(' '));
         List<String> actualWords = new List<String>(actualValue.toLowerCase().split(' '));
         
-        // Index to keep track of position in expectedWords
         Integer expectedIndex = 0;
-        
-        // Check if actualValue contains expectedValue
-        if (actualValue.contains(expectedValue)) {
-            // Iterate through words in actualValue
-            for (String word : actualWords) {
-                // Check if the current word matches the next word in expectedValue
-                if (expectedIndex < expectedWords.size() && expectedWords[expectedIndex] == word) {
-                    expectedIndex++;
-                } 
-                // If all words from expectedValue are found in actualValue, return true
-                else if (word.contains(expectedWords[expectedIndex])) {
-                    return false;
-                }
+        Integer actualIndex = 0;
+    
+        // Iterate through actualWords
+        while (expectedIndex < expectedWords.size() && actualIndex < actualWords.size()) {
+            if (expectedWords[expectedIndex] == actualWords[actualIndex]) {
+                // If the current word in actualWords matches the next word in expectedWords,
+                // move to the next word in both lists
+                expectedIndex++;
             }
-            
-            // If not all words from expectedValue were found in actualValue in the same order, return false
-            return expectedIndex == expectedWords.size();
+            // Move to the next word in actualWords
+            actualIndex++;
         }
-        
-        // If actualValue does not contain expectedValue, return false
-        return false;
-    } 
+    
+        // If all words from expectedWords were found in actualWords in the same order, return true
+        return expectedIndex == expectedWords.size();
+    }
+
 }
