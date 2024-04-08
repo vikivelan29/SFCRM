@@ -39,6 +39,12 @@ const setSelectedAccount = async(event, parentJS) => {
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
         parentJS.showLANForCustomer = true;
         parentJS.accountId = row[0].recordId;
+        parentJS.isasset = 'true';
+        parentJS.selectedAsset = [];
+        parentJS.selectedAssetId = '';
+        parentJS.assetId = '';
+        parentJS.selectedLoanAccNumber = '';
+        parentJS.assetLOB = '';
     }
     else if(row[0].objectType == 'Prospect'){
         parentJS.leadId = row[0].recordId;
