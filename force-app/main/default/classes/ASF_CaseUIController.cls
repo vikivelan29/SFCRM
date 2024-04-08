@@ -162,7 +162,7 @@ public with sharing class  ASF_CaseUIController {
             }
             if(assetIds.size()>0){
                 asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
-                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c
+                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c
                                     from asset where Id =:assetIds];
             }
             
