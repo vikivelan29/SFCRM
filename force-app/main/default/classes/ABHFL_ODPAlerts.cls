@@ -34,7 +34,7 @@ public with sharing class ABHFL_ODPAlerts {
             
             if(odpResponseWrp.statusCode != 200){
                 ODPAlertResponse errorResp = new ODPAlertResponse();
-                errorResp.messageText = 'There is no odp alert available';
+                errorResp.messageText = 'Service not available';
                 odpAlertResponseList.add(errorResp);
             }else{
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);

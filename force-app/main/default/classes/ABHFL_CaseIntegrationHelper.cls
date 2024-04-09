@@ -90,9 +90,11 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                 if(Schema.sObjectType.Case.isUpdateable()){
                     update caseRecord;
                 }
+
                         Case caseRec = [SELECT Id,RecordTypeId,Is_Duplicate__c,CCC_External_Id__c,Stage__c,MoveToNext__c FROM Case WHERE Id =: caseRecord.Id];
                 //Do rest of the things only if Case was converted to Framework
                 if(caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
+
                 //Added by Dhinesh for Preclosure - when categorized land on next stage.
                 if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c) && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
                     List<ASF_Checklist__c> paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseRec.Id AND Label__c = 'Create Payment' LIMIT 1];
@@ -121,6 +123,7 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                 }
             }
             }
+
         }
 
     /****************************************************************************************************************
