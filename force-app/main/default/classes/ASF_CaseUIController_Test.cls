@@ -133,7 +133,7 @@ public class ASF_CaseUIController_Test {
         fieldsData.put('AssetId', cs.AssetId);
         
         ASF_Case_Category_Config__c ccc = [select id from ASF_Case_Category_Config__c limit 1];
-        string assetTest = '';
+        string assetTest = 'closeCRN';
         ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
