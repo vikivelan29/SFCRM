@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Default_Queue_Dev_Name__c</field>
-        <value xsi:type="xsd:string">ABHFL_Express_Resolution</value>
+        <value xsi:type="xsd:string">ABHFL_Grievance</value>
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
