@@ -27,7 +27,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, Asset> assetMap = new Map<Id, Asset>();
         List<String> cccExternalIds = new List<String>();
         Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap = new Map<String, ASF_Case_Category_Config__c>();
-        Set<Id> casesChangingExtId = new Set<Id>();
+        Set<Id> casesChangingRT = new Set<Id>();
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
@@ -46,7 +46,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             nextStageMap.put(caseRec.Id, caseRec.Stage__c);
             
             if(isUpdate){
-                system.debug('recat date--'+caseRec.Recategorisation_Date__c+'--'+oldMap.get(caseRec.Id).Recategorisation_Date__c);
+                if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
+                    casesChangingRT.add(caseRec.Id);
+                }
                 if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null) || 
                    ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
@@ -57,7 +59,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         //or Reparenting Account
                         //or Reparenting Asset
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
-                        casesChangingExtId.add(caseRec.Id);
                 }
                  
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
@@ -143,7 +144,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(nextStageMap.containsKey(caseRec.Id)){
                     nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
-            }else if(isUpdate && casesChangingExtId.contains(caseRec.Id)){
+            }else if(isUpdate && casesChangingRT.contains(caseRec.Id)){
                 //error out cases with wrong Issue Code while converting from preframework to framework
                 //during case creation in framework, if wrong issue code is provided(some api), allow. 
                 //Other mechanism of recategorization will allow to correctly tag issue code
