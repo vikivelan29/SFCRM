@@ -142,6 +142,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(nextStageMap.containsKey(caseRec.Id)){
                     nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
+            }else if(isUpdate){
+                //error out cases with wrong Issue Code while converting from preframework to framework
+                //during case creation in framework, if wrong issue code is provided(some api), allow. 
+                //Other mechanism of recategorization will allow to correctly tag issue code
+                caseRec.addError(Label.ASF_ErrorMsgForWrongIssueCode);
+                break;
             }
 
             //Populate always
