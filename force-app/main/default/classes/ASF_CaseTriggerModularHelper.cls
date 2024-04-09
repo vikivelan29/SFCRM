@@ -46,6 +46,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             nextStageMap.put(caseRec.Id, caseRec.Stage__c);
             
             if(isUpdate){
+                if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
+                    casesChangingRT.add(caseRec.Id);
+                }
                 if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null){
                         //Only in case of interaction to framework conversion
