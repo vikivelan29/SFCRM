@@ -617,4 +617,11 @@
         <shortDescription>ASF_File Update Validation</shortDescription>
         <value>Cannot Update/Delete the files linked to a closed case</value>
     </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
+    </labels>
 </CustomLabels>
