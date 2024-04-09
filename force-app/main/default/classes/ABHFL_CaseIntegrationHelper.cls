@@ -52,14 +52,19 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                 if(Schema.sObjectType.ABHFL_Case_Detail__c.isCreateable()){
                     insert caseDetails;
                 }
-
+                List<ASF_Case_Category_Config__c> cccList = [SELECT Id
+                                                        FROM ASF_Case_Category_Config__c 
+                                                        WHERE CCC_External_Id__c = :ebotResponse.CASESUBTYPE AND Business_Unit__c = 'ABHFL'];
                 Case caseRecord = new Case();
                 caseRecord.Id = caseId;
                 caseRecord.ABHFL_Case_Detail__c = caseDetails.Id;
                 caseRecord.CCC_External_Id__c = ebotResponse.CASESUBTYPE;
                 caseRecord.Comments = ebotResponse.COMMENT;
-                caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
-                caseRecord.Skip_Dedupe__c = true;
+                if(!cccList.isEmpty()){
+                    //Valid External Id provided, hence convert.
+                    caseRecord.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
+                    caseRecord.Skip_Dedupe__c = true;
+                }
 
                 if( ebotResponse.ISREPEAT == 'Yes'){
                     caseRecord.Technical_Source__c = 'LWC';
@@ -85,7 +90,11 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                 if(Schema.sObjectType.Case.isUpdateable()){
                     update caseRecord;
                 }
-                        Case caseRec = [SELECT Id,Is_Duplicate__c,CCC_External_Id__c,Stage__c,MoveToNext__c FROM Case WHERE Id =: caseRecord.Id];
+
+                        Case caseRec = [SELECT Id,RecordTypeId,Is_Duplicate__c,CCC_External_Id__c,Stage__c,MoveToNext__c FROM Case WHERE Id =: caseRecord.Id];
+                //Do rest of the things only if Case was converted to Framework
+                if(caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
+
                 //Added by Dhinesh for Preclosure - when categorized land on next stage.
                 if(validSubTypesForMovetoNext.contains(caseRecord.CCC_External_Id__c) && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
                     List<ASF_Checklist__c> paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c = :caseRec.Id AND Label__c = 'Create Payment' LIMIT 1];
@@ -113,6 +122,8 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                     createMultipleCaseWithLAN(caseRecord.Id,caseDetails.Id,lanWithAssetIdMap,ebotResponse);
                 }
             }
+            }
+
         }
 
     /****************************************************************************************************************

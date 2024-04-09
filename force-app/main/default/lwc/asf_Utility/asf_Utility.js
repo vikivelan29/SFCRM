@@ -58,7 +58,9 @@ export class asf_Utility {
                 const caseExtnRecord = { sobjectType: caseRelObjName, ...fields };
                 let caseExtensionRecordId = await createCaseExtension({
                     record : caseExtnRecord,
-                    cccRec: cccRecToPass
+                    cccRec: cccRecToPass,
+                    caseId: parentJS.recordId,
+                    extnFieldName: caseRelObjName
                 }).catch(error=>{
                     console.error(error);
                 });
