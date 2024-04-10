@@ -303,7 +303,7 @@ export default class Asf_CRNTagging extends LightningElement {
                 .then(result => {
                     const event = new ShowToastEvent({
                         title: 'Success',
-                        message: 'SR updated',
+                        message: 'Case updated',
                         variant: 'success',
                         mode: 'dismissable'
                     });
