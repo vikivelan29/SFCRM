@@ -114,9 +114,10 @@ public class ASF_CaseUIController_Test {
         );
         insert testLead;
         ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
-        Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
-        
-        ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
+        Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
+        Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
