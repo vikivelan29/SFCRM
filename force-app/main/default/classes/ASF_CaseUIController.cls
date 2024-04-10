@@ -102,7 +102,7 @@ public with sharing class  ASF_CaseUIController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'');
+                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c);
                         
                         lstResponse.add(resp);
                     }     
@@ -112,7 +112,7 @@ public with sharing class  ASF_CaseUIController {
                 accIdSet.add(accId);
             }
             
-            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name from account where ID IN:accIdSet];
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount from account where ID IN:accIdSet];
             Map<Id,contact> accIdConMap = new Map<Id,contact>();
             Set<Id> businessAccIdSet = new Set<Id>();
             for(Account accRec : accList){
@@ -126,12 +126,12 @@ public with sharing class  ASF_CaseUIController {
             for(Account customer : accList){
                 searchResponse custResp;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name);
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name);
+                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c);
                 }
                 
                 lstResponse.add(custResp);
@@ -162,7 +162,7 @@ public with sharing class  ASF_CaseUIController {
             }
             if(assetIds.size()>0){
                 asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
-                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c
+                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c
                                     from asset where Id =:assetIds];
             }
             
@@ -176,7 +176,7 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled
-    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber, Boolean reqFromRecat) {
+    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber) {
         
         Case cs = new Case();
         cs.Id = caseId;
@@ -190,13 +190,11 @@ public with sharing class  ASF_CaseUIController {
                 if(cont.size() > 0){// If contact found
                 cs.ContactId = cont[0].Id;// UAT Bug fix Cases tagging to multiple Accounts
                 }
-                cs.Lead__c = null;
             }
             else if(entityId.getsObjectType() == Lead.sObjectType){
                 cs.Lead__c = accountId;
                 cs.AccountId = null;
                 cs.AssetId = null;
-                cs.ContactId =null;
             }
             
         }
@@ -205,9 +203,6 @@ public with sharing class  ASF_CaseUIController {
             cs.AssetId  = assetId ;
         if(faNumber != '')
             cs.LAN__c = faNumber;
-        if(reqFromRecat){
-            cs.Recategorisation_Date__c = system.now();
-        }
         update cs;
         
     }
@@ -302,11 +297,9 @@ public with sharing class  ASF_CaseUIController {
         public String mobile{get;set;}
         @AuraEnabled
         public String pan{get;set;}
-        @AuraEnabled
-        public string objectRecordType{get;set;}
         
         public searchResponse(String recId, String objType,String name,String clientCode,
-                            String emailId,String mobile,String pan,String objRecordType){
+                            String emailId,String mobile,String pan){
             this.recordId = recId;
             this.objectType = objType;
             this.name = name;
@@ -314,7 +307,6 @@ public with sharing class  ASF_CaseUIController {
             this.emailId = emailId;
             this.mobile = mobile;
             this.pan = pan;
-            this.objectRecordType = objRecordType;
         }
         
     }

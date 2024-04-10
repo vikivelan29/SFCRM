@@ -541,14 +541,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                         caseRecFromMap.MoveToNext__c = false;
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         if(resultWrap.caseToBeUpdated != null){
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
+                            caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }
-                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                        
                     }else{
                         //After Insert call
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
@@ -563,7 +563,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
                         }
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
@@ -635,12 +635,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         for(String fieldName : populatedFieldMap.keySet()){
                             caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                         }
+                        if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
+                            caseRecFromMap.Pending_Clarification__c = false;
+                        }
+                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
-                    if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
-                        caseRecFromMap.Pending_Clarification__c = false;
-                    }
-                    caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
-                    caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                   
                 }else{
                     //Error scenario
                     newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
@@ -663,7 +663,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, wrapToReturn.caseToBeUpdated.get(fieldName));
                     }
-                    caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                     caseRecFromMap.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }

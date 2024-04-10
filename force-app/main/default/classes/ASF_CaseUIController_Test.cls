@@ -25,7 +25,7 @@ public class ASF_CaseUIController_Test {
         //ast.Financial_Account_Number__c ='2333423';
         ast.Name = 'aas';
         insert ast;
-
+        
         LAN_Mapping__c lanMap = new LAN_Mapping__c();
         lanMap.Customer__c = a.Id;
         lanMap.LAN__c = ast.Id;
@@ -106,13 +106,6 @@ public class ASF_CaseUIController_Test {
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
         System.debug('@@@ass'+ass+' '+ wrapper);
-        Lead testLead = new Lead(
-            FirstName = 'Test',
-            LastName = 'Lead',
-            Company = 'Test Company',
-            mobilephone = '1234567890'
-        );
-        insert testLead;
         ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
         
@@ -132,17 +125,10 @@ public class ASF_CaseUIController_Test {
         fieldsData.put('AssetId', cs.AssetId);
         
         ASF_Case_Category_Config__c ccc = [select id from ASF_Case_Category_Config__c limit 1];
-        string assetTest = 'closeCRN';
+        string assetTest = '';
         ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
-        Lead testLead2 = new Lead(
-            FirstName = 'Test',
-            LastName = 'Lead',
-            Company = 'Test Company',
-            mobilephone = '1234567890'
-        );
-		Map<String,sObject> result = ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName);
         //}
         
