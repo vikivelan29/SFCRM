@@ -3,7 +3,58 @@
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
 **/
-public without sharing class  ASF_CaseUIController {
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
+public with sharing class  ASF_CaseUIController {
+    
+    @AuraEnabled
+    public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
+        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
+        
+        Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
+        Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        User loggedInUser = [SELECT ID FROM User WHERE Id =: UserInfo.getUserId()];
+        if(prospectRecord != null){
+            // In case of Prospect Case, create Prospect first.
+            Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates(new List<Lead>{prospectRecord});
+            for (Datacloud.FindDuplicatesResult findDupeResult : results) {
+                for (Datacloud.DuplicateResult dupeResult : findDupeResult.getDuplicateResults()) {
+                    for (Datacloud.MatchResult matchResult : dupeResult.getMatchResults()) {
+                        for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
+                            System.debug(matchRecord.getRecord());
+                            mObjectVsRecId.put('DuplicateLead',matchRecord.getRecord());
+                            return mObjectVsRecId;
+                        }
+                    }
+                }
+            }
+            prospectRecord.RecordTypeId = serviceProspectRTId;
+            if(prospectRecord.Sales_Prospect__c == true){
+                prospectRecord.RecordTypeId = salesProspectRTId;
+            }
+            
+            insert prospectRecord;
+            mObjectVsRecId.put('Lead',prospectRecord);
+        }
+        
+        if(caseToInsert != null){
+            String sObjectName = '';
+            if(caseToInsert.Lead__c == null){
+                if(prospectRecord != null){
+                    // In case of Internal Case - No need to create prospect.
+                    caseToInsert.put('Lead__c',prospectRecord.Id);
+                    caseToInsert.AccountId = null;
+                    caseToInsert.ContactId = null;
+                }
+                
+            }
+            
+            update caseToInsert;
+            mObjectVsRecId.put('Case',caseToInsert);
+        }
+        
+        return mObjectVsRecId;
+    }
+    
     //get Asset Records for the time of selection while creating Case
     @AuraEnabled(Cacheable=false)
     public static List<account> getMatchingAccount(string userInp) {
