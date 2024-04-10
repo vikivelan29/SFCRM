@@ -322,8 +322,9 @@ public with sharing class ABHFL_MultipleLANController {
         //assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
         assetDetail.Current_Balance__c = loanInfoRow.CURRENT_BALANCE != null ? Decimal.valueof(loanInfoRow.CURRENT_BALANCE) : null;
         assetDetail.LAN__c = assetRecord.LAN__c;//loanInfoRow.LOAN_ACCOUNT_NUMBER;
-        assetDetail.Interest_Rate__c = loanInfoRow.INTEREST_RATE != null ? Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4)) : null;
-        assetDetail.ARR__c = loanStatusRow.BPLR != null ? Decimal.valueof(loanStatusRow.BPLR.Left(4)) : null;
+        assetDetail.Interest_Rate__c = loanInfoRow.INTEREST_RATE != null ? Decimal.valueof(loanInfoRow.INTEREST_RATE.Substring(0,loanInfoRow.INTEREST_RATE.length()-1)) : null;
+        system.debug('loanInfoRow.INTEREST_RATE after'+assetDetail.Interest_Rate__c);
+        assetDetail.ARR__c = loanStatusRow.BPLR != null ? Decimal.valueof(loanStatusRow.BPLR.Substring(0,loanStatusRow.BPLR.length()-1)) : null;
         assetDetail.Asset__c = assetRecord.Id;
         assetDetail.Case__c = caseRecId;
         assetDetail.Failure_Reason__c = failureReasonDetermination(assetDetail);
