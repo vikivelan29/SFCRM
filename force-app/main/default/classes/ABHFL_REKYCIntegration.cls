@@ -32,7 +32,8 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
                         &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
                 Date dueDate = caseRecord.Account.KYC_Done_Date__c;
                 Date withinMonthDate = dueDate.addMonths(withinMonth);
-                if(Date.today() < withinMonthDate){
+                Integer dueDays = date.today().daysBetween(dueDate);
+                if(dueDays <= 90){
                     result.status = ABHFL_Constants.SUCCESS;
                     result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
                 }else{
@@ -70,7 +71,8 @@ public with sharing class ABHFL_REKYCIntegration implements ASF_IntegrationInvoc
                             &&  caseRecord.Business_Unit__c != null  && String.isNotBlank(caseRecord.CCC_External_Id__c) && caseRecord.Account.KYC_Done_Date__c!=null){
                     Date dueDate = caseRecord.Account.KYC_Done_Date__c;
                     Date withinMonthDate = dueDate.addMonths(withinMonth);
-                    if(Date.today() < withinMonthDate){
+                    Integer dueDays = date.today().daysBetween(dueDate);
+                    if(dueDays <= 90){
                         result.status = ABHFL_Constants.SUCCESS;
                         result.response = Custom_Messages__mdt.getInstance('REKYC_EVALUATION_SUCCESS_RESPONSE').Message__c;
                     }else{

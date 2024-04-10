@@ -56,6 +56,6 @@ public class ASF_CaseEmailController_Test {
         asf.emailTemplateName = 'TestLightning';
         String outputString = asf.getOutputBody();
         SYstem.debug('outputString   ---   '+ outputString);
-        System.assertEquals(true, outputString.contains('2023-12-12'));    
+        System.assertEquals(true, outputString.contains('12/12/2023'));    
     }
 }

@@ -1,6 +1,6 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
-import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
+//import overrideCSSFile from '@salesforce/resourceUrl/asf_QuickActionHeightWidthIncreaser';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import { createRecord, notifyRecordUpdateAvailable, getRecord, getFieldValue } from 'lightning/uiRecordApi';
@@ -182,11 +182,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
-    renderedCallback(){
+    /*renderedCallback(){
         Promise.all([
-            loadStyle(this, overrideCSSFile)
+            //loadStyle(this, overrideCSSFile)
         ]);
-    }
+    } */
 
     /* UTILITY METHOD TO SHOW ERROR MESSAGE.
     */
@@ -468,8 +468,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
        
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
-        fields[SOURCE_FIELD.fieldApiName] = this.strSource;
-        fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
+       // fields[SOURCE_FIELD.fieldApiName] = this.strSource;
+       // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
@@ -478,8 +478,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
+            timeZone: 'IST'
         };
-        let currentDateLocale = currentDateVal.toLocaleDateString(undefined, formattingOptions);
+        let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions)
         let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
         let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
@@ -867,8 +868,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         setSelectedAsset(event,this);
         
     }
-    handleAccountAssetUpd(event){
-        updateAccountAndAssetOnCase(event,this);
+    async handleAccountAssetUpd(event){
+        await updateAccountAndAssetOnCase(event,this);
+        let changeArray = [{recordId: this.recordId}];
+        notifyRecordUpdateAvailable(changeArray);
 
     }
     handleProceedToRecategorised(event){

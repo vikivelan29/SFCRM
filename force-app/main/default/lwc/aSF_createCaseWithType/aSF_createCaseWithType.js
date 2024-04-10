@@ -347,6 +347,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
+                    this.closeCaseWithoutCusButton = 'false';
                 })
                 .catch(error => {
                     this.accounts = null;
@@ -917,6 +918,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.closeCaseWithoutCusButton= 'true';
         this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';

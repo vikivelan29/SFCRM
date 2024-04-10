@@ -39,6 +39,12 @@ const setSelectedAccount = async(event, parentJS) => {
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
         parentJS.showLANForCustomer = true;
         parentJS.accountId = row[0].recordId;
+        parentJS.isasset = 'true';
+        parentJS.selectedAsset = [];
+        parentJS.selectedAssetId = '';
+        parentJS.assetId = '';
+        parentJS.selectedLoanAccNumber = '';
+        parentJS.assetLOB = '';
     }
     else if(row[0].objectType == 'Prospect'){
         parentJS.leadId = row[0].recordId;
@@ -105,7 +111,6 @@ const SearchAccountHandler = (event, parentJS) => {
     })
         .then(result => {
             parentJS.accData = result;
-            console.log('adc data--' + JSON.stringify(parentJS.accData));
         })
         .catch(error => {
         });
@@ -113,11 +118,14 @@ const SearchAccountHandler = (event, parentJS) => {
 
 const updateAccountAndAssetOnCase=async (event,parentJS)=>{
     console.log(parentJS.selectedCustomer);
-    console.log(parentJS.selectedAsset.Id);
+    let assetVal = null;
+    if(parentJS.selectedAsset && parentJS.selectedAsset != null){
+        assetVal = parentJS.selectedAsset.Id;
+    }
     parentJS.loaded = false;
     await updateCRN({
         accountId: parentJS.selectedCustomer,
-        assetId: parentJS.selectedAsset.Id,
+        assetId: assetVal,
         caseId: parentJS.recordId,
         faNumber: parentJS.selectedLoanAccNumber,
         reqFromRecat: true

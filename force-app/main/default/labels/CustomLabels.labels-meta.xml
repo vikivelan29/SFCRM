@@ -597,13 +597,6 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ASF_BulkThresholdForQueueable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
-        <value>9000</value>
-    </labels>
-    <labels>
         <fullName>ASF_File_Update_Val_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -616,5 +609,12 @@
         <protected>false</protected>
         <shortDescription>ASF_File Update Validation</shortDescription>
         <value>Cannot Update/Delete the files linked to a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
 </CustomLabels>
