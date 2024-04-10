@@ -12,7 +12,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 
     public Case getCaseRec(String caseId){
         Case caseRecord = [
-            SELECT Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c,
+            SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c,
                     CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
                     createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status
             FROM Case
@@ -141,9 +141,11 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
 
         String ftrOrNFTRVal = caseRecord.FTR__c == true ? 'FTR' : 'NFTR';
         String accountRecordTypeName = caseRecord.Account.RecordType.Name;
+        List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
 
         userPhne = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-        userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+        //userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+        userEml  = accountRecordTypeName  == 'Individual' ?  caseRecord.Account.PersonEmail : (con.size()>0?con[0].Email:'');
 
         LitmusApiWrapper litmusApiWrappObj = new LitmusApiWrapper();
         litmusApiWrappObj.appId = cccRecord.Litmus_Project__c;
@@ -176,7 +178,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
         caseIntOut.Business_Unit__c  = 'ABHFL';
-        caseIntOut.ServiceName__c  = ABHFL_Constants.REPORTING_SERVICE;
+        caseIntOut.ServiceName__c  = 'Litmus';//ABHFL_Constants.REPORTING_SERVICE;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = 'Litmus';
         caseIntOut.Request_Payload__c  =  jsonBody;

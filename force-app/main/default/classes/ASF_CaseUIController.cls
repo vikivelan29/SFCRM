@@ -162,7 +162,7 @@ public with sharing class  ASF_CaseUIController {
             }
             if(assetIds.size()>0){
                 asstList = [select id,Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
-                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c
+                                    Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c
                                     from asset where Id =:assetIds];
             }
             
@@ -247,8 +247,13 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled
-    public static Id createCaseExtension(SObject record, SObject cccRec){
+    public static Id createCaseExtension(SObject record, SObject cccRec, Id caseId, String extnFieldName){
         try{
+            if(extnFieldName != null){
+                String query = String.escapeSingleQuotes('Select Id, '+extnFieldName+' from Case where Id = :caseId');
+                Case caseRec = (Case)Database.query(query);
+                record.put('Id', caseRec.get(extnFieldName));
+            }
             Type customType = Type.forName('FrameworkFunctionalityExtender');
             ASF_FrameworkFunctionalityExtender extender = (ASF_FrameworkFunctionalityExtender)customType.newInstance();
             record = extender.populateBUSpecificFields(record, cccRec);
@@ -256,7 +261,7 @@ public with sharing class  ASF_CaseUIController {
         catch(Exception e){
             system.debug('Error inside createCaseExtension method of ASF_CaseUIController class '+e.getStackTraceString() + ' ' + e.getMessage());
         }
-        insert record;
+        upsert record;
         return record.Id;
     }
   

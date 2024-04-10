@@ -3,12 +3,12 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
     public override void BeforeDelete(Map<Id, SObject> oldItems){
         ASF_CaseFileUploadTriggerHelper.validateFileDelete(null, (Map<Id, ContentDocumentLink>)oldItems);
     }
-    public override void AfterInsert(Map<Id, SObject> newMap){
+    /*public override void AfterInsert(Map<Id, SObject> newMap){
         checkForClosedCase(newMap);
     }
     
     public static void checkForClosedCase(Map<Id, SObject> contentLinksMap){
-        if(ASF_ContentDocLinkTriggerHandler.bypassValidation() && !Test.isRunningTest()){
+        if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
             return ;
         }
         Map<Id,Id> contentDocLinkandCaseMap = new Map<Id,Id>();
@@ -34,18 +34,5 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
             }
         }
     }
-    
-    public static boolean bypassValidation(){
-        boolean result = false;
-        
-        List<Id> bypassProfileId = new List<Id>();
-        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
-            bypassProfileId.add(profRec.Id);
-        }
-        //Bypass owner validations for the sys admin and Integration Profiles
-        if(bypassProfileId.contains(UserInfo.getProfileId())){
-            return true;
-        }
-        return result;
-    }
+ */
 }

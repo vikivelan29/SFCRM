@@ -655,12 +655,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_NdcIndicator</componentName>
-                <identifier>c_asf_NdcIndicator</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>

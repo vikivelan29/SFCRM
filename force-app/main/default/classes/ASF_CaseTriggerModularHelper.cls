@@ -27,7 +27,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, Asset> assetMap = new Map<Id, Asset>();
         List<String> cccExternalIds = new List<String>();
         Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap = new Map<String, ASF_Case_Category_Config__c>();
-        //Boolean blankSourcePresent = false;
+        Set<Id> casesChangingExtId = new Set<Id>();
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
@@ -46,12 +46,20 @@ public without sharing class ASF_CaseTriggerModularHelper {
             nextStageMap.put(caseRec.Id, caseRec.Stage__c);
             
             if(isUpdate){
+<<<<<<< HEAD
                 system.debug('recat date--'+caseRec.Recategorisation_Date__c+'--'+oldMap.get(caseRec.Id).Recategorisation_Date__c);
                 if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null) || 
                    ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
                    ((caseRec.AccountId != oldMap.get(caseRec.Id).AccountId) || 
                    (caseRec.AssetId != oldMap.get(caseRec.Id).AssetID)))){
+=======
+                if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
+                    casesChangingExtId.add(caseRec.Id);
+                }
+                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null){
+>>>>>>> d714c57b68001cff6f16c4a8938f2c4777202583
                         //Only in case of interaction to framework conversion
                         //or recategorization
 //or Reparenting Account
@@ -142,6 +150,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(nextStageMap.containsKey(caseRec.Id)){
                     nextStageMap.put(caseRec.Id,caseRec.Stage__c);
                 }
+            }else if(isUpdate && casesChangingExtId.contains(caseRec.Id)){
+                //error out cases with wrong Issue Code while converting from preframework to framework
+                //during case creation in framework, if wrong issue code is provided(some api), allow. 
+                //Other mechanism of recategorization will allow to correctly tag issue code
+                caseRec.addError(Label.ASF_ErrorMsgForWrongIssueCode);
+                break;
             }
 
             //Populate always
@@ -540,14 +554,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                         caseRecFromMap.MoveToNext__c = false;
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         if(resultWrap.caseToBeUpdated != null){
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
-                            caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }
-                        
+                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }else{
                         //After Insert call
                         caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
@@ -562,7 +576,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
                         }
-                        
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
@@ -634,12 +648,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         for(String fieldName : populatedFieldMap.keySet()){
                             caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                         }
-                        if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
-                            caseRecFromMap.Pending_Clarification__c = false;
-                        }
-                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
-                   
+                    if(caseRec.Previous_Stage__c == caseRecFromMap.Stage__c){
+                        caseRecFromMap.Pending_Clarification__c = false;
+                    }
+                    caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                    caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
                     //Error scenario
                     newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
@@ -662,6 +676,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     for(String fieldName : populatedFieldMap.keySet()){
                         caseRecFromMap.put(fieldName, wrapToReturn.caseToBeUpdated.get(fieldName));
                     }
+                    caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                     caseRecFromMap.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }

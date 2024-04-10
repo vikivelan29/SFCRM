@@ -11,7 +11,7 @@ export default class Asf_customernpsresult extends LightningElement {
     @api objectApiName;
     @track caseRecord;
     @track records;
-    @track fieldArr = 'id,Nature__c';
+    @track fieldArr = 'id,Nature__c,IsEscalated';
 
     whereClauseForRI = '';
     whereClauseForOC = '';
@@ -73,9 +73,9 @@ export default class Asf_customernpsresult extends LightningElement {
     initializeWhereClause() {
 
         let withSecEnforced = 'WITH SECURITY_ENFORCED';
-        let commonForOC = 'WHERE IsClosed = False';
+        let commonForOC = 'WHERE (IsClosed = False';
 
-            this.whereClauseForOC = `${commonForOC} AND AccountId = \'${this.recordId}\'  ${withSecEnforced} `;
+            this.whereClauseForOC = `${commonForOC} AND AccountId = \'${this.recordId}\')OR IsEscalated = True ${withSecEnforced} `;
             this.story_328_329();
     }
 

@@ -1,0 +1,15 @@
+{
+    "responseStatus": "SUCCESS",
+    "data": [
+        {
+            "system_test": "FINNRTL",
+            "LOB": "Retail - Unsecured",
+            "LOANACCOUNTNO": "ABHYDBIL000000641488",
+            "Currentoverdue": null,
+            "Interest_Payment_for_current_month": null,
+            "Principle_os": "635000.00000000",
+            "OutstandingAmount": "805125.00000000",
+            "PenalCharges": null
+        }
+    ]
+}
