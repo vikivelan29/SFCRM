@@ -66,7 +66,7 @@ private class ABFL_UserTeamDataUpdateBatchTest {
         
         User updatedUser = [SELECT Id, managerGroupId__c, IsActive FROM User WHERE Name LIKE 'Testing%' LIMIT 1];
         
-        //System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
+        System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
         
     }
 
