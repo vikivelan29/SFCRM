@@ -67,7 +67,7 @@ public class ABHFL_LODIngetration_Test {
     @IsTest
     static void testEvaluate(){
         ABHFL_LODIntegration lodStp = new ABHFL_LODIntegration();
-        Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c FROM Case LIMIT 1];
+        Case caseRecord = [SELECT id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c,ABHFL_Case_Detail__c FROM Case LIMIT 1];
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = lodStp.evaluate(caseRecord);
         //To make Last Disbursement Date below than current Year.
         Asset astRecord = new Asset();
@@ -77,6 +77,17 @@ public class ABHFL_LODIngetration_Test {
         update astRecord;
         ASF_IntegrationsController.IntegrationWrapper evaluateFailure = lodStp.evaluate(caseRecord);
         System.assertEquals('Error',successfulEvaluate.Status,'Done');
+        Asset astRec = [SELECT id,Last_Disbursement_Date__c from Asset where LAN__c='Test'];
+        astRec.Last_Disbursement_Date__c = Date.today().addYears(1000);
+        update astRec;
+        astRecord.Last_Disbursement_Date__c = Date.today().addYears(999);
+        update astRecord;
+        ABHFL_Case_Detail__c assetDetail = [SELECT id,STP_Request_Type__c FROM ABHFL_Case_Detail__c where id =: caseRecord.ABHFL_Case_Detail__c];
+        assetDetail.STP_Request_Type__c ='Download';
+        update assetDetail;
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper evaFailure = lodStp.evaluate(caseRecord);
+        Test.stopTest();
         System.assertEquals('Error',evaluateFailure.Status,'Done');
         
     }
@@ -86,6 +97,8 @@ public class ABHFL_LODIngetration_Test {
         //ABHFL_LODIntegration.LODRequestWrapper wrap = new ABHFL_LODIntegration.LODRequestWrapper();
         Case caseRecord = [Select id,CaseNumber,AssetId,Asset.Branch__r.Queue_Id__c from Case limit 1];
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c from ASF_Integration__c limit 1];
+        integRecord.Processing_Class__c = 'ABHFL_LODIntegration';
+        update integRecord;
         ASF_IntegrationsController.IntegrationWrapper integrationResponse = lodStp.run(integRecord,caseRecord);
         System.assertEquals('Success',integrationResponse.Status,'Done');
     }
@@ -126,13 +139,17 @@ public class ABHFL_LODIngetration_Test {
     }
     @IsTest
     static void testRunBulk(){
+        Test.startTest();
         ABHFL_LODIntegration lodStp = new ABHFL_LODIntegration();
         //ABHFL_LODIntegration.LODRequestWrapper wrap = new ABHFL_LODIntegration.LODRequestWrapper();
         Case caseRecord = [Select Id, Asset.Last_Disbursement_Date__c,Source__c,Asset.Branch__r.Branch_Queue_Id__c,Asset.LAN__c,ABHFL_Case_Detail__r.STP_Request_Type__c,OwnerId,CCC_External_Id__c,No_Auto_Communication__c,CaseNumber,Business_Unit__c from Case limit 1];
         ASF_Integration__c integRecord = [Select id,External_Id__c,Display_Name__c, Processing_Class__c from ASF_Integration__c limit 1];
+        integRecord.Processing_Class__c = 'ABHFL_LODIntegration';
+        update integRecord;
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{caseRecord.Id=>caseRecord};
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationResponse = lodStp.run(new Map<Id, List<ASF_Integration__c>>{caseRecord.Id => new List<ASF_Integration__c>{integRecord}},new List<Case>{caseRecord});
         System.assertEquals('Success',integrationResponse.get(caseRecord.Id).Status,'Done');
+        Test.stopTest();
     }
     
 }
