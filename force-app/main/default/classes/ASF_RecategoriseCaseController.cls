@@ -116,6 +116,27 @@ public with sharing class ASF_RecategoriseCaseController {
         Map<String,Object> rawObj = (Map<String,Object>) JSON.deserializeUntyped(newCaseJson);
         Map<String,Object> caseObject =  (Map<String,Object>) rawObj.get('fields');
         Case toUpdateCase = new Case(Id=recId);
+        // VIRENDRA - ADDED CASE TO UPDATE THE ACCOUNTID AND ASSETID.
+        if((String)caseObject.get('AccountId') != null && (String)caseObject.get('AccountId') != ''){
+            toUpdateCase.AccountId = (String)caseObject.get('AccountId');
+            toUpdateCase.Lead__c = null;
+            toUpdateCase.AssetId = null;
+            List<Contact> contactList = [SELECT Id from Contact where AccountId = :(String)caseObject.get('AccountId') AND Primary__c = TRUE LIMIT 1];
+            if(!contactList.isEmpty()){
+                toUpdateCase.ContactId = contactList[0].Id;
+            }
+        }
+        if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
+            toUpdateCase.AssetId = (String)caseObject.get('AssetId');
+            toUpdateCase.Lead__c = null;
+        }
+        if((String)caseObject.get('Lead__c') != null && (String)caseObject.get('Lead__c') != ''){
+            toUpdateCase.Lead__c = (String)caseObject.get('Lead__c');
+            toUpdateCase.AccountId = null;
+            toUpdateCase.AssetId = null;
+            toUpdateCase.ContactId = null;
+        }
+        // VIRENDRA - ENDS HERE.
         toUpdateCase.CCC_External_Id__c = (String)caseObject.get('CCC_External_Id__c');
         toUpdateCase.Nature__c = (String)caseObject.get('Nature__c');
         toUpdateCase.Source__c = (String)caseObject.get('Source__c');
