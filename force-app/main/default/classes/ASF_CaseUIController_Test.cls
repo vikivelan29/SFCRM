@@ -1,5 +1,5 @@
 @IsTest
-public class ASF_CaseUIController_Test {
+public class ASF_CaseUIController_Test{
     @TestSetup
     public static void setupData(){
         
@@ -9,7 +9,7 @@ public class ASF_CaseUIController_Test {
 
         Account a = new Account();
         a.Name = '12344';
-        //a.CRN__c = '12344';
+        //a.CRN__c = '12344'; added comment
         insert a;
         
         ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
@@ -129,6 +129,13 @@ public class ASF_CaseUIController_Test {
         ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
+        Lead testLead2 = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        Map<String,sObject> result = ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName);
         //}
         
