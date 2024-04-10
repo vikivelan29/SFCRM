@@ -42,6 +42,8 @@ public with sharing class  ASF_CaseUIController {
                 if(prospectRecord != null){
                     // In case of Internal Case - No need to create prospect.
                     caseToInsert.put('Lead__c',prospectRecord.Id);
+                    caseToInsert.AccountId = null;
+                    caseToInsert.ContactId = null;
                 }
                 
             }
