@@ -37,11 +37,11 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             }
             
         }
-        Boolean isUserinQueue = isUserInQueue(caseRecord.OwnerId,caseRecord.Asset.Branch__r.Branch_Queue_Id__c);
+        //Boolean isUserinQueue = isUserInQueue(caseRecord.OwnerId,caseRecord.Asset.Branch__r.Branch_Queue_Id__c);
         
         //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
         if (result.status == ABHFL_Constants.ERROR && caseRecord.Asset.Branch__c != null) {
-            if(!isUserinQueue && caseRecord.Source__c != ABHFL_Constants.BRANCH){
+            if(caseRecord.Source__c != ABHFL_Constants.BRANCH){
                 caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                 //ASF_TriggerSkipperUtility.markTriggerRun('Case');
                 if(Schema.sObjectType.Case.isUpdateable()){
@@ -89,14 +89,19 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             ownerIds.add(caseRec.OwnerId);
             groupIds.add(caseRec.Asset.Branch__r.Branch_Queue_Id__c);
         }
-        Map<Id, Set<Id>> groupIdToMemberIds = isUserInQueue(ownerIds, groupIds);
+        //Map<Id, Set<Id>> groupIdToMemberIds = isUserInQueue(ownerIds, groupIds);
         
         List<Case> downloadStpCases = new List<Case>();
         
-        String cY = System.Label.ABHFL_LOD_Calendar_Year;
+        String cY = System.Label.ABHFL_LOD_Calendar_Year; 
+        
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Check for mandatory API conditions
+            system.debug('caseRecord.Asset.LAN__c--->'+caseRecord.Asset.LAN__c);
+            system.debug('caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c--->'+caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c);
+            system.debug('caseRecord.Asset.Last_Disbursement_Date__c--->'+caseRecord.Asset.Last_Disbursement_Date__c);
+            system.debug('Date.valueOf(cY)'+Date.valueOf(cY) );
             if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == 'Email'){
                 //Check for Disbursement Date > Current Calendar Year
                 if(caseRecord.Asset.Last_Disbursement_Date__c !=null && caseRecord.Asset.Last_Disbursement_Date__c >= Date.valueOf(cY)){
@@ -105,35 +110,41 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
                 }
                 else{
                     result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBefore').Message__c; 
+                    result.status = ABHFL_Constants.ERROR;
                 }
                 
             }
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
-		    downloadStpCases.add(caseRecord);
-                    //update caseRecord;
+                    	downloadStpCases.add(caseRecord);
+			//update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
             }
-            Boolean isUserinQueue = groupIdToMemberIds.containsKey(caseRecord.Asset.Branch__r.Branch_Queue_Id__c)?groupIdToMemberIds.get(caseRecord.Asset.Branch__r.Branch_Queue_Id__c).contains(caseRecord.OwnerId):false;
+            //Boolean isUserinQueue = groupIdToMemberIds.containsKey(caseRecord.Asset.Branch__r.Branch_Queue_Id__c)?groupIdToMemberIds.get(caseRecord.Asset.Branch__r.Branch_Queue_Id__c).contains(caseRecord.OwnerId):false;
        
             //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
+            system.debug('result.status--->'+result.status);
+            system.debug('caseRecord.Asset.Branch__c--->'+caseRecord.Asset.Branch__c );
             if (result.status == ABHFL_Constants.ERROR && caseRecord.Asset.Branch__c != null) {
-                if(!isUserinQueue && caseRecord.Source__c != ABHFL_Constants.BRANCH){
+                if(caseRecord.Source__c != ABHFL_Constants.BRANCH){
+                    system.debug('caseRecord.Source__c--->'+caseRecord.Source__c);
+                    system.debug('caseRecord.Asset.Branch__r.Branch_Queue_Id__c--->'+caseRecord.Asset.Branch__r.Branch_Queue_Id__c );
                     Case updatedCase = new Case(Id=caseRecord.Id);
                     updatedCase.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                     result.updatedCase = updatedCase;
                     //Error Message when evaluation is failed.
                     result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBeforeBranchAssignment').Message__c;
+                    result.status = ABHFL_Constants.ERROR;
                 }
             }
             resultMap.put(caseRecord.Id, result);
         }
-         if(downloadStpCases.size()>0){
+        if(downloadStpCases.size()>0){
             update downloadStpCases;
         }
-        
+        system.debug('resultMap--->'+resultMap);
         return resultMap;
     }
      /****************************************************************************************************************
@@ -189,42 +200,42 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     }   
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-
+        
         Set<String> intIds = new Set<String>();
-        for(Case caseRec : caseRecs){
-            for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                if(integ.Processing_Class__c == 'ABHFL_LODIntegration'){
-                    intIds.add(integ.External_Id__c);
+                for(Case caseRec : caseRecs){
+                                for(ASF_Integration__c integ : integs.get(caseRec.Id)){
+                        if(integ.Processing_Class__c == 'ABHFL_LODIntegration'){
+                            intIds.add(integ.External_Id__c);
+                        }
+                    }
                 }
-            }
-        }
-
-        List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
-        for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
-                                                WHERE Case__c IN :caseRecs 
-                                                AND Integration_Ext_Id__c IN :intIds])
-        {
-            if(integs.containsKey(caseInt.Case__c)){
-                for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
-                {
-                    if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
-                        caseInt.Status__c = ABHFL_Constants.CANCELED;
-                        existingCaseIntegrations.add(caseInt);
+            
+            List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+            for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
+                                                    WHERE Case__c IN :caseRecs 
+                                                    AND Integration_Ext_Id__c IN :intIds])
+            {
+                if(integs.containsKey(caseInt.Case__c)){
+                    for(ASF_Integration__c integ : integs.get(caseInt.Case__c))
+                    {
+                        if(integ.External_Id__c == caseInt.Integration_Ext_Id__c && caseInt.Status__c == ABHFL_Constants.PENDING){
+                            caseInt.Status__c = ABHFL_Constants.CANCELED;
+                            existingCaseIntegrations.add(caseInt);
+                        }
                     }
                 }
             }
-        }
 
-        ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-        update existingCaseIntegrations;
-        ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+            ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+            update existingCaseIntegrations;
+            ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 
-
-        //Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
-        List<Case> caseRecords = new List<Case>();
-        for(Case caseRec : caseRecs){
-            caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
-        }
+                
+            //Case caseRecord = [SELECT Id, Asset.LAN__c,CaseNumber,Business_Unit__c  FROM Case where Id =: caseRec.Id ];
+            List<Case> caseRecords = new List<Case>();
+            for(Case caseRec : caseRecs){
+                caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
+            }
 
         List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
         Map<Integer, Case_Integration_Outbound__e> peMap = new Map<Integer, Case_Integration_Outbound__e>();
@@ -232,68 +243,68 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper response = new ASF_IntegrationsController.IntegrationWrapper();
-            response.status = ABHFL_Constants.SUCCESS;
-            for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
-            {
-                if(intSpec.Processing_Class__c == 'ABHFL_LODIntegration'){
-                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                    caseInteg.Case__c = caseRecord.Id;
-                    caseInteg.Status__c = ABHFL_Constants.PENDING;
-                    caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
-                    newCaseIntegrations.add(caseInteg);
+                response.status = ABHFL_Constants.SUCCESS;
+                for(ASF_Integration__c intSpec : integs.get(caseRecord.Id))
+                {
+                    if(intSpec.Processing_Class__c == 'ABHFL_LODIntegration'){
+                        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                        caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                        caseInteg.Case__c = caseRecord.Id;
+                        caseInteg.Status__c = ABHFL_Constants.PENDING;
+                        caseInteg.Request__c = JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+                        newCaseIntegrations.add(caseInteg);
 
-                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-                    caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-                    //caseIntOut.Case_Integration_ID__c = caseInt.Name;
-                    caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
-                    caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
-                    caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
-                    peMap.put(index, caseIntOut);
-                    indexToCaseId.put(index, caseRecord.Id);
-                    index++;
-                }
+                        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
+                        caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
+                        //caseIntOut.Case_Integration_ID__c = caseInt.Name;
+                        caseIntOut.Integration_Name__c  = intSpec.Display_Name__c;
+                        caseIntOut.Request_Payload__c  =  JSON.serialize(new LODRequestWrapper(caseRecord.CaseNumber,caseRecord.Asset.Lan__c));
+                        caseIntOut.ServiceName__c = ABHFL_Constants.REPORTING_SERVICE;
+                        peMap.put(index, caseIntOut);
+                        indexToCaseId.put(index, caseRecord.Id);
+                        index++;
+                    }
             }
             resultMap.put(caseRecord.Id, response);
         }
         
         index = 0;
-        
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false);
-            Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>([SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ]);
-            for(Database.SaveResult sr : results){
-                if(sr.isSuccess()){
-                    Case_Integration_Outbound__e caseIntOut = peMap.get(index);
-                    caseIntOut.Case_Integration_ID__c = caseIntegrations.get(sr.getId()).Name;
-                    peMap.put(index, caseIntOut);
+
+            if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+                List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false);
+                Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>([SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ]);
+                for(Database.SaveResult sr : results){
+                    if(sr.isSuccess()){
+                        Case_Integration_Outbound__e caseIntOut = peMap.get(index);
+                        caseIntOut.Case_Integration_ID__c = caseIntegrations.get(sr.getId()).Name;
+                        peMap.put(index, caseIntOut);
+                    }else{
+                        ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
+                        wrap.status = ABHFL_Constants.ERROR;
+                        resultMap.put(indexToCaseId.get(index), wrap);
+                        peMap.remove(index);
+                        indexToCaseId.remove(index);
+                    }
+                    index++;
+                }
+            }
+
+            List<Database.SaveResult> publishResults = EventBus.publish(peMap.values());
+            index = 0;
+            for(Database.SaveResult publishResult : publishResults){
+                if(publishResult.isSuccess()){
+                    ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
+                    wrap.status = ABHFL_Constants.SUCCESS;
+                    resultMap.put(indexToCaseId.values()[index], wrap);
                 }else{
                     ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
                     wrap.status = ABHFL_Constants.ERROR;
-                    resultMap.put(indexToCaseId.get(index), wrap);
-                    peMap.remove(index);
-                    indexToCaseId.remove(index);
+                    resultMap.put(indexToCaseId.values()[index], wrap);
                 }
                 index++;
             }
-        }
-
-        List<Database.SaveResult> publishResults = EventBus.publish(peMap.values());
-        index = 0;
-        for(Database.SaveResult publishResult : publishResults){
-            if(publishResult.isSuccess()){
-                ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
-                wrap.status = ABHFL_Constants.SUCCESS;
-                resultMap.put(indexToCaseId.values()[index], wrap);
-            }else{
-                ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
-                wrap.status = ABHFL_Constants.ERROR;
-                resultMap.put(indexToCaseId.values()[index], wrap);
-            }
-            index++;
-        }
-        
-        return resultMap;
+                system.debug('resultMap run---->'+resultMap);
+                return resultMap;
     }   
     
      /****************************************************************************************************************
@@ -357,7 +368,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
     * @return - boolean - true when user is in the specified queue.
     * @description - to check if a user is in a specified queue.
     *****************************************************************************************************************/
-    public static Boolean isUserInQueue(Id userId, Id queueId) {
+    /*public static Boolean isUserInQueue(Id userId, Id queueId) {
         // Query to find if the user is a member of the specified queue
         List<GroupMember> queueMemberships = [SELECT Id FROM GroupMember WHERE UserOrGroupId = :userId AND GroupId = :queueId ];
 
@@ -375,7 +386,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         }
         
         return groupIdToMemberIds;
-    }
+    }*/
     /****************************************************************************************************************
     *@description - Response Wrapper
     *****************************************************************************************************************/
