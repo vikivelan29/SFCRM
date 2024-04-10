@@ -134,5 +134,18 @@ public class ASF_CaseUIController_Test {
         
     }
     
+    @isTest
+    public static void CreateProspectAndUpdateOnCaseTest(){
+		Case caseRecord = new Case();
+        Lead leadRecord = new Lead();
+        leadRecord.MobilePhone  = '9855494949';
+        leadRecord.LastName = 'test';
+        insert caseRecord;
+        //insert leadRecord;
+        //caseRecord.Lead__c =leadRecord.Id;
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(null,leadRecord);
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(caseRecord,null);
+    }
+    
 
 }
