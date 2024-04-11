@@ -70,7 +70,7 @@ public without sharing class ASF_EmailMessageHelper {
             Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
             List<Case> existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
                                         CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
-                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
+                                        Technical_Source__c, Nature__c, ContactId,
                                         (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
                                         FROM Case 
                                         WHERE Id IN :caseIds];
@@ -165,7 +165,7 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
         newCase.SuppliedEmail = closedCase.SuppliedEmail;
         newCase.SuppliedName = closedCase.SuppliedName;
-        newCase.Business_Unit__c = closedCase.Business_Unit__c;
+        
         return newCase;
     }   
     
