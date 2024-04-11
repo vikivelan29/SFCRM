@@ -481,7 +481,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.enableDelete = this.amIOwner?this.stagesAllowingDeleteRows.includes(currStage)?true:false:false;
         }
         if(this.stagesAllowingFetchAll && this.stagesAllowingFetchAll.length > 0){
-            this.enableFetchAll = this.amIOwner?this.stagesAllowingFetchAll.includes(currStage)?true:false:false;
+            this.enableFetchAll = this.stagesAllowingFetchAll.includes(currStage)?true:false;
         }
         if(this.stagesAllowingFileUpload && this.stagesAllowingFileUpload.length > 0){
             this.enableUpload = this.amIOwner?this.stagesAllowingFileUpload.includes(currStage)?true:false:false;

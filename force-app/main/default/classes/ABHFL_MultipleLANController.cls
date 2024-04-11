@@ -44,6 +44,13 @@ public with sharing class ABHFL_MultipleLANController {
                 }
             }
             if(lanMetadata.Id != null){
+                if(String.isNotBlank(lanMetadata.Stages_Allowing_Fetch_All__c)){
+                    List<String> stagesAllowed = lanMetadata.Stages_Allowing_Fetch_All__c.split(',');
+                    lanWrapper.stagesAllowingFetchAll = stagesAllowed;
+                    if(stagesAllowed.contains(caseRecord.Stage__c)){
+                        lanWrapper.displayFetchAll = true;
+                    }
+                }
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
                 if(validLoggedInUser){
@@ -66,13 +73,6 @@ public with sharing class ABHFL_MultipleLANController {
                         lanWrapper.stagesAllowingDeleteRows = stagesAllowed;
                         if(stagesAllowed.contains(caseRecord.Stage__c)){
                             lanWrapper.displayDeleteRows = true;
-                        }
-                    }
-                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Fetch_All__c)){
-                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Fetch_All__c.split(',');
-                        lanWrapper.stagesAllowingFetchAll = stagesAllowed;
-                        if(stagesAllowed.contains(caseRecord.Stage__c)){
-                            lanWrapper.displayFetchAll = true;
                         }
                     }
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_File_Upload__c)){
