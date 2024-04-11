@@ -101,14 +101,14 @@
     <actionOverrides>
         <actionName>Edit</actionName>
         <content>asf_OverrideEditCaseButton</content>
-        <formFactor>Small</formFactor>
+        <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>LightningComponent</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>Edit</actionName>
         <content>asf_OverrideEditCaseButton</content>
-        <formFactor>Large</formFactor>
+        <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>LightningComponent</type>
     </actionOverrides>
@@ -206,6 +206,14 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
     <externalSharingModel>Private</externalSharingModel>
+    <profileSearchLayouts>
+        <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.SUBJECT</fields>
+        <fields>CASES.STATUS</fields>
+        <fields>CASES.CREATED_DATE</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <profileName>ABFL Base Profile</profileName>
+    </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
@@ -222,7 +230,6 @@
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>ChangeStatus</excludedStandardButtons>
         <excludedStandardButtons>MassMergeCase</excludedStandardButtons>
-        <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <excludedStandardButtons>MassAddToActionableList</excludedStandardButtons>
         <listViewButtons>Download_CSV_for_Bulk_Update</listViewButtons>
         <listViewButtons>Upload_CSV_for_Bulk_Update</listViewButtons>
