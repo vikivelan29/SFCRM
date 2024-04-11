@@ -29,7 +29,7 @@ public with sharing class ABCL_EmailMessageHelper {
                     bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
                 }
                 if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||( email.Headers != null && 
-                                                                                           !email.Headers.contains('In-Reply-To:'))) || bReplyOnClosedCase
+                                                                                           !email.Headers.contains('In-Reply-To:')) || bReplyOnClosedCase)
                     && email.ParentId.getSObjectType() == Case.getSObjectType()
                     && email.Incoming == true && email.Send_To_Ebot__c == true){ 
                         caseIds.add(email.ParentId);

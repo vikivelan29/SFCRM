@@ -77,8 +77,10 @@ public without sharing class ASF_EmailMessageHelper {
             
             for(Case caseRec : existingCases){
                 //check if closed or not
+                //if(caseRec.IsClosed && caseRec.Origin != null && caseRec.Origin.contains('Email') 
+                // VIRENDRA - 10 April 2024 - REMOVED THE CONDITION OF CASE ORIGIN CONTAINS EMAIL.
                 if(caseRec.IsClosed){
-                   //&& caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
+                   //&& (caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
                        //&& caseRec.Nature__c == 'Complaint'){
                        //if closed, check if reopen allowed or not
                        if(caseRec.Is_Reopen_Allowed__c == true){
@@ -97,7 +99,6 @@ public without sharing class ASF_EmailMessageHelper {
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
                                   bNewCaseByReplyToCloseCase = true;
-                                  
                               }
                        }else {
                            // else create new case and reparent EMailMessage
@@ -134,8 +135,8 @@ public without sharing class ASF_EmailMessageHelper {
             }
         }
     }
-    //Commenting the method as its not in use
-    /*private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+    
+    private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
         String firstOwner;
         if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
             firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
@@ -145,7 +146,7 @@ public without sharing class ASF_EmailMessageHelper {
             theMap.get(firstOwner).add(caseRec.Id);
         }
         return theMap;
-    }*/
+    }
     
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
         Case newCase = new Case();
@@ -160,6 +161,6 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.SuppliedName = closedCase.SuppliedName;
         
         return newCase;
-    }
+    }   
     
 }
