@@ -589,4 +589,11 @@
         <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
         <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
+    <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
 </CustomLabels>
