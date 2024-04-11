@@ -107,8 +107,12 @@ public without sharing class ASF_Email2CaseHandler {
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
+                boolean bReplyOnClosedCase = false;
+                if(ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase){
+                    bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
+                }
                 if(msg.Headers != null){
-                    if(!msg.Headers.contains('In-Reply-To:')){
+                    if(!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase){
                         caseIds.add(msg.ParentId);
                     }
                 }
