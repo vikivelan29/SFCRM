@@ -112,7 +112,7 @@ public without sharing class ASF_Email2CaseHandler {
                     bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
                 }
                 if(msg.Headers != null){
-                    if(!msg.Headers.contains('In-Reply-To:') || bReplyOnClosedCase){
+                    if(!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase){
                         caseIds.add(msg.ParentId);
                     }
                 }
