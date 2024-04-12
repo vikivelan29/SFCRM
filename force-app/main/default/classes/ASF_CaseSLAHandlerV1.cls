@@ -479,9 +479,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             }
         }
         updateOldCaseSLAHistory(cases);
-        ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
-        ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
     }
 
     /*
