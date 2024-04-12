@@ -7,19 +7,7 @@
         <field>ASF_Case_SLA_History__c.Status__c</field>
     </columns>
     <columns>
-        <field>OPEN</field>
-    </columns>
-    <columns>
-        <field>CLOSED</field>
-    </columns>
-    <columns>
-        <field>CUST_NAME</field>
-    </columns>
-    <columns>
         <field>ASF_Case_SLA_History__c.Stage__c</field>
-    </columns>
-    <columns>
-        <field>ASF_Case_SLA_History__c.FromStage__c</field>
     </columns>
     <description>Scenario 7 : As an agent I need to understand on what cases have moved back to previous stage in their journey.</description>
     <filter>
