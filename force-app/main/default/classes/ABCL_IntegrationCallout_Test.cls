@@ -23,6 +23,7 @@ public class ABCL_IntegrationCallout_Test {
         ABCL_IntegrationCallout.IntegrationResponseWrapper res = ABCL_IntegrationCallout.getStaticResource(intMetadata1, response);
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         insert caseInt;
+        response.responseBody = '{}';
         ABCL_IntegrationCallout.storeResponseAttachment(intMetadata1, response, caseInt.Id);
         System.assertEquals(true,failedResponse != null,'PASS');
     }
