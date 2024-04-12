@@ -888,7 +888,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     // }
                 }
                 if(resultMap != null){
-                    ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                    ASF_SLABusinessHoursWrapper wrapper = new ASF_SLABusinessHoursWrapper();
+                    wrapper = resultMap.get(index);
                     if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
                         if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
                             updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
