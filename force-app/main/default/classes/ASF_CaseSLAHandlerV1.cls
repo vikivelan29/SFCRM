@@ -774,16 +774,18 @@ owner change can be to user or queue. and then business hrs changes
                     //     }      
                     // }
                 }
-                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
-                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                        newCases.get(i).SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                if(resultMap != null){
+                    ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                            updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                            updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                            updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        }
                     }
                 }
                 index++;
