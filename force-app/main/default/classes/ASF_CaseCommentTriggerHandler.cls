@@ -12,11 +12,12 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
     
     public static void validateCaseComment(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
+           createFeedItem(newList, oldMap);
            return;
-        }
+        } 
         Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
 		Boolean isDelete = newList==null ? true : false;
-        Boolean isUpdate = oldMap!=null ? true : false;
+        Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;
         Boolean isInsert = oldMap==null ? true : false;
         List<CaseComment> caseCommentList = isDelete ? oldMap.values() : newList;
         Set<Id> caseIds = new Set<Id>();
@@ -40,7 +41,36 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                       UserInfo.getUserId() != caseCommentRec.CreatedById){
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
+                    createFeedItem(newList, oldMap);
                 }
+            }  
+        }
+    }
+    public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
+        Boolean isDelete = newList==null ? true : false;
+        Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;
+        List<CaseComment> caseCommentList = isDelete ? oldMap.values() : newList;
+        if(isUpdate || isDelete){
+            String messageBody = '';
+            List<FeedItem> feedItemList = new List<FeedItem>();
+            for(CaseComment caseCommentRec : caseCommentList){
+                if(isUpdate){
+                    messageBody = 'The case comment has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
+                }else if(isDelete){
+                    messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' has been deleted';
+                }
+                FeedItem feedItem = new FeedItem();
+                feedItem.ParentId = caseCommentRec.ParentId;
+                feedItem.Type = 'TextPost';
+                feedItem.Body = messageBody;
+                feedItemList.add(FeedItem);
+            }
+            if(!feedItemList.isEmpty()){
+                try{
+                    insert feedItemList;
+                }catch(Exception e){
+                    System.debug('Exception on ASF_CaseCommentTriggerHandler'+e.getMessage());
+                }    	
             }
         }
     }
