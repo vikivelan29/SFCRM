@@ -195,7 +195,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
-        <value>You do not have access to update/delete this comment</value>
+        <value>You do not have access to perform this action on comments</value>
     </labels>
     <labels>
         <fullName>ASF_CreateCaseWithProspect</fullName>
