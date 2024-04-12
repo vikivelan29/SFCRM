@@ -45,14 +45,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABFL_ENACH_Status_Controller</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABFL_EODController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABFL_EbotWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -109,19 +101,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
+        <apexClass>ASF_RelateDuplicateCaseController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
+        <apexClass>Abhfl_GenericRepeatingAndOpenComplntClas</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1061,11 +1049,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Cheque_Bounce__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2748,10 +2731,6 @@
         <field>User.managerGroupId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <flowAccesses>
-        <enabled>true</enabled>
-        <flow>ABFL_Update_Preferred_Name</flow>
-    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABFL User PS</label>
     <objectPermissions>
@@ -2862,22 +2841,6 @@
         <object>Survey_Response__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <recordTypeVisibilities>
-        <recordType>Lead.Sales</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>Lead.Service</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>EditCaseComments</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>TransferAnyCase</name>
-    </userPermissions>
     <pageAccesses>
         <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
         <enabled>true</enabled>
@@ -2894,10 +2857,6 @@
         <recordType>Lead.Service</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <tabSettings>
-        <tab>Customer_Prospect_Search</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>EditCaseComments</name>
