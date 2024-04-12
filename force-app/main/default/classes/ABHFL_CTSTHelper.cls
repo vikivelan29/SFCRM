@@ -219,6 +219,23 @@ public without sharing class ABHFL_CTSTHelper {
         	updatedCase.OwnerId = emailFinancialQueue.Id;
             ownerName = emailFinancialQueue.Name;
     	}
+        if(updatedCase.OwnerId != null){
+            Map<Integer,ASF_SLABusinessHoursWrapper> slaTargetEmailMap = ASF_CaseSLAHandlerV1.getOwnerHierarchy(new List<Case>{updatedCase}, new List<String>(), new List<String>{updatedCase.OwnerId});
+            if(slaTargetEmailMap != null){
+                ASF_SLABusinessHoursWrapper wrapper = slaTargetEmailMap.get(0);
+                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                    }
+                }
+            }
+        }
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
     	if (slaHistory.size() > 0) {
