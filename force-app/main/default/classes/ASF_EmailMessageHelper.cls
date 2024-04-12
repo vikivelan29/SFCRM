@@ -70,7 +70,7 @@ public without sharing class ASF_EmailMessageHelper {
             Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
             List<Case> existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
                                         CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
-                                        Technical_Source__c, Nature__c, ContactId,
+                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
                                         (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
                                         FROM Case 
                                         WHERE Id IN :caseIds];
@@ -135,8 +135,8 @@ public without sharing class ASF_EmailMessageHelper {
             }
         }
     }
-    //Commenting the method as its not in use
-    /*private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+    
+    private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
         String firstOwner;
         if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
             firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
@@ -147,7 +147,7 @@ public without sharing class ASF_EmailMessageHelper {
         }
         return theMap;
     }
-    */
+    
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
         Case newCase = new Case();
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
@@ -159,7 +159,7 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
         newCase.SuppliedEmail = closedCase.SuppliedEmail;
         newCase.SuppliedName = closedCase.SuppliedName;
-        
+        newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
     }   
     
