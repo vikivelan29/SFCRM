@@ -109,11 +109,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_RelateDuplicateCaseController</apexClass>
+        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Abhfl_GenericRepeatingAndOpenComplntClas</apexClass>
+        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2862,6 +2862,22 @@
         <object>Survey_Response__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Lead.Sales</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Lead.Service</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditCaseComments</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>TransferAnyCase</name>
+    </userPermissions>
     <pageAccesses>
         <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
         <enabled>true</enabled>
