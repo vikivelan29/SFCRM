@@ -44,6 +44,8 @@ public class ABCL_IntegrationCommonUtilityTest {
         Lead leadInserted = ASF_TestDataFactory.createSalesProspectRecord();
         assetInserted.Lead_Id__c =leadInserted.Id;
         update assetInserted;
+        assetInserted.Lead_Id__c = 'test';
+        update assetInserted;
         caseRecList[0].AssetId = assetInserted.Id;
         caseRecList[0].Lead__c = leadInserted.Id;
         caseRecList[0].Nature__c = 'Query';
@@ -65,6 +67,10 @@ public class ABCL_IntegrationCommonUtilityTest {
         List<Case> caseRecords = [SELECT Id, No_Auto_Communication__c, AccountId, CCC_External_Id__c, ContactId FROM Case LIMIT 1];
         Test.startTest();
         	Database.SaveResult eventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords[0], 'dev_01', 'Dev_02', true);
+        	List<Database.SaveResult> eventResultBulk = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(new List<Case>{caseRecords[0]},
+                                                                                                            new Map<Id,String>{caseRecords[0].Id =>'Test'},
+                                                                                                            new Map<Id,String>{caseRecords[0].Id =>'Test'},
+                                                                                                            new Map<Id,Boolean>{caseRecords[0].Id =>true});
         Test.stopTest();
         System.assertEquals(true,eventResult.IsSuccess());
     }
