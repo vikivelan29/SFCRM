@@ -457,6 +457,24 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             }
         }
     }
+
+    /**
+     * When cases are assigned to users from Omnichannel - case trigger is not invoked, hence SLA history is also not modified
+     * As remedy, ASF_AgentWorkTrigger is implemented, which runs when Omnichannel assigns case to user(creates an entry on AgentWork object)
+     * From that trigger, below method is invoked to update old SLA history and insert new one
+     */
+    public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
+        List<Case> cases = new List<Case>();
+        for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
+            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
+                Case caseRec = new Case(Id=caseId);
+                cases.add(caseRec);
+            }
+        }
+        updateOldCaseSLAHistory(cases);
+        insertSLAHistory(null,new Map<Id, Case>(cases));
+    }
+
     /*
     When SLA is violated , SLA violated date gets carried over for calculation.
     There might be 3 history for Stages. If one is violated, take that for calculation.
@@ -552,12 +570,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         else{
             //during insert old Case will be null
-            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
+            if(oldCase == null){
                 updatedCase.Case_Stage_Change_Date__c = system.now();
                 updatedCase.Last_Owner_Change_Date__c = system.now();
-            }
-            if(oldCase != null && oldCase.ownerId != newCase.ownerID){
-                updatedCase.Last_Owner_Change_Date__c = system.now();
+            }else{
+                if(newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
+                    updatedCase.Case_Stage_Change_Date__c = system.now();
+                }
+                if(oldCase != null && oldCase.ownerId != newCase.ownerID){
+                    updatedCase.Last_Owner_Change_Date__c = system.now();
+                }
             }
         }
         return updatedCase;    
@@ -572,17 +594,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
     */
     private static Map<Integer,ASF_SLABusinessHoursWrapper> getCaseOwnerBusinessHours(Map<Id,Case> oldCases, List<Case> newCases){
         Map<Integer,ASF_SLABusinessHoursWrapper> resultMap =  new map<Integer,ASF_SLABusinessHoursWrapper>();
-        
         List<String> ownerUserList = new List<String>();
-        
         List<String> ownerQueueList = new List<String>();
-        Map<String,String> queueEmailMap = new Map<String,String>();
-        
-        Map<String,String> queueOwnerUserBusinessHrMap = new Map<String,String>();
         Map<String,String> userBusinessHrMap = new Map<String,String>();
         List<String> ownerEmailList = new List<String>();
-        map<String,User> userEmailMangerMap = new Map<String,User>();
-        Map<Id, String> userIdToEmailMap = new Map<Id, String>();
         
         for(case c: newCases){
             //owner change loop    
@@ -594,7 +609,25 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
             }
         }  
-        
+        Integer index = 0;
+        for(Case c: newCases){
+            ASF_SLABusinessHoursWrapper wrapper =new ASF_SLABusinessHoursWrapper();
+            wrapper.caseObject = c;
+            resultMap.put(index,wrapper);
+            index++;
+        }
+        if(!ownerUserList.isEmpty() || !ownerQueueList.isEmpty()){
+            resultMap = getOwnerHierarchy(newCases, ownerUserList, ownerQueueList);
+        }
+        return resultMap;
+    }
+
+    public static Map<Integer,ASF_SLABusinessHoursWrapper> getOwnerHierarchy(List<Case> newCases, List<String> ownerUserList, List<String> ownerQueueList) {
+        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap =  new map<Integer,ASF_SLABusinessHoursWrapper>();
+        Map<String,String> queueEmailMap = new Map<String,String>();
+        Map<String,String> queueOwnerUserBusinessHrMap = new Map<String,String>();
+        map<String,User> userEmailMangerMap = new Map<String,User>();
+        Map<Id, String> userIdToEmailMap = new Map<Id, String>();
         /* there are Cases which are owned by Queue. 
         When Case is owned by Queue , Owner of Queue email's business hrs is considered
         */
@@ -618,24 +651,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                  userIdToEmailMap.put(userObj.Id, userObj.Email);
                              }
         
-        // if(!ownerUserList.isEmpty()){
-        //     for(User usrObj :[SELECT Id, Business_Hour_Id__c FROM User WHERE Email IN: ownerUserList]){
-        //         if( usrObj.Business_Hour_Id__c != NULL){
-        //             userBusinessHrMap.put(usrObj.Id, usrObj.Business_Hour_Id__c);
-        //         }
-        //     }
-        // }
-        
-        // List<user> userManagerList = [SELECT Id,
-        //                               Email,
-        //                               manager.email,
-        //                               manager.manager.email,
-        //                               manager.manager.manager.email 
-        //                               FROM User 
-        //                               WHERE Email IN :ownerEmailList];
-        // for(User u: userManagerList){
-        //     userEmailMangerMap.put(u.Email, u);
-        // }
         
         Integer index = 0;
         for(Case c: newCases){
