@@ -205,6 +205,20 @@
         <value>Create Case with LAN</value>
     </labels>
     <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -391,7 +405,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
+        <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
         <fullName>Allowed_Domain</fullName>
@@ -602,13 +616,6 @@
         <protected>false</protected>
         <shortDescription>STP Flows</shortDescription>
         <value>Interest Schedule,Provisional Interest Certificate</value>
-    </labels>
-    <labels>
-        <fullName>ASF_BulkThresholdForQueueable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
-        <value>9000</value>
     </labels>
     <labels>
         <fullName>ASF_File_Update_Val_Message</fullName>

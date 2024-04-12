@@ -41,6 +41,11 @@
                 <default>false</default>
                 <label>Enach</label>
             </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
