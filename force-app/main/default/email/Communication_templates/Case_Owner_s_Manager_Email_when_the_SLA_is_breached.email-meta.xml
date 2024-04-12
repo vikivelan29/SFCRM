@@ -16,7 +16,7 @@ Created By: {!Case.CreatedBy}
 =============================================================================
 SR Assignment Details
 =============================================================================
-Assigned Date/Time: {!Case.LastModifiedDate}
+Assigned Date/Time: {!Case.Case_Stage_Change_Date__c}
 Assigned to Dept.: {!Case.OwnerFullName}
 Assigned to Sub-Dept.:
 =============================================================================
