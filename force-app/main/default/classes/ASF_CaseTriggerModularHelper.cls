@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-12-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -47,13 +57,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             
             if(isUpdate){
                 if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
-                    casesChangingRT.add(caseRec.Id);
+                    casesChangingExtId.add(caseRec.Id);
                 }
-                if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                    && caseRec.CCC_External_Id__c != null) || 
-                   ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
-                   ((caseRec.AccountId != oldMap.get(caseRec.Id).AccountId) || 
-                   (caseRec.AssetId != oldMap.get(caseRec.Id).AssetID)))){
+                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null){
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         //or Reparenting Account

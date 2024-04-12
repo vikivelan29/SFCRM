@@ -39,6 +39,7 @@ public with sharing class ABCL_IntegrationCallout {
         //Check for Payload
         if(!String.isBlank(payload)){
             request.setBody(payload);
+            integrationResponse.requestBody = payload;
         }
                                                       
         //Prepare Header present in Integration Metadata
@@ -119,12 +120,15 @@ public with sharing class ABCL_IntegrationCallout {
             if(String.isNotBlank(caseId)){
                 integrationLog.Case__c = caseId;
             }
+            if(String.isnotBlank(integrationResponse.requestBody)){
+                integrationLog.Request__c = integrationResponse.requestBody;
+            }
+            system.debug('integrationLog:'+integrationLog);
             if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert integrationLog;
                 storeResponseAttachment(integrationMdt,integrationResponse,integrationLog.Id);
             }
         }
-        system.debug('integrationLog:'+integrationLog);
         
         return integrationResponse;
     }
@@ -166,5 +170,6 @@ public with sharing class ABCL_IntegrationCallout {
     public class IntegrationResponseWrapper{
         public string responseBody;
         public integer statusCode;
+        public string requestBody;
     }
 }

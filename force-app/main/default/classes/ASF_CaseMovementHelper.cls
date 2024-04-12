@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 02-29-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 04-12-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseMovementHelper {
     
@@ -159,14 +159,14 @@ public class ASF_CaseMovementHelper {
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                 if(nextStage.status != 'Error'){
                     Case updatedCase = new Case(Id = caseId);
-		    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
+                    updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
+		            //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
                     //When case get to Gateway stage after backward movement, unable to find valid next stage.
                     if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
                     	updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                     	updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
-                        resultWrapper.ownerId = nextStage.ownerId;
-                    }
-                    updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
+			resultWrapper.ownerId = nextStage.ownerId;
+		    }
                     updatedCase.MoveToNext__c = false;
                     
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;

@@ -29,7 +29,7 @@ public with sharing class ABHFL_ODPAlerts {
         }
         if(accObj.Client_Code__c != null){
             String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c, isABFL)); //New 
-            
+            system.debug('payload--->'+payload);
             ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
             
             if(odpResponseWrp.statusCode != 200){
