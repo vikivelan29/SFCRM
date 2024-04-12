@@ -106,7 +106,7 @@
                 <value>Closed,Closed Duplicate,Resolved,Unresolved</value>
             </criteriaItems>
         </filter>
-        <format>Summary</format>
+        <format>Tabular</format>
         <name>Cases with Assets and ABFL Case block 1</name>
         <params>
             <name>units</name>
@@ -129,7 +129,7 @@
         <blockId xsi:nil="true"/>
         <joinTable>s</joinTable>
     </blockInfo>
-    <description>Scenario 1:</description>
+    <description>Scenario 1 :As a customer service agent I should be able to view a report on active cases with filtration allowed to agent on Dates. The report must have sorting capabilities. Below columns must be displayed in report.</description>
     <format>MultiBlock</format>
     <name>ABFL Active Cases</name>
     <reportType>CaseAsset@Case.ABFL_Case_Detail__c</reportType>
