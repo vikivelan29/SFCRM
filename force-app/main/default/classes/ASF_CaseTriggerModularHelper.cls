@@ -57,10 +57,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             
             if(isUpdate){
                 if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
-                    casesChangingExtId.add(caseRec.Id);
+                    casesChangingRT.add(caseRec.Id);
                 }
-                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                    && caseRec.CCC_External_Id__c != null){
+                if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null) || 
+                   ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
+                   ((caseRec.AccountId != oldMap.get(caseRec.Id).AccountId) || 
+                   (caseRec.AssetId != oldMap.get(caseRec.Id).AssetID)))){
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         //or Reparenting Account
