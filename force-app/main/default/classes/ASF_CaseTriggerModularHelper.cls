@@ -32,6 +32,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+        List<FeedItem> feedItemList = new List<FeedItem>();
 
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
@@ -47,10 +48,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
             
             if(isUpdate){
                 if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
-                    casesChangingExtId.add(caseRec.Id);
+                    casesChangingRT.add(caseRec.Id);
                 }
-                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                    && caseRec.CCC_External_Id__c != null){
+                if((caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                    && caseRec.CCC_External_Id__c != null) || 
+                   ((caseRec.Recategorisation_Date__c == oldMap.get(caseRec.Id).Recategorisation_Date__c) && 
+                   ((caseRec.AccountId != oldMap.get(caseRec.Id).AccountId) || 
+                   (caseRec.AssetId != oldMap.get(caseRec.Id).AssetID)))){
                         //Only in case of interaction to framework conversion
                         //or recategorization
                         cccExternalIds.add(caseRec.CCC_External_Id__c);
@@ -58,6 +62,15 @@ public without sharing class ASF_CaseTriggerModularHelper {
                  
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
+                }
+                if(caseRec.No_Auto_Communication__c != oldMap.get(caseRec.Id).No_Auto_Communication__c){
+                    String oldCommValue = oldMap.get(caseRec.Id).No_Auto_Communication__c !=null ? oldMap.get(caseRec.Id).No_Auto_Communication__c : 'None';
+                    String newCommValue = caseRec.No_Auto_Communication__c != null ? caseRec.No_Auto_Communication__c : 'None';
+                    FeedItem feedItem = new FeedItem();
+                    feedItem.ParentId = caseRec.Id;
+                    feedItem.Type = 'TextPost';
+                    feedItem.Body = 'No Auto Communication is changed from \''+oldCommValue+'\' to '+newCommValue;
+                    feedItemList.add(FeedItem);
                 }
             }else{
                 if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API') && String.isNotBlank(caseRec.CCC_External_Id__c)){
@@ -75,7 +88,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
-        
+        if(!feedItemList.isEmpty()){
+            insert feedItemList;
+        }
         //Fetch all types of data sources before entering Case loop.
         // 1. CCC, 2. Asset, 3. LOBMappingDetails__mdt
         if(!cccExternalIds.isEmpty()){
