@@ -10,7 +10,7 @@ Created By: {!Case.CreatedBy}<br/>
 =============================================================================<br/>
 SR Assignment Details<br/>
 =============================================================================<br/>
-Assigned Date/Time: {!Case.LastModifiedDate}<br/>
+Assigned Date/Time: {!Case.Case_Stage_Change_Date__c}<br/>
 
 Assigned to Dept.: {!Case.OwnerFullName}<br/>
 
