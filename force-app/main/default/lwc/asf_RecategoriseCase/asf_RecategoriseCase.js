@@ -202,7 +202,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     connectedCallback() {
         //api record id was not working
-        console.log('this.recordId',this.recordId);
+        //console.log('this.recordId',this.recordId);
         this.recordId = this.pageRef.state.recordId;
         this.getCurrentCaseRecordDetails();
     }
@@ -485,8 +485,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
         // VIRENDRA - ADDED BELOW CHECKS FOR REPARENTING - 
-        console.log('this.accountId --> '+this.accountId);
-        console.log('this.selectedCustomer --> '+this.selectedCustomer);
+        //console.log('this.accountId --> '+this.accountId);
+        //console.log('this.selectedCustomer --> '+this.selectedCustomer);
         
         if(this.accountId != '' && this.accountId != undefined && this.accountId != null){
             fields[CASE_ACCOUNT_ID.fieldApiName]=this.accountId;
@@ -511,7 +511,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.notifyEbot();
             }
             this.dispatchEvent(new CloseActionScreenEvent());
-            console.log('Firing pubsub from Recategorize!!!!!!');
+            //console.log('Firing pubsub from Recategorize!!!!!!');
             let payload = {'source':'recat', 'recordId':this.recordId};
             fireEventNoPageRef(this.pageRef, "refreshpagepubsub", payload);  
             let changeArray = [{recordId: this.recordId}];
@@ -881,7 +881,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     get showRecategorisationDiv(){
         if(this.recategorizeEnabled == true && this.bProceedToRecategorisation == true){
             //console.log(this.refs.myDiv);
-            console.log(this.template.querySelectorAll('[data-id="mydummydiv"]'));
+            //console.log(this.template.querySelectorAll('[data-id="mydummydiv"]'));
 
             return true;
         }
