@@ -72,7 +72,7 @@ public without sharing class ASF_Email2CaseHandler {
         }
         if(caseToUpdate.size()>0){
             try{
-                ASF_TriggerSkipperUtility.markTriggerRun('Case');
+                ASF_TriggerSkipperUtility.markTriggerRun('Case', 'Before');
                 update caseToUpdate;
             }
             catch(exception ex){
