@@ -23,6 +23,10 @@ public with sharing class ABFL_Constants {
     public static final string EVALUATION_FAILED_AMOUNT_ERROR = 'Amount can\'t be blank ';
     public static final string EVALUATION_FAILED_FREQUENCY_ERROR = 'Frequency can\'t be blank ';
     public static final string EVALUATION_FAILED_TO_DATE_ERROR = 'To Date can\'t be blank ';
+    public static final string EVALUATION_FAILED_DATE_VALIDATION = 'From Date and To Date should be in future';
+    public static final string EVALUATION_FAILED_FROM_DATE_ERROR = 'From Date can\'t be blank ';
+    public static final string EVALUATION_FAILED_BANK_ACCOUNT_ERROR = 'Bank Account No can\'t be blank ';
+    public static final string EVALUATION_FAILED_IFSC_CODE_ERROR = 'Ifsc Code can\'t be blank ';
     public static final string EVALUATION_SUCCESS = 'Evaluation Success';
     public static final string WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String EMAIL_ENTITY = 'Email';
@@ -37,6 +41,12 @@ public with sharing class ABFL_Constants {
     public static final String RTL_LOANMIS_INTEGRATION_METADATA = 'RTL_RealTime_LoanMIS';
     public static final String RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA = 'RTL_RealTime_InstallPmntDtls';
     public static final String RTL_GETCRMDETAILS_INTEGRATION_METADATA = 'RTL_RealTime_GetCRMDetails';
+    
+    //EOD APIs
+    public static final String EOD_ACCOUNT_BALANCE_INTEGRATION_METADATA = 'EOD_Account_Balance';
+    public static final String EOD_APPLICATION_DETAILS_INTEGRATION_METADATA = 'EOD_Application_Details';
+    public static final String EOD_REPAYMENT_DETAILS_INTEGRATION_METADATA = 'EOD_Repayment_Details';
+    public static final String EOD_DISBURSEMENT_DETAILS_INTEGRATION_METADATA = 'EOD_Disbursement_Details';
     // public static final String NOT_EQUAL_TO = 'Not Equals To';
     // public static final String EQUAL_TO = 'Equals';
     public static final String BLANK_DATE_FIELD = 'Please add required date field values';

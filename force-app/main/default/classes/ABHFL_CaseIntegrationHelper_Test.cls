@@ -3,10 +3,19 @@ public class ABHFL_CaseIntegrationHelper_Test {
     @testSetup
     static void setUpData(){
         
+        Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
+        Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec.LAN__c = '657644354';
+        update astRec;
+        Asset astRec1 = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec1.LAN__c = '032332232332';
+        update astRec1;
+        
         List<Case> caseRecords = ASF_TestDataFactory.createCaseRecords(1);
         caseRecords[0].Source__c = 'Email';
         caseRecords[0].CCC_External_Id__c = null;
         caseRecords[0].Business_Unit__c = 'ABHFL';
+        caseRecords[0].AssetId = astRec1.Id;
         update caseRecords;
         
         if(caseRecords.size() > 0){
@@ -35,7 +44,7 @@ public class ABHFL_CaseIntegrationHelper_Test {
         if(caseIntegrations.size() > 0){
             caseIntegrations[0].Status__c = 'Success';
             
-           caseIntegrations[0].Response__c = '{\"ASONDATE\":\"2023-10-14\",\"CASEID\":\"CAS-53056-C0S0W7\",\"CASESUBTYPE\":\"QLOANDUSNDC\",\"COMMENT\":\"testcase\",\"CONFIDENCESCORE\":0.9,\"DISBURSTMENTTYPE\":\"FullyDisbursed\",\"FROMDATE\":\"2023-01-25\",\"FROMYEAR\":2022,\"ISCORRUPTED\":\"No\",\"ISMULTILAN\":\"Yes\",\"ISMULTIPLEDATEFORMATE\":\"Yes\",\"ISREGISTRED\":\"Yes\",\"ISREGULATOR\":\"Yes\",\"ISREPEAT\":\"No\",\"ISSMT\":\"Yes\",\"ISTRAIL\":\"Yes\",\"LANCOMMENT\":\"TestLANComment\",\"LOB\":\"HFC\",\"OWNERFULLNAME\":\"TauseefKaldane\",\"TODATE\":\"2023-01-27\",\"TOYEAR\":2023,\"Template1\":\"\",\"Template2\":\"\",\"Template3\":\"\",\"UNREGISTEREDCATEGORY\":\"\",\"LAN_NOS\":[\"657644354\",\"032332232332\",\"35677822\"]}';
+           caseIntegrations[0].Response__c = '{\"ASONDATE\":\"2023-10-14\",\"CASEID\":\"CAS-53056-C0S0W7\",\"CASESUBTYPE\":\"QLOANDUSNDC\",\"COMMENT\":\"testcase\",\"CONFIDENCESCORE\":0.9,\"DISBURSTMENTTYPE\":\"FullyDisbursed\",\"FROMDATE\":\"2023-01-25\",\"FROMYEAR\":2022,\"ISCORRUPTED\":\"No\",\"ISMULTILAN\":\"Yes\",\"ISMULTIPLEDATEFORMATE\":\"Yes\",\"ISREGISTRED\":\"Yes\",\"ISREGULATOR\":\"Yes\",\"ISREPEAT\":\"No\",\"ISSMT\":\"Yes\",\"ISTRAIL\":\"Yes\",\"LANCOMMENT\":\"TestLANComment\",\"LOB\":\"HFC\",\"OWNERFULLNAME\":\"TauseefKaldane\",\"TODATE\":\"2023-01-27\",\"TOYEAR\":2023,\"Template1\":\"\",\"Template2\":\"\",\"Template3\":\"\",\"UNREGISTEREDCATEGORY\":\"\",\"EBOTLAN\":[\"657644354\",\"032332232332\",\"35677822\"]}';
             
            // caseIntegrations[0].Response__c = '{\"CASEID\":\"Success\",\"CASESUBTYPE\":\"AC123457\",\"COMMENT\":\"Problem\",\"OWNERFULLNAME\":\"Major\",\"CONFIDENCESCORE\":\"Major\"}';
             update caseIntegrations[0];    

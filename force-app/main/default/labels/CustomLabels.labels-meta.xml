@@ -205,6 +205,20 @@
         <value>Create Case with LAN</value>
     </labels>
     <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to perform this action on comments</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -492,6 +506,13 @@
         <value>You are not allowed to send email as you are not part of any team.</value>
     </labels>
     <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
         <fullName>ExpiryDay_For_Bitly_URL</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -597,13 +618,6 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ASF_BulkThresholdForQueueable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
-        <value>9000</value>
-    </labels>
-    <labels>
         <fullName>ASF_File_Update_Val_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -616,5 +630,12 @@
         <protected>false</protected>
         <shortDescription>ASF_File Update Validation</shortDescription>
         <value>Cannot Update/Delete the files linked to a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
 </CustomLabels>
