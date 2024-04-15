@@ -266,7 +266,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
-            slaHistory.FromStage__c = (oldCases != null && c.Stage__c!=oldCases.get(c.Id).Stage__c)?oldCases.get(c.Id).Stage__c:'';
             slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
                 slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
