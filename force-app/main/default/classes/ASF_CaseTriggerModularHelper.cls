@@ -1428,6 +1428,8 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
             //loop through Case and check if everything is ok
             for(Case caseRec : modifiedCases){
                 if(cccExternalIdCategoryMap.containsKey(caseRec.CCC_External_Id__c)){
+                    caseRec.typeSubTypeMismatch__c = false;
+                    caseRec.Type_Sub_Type_Mismatch_Reason__c = '';
                     ASF_Case_Category_Config__c configuredCurrentCCC = cccExternalIdCategoryMap.get(caseRec.CCC_External_Id__c);
                     if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
                         caseRec.typeSubTypeMismatch__c = true;
