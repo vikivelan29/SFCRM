@@ -53,15 +53,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABFL_EODController</apexClass>
+        <apexClass>ABFL_ENACH_Status_Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_EODController</apexClass> 
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABFL_EbotWrapper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABFL_OdpAltertsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
