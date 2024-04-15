@@ -177,6 +177,20 @@
         <value>Close Case without Customer</value>
     </labels>
     <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
         <fullName>ASF_CreateCaseWithProspect</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -202,7 +216,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
-        <value>You do not have access to update/delete this comment</value>
+        <value>You do not have access to perform this action on comments</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
@@ -490,6 +504,13 @@
         <protected>false</protected>
         <shortDescription>Error Team Not Found</shortDescription>
         <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
         <fullName>ExpiryDay_For_Bitly_URL</fullName>

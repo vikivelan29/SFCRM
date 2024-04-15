@@ -24,10 +24,10 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
         result.status = ABHFL_Constants.ERROR;
         result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c;   
         if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.EMAIL){
-            if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
+            //if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
             	result.status = ABHFL_Constants.SUCCESS;
                 result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationSuccess').Message__c;
-            } else {
+            /*} else {
                 if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.Source__c == ABHFL_Constants.BRANCH){
                     caseRecord.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
                     if(Schema.sObjectType.Case.isUpdateable()){
@@ -52,7 +52,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                 } else {
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                 }
-            }
+            }*/
         }
 
         if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
@@ -89,10 +89,10 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c;   
             if(String.isNotBlank(caseRecord.Asset.LAN__c) && caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.EMAIL){
-                if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
+                //if(caseRecord.Asset.Account_Status__c == ABHFL_Constants.ACCOUNT_STATUS_CLOSED){
                     result.status = ABHFL_Constants.SUCCESS;
                     result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationSuccess').Message__c;
-                } else {
+                /*} else {
                     if(String.isNotBlank(caseRecord.Asset.Branch__r.Branch_Queue_Id__c) && caseRecord.Source__c == ABHFL_Constants.BRANCH){
                         Case updatedCase = new Case(Id=caseRecord.Id);
                         updatedCase.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
@@ -117,7 +117,7 @@ public with sharing class ABHFL_NDCSTPHandler implements ASF_IntegrationInvocabl
                     } else {
                         result.response = Custom_Messages__mdt.getInstance('NDC_STP_EvaluationFailed').Message__c; 
                     }
-                }
+                }*/
             }
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 /*caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
