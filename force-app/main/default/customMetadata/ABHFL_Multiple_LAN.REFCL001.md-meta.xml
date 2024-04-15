@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Stages_Allowing_Fetch_All__c</field>
-        <value xsi:type="xsd:string">Open</value>
+        <value xsi:type="xsd:string">Open,Pending Retention,Approval</value>
     </values>
     <values>
         <field>Stages_Allowing_Field_Edit__c</field>
