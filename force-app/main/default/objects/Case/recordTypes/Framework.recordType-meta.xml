@@ -149,6 +149,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Closed as Exception</fullName>
             <default>false</default>
         </values>
@@ -260,6 +264,10 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC</fullName>
             <default>false</default>
         </values>
         <values>
