@@ -53,7 +53,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
             //Check for mandatory API conditions & Check for Loan Disbursement Status
                     	if(String.isNotBlank(assetDetail.Asset__r.LAN__c) && 
               assetDetail.Asset__r.Loan_Disbursement_Status__c != null &&
-              assetDetail.Asset__r.Loan_Disbursement_Status__c != 'Partially')
+              ((assetDetail.Asset__r.Loan_Disbursement_Status__c != 'Partially') && (assetDetail.Asset__r.Loan_Disbursement_Status__c != 'PARTIALLY DISBURSED')))
             {
               	maskedFullLans.add('xxxxxx'+assetDetail.Asset__r.LAN__c.substring(5));
                 allPartialLoans = false;
@@ -131,7 +131,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
         List<ASF_Case_Integration__c> caseIntList = new List<ASF_Case_Integration__c>();
           
         for(ABHFL_Asset_Detail__c ad: allRelatedAssetsFCROI){
-            if(ad.Asset__r.Loan_Disbursement_Status__c!=null && ad.Asset__r.Loan_Disbursement_Status__c!='Partially')
+            if(ad.Asset__r.Loan_Disbursement_Status__c!=null && ((ad.Asset__r.Loan_Disbursement_Status__c!='Partially')&&(ad.Asset__r.Loan_Disbursement_Status__c!='PARTIALLY DISBURSED')))
             {
                 fullyDisAssetsFCROI.add(ad);
                 
