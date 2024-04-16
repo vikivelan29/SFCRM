@@ -3,6 +3,7 @@ import getAssetRecordsandMetadata from '@salesforce/apex/ABHFL_MultipleLANContro
 import fetchAssetDetailsExt from '@salesforce/apex/ABHFL_MultipleLANController.fetchAssetDetailsExt';
 import upsertRecords from '@salesforce/apex/ABHFL_MultipleLANController.upsertRecords';
 import fetchAll from '@salesforce/apexContinuation/ABHFL_MultipleLANController.fetchAllLANDetails';
+import deleteRecordOwnerChange from '@salesforce/apex/ABHFL_MultipleLANController.deleteRecordOwnerChange';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
@@ -302,7 +303,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = true;
             let deleteIndex = e.currentTarget.name;
             let deleteId = this.childTableRecords[e.currentTarget.name].detail.Id;
-            deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
+            deleteRecordOwnerChange({assetDetailid : this.childTableRecords[e.currentTarget.name].detail.Id,userId :this.userId})
             .then(() => {
                 this.displayChildTable = false;
                 this.childTableRecords.splice(deleteIndex,1);
