@@ -59,22 +59,11 @@ public without sharing class ABHFL_CTSTHelper {
                     for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                         if(lanVsCases.containsKey(c.AssetId)){
                             String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
-                            /*if(c.Skip_Dedupe__c){
-                                if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                    //c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                    throw new AuraHandledException('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                }else{
-                                    //c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    throw new AuraHandledException('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');
-                                }
-                            }*/
-                            //else{
-                             	if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                    c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                }else{
-                                    c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                }   
-                            //}
+                            if(dupeCase.SLA_Broken_DateTime__c!=null){
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
+                            }else{
+                                c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
+                            }
                         }
 					}
                 }
@@ -144,7 +133,6 @@ public without sharing class ABHFL_CTSTHelper {
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
-                                    system.debug('found duplicate:'+c);
                                     c.Stage__c = 'Duplicate';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
