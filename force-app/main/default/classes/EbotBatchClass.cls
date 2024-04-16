@@ -1,26 +1,28 @@
-/*********************************************************
-*Class        :  ABHFL_EbotTriggerHelper
-*Author       :  Siddarth Jaitly
-*Created Date :  06/12/2023
-*Last Modified:  06/12/2023
-*Description  :  Trigger Helper for EBOT Internal Event
-*********************************************************/
-public with sharing class ABHFL_EbotTriggerHelper {
-    /****************************************************************************************************************
-    * @LOB - ABHFL
-    * @Function - createExtEbotEvent
-    * @param newEmails - map of event from trigger.newMap()
-    * @return - void .
-    * @Description - Create CRM to EBOT Event 
-    *****************************************************************************************************************/     
-    public static void createExtEbotEvent(map<Id, sObject> newEvent){
-        Set<Id> emailMsgIds = new Set<Id>();
-        for(EBOT_Internal_Event__e request : (List<EBOT_Internal_Event__e>)newEvent.values()){
-            emailMsgIds.add(request.Email_Message_ID__c);
+global class EbotBatchClass implements Database.Batchable<String> {
+    
+    List<String> emailMessageIds;
+    global EbotBatchClass(List<String> messageIds) {
+        emailMessageIds = messageIds;
+    }
+
+    global List<String> start(Database.BatchableContext bc) {
+        return emailMessageIds;
+    }
+
+    global void execute(Database.BatchableContext bc, List<String> scope) {
+        List<EmailMessage> emailMessages = [SELECT Id, ParentId, FromAddress, ToAddress, Subject, TextBody FROM EmailMessage WHERE Id IN :scope];
+		String emailMessageID ;
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, EmailMessage> emailMessageMap = new Map<Id, EmailMessage>();
+
+        for(EmailMessage message : emailMessages) {
+            caseIds.add(message.ParentId);
+            emailMessageMap.put(message.Id, message);
+            emailMessageID = message.Id;
         }
 
         Map<Id,EmailMessage> emailMsgMap = new Map<Id,EmailMessage>([Select Contentdocumentids,HasAttachment,CCAddress,FromAddress,ToAddress,BCCAddress,ParentId,Parent.Description,
-        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c from EmailMessage where id in: emailMsgIds]);
+        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c from EmailMessage where id in: scope]);
 
         system.debug('emailMsgMap'+emailMsgMap);
 
@@ -38,17 +40,16 @@ public with sharing class ABHFL_EbotTriggerHelper {
 
         List<ASF_Case_Integration__c> caseIntegrationList = new List<ASF_Case_Integration__c>();
 
-        for(EBOT_Internal_Event__e request : (List<EBOT_Internal_Event__e>)newEvent.values()){
             
-            if(emailMsgMap.containsKey(request.Email_Message_ID__c)){
-                EmailMessage emailMsg = emailMsgMap.get(request.Email_Message_ID__c);
+            if(emailMsgMap.containsKey(emailMessageID)){
+                EmailMessage emailMsg = emailMsgMap.get(emailMessageID);
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
                 caseInt.Case__c = emailMsg.ParentId;
                 caseInt.Status__c = 'Pending';
                 caseInt.Type__c = 'eBOT';
                 caseIntegrationList.add(caseInt);
             }
-        }
+        
 
         if(caseIntegrationList.size() > 0){
             insert caseIntegrationList;   
@@ -62,9 +63,8 @@ public with sharing class ABHFL_EbotTriggerHelper {
                 caseIdCaseIntegrationMap.put(caseInt.Case__c,caseInt);
             }
 
-            for(EBOT_Internal_Event__e request : (List<EBOT_Internal_Event__e>)newEvent.values()){
-                if(emailMsgMap.containsKey(request.Email_Message_ID__c)){
-                    EmailMessage emailMsg = emailMsgMap.get(request.Email_Message_ID__c);
+                if(emailMsgMap.containsKey(emailMessageID)){
+                    EmailMessage emailMsg = emailMsgMap.get(emailMessageID);
 
                     List<String> fileNamesList = new List<String>();
                     if(emailMsg.HasAttachment){
@@ -126,7 +126,11 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     system.debug('fieldsMap'+fieldsMap);
                     Database.SaveResult eventResult = ABHFL_CasePlatformEventHandler.publishPlatformEvent('CRM_to_EBOT_Event__e', fieldsMap);
                 }   
-            }
+            
         }
+        
+    }
+
+    global void finish(Database.BatchableContext bc) {
     }
 }

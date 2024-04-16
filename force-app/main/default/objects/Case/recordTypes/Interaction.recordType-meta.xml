@@ -149,27 +149,11 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
-            <fullName>Invalid information</fullName>
+            <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Closed as Exception</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insufficient/incomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Customer Confirmation/documentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -181,7 +165,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Insufficient%2Fincomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Partially Resolved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
