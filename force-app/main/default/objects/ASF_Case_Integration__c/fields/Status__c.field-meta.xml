@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Canceled</label>
             </value>
-                    </valueSetDefinition>
+            <value>
+                <fullName>Acknowledged</fullName>
+                <default>false</default>
+                <label>Acknowledged</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>
