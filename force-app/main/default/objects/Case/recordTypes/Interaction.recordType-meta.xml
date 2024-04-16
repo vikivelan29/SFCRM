@@ -149,6 +149,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Invalid information</fullName>
             <default>false</default>
         </values>
@@ -178,6 +182,10 @@
         </values>
         <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>
         <values>

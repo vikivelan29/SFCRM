@@ -590,6 +590,35 @@ public with sharing class ABHFL_MultipleLANController {
       }
       return responseList;
     }
+
+        /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - deleteRecords
+    * @param assetDetailid -  Asset Detail Id.
+    * @param userId - currentUserId.
+    * @return - List<ABHFL_Asset_Detail__c>.
+    * @Description - Upsert Asset Detail Record.
+    *****************************************************************************************************************/
+    @AuraEnabled
+    public static String deleteRecordOwnerChange(Id assetDetailid,Id userId){
+        try {
+
+            ABHFL_Asset_Detail__c toBeDeletedRecord = [Select id,OwnerId from ABHFL_Asset_Detail__c where Id =: assetDetailid limit 1];
+
+            if(toBeDeletedRecord.OwnerId != userId){
+                toBeDeletedRecord.OwnerId = userId;
+                if(Schema.sObjectType.ABHFL_Asset_Detail__c.isUpdateable()){
+                    update toBeDeletedRecord;
+                }
+            }
+
+            delete toBeDeletedRecord;
+            
+            return assetDetailid;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     public class MultipleLanWrapper{
         @AuraEnabled
         public List<AssetDetailWrapper> assetDetailRecords;
