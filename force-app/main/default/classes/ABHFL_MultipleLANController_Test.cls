@@ -60,4 +60,10 @@ public class ABHFL_MultipleLANController_Test {
         System.assertEquals(true,lanResponseFinal!=null,'PASS');
     }
     
+    @IsTest
+    static void deleteRecordOwnerChange(){
+        List<ABHFL_Asset_Detail__c> assetDetail = [Select id from ABHFL_Asset_Detail__c ];
+        ABHFL_MultipleLANController.deleteRecordOwnerChange(assetDetail[0].Id,userinfo.getUserId());
+    }
+    
 }
