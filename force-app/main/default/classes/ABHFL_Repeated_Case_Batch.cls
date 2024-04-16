@@ -5,7 +5,7 @@
 * @description -  This class is used to determine the Repeated Case
 *****************************************************************************************************************/
 
-public class ABHFL_Repeated_Case_Batch implements Database.Batchable<sObject>, Database.Stateful {
+public class ABHFL_Repeated_Case_Batch implements Database.Batchable<sObject>, Database.Stateful, Schedulable {
 	
     private Map<String, Integer> mapOfKeyToRepeatedCount = new Map<String, Integer>();
     private Map<String, List<String>> mapOfKeyToAbhflCaseDetId = new Map<String, List<String>>();
@@ -101,5 +101,8 @@ public class ABHFL_Repeated_Case_Batch implements Database.Batchable<sObject>, D
     }
     
     public void finish(Database.BatchableContext bc){
+    }
+
+    public void execute(SchedulableContext sc) {
     }
 }
