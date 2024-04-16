@@ -26,6 +26,17 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
         }
+
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseIdToRelatedAssets = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        for(ABHFL_Asset_Detail__c asset : [SELECT Id, Asset__c, Name, Account_Status__c, Amount_Overdue__c, LAN__C,
+        Asset__r.Lan__c, Case__c, Current_Balance__c, Loan_Status__c
+        FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseRecords])
+        {
+            if(!caseIdToRelatedAssets.containsKey(asset.Case__c)){
+                caseIdToRelatedAssets.put(asset.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+            caseIdToRelatedAssets.get(asset.Case__c).add(asset);
+        }
         
         Map<Id, List<Case>> existingChildCases = new Map<Id, List<Case>>();
 
