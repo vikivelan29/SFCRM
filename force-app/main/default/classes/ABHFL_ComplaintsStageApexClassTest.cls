@@ -1,17 +1,7 @@
-/**
- * @description       : 
- * @author            : ABHFL Team
- * @group             : 
- * @last modified on  : 03-03-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   03-03-2024   ABHFL Team   Initial Version
-**/
 @isTest
 public class ABHFL_ComplaintsStageApexClassTest {
     @TestSetup
-    static void testData(){
+	static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         //Create BranchMaster
@@ -76,7 +66,11 @@ public class ABHFL_ComplaintsStageApexClassTest {
     }
     @IsTest
     static void testValidateOnResolvedStage(){
-        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c,OwnerId from Case limit 1];
+        Case caseRecord = [Select id,ABHFL_Case_Detail__r.Final_resolution__c,ABHFL_Case_Detail__r.Case_Categorization__c,
+                           ABHFL_Case_Detail__r.Action_Taken__c, ABHFL_Case_Detail__r.Voice_of_Customer__c,
+                           ABHFL_Case_Detail__r.Repeat_interaction__c,ABHFL_Case_Detail__r.Gap_IT__c,
+                           ABHFL_Case_Detail__r.Gap_People__c,ABHFL_Case_Detail__r.Gap_Process__c,
+                           ABHFL_Case_Detail__r.Gap_Product__c, ABHFL_Case_Detail__r.Regulator_Initiated__c,OwnerId from Case limit 1];
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABHFL_ComplaintsValidateOnResolvedStage.beforeStageMovement(new List<Case>{caseRecord});
         ABHFL_ComplaintsValidateOnResolvedStage.afterStageMovement(new List<Case>{caseRecord});
         System.assertEquals('Error',retCls.get(caseRecord.Id).Status);
