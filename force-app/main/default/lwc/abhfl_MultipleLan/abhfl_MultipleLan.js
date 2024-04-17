@@ -208,6 +208,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 }
                 if(retrieveRecords.length){
                     this.displayChildTable = false;
+                    this.displaySpinner = true;
                     upsertRecords({assetDetails : JSON.stringify(retrieveRecords), recId : this.recordId}).then((result) => {
                         console.log(result);
                         for(let record in this.selectedRows){
@@ -223,6 +224,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                             }
                         }
                         this.displayChildTable = true;
+                        this.displaySpinner = false;
                     }).catch((error) => {
                         console.log(error);
                         this.displaySpinner = false;

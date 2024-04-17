@@ -967,12 +967,12 @@ public without sharing class ABHFL_CTSTHelper {
                                 }
                             }
 
-                            if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
+                            /*if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
                                 if(assetDetail.Revised_EMI_Tenure__c == null || assetDetail.Revised_EMI_Tenure__c == 0){
                                     assetRecordComplete = false;
                                     break;
                                 }
-                            }
+                            }*/
                         }
                         if(!assetRecordComplete){
                             caseStgValidationWrapper.errorMessage = 'Please fill all the information on the LAN Record';
