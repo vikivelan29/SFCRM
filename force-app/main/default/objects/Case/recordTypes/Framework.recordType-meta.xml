@@ -314,10 +314,6 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>OneABC</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
