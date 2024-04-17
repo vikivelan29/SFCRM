@@ -303,6 +303,13 @@
         <value>No template available on this record. Please contact the administrator.</value>
     </labels>
     <labels>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
+    </labels>
+    <labels>
         <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
