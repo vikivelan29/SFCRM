@@ -125,6 +125,7 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
             ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
+            ASF_CaseTriggerModularHelper.createFeedItem((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);

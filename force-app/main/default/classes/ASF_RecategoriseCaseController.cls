@@ -145,6 +145,9 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Recategorisation_Date__c = system.now();
         toUpdateCase.typeSubTypeMismatch__c = false;
         toUpdateCase.Type_Sub_Type_Mismatch_Reason__c = null;
+        toUpdateCase.Previous_Stage__c  = '';
+        toUpdateCase.moved_back__c = false;
+        toUpdateCase.Pending_Clarification__c = false;
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
         toUpdateCase.oldCCCIdFields__c = (String)caseObject.get('oldCCCIdFields__c');
         toUpdateCase.Bot_Feedback__c = (String)caseObject.get('Bot_Feedback__c');
