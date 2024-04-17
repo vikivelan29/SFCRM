@@ -213,7 +213,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //This method downloads CSV
     getCSVClick(objData,strCSVFileName){
         let downloadElement = document.createElement('a');
-        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(objData);
+        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(objData);
         downloadElement.target = '_blank';//'_self';
         downloadElement.download = strCSVFileName + '.csv';
         downloadElement.click(); 

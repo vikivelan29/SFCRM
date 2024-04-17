@@ -28,7 +28,6 @@ export default class AsfGenerateResultCsv extends LightningElement {
     }
     //This component is called from ASF_BulkCSVuploadDownload and also from the quick action button on Bulk Header Object
     downloadResults(){
-        console.log('record id--'+this.recordId);
         downloadUploadResults({bulkHeaderId: this.recordId})
             .then(result => {
                 if(Array.isArray(result) && result != undefined && result != ''){
@@ -97,7 +96,7 @@ export default class AsfGenerateResultCsv extends LightningElement {
     //Auto downloads the csv when the request is from quick action on header object
     downloadCsv(){
             let downloadElement = document.createElement('a');
-            downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(this.csvString);
+            downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(this.csvString);
             downloadElement.target = '_blank';//'_self';
             downloadElement.download = 'BulkUploadResult' +'-' + Date.now() + '.csv';
             downloadElement.click(); 
