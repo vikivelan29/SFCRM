@@ -41,7 +41,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_CreateSRwithFA</shortDescription>
-        <value>Create SR with A/c #</value>
+        <value>Create Case with LAN</value>
     </labels>
     <labels>
         <fullName>ASF_CreateSRwithoutFA</fullName>
@@ -261,6 +261,34 @@
         <value>Base Profile</value>
     </labels>
     <labels>
+        <fullName>Error_From_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error From Address</shortDescription>
+        <value>Please select different sender id which is allowed to be used by your team</value>
+    </labels>
+    <labels>
+        <fullName>Error_Restricted_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error_Restricted_Domain</shortDescription>
+        <value>You are not allowed to send email to external user for this from address-</value>
+    </labels>
+    <labels>
+        <fullName>Error_Team_Not_Found</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Team Not Found</shortDescription>
+        <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
         <fullName>FA_Mandatory</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -308,5 +336,61 @@
         <protected>false</protected>
         <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
         <value>false</value>
+    </labels>
+    <labels>
+        <fullName>Re_Kyc_Month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Re Kyc Month</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>RecategorizationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RecategorizationError</shortDescription>
+        <value>The Case does not match the CTST configuration, please recategorize the case</value>
+    </labels>
+    <labels>
+        <fullName>Repeated_Indicator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Repeated Indicator</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
+        <fullName>STP_Flows</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Flows</shortDescription>
+        <value>Interest Schedule,Provisional Interest Certificate</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Val_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
+        <value>You do not have access edit / delete this file</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File Update Validation</shortDescription>
+        <value>Cannot Update/Delete the files linked to a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
     </labels>
 </CustomLabels>

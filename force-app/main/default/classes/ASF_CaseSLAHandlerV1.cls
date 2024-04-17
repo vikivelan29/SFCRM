@@ -7,11 +7,9 @@
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {
     
-    
-    public ASF_CaseSLAHandlerV1() {
-    }    
-    
-    private ASF_SLAWrapper prepareSLAConfigMap(Set<string> externalIds,Set<string> stageNames){
+    private static Boolean isFromOmniChannel = false;
+
+    private static ASF_SLAWrapper prepareSLAConfigMap(Set<string> externalIds,Set<string> stageNames){
         ASF_SLAWrapper slaObject = new ASF_SLAWrapper();
         List<ASF_Case_Stage_Config__c> caseStageConfigs = new List<ASF_Case_Stage_Config__c>();
         map<string,ASF_Case_Stage_Config__c> tempMap = new map<string,ASF_Case_Stage_Config__c>();
@@ -217,6 +215,7 @@ Cycle continues
             slaHistory.Status__c = c.Status;
             slaHistory.FromStage__c = (oldCases != null && c.Stage__c!=oldCases.get(c.Id).Stage__c)?oldCases.get(c.Id).Stage__c:'';
             slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
+            slaHistory.Actioned_By__c = ASF_CaseSLAHandlerV1.isFromOmniChannel?Label.ASF_Omnichannel_ActionedBy_Username:slaHistory.Actioned_By__c;
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
                 slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
             }
@@ -397,6 +396,26 @@ Old Row Should be updated with Running record = false and  end date should be po
             insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
         }
     }
+
+    /**
+     * When cases are assigned to users from Omnichannel - case trigger is not invoked, hence SLA history is also not modified
+     * As remedy, ASF_AgentWorkTrigger is implemented, which runs when Omnichannel assigns case to user(creates an entry on AgentWork object)
+     * From that trigger, below method is invoked to update old SLA history and insert new one
+     */
+    public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
+        List<Case> cases = new List<Case>();
+        for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
+            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
+                Case caseRec = new Case(Id=caseId);
+                cases.add(caseRec);
+            }
+        }
+        updateOldCaseSLAHistory(cases);
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
+        insertSLAHistory(null,new Map<Id, Case>(cases));
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
+    }
+
     /*
 When SLA is violated , SLA violated date gets carried over for calculation.
 There might be 3 history for Stages. If one is violated, take that for calculation.
