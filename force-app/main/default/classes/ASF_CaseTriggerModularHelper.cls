@@ -42,7 +42,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
-
+        
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
 
@@ -90,7 +90,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
-        
         //Fetch all types of data sources before entering Case loop.
         // 1. CCC, 2. Asset, 3. LOBMappingDetails__mdt
         if(!cccExternalIds.isEmpty()){
@@ -201,6 +200,23 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
 
+    public static void createFeedItem(Map<Id, Case> newMap, Map<Id, Case> oldMap){
+        List<FeedItem> feedItemList = new List<FeedItem>();
+        for(Case caseRec : newMap.values()){
+            if(caseRec.No_Auto_Communication__c != oldMap.get(caseRec.Id).No_Auto_Communication__c){
+                String oldCommValue = oldMap.get(caseRec.Id).No_Auto_Communication__c !=null ? oldMap.get(caseRec.Id).No_Auto_Communication__c : 'None';
+                String newCommValue = caseRec.No_Auto_Communication__c != null ? caseRec.No_Auto_Communication__c : 'None';
+                FeedItem feedItem = new FeedItem();
+                feedItem.ParentId = caseRec.Id;
+                feedItem.Type = 'TextPost';
+                feedItem.Body = 'No Auto Communication is changed from \''+oldCommValue+'\' to '+newCommValue;
+                feedItemList.add(FeedItem);
+            }
+        }
+        if(!feedItemList.isEmpty()){
+            insert feedItemList;
+        }  
+    }
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         
