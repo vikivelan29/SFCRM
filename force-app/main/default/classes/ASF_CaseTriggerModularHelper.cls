@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
@@ -24,6 +25,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap = new Map<String, ASF_Case_Category_Config__c>();
         Boolean blankSourcePresent = false;
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
+        Map<String, Boolean> statusMap = new Map<String, Boolean>();
+        Map<Id,String> nextStageMap = new Map<Id,String>();
+        Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
+
+        Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
 
         //Get the Issue Code for API cases and CCC External id for UI cases.
         for(Case caseRec : newList){
@@ -97,7 +104,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                caseRec.Subject = 'SR - '+caseRec.Type_Text__c;
+                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
+                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
