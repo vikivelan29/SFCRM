@@ -177,12 +177,12 @@ public without sharing class ABHFL_CTSTHelper {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
         String ownerName = '';
         Case caseRec = [SELECT Id,Source__c,CreatedBy.Name,CreatedById from Case where id =: caseRecord.id];
-    	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
+    	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029','hfl060'};
     	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
-        List<String> customerServiceSubTypes = new List<String>{'hfl060'};
+        //List<String> customerServiceSubTypes = new List<String>{'hfl060'};
     	Group emailNonFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
     	Group emailFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
+       // Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
 		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
@@ -205,7 +205,7 @@ public without sharing class ABHFL_CTSTHelper {
             ownerName = emailFinancialQueue.Name;
         		}
     	}
-        if (customerServiceSubTypes.contains(subType)) {
+        /*if (customerServiceSubTypes.contains(subType)) {
         	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
             updatedCase.OwnerId = caseRec.CreatedById;
             ownerName = caseRec.CreatedBy.Name;
@@ -213,7 +213,7 @@ public without sharing class ABHFL_CTSTHelper {
             updatedCase.OwnerId = customerServiceQueue.Id;
             ownerName = customerServiceQueue.Name;
         		}
-    	}
+    	}*/
 
     	if (subType == 'RRSDPRSHFC01') {
         	updatedCase.OwnerId = emailFinancialQueue.Id;
