@@ -150,6 +150,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
+                caseRec.Previous_Stage__c  = '';
+                caseRec.moved_back__c = false;
+                caseRec.Pending_Clarification__c = false;
                 if(caseRec.Source__c != 'Email'){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
