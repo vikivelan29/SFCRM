@@ -136,7 +136,7 @@ public without sharing class ABHFL_CTSTHelper {
                                     c.Stage__c = 'Duplicate';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
-                                }else /*if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c)*/{
+                                }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
                                     String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
                                     if(dupeCase.SLA_Broken_DateTime__c!=null){
                                         c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
@@ -967,12 +967,12 @@ public without sharing class ABHFL_CTSTHelper {
                                 }
                             }
 
-                            if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
+                            /*if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
                                 if(assetDetail.Revised_EMI_Tenure__c == null || assetDetail.Revised_EMI_Tenure__c == 0){
                                     assetRecordComplete = false;
                                     break;
                                 }
-                            }
+                            }*/
                         }
                         if(!assetRecordComplete){
                             caseStgValidationWrapper.errorMessage = 'Please fill all the information on the LAN Record';

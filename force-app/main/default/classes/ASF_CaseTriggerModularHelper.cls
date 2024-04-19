@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-12-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -42,7 +32,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
         Map<Id,String> nextStageMap = new Map<Id,String>();
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
-        List<FeedItem> feedItemList = new List<FeedItem>();
 
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
@@ -75,15 +64,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 if(statusMap.get(caseRec.Stage__c) != statusMap.get(oldMap.get(caseRec.Id).Stage__c) && statusMap.get(caseRec.Stage__c) == true && caseRec.First_Case_Closed_Date__c == null){
                     caseRec.First_Case_Closed_Date__c = System.now();
                 }
-                if(caseRec.No_Auto_Communication__c != oldMap.get(caseRec.Id).No_Auto_Communication__c){
-                    String oldCommValue = oldMap.get(caseRec.Id).No_Auto_Communication__c !=null ? oldMap.get(caseRec.Id).No_Auto_Communication__c : 'None';
-                    String newCommValue = caseRec.No_Auto_Communication__c != null ? caseRec.No_Auto_Communication__c : 'None';
-                    FeedItem feedItem = new FeedItem();
-                    feedItem.ParentId = caseRec.Id;
-                    feedItem.Type = 'TextPost';
-                    feedItem.Body = 'No Auto Communication is changed from \''+oldCommValue+'\' to '+newCommValue;
-                    feedItemList.add(FeedItem);
-                }
             }else{
                 if((caseRec.Technical_Source__c == 'LWC' || caseRec.Technical_Source__c == 'API') && String.isNotBlank(caseRec.CCC_External_Id__c)){
                     cccExternalIds.add(caseRec.CCC_External_Id__c);
@@ -99,9 +79,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
             //index++;
-        }
-        if(!feedItemList.isEmpty()){
-            insert feedItemList;
         }
         //Fetch all types of data sources before entering Case loop.
         // 1. CCC, 2. Asset, 3. LOBMappingDetails__mdt
@@ -150,7 +127,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                if(caseRec.Source__c != 'Email'){
+                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -213,6 +190,23 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
 
+    public static void createFeedItem(Map<Id, Case> newMap, Map<Id, Case> oldMap){
+        List<FeedItem> feedItemList = new List<FeedItem>();
+        for(Case caseRec : newMap.values()){
+            if(caseRec.No_Auto_Communication__c != oldMap.get(caseRec.Id).No_Auto_Communication__c){
+                String oldCommValue = oldMap.get(caseRec.Id).No_Auto_Communication__c !=null ? oldMap.get(caseRec.Id).No_Auto_Communication__c : 'None';
+                String newCommValue = caseRec.No_Auto_Communication__c != null ? caseRec.No_Auto_Communication__c : 'None';
+                FeedItem feedItem = new FeedItem();
+                feedItem.ParentId = caseRec.Id;
+                feedItem.Type = 'TextPost';
+                feedItem.Body = 'No Auto Communication is changed from \''+oldCommValue+'\' to '+newCommValue;
+                feedItemList.add(FeedItem);
+            }
+        }
+        if(!feedItemList.isEmpty()){
+            insert feedItemList;
+        }  
+    }
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         

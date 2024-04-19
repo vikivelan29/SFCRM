@@ -8,7 +8,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
     	Map<Id,AggregateResult> mResults = new Map<Id,AggregateResult>(s);
         
         List<Case> scope = [SELECT Id, caseNumber, ownerId,Sub_Type_Text__c,Type_Text__c, Owner.type, Last_Owner_Change_Date__c,BusinessHoursId FROM Case wHERE OwnerId =: mResults.keySet()];
-    //Business logic to send notification to Queue owner
+        //Business logic to send notification to Queue owner
         Map<String,List<String>> queueVsCaseLst = new Map<String,List<String>>();
         map<string,case> caseNumberRecordMap = new map<string,case>();
         //DateTime d = system.now();
@@ -17,10 +17,9 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
         list<string> caseOwnerIdList = new list<string>();
         map<Id,list<cases>> ownerIdCaseListMap = new map<Id,list<Cases>>();
 
-        for(Case cHis : scope){
-                                          
+        for(Case cHis : scope){         
             if (cHis.Last_Owner_Change_Date__c != null){
-                                                    //check queue timing 
+                //check queue timing 
                 Id businesHrs = cHis.BusinessHoursId;
                 if(String.isBlank(BusinesHrs)){
                     businesHrs = deafultBH.Id;
@@ -29,7 +28,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
                 Decimal timeInMin = BusinessHours.diff(businesHrs, cHis.Last_Owner_Change_Date__c, System.now())/(1000*60);
                 System.debug('@@Last_Owner_Change_Date__c'+cHis.Last_Owner_Change_Date__c);
                 //push this to custom labels. 30 should come from custom labels
-              if(BusinessHours.isWithin(businesHrs, system.now()) && timeInMin > Integer.valueof(System.label.ASF_Case_In_Queue_Long)){
+                if(BusinessHours.isWithin(businesHrs, system.now()) && timeInMin > Integer.valueof(System.label.ASF_Case_In_Queue_Long)){
                     if(queueVsCaseLst.containsKey(cHis.ownerId)){
                         List<String> caseLst = queueVsCaseLst.get(cHis.ownerId);
                         caseLst.add(cHis.CaseNumber);
@@ -105,7 +104,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
             htmlBody += '<tr><td style="padding: 5px;">' + currentRecord.CaseNumber + '</td>';
             htmlBody += '<td style="padding: 5px;">' + string.valueOf(currentRecord.Type_Text__c) + '</td>';
             htmlBody += '<td style="padding: 5px;">' + string.valueOf(currentRecord.Sub_Type_Text__c)  + '</td>';
-            htmlBody += '<td style="padding: 5px;">' + currentRecord.Last_Owner_Change_Date__c.format('MM-dd-yyyy HH:mm:ss', 'IST') + '</td></tr>';
+            htmlBody += '<td style="padding: 5px;">' + currentRecord.Last_Owner_Change_Date__c.format('dd-MM-yyyy HH:mm:ss', 'IST') + '</td></tr>';
         }
         htmlBody += '</tbody></table>';    
         return htmlBody;
