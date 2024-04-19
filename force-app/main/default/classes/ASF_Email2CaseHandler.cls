@@ -7,6 +7,7 @@
 *********************************************************/
 @SuppressWarnings('PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments'};
     public class multipleEmail2CaseAddressException extends exception{}
     
     /* THIS MEHTOD IS USED TO UPDATE THE MESSAGEIDENTIFIER FIELD ON CASE OBJECT.
@@ -37,7 +38,8 @@ public without sharing class ASF_Email2CaseHandler {
         
         for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                               Business_Unit__c, Email2CaseAddress__c, 
-                                                              Default_Queue_Dev_Name__c, Send_to_EBOT__c 
+                                                              Default_Queue_Dev_Name__c, Send_to_EBOT__c,
+                                                              Case_Business_Unit__c, Case_Origin__c
                                                               FROM ASF_PriorityEmailAddressesByBU__mdt
                                                               WHERE Email2CaseAddress__c =: winningEmailAddr])
         {
@@ -63,6 +65,14 @@ public without sharing class ASF_Email2CaseHandler {
                             c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                             if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                 c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                            }
+                            if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
+                                c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 
+                                if(BU_ALLOWING_BOT_REOPENED_CASE.contains(c.Business_Unit__c)){
+                                    if(String.isNotBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c)){
+                                        c.Origin = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c;    
+                                    }
+                                }
                             }
                             caseToUpdate.add(c);
                         }
