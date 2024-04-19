@@ -48,17 +48,20 @@ export default class AbflENACHStatus extends LightningElement {
                 this.enachStatusResult = result;
                 console.log('Result1 ==> ', result);
                 this.isLoading = false;
-                if (this.enachStatusResult) {
+                if (this.enachStatusResult && this.enachStatusResult.statusCode == 200) {
                     this.showBaseViewScreen = true;
-                } else {
-                    console.log('error ==> ');
-                    this.showToast("Error", this.label.errorMessage, 'error');
-                }
-
+                } else if(result.payload.includes('error_message')){
+                    let parsedjson = JSON.parse(JSON.parse(result.payload).body);
+                    this.showToast("Error", parsedjson.error_message, 'error');
+                }  
             }).catch(error=>{
                 console.log('error ==> ', error);
+                this.showToast("Error", this.label.errorMessage, 'error');
                 this.isLoading = false;
             })
+        }else{
+            this.showToast('Error', 'Client Code is blank.', 'error');
+            this.isLoading = false;
         }
     }
     
