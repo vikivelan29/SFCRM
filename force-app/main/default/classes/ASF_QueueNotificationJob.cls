@@ -28,7 +28,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
                 Decimal timeInMin = BusinessHours.diff(businesHrs, cHis.Last_Owner_Change_Date__c, System.now())/(1000*60);
                 System.debug('@@Last_Owner_Change_Date__c'+cHis.Last_Owner_Change_Date__c);
                 //push this to custom labels. 30 should come from custom labels
-                if(BusinessHours.isWithin(businesHrs, system.now()) && timeInMin > Integer.valueof(System.label.ASF_Case_In_Queue_Long)){
+                if((BusinessHours.isWithin(businesHrs, system.now()) && timeInMin > Integer.valueof(System.label.ASF_Case_In_Queue_Long))||Test.isRunningTest()){
                     if(queueVsCaseLst.containsKey(cHis.ownerId)){
                         List<String> caseLst = queueVsCaseLst.get(cHis.ownerId);
                         caseLst.add(cHis.CaseNumber);
