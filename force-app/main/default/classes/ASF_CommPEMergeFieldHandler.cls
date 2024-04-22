@@ -50,7 +50,7 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         string mergeField, fieldName, fieldValue;
         
         for(integer counter = 1; counter<=mergeFields.size(); counter++){
-            mergeField = mergeFields[counter-1];
+            mergeField = mergeFields[counter-1].trim();
             
             System.debug('mergeField ----> '+mergeField);
             
