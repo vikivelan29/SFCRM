@@ -26,9 +26,8 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
         }
-        
-        Map<Id, List<ABHFL_Asset_Detail__c>> caseIdToRelatedAssets = new Map<Id, List<ABHFL_Asset_Detail__c>>();
 
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseIdToRelatedAssets = new Map<Id, List<ABHFL_Asset_Detail__c>>();
         for(ABHFL_Asset_Detail__c asset : [SELECT Id, Asset__c, Name, Account_Status__c, Amount_Overdue__c, LAN__C,
         Asset__r.Lan__c, Case__c, Current_Balance__c, Loan_Status__c
         FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseRecords])
@@ -38,43 +37,46 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
             }
             caseIdToRelatedAssets.get(asset.Case__c).add(asset);
         }
+        
+        Map<Id, List<Case>> existingChildCases = new Map<Id, List<Case>>();
 
-        List<Case> newCaseList = new List<Case>();
+        for(Case cs : [select id, ParentId from case where ParentId IN :caseRecords]){
+            if(!existingChildCases.containsKey(cs.ParentId)){
+                existingChildCases.put(cs.ParentId, new List<Case>());
+            }
+            existingChildCases.get(cs.ParentId).add(cs);
+        }
 
+        List<Case> newCaseList = new List<Case>();      
 
         //caseRec = [SELECT AssetId, AccountId, Account.Client_Code__c, Asset.LAN__c, Source__c, Technical_Source__c,  Nature__c FROM Case WHERE Id =: caseRec.Id];
-        Map<Id, List<ABHFL_Case_Detail__c>> caseIdToAbhflCaseDetailMap = new Map<Id, List<ABHFL_Case_Detail__c>>();
+        Map<Id, ABHFL_Case_Detail__c> caseIdToAbhflCaseDetailMapSingle = new Map<Id, ABHFL_Case_Detail__c>();
         List<ABHFL_Case_Detail__c> detailList = new List<ABHFL_Case_Detail__c>();
         for(Case caseRec : caseRecords){
-            if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
-                for(ABHFL_Asset_Detail__c asset : caseIdToRelatedAssets.get(caseRec.Id)){
-                    ABHFL_Case_Detail__c abhflCaseDetail = new ABHFL_Case_Detail__c(STP_Request_Type__c = 'Email');
-                    if(!caseIdToAbhflCaseDetailMap.containsKey(caseRec.Id)){
-                        caseIdToAbhflCaseDetailMap.put(caseRec.Id, new List<ABHFL_Case_Detail__c>());
-                    }
-                    caseIdToAbhflCaseDetailMap.get(caseRec.Id).add(abhflCaseDetail);
-                    detailList.add(abhflCaseDetail);
-                }
+            if(!existingChildCases.containsKey(caseRec.Id)){
+                ABHFL_Case_Detail__c abhflCaseDetail = new ABHFL_Case_Detail__c(STP_Request_Type__c = 'Email');
+                caseIdToAbhflCaseDetailMapSingle.put(caseRec.Id, abhflCaseDetail);
+                // detailList.add(abhflCaseDetail);
             }
         }
-        if(!detailList.isEmpty()){
-            insert detailList;
+        if(!caseIdToAbhflCaseDetailMapSingle.values().isEmpty()){
+            insert caseIdToAbhflCaseDetailMapSingle.values();
         }
 
         for(Case caseRec : caseRecords){
-            if(caseIdToRelatedAssets.containsKey(caseRec.Id)){
-                List<ABHFL_Case_Detail__c> abhflCaseDetailList = caseIdToAbhflCaseDetailMap.get(caseRec.Id);
-                for(Integer i=0; i<caseIdToRelatedAssets.get(caseRec.Id).size(); i++){
-                    Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, caseIdToRelatedAssets.get(caseRec.Id)[i].LAN__c, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, ASF_Constants.RT_FRAMEWORK);
-                    newCase.AccountId = caseRec.AccountId;
-                    newCase.ABHFL_Case_Detail__c = abhflCaseDetailList[i].Id;
-                    newCase.Nature__c = caseRec.Nature__c;
-                    newCase.AssetId = caseIdToRelatedAssets.get(caseRec.Id)[i].Asset__c;
-                    newCaseList.add(newCase);
-                }
+            if(caseIdToAbhflCaseDetailMapSingle.containsKey(caseRec.Id)){
+                ABHFL_Case_Detail__c abhflCaseDetailList = caseIdToAbhflCaseDetailMapSingle.get(caseRec.Id);
+                Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, null, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, ASF_Constants.RT_FRAMEWORK);
+                newCase.AccountId = caseRec.AccountId;
+                newCase.ABHFL_Case_Detail__c = abhflCaseDetailList.Id;
+                newCase.Nature__c = caseRec.Nature__c;
+                newCase.AssetId = caseRec.AssetId;
+                newCase.OwnerId = caseRec.Asset.Branch__r.Branch_Queue_Id__c;
+                newCaseList.add(newCase);
             }
         }
 
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         ABHFL_CTSTHelper.insertCases(newCaseList);
         return returnWrapper;
     }

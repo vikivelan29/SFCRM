@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-12-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -90,7 +80,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
-        
         //Fetch all types of data sources before entering Case loop.
         // 1. CCC, 2. Asset, 3. LOBMappingDetails__mdt
         if(!cccExternalIds.isEmpty()){
@@ -138,7 +127,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                if(caseRec.Source__c != 'Email'){
+                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -201,6 +190,23 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
     }
 
+    public static void createFeedItem(Map<Id, Case> newMap, Map<Id, Case> oldMap){
+        List<FeedItem> feedItemList = new List<FeedItem>();
+        for(Case caseRec : newMap.values()){
+            if(caseRec.No_Auto_Communication__c != oldMap.get(caseRec.Id).No_Auto_Communication__c){
+                String oldCommValue = oldMap.get(caseRec.Id).No_Auto_Communication__c !=null ? oldMap.get(caseRec.Id).No_Auto_Communication__c : 'None';
+                String newCommValue = caseRec.No_Auto_Communication__c != null ? caseRec.No_Auto_Communication__c : 'None';
+                FeedItem feedItem = new FeedItem();
+                feedItem.ParentId = caseRec.Id;
+                feedItem.Type = 'TextPost';
+                feedItem.Body = 'No Auto Communication is changed from \''+oldCommValue+'\' to '+newCommValue;
+                feedItemList.add(FeedItem);
+            }
+        }
+        if(!feedItemList.isEmpty()){
+            insert feedItemList;
+        }  
+    }
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         
@@ -1426,6 +1432,8 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
             //loop through Case and check if everything is ok
             for(Case caseRec : modifiedCases){
                 if(cccExternalIdCategoryMap.containsKey(caseRec.CCC_External_Id__c)){
+                    caseRec.typeSubTypeMismatch__c = false;
+                    caseRec.Type_Sub_Type_Mismatch_Reason__c = '';
                     ASF_Case_Category_Config__c configuredCurrentCCC = cccExternalIdCategoryMap.get(caseRec.CCC_External_Id__c);
                     if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
                         caseRec.typeSubTypeMismatch__c = true;

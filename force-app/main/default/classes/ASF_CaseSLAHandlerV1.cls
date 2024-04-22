@@ -7,6 +7,8 @@
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
     
+    private static Boolean isFromOmniChannel = false;
+
     private static ASF_SLAWrapper prepareSLAConfigMap(Set<string> externalIds,Set<string> stageNames){
         ASF_SLAWrapper slaObject = new ASF_SLAWrapper();
         List<ASF_Case_Stage_Config__c> caseStageConfigs = new List<ASF_Case_Stage_Config__c>();
@@ -266,7 +268,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
+            slaHistory.FromStage__c = (oldCases != null && c.Stage__c!=oldCases.get(c.Id).Stage__c)?oldCases.get(c.Id).Stage__c:'';
             slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
+            slaHistory.Actioned_By__c = ASF_CaseSLAHandlerV1.isFromOmniChannel?Label.ASF_Omnichannel_ActionedBy_Username:slaHistory.Actioned_By__c;
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
                 slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
             }
@@ -472,7 +476,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             }
         }
         updateOldCaseSLAHistory(cases);
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
     }
 
     /*
