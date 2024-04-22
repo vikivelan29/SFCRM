@@ -44,7 +44,7 @@
         <apexClass>ABFL_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses
+    <classAccesses>
         <apexClass>ABFL_EODController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
