@@ -274,7 +274,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             && caseRec.Stage__c != ASF_Constants.DUPLICATESTAGE 
             && caseRec.Stage__c != ASF_Constants.REJECTIONSTATUS){
                 if(caseRec.typeSubTypeMismatch__c == true){
-                	caseRec.addError(Label.RecategorizationError);
+                    caseRec.addError(Label.RecategorizationError);
                 }
             }
         }
@@ -415,7 +415,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             {
                 cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
             }
-		
+        
             for(Case caseRec : eligibleRecords){
                 ASF_Case_Category_Config__c appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
                 if(caseRec.Reopen_Style__c == 'Move To First Stage'){
@@ -431,7 +431,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 backResultWrap = ASF_CaseMovementHelper.moveToBackwardStage(backwardCases, backwardStageMap);
             }
             if(!forwardStageMap.isEmpty()){
-              	fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
+                fwdResultWrap = ASF_CaseMovementHelper.moveToForwardStage(forwardCases, forwardStageMap, forwardOldStageMap); 
             }
             
             for(Case caseRec : eligibleRecords){
@@ -518,7 +518,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                        triggerEncounteredError.put(caseRec.Id, true);
                     }else{
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
-					}
+                    }
                 }
             }
         }
@@ -626,7 +626,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && (caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c )
                 && (caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c)
                 && (caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c)
-               	&&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
+                &&  (caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c)
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
 
                 String movement = caseRec.pending_clarification__c==true?'backward':'forward';
@@ -738,7 +738,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         List<Case> eligibleRecords = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
-		Map<Id, case> newMap = new Map<Id, case>();
+        Map<Id, case> newMap = new Map<Id, case>();
         
         for(Case caseRec : newList){
             //Insert case
@@ -985,7 +985,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         for(Case caseRec : newList){
             if(caseRec.Reject_Case__c != oldMap.get(caseRec.Id).Reject_Case__c && caseRec.Reject_Case__c == true){
-	            caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
+                caseStageMap.put(caseRec.Id, ASF_Constants.REJECTIONSTATUS);    
                 eligibleRecords.add(caseRec);
             }
             else if(caseRec.Is_Duplicate__c != oldMap.get(caseRec.Id).Is_Duplicate__c && caseRec.Is_Duplicate__c == true){
@@ -1042,10 +1042,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Database.SaveResult[] results = Database.update(toUpdateList,false);
             for(Id caseId : rejectedCaseIds){
                 caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
-            	if(!caseFinalDMLMap.containsKey(caseId)){
+                if(!caseFinalDMLMap.containsKey(caseId)){
                     Case caseObj = new Case(Id = caseId);
                     caseFinalDMLMap.put(caseObj.Id, caseObj);
-            	}
+                }
                 Case caseRecFromMap = caseFinalDMLMap.get(caseId);
                 caseRecFromMap.Reject_Case__c = false;
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
@@ -1285,7 +1285,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
                  else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
-                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                        c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                  }
 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
@@ -1435,11 +1435,11 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                     caseRec.typeSubTypeMismatch__c = false;
                     caseRec.Type_Sub_Type_Mismatch_Reason__c = '';
                     ASF_Case_Category_Config__c configuredCurrentCCC = cccExternalIdCategoryMap.get(caseRec.CCC_External_Id__c);
-                    if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
+                    if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.Lead__c == null ){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
-                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true ){
+                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null ){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  
