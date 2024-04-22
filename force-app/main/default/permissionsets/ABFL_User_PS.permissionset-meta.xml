@@ -44,7 +44,8 @@
         <apexClass>ABFL_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
+    <classAccesses
+        <apexClass>ABFL_EODController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -52,6 +53,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+         <apexClass>ABFL_OutstandingChargesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
