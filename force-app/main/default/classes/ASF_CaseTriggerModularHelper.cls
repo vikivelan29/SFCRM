@@ -1411,11 +1411,11 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                     caseRec.typeSubTypeMismatch__c = false;
                     caseRec.Type_Sub_Type_Mismatch_Reason__c = '';
                     ASF_Case_Category_Config__c configuredCurrentCCC = cccExternalIdCategoryMap.get(caseRec.CCC_External_Id__c);
-                    if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true ){
+                    if(caseRec.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.Lead__c == null){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
-                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true ){
+                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  

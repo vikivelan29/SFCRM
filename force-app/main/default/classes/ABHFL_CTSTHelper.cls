@@ -888,7 +888,7 @@ public without sharing class ABHFL_CTSTHelper {
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
         caseRecord.Source__c = source;
-        caseRecord.Technical_Source__c = techSource;
+        caseRecord.Technical_Source__c = 'LWC';
         caseRecord.CCC_External_Id__c = ccc;
         caseRecord.LAN__C = lan;
         caseRecord.RecordTypeId = recordTypeId;
