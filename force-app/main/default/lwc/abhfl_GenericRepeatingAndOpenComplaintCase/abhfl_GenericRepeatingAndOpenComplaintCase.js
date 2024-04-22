@@ -2,7 +2,6 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Days_For_Repeated_Indicator from '@salesforce/label/c.Repeated_Indicator';
 import getRecords from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntClas.genericFetchQuery';
-import getCaseCounts from '@salesforce/apex/Asf_NpsIndicatiorController.getCaseCounts';
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
 import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
@@ -206,22 +205,33 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         this.npsIndicator();
     }
     async npsIndicator() {
-        await getCaseCounts({ accountId: this.recordId })
-            .then((result) => {
-                this.isLoaded = false;
-                if (result) {
-                    this.showOpenCase = result.openCases || 0;
-                    this.showOpenComplaintCase = result.complaintCases || 0;
-                    this.showEscalatedCases = result.escalatedCases || 0;
-                } else {
-                    this.showOpenCase = 0;
-                    this.showOpenComplaintCase = 0;
-                    this.showEscalatedCases = 0;
+        await getRecords({ fields: this.fieldArrNps, objectName: 'Case', whereClause: this.whereClauseForOcNps })
+        .then((result) => {
+            this.isLoaded = false;
+            if(result && result.length >0){
+                this.showOpenCase = result.length;
+                var iCountComplaints = 0;
+                var iCountEscalatedCases = 0;
+                for(var i = 0;i<result.length;i++){
+                    if(result[i].Nature__c == 'Complaint'){
+                        iCountComplaints++;
+                    }
+                    if(result[i].IsEscalated){
+                        iCountEscalatedCases++
+                    }
                 }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                this.showOpenComplaintCase = iCountComplaints;
+                this.showEscalatedCases = iCountEscalatedCases;
+            }
+            else{
+                this.showOpenCase = 0;
+                this.showOpenComplaintCase = 0;
+                this.showEscalatedCases=0;
+            }
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
     }
     getCaseRecordCommon(){
         this.loadNpsScore();
