@@ -109,8 +109,14 @@ SLA_target which is basically who should get email when SLA is breached is also 
             if(c.CCC_External_Id__c != null && c.stage__c != null){
                 if(externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
                     map<string,long> slaMap = getSLAFieldValues(s,c,null);
-                    long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
-                    c.BusinessHoursId = defaultBusinessHrs;
+                    long sla1Sec;
+                    long sla2Sec;
+                    long sla3Sec;
+                    long closeSlaSec ;  
+                    updatedCase.BusinessHoursId = c.BusinessHoursId;
+                    updatedCase.SLA_Target_1__c = null;
+                    updatedCase.SLA_Target_2__c = null;
+                    updatedCase.SLA_Target_3__c = null;
                     if(businesssHrsMap.containsKey(index)){
                         if(string.valueOf(c.OwnerId).startsWith('005')){
                             if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
@@ -774,16 +780,21 @@ owner change can be to user or queue. and then business hrs changes
                     //     }      
                     // }
                 }
-                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
-                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                        newCases.get(i).SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                if(resultMap != null){
+                    updatedCase.SLA_Target_1__c = null;
+                    updatedCase.SLA_Target_2__c = null;
+                    updatedCase.SLA_Target_3__c = null;
+                    ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                            updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                            updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                            updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        }
                     }
                 }
                 index++;
