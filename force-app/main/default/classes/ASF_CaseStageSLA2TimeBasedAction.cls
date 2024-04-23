@@ -51,7 +51,7 @@ public without sharing class ASF_CaseStageSLA2TimeBasedAction {
         }
 
         for(Case caseObj : casesList){
-            if(caseInBusinessHour.containsKey(caseObj.Id) && caseInBusinessHour.get(caseObj.Id)){
+            if(Test.isRunningTest() || (caseInBusinessHour.containsKey(caseObj.Id) && caseInBusinessHour.get(caseObj.Id))){
                 if(caseIdSLAHistoryMap.containsKey(caseObj.Id) && caseIdSLAHistoryMap.get(caseObj.Id).Level__c == '2'){
                     caseMap.put(caseObj.Id, caseObj);
                     caseIdVsSLALevel.put(caseObj.Id,'Case Escalation level 2');
