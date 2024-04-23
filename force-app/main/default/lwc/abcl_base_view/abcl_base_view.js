@@ -65,24 +65,32 @@ export function invokeCore(apiId, payloadInfo) {
 					}
 					for (let i = 0; i < element.lTables.length; i++) {
 						for (let key in element.lTables[i]) {
-							if ((element.lTables[i][key] + '').indexOf('.') != -1) {
-								// Check if payload contains .
-								let value;
-								if (element.lTables[i][key].includes('.')) {
-									value = payload;
+							if(key == 'value'){
+								console.log('inside value ...*****');
+								if ((element.lTables[i][key])) {
+									// Check if payload contains .
+									let value;
+									if (element.lTables[i][key].includes('.')) {
+										console.log('inside includes ** ');
+										value = payload;
 
-									let path = element.lTables[i][key].split('.');
-									if (path.length > 0) {
-										for (let i = 0; i < path.length; i++) {
-											value = value[path[i]];
+										let path = element.lTables[i][key].split('.');
+										if (path.length > 0) {
+											for (let i = 0; i < path.length; i++) {
+												value = value[path[i]];
+											}
 										}
+									} else {
+										console.log('inside else of includes')
+										value = payload[element.lTables[i][key]];
 									}
-								} else {
-									value = payload[element.lTables[i][key]];
-								}
 
-								// replace value from payload
-								element.lTables[i][key] = value;
+									// replace value from payload
+									element.lTables[i][key] = value;
+								}
+							}
+							else{
+
 							}
 						}
 					}
