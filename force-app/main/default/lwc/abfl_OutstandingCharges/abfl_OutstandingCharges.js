@@ -1,24 +1,18 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord } from 'lightning/uiRecordApi';
-import  getEnachStatus from '@salesforce/apex/ABFL_ENACH_Status_Controller.getENACHStatus';
-import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+import  outstandingCharges from '@salesforce/apex/ABFL_OutstandingChargesController.getOutstandingCharges';
 
-const FIELDS = ["Asset.Client_Code__c"];
+const FIELDS = ["Asset.LAN__c"];
 
-
-export default class AbflENACHStatus extends LightningElement {
+export default class Abfl_OutstandingCharges extends LightningElement {
     @api recordId;
-    label = {
-		errorMessage
-	};
 
-    assetClientCode;
+    customerLoanAccountNumber;
     isLoading = false;
     showBaseViewScreen = false;
-    enachStatusResult;
-    apiName = 'ABFL_Enach_Status';
-
+    outstandingChargesResult;
+    apiName = 'ABFL_Outstanding_Charges';
     connectedCallback(){
        
     }
@@ -37,38 +31,37 @@ export default class AbflENACHStatus extends LightningElement {
         } 
         else if (data) {
             console.log('from data ==> ', data)
-            this.assetClientCode = data.fields.Client_Code__c? data.fields.Client_Code__c.value : '';
-            //this.callGetEnachStatus();
+            this.customerLoanAccountNumber = data.fields.LAN__c? data.fields.LAN__c.value : '';
+            //this.callOutstandingCharges();
         }
     }
 
-    callGetEnachStatus(){
-        if(this.assetClientCode){
-            getEnachStatus({'customerId':this.assetClientCode}).then(result=>{
-                this.enachStatusResult = result;
-                console.log('Result1 ==> ', result);
+    callOutstandingCharges(){
+        if(this.customerLoanAccountNumber){
+            outstandingCharges({'customerLAN':this.customerLoanAccountNumber}).then(result=>{
+                this.outstandingChargesResult = result;
+                console.log('result ==> ', result);
+                console.log('Result1 ==> ', JSON.stringify(JSON.parse(result.payload).success[0]));
+                this.outstandingChargesResult.payload = JSON.stringify(JSON.parse(result.payload).success[0]);
                 this.isLoading = false;
-                if (this.enachStatusResult && this.enachStatusResult.statusCode == 200) {
+                if (this.outstandingChargesResult) {
                     this.showBaseViewScreen = true;
-                } else if(result.payload.includes('error_message')){
-                    let parsedjson = JSON.parse(JSON.parse(result.payload).body);
-                    this.showToast("Error", parsedjson.error_message, 'error');
-                }  
+                } else {
+                    console.log('error ==> ');
+                    this.showToast("Error", this.label.errorMessage, 'error');
+                }
+
             }).catch(error=>{
                 console.log('error ==> ', error);
-                this.showToast("Error", this.label.errorMessage, 'error');
                 this.isLoading = false;
             })
-        }else{
-            this.showToast('Error', 'Client Code is blank.', 'error');
-            this.isLoading = false;
         }
     }
     
     handleShowEnachStatus(event){
         this.showBaseViewScreen = false;
         this.isLoading= true;
-        this.callGetEnachStatus()
+        this.callOutstandingCharges()
     }
 
     showToast(title, message, variant) {
