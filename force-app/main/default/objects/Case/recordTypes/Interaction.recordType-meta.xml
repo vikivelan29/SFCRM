@@ -161,10 +161,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insufficient/incomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Other</fullName>
             <default>false</default>
         </values>
