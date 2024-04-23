@@ -603,4 +603,25 @@
         <shortDescription>EmailRelayThreshold</shortDescription>
         <value>8000</value>
     </labels>
+    <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
 </CustomLabels>
