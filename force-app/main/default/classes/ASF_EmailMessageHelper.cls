@@ -132,6 +132,11 @@ public without sharing class ASF_EmailMessageHelper {
                     EmailMessage em = caseIdToEmailMessageMap.get(oldCaseId);
                     em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
                 }
+                for(Case newCase : oldCaseIdToNewCaseMap.values()){
+                    if(newCase.Origin == ABFL_Constants.ABWMEMAIL){
+                        ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(newCase, ABFL_Constants.WMEMAILTEMPLATENAME, newCase.SuppliedEmail, '', '');
+                    }
+                }
             }
         }
     }
