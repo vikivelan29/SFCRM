@@ -1,0 +1,59 @@
+<template>
+    <div class="container" style="padding-top:10px;border:solid 1px rgba(0,0,0,0.3);border-radius:0.25rem">
+        <div class="slds-align_absolute-center" style="vertical-align: middle;white-space: nowrap;position:relative">
+            <lightning-spinner if:true={isLoading} variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+        <div style="display:flex;background:rgba(0,0,0,0.1);border-radius:2px;padding:12px;justify-content: space-between;">
+            <div>
+                <!--<template if:true={hideBackground}>-->
+                    <lightning-button class="showBackgroundBtn" icon-name={iconName} variant="brand" label="Show Details" title="Show Details" onclick={showDetailsHandler} style="border-radius:5px;cursor: pointer"></lightning-button>
+                    <!--border:solid 1px rgba(0,0,0,0.5);padding: 8px 12px;font-size: 16px;background:white-->
+                <!--</template>--><!--top: 50%; left: 50%;transform: translate(-50%, -50%);padding: 10px 20px;-->
+            </div>
+            <div style="display:flex">
+                <!--<lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>-->
+                <div style="font-weight: bold;font-size: 1.25rem;">
+                    Complaint Investigation Details
+                </div>
+            </div>
+            <div>
+                <lightning-button variant="brand" icon-name="utility:download" label="Download PDF" title="Download PDF" onclick={downloadPdfHandler} style="border-radius:5px;cursor: pointer"></lightning-button>
+            </div>
+        </div>
+        
+        <template if:true={openSection}>
+            <!--filter: blur(10px);transition: filter 0.5s ease-->
+            <div style="height: 100%;width: 100%;background-size: cover;">
+                <lightning-card>
+                    <template if:true={isError}>
+                        <div>
+                            <h1 class="slds-align_absolute-center" style="color:red;font-weight:bold;text-transform:uppercase">{errorResponse}</h1>
+                        </div>
+                    </template>
+                    <template if:false={isError}>
+                        <div class="outer-form-container" style="display:flex;justify-content: space-between;padding-left:1.5rem">
+                            <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                                <template for:each={fieldsInColumn1} for:item="field">
+                                    <div key={field.fieldName}>
+                                        <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
+                                        <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
+                                        </br>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="outer-form-columns" style="flex:1;margin-right: 20px;">
+                                <template for:each={fieldsInColumn2} for:item="field">
+                                    <div key={field.fieldName}>
+                                        <label style="font-weight:bold;" for={field.fieldName}>{field.label}</label></br>
+                                        <h1 id={field.fieldName} name={field.fieldName}>{field.value}</h1>
+                                        </br>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </lightning-card>
+            </div>
+        </template>
+    </div>
+</template>

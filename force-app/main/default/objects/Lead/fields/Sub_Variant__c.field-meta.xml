@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Variant__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Variant</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BT</fullName>
+                <default>false</default>
+                <label>BT</label>
+            </value>
+            <value>
+                <fullName>BT+ Top Up</fullName>
+                <default>false</default>
+                <label>BT+ Top Up</label>
+            </value>
+            <value>
+                <fullName>BT - AFFORDABLE REFINANCE</fullName>
+                <default>false</default>
+                <label>BT - AFFORDABLE REFINANCE</label>
+            </value>
+            <value>
+                <fullName>BT APPROVED FI</fullName>
+                <default>false</default>
+                <label>BT APPROVED FI</label>
+            </value>
+            <value>
+                <fullName>BT NON-APPROVED FI</fullName>
+                <default>false</default>
+                <label>BT NON-APPROVED FI</label>
+            </value>
+            <value>
+                <fullName>BT - REGULAR REFINANCE</fullName>
+                <default>false</default>
+                <label>BT - REGULAR REFINANCE</label>
+            </value>
+            <value>
+                <fullName>GECL</fullName>
+                <default>false</default>
+                <label>GECL</label>
+            </value>
+            <value>
+                <fullName>GENERAL PURPOSE LOAN</fullName>
+                <default>false</default>
+                <label>GENERAL PURPOSE LOAN</label>
+            </value>
+            <value>
+                <fullName>INSURANCE</fullName>
+                <default>false</default>
+                <label>INSURANCE</label>
+            </value>
+            <value>
+                <fullName>LAPBT</fullName>
+                <default>false</default>
+                <label>LAPBT</label>
+            </value>
+            <value>
+                <fullName>NEW</fullName>
+                <default>false</default>
+                <label>NEW</label>
+            </value>
+            <value>
+                <fullName>NEW - AFFORDABLE REFINANCE</fullName>
+                <default>false</default>
+                <label>NEW - AFFORDABLE REFINANCE</label>
+            </value>
+            <value>
+                <fullName>NEW - REGULAR REFINANCE</fullName>
+                <default>false</default>
+                <label>NEW - REGULAR REFINANCE</label>
+            </value>
+            <value>
+                <fullName>PNI</fullName>
+                <default>false</default>
+                <label>PNI</label>
+            </value>
+            <value>
+                <fullName>PRE APPROVED TOP UP</fullName>
+                <default>false</default>
+                <label>PRE APPROVED TOP UP</label>
+            </value>
+            <value>
+                <fullName>TOP UP (BT+NEW)</fullName>
+                <default>false</default>
+                <label>TOP UP (BT+NEW)</label>
+            </value>
+            <value>
+                <fullName>TOPUP(NEW)</fullName>
+                <default>false</default>
+                <label>TOPUP(NEW)</label>
+            </value>
+            <value>
+                <fullName>TOP UP (NEW)</fullName>
+                <default>false</default>
+                <label>TOP UP (NEW)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

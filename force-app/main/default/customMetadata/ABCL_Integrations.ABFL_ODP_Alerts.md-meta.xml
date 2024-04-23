@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABFL ODP Alerts</label>
+    <protected>false</protected>
+    <values>
+        <field>EnableMockResponse__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>EndPoint__c</field>
+        <value xsi:type="xsd:string">https://ezgatewayuat.insideabc.com</value>
+    </values>
+    <values>
+        <field>Exception_Log__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Full_Log__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>HTTP_Headers__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Mock_Response_Resource__c</field>
+        <value xsi:type="xsd:string">ODPAlertsABFL_MockResponse</value>
+    </values>
+    <values>
+        <field>Mock_Status_Code__c</field>
+        <value xsi:type="xsd:double">200.0</value>
+    </values>
+    <values>
+        <field>Protocol__c</field>
+        <value xsi:type="xsd:string">Post</value>
+    </values>
+    <values>
+        <field>StoreAsAttachment__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

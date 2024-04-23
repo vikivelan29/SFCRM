@@ -1,0 +1,301 @@
+{
+			  "Summary_Data" : [ {
+				"Loan_Status" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"APPLICATION_NO" : "DLPUN0HL-08200103629",
+					"PRODUCT" : "HOME LOAN_AHF",
+					"STATUS" : "A",
+					"RELATIONSHIP_MGR" : "ABHIJIT DESHMUKH",
+					"ACCOUNT_TYPE" : "ACTIVE",
+					"LAST_REPRICING" : "2023-03-10",
+					"RESTRUCTURED" : "Yes",
+					"BOUNCE" : "42",
+					"PDD" : "No",
+					"NACH" : "Yes",
+					"LOANSTATUS" : "STANDARD",
+					"CONSTITUTION" : "SALARIED",
+					"FIXEDPERIOD" : "0",
+					"BPLR" : "16.2500000",
+					"VAN" : "ZABHFLPUN0071038",
+					"INTEREST_FREQUENCY" : "Monthly",
+					"MOB" : "2020-09-21"
+				  } ]
+				},
+				"Benificiary_Details" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"BANK" : "INDUSIND BANK LTD",
+					"ACCOUNT_NO" : "201001531719",
+					"IFSC_CODE" : "INDB0000001",
+					"LOAN_ACCOUNT_NO" : "LNPUN0HL-08200071038",
+					"ACCOUNT_TYPE" : "SAVING/CURRENT",
+					"BRANCH" : "OPERA HOUSE"
+				  } ]
+				},
+				"borrower_detail" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"PHONE_NO" : "",
+					"MOBILE" : "9822079025",
+					"BORROWER_NAME" : "MAHESH RAOSAHEB ZATAL",
+					"ADDRESS" : "BIDG NO 9, 2nd FLOOR,FLAT NO 11,SINHGAD ROAD,AYODHYA SOCIETY ",
+					"CO_BORROWER_NAME" : "SEEMINTA MAHESH ZATAL",
+					"E_MAIL" : "maheshzatal@gmail.com"
+				  } ]
+				},
+				"ABFL_Contact_Info" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"BRANCH_NAME" : "PUNE",
+					"SZINTERNAL_EMAIL" : "",
+					"SZHOME_PHONE" : "",
+					"RM_MOBILE" : "8983699328",
+					"SZBUSINESS_UNIT_ID" : "",
+					"RM_EMAIL" : "abhijit.deshmukh@adityabirlacapital.com",
+					"RM_NAME" : "ABHIJIT DESHMUKH"
+				  } ]
+				},
+				"property_detail" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"PROPERTY_TYPE" : "Apartment",
+					"SZ_CUSTOMER_NO" : "300112",
+					"LOAN_ACCOUNT_NO" : "LNPUN0HL-08200071038",
+					"PROPERTYDETAILS" : "Flat no. A-2 1st Floor,Wadgaon Bk,Manoraj Apartment ",
+					"PROPERTYSUB_TYPE" : "Apartment"
+				  } ]
+				},
+				"loan_info" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"ACCOUNT_STATUS" : "ACTIVE",
+					"AMOUNT_OVERDUE" : "5555",
+					"INSTALLMENT_PLAN" : "Eq. INSTALLMENT",
+					"INTEREST_TYPE" : "EFFECTIVE",
+					"CYCLEDAY" : "10",
+					"FINAL_DISB_FLAG" : "Y",
+					"TOTAL_TENOR" : "416",
+					"PEMI" : "N",
+					"LOAN_START_DATE" : "21/09/2020",
+					"SANCTIONED_AMOUNT" : "57862",
+					"NEXT_DUE_DATE" : "10/11/2023",
+					"CURRENT_BALANCE" : "54928",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"REPAYMENT_FREQUENCY" : "Monthly",
+					"LOAN_OUTSTANDING" : "54928",
+					"ECS_APPLICABLE" : "N",
+					"ACCOUNT_NO" : "",
+					"INSTALLMENT_NO" : "416",
+					"TOTAL_AMOUNT_DISBURSED" : "55813",
+					"BUSINESS_DATE" : "30/08/2020",
+					"PRODUCT" : "HOME LOAN_AHF",
+					"SANCTION_LIMIT" : "0.0",
+					"LAST_DISB_DATE" : "21/09/2020",
+					"EMI_START_DATE" : "10/11/2020",
+					"LOAN_MATURITY_DATE" : "10/06/2055",
+					"EMI_END_DATE" : "10/06/2055",
+					"REMAINING_TENURE" : "380",
+					"INTEREST_RATE" : "12.80%",
+					"EMI_AMOUNT" : "597",
+					"OUTSTANDING_BALANCE" : "54928",
+					"VIRTUAL_ACCOUNT_NO" : "ZABHFLPUN0071038"
+				  } ]
+				},
+				"repayment_detail" : {
+				  "totalRows" : "6",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "CENTRAL BANK OF INDIA\r",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  }, {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "3190563790",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "CENTRAL BANK OF INDIA\r",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  }, {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "0",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "ALLAHABAD BANK\r",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  }, {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "0",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "BANK OF BARODA\r",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  }, {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "0",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "HDFC BANK LTD",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  }, {
+					"EMI_START_DATE" : "10/11/2020",
+					"PREVIOUSEMI_AMT" : "597.0000",
+					"EMI_END_DATE" : "10/06/2055",
+					"ACCOUNT_NO" : "0",
+					"EMI_AMOUNT" : "597",
+					"REPAID_AMOUNT" : "19594",
+					"CUSTOMER_NO" : "300112",
+					"REPAYMENT_MODE" : "ACH",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"BANK_NAME" : "CITY UNION BANK LTD\r",
+					"PREVIOUSEMI_DUEDATE" : "10/10/2023"
+				  } ]
+				},
+				"ecs_detail" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"BRANCH_NAME" : "",
+					"MNAME" : "",
+					"ECS_TILL" : "",
+					"ACCOUNT_NO" : "",
+					"FNAME" : "",
+					"ECS_FROM" : "",
+					"MICR_CODE" : "",
+					"CUSTOMER_NO" : "",
+					"LOAN_ACCOUNT_NUMBER" : "",
+					"ACCOUNT_TYPE" : "",
+					"LNAME" : "",
+					"BANK_NAME" : ""
+				  } ]
+				},
+				"Address_List" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"ADDRESS" : "BIDG NO 9, 2nd FLOOR,FLAT NO 11,SINHGAD ROAD,AYODHYA SOCIETY ",
+					"ADDRESS_TYPE" : "CURRENT RESIDENCE"
+				  } ]
+				},
+				"Disbursement_History" : {
+				  "totalRows" : "3",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"BANK" : "INDUSIND BANK LTD\r",
+					"ACCOUNT_NUMBER" : "201001531719",
+					"AMOUNT" : "30000",
+					"MODE_OF_DISB" : "N",
+					"ACCOUNT_TYPE" : "SAVING/CURRENT",
+					"DISBRUSMENT_DATE" : "21/09/2020",
+					"BENIFICIARY_NAME" : "ADITYA BIRLA SUN LIFE INSURANCE CO LTD",
+					"BRANCH" : "OPERA HOUSE"
+				  },
+				{
+					"BANK" : "INDUS BANK LTD\r",
+					"ACCOUNT_NUMBER" : "201001531123",
+					"AMOUNT" : "50000",
+					"MODE_OF_DISB" : "Y",
+					"ACCOUNT_TYPE" : "SAVING/CURRENT",
+					"DISBRUSMENT_DATE" : "11/02/2024",
+					"BENIFICIARY_NAME" : "ADITYA BIRLA SUN LIFE INSURANCE CO LTD",
+					"BRANCH" : "OPERA HOUSE"
+				  },
+					{
+					"BANK" : "INDUS BANK LTD\r",
+					"ACCOUNT_NUMBER" : "201001531123",
+					"AMOUNT" : "50000",
+					"MODE_OF_DISB" : "Y",
+					"ACCOUNT_TYPE" : "SAVING/CURRENT",
+					"DISBRUSMENT_DATE" : "11/02/2024",
+					"BENIFICIARY_NAME" : "ADITYA BIRLA SUN LIFE INSURANCE CO LTD",
+					"BRANCH" : "OPERA HOUSE"
+				  } ]
+				},
+				"Overdue_Charges" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"CHARGES" : "5555",
+					"PRODUCT_NAME" : "HOME LOAN_AHF",
+					"LOAN_ACCOUNT_NO" : "LNPUN0HL-08200071038",
+					"INSURANCE_CHARGES_DUE" : "0",
+					"INTEREST_OVERDUE" : "0",
+					"ACCRUED_PANEL" : "0",
+					"TOTAL_OVERDUE_AMT" : "5555",
+					"EXCESS_AMOUNT" : "0",
+					"PRINCIPAL_OVERDUE" : "0"
+				  } ]
+				},
+				"account_detail" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"MNAME" : "RAOSAHEB",
+					"FNAME" : "MAHESH",
+					"ACCOUNT_STATUS" : "CLOSED",
+					"TOTAL_AMOUNT_DISBURSED" : "55813",
+					"AMOUNT_OVERDUE" : "5555",
+					"PRODUCT" : "HOME LOAN_AHF",
+					"LNAME" : "ZATAL",
+					"OUTSTANDING_AMOUNT" : "54928",
+					"FINAL_DISB_FLAG" : "Y",
+					"DAYS_PAST_DUE" : "0",
+					"CUSTOMER_NO" : "300112",
+					"SANCTIONED_AMOUNT" : "57862",
+					"LOAN_ACCOUNT_NUMBER" : "LNPUN0HL-08200071038",
+					"NEXT_DUE_AMOUNT" : "598",
+					"PORTFOLIO_CODE" : "ML",
+					"LOAN_OUTSTANDING" : "54928"
+				  } ]
+				},
+				"Disbursement_summary" : {
+				  "totalRows" : "1",
+				  "moreRows" : "false",
+				  "rows" : [ {
+					"CURRENT_DISB_AMT" : "55813",
+					"AMOUNT_DISB_TILL_DATE" : "55813",
+					"TOTAL_REFUNDABLE_AMOUNT" : "0",
+					"BALANCE_REMAINING" : "0",
+					"FINAL_DISB_FLAG" : "Y",
+					"TOTAL_SANCTION_AMT" : "57862",
+					"FEES_OUTSTANDING" : "5555",
+					"MODE_OF_DISB" : "",
+					"ACCOUNT_TYPE" : "SAVING/CURRENT"
+				  } ]
+				}
+			  } ]
+			}

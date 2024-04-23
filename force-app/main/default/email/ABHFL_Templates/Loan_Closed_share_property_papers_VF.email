@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Loan Account no. {!relatedTo.Masked_LAN__c} Closed." recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Loan Closed - will share property papers"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

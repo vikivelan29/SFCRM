@@ -5,13 +5,11 @@
 * @last modified on  : 11-20-2023
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public without sharing class ASF_CaseSLAHandlerV1 {
+public without sharing class ASF_CaseSLAHandlerV1 {    
     
-    
-    public ASF_CaseSLAHandlerV1() {
-    }    
-    
-    private ASF_SLAWrapper prepareSLAConfigMap(Set<string> externalIds,Set<string> stageNames){
+    private static Boolean isFromOmniChannel = false;
+
+    private static ASF_SLAWrapper prepareSLAConfigMap(Set<string> externalIds,Set<string> stageNames){
         ASF_SLAWrapper slaObject = new ASF_SLAWrapper();
         List<ASF_Case_Stage_Config__c> caseStageConfigs = new List<ASF_Case_Stage_Config__c>();
         map<string,ASF_Case_Stage_Config__c> tempMap = new map<string,ASF_Case_Stage_Config__c>();
@@ -50,22 +48,27 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         return slaObject;
     }
     /*
-this method should return Stage SLA and Case SLA. 
-When reopened , This can be different, 
-Today it does not have SLA override rules. But logic needs to be added here.
-*/
-    private map<String,long> getSLAFieldValues(ASF_SLAWrapper s, Case c,Case oldCase){
+    this method should return Stage SLA and Case SLA. 
+    When reopened , This can be different, 
+    Today it does not have SLA override rules. But logic needs to be added here.
+    */
+    private static map<String,long> getSLAFieldValues(ASF_SLAWrapper s, Case c,Case oldCase){
+        
         map<string,long> resultMap = new map<string,long>();
         long slaIdentifier = 3600000;
-        long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
+        long sla1Sec;
+        long sla2Sec;
+        long sla3Sec;
+        long closeSlaSec;  
         Map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         string mapKey = c.CCC_External_Id__c+c.stage__c;
-        System.debug('mapKey ---> '+mapKey);
         if(c.Reopened__c){
-            sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
-            sla2Sec =externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
-            sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
-            closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
+                sla1Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_1__c) * slaIdentifier : null;
+                sla2Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_2__c) * slaIdentifier : null;
+                sla3Sec = externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c != null ? Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_Reopen_SLA_3__c) * slaIdentifier : null;
+                closeSlaSec = externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c != null ? Integer.valueOf( externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c) * slaIdentifier  : null;
+            }
             // If this has been Just Reopened in this update, then aslo set the Overall Case Closure
             // to the Reopen Case Closure
             //TBD ritika
@@ -73,8 +76,46 @@ Today it does not have SLA override rules. But logic needs to be added here.
             //     closeSlaSec = BusinessHours.add(c.BusinessHoursId,c.Case_Stage_Change_Date__c,Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Reopened_Case_Closure_SLA__c)* slaIdentifier );
             // }
         }
-        else {
-            if(externalIdStageNameCaseStageConfigMap != null){
+        else { 
+            map<String,long> slaValues = (ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods != null && ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.containsKey(c.Id) &&
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id) != null) ? 
+                                        ASF_CaseTriggerModularHelper.addlDataFromStageMovementMethods.get(c.Id).slaCaseAndStageOverrideValues : null;
+            
+            if(slaValues != null){
+                //case SLA override
+                if(slaValues.get('caseOverride') != null){
+                    closeSlaSec =  slaValues.get('caseOverride') * slaIdentifier;  
+                }
+                else if (externalIdStageNameCaseStageConfigMap != null) {
+                    closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
+                }
+                //Stage SLA 1 overirde
+                if(slaValues.get('stageSLA1Override') != null){
+                    sla1Sec =  slaValues.get('stageSLA1Override') * slaIdentifier ;
+                }
+                else {
+                    if(externalIdStageNameCaseStageConfigMap != null)
+                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                } 
+                //Stage SLA 2 overirde
+                if(slaValues.get('stageSLA2Override') != null){
+                    sla2Sec =  slaValues.get('stageSLA2Override') * slaIdentifier;
+                }
+                else {
+                    if (externalIdStageNameCaseStageConfigMap != null)
+                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                } 
+                //Stage SLA 2 overirde
+                if(slaValues.get('stageSLA3Override') != null){
+                    sla3Sec =  slaValues.get('stageSLA3Override') * slaIdentifier;
+                }
+                else { 
+                    if (externalIdStageNameCaseStageConfigMap != null)  
+                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                } 
+
+            }
+            else if (externalIdStageNameCaseStageConfigMap != null){
                 sla1Sec = s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 sla2Sec = s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 sla3Sec = s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
@@ -92,46 +133,53 @@ Today it does not have SLA override rules. But logic needs to be added here.
     }
     
     /* this method is called during case Insert. 
-Core logic to calculate SLA1 and Case SLA resides here.
-SLA_target which is basically who should get email when SLA is breached is also here
-*/
+    Core logic to calculate SLA1 and Case SLA resides here.
+    SLA_target which is basically who should get email when SLA is breached is also here
+    */
     
-    private void calculateSLA(List<Case> newCases,ASF_SLAWrapper s){
+    private static Map<Id, Case> calculateSLA(List<Case> newCases,ASF_SLAWrapper s, Map<Id, Case> casesToUpdate){
         ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
         //Map<String,ASF_Case_Stage_Config__c> externalIdStageMap = s.externalIdStageMap;
         map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = s.externalIdStageNameCaseStageConfigMap;
         
         Map<Integer,ASF_SLABusinessHoursWrapper> businesssHrsMap = getCaseOwnerBusinessHours(null,newCases);
-        String defaultBusinessHrs = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1].id;
+        //String defaultBusinessHrs = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1].id;
         
         Integer index = 0;
         for(Case c: newCases){
             if(c.CCC_External_Id__c != null && c.stage__c != null){
-                if(externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
+                if(externalIdStageNameCaseStageConfigMap != null && externalIdStageNameCaseStageConfigMap.containsKey(c.CCC_External_Id__c+c.stage__c)){
+                    if(!casesToUpdate.containsKey(c.Id)){
+                        casesToUpdate.put(c.Id, new Case(Id=c.Id));
+                    }
+                    Case updatedCase = casesToUpdate.get(c.Id);
                     map<string,long> slaMap = getSLAFieldValues(s,c,null);
-                    long sla1Sec,sla2Sec,sla3Sec,closeSlaSec ;  
-                    c.BusinessHoursId = defaultBusinessHrs;
+                    long sla1Sec;
+                    long sla2Sec;
+                    long sla3Sec;
+                    long closeSlaSec ;  
+                    updatedCase.BusinessHoursId = c.BusinessHoursId;
                     if(businesssHrsMap.containsKey(index)){
-                        if(string.valueOf(c.OwnerId).startsWith('005')){
-                            if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
-                                c.BusinessHoursId = businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap;
-                            }
-                        }
-                        //queue
-                        else {
-                            if(businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap != null){
-                                c.BusinessHoursId = businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap;
-                            }
-                        }
+                        // if(string.valueOf(c.OwnerId).startsWith('005')){
+                        //     if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
+                        //         updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap;
+                        //     }
+                        // }
+                        // //queue
+                        // else {
+                        //     if(businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap != null){
+                        //         updatedCase.BusinessHoursId = businesssHrsMap.get(index).caseQueueOwnerBusinessHourMap;
+                        //     }
+                        // }
                         if( businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord != null){
                             if(businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                                c.SLA_Target_1__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                                updatedCase.SLA_Target_1__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
                             }
                             if(businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                                c.SLA_Target_2__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                                updatedCase.SLA_Target_2__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
                             }
                             if(businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                                c.SLA_Target_3__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                                updatedCase.SLA_Target_3__c = businesssHrsMap.get(index).ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
                             }    
                         }
                     }
@@ -141,65 +189,70 @@ SLA_target which is basically who should get email when SLA is breached is also 
                     sla3Sec = slaMap.get('sla3');
                     closeSlaSec = slaMap.get('caseClosureSLA');
                     
-                    c.Overall_Case_Closure_SLA__c =BusinessHours.add(c.BusinessHoursId, system.now(), closeSlaSec);
+                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
                     
                     /*
-Percentage is to calculate fields which is available in List view.
-Example if Over all Case closure is 31-Dec , then we get calculate what s
-75% of target of Date of 31-Dec , what is 90% and more.
-Since we are using businss hrs , we cannot use case age in list view.
-Hence this work around. agents will pick cases which are closure for SLA.
-More of proactove way of selecting cases to work on and avoiding SLA breach
+                    Percentage is to calculate fields which is available in List view.
+                    Example if Over all Case closure is 31-Dec , then we get calculate what s
+                    75% of target of Date of 31-Dec , what is 90% and more.
+                    Since we are using businss hrs , we cannot use case age in list view.
+                    Hence this work around. agents will pick cases which are closure for SLA.
+                    More of proactove way of selecting cases to work on and avoiding SLA breach
 
-*/
-                    percntCls.setOverallPercSLAFields(closeSlaSec,c.BusinessHoursId,system.now(),c);
+                    */
+                    percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
                     
                     if(sla1Sec != null){
-                        c.Stage_SLA_1__c = BusinessHours.add(c.BusinessHoursId, system.now(), sla1Sec);
-                        percntCls.setStagePercSLAFields(sla1Sec,c.BusinessHoursId,system.now(),c);
+                        updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla1Sec);
+                        percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,system.now(),updatedCase);
                     }
                     
                     if(sla2Sec != null){
-                        c.Stage_SLA_2__c = BusinessHours.add(c.BusinessHoursId, system.now(), sla2Sec);
+                        updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla2Sec);
                     }
                     
                     if(sla3Sec != null){
-                        c.Stage_SLA_3__c = BusinessHours.add(c.BusinessHoursId, system.now(), sla3Sec);
+                        updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla3Sec);
                     }
                 }
             }
+            
             index++;
         }
-        
+        return casesToUpdate;
     }
     
-    public void calculateSLAOnCaseInsert(List<Case> newCases){
+    public static Map<Id, Case> calculateSLAOnCaseInsert(List<Case> newCases){
         //For Case coming check external ID -> get the stage ->SLA for the stage
         Set<string> externalIdList = new set<string>();
         set<string> caseStageList = new set<String>();
         List<ASF_Case_Stage_Config__c> caseStageConfigs = new list<ASF_Case_Stage_Config__c>();
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
+        Integer index=0;
         for( Case c:newCases){
-            resetSLAFields(c,null);
+            Case updatedCase = new Case(Id=c.Id);
+            resetSLAFields(c,null, updatedCase);
+            casesToUpdate.put(c.Id, updatedCase);
             if(c.CCC_External_Id__c != null){
                 externalIdList.add(c.CCC_External_Id__c);
             }
-            
             if(c.Stage__c != null){
                 caseStageList.add(c.Stage__c);
             }
         }
         ASF_SLAWrapper slaObject = prepareSLAConfigMap(externalIdList,caseStageList);
-        calculateSLA(newCases,slaObject);
+        casesToUpdate = calculateSLA(newCases,slaObject,casesToUpdate);
+        return casesToUpdate;
     }
     
     /*
-When owner changes or Stage chages , SLA history is record.
-Latest record has running record true which means it has start date but not end Date.
-When someone changes owner or Stage , previous record end date gets populated
-and runing record becomes false and new record gets inserted.
-Cycle continues
-*/
-    public void insertSLAHistory(map<Id, Case> oldCases,map<Id, Case> newCases){
+    When owner changes or Stage chages , SLA history is record.
+    Latest record has running record true which means it has start date but not end Date.
+    When someone changes owner or Stage , previous record end date gets populated
+    and runing record becomes false and new record gets inserted.
+    Cycle continues
+    */
+    public static void insertSLAHistory(map<Id, Case> oldCases,map<Id, Case> newCases){
         map<id,Boolean> caseBackStageMovementCheck = new  map<id,Boolean>();
         //during insert , old will be null. hence does not matter to call method and waste 25ms
         if(oldCases!=null){
@@ -208,13 +261,19 @@ Cycle continues
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         // for(Case c : newCases.values()){
         //without query, owner.name will not come  . hence this query is needed 
-        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c,Bulk_Action__c,IsClosed FROM Case WHERE Id IN: newCases.values()]){
+        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
             slaHistory.Current_Owner__c = c.Owner.Name;
             slaHistory.Current_Owner_Id__c = c.OwnerId;
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
+            slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
+            slaHistory.Actioned_By__c = ASF_CaseSLAHandlerV1.isFromOmniChannel?Label.ASF_Omnichannel_ActionedBy_Username:slaHistory.Actioned_By__c;
+            if(ASF_BulkCaseProcessorUtility.isBulkProcessing && (UserInfo.getName() == 'Platform Integration User' || UserInfo.getUserType() == 'AutomatedProcess')){
+                slaHistory.Actioned_By__c = c.PlatformEventInitiatedBy__c;
+            }
+            
             //if stage is blank , then probbaly email2Case
             if(String.isBlank(slaHistory.Stage__c)){
                 slaHistory.Stage__c = slaHistory.Status__c;    
@@ -222,7 +281,6 @@ Cycle continues
             slaHistory.Stage_Start_Date__c = system.now();
             slaHistory.is_Running_Record__c = true;
             slaHistory.BusinessHoursId__c = c.BusinessHoursId;
-            
             if(oldCases != null ){
                 if(caseBackStageMovementCheck.containsKey(c.Id)){
                     // Defensive in case of Email to Case.
@@ -238,15 +296,15 @@ Cycle continues
         }
     }
     /*
-when Case is moved back to previous stages , then on SLA history we need flag.
-This is needed for reporting purpose.
-we thought of using running record logic. But when case goes backward and comes , target stage also gets moved - true.
-Thats inocrrect.
-hence logic is to check if desitnation stage order is > current stage order only 
-example : Open--Inprogress-PendingApproal--Closed
-from Open--Inprogress , isMovedback is false
-Inprogress --> Open - is moved back is true
-*/
+    when Case is moved back to previous stages , then on SLA history we need flag.
+    This is needed for reporting purpose.
+    we thought of using running record logic. But when case goes backward and comes , target stage also gets moved - true.
+    Thats inocrrect.
+    hence logic is to check if desitnation stage order is > current stage order only 
+    example : Open--Inprogress-PendingApproal--Closed
+    from Open--Inprogress , isMovedback is false
+    Inprogress --> Open - is moved back is true
+    */
     
     private static map<Id, Boolean> getMovedBackCases(map<Id, Case> currentCasesMap,map<Id, Case> newCasesMap) {
         map<Id, boolean> caseBackMovementCheckMap = new Map<Id, Boolean>();
@@ -304,7 +362,7 @@ Inprogress --> Open - is moved back is true
     
     
     
-    public void updateOldCaseSLAHistory(List<Case> newCases){
+    public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
         for(Case c:newCases){
             caseIdSet.add(c.Id);
@@ -361,48 +419,79 @@ Inprogress --> Open - is moved back is true
                                                          }
                                                      }
         }
-        if (slaHistoryList != null) {
+        if (!slaHistoryList.isEmpty()) {
             update slaHistoryList;
+            return true;
         }
-        
+        return false;
     }
     
     /*
-When Case owner changes or Stage Changes, 2 things Should Happen
-New row should be inserted in case History. 
-Old Row Should be updated with Running record = false and  end date should be populated.
-*/
+    When Case owner changes or Stage Changes, 2 things Should Happen
+    New row should be inserted in case History. 
+    Old Row Should be updated with Running record = false and  end date should be populated.
+    */
     
-    public void updateSLAHistory(map<Id, Case> oldCases,map<Id, Case> newCases){
+    public static void updateSLAHistory(map<Id, Case> oldCases,map<Id, Case> newCases){
         List<Case> modifiedCases= new List<Case>();
         Map<Id,Case> modifiednewCasesMap = new Map<Id,Case>();
         Map<Id,Case> modifiedoldCasesMap = new Map<Id,Case>(); 
         for(Case c : newCases.values() ){
-            if(newCases.get(c.Id).OwnerId!= oldCases.get(c.Id).OwnerId || 
-               newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
-                   modifiedCases.add(c);  
-                   modifiednewCasesMap.put(c.Id,c);  
-                   modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 
-               }    
+            if(newCases.get(c.Id).MoveToNext__c != oldCases.get(c.Id).MoveToNext__c && newCases.get(c.Id).MoveToNext__c == false){
+                //If movetonext is setting to false, skip it, means its a internal update.
+                continue;                
+            }
+            if(newCases.get(c.Id).OwnerId != oldCases.get(c.Id).OwnerId || 
+            newCases.get(c.Id).Stage__c != oldCases.get(c.Id).Stage__c){
+                modifiedCases.add(c);  
+                modifiednewCasesMap.put(c.Id,c);  
+                modifiedoldCasesMap.put(c.Id,oldCases.get(c.Id)); 
+            }    
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            updateOldCaseSLAHistory(modifiedCases); 
-            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            //If the updateOldCaseSLAHistory didnt find any existing record to update,
+            // that means its actually an insert happening and its internal Case after update happening
+            // assignment rules are assigning ownerid
+            // so skip creating new SLA history, 
+            // the after insert will call insertSLAHistory and will create one entry.
+            if(updateOldCaseSLAHistory(modifiedCases)){ 
+                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            }
         }
     }
-    /*
-When SLA is violated , SLA violated date gets carried over for calculation.
-There might be 3 history for Stages. If one is violated, take that for calculation.
-Hence you would see order by created asc. 
-Same with Start date also
-The intent of this method is to get for given stage , get total time spent , 
-last stage violated date and earlier start date.
-Very equal to summarizing by stage. 
 
-*/
+    /**
+     * When cases are assigned to users from Omnichannel - case trigger is not invoked, hence SLA history is also not modified
+     * As remedy, ASF_AgentWorkTrigger is implemented, which runs when Omnichannel assigns case to user(creates an entry on AgentWork object)
+     * From that trigger, below method is invoked to update old SLA history and insert new one
+     */
+    public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
+        List<Case> cases = new List<Case>();
+        for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
+            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
+                Case caseRec = new Case(Id=caseId);
+                cases.add(caseRec);
+            }
+        }
+        updateOldCaseSLAHistory(cases);
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
+        insertSLAHistory(null,new Map<Id, Case>(cases));
+        ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
+    }
+
+    /*
+    When SLA is violated , SLA violated date gets carried over for calculation.
+    There might be 3 history for Stages. If one is violated, take that for calculation.
+    Hence you would see order by created asc. 
+    Same with Start date also
+    The intent of this method is to get for given stage , get total time spent , 
+    last stage violated date and earlier start date.
+    Very equal to summarizing by stage. 
+
+    */
     
-    private map<String,ASF_SLAHistoryWraper> getCaseStageSummarizedView(map<Id,Case> newCases){
+    private static map<String,ASF_SLAHistoryWraper> getCaseStageSummarizedView(map<Id,Case> newCases){
         
         map<String,ASF_SLAHistoryWraper> resultMap = new map<String,ASF_SLAHistoryWraper>();
         List<String> caseStagesStartDate = new List<String>();
@@ -428,92 +517,92 @@ Very equal to summarizing by stage.
                                                    BusinessHoursId__c 
                                                    FROM ASF_Case_SLA_History__c 
                                                    WHERE Case__c IN: changedCaseList
-                                                   ORDER BY Stage_Start_Date__c asc]) {
-                                                       //Loop through the loop get the stage to which case is going and calculate the time consumed in business hours
-                                                       if((slaHistory.BusinessHoursId__c != null) && (slaHistory.Stage__c == newCases.get(slaHistory.Case__c).Stage__c)){
-                                                           //get first stage and get Start Date of Stage 
-                                                           if(!caseStagesStartDate.contains(slaHistory.Case__c + slaHistory.Case__r.Stage__c)){
-                                                               if (!resultMap.containsKey(slaHistory.Case__c + slaHistory.Stage__c )){
-                                                                   ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-                                                                   c.stageStartTime = slaHistory;
-                                                                   resultMap.put(slaHistory.Case__c + slaHistory.Stage__c,c);
-                                                                   caseStagesStartDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c);
-                                                               }
-                                                           }
-                                                           if(slaHistory.Stage_End_Date__c == null){
-                                                               slaHistory.Stage_End_Date__c = system.now();
-                                                           }
-                                                           Long consumedBusinessmiliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                           
-                                                           if(resultMap.get(slaHistory.Case__c + slaHistory.Stage__c ).totalTimeSpent == 0){
-                                                               Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                               ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-                                                               c.totalTimeSpent = stageConsumedMilliSeconds;
-                                                               resultMap.put(slaHistory.Case__c+slaHistory.Stage__c,c);
-                                                               overallTimeSpent += c.totalTimeSpent;
-                                                           }
-                                                           else{
-                                                               long previousTimeSpent =  resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent;
-                                                               Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                               long totalConsumed = previousTimeSpent + stageConsumedMilliSeconds;
-                                                               resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent = totalConsumed;
-                                                               overallTimeSpent += totalConsumed;
-                                                           }
-                                                           if(slaHistory.Stage_Violation_Start_Date__c != null && !caseStagesViolatedDate.contains(slaHistory.Case__c + slaHistory.Stage__c ) ){
-                                                               ASF_SLAHistoryWraper r = resultMap.get(slaHistory.Case__c+slaHistory.Stage__c);
-                                                               r.violatedTime = slaHistory;
-                                                               caseStagesViolatedDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c); 
-                                                           }
-                                                       }
-                                                   }
-        ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
-        c.totalTimeSpent = overallTimeSpent;
-        resultMap.put('overallTimeSpent', c);
+                                                   ORDER BY Case__c, Stage_Start_Date__c asc]) {
+            //Loop through the loop get the stage to which case is going and calculate the time consumed in business hours
+            if(slaHistory.BusinessHoursId__c != null){
+                if(slaHistory.Stage__c == newCases.get(slaHistory.Case__c).Stage__c){
+                    //get first stage and get Start Date of Stage 
+                    if(!caseStagesStartDate.contains(slaHistory.Case__c + slaHistory.Case__r.Stage__c)){
+                        if (!resultMap.containsKey(slaHistory.Case__c + slaHistory.Stage__c )){
+                            ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
+                            c.stageStartTime = slaHistory;
+                            resultMap.put(slaHistory.Case__c + slaHistory.Stage__c,c);
+                            caseStagesStartDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c);
+                        }
+                    }
+                    if(slaHistory.Stage_End_Date__c == null){
+                        slaHistory.Stage_End_Date__c = system.now();
+                    }
+                    
+                    long previousTimeSpent =  resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent;
+                    Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                    long totalConsumed = previousTimeSpent + stageConsumedMilliSeconds;
+                    resultMap.get(slaHistory.Case__c+slaHistory.stage__c).totalTimeSpent = totalConsumed;
+                    
+                    
+
+                    if(slaHistory.Stage_Violation_Start_Date__c != null && !caseStagesViolatedDate.contains(slaHistory.Case__c + slaHistory.Stage__c ) ){
+                        ASF_SLAHistoryWraper r = resultMap.get(slaHistory.Case__c+slaHistory.Stage__c);
+                        r.violatedTime = slaHistory;
+                        caseStagesViolatedDate.add(slaHistory.Case__c + slaHistory.Case__r.Stage__c); 
+                    }
+                }
+                //Overall - run for all slaHistories
+                if(!resultMap.containsKey(slaHistory.Case__c+'overallTimeSpent')){
+                    ASF_SLAHistoryWraper c = new ASF_SLAHistoryWraper();
+                    resultMap.put(slaHistory.Case__c+'overallTimeSpent', c);
+                }
+                long currentOverallSpent =  resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent;
+                Datetime endDate = slaHistory.Stage_End_Date__c == null ? System.now() : slaHistory.Stage_End_Date__c;
+                Long stageConsumedMilliSeconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, endDate);
+                currentOverallSpent += stageConsumedMilliSeconds;
+                resultMap.get(slaHistory.Case__c+'overallTimeSpent').totalTimeSpent = currentOverallSpent;
+            }
+        }
         return resultMap;
     }
     
     /*
-Few fields needs to be reset. One dedicated method to populate values on Caes. 
-Business hrs is not pre populated here. Its lot more complex. That you will see in next methods
-*/
-    private void resetSLAFields(Case newCase, Case oldCase){
-        if(newCase.Stage__c == 'Closed' || newCase.Stage__c == 'Rejected' || newCase.Stage__c == 'Unresolved'){
-            newCase.Stage_SLA_1__c = null;
-            newCase.Stage_SLA_2__c = null;
-            newCase.Stage_SLA_3__c = null;
+    Few fields needs to be reset. One dedicated method to populate values on Caes. 
+    Business hrs is not pre populated here. Its lot more complex. That you will see in next methods
+    */
+    private static Case resetSLAFields(Case newCase, Case oldCase, Case updatedCase){
+        //if(newCase.Stage__c == 'Closed' || newCase.Stage__c == 'Rejected'){
+        if(ASF_Constants.CASECLOSEREJECTEDSTATUSES.contains(newCase.Stage__c)){
+            // updatedCase.Stage_SLA_1__c = null;
+            // updatedCase.Stage_SLA_2__c = null;
+            // updatedCase.Stage_SLA_3__c = null;
         }
         else{
             //during insert old Case will be null
-            if(oldCase == null || newCase.Stage__c != oldCase.Stage__c){
-                newCase.Case_Stage_Change_Date__c = system.now();
-                newCase.Last_Owner_Change_Date__c = system.now();
+            if(oldCase == null){
+                updatedCase.Case_Stage_Change_Date__c = system.now();
+                updatedCase.Last_Owner_Change_Date__c = system.now();
+            }else{
+                if(newCase.Stage__c != oldCase.Stage__c || newCase.CCC_External_Id__c != oldCase.CCC_External_Id__c){
+                    updatedCase.Case_Stage_Change_Date__c = system.now();
+                }
+                if(oldCase != null && oldCase.ownerId != newCase.ownerID){
+                    updatedCase.Last_Owner_Change_Date__c = system.now();
+                }
             }
-            if(oldCase != null && oldCase.ownerId != newCase.ownerID){
-                newCase.Last_Owner_Change_Date__c = system.now();
-            }
-        }    
+        }
+        return updatedCase;    
     }
     
     /*
-Case owner can be queue or User. If user , take it from Business Hrs field which is on User object.
-Each user can his own business hrs. 
-if its queue , on queue owner email is considered as owner. If there is business hrs for queue email,
-then take it. 
-If nothing there , take default business hrs
-*/
-    private  Map<Integer,ASF_SLABusinessHoursWrapper> getCaseOwnerBusinessHours(Map<Id,Case> oldCases, List<Case> newCases){
+    Case owner can be queue or User. If user , take it from Business Hrs field which is on User object.
+    Each user can his own business hrs. 
+    if its queue , on queue owner email is considered as owner. If there is business hrs for queue email,
+    then take it. 
+    If nothing there , take default business hrs
+    */
+    private static Map<Integer,ASF_SLABusinessHoursWrapper> getCaseOwnerBusinessHours(Map<Id,Case> oldCases, List<Case> newCases){
         Map<Integer,ASF_SLABusinessHoursWrapper> resultMap =  new map<Integer,ASF_SLABusinessHoursWrapper>();
-        
         List<String> ownerUserList = new List<String>();
-        
         List<String> ownerQueueList = new List<String>();
-        Map<String,String> queueEmailMap = new Map<String,String>();
-        
-        Map<String,String> queueOwnerUserBusinessHrMap = new Map<String,String>();
         Map<String,String> userBusinessHrMap = new Map<String,String>();
         List<String> ownerEmailList = new List<String>();
-        map<String,User> userEmailMangerMap = new Map<String,User>();
-        Map<Id, String> userIdToEmailMap = new Map<Id, String>();
         
         for(case c: newCases){
             //owner change loop    
@@ -525,10 +614,28 @@ If nothing there , take default business hrs
                 }
             }
         }  
-        
+        Integer index = 0;
+        for(Case c: newCases){
+            ASF_SLABusinessHoursWrapper wrapper =new ASF_SLABusinessHoursWrapper();
+            wrapper.caseObject = c;
+            resultMap.put(index,wrapper);
+            index++;
+        }
+        if(!ownerUserList.isEmpty() || !ownerQueueList.isEmpty()){
+            resultMap = getOwnerHierarchy(newCases, ownerUserList, ownerQueueList);
+        }
+        return resultMap;
+    }
+
+    public static Map<Integer,ASF_SLABusinessHoursWrapper> getOwnerHierarchy(List<Case> newCases, List<String> ownerUserList, List<String> ownerQueueList) {
+        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap =  new map<Integer,ASF_SLABusinessHoursWrapper>();
+        Map<String,String> queueEmailMap = new Map<String,String>();
+        Map<String,String> queueOwnerUserBusinessHrMap = new Map<String,String>();
+        map<String,User> userEmailMangerMap = new Map<String,User>();
+        Map<Id, String> userIdToEmailMap = new Map<Id, String>();
         /* there are Cases which are owned by Queue. 
-When Case is owned by Queue , Owner of Queue email's business hrs is considered
-*/
+        When Case is owned by Queue , Owner of Queue email's business hrs is considered
+        */
         if(!ownerQueueList.isEmpty()){
             for(Group ownerQueue : [SELECT Id, Email FROM Group WHERE Type = 'Queue' AND Id IN :ownerQueueList]){
                 if(ownerQueue.Email != NULL){
@@ -549,24 +656,6 @@ When Case is owned by Queue , Owner of Queue email's business hrs is considered
                                  userIdToEmailMap.put(userObj.Id, userObj.Email);
                              }
         
-        // if(!ownerUserList.isEmpty()){
-        //     for(User usrObj :[SELECT Id, Business_Hour_Id__c FROM User WHERE Email IN: ownerUserList]){
-        //         if( usrObj.Business_Hour_Id__c != NULL){
-        //             userBusinessHrMap.put(usrObj.Id, usrObj.Business_Hour_Id__c);
-        //         }
-        //     }
-        // }
-        
-        // List<user> userManagerList = [SELECT Id,
-        //                               Email,
-        //                               manager.email,
-        //                               manager.manager.email,
-        //                               manager.manager.manager.email 
-        //                               FROM User 
-        //                               WHERE Email IN :ownerEmailList];
-        // for(User u: userManagerList){
-        //     userEmailMangerMap.put(u.Email, u);
-        // }
         
         Integer index = 0;
         for(Case c: newCases){
@@ -576,7 +665,7 @@ When Case is owned by Queue , Owner of Queue email's business hrs is considered
             if(String.valueOf(owner).startsWith('005')){
                 wrapper.ownerType = 'User';
                 String emailid = userIdToEmailMap.get(c.ownerId);
-                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(owner);
+                wrapper.caseUserOwnerBusinessHoursMap = queueOwnerUserBusinessHrMap.get(emailId);
                 wrapper.ownerUserRecordorQueueOwnerEmailUserRecord =  userEmailMangerMap.get(emailId);     
             }
             else {
@@ -594,160 +683,204 @@ When Case is owned by Queue , Owner of Queue email's business hrs is considered
     }
     
     /* call this on Case update.
-This should recaluclate SLA . Time remaining SLA should be calculated.
-*/
-    public void calculateSLAOnCaseUpdate(map<Id, Case> newCases, map<Id, Case> oldCases){
+    This should recaluclate SLA . Time remaining SLA should be calculated.
+    */
+    public static Map<Id, Case> calculateSLAOnCaseUpdate(map<Id, Case> newCases, map<Id, Case> oldCases){
         
         Set<string> externalIdList = new Set<String>();
         Set<string> caseNewStatusList = new Set<String>();
         List<Case> changedCaseList = new List<Case>();
-        
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
         ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
         
-        
+        Boolean anyOwnerUpdate = false;
+        Boolean anyStageUpdate = false;
         for(Id i: newCases.keyset()){
-            //Stage Change Loop
-            if((oldCases.containsKey(i) && newCases.get(i).Stage__c != oldCases.get(i).Stage__c) || (oldCases.containsKey(i) && newCases.get(i).OwnerId != oldCases.get(i).OwnerId)){
-                resetSLAFields(newCases.get(i),oldCases.get(i));
-                
-                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved')){
+            //Stage Change Loop or change in external Id. Recategrize changes external Id
+            if(oldCases.containsKey(i) &&
+                (newCases.get(i).Stage__c != oldCases.get(i).Stage__c ||
+                newCases.get(i).OwnerId != oldCases.get(i).OwnerId || 
+                newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c)){
+                Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
+                resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
+                casesToUpdate.put(newCases.get(i).Id, updatedCase);
+                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
                     externalIdList.add(newCases.get(i).CCC_External_Id__c);    
                     caseNewStatusList.add(newCases.get(i).Stage__c);
-                    changedCaseList.add(newCases.get(i));
+                    changedCaseList.add(newCases.get(i)); 
                 }
+                if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c){anyStageUpdate=true;}
+                if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){anyOwnerUpdate=true;}
+                if(newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c){anyStageUpdate=true;anyOwnerUpdate=true;}
             }
         }
         
         if(!changedCaseList.isEmpty()){
-            map<Integer,ASF_SLABusinessHoursWrapper> resultMap = getCaseOwnerBusinessHours(oldCases,changedCaseList);
-            BusinessHours bh = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1];
+            map<Integer,ASF_SLABusinessHoursWrapper> resultMap;
+            if(anyOwnerUpdate){
+                resultMap = getCaseOwnerBusinessHours(oldCases,changedCaseList);
+            }
+            //BusinessHours bh = [SELECT id FROM businesshours WHERE IsDefault=true LIMIT 1];
             
             Integer index = 0;
             if(!changedCaseList.isEmpty()){
                 for(Case caseRec : changedCaseList){
                     Id caseId = caseRec.Id;
-                    newCases.get(caseId).BusinessHoursId  = bh.Id;
-                    if(resultMap.containsKey(index)){
+                    if(!casesToUpdate.containsKey(caseId)){
+                        casesToUpdate.put(caseId, new Case(Id=caseId));
+                    }
+                    Case updatedCase = casesToUpdate.get(caseId);
+                    updatedCase.BusinessHoursId  = caseRec.BusinessHoursId;
+                    System.debug('BH'+updatedCase.BusinessHoursId);
+                    //if(resultMap != null && resultMap.containsKey(index)){
                         //only if owner is changing , touch business hrs. else not need. 
                         /*  Stage change need not be owner change. Example : When stage is changed to approvalstage,
-then ownership retains with previous ownrr. so owner change is not happenig.
-Same with integration stages also.
-Concept is , in parking stages , there is no owner change. but stage change.
-owner change can be to user or queue. and then business hrs changes
-*/
-                        if(newCases.get(caseId).ownerId != oldCases.get(caseId).ownerId ){
-                            if(String.valueOf(newCases.get(caseId).ownerId).startsWith('005')){
-                                String userBusinessHrs = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                                if(userBusinessHrs!=null){
-                                    newCases.get(caseId).BusinessHoursId = userBusinessHrs;
-                                } 
-                            }
-                            else {
-                                String queueBusinessHrs = resultMap.get(index).caseQueueOwnerBusinessHourMap;
-                                if(queueBusinessHrs!=null){
-                                    newCases.get(caseId).BusinessHoursId = queueBusinessHrs;
-                                }
-                            }
-                        }
-                    }
+                        then ownership retains with previous ownrr. so owner change is not happenig.
+                        Same with integration stages also.
+                        Concept is , in parking stages , there is no owner change. but stage change.
+                        owner change can be to user or queue. and then business hrs changes
+                        */
+                        // if(newCases.get(caseId).ownerId != oldCases.get(caseId).ownerId ){
+                        //     if(String.valueOf(newCases.get(caseId).ownerId).startsWith('005')){
+                        //         String userBusinessHrs = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                        //         if(userBusinessHrs!=null){
+                        //             updatedCase.BusinessHoursId = userBusinessHrs;
+                        //             System.debug('BH'+updatedCase.BusinessHoursId);
+                        //         } 
+                        //     }
+                        //     else {
+                        //         String queueBusinessHrs = resultMap.get(index).caseQueueOwnerBusinessHourMap;
+                        //         if(queueBusinessHrs!=null){
+                        //             updatedCase.BusinessHoursId = queueBusinessHrs;
+                        //             System.debug('BH'+updatedCase.BusinessHoursId);
+                        //         }
+                        //     }
+                        // }
+                    //}
                     index++;
                 }
             }
-            ASF_SLAWrapper slaObject = prepareSLAConfigMap(externalIdList,caseNewStatusList);
-            map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = slaObject.externalIdStageNameCaseStageConfigMap;
-            
-            Map<String,ASF_SLAHistoryWraper> caseStageSummarizedViewMap = getCaseStageSummarizedView(newCases);
-            System.debug('caseStageSummarizedViewMap'+caseStageSummarizedViewMap);
+
+            ASF_SLAWrapper slaObject;
+            Map<String,ASF_SLAHistoryWraper> caseStageSummarizedViewMap = new Map<String,ASF_SLAHistoryWraper>();
+            if(anyStageUpdate){
+                slaObject = prepareSLAConfigMap(externalIdList,caseNewStatusList);
+                //map<string,ASF_Case_Stage_Config__c> externalIdStageNameCaseStageConfigMap = slaObject.externalIdStageNameCaseStageConfigMap;
+                
+                caseStageSummarizedViewMap = getCaseStageSummarizedView(newCases);
+                System.debug('caseStageSummarizedViewMap'+caseStageSummarizedViewMap);
+            }
             index = 0;
             for(Case caseRec : changedCaseList){
                 Id i = caseRec.Id;
+                if(!casesToUpdate.containsKey(caseRec.Id)){
+                    casesToUpdate.put(caseRec.Id, new Case(Id=caseRec.Id));
+                }
+                Case updatedCase = casesToUpdate.get(caseRec.Id);
                 string mapKey = newCases.get(i).CCC_External_Id__c + newCases.get(i).Stage__c;
-                map<string,long> slaMap = getSLAFieldValues(slaObject,newCases.get(i),oldCases.get(i));
-                Long sla1Sec,sla2Sec,sla3Sec,closeSlaSec;
-                sla1Sec = slaMap.get('sla1');
-                sla2Sec = slaMap.get('sla2');
-                sla3Sec = slaMap.get('sla3');
-                closeSlaSec = slaMap.get('caseClosureSLA');
+
+                Long sla1Sec;
+                long sla2Sec;
+                long sla3Sec;
+                long closeSlaSec;
+                if(slaObject != null){
+                    map<string,long> slaMap = getSLAFieldValues(slaObject,newCases.get(i),oldCases.get(i));
+                    
+                    sla1Sec = slaMap.get('sla1');
+                    sla2Sec = slaMap.get('sla2');
+                    sla3Sec = slaMap.get('sla3');
+                    closeSlaSec = slaMap.get('caseClosureSLA');
+                }
                 long slaIdentifier = 3600000;
-                // if(externalIdStageNameCaseStageConfigMap.containsKey(mapKey)){
-                //     //in case of conversion from preframework to framework 
-                //     if(newCases.get(i).Overall_Case_Closure_SLA__c ==null){
-                //         if(externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c != null){
-                //             newCases.get(i).Overall_Case_Closure_SLA__c = BusinessHours.add(newCases.get(i).BusinessHoursId,newCases.get(i).Case_Stage_Change_Date__c,Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c)* slaIdentifier );
-                //             percntCls.setOverallPercSLAFields(Integer.valueOf(externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c)* slaIdentifier,bh,newCases.get(i).Case_Stage_Change_Date__c,newCases.get(i));
-                //             percntCls.setStagePercSLAFields(closeSlaSec,businessHrsusedForcalcuation,newCases.get(i).Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(string.valueOf(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent/1000).substringBefore('.'))),newCases.get(i));
-                //         }
-                //     }
-                // } 
-                
-                newCases.get(i).Stage_SLA_1__c = null; 
-                newCases.get(i).Stage_SLA_2__c = null; 
-                newCases.get(i).Stage_SLA_3__c = null; 
+             
+                if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
+                    //When case is recategorizzed. Take difference between Case created date.
+                    //this is slightly different during case insert where we take systemnow
+                    //when external id is changed , case can get changed after 2 days , so take 
+                    //created date,.
+                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                }
+
+                // updatedCase.Stage_SLA_1__c = null; 
+                // updatedCase.Stage_SLA_2__c = null; 
+                // updatedCase.Stage_SLA_3__c = null; 
                 String businessHrsusedForcalcuation ; 
                 
                 //owner change or Stage change . enter
-                if(caseStageSummarizedViewMap.isEmpty() || !caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c)
-                   || caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent < sla1Sec){
-                       if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c || newCases.get(i).OwnerId != oldCases.get(i).OwnerId ){
-                           if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){
-                               businessHrsusedForcalcuation = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                           } 
-                           else {
-                               businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
-                           }
-                           if(businessHrsusedForcalcuation == null){
-                                businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
-                           }
-                           String timeSpent = '0';
-                           long timeSpentInLong = 0;
-                           long overallTimeSpent = 0;
-                           if(caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) 
-                              && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent < sla1Sec){
-                                  timeSpent = string.valueOf(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent/1000).substringBefore('.');
-                                  timeSpentInLong = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent == null?0:
-                                  caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent;
-                              }
-                           if(caseStageSummarizedViewMap.containsKey('overallTimeSpent')){
-                               overallTimeSpent = caseStageSummarizedViewMap.get('overallTimeSpent').totalTimeSpent;
-                           }
-                           if(closeSlaSec != null){
-                               newCases.get(i).Overall_Case_Closure_SLA__c = BusinessHours.add(newCases.get(i).BusinessHoursId,newCases.get(i).Case_Stage_Change_Date__c, closeSlaSec);
-                               percntCls.setOverallPercSLAFields(closeSlaSec,businessHrsusedForcalcuation,newCases.get(i).Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),newCases.get(i));
-                           }
-                           if(sla1Sec != null){
-                               newCases.get(i).Stage_SLA_1__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
-                               percntCls.setStagePercSLAFields(sla1Sec,businessHrsusedForcalcuation,newCases.get(i).Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),newCases.get(i));
-                           } 
-                           if(sla2Sec != null){
-                               newCases.get(i).Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
-                           }
-                           if(sla3Sec != null){
-                               newCases.get(i).Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation, newCases.get(i).Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
-                           }      
-                       }
-                   }
+                if(caseStageSummarizedViewMap.isEmpty() 
+                || !caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c)
+                || (sla1Sec != null && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent < sla1Sec)){
+                    if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c 
+                    || newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c  ){
+                    // if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){
+                    //    if(String.valueOf(newCases.get(i).ownerId).startsWith('005')){
+                    //        businessHrsusedForcalcuation = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                    //        System.debug('BH'+businessHrsusedForcalcuation);
+                    //    }else{
+                    //        businessHrsusedForcalcuation = resultMap.get(index).caseQueueOwnerBusinessHourMap;
+                    //        System.debug('BH'+businessHrsusedForcalcuation);
+                    //    }
+                    // } 
+                    // else {
+                    //     businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
+                    //     System.debug('BH'+businessHrsusedForcalcuation);
+                    // }
+                    // if(businessHrsusedForcalcuation == null){
+                    //     businessHrsusedForcalcuation = newCases.get(i).BusinessHoursId;
+                    // }
+                        String timeSpent = '0';
+                        long timeSpentInLong = 0;
+                        long overallTimeSpent = 0;
+                        if(caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) 
+                            && sla1Sec != null && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent < sla1Sec){
+                                timeSpent = string.valueOf(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent/1000).substringBefore('.');
+                                timeSpentInLong = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent == null?0:
+                                caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent;
+                            }
+                        if(caseStageSummarizedViewMap.containsKey(caseRec.Id+'overallTimeSpent')){
+                            overallTimeSpent = caseStageSummarizedViewMap.get(caseRec.Id+'overallTimeSpent').totalTimeSpent;
+                        }
+                        if(closeSlaSec != null){
+                            updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
+                            percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
+                        }
+                        if(sla1Sec != null){
+                            updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
+                            percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
+                        } 
+                        if(sla2Sec != null){
+                            updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
+                        }
+                        if(sla3Sec != null){
+                            updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla3Sec - timeSpentInLong));
+                        }      
+                    }
+                }
                 //Loop to check if the Case Id + Stage__c consumed is more than SLA 1
-                else if(caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent > sla1Sec){
+                else if(sla1Sec != null && caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent > sla1Sec){
                     if(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime != null){
                         //On SLA 1 get the Violation Date Time populated when SLA 1 is breached through flow
-                        newCases.get(i).Stage_SLA_1__c = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.Stage_Violation_Start_Date__c ;
-                        percntCls.setStagePercSLAFields(sla1Sec,caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c,newCases.get(i).Stage_SLA_1__c,newCases.get(i));
+                        updatedCase.Stage_SLA_1__c = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.Stage_Violation_Start_Date__c ;
+                        percntCls.setStagePercSLAFields(sla1Sec,caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c,newCases.get(i).Stage_SLA_1__c,updatedCase);
                         //To check if stage is same and owner is changed
-                        if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId && sla2Sec != null && sla3Sec != null){
-                            string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                        if(sla2Sec != null && sla3Sec != null){
+                            // string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
+                            // if (businessHrsusedForcalcuation1 == null){
+                            //     businessHrsusedForcalcuation1 = bh.id; 
+                            // }
                             if(sla2Sec != null){
-                                newCases.get(i).Stage_SLA_2__c = BusinessHours.add(businessHrsusedForcalcuation1, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
+                                updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
                             }
                             if(sla3Sec != null){
-                                newCases.get(i).Stage_SLA_3__c = BusinessHours.add(businessHrsusedForcalcuation1, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
+                                updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
                             } 
                         }
                         else if(newCases.get(i).Stage__c != oldCases.get(i).Stage__c){
                             if(sla2Sec != null){
-                                newCases.get(i).Stage_SLA_2__c = BusinessHours.add(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
+                                updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla2Sec - sla1Sec));
                             }
                             if(sla3Sec != null){
-                                newCases.get(i).Stage_SLA_3__c = BusinessHours.add(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
+                                updatedCase.Stage_SLA_3__c = BusinessHours.add(updatedCase.BusinessHoursId, newCases.get(i).Stage_SLA_1__c, (sla3Sec - sla1Sec));
                             }
                         }
                     }
@@ -774,20 +907,24 @@ owner change can be to user or queue. and then business hrs changes
                     //     }      
                     // }
                 }
-                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
-                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                        newCases.get(i).SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        newCases.get(i).SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                if(resultMap != null){
+                    ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                            updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                            updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                        }
+                        if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                            updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                        }
                     }
                 }
                 index++;
             }
         }
+
+        return casesToUpdate;
     }    
 }

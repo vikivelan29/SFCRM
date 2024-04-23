@@ -1,4 +1,4 @@
-name: Deploy To Environment
+name: Deploy To Environment 
 description: Deploys to a specified environment
 
 inputs:

@@ -22,9 +22,8 @@ private class ASF_CasemergeControllerTest {
         mastercaseRec.Status ='New';
         caseRec.SuppliedEmail ='test@salesforce.com';
         cList.add(mastercaseRec);
-        Insert cList;  
-    }
-    
+                Insert cList;
+            }
     @isTest static void testfetchCases() {
         test.startTest();
         list<Case> caseRecords =[Select Id,CaseNumber,Stage__c,Status,Subject,Origin,SuppliedEmail from Case];
@@ -33,10 +32,12 @@ private class ASF_CasemergeControllerTest {
         list<Case> selectedCase =new List<Case>();
         selectedCase.add(caseRecords[1]);
        // selectedCase.add(caseRecords[2]);
+        List<Id> caseIdList = new List<Id>();
+        caseIdList.add(caseRecords[1].Id);
         ASF_CasemergeController cntrlr=new ASF_CasemergeController();
-        ASF_CasemergeController.mergeCases(selectedCase,masterCase.Id);
+        ASF_CasemergeController.mergeCases(selectedCase,masterCase.Id,caseIdList);
         try{
-            ASF_CasemergeController.mergeCases(selectedCase,masterCase.CaseNumber);
+            ASF_CasemergeController.mergeCases(selectedCase,masterCase.CaseNumber,caseIdList);
         }
         catch(exception ex){
             system.assertNotEquals(null, ex.getMessage());

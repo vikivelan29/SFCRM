@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlatformEventChannelMember xmlns="http://soap.sforce.com/2006/04/metadata">
+    <eventChannel>CommunicationChannel__chn</eventChannel>
+    <selectedEntity>Outbound_Communication__e</selectedEntity>
+</PlatformEventChannelMember>

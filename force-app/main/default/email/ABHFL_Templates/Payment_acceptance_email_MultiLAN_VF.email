@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Payment Details // Payment received Successfully" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Payment acceptance email MultiLAN"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

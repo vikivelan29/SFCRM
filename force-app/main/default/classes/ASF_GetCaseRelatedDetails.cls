@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
     //getAssetDetails
@@ -67,7 +68,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
         List<CaseFieldConfigWrapper> fieldsConfiglst = new List<CaseFieldConfigWrapper>(); 
         Map<Id, CaseFieldConfigWrapper> fieldConfigMap = new Map<Id, CaseFieldConfigWrapper>();
         
-        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, Controlling_field__c, Controlling_Experssion__c, Default_Value__c,Default_Type__c, Case_Category_Config__c,Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Controlling_Formula__c  FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
+        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, Controlling_field__c, Controlling_Experssion__c, Default_Value__c,Default_Type__c, Case_Category_Config__c,Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Controlling_Formula__c,Searchable_Picklist__c  FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
         system.debug('orderfieldConfigRecords '+fieldConfigRecords);        
         for(ASF_Case_Field_Config__c config : fieldConfigRecords){
             
@@ -82,8 +83,16 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.UpdateAt = config.Update__c;
             item.controllingFormula = config.Controlling_Formula__c;
             item.useControllingFormula = config.Use_Controlling_Formula__c;
+            item.bSearchablePicklist = false;
+            item.bMultiSelectSearchablePicklist = false;
             
-            
+            if(config.Field_Type__c == 'LOV' && config.Searchable_Picklist__c == true){
+                item.bSearchablePicklist = true;
+            }
+            else if(config.Field_Type__c == 'Multi-Select LOV' && config.Searchable_Picklist__c == true){
+                item.bMultiSelectSearchablePicklist = true;
+            }
+
             if (config.update__c != null)
                 item.UpdateAtList = config.update__c.split(',');
             else
@@ -99,7 +108,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.isSensitive = config.Sensitive_field__c;
             item.FieldLabelName = getLabelfromAPIName(config.ObjectAPIName__c,config.FieldAPIName__c);
             // System.debug(config.Update__c + config.Update__c.contains(status));
-            
+            item.ReadOnly = false;
             if(item.UpdateAtList != null && item.UpdateAtList.size() > 0 ){ 
                 if(item.UpdateAtList.contains(status) && config.Controlling_field__c == null){
                     item.ReadOnly = false;
@@ -108,7 +117,9 @@ public without sharing class ASF_GetCaseRelatedDetails {
                     item.ReadOnly = true;
                 }
             }
-            
+            Schema.DescribeFieldResult dfr = Schema.getGlobalDescribe().get(config.ObjectAPIName__c).getDescribe().fields.getMap().get(config.FieldAPIName__c).getDescribe();
+            item.ReadOnly = item.ReadOnly?item.ReadOnly:!dfr.isUpdateable();
+
             if(item.RequiredAtList != null && item.RequiredAtList.size() >0 ){   
                 if(item.RequiredAtList.contains(status) && config.Controlling_field__c == null){
                     item.Required = true;
@@ -159,12 +170,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
         for(String rec : newList){
             //Schema.SobjectField eachField;
             if(String.isBlank(soql)){
-                soql = rec;
+                soql = String.escapeSingleQuotes(rec);
             }else{
-                soql = soql+', '+rec;
+                soql = String.escapeSingleQuotes(soql+', '+rec);
             }
         }
-        soql = 'SELECT '+ soql +' FROM Case WHERE Id =: caseId ';
+        soql = String.escapeSingleQuotes('SELECT '+ soql +' FROM Case WHERE Id =: caseId ');
         System.debug('SOQL is: '+soql);
         List<Sobject> queryResponseList = new List<Sobject>();
         queryResponseList = Database.query(soql); 
@@ -302,7 +313,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     @AuraEnabled(cacheable= true)
     public static List<ASF_Checklist__c> getPendingChecklists(string caseId){
-        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c from ASF_Checklist__c where Case__c  =: caseId];
+        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
     }
     @AuraEnabled(cacheable= true)
     public static List< ASF_Case_Approv__c > getCaseApprovalRecords(string caseId){
@@ -333,12 +344,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateCheckList(List<ASF_Checklist__c> recordUpdate){
-        Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateChecklistRecords.putall(recordUpdate);         
-        }
+    public static void updateCheckList(Map<Id,ASF_Checklist__c> updateChecklistRecords){
+        //Map<Id,ASF_Checklist__c> updateChecklistRecords = new Map<Id,ASF_Checklist__c>();
+        system.debug('receivedPara '+ updateChecklistRecords);
+        // if(!recordUpdate.isEmpty()){
+        //     updateChecklistRecords.putall(recordUpdate);         
+        // }
         if(updateChecklistRecords.size()>0){
             update updateChecklistRecords.values();
         }
@@ -346,12 +357,12 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     
     @AuraEnabled
-    public static void updateTask(List<Task> recordUpdate){
-        Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
-        system.debug('receivedPara '+ recordUpdate);
-        if(!recordUpdate.isEmpty()){
-            updateTaskRecords.putall(recordUpdate);         
-        }
+    public static void updateTask(Map<Id,Task> updateTaskRecords){
+        // Map<Id,Task> updateTaskRecords = new Map<Id,Task>();
+        // system.debug('receivedPara '+ recordUpdate);
+        // if(!recordUpdate.isEmpty()){
+        //     updateTaskRecords.putall(recordUpdate);         
+        // }
         if(updateTaskRecords.size()>0){
             update updateTaskRecords.values();
         }

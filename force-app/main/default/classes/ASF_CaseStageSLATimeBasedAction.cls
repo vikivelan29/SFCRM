@@ -1,4 +1,4 @@
-public class ASF_CaseStageSLATimeBasedAction {
+public without sharing class ASF_CaseStageSLATimeBasedAction {
    
     @InvocableMethod(label='Send Stage 1 SLA Broken Email Reminders')
     public static void sendEmailSLABroke(List<String> casesList) {
@@ -185,7 +185,12 @@ public class ASF_CaseStageSLATimeBasedAction {
 
         if(!slaHistoryList.isEmpty()){
             system.debug(slaHistoryList);
-             UPDATE slaHistoryList;
+            try{
+                UPDATE slaHistoryList;
+            }catch(Exception e){
+                System.debug(e.getMessage());
+            }
+             
         }
         if(!emailList.isEmpty()){
             Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

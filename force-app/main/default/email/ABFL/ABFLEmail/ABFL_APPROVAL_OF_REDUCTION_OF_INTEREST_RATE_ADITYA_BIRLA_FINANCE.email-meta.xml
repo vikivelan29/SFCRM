@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>APPROVAL OF REDUCTION OF INTEREST RATE - ADITYA BIRLA FINANCE</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Your request for reduction of rate of interest is approved!</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

@@ -1,4 +1,4 @@
-public class ASF_ContactTriggerHelper {
+public without sharing class ASF_ContactTriggerHelper {
     
     public void updatePrimaryFlagOnContact(Map<Id,Contact> newMap){
         Set<Id> accountId = new Set<Id>();

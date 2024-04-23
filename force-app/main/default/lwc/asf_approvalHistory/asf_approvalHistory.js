@@ -18,7 +18,7 @@ import {
   extractErrorMessage,
   modalStates,
   displayToastErrorQuery
-} from "./approvalHistoryUtil.js";
+} from "./approvalHistoryUtil";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { refreshApex } from "@salesforce/apex";
 

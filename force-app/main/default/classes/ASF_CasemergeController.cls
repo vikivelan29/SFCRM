@@ -15,29 +15,28 @@ public with sharing class ASF_CasemergeController {
         }
     }
     @AuraEnabled
-    public static string mergeCases(list<Case> selectedRec,String masterRecId){
+    public static string mergeCases(list<Case> selectedRec,String masterRecId, List<Id> selectedCaseIdList){
         try {
+            updateCaseParentId(selectedCaseIdList, masterRecId);
             Case masterCase =[select id from case where id=:masterRecId];
             
             list<Id> selectCaseIds =new list<Id>();
-            list<Case> casesToUpdate =[Select Id,Status From Case Where Id IN:selectedRec FOR UPDATE];
+            list<Case> casesToUpdate =[Select Id,Status,ParentId From Case Where Id IN:selectedRec FOR UPDATE];
                         
             for(case caseRec :casesToUpdate){
                 caseRec.Status ='Merged';
-                caseRec.ParentId =masterRecId;
             }
-            
             Database.MergeResult[] results  = Database.merge(masterCase, casesToUpdate, false);
             for(Database.MergeResult result : results){
                 if(!result.isSuccess()){
                     for(Database.Error err : result.getErrors()){
-                        System.debug(err.getMessage());
+                        System.debug('ERROR--'+err.getMessage());
                         throw new DMLException(err.getMessage());
                     }
                 }
-            }
-            update casesToUpdate;
-            return 'Success';
+            } 
+            //update casesToUpdate; 
+            return 'Success'; 
         } 
         catch (Exception e) {
             //Nebula.LogMessage msg = new Nebula.LogMessage('Failed to Merge Cases', System.today());
@@ -45,5 +44,14 @@ public with sharing class ASF_CasemergeController {
             //Nebula.Logger.saveLog();
             throw e;
         }
+    }
+    @AuraEnabled
+    public static void updateCaseParentId(List<Id> selectedCaseIdList, String newParentId) {
+        List<Case> caseListToUpdate = new List<Case>();
+        for(Case caseRec : [SELECT Id FROM Case WHERE Id IN: selectedCaseIdList]){
+            caseRec.ParentId = newParentId;
+            caseListToUpdate.add(caseRec);
+        }
+        update caseListToUpdate;
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IO_views__c</fullName>
+    <externalId>false</externalId>
+    <label>IO views</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ABFL decision upheld</fullName>
+                <default>false</default>
+                <label>ABFL decision upheld</label>
+            </value>
+            <value>
+                <fullName>ABFL decision over-ruled</fullName>
+                <default>false</default>
+                <label>ABFL decision over-ruled</label>
+            </value>
+            <value>
+                <fullName>ABFL decision amended</fullName>
+                <default>false</default>
+                <label>ABFL decision amended</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Disbursement History</label>
+    <protected>false</protected>
+    <values>
+        <field>Included_Fields__c</field>
+        <value xsi:type="xsd:string">DISBRUSMENT_DATE:DISBURSEMENT DATE,AMOUNT:DISBURSEMENT AMOUNT,BENIFICIARY_NAME:BENEFICIARY NAME</value>
+    </values>
+    <values>
+        <field>Section_Field_Api_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Field_Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Fields__c</field>
+        <value xsi:type="xsd:string">Created On,Date of Disbursement,Disbursed Amount,Disbursement No,Disbursement Type,LOB,Loan Account No,Loan Schedule,Modified On,System</value>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
+        <value xsi:type="xsd:string">Disbursement Details</value>
+    </values>
+    <values>
+        <field>Section_Name__c</field>
+        <value xsi:type="xsd:string">disbursementDetails</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Outer</value>
+    </values>
+    <values>
+        <field>Visible__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>isTabular__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

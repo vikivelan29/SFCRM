@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Name_Validation_2</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(AND(ISPICKVAL($User.Business_Unit__c ,&apos;ABHFL&apos;),ISPICKVAL(ABHFL_Prospect_Type__c, &apos;Individual&apos;)), 
+			IF(Company != null, true, false), false)</errorConditionFormula>
+    <errorMessage>Company should be blank for Individual prospect</errorMessage>
+</ValidationRule>

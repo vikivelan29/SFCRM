@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_KANCHI_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL KANCHI</label>
+  <queue>ABHFL_KANCHI</queue>
+  <sharedTo>
+    <group>ABHFL_KANCHI_G</group>
+  </sharedTo>
+</ListView>

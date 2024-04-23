@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disposition__c</fullName>
+    <description>This field will be provided by WhatsApp using Ebot.</description>
+    <externalId>false</externalId>
+    <label>Disposition</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Account deactivation</fullName>
+                <default>false</default>
+                <label>Account deactivation</label>
+            </value>
+            <value>
+                <fullName>Account status</fullName>
+                <default>false</default>
+                <label>Account status</label>
+            </value>
+            <value>
+                <fullName>Payment link request</fullName>
+                <default>false</default>
+                <label>Payment link request</label>
+            </value>
+            <value>
+                <fullName>Charges related</fullName>
+                <default>false</default>
+                <label>Charges related</label>
+            </value>
+            <value>
+                <fullName>Payment related</fullName>
+                <default>false</default>
+                <label>Payment related</label>
+            </value>
+            <value>
+                <fullName>Bureau related</fullName>
+                <default>false</default>
+                <label>Bureau related</label>
+            </value>
+            <value>
+                <fullName>Waiver/ Refund requests</fullName>
+                <default>false</default>
+                <label>Waiver/ Refund requests</label>
+            </value>
+            <value>
+                <fullName>Limit related</fullName>
+                <default>false</default>
+                <label>Limit related</label>
+            </value>
+            <value>
+                <fullName>NOC request</fullName>
+                <default>false</default>
+                <label>NOC request</label>
+            </value>
+            <value>
+                <fullName>Demographic related</fullName>
+                <default>false</default>
+                <label>Demographic related</label>
+            </value>
+            <value>
+                <fullName>Technical issues on APP</fullName>
+                <default>false</default>
+                <label>Technical issues on APP</label>
+            </value>
+            <value>
+                <fullName>Collection related</fullName>
+                <default>false</default>
+                <label>Collection related</label>
+            </value>
+            <value>
+                <fullName>Fraud related</fullName>
+                <default>false</default>
+                <label>Fraud related</label>
+            </value>
+            <value>
+                <fullName>Limit enhanced- unable to use</fullName>
+                <default>false</default>
+                <label>Limit enhanced- unable to use</label>
+            </value>
+            <value>
+                <fullName>Payment made- not reflecting in App</fullName>
+                <default>false</default>
+                <label>Payment made- not reflecting in App</label>
+            </value>
+            <value>
+                <fullName>Unable to transact</fullName>
+                <default>false</default>
+                <label>Unable to transact</label>
+            </value>
+            <value>
+                <fullName>Statement of Account Request</fullName>
+                <default>false</default>
+                <label>Statement of Account Request</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

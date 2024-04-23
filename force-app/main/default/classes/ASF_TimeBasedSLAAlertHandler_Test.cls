@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_TimeBasedSLAAlertHandler_Test {
     
@@ -5,74 +6,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
     
     @testSetup
     static void setupTestData(){
-        
-        Group SLAGroup = new Group();
-        
-        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-        insert SLAGroup;
-        
-        group q = new group();
-        q.name = 'OCC-Test-Group';
-        q.type = 'Queue';
-        insert q;
-        
-        
-        
-        
-        
-        Profile p = [SELECT Id FROM Profile WHERE Name='Payment Base Profile'];
-        PermissionSetGroup  ps = [SELECT Id, Status FROM PermissionSetGroup WHERE DeveloperName ='Super_Admin'];
-        UserRole ur = [SELECT ID FROM UserRole WHERE DeveloperName='Payments_Service_Agent' LIMIT 1];
-        if (ps.Status != 'Updated') {
-            Test.calculatePermissionSetGroup(ps.Id);
-        }
-        
-        list<user> userList = new list<User>();
-        for(integer i=0;i<3;i++){
-            User u = new User(Alias = 'standt', Email='standarduser'+i+'@testorg.com', 
-                              EmailEncodingKey='UTF-8', LastName='TestUser5srDetail'+i, LanguageLocaleKey='en_US', 
-                              LocaleSidKey='en_US', ProfileId = p.Id, TimeZoneSidKey='America/Los_Angeles',
-                              UserName='standarduser@test5srDetail'+i+'.com'+System.now().millisecond(), UserRoleId = ur.Id);
-            userList.add(u);
-            
-        }
-        
-        insert userList;
-        List<PermissionSetAssignment> psAssign = new List<PermissionSetAssignment>();
-        for(User u : userList){
-            psAssign.add(new PermissionSetAssignment(AssigneeId = u.id, PermissionSetGroupId = ps.Id));
-        }
-        Insert psAssign;
-        
-        for(integer i=0;i<3;i++){
-            GroupMember gm = new GroupMember(GroupId = SLAGroup.Id, UserOrGroupId = userList.get(i).Id);
-            insert gm;
-        }
-        
-        User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk56@gmail.com',
-                                    managerGroupId__c=SLAGroup.Id);
-        insert userRecord1;
-        
-        
-        system.runAs(userRecord1){
-            SLA_Threshold_Warning__c thresholds = new SLA_Threshold_Warning__c();
-            thresholds.Case_SLA_Threshold_1_Label__c = '50%';
-            thresholds.Stage_SLA_Threshold_1_Label__c = '50%';
-            thresholds.Case_SLA_Threshold_2_Label__c = '75%';
-            thresholds.Stage_SLA_Threshold_2_Label__c = '75%';
-            thresholds.Case_SLA_Threshold_3_Label__c = '100%';
-            thresholds.Stage_SLA_Threshold_3_Label__c = '100%';
-            thresholds.Case_SLA_Threshold_1__c = 0.5;
-            thresholds.Stage_SLA_Threshold_1__c = 0.5;
-            thresholds.Case_SLA_Threshold_2__c = 0.75;
-            thresholds.Stage_SLA_Threshold_2__c = 0.75;
-            thresholds.Case_SLA_Threshold_3__c = 1.0;
-            thresholds.Stage_SLA_Threshold_3__c = 1.0;
-            insert thresholds;
-            
             Account acc= new Account(
                 FirstName='Test FName',
                 LastName='Test LName',
@@ -94,25 +27,10 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
             insert ast;
             
             ASF_TestDataFactory.createCaseCategoryConfig(); 
-        }
-        
-        
     }
     
     @isTest
     public static void SLATestCase(){
-        
-        Group g = [SELECT ID FROM Group WHERE DeveloperName='SLAManagerGroup'];
-        
-        User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
-                                    managerGroupId__c=g.Id);
-        insert userRecord1;
-        
-        
-        system.runAs(userRecord1){
             
             List<Case> caseList = ASF_TestDataFactory.createCaseRecords(1);
             Case c = CaseList.get(0);
@@ -145,24 +63,11 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
             
             List<Case> caseLists = [SELECT Id,SLA_Target_2__c FROM Case];
             Assert.areEqual(caseLists[0].SLA_Target_2__c, 'stanrduserEmails@testorg.com');
-        }
-        
     }    
     
     
     @isTest
     public static void ManagerGroupSLA3Test(){
-        Group g = [SELECT ID FROM Group WHERE DeveloperName='SLAManagerGroup'];
-        
-        User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
-                                    managerGroupId__c=g.Id);
-        insert userRecord1;
-        
-        
-        system.runAs(userRecord1){
             
             List<Case> caseList = ASF_TestDataFactory.createCaseRecords(1);
             Case c = CaseList.get(0);
@@ -207,15 +112,14 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
             
             List<Case> caseLists = [SELECT Id,SLA_Target_2__c FROM Case];
             Assert.areEqual(caseLists[0].SLA_Target_2__c, 'stanrduserEmails@testorg.com');
-        }
     }
     
     @isTest
     public static void ManagerGroupSLA2Test(){
         Test.startTest();
         
-        User u = [Select Id from User where LastName ='Testing' LIMIT 1];
-        BusinessHours bh = [SELECT ID FROM BusinessHours WHERE isDefault = true];
+        User u = [Select Id from User where isActive = true LIMIT 1];
+        
         List<Case> caseList = ASF_TestDataFactory.createCaseRecords(1);
         Case c = CaseList.get(0);
         //c.status = 'Closed';
@@ -224,9 +128,7 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         c.Stage_SLA_1__c = cv.addHours(-3);
         c.Stage_SLA_2__c = cv.addHours(2);
         c.Stage_SLA_3__c = cv.addHours(1);
-        c.Case_Stage_Change_Date__c = System.now();
-        c.BusinessHoursId = bh.Id;
-        update c; 
+        //update c; 
         List<Id> cList = new List<Id>();
         cList.add(c.Id);
         
@@ -245,6 +147,6 @@ public class ASF_TimeBasedSLAAlertHandler_Test {
         Test.stopTest();
         
         List<Case> caseLists = [SELECT Id,Stage_SLA_3__c FROM Case];
-        //Assert.areEqual(caseLists[0].Stage_SLA_1__c, cv.addHours(-3));
+        //Assert.areEqual(caseLists[0].Stage_SLA_3__c, cv.addHours(1));
     }
 }

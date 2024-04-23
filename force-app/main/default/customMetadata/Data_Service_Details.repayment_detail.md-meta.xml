@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Repayment Details</label>
+    <protected>false</protected>
+    <values>
+        <field>Included_Fields__c</field>
+        <value xsi:type="xsd:string">BANK_NAME:Bank Name,EMI_START_DATE:EMI Start Date,ACCOUNT_NO:Account Number,EMI_END_DATE:EMI End Date,EMI_AMOUNT:EMI Amount,REPAYMENT_MODE:Repayment Mode</value>
+    </values>
+    <values>
+        <field>Section_Field_Api_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Field_Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Section_Fields__c</field>
+        <value xsi:type="xsd:string">Bank Name,EMI Start Date,Account Number,EMI End Date,EMI Amount,Repayment Mode</value>
+    </values>
+    <values>
+        <field>Section_Label__c</field>
+        <value xsi:type="xsd:string">Repayment Details</value>
+    </values>
+    <values>
+        <field>Section_Name__c</field>
+        <value xsi:type="xsd:string">repaymentDetails</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Outer</value>
+    </values>
+    <values>
+        <field>Visible__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>isTabular__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Datetime__c</fullName>
+    <description>This field is used to stamp the survey request date-time. Value to come from API call from Litmus.</description>
+    <externalId>false</externalId>
+    <label>Request Datetime</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

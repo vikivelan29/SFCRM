@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>ABHFL PUSHKAR BUSINESS PARK # AHMEDABAD</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHFL_PUSHKAR_BUSINESS_PARK_AHMEDABAD_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

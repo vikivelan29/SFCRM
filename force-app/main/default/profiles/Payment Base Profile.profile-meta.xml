@@ -10,6 +10,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_BulkCsvController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkDownloadVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_BulkUploadUtilityController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_CaseDeDupeCheckLWC_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -401,10 +413,7 @@
         <apexClass>ASF_OwnerShipChange</apexClass>
         <enabled>false</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_OwnerShipChangeTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
+    
     <classAccesses>
         <apexClass>ASF_PreFrameworkSLA</apexClass>
         <enabled>false</enabled>
@@ -622,12 +631,7 @@
         <editable>false</editable>
         <field>ABFL_Case_Detail__c.Contact_Details__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABFL_Case_Detail__c.CustomerNo__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>ABFL_Case_Detail__c.Customer_Type__c</field>
@@ -736,16 +740,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Creator_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_6__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHFL_Case_Detail__c.Disbursal_Check__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3480,11 +3474,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Customer__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LAN_Mapping__c.LAN__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3496,11 +3485,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>LAN_Mapping__c.Old_LAN_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>LAN_Mapping__c.Unique_Key__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4210,6 +4194,26 @@
         <endAddress>103.144.216.50</endAddress>
         <startAddress>103.144.216.50</startAddress>
     </loginIpRanges>
+<loginIpRanges>
+        <description>Concentrix IP 10</description>
+        <endAddress>116.90.246.101</endAddress>
+        <startAddress>116.90.246.101</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 8</description>
+        <endAddress>125.18.7.131</endAddress>
+        <startAddress>125.18.7.131</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 9</description>
+        <endAddress>125.18.7.140</endAddress>
+        <startAddress>125.18.7.140</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 5</description>
+        <endAddress>125.18.9.206</endAddress>
+        <startAddress>125.18.9.193</startAddress>
+    </loginIpRanges>
     <loginIpRanges>
         <description>Concentrix IP 1</description>
         <endAddress>172.16.98.254</endAddress>
@@ -4219,6 +4223,21 @@
         <description>Concentrix IP 2</description>
         <endAddress>172.25.62.254</endAddress>
         <startAddress>172.25.62.0</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 6</description>
+        <endAddress>219.64.15.33</endAddress>
+        <startAddress>219.64.15.33</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 7</description>
+        <endAddress>219.64.15.34</endAddress>
+        <startAddress>219.64.15.34</startAddress>
+    </loginIpRanges>
+    <loginIpRanges>
+        <description>Concentrix IP 4</description>
+        <endAddress>219.64.15.62</endAddress>
+        <startAddress>219.64.15.49</startAddress>
     </loginIpRanges>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -4267,6 +4286,14 @@
     </objectPermissions>
     <pageAccesses>
         <apexPage>NonEssentialsMobileLanding</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
@@ -4421,7 +4448,7 @@
         <enabled>true</enabled>
         <name>ExportReport</name>
     </userPermissions>
-    <userPermissions>
+<userPermissions>
         <enabled>true</enabled>
         <name>IsSsoEnabled</name>
     </userPermissions>
@@ -4461,11 +4488,7 @@
         <enabled>true</enabled>
         <name>SubmitMacrosAllowed</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>SubscribeToLightningReports</name>
-    </userPermissions>
-    <userPermissions>
+        <userPermissions>
         <enabled>true</enabled>
         <name>TransactionalEmailSend</name>
     </userPermissions>

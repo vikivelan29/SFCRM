@@ -91,7 +91,7 @@ public class ASF_GetCaseRelatedDetails_Test {
         //insert c2;
         
         // Case c3 = new Case(PAY_Payment_Detail__c =payDetails.Id,AccountId=acc.Id,Subject='Test Case',Source__c='CEC',CCC_External_Id__c='TestExternalId3',Stage__c='In Progress with CEC');
-        Case c3 = new Case(PAY_Payment_Detail__c =payDetails.Id,AccountId=acc.Id,Subject='Test Case',Source__c='CEC',CCC_External_Id__c='CCC-CC-RC-01',Stage__c='In Progress with CEC');
+        Case c3 = new Case(PAY_Payment_Detail__c =payDetails.Id,AccountId=acc.Id,Subject='Test Case',Source__c='Customer Portal',CCC_External_Id__c='CCC-CC-RC-01',Stage__c='In Progress with CEC');
         insert c3;
         
         // Case c4 = new Case(PAY_Payment_Detail__c =payDetails.Id,AccountId=acc.Id,Subject='Test Case',Source__c='RL Branch',CCC_External_Id__c='TestExternalId3',Stage__c='Pending Clarification');
@@ -277,8 +277,8 @@ public class ASF_GetCaseRelatedDetails_Test {
         ASF_GetCaseRelatedDetails.updateChecklistComment(chk1.Id,'comments');
         ASF_GetCaseRelatedDetails.updateTaskRecordsComment(task1.Id, 'comments');
         //ASF_GetCaseRelatedDetails.changeOwnership(task1.Id);
-        ASF_GetCaseRelatedDetails.updateCheckList(lstCheck);
-        ASF_GetCaseRelatedDetails.updateTask(lstTask);
+        ASF_GetCaseRelatedDetails.updateCheckList(new Map<Id,ASF_Checklist__c>(lstCheck));
+        ASF_GetCaseRelatedDetails.updateTask(new Map<Id, Task>(lstTask));
 		System.assertEquals('CCC-CC-RC-01', caseRecord.CCC_External_Id__c);
         //GetCaseRelatedDetails.getLatestApprovalRecord(caseRecord.Id);
        
