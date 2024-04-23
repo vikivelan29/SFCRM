@@ -64,7 +64,7 @@ const setSelectedAccount = async(event, parentJS) => {
         .then(result => {
             parentJS.asstData = result.asstList;
             parentJS.initialRecords = result.asstList;
-            console.log('asset data--' + JSON.stringify(parentJS.asstData));
+            //console.log('asset data--' + JSON.stringify(parentJS.asstData));
             if(parentJS.asstData.length <=0){
                 // CODE TO CHECK IF THE CUSTOMER IS NOT HAVING ASSET, THEN IF THE CURRENT CTST IS ELIGIBLE FOR UPDATE OR NEED RECATEGORISATION.
                 validateIfCustomerOrProspectValid(event,parentJS);
@@ -82,7 +82,7 @@ const setSelectedAsset= async (event,parentJS)=>{
     parentJS.assetId = row[0].Id;
     parentJS.selectedLoanAccNumber = row[0].LAN__c;
     parentJS.assetLOB = row[0].LOB__c;
-    console.log('sekectd asset--'+JSON.stringify(parentJS.selectedAsset));
+    //console.log('sekectd asset--'+JSON.stringify(parentJS.selectedAsset));
     if(parentJS.selectedAsset != undefined && parentJS.selectedAsset != null){
         // CHECK IF THE ASSET IS ELIGIBLE FOR THE CURRENT CTST.
          await validateAccountAndAssetWithCTST({
@@ -117,7 +117,7 @@ const SearchAccountHandler = (event, parentJS) => {
 }
 
 const updateAccountAndAssetOnCase=async (event,parentJS)=>{
-    console.log(parentJS.selectedCustomer);
+    //console.log(parentJS.selectedCustomer);
     let assetVal = null;
     if(parentJS.selectedAsset && parentJS.selectedAsset != null){
         assetVal = parentJS.selectedAsset.Id;
