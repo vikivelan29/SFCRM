@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Auto_Create_Case_Extension__c</fullName>
-    <defaultValue>true</defaultValue>
+    <fullName>Other_Reason__c</fullName>
     <externalId>false</externalId>
-    <label>Auto Create Case Extension</label>
+    <label>Other Reason</label>
+    <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
+    <type>TextArea</type>
 </CustomField>
