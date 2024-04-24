@@ -15,11 +15,13 @@ public without sharing class Asf_NpsIndicatiorController {
     * @Description - Generic query to fetch the sobject records.
     *****************************************************************************************************************/
     @AuraEnabled
-    public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
-        String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
-        system.debug('inside genericFetchQuery query '+query);
-        List<SObject> sobjList = Database.query(String.valueOf(query));
-        return sobjList;
+    public static Map<String, Integer> getCaseCounts(String accountId) {
+        Map<String, Integer> counts = new Map<String, Integer>();        
+        counts.put('openCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False]);
+        counts.put('escalatedCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and IsEscalated = true]);
+        counts.put('complaintCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and Nature__c = 'Complaint']);
+        system.debug('countsasc '+counts);
+        return counts;
     }
     @AuraEnabled
     public static decimal getNpsScore(string customerId) {
