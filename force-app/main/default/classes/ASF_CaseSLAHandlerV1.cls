@@ -159,6 +159,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     long sla3Sec;
                     long closeSlaSec ;  
                     updatedCase.BusinessHoursId = c.BusinessHoursId;
+                    updatedCase.SLA_Target_1__c = null;
+                    updatedCase.SLA_Target_2__c = null;
+                    updatedCase.SLA_Target_3__c = null;
                     if(businesssHrsMap.containsKey(index)){
                         // if(string.valueOf(c.OwnerId).startsWith('005')){
                         //     if(businesssHrsMap.get(index).caseUserOwnerBusinessHoursMap != null){
@@ -908,6 +911,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     // }
                 }
                 if(resultMap != null){
+                    updatedCase.SLA_Target_1__c = null;
+                    updatedCase.SLA_Target_2__c = null;
+                    updatedCase.SLA_Target_3__c = null;
                     ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
                     if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
                         if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
