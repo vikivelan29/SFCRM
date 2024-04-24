@@ -41,9 +41,8 @@ export default class Abfl_OutstandingCharges extends LightningElement {
             outstandingCharges({'customerLAN':this.customerLoanAccountNumber}).then(result=>{
                 this.outstandingChargesResult = result;
                 console.log('result ==> ', result);
-                console.log('Result1 ==> ', JSON.stringify(JSON.parse(result.payload).success[0]));
                 this.outstandingChargesResult.payload = JSON.stringify(JSON.parse(result.payload).success[0]);
-                this.isLoading = false;
+                this.outstandingChargesResult.statusCode = JSON.stringify(JSON.parse(result.payload).statusCode);
                 if (this.outstandingChargesResult) {
                     this.showBaseViewScreen = true;
                 } else {
@@ -53,9 +52,20 @@ export default class Abfl_OutstandingCharges extends LightningElement {
 
             }).catch(error=>{
                 console.log('error ==> ', error);
-                this.isLoading = false;
+                let parsedjson = JSON.parse(this.outstandingChargesResult.payload);
+                var errormsg = '';
+                if (Array.isArray(parsedjson.error)) {
+                    errormsg =  parsedjson.error.map((e) => e.value).join(", ");
+                }else{
+                    errormsg = parsedjson?.error?.value? parsedjson.error.value : 'Something went wrong. Please contact System Admin.'
+                }
+                this.showToast('Error', errormsg, 'error');
             })
         }
+        else{
+            this.showToast('Error', 'Loan Account Number is Blank, Please fill the valid/correct Loan Account Number', 'error');
+        }
+        this.isLoading = false;
     }
     
     handleShowEnachStatus(event){
