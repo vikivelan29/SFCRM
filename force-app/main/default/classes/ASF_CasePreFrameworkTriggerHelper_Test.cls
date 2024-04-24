@@ -30,7 +30,7 @@ public class ASF_CasePreFrameworkTriggerHelper_Test {
             if(lstCase.size() > 0){
             	helperObj.populatePreFrameworkFields(lstCase); 
                 helperObj.populateStageFields(lstCase);
-                helperObj.caseSLAHistoryAfterInsert(caseMap);
+                
             }
             
         }

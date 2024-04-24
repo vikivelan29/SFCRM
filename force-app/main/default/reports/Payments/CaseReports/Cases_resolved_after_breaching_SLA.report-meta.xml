@@ -41,7 +41,7 @@
             <columnToColumn>true</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>greaterThan</operator>
-            <value>00NNy000000myw8</value>
+            <value>Case.Overall_Case_Closure_SLA__c</value>
         </criteriaItems>
         <criteriaItems>
             <column>OWNER</column>

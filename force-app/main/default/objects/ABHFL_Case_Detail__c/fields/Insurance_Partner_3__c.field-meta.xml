@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insurance_Partner_3__c</fullName>
+    <externalId>false</externalId>
+    <label>Insurance Partner 3</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BSLI</fullName>
+                <default>false</default>
+                <label>BSLI</label>
+            </value>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>Liberty</fullName>
+                <default>false</default>
+                <label>Liberty</label>
+            </value>
+            <value>
+                <fullName>Reliance</fullName>
+                <default>false</default>
+                <label>Reliance</label>
+            </value>
+            <value>
+                <fullName>Go digit</fullName>
+                <default>false</default>
+                <label>Go digit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

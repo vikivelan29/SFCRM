@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hub_Location_Zone_Wise__c</fullName>
+    <externalId>false</externalId>
+    <label>Hub Location (Zone Wise)</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Delhi</fullName>
+                <default>false</default>
+                <label>Delhi</label>
+            </value>
+            <value>
+                <fullName>Kolkata</fullName>
+                <default>false</default>
+                <label>Kolkata</label>
+            </value>
+            <value>
+                <fullName>Mumbai</fullName>
+                <default>false</default>
+                <label>Mumbai</label>
+            </value>
+            <value>
+                <fullName>Gujarat</fullName>
+                <default>false</default>
+                <label>Gujarat</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -36,4 +36,9 @@
         <default>false</default>
         <label>ABFL Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABHFL Email</fullName>
+        <default>false</default>
+        <label>ABHFL Email</label>
+    </standardValue>
 </StandardValueSet>

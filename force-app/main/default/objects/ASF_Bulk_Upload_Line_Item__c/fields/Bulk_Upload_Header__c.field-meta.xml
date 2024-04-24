@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bulk_Upload_Header__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Header</label>
+    <referenceTo>ASF_Bulk_Upload_Header__c</referenceTo>
+    <relationshipLabel>Bulk Upload Line Items</relationshipLabel>
+    <relationshipName>Bulk_Upload_Line_Items</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

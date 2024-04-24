@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Email to Case Blocking scenarios where a case creation must be blocked within salesforce.</description>
+    <label>E2C Creation Rules</label>
+    <pluralLabel>E2C Creation Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

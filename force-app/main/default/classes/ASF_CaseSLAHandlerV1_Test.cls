@@ -85,6 +85,9 @@ public class ASF_CaseSLAHandlerV1_Test {
     public static void moveToRequestedStageTest(){
         BusinessHours bHours =[SELECT Id, Name, IsActive FROM BusinessHours LIMIT 1];
         List<Case> cases =[SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c,Bulk_Action__c,CCC_External_Id__c,OwnerId,Reopened__c from Case];
+        cases[0].CCC_External_Id__c = 'CCC-CC-CCLTD-11';
+        //cases[0].Reopened__c = true;
+        update cases;
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         for(Case c : cases){
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
@@ -112,8 +115,7 @@ public class ASF_CaseSLAHandlerV1_Test {
         }
         test.startTest();
         	ASF_Case360Controller.moveToRequestedStage(cases[0].Id, 'In Progress', true);
-        	ASF_CaseSLAHandlerV1 handler= new ASF_CaseSLAHandlerV1();
-        	handler.calculateSLAOnCaseInsert(cases);
+        	ASF_CaseSLAHandlerV1.calculateSLAOnCaseInsert(cases);
         test.stopTest();
         List<Case> updatedCases = [SELECT Id, Owner.Name, BusinessHoursId, Status, Stage__c, Bulk_Action__c, CCC_External_Id__c, OwnerId, Reopened__c FROM Case WHERE Id = :cases[0].Id];
         System.assertNotEquals(null, updatedCases[0].Id, 'Case Id should not be null');

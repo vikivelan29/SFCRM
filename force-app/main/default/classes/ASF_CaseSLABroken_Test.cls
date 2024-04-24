@@ -52,7 +52,7 @@ public class ASF_CaseSLABroken_Test {
                  managerGroupId__c=SLAGroup.Id);
                     insert userRecord1;
                     
-        
+
                     
           Account acc= new Account(
             RecordTypeId = Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId(),
@@ -166,7 +166,6 @@ public class ASF_CaseSLABroken_Test {
     public static void testSLA1ManagerGroup(){
 
         List<Case> caseList = ASF_TestDataFactory.createCaseRecords(1);
-        BusinessHours bh = [SELECT ID FROM BusinessHours WHERE isDefault = true];
         
         Case c = CaseList.get(0);
         //c.status = 'Closed';
@@ -179,8 +178,6 @@ public class ASF_CaseSLABroken_Test {
         c.Stage_SLA_1__c = cv.addHours(-3);
         c.Stage_SLA_2__c = cv.addHours(-2);
         c.Stage_SLA_3__c = cv.addHours(1);
-        c.Case_Stage_Change_Date__c = System.now();
-        c.BusinessHoursId = bh.Id;
           update c; 
         List<Id> cList = new List<Id>();
         cList.add(c.Id);

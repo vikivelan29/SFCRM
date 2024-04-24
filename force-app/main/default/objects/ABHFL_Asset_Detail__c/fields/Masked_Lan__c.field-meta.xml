@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Masked_Lan__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+LEN( Asset__r.LAN__c ) &gt;= 4,
+&quot;******&quot; &amp;
+RIGHT(Asset__r.LAN__c, 4),
+Asset__r.LAN__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Masked Lan</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

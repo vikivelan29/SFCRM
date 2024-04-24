@@ -44,3 +44,7 @@ li.slds-is-optional.slds-is-complete{
     color: white;
     font-size: 100%;
 }
+
+.my-icon {
+    --slds-c-icon-color-foreground-default: orange;
+}

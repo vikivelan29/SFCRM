@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We would like to inform you that your original property documents has been delivered to our&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} branch on {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} . We would request you to please collect the documents from our branch within 15 days from the date of receipt of this mail. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
+</html>

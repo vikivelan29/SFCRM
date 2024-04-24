@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Autoclosed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used in flow, to check if the cases are autoclosed after 24 hrs</description>
+    <externalId>false</externalId>
+    <label>Autoclosed</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

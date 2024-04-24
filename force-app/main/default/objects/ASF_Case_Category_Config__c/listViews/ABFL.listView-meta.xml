@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL</fullName>
+    <columns>NAME</columns>
+    <columns>CCC_External_Id__c</columns>
+    <columns>ASF_Issue_Code__c</columns>
+    <columns>Type__c</columns>
+    <columns>Sub_Type__c</columns>
+    <columns>LOB__c</columns>
+    <columns>Nature__c</columns>
+    <columns>Technical_Source__c</columns>
+    <columns>Send_open_stage_communications__c</columns>
+    <columns>Send_Closed_stage_communications__c</columns>
+    <columns>Send_Rejected_stage_communications__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABFL</value>
+    </filters>
+    <label>ABFL</label>
+</ListView>

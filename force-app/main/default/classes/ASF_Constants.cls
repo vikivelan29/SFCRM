@@ -1,5 +1,5 @@
 /*********************************************************
-*Name           :   ksc_Constants
+*Name           :   ASF_Constants
 *Author         :   Megha Sahu
 *Since          :   1st Nov 2022   
 *Description    :   Constant class to store all the resable variables at one place
@@ -10,6 +10,8 @@ Name                Date                  Change Description
 *********************************************************/
 
 public with sharing class ASF_Constants {
+
+    public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
 
     public static final String STRING_BLANK ='';
     public static final String STRING_SPACE = ' ';
@@ -102,8 +104,29 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
+    
     public static final String REJECTIONSTATUS = 'Unresolved';
-    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected'};
+    public static final String DUPLICATESTATUS = 'Closed Duplicate';
+    public static final String DUPLICATESTAGE = 'Duplicate';
+    public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
         public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
-
+    public static final String ONCREATECLOSESTAGE = 'Resolved';
+    public static final String ONCREATECLOSESTATUS = 'Resolved';
+    public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
+    public static final String ABFL_BU = 'ABFL';
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
+    public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
+        
+    /* Map to Store Case Origin Vs Business Unit */
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABFL'};
+        
+        
+    /* RETRY MECHANISM RELATED CONSTANTS. */
+    public static final String RETRY_PROCESSTYPEINTEG = 'Process';
+    public static final String RETRY_PREPOPULATEDTYPEINTEG = 'Pre Populate';
+    public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
+    
+    public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
+    public static final String DMS_FILE_TRANSFER_SOURCE = 'SFDC';
+    public static Boolean bypassOwnerChangeValidation = false;
 }

@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 private class ASF_ApprovalHistoryControllerTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];

@@ -84,7 +84,8 @@ public without sharing class PAY_CustomerSearchController {
     
     public static List<Account> createCustomerList(List<CustomerDetailsWrapper> customerDataList){
         try {
-            List<User> systemUser = [SELECT ID FROM User WHERE Name Like '%ABCL AWS API User%'];
+            String abclIntegrationUserNm = '%'+System.Label.ABCL_Integration_User_Nickname +'%';
+            List<User> systemUser = [SELECT ID FROM User WHERE CommunityNickname Like : abclIntegrationUserNm];
             List<Account> accountList = new List<Account>();
             List<Contact> contactList = new List<Contact>();
             system.debug('customerDataList'+customerDataList);
@@ -116,6 +117,7 @@ public without sharing class PAY_CustomerSearchController {
                         
                     }
                     accountToInsert.Client_Code__c = customerData.ClientCode;
+                    accountToInsert.LOB_Client_Code__c = customerData.LineOfBusiness+'_'+customerData.ClientCode;
                     system.debug(customerData);
                     List<RecordType> recordType = [SELECT Id FROM RecordType where SObjectType = 'Account' and DeveloperName =: customerData.CustomerType];
                     if(recordType.size() > 0){
@@ -133,14 +135,15 @@ public without sharing class PAY_CustomerSearchController {
                         contactToInsert.LastName = customerData.ContactLastName;
                         contactToInsert.MobilePhone = customerData.Phone;
                         contactToInsert.Email = customerData.Email;
-                        contactToInsert.Account = New Account(Client_Code__c=customerData.ClientCode);
+                        String tempCustomerSearchKey = customerData.LineOfBusiness+'_'+customerData.ClientCode;
+                        contactToInsert.Account = New Account(LOB_Client_Code__c=tempCustomerSearchKey);
                         contactList.add(contactToInsert);
                     } 
                 }
             }
             
             if (!accountList.isEmpty()) {
-                upsert accountList Client_Code__c;
+                upsert accountList LOB_Client_Code__c;
             }
             
             if (!contactList.isEmpty()) {

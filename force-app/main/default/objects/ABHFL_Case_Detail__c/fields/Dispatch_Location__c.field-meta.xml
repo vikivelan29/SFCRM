@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dispatch_Location__c</fullName>
+    <externalId>false</externalId>
+    <label>Dispatch Location</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bangalore</fullName>
+                <default>false</default>
+                <label>Bangalore</label>
+            </value>
+            <value>
+                <fullName>Chennai</fullName>
+                <default>false</default>
+                <label>Chennai</label>
+            </value>
+            <value>
+                <fullName>Delhi parliament street</fullName>
+                <default>false</default>
+                <label>Delhi parliament street</label>
+            </value>
+            <value>
+                <fullName>Hyderabad</fullName>
+                <default>false</default>
+                <label>Hyderabad</label>
+            </value>
+            <value>
+                <fullName>Kolkata</fullName>
+                <default>false</default>
+                <label>Kolkata</label>
+            </value>
+            <value>
+                <fullName>Mumbai-Vashi</fullName>
+                <default>false</default>
+                <label>Mumbai-Vashi</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

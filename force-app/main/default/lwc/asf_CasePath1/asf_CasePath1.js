@@ -3,8 +3,9 @@ import getCasePath1 from "@salesforce/apex/ASF_CasePathController.getCasePath1";
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { registerListener, unregisterAllListeners } from 'c/asf_pubsub';
 import subscribeBrowserEvent from '@salesforce/label/c.ASF_CaseBrowserSubscriber';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import CASE_STAGE from '@salesforce/schema/Case.Stage__c';
+import { RefreshEvent } from 'lightning/refresh'; // Virendra - added for re-categorization refresh issue.
 const CASE_FIELDS = [CASE_STAGE];
 
 export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
@@ -61,13 +62,18 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
     }
     @wire(CurrentPageReference) pageRef;
 
-    handlePublishedMessage(recordId) {
-        if (subscribeBrowserEvent.trim().toUpperCase() != "TRUE") {
-            if (this.recordId == recordId) {
-                this.getCasePathInfo();
+    handlePublishedMessage(payload) {
+        console.log('handlePublishedMessage of casepath');
+        // Virendra- Added for Re-Categorization refresh issue.
+        this.dispatchEvent(new RefreshEvent());  
+        if (subscribeBrowserEvent.trim().toUpperCase() == "TRUE") {
+            if (payload.source != 'casepath' && this.recordId == payload.recordId) {
+                //this.getCasePathInfo();
+                //Costly refreshView is called here to refresh all custom LWC components on the page,
+                // avoid calling it from any other component for refresh.
+                eval("$A.get('e.force:refreshView').fire();");
             }
         }
-
     }
     constructor() {
         super();
@@ -93,8 +99,10 @@ export default class asf_CasePath1 extends NavigationMixin(LightningElement) {
     getCasePathInfo() {
         getCasePath1({ recordId: this.recordId })
             .then(result => {
-                console.log(result)
-                this.stages = result;
+                console.log(result);
+                this.stages = result.stageList;
+                this.typeSubTypeMismatch = result.typeSubTypeMismatch;
+                this.typeSubTypeMismatchReason = result.typeSubTypeMismatchReason;
             })
             .catch(error => {
                 console.log(error);

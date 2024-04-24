@@ -3,8 +3,8 @@
         <div class="slds-path">
             <div class="slds-grid slds-path__track slds-has-overflow">
                 <div class="slds-grid slds-path__scroller-container">
-                    <div class="slds-path__scroller">
-                        <div class="slds-path__scroller_inner">
+                    <div class="slds-path__scroller" style="display: inline-flex;">
+                        <div class="slds-path__scroller_inner" style="width: max-content;">
                             <div class="slds-path__scroll-controls">
                                 <button class="slds-button slds-button_icon slds-button_icon-border-filled"
                                     title="Scroll left" tabindex="-1" onclick={handleScrollLeft}>
@@ -52,6 +52,12 @@
                                 </button>
                             </div> -->
                         </div>
+                        <template lwc:if={typeSubTypeMismatch}>
+                            <lightning-icon size="medium" icon-name="utility:warning"
+                             alternative-text={typeSubTypeMismatchReason} class="slds-m-left--medium my-icon"
+                             ></lightning-icon>
+                             <span class="slds-m-left--small">{typeSubTypeMismatchReason}</span>
+                        </template>
                     </div>
                 </div>
                 <!-- <div class="slds-grid slds-path__action">

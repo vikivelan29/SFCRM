@@ -41,23 +41,24 @@ public without sharing class ASF_CaseSLAHistoryTriggerHelper {
         }
         
         for(ASF_Case_SLA_History__c csla : slaRecords){
+            if(String.isNotBlank(csla.Current_Owner_Id__c) && (csla.Current_Owner_Id__c.startsWith('005'))){
+                User newAgent = userDetails.get(Id.valueOf(csla.Current_Owner_Id__c));
 
-            User newAgent = userDetails.get(Id.valueOf(csla.Current_Owner_Id__c));
-
-            csla.Agent__c = csla.Current_Owner_Id__c;
-            //csla.SLA_LOB__c  = newAgent.LOB__c;
-            csla.SLA_LOB__c  = newAgent.Business_Unit__c;
-            csla.SLA_LOC__c  = newAgent.LOC__c;
-            csla.SLA_CC__c   = newAgent.CC__c;            
-            
-            if(!existingDeptNamesByCase.containsKey(csla.Case__c) || !existingDeptNamesByCase.get(csla.Case__c)?.contains(newAgent.Business_Unit__c + newAgent.LOC__c)){
-                //csla.Agent_LOB__c  = newAgent.LOB__c;
-                csla.Agent_LOB__c  = newAgent.Business_Unit__c;
-                csla.Agent_LOC__c  = newAgent.LOC__c;
+                csla.Agent__c = csla.Current_Owner_Id__c;
+                //csla.SLA_LOB__c  = newAgent.LOB__c;
+                csla.SLA_LOB__c  = newAgent.Business_Unit__c;
+                csla.SLA_LOC__c  = newAgent.LOC__c;
+                csla.SLA_CC__c   = newAgent.CC__c;            
+                
+                if(!existingDeptNamesByCase.containsKey(csla.Case__c) || !existingDeptNamesByCase.get(csla.Case__c)?.contains(newAgent.Business_Unit__c + newAgent.LOC__c)){
+                    //csla.Agent_LOB__c  = newAgent.LOB__c;
+                    csla.Agent_LOB__c  = newAgent.Business_Unit__c;
+                    csla.Agent_LOC__c  = newAgent.LOC__c;
+                }
+                
+                if(!existingCCNamesByCase.containsKey(csla.Case__c) || !existingCCNamesByCase.get(csla.Case__c)?.contains(newAgent.CC__C))
+                    csla.Agent_CC__c   = newAgent.CC__c;
             }
-            
-            if(!existingCCNamesByCase.containsKey(csla.Case__c) || !existingCCNamesByCase.get(csla.Case__c)?.contains(newAgent.CC__C))
-                csla.Agent_CC__c   = newAgent.CC__c;
         }
     }
 
@@ -68,19 +69,21 @@ public without sharing class ASF_CaseSLAHistoryTriggerHelper {
     **/
     public static void createCaseTeamMember(List<ASF_Case_SLA_History__c> slarecords) {
         try{
-            
-            String roleId = [select id , name from CaseTeamRole where name='Agent'].Id;
+            List<CaseTeamRole> roles = [select id , name from CaseTeamRole where name='Agent'];
 
-            list<CaseTeamMember> caseTeamMemberlistToInsert = new list<CaseTeamMember>();
-            for(ASF_Case_SLA_History__c slahistoryobj : slarecords){
-                if(String.isNotBlank(slahistoryobj.Current_Owner_Id__c) && (slahistoryobj.Current_Owner_Id__c.startsWith('005'))){
-                    //userIdsSet.add(slahistoryobj.Current_Owner_Id__c);
-                    caseTeamMemberlistToInsert.add(new CaseTeamMember( MemberId = slahistoryobj.Current_Owner_Id__c, ParentId = slahistoryobj.Case__c, TeamRoleId = roleId));
+            String roleId = roles.isEmpty()?null:roles[0].Id;
+            if(roleId != null){
+                list<CaseTeamMember> caseTeamMemberlistToInsert = new list<CaseTeamMember>();
+                for(ASF_Case_SLA_History__c slahistoryobj : slarecords){
+                    if(String.isNotBlank(slahistoryobj.Current_Owner_Id__c) && (slahistoryobj.Current_Owner_Id__c.startsWith('005'))){
+                        //userIdsSet.add(slahistoryobj.Current_Owner_Id__c);
+                        caseTeamMemberlistToInsert.add(new CaseTeamMember( MemberId = slahistoryobj.Current_Owner_Id__c, ParentId = slahistoryobj.Case__c, TeamRoleId = roleId));
+                    }
                 }
-            }
 
-            if(!caseTeamMemberlistToInsert.isEmpty()){
-                Database.insert(caseTeamMemberlistToInsert,false);
+                if(!caseTeamMemberlistToInsert.isEmpty()){
+                    Database.insert(caseTeamMemberlistToInsert,false);
+                }
             }
         }
         catch(Exception ex){

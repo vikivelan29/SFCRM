@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complaint_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Complaint Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>NCH</fullName>
+                <default>false</default>
+                <label>NCH</label>
+            </value>
+            <value>
+                <fullName>CPGRAMS</fullName>
+                <default>false</default>
+                <label>CPGRAMS</label>
+            </value>
+            <value>
+                <fullName>NHB</fullName>
+                <default>false</default>
+                <label>NHB</label>
+            </value>
+            <value>
+                <fullName>RBI</fullName>
+                <default>false</default>
+                <label>RBI</label>
+            </value>
+            <value>
+                <fullName>Branch Walkin</fullName>
+                <default>false</default>
+                <label>Branch Walkin</label>
+            </value>
+            <value>
+                <fullName>Grievance Redressal</fullName>
+                <default>false</default>
+                <label>Grievance Redressal</label>
+            </value>
+            <value>
+                <fullName>Phone Inbound</fullName>
+                <default>false</default>
+                <label>Phone Inbound</label>
+            </value>
+            <value>
+                <fullName>Experian</fullName>
+                <default>false</default>
+                <label>Experian</label>
+            </value>
+            <value>
+                <fullName>Equifax</fullName>
+                <default>false</default>
+                <label>Equifax</label>
+            </value>
+            <value>
+                <fullName>Transunion</fullName>
+                <default>false</default>
+                <label>Transunion</label>
+            </value>
+            <value>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+                <label>Senior Management</label>
+            </value>
+            <value>
+                <fullName>Social Media</fullName>
+                <default>false</default>
+                <label>Social Media</label>
+            </value>
+            <value>
+                <fullName>Legal Notice</fullName>
+                <default>false</default>
+                <label>Legal Notice</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

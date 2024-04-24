@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_claim_status__c</fullName>
+    <externalId>false</externalId>
+    <label>Customer claim status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Completely rejected</fullName>
+                <default>false</default>
+                <label>Completely rejected</label>
+            </value>
+            <value>
+                <fullName>Partially rejected</fullName>
+                <default>false</default>
+                <label>Partially rejected</label>
+            </value>
+            <value>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+                <label>Accepted</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Insufficient/incomplete details from customer</value>
+        <value xsi:type="xsd:string">Pending Customer Confirmation/documentation</value>
     </values>
 </CustomMetadata>

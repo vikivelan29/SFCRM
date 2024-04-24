@@ -8,16 +8,19 @@
     <approvalPageFields>
         <field>Name</field>
         <field>Owner</field>
+        <field>SR__c</field>
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
-        <approvalActions>
-            <action>
-                <name>Case_Owner_when_the_Case_is_approved</name>
-                <type>Alert</type>
-            </action>
-        </approvalActions>
         <assignedApprover>
+            <approver>
+                <name>Approver_02__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>Approver_04__c</name>
+                <type>relatedUserField</type>
+            </approver>
             <approver>
                 <name>Approver_01__c</name>
                 <type>relatedUserField</type>
@@ -27,15 +30,7 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_02__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
                 <name>Approver_05__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
-                <name>Approver_04__c</name>
                 <type>relatedUserField</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
@@ -82,14 +77,6 @@
         <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>Approver_01__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
-                <name>Approver_03__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
                 <name>Approver_02__c</name>
                 <type>relatedUserField</type>
             </approver>
@@ -98,7 +85,15 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
+                <name>Approver_01__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
                 <name>Approver_04__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>Approver_03__c</name>
                 <type>relatedUserField</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>

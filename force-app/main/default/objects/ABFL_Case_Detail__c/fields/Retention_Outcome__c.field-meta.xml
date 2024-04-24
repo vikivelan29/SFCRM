@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Retention_Outcome__c</fullName>
+    <externalId>false</externalId>
+    <label>Retention Outcome</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not Retained- High ROI</fullName>
+                <default>false</default>
+                <label>Not Retained- High ROI</label>
+            </value>
+            <value>
+                <fullName>Not Retained-BT</fullName>
+                <default>false</default>
+                <label>Not Retained-BT</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Death Case</fullName>
+                <default>false</default>
+                <label>Not Retained-Death Case</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Delinquent account</fullName>
+                <default>false</default>
+                <label>Not Retained-Delinquent account</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Own Fund</fullName>
+                <default>false</default>
+                <label>Not Retained-Own Fund</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Sale of Property</fullName>
+                <default>false</default>
+                <label>Not Retained-Sale of Property</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Service Issue</fullName>
+                <default>false</default>
+                <label>Not Retained-Service Issue</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Top Up</fullName>
+                <default>false</default>
+                <label>Not Retained-Top Up</label>
+            </value>
+            <value>
+                <fullName>Not Retained-Stress account</fullName>
+                <default>false</default>
+                <label>Not Retained-Stress account</label>
+            </value>
+            <value>
+                <fullName>Retained - FC Charges</fullName>
+                <default>false</default>
+                <label>Retained - FC Charges</label>
+            </value>
+            <value>
+                <fullName>Retained - Loan Overdue</fullName>
+                <default>false</default>
+                <label>Retained - Loan Overdue</label>
+            </value>
+            <value>
+                <fullName>Retained - Non-Contactable</fullName>
+                <default>false</default>
+                <label>Retained - Non-Contactable</label>
+            </value>
+            <value>
+                <fullName>Retained - ROI</fullName>
+                <default>false</default>
+                <label>Retained - ROI</label>
+            </value>
+            <value>
+                <fullName>Retained - Top up</fullName>
+                <default>false</default>
+                <label>Retained - Top up</label>
+            </value>
+            <value>
+                <fullName>Retained -Lock in Period</fullName>
+                <default>false</default>
+                <label>Retained -Lock in Period</label>
+            </value>
+            <value>
+                <fullName>Retained -Part Payment</fullName>
+                <default>false</default>
+                <label>Retained -Part Payment</label>
+            </value>
+            <value>
+                <fullName>Retained -Service</fullName>
+                <default>false</default>
+                <label>Retained -Service</label>
+            </value>
+            <value>
+                <fullName>Retained -Unregistered/Non-Customer</fullName>
+                <default>false</default>
+                <label>Retained -Unregistered/Non-Customer</label>
+            </value>
+            <value>
+                <fullName>Retained - Sales No &amp; Retention No</fullName>
+                <default>false</default>
+                <label>Retained - Sales No &amp; Retention No</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

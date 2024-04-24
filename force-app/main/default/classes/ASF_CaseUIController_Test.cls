@@ -26,6 +26,11 @@ public class ASF_CaseUIController_Test {
         ast.Name = 'aas';
         insert ast;
         
+        LAN_Mapping__c lanMap = new LAN_Mapping__c();
+        lanMap.Customer__c = a.Id;
+        lanMap.LAN__c = ast.Id;
+        insert lanMap;
+        
         Contact con = new Contact();
         con.Lastname ='Test con';
         con.AccountId = a.Id;
@@ -39,7 +44,7 @@ public class ASF_CaseUIController_Test {
         stage1.StageName__c  = 'New';
         stage1.Stage_SLA_1__c = 1;
         stage1.Status_Mapping__c = 'New';
-	        // stage1.Stage_SLA_3__c = 3;
+            // stage1.Stage_SLA_3__c = 3;
         stage1.SLA_Target_1_Type__c = 'Manager';
         stage1.Query_Fields__c = 'Id,Stage__c';
         stage1.Manual_Stage__c = false;
@@ -53,6 +58,8 @@ public class ASF_CaseUIController_Test {
         cs.Status = 'New';
         cs.Stage__c='New';
         insert cs;
+        
+
     }
     
     @isTest
@@ -62,7 +69,20 @@ public class ASF_CaseUIController_Test {
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         test.startTest();
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
+        test.stopTest();
+        system.assertEquals(wrapper.size(), 0);
+        }
+
+    @isTest
+    public static void checkAccountsTestwithParam(){
+        Account acc = [select id from account limit 1];
+        acc.Client_Code__c = 'abc1234';
+        update acc;
+        Id [] fixedSearchResults= new Id[1];
+        fixedSearchResults[0] = acc.Id;
+        test.startTest();
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('abc1234',false);
         test.stopTest();
         system.assertEquals(wrapper.size(), 0);
         }
@@ -71,7 +91,7 @@ public class ASF_CaseUIController_Test {
         Account acc = [select id from account limit 1];
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         system.assertEquals(wrapper.size(), 0);
         }
     
@@ -83,15 +103,15 @@ public class ASF_CaseUIController_Test {
         fixedSearchResults[0] = acc.Id;
         Test.setFixedSearchResults(fixedSearchResults);
         
-        List<account> wrapper = ASF_CaseUIController.getMatchingAccount('12344');
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
         System.debug('@@@ass'+ass+' '+ wrapper);
-        ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].Id);
+        ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
         Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
         
-        ASF_CaseUIController.updateCRN(wrapper[0].Id,wrap.asstList[0].Id,cs.Id,'2333423');
-        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry');
-        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry');
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
+        ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
+        ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
         ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
         
@@ -110,5 +130,22 @@ public class ASF_CaseUIController_Test {
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
         System.assertEquals(null, relObjName);
+        //}
+        
     }
+    
+    @isTest
+    public static void CreateProspectAndUpdateOnCaseTest(){
+		Case caseRecord = new Case();
+        Lead leadRecord = new Lead();
+        leadRecord.MobilePhone  = '9855494949';
+        leadRecord.LastName = 'test';
+        insert caseRecord;
+        //insert leadRecord;
+        //caseRecord.Lead__c =leadRecord.Id;
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(null,leadRecord);
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(caseRecord,null);
+    }
+    
+
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Priority1__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+    Complaint_Type__c,
+    &quot;Branch Walkin&quot;, &quot;P2&quot;,
+    &quot;Grievance Redressal&quot;, &quot;P2&quot;,
+    &quot;Phone Inbound&quot;, &quot;P2&quot;,
+    &quot;CPGRAMS&quot;, &quot;P1&quot;,
+    &quot;NCH&quot;, &quot;P1&quot;,
+    &quot;NHB&quot;, &quot;P1&quot;,
+    &quot;RBI&quot;, &quot;P1&quot;,
+    &quot;Senior Management&quot;, &quot;P1&quot;,
+    &quot;Social Media&quot;, &quot;P1&quot;,
+    &quot;Experian&quot;, &quot;P3&quot;,
+    &quot;Equifax&quot;, &quot;P3&quot;,
+    &quot;Transunion&quot;, &quot;P3&quot;,
+    &quot;Legal Notice&quot;, &quot;P3&quot;,
+    NULL
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Priority</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

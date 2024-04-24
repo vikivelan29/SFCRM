@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_to_EBOT__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Based on the Checkbox, it will take a decision whether any email received on this email box to be forwarded for EBot Categorisation or not.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Send to EBOT</label>
+    <type>Checkbox</type>
+</CustomField>

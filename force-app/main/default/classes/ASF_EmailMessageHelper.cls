@@ -4,7 +4,8 @@
 * @Author - Virendra Patil
 * 
 *****************************************************************************************************************/
-public class ASF_EmailMessageHelper {
+public without sharing class ASF_EmailMessageHelper {
+    public static boolean bNewCaseByReplyToCloseCase = false;
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
 */
@@ -18,9 +19,9 @@ public class ASF_EmailMessageHelper {
         Request reqInfo = Request.getCurrent();
         String currentRequestId = reqInfo.getRequestId();
         Quiddity currentType = reqInfo.getQuiddity();
-        if(currentType != Quiddity.QUICK_ACTION){
+        if(currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS){
             if(!Test.isRunningTest()){
-                return;
+                //return;
             }
         }
         
@@ -42,6 +43,124 @@ public class ASF_EmailMessageHelper {
             }
         }
     }
- 
+    
+    /**
+* When customer replies to an existing email2case email thread for which the original case was closed, 
+* case should be reopened if certain criteria's are met, or a new case should be created in other cases.
+*  LOB	        Nature	        Reply within 10 days of closure	Reply after 10 days of closure	Manually Reopen allowed by agent?
+*  Non-Wealth	Complaint	    Reopen	                        New Case	                    Yes, for 10 days
+*  Non-Wealth	Non-Complaint	New Case	                    New Case	                    No
+*  Wealth	    Any	            New Case	                    New Case	                    No
+*/
+    public static void checkAndReopenClosedCases(List<EmailMessage> newEmails) {
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, EmailMessage> caseIdToEmailMessageMap = new Map<Id, EmailMessage>();
+        
+        for(EmailMessage emRec : newEmails){
+            System.debug('checkAndReopenClosedCases'+emRec.ParentId+emRec.Headers);
+            if(emRec.Headers != null && emRec.ParentId.getSObjectType() == Case.getSObjectType()){
+                //Its a reply, so evaluate
+                caseIds.add(emRec.ParentId);
+                caseIdToEmailMessageMap.put(emRec.ParentId, emRec);
+            }
+        }
+        if(!caseIds.isEmpty()){
+            Map<Id, Case> oldCaseIdToNewCaseMap = new Map<Id, Case>();
+            List<Case> casesToReopen = new List<Case>();
+            Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
+            List<Case> existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
+                                        CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
+                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
+                                        (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
+                                        FROM Case 
+                                        WHERE Id IN :caseIds];
+            
+            for(Case caseRec : existingCases){
+                //check if closed or not
+                //if(caseRec.IsClosed && caseRec.Origin != null && caseRec.Origin.contains('Email') 
+                // VIRENDRA - 10 April 2024 - REMOVED THE CONDITION OF CASE ORIGIN CONTAINS EMAIL.
+                if(caseRec.IsClosed){
+                   //&& (caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
+                       //&& caseRec.Nature__c == 'Complaint'){
+                       //if closed, check if reopen allowed or not
+                       if(caseRec.Is_Reopen_Allowed__c == true){
+                           // if allowed, check if reopen days expired or not
+                           if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
+                              && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c){
+                                  // if not expired, reopen
+                                  caseRec.Reopen_Reason__c = Label.ASF_Default_Reopen_Reason;
+                                  caseRec.Reopened__c = true;
+                                  caseRec.Reopened_DateTime__c = System.now();
+                                  casesToReopen.add(caseRec);
+                              }else{
+                                  // else create new case and reparent EmailMessage
+                                  Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                                  oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
+                                  //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
+                                  // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
+                                  bNewCaseByReplyToCloseCase = true;
+                              }
+                       }else {
+                           // else create new case and reparent EMailMessage
+                           Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                           oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
+                           //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
+                           // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
+                           bNewCaseByReplyToCloseCase = true;
+                       }
+                   }else {
+                       //not closed, then do nothing
+                   }
+            }
+            if(!firstOwnerToOldCases.isEmpty()){
+                for(Group gObj : [SELECT Id, Type, Name FROM Group WHERE Name IN :firstOwnerToOldCases.keySet()]){
+                    for(Id caseId : firstOwnerToOldCases.get(gObj.Name)){
+                        Case newCase = oldCaseIdToNewCaseMap.get(caseId);
+                        newCase.OwnerId = gObj.Id;
+                        oldCaseIdToNewCaseMap.put(caseId, newCase);
+                    }
+                }
+            }
+            if(!casesToReopen.isEmpty()){
+                update casesToReopen;
+            }
+            if(!oldCaseIdToNewCaseMap.isEmpty()){
+                insert oldCaseIdToNewCaseMap.values();
+                
+                //reparent Email Messages
+                for(Id oldCaseId : oldCaseIdToNewCaseMap.keySet()){
+                    EmailMessage em = caseIdToEmailMessageMap.get(oldCaseId);
+                    em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
+                }
+            }
+        }
+    }
+    //Commenting the method as its not in use
+    /*private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+        String firstOwner;
+        if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
+            firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
+            if(!theMap.containsKey(firstOwner)){
+                theMap.put(firstOwner, new Set<Id>());
+            }
+            theMap.get(firstOwner).add(caseRec.Id);
+        }
+        return theMap;
+    }
+    */
+    private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
+        Case newCase = new Case();
+        newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
+        newCase.Description = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+        newCase.AccountId = closedCase.AccountId;
+        newCase.ContactId = closedCase.ContactId;
+        newCase.Origin = closedCase.Origin;
+        newCase.Priority = closedCase.Priority;
+        newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
+        newCase.SuppliedEmail = closedCase.SuppliedEmail;
+        newCase.SuppliedName = closedCase.SuppliedName;
+        newCase.Business_Unit__c = closedCase.Business_Unit__c;
+        return newCase;
+    }   
     
 }

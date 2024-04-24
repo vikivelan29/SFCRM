@@ -3,10 +3,22 @@
     <fullName>EMI_Tenure__c</fullName>
     <externalId>false</externalId>
     <label>EMI Tenure</label>
-    <precision>18</precision>
     <required>false</required>
-    <scale>0</scale>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>EMI</fullName>
+                <default>false</default>
+                <label>EMI</label>
+            </value>
+            <value>
+                <fullName>Tenure</fullName>
+                <default>false</default>
+                <label>Tenure</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
