@@ -306,6 +306,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>No_Auto_Communication__c</field>
+            <value>
+                <elementReference>$Record.No_Auto_Communication__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>RecordID__c</field>
             <value>
                 <elementReference>$Record.Id</elementReference>
