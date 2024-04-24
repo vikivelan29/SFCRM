@@ -11,12 +11,12 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>ABHFL_250004_MEEUP21_2/507 # MEERUT</fullName>
+                <fullName>ABHFL_250004_MEEUP21_2/507#MEERUT</fullName>
                 <default>false</default>
                 <label>2/507 # MEERUT</label>
             </value>
             <value>
-                <fullName>ABHFL_282002_NAGR002_AGRA - SANJAY PLACE</fullName>
+                <fullName>ABHFL_282002_NAGR002_AGRA-SANJAYPLACE</fullName>
                 <default>false</default>
                 <label>AGRA - SANJAY PLACE</label>
             </value>
@@ -26,12 +26,12 @@
                 <label>AHMEDABAD</label>
             </value>
             <value>
-                <fullName>ABHFL_380009_WAHD003_AHMEDABAD SAMUDRA ANNEXE</fullName>
+                <fullName>ABHFL_380009_WAHD003_AHMEDABADSAMUDRAANNEXE</fullName>
                 <default>false</default>
                 <label>AHMEDABAD SAMUDRA ANNEXE</label>
             </value>
             <value>
-                <fullName>ABHFL_638011_EROTN19_AKHIL PLAZA # ERODE</fullName>
+                <fullName>ABHFL_638011_EROTN19_AKHILPLAZA#ERODE</fullName>
                 <default>false</default>
                 <label>AKHIL PLAZA # ERODE</label>
             </value>
@@ -41,7 +41,7 @@
                 <label>BADLAPUR</label>
             </value>
             <value>
-                <fullName>ABHFL_560025_SBLR003_BANGALORE STAR AVENUES</fullName>
+                <fullName>ABHFL_560025_SBLR003_BANGALORESTARAVENUES</fullName>
                 <default>false</default>
                 <label>BANGALORE STAR AVENUES</label>
             </value>
@@ -51,12 +51,12 @@
                 <label>Baroda</label>
             </value>
             <value>
-                <fullName>ABHFL_751006_BROOR03_BROADWAY HEIGHTS # ODISHA</fullName>
+                <fullName>ABHFL_751006_BROOR03_BROADWAYHEIGHTS#ODISHA</fullName>
                 <default>false</default>
                 <label>BROADWAY HEIGHTS # ODISHA</label>
             </value>
             <value>
-                <fullName>ABHFL_600032_SCHE003_CHENNAI_SIDCO INDUSTRIAL_ESTATE</fullName>
+                <fullName>ABHFL_600032_SCHE003_CHENNAI_SIDCOINDUSTRIAL_ESTATE</fullName>
                 <default>false</default>
                 <label>CHENNAI_SIDCO INDUSTRIAL_ESTATE</label>
             </value>
@@ -66,27 +66,27 @@
                 <label>Coimbatore</label>
             </value>
             <value>
-                <fullName>ABHFL_110001_NDEL002_Delhi - (Barakhamba)</fullName>
+                <fullName>ABHFL_110001_NDEL002_Delhi-(Barakhamba)</fullName>
                 <default>false</default>
                 <label>Delhi - (Barakhamba)</label>
             </value>
             <value>
-                <fullName>ABHFL_122022_NGUR001_DELHI GURGAON_GB</fullName>
+                <fullName>ABHFL_122022_NGUR001_DELHIGURGAON_GB</fullName>
                 <default>false</default>
                 <label>DELHI GURGAON_GB</label>
             </value>
             <value>
-                <fullName>ABHFL_122022_NGUR001_Delhi-1 (Gurgaon)</fullName>
+                <fullName>ABHFL_122022 _NGUR001_Delhi-1(Gurgaon)</fullName>
                 <default>false</default>
                 <label>Delhi-1 (Gurgaon)</label>
             </value>
             <value>
-                <fullName>ABHFL_440010_GENMH49_GENESIS SQUARE # NAGPUR</fullName>
+                <fullName>ABHFL_440010_GENMH49_GENESISSQUARE#NAGPUR</fullName>
                 <default>false</default>
                 <label>GENESIS SQUARE # NAGPUR</label>
             </value>
             <value>
-                <fullName>ABHFL_450001_GROMP23_GROVER PLAZA # KHANDWA</fullName>
+                <fullName>ABHFL_450001_GROMP23_GROVERPLAZA#KHANDWA</fullName>
                 <default>false</default>
                 <label>GROVER PLAZA # KHANDWA</label>
             </value>
@@ -101,12 +101,12 @@
                 <label>GWALIOR_GB</label>
             </value>
             <value>
-                <fullName>ABHFL_500003_SHYD002_HYD_Secunderabad</fullName>
+                <fullName>ABHFL_500003 _SHYD002_HYD_Secunderabad</fullName>
                 <default>false</default>
                 <label>HYD_Secunderabad</label>
             </value>
             <value>
-                <fullName>ABHFL_444602_AMRMH45_IRWIN SQUARE # AMRAVATI</fullName>
+                <fullName>ABHFL_444602_AMRMH45_IRWINSQUARE#AMRAVATI</fullName>
                 <default>false</default>
                 <label>IRWIN SQUARE # AMRAVATI</label>
             </value>
@@ -126,7 +126,7 @@
                 <label>KOLHAPUR</label>
             </value>
             <value>
-                <fullName>ABHFL_700016_KolChow_KOLKATA WEST BENGAL</fullName>
+                <fullName>ABHFL_700016_KolChow_KOLKATAWESTBENGAL</fullName>
                 <default>false</default>
                 <label>KOLKATA WEST BENGAL</label>
             </value>
@@ -141,12 +141,12 @@
                 <label>MEHSANA</label>
             </value>
             <value>
-                <fullName>ABHFL_400063_WGOR001_MUMBAI - 7 (GOREGAON)</fullName>
+                <fullName>ABHFL_400063_WGOR001_MUMBAI-7(GOREGAON)</fullName>
                 <default>false</default>
                 <label>MUMBAI - 7 (GOREGAON)</label>
             </value>
             <value>
-                <fullName>ABHFL_147001_NPAT002_NABHA GATE # PATIALA</fullName>
+                <fullName>ABHFL_147001_NPAT002_NABHAGATE#PATIALA</fullName>
                 <default>false</default>
                 <label>NABHA GATE # PATIALA</label>
             </value>
@@ -156,12 +156,12 @@
                 <label>NASHIK</label>
             </value>
             <value>
-                <fullName>ABHFL_530003_NAVAP20_NAVARATNA # VISHAKHAPATTNAM</fullName>
+                <fullName>ABHFL_530003_NAVAP20_NAVARATNA#VISHAKHAPATTNAM</fullName>
                 <default>false</default>
                 <label>NAVARATNA # VISHAKHAPATTNAM</label>
             </value>
             <value>
-                <fullName>ABHFL_431005_NISMH48_NISHA BAFNA # AURANGABAD</fullName>
+                <fullName>ABHFL_431005_NISMH48_NISHABAFNA#AURANGABAD</fullName>
                 <default>false</default>
                 <label>NISHA BAFNA # AURANGABAD</label>
             </value>
@@ -171,7 +171,7 @@
                 <label>NOIDA</label>
             </value>
             <value>
-                <fullName>ABHFL_401404_WPAL001 _PALGHAR</fullName>
+                <fullName>ABHFL_401404_WPAL001_PALGHAR</fullName>
                 <default>false</default>
                 <label>PALGHAR</label>
             </value>
@@ -181,19 +181,19 @@
                 <label>PANIPAT_GB</label>
             </value>
             <value>
-                <fullName>ABHFL_462011_PREMP22_PREM KAMLA # BHOPAL</fullName>
+                <fullName>ABHFL_462011_PREMP22_PREMKAMLA#BHOPAL</fullName>
                 <default>false</default>
                 <label>PREM KAMLA # BHOPAL</label>
             </value>
             <value>
-                <fullName>ABHFL_411014_KHARD01_PRIDE ICON # KHARADI</fullName>
+                <fullName>ABHFL_411014_KHARD01_PRIDEICON#KHARADI</fullName>
                 <default>false</default>
                 <label>PRIDE ICON # KHARADI</label>
             </value>
             <value>
-                <fullName>ABHFL_400614_BELMH46_PUJIT PLAZA #  BELAPUR</fullName>
+                <fullName>ABHFL_400614_BELMH46_PUJITPLAZA#BELAPUR</fullName>
                 <default>false</default>
-                <label>PUJIT PLAZA #  BELAPUR</label>
+                <label>PUJIT PLAZA # BELAPUR</label>
             </value>
             <value>
                 <fullName>ABHFL_411004_WPUN002_PUNE</fullName>
@@ -206,12 +206,12 @@
                 <label>PUNE_PIMPRI_GB</label>
             </value>
             <value>
-                <fullName>ABHFL_492001_ERAI002_RAIPUR - SKY PARK</fullName>
+                <fullName>ABHFL_492001_ERAI002_RAIPUR-SKYPARK</fullName>
                 <default>false</default>
                 <label>RAIPUR - SKY PARK</label>
             </value>
             <value>
-                <fullName>ABHFL_360005_RajGJ29_RAJKOT H YOGI COMPLEX</fullName>
+                <fullName>ABHFL_360005_RajGJ29_RAJKOTHYOGICOMPLEX</fullName>
                 <default>false</default>
                 <label>RAJKOT H YOGI COMPLEX</label>
             </value>
@@ -226,7 +226,7 @@
                 <label>RATLAM</label>
             </value>
             <value>
-                <fullName>ABHFL_456010_UJJRIS1_RISHI NAGAR # UJJAIN</fullName>
+                <fullName>ABHFL_456010_UJJRIS1_RISHINAGAR#UJJAIN</fullName>
                 <default>false</default>
                 <label>RISHI NAGAR # UJJAIN</label>
             </value>
@@ -236,7 +236,7 @@
                 <label>SALEM</label>
             </value>
             <value>
-                <fullName>ABHFL_734001_ESIL002_SILIGURI GANAPATI PLAZA</fullName>
+                <fullName>ABHFL_734001_ESIL002_SILIGURIGANAPATIPLAZA</fullName>
                 <default>false</default>
                 <label>SILIGURI GANAPATI PLAZA</label>
             </value>
@@ -246,7 +246,7 @@
                 <label>SURAT</label>
             </value>
             <value>
-                <fullName>ABHFL_226010_URBUP20_URBANAC BUSINESS # LUCKNOW</fullName>
+                <fullName>ABHFL_226010_URBUP20_URBANACBUSINESS#LUCKNOW</fullName>
                 <default>false</default>
                 <label>URBANAC BUSINESS # LUCKNOW</label>
             </value>
@@ -270,8 +270,11 @@
                 <default>false</default>
                 <label>ZIRAKPUR</label>
             </value>
-            
-
-        </valueSetDefinition>
+            <value>
+                <fullName>ABHFL_452010_WVJNGR1_INDORE</fullName>
+                <default>false</default>
+                <label>Indore</label>
+            </value>
+    </valueSetDefinition>
     </valueSet>
 </CustomField>
