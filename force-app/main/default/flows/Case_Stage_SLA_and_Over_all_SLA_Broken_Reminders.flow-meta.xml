@@ -499,7 +499,7 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>EmailTempDevName</name>
         <dataType>String</dataType>
