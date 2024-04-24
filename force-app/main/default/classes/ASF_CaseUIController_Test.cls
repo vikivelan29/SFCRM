@@ -41,10 +41,10 @@ public class ASF_CaseUIController_Test{
         lanMap.LAN__c = ast.Id;
         insert lanMap;
         
-        LAN_Mapping__c lanMap = new LAN_Mapping__c();
-        lanMap.Customer__c = a.Id;
-        lanMap.LAN__c = ast.Id;
-        insert lanMap;
+        LAN_Mapping__c lanMap1 = new LAN_Mapping__c();
+        lanMap1.Customer__c = a.Id;
+        lanMap1.LAN__c = ast.Id;
+        insert lanMap1;
         
         Contact con = new Contact();
         con.Lastname ='Test con';
