@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_GERATA_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL GERATA</label>
+  <queue>ABHFL_GERATA</queue>
+  <sharedTo>
+    <group>ABHFL_GERATA_G</group>
+  </sharedTo>
+</ListView>

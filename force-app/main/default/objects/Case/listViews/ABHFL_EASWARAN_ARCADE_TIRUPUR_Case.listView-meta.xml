@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_EASWARAN_ARCADE_TIRUPUR_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL EASWARAN ARCADE # TIRUPUR</label>
+  <queue>ABHFL_EASWARAN_ARCADE_TIRUPUR</queue>
+  <sharedTo>
+    <group>ABHFL_EASWARAN_ARCADE_TIRUPUR_G</group>
+  </sharedTo>
+</ListView>

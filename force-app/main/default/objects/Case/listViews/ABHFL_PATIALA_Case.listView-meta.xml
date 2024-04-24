@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_PATIALA_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL PATIALA</label>
+  <queue>ABHFL_PATIALA</queue>
+  <sharedTo>
+    <group>ABHFL_PATIALA_G</group>
+  </sharedTo>
+</ListView>
