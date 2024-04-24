@@ -24,6 +24,7 @@ public with sharing class ABFL_Constants {
     public static final string EVALUATION_FAILED_FREQUENCY_ERROR = 'Frequency can\'t be blank ';
     public static final string EVALUATION_FAILED_TO_DATE_ERROR = 'To Date can\'t be blank ';
     public static final string EVALUATION_FAILED_DATE_VALIDATION = 'From Date and To Date should be in future';
+    public static final string EVALUATION_FAILED_FROM_TO_DATE_VALIDATION = 'From Date and To Date shouldn\'t be same';
     public static final string EVALUATION_FAILED_FROM_DATE_ERROR = 'From Date can\'t be blank ';
     public static final string EVALUATION_FAILED_BANK_ACCOUNT_ERROR = 'Bank Account No can\'t be blank ';
     public static final string EVALUATION_FAILED_IFSC_CODE_ERROR = 'Ifsc Code can\'t be blank ';
