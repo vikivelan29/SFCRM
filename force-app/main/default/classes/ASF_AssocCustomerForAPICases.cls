@@ -6,7 +6,7 @@
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
         
         public static void searchAndAssocCustomerForAPICases(List<Case> newList){
             Set<String> accountsClientCode = new Set<String>();

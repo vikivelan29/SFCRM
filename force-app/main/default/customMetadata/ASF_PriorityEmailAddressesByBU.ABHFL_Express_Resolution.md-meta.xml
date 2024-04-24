@@ -11,6 +11,14 @@
         <value xsi:type="xsd:string">ABHFL</value>
     </values>
     <values>
+        <field>Case_Business_Unit__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Case_Origin__c</field>
+        <value xsi:type="xsd:string">Email</value>
+    </values>
+    <values>
         <field>Default_Queue_Dev_Name__c</field>
         <value xsi:type="xsd:string">ABHFL_Express_Resolution</value>
     </values>

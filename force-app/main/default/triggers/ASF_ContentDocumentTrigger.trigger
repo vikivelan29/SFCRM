@@ -1,4 +1,4 @@
-trigger ASF_ContentDocumentTrigger on ContentDocument (before insert,after insert,before update,after update,before delete,after delete, after undelete) {
+trigger ASF_ContentDocumentTrigger on ContentDocument (before insert,before update,before delete) {
     TriggerDispatcher.Run(new ASF_ContentDocumentTriggerHandler());
     
 }

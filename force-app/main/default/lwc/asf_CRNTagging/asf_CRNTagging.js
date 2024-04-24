@@ -298,12 +298,13 @@ export default class Asf_CRNTagging extends LightningElement {
                 accountId: this.selectedCustomer,
                 assetId: selectedAsstId,
                 caseId: this.recordId,
-                faNumber: selectedFANum
+                faNumber: selectedFANum,
+                reqFromRecat: false
             })
                 .then(result => {
                     const event = new ShowToastEvent({
                         title: 'Success',
-                        message: 'SR updated',
+                        message: 'Case updated',
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -495,6 +496,15 @@ export default class Asf_CRNTagging extends LightningElement {
     }
     handleBack(event){
         this.showProspectCreation = false;
+    }
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
     }
 
     // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.

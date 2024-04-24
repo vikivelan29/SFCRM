@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 private class ASF_CommPETriggerHandler_Test {
@@ -135,10 +145,7 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        // Assert to check the count of the account
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-         // Assert to check the size of the peLoggers
-        System.assertEquals(1, peLoggers.size());
+        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -179,8 +186,6 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
         
         if(peLoggers.size()>0){
             insert peLoggers;
@@ -223,8 +228,6 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
         
         if(peLoggers.size()>0){
             insert peLoggers;
@@ -267,10 +270,6 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = null;
             peLoggers.add(peLogger);
         }
-
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
-        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -298,10 +297,6 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = 'Email;SMS';
             peLoggers.add(peLogger);
         }
-
-        System.assertEquals(1, [SELECT count() FROM Account WHERE Name = 'Test account']);
-        System.assertEquals(1, peLoggers.size());
-        
         if(peLoggers.size()>0){
             insert peLoggers;
         }

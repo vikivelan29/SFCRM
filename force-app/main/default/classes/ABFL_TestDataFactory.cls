@@ -180,6 +180,7 @@ public class ABFL_TestDataFactory {
         prePopInt1.Processing_Class__c = processingClass;
         prePopInt1.STP_API_Identifier__c = stpAPIIdentifier;
         prePopInt1.Display_Name__c = 'Fetch Field';
+        prePopInt1.Query_Fields__c = 'Id,ABFL_Case_Detail__c,ABFL_Case_Detail__r.Autoclosure_IN_RR__c,ABFL_Case_Detail__r.IsRegisteredCustomer__c,ABFL_Case_Detail__r.Autoclosed__c,ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,ABFL_Case_Detail__r.Document_URL__c,LAN__c,Account.IsPersonAccount,Asset.Loan_Start_Date__c,Account.PersonEmail,Account.Office_Email__c,Account.PersonMobilePhone,Account.Phone,Technical_Source__c,AccountId,AssetId,Source__c,Account.Name,MoveToNext__c,CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,ABFL_Case_Detail__r.From_Date__c,ABFL_Case_Detail__r.To_Date__c,BRE_Source__c,SuppliedEmail,Origin,ABFL_Case_Detail__r.IsSMT__c';                                                         
         prePopInt1.STP_Template__c = 'ABFL_FIRST_TAT_COMMUNICATION_DIGITAL';
 
         intConfigList.add(prePopInt1);
@@ -208,6 +209,12 @@ public class ABFL_TestDataFactory {
                                                                  KYCCOMPLIED__c='Some Text',
                                                                  IsRegisteredCustomer__c='Yes',
                                                                  SUBSOURCE__c= 'SUBSOURCE',
+                                                                 Frequency__c = 'M',
+                                                                 To_Date__c = System.Today()+6,
+                                                                 From_Date__c = System.Today()+2,
+                                                                 EMI_Amount__c = 5000,
+                                                                 New_Bank_Account_No__c = '123356666',
+                                                                 Bank_IFSC_Code__c = '12345',
                                                                  Lock_in_Period__c = 'No'
                                                                 );
         caseDetailList.add(caseDetail);
@@ -225,6 +232,7 @@ public class ABFL_TestDataFactory {
         a.Name = '12345';
         a.Office_Email__c = 'testAcc@123.com';
         a.Phone = '444-010-4444';
+        a.PAN__c = 'ADNPN4241N';
         //a.CRN__c = '12344';
         insert a;
         

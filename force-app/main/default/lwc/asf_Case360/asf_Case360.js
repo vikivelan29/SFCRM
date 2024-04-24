@@ -223,7 +223,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     refreshContainerID;
 
     resolutionReasonPopUpFld = ''; //VIRENDRA - ADDED FOR RESOLUTION COMMENT ON POPUP.
-
+    notApplicable = false;
     //Optimization variables
     allowRenderedCallback = false;
     loadReady = false;
@@ -233,6 +233,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     showForwardStages = false;
     closureTypeSelected = 'resolved';
     selectedStage;
+    showErrors = false;
+    errorMessage;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -668,6 +670,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 let toastMsg = this.skipMoveToNextStage ? 'Case updated' : 'Case updated and moved to next stage';
                 this.showSuccessMessage('success', toastMsg, '');
                 this.handlePublishEvent();
+                this.openClosurePopUp = false;
                 this.loading = false;
                 this.skipMoveToNextStage == false;
                 this.loadReady = false;
@@ -725,9 +728,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 updateRecord(recordInput)
                     .then(result => {
                         console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
+                        this.openClosurePopUp = false;
                         this.showSuccessMessage('success', "Success", "SR is Rejected");
                         this.handlePublishEvent();
-                        this.openClosurePopUp = false;
                         this.loading = false;
                         this.loadReady = false;
                         refreshApex(this.processApexReturnValue);
@@ -876,6 +879,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     setRejectedReason(event) {
         this.rejectedReason = event.target.value;
+        if (this.rejectedReason && this.rejectedReason.length >255) {
+            this.notApplicable=true;
+            this.showErrors=true;
+            this.errorMessage = 'Length must be less than or equal to 255 characters for Close Unresolved Details';   
+        }
+        else{
+            this.notApplicable=false;
+            this.showErrors=false;
+
+        }
     }
     handleRejReasonChange(event) {
         this.selectedReason = event.target.value;

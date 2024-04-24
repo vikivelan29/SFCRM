@@ -2,13 +2,13 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 01-17-2024
+ * @last modified on  : 04-24-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions')
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions,PMD.ApexSOQLInjection')
 public without sharing class ASF_CommPETriggerHelper {
     
     public static Set<String> customMetadataName = new Set<String>();
@@ -327,7 +327,11 @@ public without sharing class ASF_CommPETriggerHelper {
                         else if(log.Lead__c != null){
                             log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Lead__c,log.id, true); 
                         }
-                                                
+                        else if(log.Send_To_Specific_Mobile__c){
+                            log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,defaultContactId,log.id, true); 
+                        }
+                        
+                        
                         responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.SMS_Msg_Body__c);
                         peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
                         eventList.add(createOutboundCommunication(log,'SMS'));
@@ -461,8 +465,18 @@ public without sharing class ASF_CommPETriggerHelper {
                 ASF_Communication_Log__c log = cLog.clone(false, true,false, false);
                 Case cRec = mCases.get(pLog.Case__c);
                 
-                if(selectedCon!=null && selectedCon.MobilePhone != null){
-                    log = createCommunincationLogRecord(log,selectedCon.AccountId,selectedCon.Id,cRec.Id,selectedCon.Name,selectedCon.MobilePhone,null);
+                if(pLog.Send_To_Specific_Mobile__c){
+                    if(pLog.Specific_To_MobilePhone__c != null){
+                        log = createCommunincationLogRecord(log,null,null,cRec.Id,'Customer',pLog.Specific_To_MobilePhone__c,null);
+                        log.put('PE_Logger_Id__c',pLog.Id);
+                        log.LOB__c = pLog.LOB__c;
+                        log.put('Status__c','In Progress');
+                        log.put('Send_To_Specific_Mobile__c',pLog.Send_To_Specific_Mobile__c);
+                        logs.add(log);
+                    }
+                }
+                else if(selectedCon!=null && selectedCon.MobilePhone != null){
+                    log = createCommunincationLogRecord(log,cRec.AccountId,selectedCon.Id,cRec.Id,selectedCon.Name,selectedCon.MobilePhone,null);
                     log.put('Contact_Email__c', selectedCon.email);
                     log.put('PE_Logger_Id__c',pLog.Id);
                     log.LOB__c = pLog.LOB__c;

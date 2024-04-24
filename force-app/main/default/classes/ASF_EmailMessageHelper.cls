@@ -132,11 +132,17 @@ public without sharing class ASF_EmailMessageHelper {
                     EmailMessage em = caseIdToEmailMessageMap.get(oldCaseId);
                     em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
                 }
+                // added logic to send acknowledgment email for new case creatd after email comes to closed case for ABWM Email
+                for(Case newCase : oldCaseIdToNewCaseMap.values()){
+                    if(newCase.Origin == ABFL_Constants.ABWMEMAIL){
+                        ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(newCase, ABFL_Constants.WMEMAILTEMPLATENAME, newCase.SuppliedEmail, '', '');
+                    }
+                }
             }
         }
     }
-    //Commenting the method as its not in use
-    /*private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+    
+    private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
         String firstOwner;
         if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
             firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
@@ -147,7 +153,7 @@ public without sharing class ASF_EmailMessageHelper {
         }
         return theMap;
     }
-    */
+    
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
         Case newCase = new Case();
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;

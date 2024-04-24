@@ -77,7 +77,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
+                    <value>GRID</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>rowsToDisplay</name>
@@ -441,6 +441,16 @@
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>fieldSetName</name>
+                    <value>ASF_Editable_Fields</value>
+                </componentInstanceProperties>
+                <componentName>asf_CaseEditPage</componentName>
+                <identifier>c_asf_CaseEditPage</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

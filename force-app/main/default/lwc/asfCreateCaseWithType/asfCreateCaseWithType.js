@@ -347,7 +347,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.populateSubSourceFld();
             }
         }
-        if ((selected) && (this.businessUnit == 'ABFL')) {
+        if ((selected) && ((this.businessUnit == 'ABFL')||(this.businessUnit == 'ABWM') )) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -795,7 +795,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     btnActive = false;
                 }
             }
-            if(this.sourceFldValue == 'Phone-Inbound'){
+            //Changes as per PR970457-1419 to add Track id for Phone Outbound & Inbound Nodal desk
+            if(this.sourceFldValue == 'Phone-Inbound' || this.sourceFldValue == 'Phone-Outbound' || this.sourceFldValue == 'Inbound Nodal Desk'){
                 btnActive = false;
                 this.isPhoneInbound = true;
             }

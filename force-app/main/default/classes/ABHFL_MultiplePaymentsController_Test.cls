@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ABHFL_MultiplePaymentsController_Test {
     
@@ -37,7 +47,6 @@ public class ABHFL_MultiplePaymentsController_Test {
         payment1.Mode_of_Payment__c = 'Cheque';
         payment1.Date__c = Date.today();
         payment1.Case__c=caseRec.id;
-
         ABHFL_MultiplePaymentsController.savePayments(caseRec.Id, new List<ABHFL_Payment__c>{payment1});
 
         List<ABHFL_Payment__c> paymentsAfter = ABHFL_MultiplePaymentsController.getPaymentsForCase(caseRec.Id);

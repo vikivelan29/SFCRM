@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler {
     private Boolean isTriggerDisabled(){
         return isDisabled('Case');
@@ -119,12 +129,13 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
-                        
+            ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
+            
             // Virendra - to Reject the Checklist and Task on Case Rejection.
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
             ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
-ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
+            ASF_CaseTriggerModularHelper.createFeedItem((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
@@ -157,9 +168,10 @@ ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
-ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords((Map<Id, Case>)newItemsCase, null);
-                        
+            ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
+            
+            
             //SLA 
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
             

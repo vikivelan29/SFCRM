@@ -128,9 +128,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
-                    intIds.add(integ.External_Id__c);
-                }
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -163,21 +161,20 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         for(Case caseRec : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
-                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
-                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                    caseInt.Case__c  = caseRec.Id;
-                    caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-                    caseInt.Status__c = ABFL_Constants.PENDING;
-                    caseInt.Type__c = 'BRE';
-                    caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
-                    newCaseIntegrations.add(caseInt);
-                }
+                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                caseInt.Case__c  = caseRec.Id;
+                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                caseInt.Status__c = ABFL_Constants.PENDING;
+                caseInt.Type__c = 'BRE';
+                caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
+                newCaseIntegrations.add(caseInt);
             }
         }
 
         insert newCaseIntegrations;
         Map<Id, List<ASF_Case_Integration__c>> caseIdToCaseInts = new Map<Id, List<ASF_Case_Integration__c>>();
-        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c,Status__c,Type__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
+        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c,Status__c, Integration_Ext_Id__c, Type__c
+                                               FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
         {
             if(!caseIdToCaseInts.containsKey(caseInt.Case__c)){
                 caseIdToCaseInts.put(caseInt.Case__c, new List<ASF_Case_Integration__c>());
@@ -286,7 +283,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                     System.debug('@@@resultWrap'+resultWrap);
-                    resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                     if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) {
+                        resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                    }
                     update resultWrap.get(caseRecord.Id)?.caseToBeUpdated;
                 }
                 
@@ -299,6 +298,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }
         }
         catch(Exception e) {
+            System.debug('@@@mess'+e.getMessage()+' '+e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
             ABCL_Logger.message(e.getMessage());

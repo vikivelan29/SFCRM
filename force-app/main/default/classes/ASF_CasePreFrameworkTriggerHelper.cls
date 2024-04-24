@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CasePreFrameworkTriggerHelper {
     
     public void populatePreFrameworkFields(list<case> newItems){
@@ -28,6 +38,9 @@ public class ASF_CasePreFrameworkTriggerHelper {
         for(Case cs : newItems){
             if(cs.RecordTypeId == interactionId){
                 cs.Source__c = 'Email';
+                if(ASF_Constants.mCaseOriginVsSource.Keyset().contains(cs.Origin)){
+                    cs.Source__c = ASF_Constants.mCaseOriginVsSource.get(cs.Origin);
+                }
                 cs.Channel__c = 'Email';
                 cs.Technical_Source__c = 'Email';
                 cs.BusinessHoursId = bh.Id;
@@ -41,9 +54,15 @@ public class ASF_CasePreFrameworkTriggerHelper {
                         cs.Business_Unit__c = ASF_Constants.mCaseOriginVsBusinessUnit.get(caseOrigin);
                     }
                 }
+                /* ADDED LOGIC TO CONSIDER ABFL AND ABWM AS ABFL ONLY.
+                 */
+                String caseRecBU = cs.Business_Unit__c;
+                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRecBU)){
+                    caseRecBU = 'ABFL';
+                }
                 
-                if(mBHName.containsKey(cs.Business_Unit__c)){
-                    cs.BusinessHoursId = mBHName.get(cs.Business_Unit__c);
+                if(mBHName.containsKey(caseRecBU)){
+                    cs.BusinessHoursId = mBHName.get(caseRecBU);
                 }
                 Long sla1Sec;
                 if( mapGroupsByName.get(cs.OwnerId) != NULL && mapSLA_Owner.get(mapGroupsByName.get(cs.OwnerId)) != NULL ){

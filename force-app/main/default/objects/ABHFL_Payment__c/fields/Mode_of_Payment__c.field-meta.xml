@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Mode of Payment</label>
     <required>true</required>
-    <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
