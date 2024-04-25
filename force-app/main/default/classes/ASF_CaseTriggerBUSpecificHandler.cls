@@ -45,6 +45,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
+
+        // Create Comment if the case is closed while creation.[through api]
+        ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -58,7 +61,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){
         	ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
         }
-        
+        ABHFL_CTSTHelper.validationsOnExtensionObject((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         
         
