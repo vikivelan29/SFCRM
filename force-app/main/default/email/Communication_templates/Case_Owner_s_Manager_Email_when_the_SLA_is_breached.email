@@ -1,14 +1,14 @@
 TAT Breached !!
-Escalated to <Level > on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this SR as quickly as possible. <br/>
-SR Details<br/>
+Escalated to <Level > on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this Case as quickly as possible. <br/>
+Case Details<br/>
 =============================================================================<br/>
-SR No.: {!Case.CaseNumber}<br/>
-SR Nature: {!Case.Nature__c}<br/>
-SR Type : {!Case.Type_Text__c}<br/>
+Case No.: {!Case.CaseNumber}<br/>
+Case Nature: {!Case.Nature__c}<br/>
+Case Type : {!Case.Type_Text__c}<br/>
 Created Date/Time: {!Case.CreatedDate}<br/>
 Created By: {!Case.CreatedBy}<br/>
 =============================================================================<br/>
-SR Assignment Details<br/>
+Case Assignment Details<br/>
 =============================================================================<br/>
 Assigned Date/Time: {!Case.Case_Stage_Change_Date__c}<br/>
 
