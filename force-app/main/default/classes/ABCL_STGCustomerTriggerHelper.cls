@@ -2,13 +2,13 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 03-27-2024
+ * @last modified on  : 04-24-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   03-27-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-public without sharing class ABCL_STGCustomerTriggerHelper{
+public without sharing class ABCL_STGCustomerTriggerHelper {
     public static final string PAYMENT_LOB = 'Payments';
     
     public static void executePlatformEvent(Map<Id,STG_Customer__c> newMap){

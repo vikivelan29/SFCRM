@@ -1,0 +1,80 @@
+{
+   "ResponseGetBasicCustomerInfo":{
+      "@languageCode":"en-US",
+      "DataArea":{
+         "BasicCustomerInfo":{
+            "Response":{
+               "Basic_Customer_Info":{
+                  "Address_details":{
+                     "rows":{
+                        "CUSTOMER_NAME":"RAM SEWAK GUPTA",
+                        "ADDRESS":". 358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD 358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD CT04097",
+                        "CUSTOMER_NO":"GLBCUST00000340950",
+                        "PREFERRED_MAILING_ADDRESS":true,
+                        "TYPE_OF_ADDRESS":"ResidentialAddress",
+                        "PRIMARY_ADDRESS":{
+                           "ADDRESS_LINE1":". 358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD",
+                           "ADDRESS_LINE2":"358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD",
+                           "ADDRESS_LINE3":null,
+                           "ADDRESS_LINE4":null,
+                           "AREA":null,
+                           "VILLAGE":null,
+                           "CITY":"CT04097",
+                           "DISTRICT":null,
+                           "STATE":"UP",
+                           "COUNTRY":"IND",
+                           "ZIPCODE":"283203",
+                           "REGION":null,
+                           "LANDMARK":null,
+                           "TALUK":null
+                        }
+                     }
+                  },
+                  "Acct_Info":{
+                     "rows":{
+                        "SZ_ADDRESS":". 358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD 358 5 KE BARABAR ME SHYAM NAGAR FIROZABAD CT04097",
+                        "CUSTOMER_NAME":"RAM SEWAK GUPTA",
+                        "ACCOUNT_STATUS":"Success",
+                        "DOB":"11/03/1971",
+                        "MOBILE_NO":"9324059324",
+                        "CUSTOMER_NO":"GLBCUST00000340950",
+                        "EMAIL":"vinod.n@kgisl.com"
+                     }
+                  },
+                  "rowsare":[
+                     {
+                        "REPAID_AMOUNT": "302064",
+                        "PREVIOUSEMI_DUEDATE": "05/06/2021",
+                        "PREVIOUSEMI_AMT": "14384",
+                        "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                        "BILLED_STATUS": "Y"
+                     },
+                     {
+                        "REPAID_AMOUNT": "302064",
+                        "PREVIOUSEMI_DUEDATE": "05/07/2021",
+                        "PREVIOUSEMI_AMT": "14384",
+                        "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                        "BILLED_STATUS": "Y"
+                     },
+                     {
+                        "REPAID_AMOUNT": "302064",
+                        "PREVIOUSEMI_DUEDATE": "05/08/2021",
+                        "PREVIOUSEMI_AMT": "14384",
+                        "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                        "BILLED_STATUS": "Y"
+                     },
+                     {
+                        "REPAID_AMOUNT": "302064",
+                        "PREVIOUSEMI_DUEDATE": "05/09/2021",
+                        "PREVIOUSEMI_AMT": "14384",
+                        "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005",
+                        "BILLED_STATUS": "Y"
+                     }
+                  ]
+               }
+            }
+         }
+      }
+   }
+}
+

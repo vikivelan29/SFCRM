@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ASF_Email2CaseHandler_Test {
     
@@ -27,7 +37,6 @@ public class ASF_Email2CaseHandler_Test {
             eMsg.Incoming = true;
             eMsg.Send_to_EBOT__c = true;
             eMsg.Headers ='In-Reply-To:';
-            emsg.Winning_Email__c = 'abhfl.grievancehead@adityabirlacapital.com';
             insert eMsg;
         
         	EmailMessage eMsgOutgoing = new EmailMessage();
@@ -71,7 +80,7 @@ public class ASF_Email2CaseHandler_Test {
             eMsg.Incoming = true;
             insert eMsg;
         }
-        //EmailMessage msg = [SELECT ID,Winning_Email__c FROM EmailMessage WHERE ParentId =: newCase.Id AND Incoming = true LIMIT 1];
+        EmailMessage msg = [SELECT ID,Winning_Email__c FROM EmailMessage WHERE ParentId =: newCase.Id AND Incoming = true LIMIT 1];
         //System.AssertEquals(msg.Winning_Email__c,'abfl.grievancehead@adityabirlacapital.com','Prioritisation Tested Successfully.');
     }
     

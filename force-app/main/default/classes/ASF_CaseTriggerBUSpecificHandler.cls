@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
@@ -44,7 +54,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
-            }
+        //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
+    }
     // INSERT CONTEXT - ENDS HERE
     
     // UPDATE CONTEXT - ENDS HERE

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Business_Unit</shortDescription>
         <value>ABHFL,ABFL,Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Reassign_Case_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>describe the time frame for orphan case reparenting tasks</shortDescription>
+        <value>360</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_UserName</fullName>
@@ -40,7 +54,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
-        <value>Test Project Id</value>
+        <value>7m4u_touchpoint</value>
     </labels>
     <labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
@@ -57,6 +71,13 @@
         <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority,All LANs:All LANs,Applicant Type(COAPPL):Applicant Type(COAPPL),Applicant Type(PRAPPL):Applicant Type(PRAPPL)</value>
     </labels>
     <labels>
+        <fullName>ABHFL_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Data_Service_Sections</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -64,11 +85,11 @@
         <value>Disbursement_History</value>
     </labels>
     <labels>
-        <fullName>ABHFL_Case_Dedupe_Active</fullName>
+        <fullName>ASF_BulkDownloadLimit_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
+        <shortDescription>ASF_BulkDownloadLimit_Msg</shortDescription>
+        <value>Maximum record limit is 50,000. If you have selected more than 50,000 records to download, The first 50,000 records will only be downloaded.</value>
     </labels>
     <labels>
         <fullName>ABHFL_LOD_Calendar_Year</fullName>
@@ -83,13 +104,6 @@
         <protected>false</protected>
         <shortDescription>ABHFL ROI HIstory Fields</shortDescription>
         <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Old Rate:OLD_RATE,New Rate:new_rate</value>
-    </labels>
-    <labels>
-        <fullName>ASF_BulkDownloadLimit_Msg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkDownloadLimit_Msg</shortDescription>
-        <value>Maximum record limit is 50,000. If you have selected more than 50,000 records to download, The first 50,000 records will only be downloaded.</value>
     </labels>
     <labels>
         <fullName>ASF_BulkThresholdForQueueable</fullName>
@@ -168,6 +182,20 @@
         <protected>false</protected>
         <shortDescription>ASF_CloseCaseWithoutCustomer</shortDescription>
         <value>Close Case without Customer</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
     </labels>
     <labels>
         <fullName>ASF_CreateCaseWithProspect</fullName>
@@ -415,6 +443,13 @@
         <value>You are not allowed to edit a Closed Case.</value>
     </labels>
     <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
+        <value>Real Time Integration has failed. Please check with admin.</value>
+    </labels>
+    <labels>
         <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -590,6 +625,34 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
+        <fullName>ASF_File_Update_Val_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
         <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -597,11 +660,11 @@
         <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
     <labels>
-        <fullName>EmailRelayThreshold</fullName>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
     </labels>
     <labels>
         <fullName>ASF_TAT_1_Breach_Email_Template</fullName>

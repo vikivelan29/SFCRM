@@ -1,6 +1,16 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 04-24-2024
+  @last modified by  : rsinghnagar@salesforce.com 
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+-->
 <template>
     <lightning-quick-action-panel header="Case Type Recategorize" class="slds-is-relative">
-        <div style="min-height:300px; height:auto;">
+        <div style="min-height:300px; height:auto">
             <template if:false={loaded}>
                 <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
             </template>
@@ -17,10 +27,10 @@
                             </lightning-button>
                         </lightning-layout-item>
 
-                    <lightning-layout-item size="12" padding="around-small" style="position: relative;">
-                        <template if:true={boolShowNoData}>
-                            <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
-                        </template>
+                        <lightning-layout-item size="12" padding="around-small" style="position: relative;">
+                            <template if:true={boolShowNoData}>
+                                <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
+                            </template>
 
                             <template if:false={boolShowNoData}>
                                 <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
@@ -110,8 +120,8 @@
                                         onchange={handleSubSource} value={subsourceSelected}>
                                     </lightning-input-field>
                                 </lightning-record-edit-form>
-                                <lightning-input type="text" disabled value={selectedSRCategory}
-                                    label="SR Category"></lightning-input>
+                                <lightning-input type="text" disabled value={selectedSRCategory} label="SR Category">
+                                </lightning-input>
                             </template>
 
                         </lightning-layout-item>
@@ -121,12 +131,11 @@
             <template if:false={recategorizeEnabled}>
                 Case is not eligible for Recategorization
             </template>
-            
-        </div>
-        <div slot="footer">
-            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> &nbsp;
-            <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
-                onclick={updateCaseHandler}></lightning-button>
+            <div slot="footer">
+                <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> &nbsp;
+                <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
+                    onclick={updateCaseHandler}></lightning-button>
+            </div>
         </div>
     </lightning-quick-action-panel>
 </template>

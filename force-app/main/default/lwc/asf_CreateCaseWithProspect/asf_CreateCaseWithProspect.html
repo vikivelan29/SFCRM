@@ -2,7 +2,7 @@
     <lightning-card>
         <template if:true={loaded}>
             <template if:true={ctstSelection}>
-                <h1 slot="title">SR Type Search</h1>
+                <h1 slot="title">Case Type Search</h1>
                 <lightning-layout multiple-rows="true" vertical-align="end">
                     <lightning-layout-item size="8" padding="around-small">
                         <!--Input text to Search Account-->
@@ -99,12 +99,12 @@
                                 </lightning-input-field>
                             </lightning-record-edit-form>
                             <lightning-input type="text" disabled value={selectedSRCategory}
-                                label="SR Category"></lightning-input>
+                                label="Case Category"></lightning-input>
                         </template>
 
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small">
-                        <!--<lightning-button label="Create SR" variant="brand" disabled={isNotSelected}
+                        <!--<lightning-button label="Create Case" variant="brand" disabled={isNotSelected}
                             onclick={createCaseHandler}></lightning-button>-->
 
                     </lightning-layout-item>

@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public with sharing class ABHFL_MultiplePaymentsController {
 
 
@@ -25,8 +35,7 @@ public with sharing class ABHFL_MultiplePaymentsController {
         String result = 'Success';
         try {
             for(ABHFL_Payment__c newPayment : payments){
-                    //newPayment.Case__c = caseId;
-                
+                //newPayment.Case__c = caseId;
             }
             upsert payments;
             Case caseRec = [SELECT Id,Stage__c FROM Case WHERE Id =: caseId];

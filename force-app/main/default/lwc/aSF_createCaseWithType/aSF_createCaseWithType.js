@@ -88,6 +88,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     noAutoCommValue = [];
     showAutoComm = false;
     isCloseCase = false;
+    closeCaseWithoutCusButton = '';
 
 
     @api propertyValue;
@@ -318,6 +319,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
         let leadId = this.caseRec.fields.Lead__c.value;
+
+
         if(this.caseRec.fields.Asset.value != null && this.caseRec.fields.Asset.value != undefined){
                 if(this.caseRec.fields.Asset.value.fields.LOB__c != null && this.caseRec.fields.Asset.value.fields.LOB__c != undefined){
                     this.lobAsset = this.caseRec.fields.Asset.value.fields.LOB__c.value;
@@ -333,6 +336,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
+    inpArg['closeCaseWithoutCusButton'] = this.closeCaseWithoutCusButton;
     let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
@@ -343,6 +347,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
+                    this.closeCaseWithoutCusButton = 'false';
                 })
                 .catch(error => {
                     this.accounts = null;
@@ -770,6 +775,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
+        this.cancelReject();
     }
 
     showModal(event) {
@@ -898,7 +904,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isCloseCase = true;
-
+        this.closeCaseWithoutCusButton= 'true';
         this.withoutAsset = 'closeCRN';
         this.showSRModal = true;
         this.complaintLevelVisible = false;
@@ -912,6 +918,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = false;
         this.complaintLevelVisible = false;
         this.isNotSelected = true;
+        this.closeCaseWithoutCusButton= 'true';
         this.isCloseCase = false;
 
         this.withoutAsset = 'Prospect';

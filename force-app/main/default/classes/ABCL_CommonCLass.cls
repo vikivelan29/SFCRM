@@ -34,9 +34,17 @@ public with sharing class ABCL_CommonCLass {
 
         for(Case csRec : newCaseLst) {
             if(String.isNotBlank(csRec.Business_Unit__c)) {
-                String bussUnit = csRec.Business_Unit__c; 
-                if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                if(csRec.Business_Unit__c == 'ABWM'){
+                  String bussUnit = 'ABFL'; 
+                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
+                }
+                else{
+                	String bussUnit = csRec.Business_Unit__c; 
+                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
                     setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
                 }
             }
         }
@@ -60,7 +68,13 @@ public with sharing class ABCL_CommonCLass {
         
             for(Case csRec : newCaseLst) {  
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
-                    String busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    String busshrId ='';
+                    if(csRec.Business_Unit__c == 'ABWM'){
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
+                    }
+                    else{
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    }
                     csRec.BusinessHoursId = busshrId;
                 }
             }
@@ -100,5 +114,19 @@ public with sharing class ABCL_CommonCLass {
             update recordsToUpdate;
         }
         
+    }
+    //This method bypasses the validation rule for System Admin and API profiles
+    public static boolean bypassValidation(){
+        boolean result = false;
+        
+        List<Id> bypassProfileId = new List<Id>();
+        for(Profile profRec : [select Id, Name from profile where Name IN : ASF_Constants.VALIDATION_BYPASS_PROFILES]){
+            bypassProfileId.add(profRec.Id);
+        }
+        //Bypass owner validations for the sys admin and Integration Profiles
+        if(bypassProfileId.contains(UserInfo.getProfileId())){
+            return true;
+        }
+        return result;
     }
 }

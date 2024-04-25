@@ -46,7 +46,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
                         Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(recordAfter);
                     }   
-                    else if(integrationCase.Business_Unit__c == 'ABFL'){
+                    else if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(integrationCase.Business_Unit__c) ){
                         ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         system.debug('ebotResponseABFL '+ebotResponse);
                         ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);

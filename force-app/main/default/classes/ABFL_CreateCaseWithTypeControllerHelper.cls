@@ -5,6 +5,7 @@ public class ABFL_CreateCaseWithTypeControllerHelper {
         
         if(inpArg != null){
             mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+            system.debug('valuemInpArg '+mInpArg);
         }
         for(ASF_Case_Category_Config__c ccc : cccList){
             //IF ACCOUNT LOB IS WEALTH THEN ONLY RETURN WEALTH CTSTs, OTHERWISE RETURN ALL FROM PARENT METHOD.
@@ -13,6 +14,9 @@ public class ABFL_CreateCaseWithTypeControllerHelper {
                     returnVal.add(ccc);
                 }
                 else if(ccc.LOB__c != ABFL_Constants.WEALTHLOB) {
+                    returnVal.add(ccc); 
+                }
+                 else if(mInpArg.get('closeCaseWithoutCusButton') == 'true') {
                     returnVal.add(ccc); 
                 }
             }

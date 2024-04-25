@@ -1,0 +1,89 @@
+{
+    "Root": {
+        "ResponseGetLoanDetails": {
+            "@languageCode": "en-US",
+            "DataArea": {
+                "LoanDetails": {
+                    "Response": {
+                        "Summary_Data": {
+                            "repayment_detail": {
+                                "rows": {
+                                    "EMI_END_DATE": "05/05/2026",
+                                    "ACCOUNT_NO": null,
+                                    "EMI_AMOUNT": "5266",
+                                    "CUSTOMER_NO": "GLBCUST00000000235",
+                                    "REPAYMENT_MODE": null,
+                                    "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010094",
+                                    "BANK_NAME": "BARB0BHELXX"
+                                }
+                            },
+                            "loan_info": {
+                                "rows": {
+                                    "ACCOUNT_STATUS": "Active",
+                                    "INTEREST_TYPE": "Fixed",
+                                    "CYCLEDAY": "5",
+                                    "TOTAL_TENOR": "60",
+                                    "LOAN_START_DATE": "22/04/2021",
+                                    "SANCTIONED_AMOUNT": "225042",
+                                    "NEXT_DUE_DATE": "05/03/2024",
+                                    "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010094",
+                                    "REPAYMENT_FREQUENCY": "Monthly",
+                                    "LOAN_OUTSTANDING": "121024",
+                                    "ACCOUNT_NO": null,
+                                    "TOTAL_AMOUNT_DISBURSED": "225042",
+                                    "BUSINESS_DATE": "20/02/2024",
+                                    "PRODUCT": "Personal Installment Loan",
+                                    "LAST_DISB_DATE": "22/04/2021",
+                                    "LOAN_MATURITY_DATE": "05/05/2026",
+                                    "EMI_END_DATE": "05/05/2026",
+                                    "REMAINING_TENURE": "27",
+                                    "INTEREST_RATE": "14.25",
+                                    "NO_OF_PENDING_INSTALLMENT": "3"
+                                }
+                            },
+                            "Loan_Status": {
+                                "rows": {
+                                    "APPLICATION_NO": "PL00000095872",
+                                    "PRODUCT": "Personal Installment Loan",
+                                    "STATUS": "Active"
+                                }
+                            },
+                            "Overdue_Charges": {
+                                "rows": {
+                                    "LOAN_ACCOUNT_NO": "ABCHN0PL000000010094",
+                                    "TOTAL_OVERDUE_AMT": "-84229"
+                                }
+                            },
+                            "borrower_detail": {
+                                "rows": {
+                                    "MOBILE": "9324059324",
+                                    "BORROWER_NAME": "FAZLULLAH  BASHA",
+                                    "E_MAIL": "vinod.n@kgisl.com"
+                                }
+                            },
+                            "Disbursement_sUMMARY": {
+                                "rows": {
+                                    "CURRENT_DISB_AMT": "225042",
+                                    "AMOUNT_DISB_TILL_DATE": "225042",
+                                    "BALANCE_REMAINING": "0",
+                                    "TOTAL_SANCTION_AMT": "225042",
+                                    "DISBURSEMENT_STATUS": "Fully Disbursed"
+                                }
+                            },
+                            "account_detail": {
+                                "rows": {
+                                    "ACCOUNT_STATUS": "Active",
+                                    "PRODUCT": "Personal Installment Loan",
+                                    "CUSTOMER_NO": "GLBCUST00000000235",
+                                    "SANCTIONED_AMOUNT": "225042",
+                                    "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010094",
+                                    "NEXT_DUE_AMOUNT": "5266"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

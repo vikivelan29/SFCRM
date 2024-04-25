@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>Abhfl_GenericRepeatingAndOpenComplntClas</members>
-        <members>Asf_FetchAssetRelatedToAccountController</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>ASF_Asset_Metadata.ABFL_Columns</members>
-        <members>ASF_Asset_Metadata.ABHFL_Columns</members>
-		<members>Doc_Charge.Pre_Closure_Statement_Retention_Rejecti</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>asf_FetchAssetsRelatedToAccount</members>
-        <name>LightningComponentBundle</name>
-    </types>
+   <types>
+        <members>Case.ABFL_SR_Snapshot</members>
+        <name>QuickAction</name>
+	</types>
     <version>58.0</version>
 </Package>

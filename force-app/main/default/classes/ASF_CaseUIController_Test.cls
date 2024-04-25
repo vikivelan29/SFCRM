@@ -1,5 +1,15 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @IsTest
-public class ASF_CaseUIController_Test {
+public class ASF_CaseUIController_Test{
     @TestSetup
     public static void setupData(){
         
@@ -9,7 +19,7 @@ public class ASF_CaseUIController_Test {
 
         Account a = new Account();
         a.Name = '12344';
-        //a.CRN__c = '12344';
+        //a.CRN__c = '12344'; added comment
         insert a;
         
         ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
@@ -25,11 +35,16 @@ public class ASF_CaseUIController_Test {
         //ast.Financial_Account_Number__c ='2333423';
         ast.Name = 'aas';
         insert ast;
-        
+
         LAN_Mapping__c lanMap = new LAN_Mapping__c();
         lanMap.Customer__c = a.Id;
         lanMap.LAN__c = ast.Id;
         insert lanMap;
+        
+        LAN_Mapping__c lanMap1 = new LAN_Mapping__c();
+        lanMap1.Customer__c = a.Id;
+        lanMap1.LAN__c = ast.Id;
+        insert lanMap1;
         
         Contact con = new Contact();
         con.Lastname ='Test con';
@@ -106,10 +121,18 @@ public class ASF_CaseUIController_Test {
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
         System.debug('@@@ass'+ass+' '+ wrapper);
+        Lead testLead = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        insert testLead;
         ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
-        Case cs = [select id,contactId,AccountId,AssetId from case limit 1];
-        
-        ASF_CaseUIController.updateCRN(wrapper[0].recordId,wrap.asstList[0].Id,cs.Id,'2333423');
+        Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
+        Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
@@ -125,10 +148,17 @@ public class ASF_CaseUIController_Test {
         fieldsData.put('AssetId', cs.AssetId);
         
         ASF_Case_Category_Config__c ccc = [select id from ASF_Case_Category_Config__c limit 1];
-        string assetTest = '';
+        string assetTest = 'closeCRN';
         ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
         string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
+        Lead testLead2 = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        Map<String,sObject> result = ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName);
         //}
         

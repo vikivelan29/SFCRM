@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Realization Status</label>
     <required>false</required>
-    <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

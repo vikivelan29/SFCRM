@@ -146,7 +146,7 @@
     <description>Object to record Payments associated with a case</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>true</enableFeeds>
+    <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
@@ -158,7 +158,6 @@
     <nameField>
         <displayFormat>P-{0000}</displayFormat>
         <label>ABHFL Payment Name</label>
-<trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>

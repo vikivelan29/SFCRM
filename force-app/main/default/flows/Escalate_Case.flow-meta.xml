@@ -155,7 +155,12 @@
             <name>Escalation_comments</name>
             <fieldText>Escalation comments</fieldText>
             <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <validationRule>
+                <errorMessage>&lt;p&gt;{!DisplayEscalationCommentsError}&lt;/p&gt;</errorMessage>
+                <formulaExpression>LEN({!Escalation_comments}) &lt; 255</formulaExpression>
+            </validationRule>
         </fields>
         <nextOrFinishButtonLabel>Escalate</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -169,6 +174,16 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>DisplayEscalationCommentsError</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Escalation Comments exceeds character limit of 255.</stringValue>
+        </value>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>String</dataType>
