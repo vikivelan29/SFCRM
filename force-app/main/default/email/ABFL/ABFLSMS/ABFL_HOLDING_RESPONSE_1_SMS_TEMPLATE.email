@@ -2,6 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear Customer, we confirm that your request is being reviewed for a suitable resolution. We will respond to<br />
-you by {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. Regards – Aditya Birla Finance Ltd</body>
+<body style="height: auto; min-height: auto;">Dear Customer, we confirm that your request is being reviewed for a suitable resolution. We will respond to you by {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. Regards -Aditya Birla Finance Limited</body>
 </html>

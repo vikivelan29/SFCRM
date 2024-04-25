@@ -8,6 +8,7 @@
     <approvalPageFields>
         <field>Name</field>
         <field>Owner</field>
+        <field>SR__c</field>
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>true</allowDelegate>
