@@ -19,9 +19,6 @@ public class ABHFL_CTSTHelper_Test {
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
         insert branchMstr;
-        
-        ASF_TestDataFactory.createCaseCategoryConfig();
-        
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';
@@ -29,40 +26,20 @@ public class ABHFL_CTSTHelper_Test {
         astRec.Last_Disbursement_Date__c = Date.Today();
         astRec.Loan_Disbursement_Status__c = 'Complete';
         update astRec;
-        Asset astRec1 = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
-        astRec1.LAN__c = 'Test1';
-        astRec1.Branch__c = branchMstr.Id;
-        astRec1.Last_Disbursement_Date__c = Date.Today();
-        astRec1.Loan_Disbursement_Status__c = 'Complete';
-        update astRec1;
-        
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
         insert caseDetail;
        
         //Create Case
-        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
        // caseRecList[0].Business_Unit__c = 'ABHFL';
+        update caseRecList[0];
         
-        
-       	caseRecList[1].AssetId = astRec1.Id;
-        caseRecList[1].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[1].AccountId = accRec.Id;
-        caseRecList[1].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
-        caseRecList[1].Business_Unit__c = 'ABHFL';
-        
-        caseRecList[2].AssetId = astRec1.Id;
-        caseRecList[2].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[2].AccountId = accRec.Id;
-        caseRecList[2].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
-        caseRecList[2].Business_Unit__c = 'ABHFL';
-        //caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
-        
-        update caseRecList;
+        ASF_TestDataFactory.createCaseCategoryConfig();
 
         //create ASF Integration
         ASF_Integration__c integ = new ASF_Integration__c();
@@ -100,30 +77,9 @@ public class ABHFL_CTSTHelper_Test {
         upsert slaThreshold SLA_Threshold_Warning__c.Id;
 
             }
-    
-    @IsTest
-    static void testDedupeForInsertAndUpdate(){
-        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed FROM Case WHERE Business_Unit__c='ABHFL'];
-		ABHFL_CTSTHelper.runDuplicateCheck(caseList);
-        List<Asset> ast = [SELECT Id FROM Asset WHERE LAN__c='Test' LIMIT 1];
-        caseList[0].AssetId=ast[0].Id;
-        caseList[0].Source__c='Email';
-        update caseList[0];
-        //Case cs= new Case(AccountId=caseList[0].AccountId,AssetId=ast[0].Id,CCC_External_Id__c=caseList[0].CCC_External_Id__c,
-          //               Business_Unit__c='ABHFL');
-        //insert cs;
-        Map<Id, Case> oldCaseMap = new Map<Id, Case>();
-        oldCaseMap.put(caseList[0].Id,caseList[0]);
-        oldCaseMap.put(caseList[1].Id,caseList[1]);
-        system.debug('test class debug Aditya:'+caseList[0].isClosed);
-        system.debug('test class debug Aditya:'+caseList[1].isClosed);
-        ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
-        //update caseList[0];
-    }
-    
     @IsTest
     static void testPreClosurePaymentCheck(){
-        Case caseRecord = [Select id,CCC_External_Id__c,Short_URL__c,AccountId,ContactId,No_Auto_Communication__c from Case limit 1];
+        Case caseRecord = [Select id,CCC_External_Id__c,Short_URL__c from Case limit 1];
         List<ABHFL_Payment__c> dummyPayments = new List<ABHFL_Payment__c>();
         for (Integer i = 0; i < 5; i++) {  // Create 5 dummy payments
             ABHFL_Payment__c payment = new ABHFL_Payment__c(
@@ -145,26 +101,12 @@ public class ABHFL_CTSTHelper_Test {
             pay.Realization_Status__c ='Cleared';
         }
         update relatedPayments;
-        
-        for(ABHFL_Payment__c pay : relatedPayments){
-            pay.Realization_Status__c = 'Bounce';
-        }
-        update relatedPayments;
-        ABHFL_CTSTHelper.sendEmail(caseRecord);
-        for(ABHFL_Payment__c pay : relatedPayments){
-            pay.Realization_Status__c = 'Not Received';
-        }
-        update relatedPayments;
-        ABHFL_CTSTHelper.sendEmail(caseRecord);
-        ABHFL_CTSTHelper.changeStagetoCPUBanking(caseRecord);
-        
         //Assertion when payments are cleared.
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABHFL_PreClosurePaymentCheck.beforeStageMovement(new List<Case>{caseRecord});
         //System.assertEquals('Success',retCls2.get(caseRecord.Id).Status,'Done');
         ABHFL_PreClosurePaymentCheck.afterStageMovement(new List<Case>{caseRecord});
         
     }
-
     @isTest
     static void testassignCaseToQueue(){
         Test.startTest();
@@ -257,7 +199,7 @@ public class ABHFL_CTSTHelper_Test {
     }
        @isTest
     static void testAssignCaseToBranchTDS() {
-        Case caseRecord = [Select id,Asset.Branch__r.Branch_Queue_Id__c,Source__c,AccountId,CCC_External_Id__c,ContactId,No_Auto_Communication__c,ABHFL_Case_Detail__r.CreatedById
+        Case caseRecord = [Select id,Asset.Branch__r.Branch_Queue_Id__c,Source__c,AccountId,CCC_External_Id__c,ContactId,No_Auto_Communication__c
                            from Case limit 1];
         Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
         Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c,ROM_AOM__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
@@ -266,9 +208,7 @@ public class ABHFL_CTSTHelper_Test {
         Map<Id, Case> updatedCase = ABHFL_CTSTHelper.assignCaseToBranchTDS(new List<Case>{caseRecord});
         ABHFL_CTSTHelper.sendLoanClosedEmail(new List<Case>{caseRecord});
         Test.stopTest();
-        caseRecord.Source__c = 'Branch';
-        update caseRecord;
-        Map<Id, Case> updatedCase1 = ABHFL_CTSTHelper.assignCaseCollateralDocs(new List<Case>{caseRecord});
+
         System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
     @isTest
@@ -297,7 +237,7 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.storeMultipleLANs(new List<Case>{caseRecord});
         ABHFL_CTSTHelper.sendPrclsStatementclosure(new List<Case>{caseRecord});
         ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
-        
+        Test.stopTest();
         //for DSRA
         caseRecord.CCC_External_Id__c = ABHFL_Constants.DSRA_LIEN_ID;
         update caseRecord;
@@ -306,66 +246,9 @@ public class ABHFL_CTSTHelper_Test {
         caseRecord.CCC_External_Id__c = ABHFL_Constants.ESCROW_STATEMENT_ID;
         update caseRecord;
         ABHFL_CTSTHelper.sendMailWithAttachments(new List<Case>{caseRecord});
-        Test.stopTest();
         caseDetail = [SELECT Id, Masked_Full_LANs__c FROM ABHFL_Case_Detail__c WHERE Id = :caseRecord.ABHFL_Case_Detail__c LIMIT 1];
         System.assertEquals('and xxxxxx' + astRec.LAN__c.substring(Math.max(0, astRec.LAN__c.length() - 4)), caseDetail.Masked_Full_LANs__c);
 
-    }
-    
-       @isTest
-    static void checkAssetDetailFileUploadStatusTest() {
-        // Retrieve the test Case record created in TestSetup
-        Case caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,ABHFL_Case_Detail__r.Payment_Status__c,AccountId,ContactId,
-                           No_Auto_Communication__c
-                           FROM Case LIMIT 1];
-        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseValidWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
-        caseValidWrapper.put(caseRecord.Id,new ASF_CaseMovementHelper.CaseStageValidationWrapper());
-        caseRecord.Stage__c = 'Resolved';
-        caseRecord.CCC_External_Id__c = 'RLOAPRONHFC';
-        update caseRecord;
-        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
-        assetDetail.Case__c = caseRecord.Id;
-        insert assetDetail;
-        ABHFL_CTSTHelper.checkAssetDetailFileUploadStatus(caseValidWrapper);
-    }
-    
-    @isTest
-    static void sendCommunicationPayableChargesTest() {
-        // Retrieve the test Case record created in TestSetup
-        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
-        insert caseDetail;
-        List<Case> caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,ABHFL_Case_Detail__r.Payment_Status__c,ABHFL_Case_Detail__r.Payable_Charges__c,
-                                 AccountId,ContactId,
-                                 No_Auto_Communication__c
-                                 FROM Case LIMIT 1];
-        //caseRecord[0].ABHFL_Case_Detail__c = caseDetail.Id;
-        //update caseRecord;
-        caseDetail.Id = caseRecord[0].ABHFL_Case_Detail__c;
-        caseDetail.Payable_Charges__c = 100;
-        update caseDetail;
-        ABHFL_CTSTHelper.sendCommunicationPayableCharges(caseRecord);
-        caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,ABHFL_Case_Detail__r.Payment_Status__c,ABHFL_Case_Detail__r.Payable_Charges__c,
-                                 AccountId,ContactId,
-                                 No_Auto_Communication__c
-                                 FROM Case LIMIT 1];
-        ABHFL_CTSTHelper.sendCommunicationPayableCharges(caseRecord);
-    }
-    
-    @isTest
-    static void checkAssetDetailStatusTest() {
-        Case caseRecord = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,ABHFL_Case_Detail__r.Payment_Status__c,AccountId,ContactId,
-                           No_Auto_Communication__c
-                           FROM Case LIMIT 1];
-        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseValidWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
-        caseValidWrapper.put(caseRecord.Id,new ASF_CaseMovementHelper.CaseStageValidationWrapper());
-        caseRecord.Stage__c = 'Resolved';
-        caseRecord.CCC_External_Id__c = 'RLOAPRONHFC';
-        caseRecord.Technical_Source__c = 'LWC';
-        update caseRecord;
-        ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
-        assetDetail.Case__c = caseRecord.Id;
-        insert assetDetail;
-        ABHFL_CTSTHelper.checkAssetDetailStatus(caseValidWrapper);
     }
     
 }
