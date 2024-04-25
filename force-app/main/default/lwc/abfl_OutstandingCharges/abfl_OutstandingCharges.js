@@ -42,14 +42,14 @@ export default class Abfl_OutstandingCharges extends LightningElement {
                 this.outstandingChargesResult = result;
                 console.log('result ==> ', result);
                 this.outstandingChargesResult.payload = JSON.stringify(JSON.parse(result.payload).success[0]);
-                this.outstandingChargesResult.statusCode = JSON.stringify(JSON.parse(result.payload).statusCode);
+                //this.outstandingChargesResult.statusCode = JSON.stringify(JSON.parse(result.payload).statusCode);
                 if (this.outstandingChargesResult) {
                     this.showBaseViewScreen = true;
                 } else {
                     console.log('error ==> ');
                     this.showToast("Error", this.label.errorMessage, 'error');
                 }
-
+                this.isLoading = false;
             }).catch(error=>{
                 console.log('error ==> ', error);
                 let parsedjson = JSON.parse(this.outstandingChargesResult.payload);
@@ -60,12 +60,14 @@ export default class Abfl_OutstandingCharges extends LightningElement {
                     errormsg = parsedjson?.error?.value? parsedjson.error.value : 'Something went wrong. Please contact System Admin.'
                 }
                 this.showToast('Error', errormsg, 'error');
+                this.isLoading = false;
             })
         }
         else{
             this.showToast('Error', 'Loan Account Number is Blank, Please fill the valid/correct Loan Account Number', 'error');
+            this.isLoading = false;
         }
-        this.isLoading = false;
+        
     }
     
     handleShowEnachStatus(event){
