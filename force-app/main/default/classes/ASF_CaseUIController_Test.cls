@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 04-25-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -36,11 +36,6 @@ public class ASF_CaseUIController_Test{
         ast.Name = 'aas';
         insert ast;
 
-        LAN_Mapping__c lanMap = new LAN_Mapping__c();
-        lanMap.Customer__c = a.Id;
-        lanMap.LAN__c = ast.Id;
-        insert lanMap;
-        
         LAN_Mapping__c lanMap = new LAN_Mapping__c();
         lanMap.Customer__c = a.Id;
         lanMap.LAN__c = ast.Id;
