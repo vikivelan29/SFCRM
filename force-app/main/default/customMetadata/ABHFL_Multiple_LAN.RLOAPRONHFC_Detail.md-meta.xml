@@ -32,6 +32,6 @@
     </values>
     <values>
         <field>Stages_Allowing_File_Upload__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">CPU FCL Issuance</value>
     </values>
 </CustomMetadata>
