@@ -283,7 +283,10 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                     System.debug('@@@resultWrap'+resultWrap);
-                     if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) {
+                     /*if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) {
+                        resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                    }*/
+                    if(caseInteg.CreatedById == userInfo.getUserId() && resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId != userInfo.getUserId() ) {
                         resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
                     }
                     update resultWrap.get(caseRecord.Id)?.caseToBeUpdated;
