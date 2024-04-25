@@ -34,10 +34,6 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Nature__c</picklist>
@@ -99,10 +95,6 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABWM Email</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -153,23 +145,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Invalid information</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Closed as Exception</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Customer Confirmation/documentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -182,6 +158,18 @@
         </values>
         <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -284,10 +272,6 @@
         </values>
         <values>
             <fullName>RA Branch</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RBI</fullName>
             <default>false</default>
         </values>
         <values>
