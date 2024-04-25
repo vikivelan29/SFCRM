@@ -24,7 +24,7 @@ public class ABFL_OutstandingChargesController {
     public class outstandingRequestBody{
         string chargeBreakupRequired = 'Y';
         string loanAccountNumber;
-        string requestChannel='CRM';
+        string requestChannel='ATM';
         outstandingRequestBodyHeader requestHeader = new outstandingRequestBodyHeader();
         public outstandingRequestBody(String lan){
             this.loanAccountNumber = lan;
@@ -38,7 +38,7 @@ public class ABFL_OutstandingChargesController {
         }
     }
     public class outstandingRequestUserDetails{
-        integer branchId = 5000000;
+        integer branchId = 5;
         string userCode = 'SYSTEM';
     }
 
