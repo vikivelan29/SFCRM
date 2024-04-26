@@ -174,12 +174,6 @@
                 <label>Call Centre</label>
             </value>
             <value>
-                <fullName>IVR-Inbound</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>IVR-Inbound</label>
-            </value>
-            <value>
                 <fullName>Walk-In</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
