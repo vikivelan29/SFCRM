@@ -534,6 +534,8 @@ public class ASF_CaseMovementHelper {
                         if(resultWrapper.ownerId == null){
                             casesWithoutAssignment.add(caseRec);
                         }
+                    }else{
+                        casesWithoutAssignment.add(caseRec);
                     }
                 }
             }
