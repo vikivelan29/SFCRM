@@ -267,6 +267,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -320,10 +324,6 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC</fullName>
             <default>false</default>
         </values>
     </picklistValues>

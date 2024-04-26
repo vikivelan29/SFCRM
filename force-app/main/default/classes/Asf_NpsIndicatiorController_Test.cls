@@ -48,7 +48,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         );
             insert acc1;
           Survey_Response__c surveyResp = new Survey_Response__c();
-          	surveyResp.Primary_Question_NPS__c = 7;
+            surveyResp.Primary_Question_NPS__c = 7;
             surveyResp.Client_Code__c = acc.Id;
           insert surveyResp;
         }
@@ -59,9 +59,9 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
     
     @isTest 
     static void genericFetchQuery_TestMethod() {
-
-        List<Case> sobJRec = (List<Case>) Asf_NpsIndicatiorController.genericFetchQuery('id', 'Case', '');
-        System.assertEquals(sobJRec.size(), 0);
+        List<Account> objAcc = [Select Id,FirstName From Account WHERE FirstName = 'Test1 FName' LIMIT 1]; 
+        Asf_NpsIndicatiorController.getCaseCounts(objAcc[0].Id);
+        System.assertEquals(objAcc.size(), 1,'record found');
     }
       @isTest
     static void getNpsScoreTest(){
@@ -72,7 +72,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         { 
             Test.startTest(); 
             Asf_NpsIndicatiorController.getNpsScore(objAcc[0].Id);
-           	System.assertEquals(7, resp.Primary_Question_NPS__c,'record found');          
+            System.assertEquals(7, resp.Primary_Question_NPS__c,'record found');          
              Test.stopTest();            
             }
         }

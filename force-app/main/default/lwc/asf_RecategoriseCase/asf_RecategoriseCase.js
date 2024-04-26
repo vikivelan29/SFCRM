@@ -484,7 +484,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
   			minute:'2-digit'
         };
         let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions);
-        currentDateLocale = currentDateLocale.toUpperCase();
         let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
         let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
