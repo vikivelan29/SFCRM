@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_KALBURGI_EMERALD_HUBLI_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL KALBURGI EMERALD # HUBLI</label>
+  <queue>ABHFL_KALBURGI_EMERALD_HUBLI</queue>
+  <sharedTo>
+    <group>ABHFL_KALBURGI_EMERALD_HUBLI_G</group>
+  </sharedTo>
+</ListView>

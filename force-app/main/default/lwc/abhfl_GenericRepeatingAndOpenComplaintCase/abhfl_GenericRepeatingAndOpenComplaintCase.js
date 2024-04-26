@@ -1,12 +1,15 @@
 import { LightningElement, api, track, wire } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Days_For_Repeated_Indicator from '@salesforce/label/c.Repeated_Indicator';
 import getRecords from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntClas.genericFetchQuery';
-
+import getCaseCounts from '@salesforce/apex/Asf_NpsIndicatiorController.getCaseCounts';
+import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
+import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
 
     @api recordId;
     @api objectApiName;
-
+    isAbhfl;;
     @track caseRecord;
     @track records;
     @track fieldArr = 'id';
@@ -16,6 +19,55 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     riFlag;
     ocFlag;
     isLoaded;
+    @track fieldArrNps = 'id,Nature__c,IsEscalated';
+    whereClauseForRiNps = '';
+    whereClauseForOcNps = '';
+    riFlagNps;
+    ocFlagNps;
+    isLoadedNps;
+    showOpenCase = "⚪️";
+    showEscalatedCases=0;
+    nps = undefined;
+    isAccount = false;
+    loadNpsScore() {
+        getNpsScore({ customerId: this.recordId })
+            .then(result => {
+                this.nps = result;
+                console.log('NPS record', this.nps); 
+            })
+            .catch(error => {
+                console.error('Error loading NPS record', error);
+            });
+    }
+    get showCustomerNPSbyNumber() {
+        if (this.nps == 0 || this.nps == undefined) {
+            return "❌";
+        }
+        else if(this.nps > 0 && this.nps <= 3){
+            return "🙁";
+        }
+        else if(this.nps > 3 &&  this.nps <= 6){
+            return "😐";
+        }
+        else if(this.nps > 6 && this.nps <= 10){
+            return "😁";
+        }
+        else {
+            return this.nps;
+        }
+    }
+    @wire(getRecord, {
+        recordId: '$recordId',
+        fields: [BUSINESS_UNIT]
+    })
+    wiredAccount({ error, data }) {
+        if (data) {
+            const businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
+            this.isAbhfl = businessUnitValue === 'ABHFL';
+        } else if (error) {
+            console.error('Error occured in  retrieving business unit', error);
+        }
+    }
 
     customLabel = {
         Days_For_Repeated_Indicator
@@ -29,6 +81,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     connectedCallback() {
         this.getCaseRecord();
+        this.getCaseRecordNps();
+        this.loadNpsScore();
     }
 
     async getCaseRecord() {
@@ -55,17 +109,20 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             }
         }
         else if (this.objectApiName == 'Account') {
+            this.isAccount = true;
             this.addIconClass("[data-id='Repeated_Indicator']", 'slds-hide');
             this.removeIconClass("[data-id='Open_Complaint_Indicator_div']", 'slds-hide');
             this.initializeWhereClause();
             this.objectApiName = 'Case';
             this.story_328_329();
             this.objectApiName = 'Account';
+
         }
+        
+
     }
 
     story_328_329_330() {
-
         let caseNature = this.caseRecord.Nature__c;
         if (caseNature == "Complaint") {
             this.story_328_329();
@@ -123,7 +180,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     addAndChangeAttributes(attrbObj) {
         let getLightningIcon = this.template.querySelector(attrbObj.dataId);
-        getLightningIcon.variant = attrbObj.variant;
+      //  getLightningIcon.variant = attrbObj.variant;
     }
 
     addIconClass(dataId, iconClass) {
@@ -138,5 +195,37 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if (getLightningIcon) {
             getLightningIcon.classList.remove(iconClass);
         }
+    }
+    async getCaseRecordNps() {
+        this.initializeWhereClauseNps();
+    }
+    initializeWhereClauseNps() {
+        let withSecEnforcedNps = 'WITH SECURITY_ENFORCED';
+        let commonForOcNps = 'WHERE (IsClosed = False';
+        this.whereClauseForOcNps = `${commonForOcNps} AND AccountId = \'${this.recordId}\')OR IsEscalated = True ${withSecEnforcedNps} `;
+        this.npsIndicator();
+    }
+    async npsIndicator() {
+        await getCaseCounts({ accountId: this.recordId })
+            .then((result) => {
+                this.isLoaded = false;
+                if (result) {
+                    this.showOpenCase = result.openCases || 0;
+                    this.showOpenComplaintCase = result.complaintCases || 0;
+                    this.showEscalatedCases = result.escalatedCases || 0;
+                } else {
+                    this.showOpenCase = 0;
+                    this.showOpenComplaintCase = 0;
+                    this.showEscalatedCases = 0;
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    getCaseRecordCommon(){
+        this.loadNpsScore();
+        this.getCaseRecord();
+        this.getCaseRecordNps();
     }
 }

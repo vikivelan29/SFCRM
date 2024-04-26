@@ -55,6 +55,16 @@
                 <default>false</default>
                 <label>2023-24</label>
             </value>
+            <value>
+                <fullName>2024-25</fullName>
+                <default>false</default>
+                <label>2024-25</label>
+            </value>
+            <value>
+                <fullName>2025-26</fullName>
+                <default>false</default>
+                <label>2025-26</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_INDRI_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL INDRI</label>
+  <queue>ABHFL_INDRI</queue>
+  <sharedTo>
+    <group>ABHFL_INDRI_G</group>
+  </sharedTo>
+</ListView>

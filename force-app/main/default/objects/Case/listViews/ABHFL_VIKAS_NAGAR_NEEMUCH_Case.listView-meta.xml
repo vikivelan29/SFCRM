@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_VIKAS_NAGAR_NEEMUCH_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL VIKAS NAGAR # NEEMUCH</label>
+  <queue>ABHFL_VIKAS_NAGAR_NEEMUCH</queue>
+  <sharedTo>
+    <group>ABHFL_VIKAS_NAGAR_NEEMUCH_G</group>
+  </sharedTo>
+</ListView>

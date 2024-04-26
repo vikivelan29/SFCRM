@@ -15,17 +15,19 @@ public without sharing class Asf_NpsIndicatiorController {
     * @Description - Generic query to fetch the sobject records.
     *****************************************************************************************************************/
     @AuraEnabled
-    public static List<SObject> genericFetchQuery(String fields, String objectName, String whereClause) {
-        String query = 'SELECT ' + fields + ' FROM ' + objectName + ' ' + whereClause;
-        system.debug('inside genericFetchQuery query '+query);
-        List<SObject> sobjList = Database.query(String.valueOf(query));
-        return sobjList;
+    public static Map<String, Integer> getCaseCounts(String accountId) {
+        Map<String, Integer> counts = new Map<String, Integer>();        
+        counts.put('openCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False]);
+        counts.put('escalatedCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and IsEscalated = true]);
+        counts.put('complaintCases', [SELECT COUNT() FROM Case WHERE AccountID =: accountId and IsClosed = False and Nature__c = 'Complaint']);
+        system.debug('countsasc '+counts);
+        return counts;
     }
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static decimal getNpsScore(string customerId) {
         List<Survey_Response__c> surveyResp = [SELECT ID,Primary_Question_NPS__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY CreatedDate DESC LIMIT 1];
         if(!surveyResp.isEmpty() && surveyResp[0].Primary_Question_NPS__c !=null){
-        	return surveyResp[0].Primary_Question_NPS__c;
+            return surveyResp[0].Primary_Question_NPS__c;
         }
         else {
             return 0;

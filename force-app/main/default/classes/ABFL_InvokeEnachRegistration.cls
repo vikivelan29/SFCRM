@@ -41,6 +41,11 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_DATE_VALIDATION;
         }
+        // Check From Date is greater than Today
+        else if(caseRecord.ABFL_Case_Detail__r.To_Date__c == caseRecord.ABFL_Case_Detail__r.From_Date__c) { 
+            result.status = ABFL_Constants.ERROR;
+            result.response = ABFL_Constants.EVALUATION_FAILED_FROM_TO_DATE_VALIDATION;
+        }    
         else if(caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c == null) { // Check New_Bank_Account_No__c
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_BANK_ACCOUNT_ERROR;

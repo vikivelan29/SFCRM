@@ -3,7 +3,7 @@
     <fullName>SR__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>SR</label>
+    <label>Case Number</label>
     <referenceTo>Case</referenceTo>
     <relationshipLabel>SR Requests</relationshipLabel>
     <relationshipName>SR_Requests</relationshipName>
