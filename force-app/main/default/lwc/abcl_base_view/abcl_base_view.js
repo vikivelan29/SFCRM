@@ -16,9 +16,10 @@ export function invokeCore(apiId, payloadInfo) {
 			let payload =  JSON.parse(payloadInfo.payload);
 			if (screenjson && payload) {
 				screenjson.forEach(element => {
+					console.log('***element ==> '+JSON.stringify(element));
 					for (let i = 0; i < element.fieldsLeft.length; i++) {
 						for (let key in element.fieldsLeft[i]) {
-							if (payload[element.fieldsLeft[i][key]] || (element.fieldsLeft[i][key] + '').indexOf('.') != -1) {
+							if (typeof payload[element.fieldsLeft[i][key]] !== 'undefined' || (element.fieldsLeft[i][key] + '').indexOf('.') != -1) {
 								// Check if payload contains .
 								let value;
 								if (element.fieldsLeft[i][key].includes('.')) {
@@ -42,7 +43,7 @@ export function invokeCore(apiId, payloadInfo) {
 
 					for (let i = 0; i < element.fieldsRight.length; i++) {
 						for (let key in element.fieldsRight[i]) {
-							if (payload[element.fieldsRight[i][key]] || (element.fieldsRight[i][key] + '').indexOf('.') != -1) {
+							if (typeof payload[element.fieldsRight[i][key]] !== 'undefined' || (element.fieldsRight[i][key] + '').indexOf('.') != -1) {
 
 								// Check if payload contains .
 								let value;

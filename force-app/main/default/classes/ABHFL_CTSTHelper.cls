@@ -137,12 +137,15 @@ public without sharing class ABHFL_CTSTHelper {
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
+                                    /*String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
                                     if(dupeCase.SLA_Broken_DateTime__c!=null){
                                         c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                                     }else{
                                       	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }
+                                    }*/
+                                    c.Stage__c = 'Duplicate';
+                                    c.Is_Duplicate__c = true;
+                                    c.ParentId = dupeCase.Id;
                                 }
                             }
                         }
