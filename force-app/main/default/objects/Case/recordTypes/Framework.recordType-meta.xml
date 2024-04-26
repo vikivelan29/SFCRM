@@ -326,6 +326,10 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
