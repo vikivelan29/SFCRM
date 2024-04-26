@@ -137,12 +137,15 @@ public without sharing class ABHFL_CTSTHelper {
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
+                                    /*String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
                                     if(dupeCase.SLA_Broken_DateTime__c!=null){
                                         c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
                                     }else{
                                       	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }
+                                    }*/
+                                    c.Stage__c = 'Duplicate';
+                                    c.Is_Duplicate__c = true;
+                                    c.ParentId = dupeCase.Id;
                                 }
                             }
                         }
@@ -177,12 +180,12 @@ public without sharing class ABHFL_CTSTHelper {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
         String ownerName = '';
         Case caseRec = [SELECT Id,Source__c,CreatedBy.Name,CreatedById from Case where id =: caseRecord.id];
-    	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029'};
+    	List<String> emailFinancialSubTypes = new List<String>{'hfcrepaprod','RREPEMIONHFC','ROVEOVSSHFC','hfl029','hfl060'};
     	List<String> emailNonFinancialSubTypes = new List<String>{'AC123470','HFCRARGI'}; 
-        List<String> customerServiceSubTypes = new List<String>{'hfl060'};
+        //List<String> customerServiceSubTypes = new List<String>{'hfl060'};
     	Group emailNonFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Non_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
     	Group emailFinancialQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Email_Financial_Team' WITH SECURITY_ENFORCED LIMIT 1];
-        Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
+       // Group customerServiceQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_Customer_Service_Team' WITH SECURITY_ENFORCED LIMIT 1];
 		// Create a new instance to avoid trigger recursion
    	 	Case updatedCase = new Case(Id = caseRecord.Id);
 		// assign the case to a queue 
@@ -205,7 +208,7 @@ public without sharing class ABHFL_CTSTHelper {
             ownerName = emailFinancialQueue.Name;
         		}
     	}
-        if (customerServiceSubTypes.contains(subType)) {
+        /*if (customerServiceSubTypes.contains(subType)) {
         	if (caseRec.Source__c == ABHFL_Constants.BRANCH) {
             updatedCase.OwnerId = caseRec.CreatedById;
             ownerName = caseRec.CreatedBy.Name;
@@ -213,12 +216,29 @@ public without sharing class ABHFL_CTSTHelper {
             updatedCase.OwnerId = customerServiceQueue.Id;
             ownerName = customerServiceQueue.Name;
         		}
-    	}
+    	}*/
 
     	if (subType == 'RRSDPRSHFC01') {
         	updatedCase.OwnerId = emailFinancialQueue.Id;
             ownerName = emailFinancialQueue.Name;
     	}
+        if(updatedCase.OwnerId != null){
+            Map<Integer,ASF_SLABusinessHoursWrapper> slaTargetEmailMap = ASF_CaseSLAHandlerV1.getOwnerHierarchy(new List<Case>{updatedCase}, new List<String>(), new List<String>{updatedCase.OwnerId});
+            if(slaTargetEmailMap != null){
+                ASF_SLABusinessHoursWrapper wrapper = slaTargetEmailMap.get(0);
+                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                    }
+                }
+            }
+        }
         List<ASF_Case_SLA_History__c> slaHistory = [SELECT Id, Current_Owner_Id__c,Current_Owner__c   FROM ASF_Case_SLA_History__c WHERE Case__c = :caseRecord.Id AND Stage_End_Date__c = NULL Order By CreatedDate Desc LIMIT 1];
 
     	if (slaHistory.size() > 0) {
@@ -561,7 +581,7 @@ public without sharing class ABHFL_CTSTHelper {
             // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
             List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
             External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
+            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
 
             for(ASF_Integration__c asfCaseInteg : specificIntegrations){
                 if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
@@ -871,7 +891,7 @@ public without sharing class ABHFL_CTSTHelper {
         caseRecord.Business_Unit__c = 'ABHFL';
         caseRecord.Client_Code_Text__c = clientCode;
         caseRecord.Source__c = source;
-        caseRecord.Technical_Source__c = techSource;
+        caseRecord.Technical_Source__c = 'LWC';
         caseRecord.CCC_External_Id__c = ccc;
         caseRecord.LAN__C = lan;
         caseRecord.RecordTypeId = recordTypeId;
@@ -950,12 +970,12 @@ public without sharing class ABHFL_CTSTHelper {
                                 }
                             }
 
-                            if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
+                            /*if(validCTSTsCPUPP.contains(caseRec.CCC_External_Id__c) && validStagesForRevisedEMITenure.contains(caseRec.Stage__c)){
                                 if(assetDetail.Revised_EMI_Tenure__c == null || assetDetail.Revised_EMI_Tenure__c == 0){
                                     assetRecordComplete = false;
                                     break;
                                 }
-                            }
+                            }*/
                         }
                         if(!assetRecordComplete){
                             caseStgValidationWrapper.errorMessage = 'Please fill all the information on the LAN Record';

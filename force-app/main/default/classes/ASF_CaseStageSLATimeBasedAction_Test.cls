@@ -32,7 +32,7 @@ public class ASF_CaseStageSLATimeBasedAction_Test {
 
         Group SLAGroup = new Group();
         system.runAs(userList.get(0)){
-            SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
+            SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', type='Queue');
             insert SLAGroup;
                             
             for(integer i=0;i<3;i++){

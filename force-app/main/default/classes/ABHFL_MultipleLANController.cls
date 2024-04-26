@@ -44,6 +44,13 @@ public with sharing class ABHFL_MultipleLANController {
                 }
             }
             if(lanMetadata.Id != null){
+                if(String.isNotBlank(lanMetadata.Stages_Allowing_Fetch_All__c)){
+                    List<String> stagesAllowed = lanMetadata.Stages_Allowing_Fetch_All__c.split(',');
+                    lanWrapper.stagesAllowingFetchAll = stagesAllowed;
+                    if(stagesAllowed.contains(caseRecord.Stage__c)){
+                        lanWrapper.displayFetchAll = true;
+                    }
+                }
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
                 if(validLoggedInUser){
@@ -66,13 +73,6 @@ public with sharing class ABHFL_MultipleLANController {
                         lanWrapper.stagesAllowingDeleteRows = stagesAllowed;
                         if(stagesAllowed.contains(caseRecord.Stage__c)){
                             lanWrapper.displayDeleteRows = true;
-                        }
-                    }
-                    if(String.isNotBlank(lanMetadata.Stages_Allowing_Fetch_All__c)){
-                        List<String> stagesAllowed = lanMetadata.Stages_Allowing_Fetch_All__c.split(',');
-                        lanWrapper.stagesAllowingFetchAll = stagesAllowed;
-                        if(stagesAllowed.contains(caseRecord.Stage__c)){
-                            lanWrapper.displayFetchAll = true;
                         }
                     }
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_File_Upload__c)){
@@ -285,7 +285,7 @@ public with sharing class ABHFL_MultipleLANController {
             }
             return assetDetail;
         }catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            throw e;//new AuraHandledException(e.getMessage());
         }
     }
     /****************************************************************************************************************
@@ -302,10 +302,10 @@ public with sharing class ABHFL_MultipleLANController {
         ABHFL_DataServiceDetailsController.LoanInfoRow loanInfoRow = apiResponse.Summary_Data[0].loan_info.rows[0];
         ABHFL_Asset_Detail__c assetDetail = new ABHFL_Asset_Detail__c();
         assetDetail.Product__c = loanStatusRow.PRODUCT;
-        assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING);
+        assetDetail.Last_Repricing_Date__c = String.isNotBlank(loanStatusRow.LAST_REPRICING) ? Date.valueof(loanStatusRow.LAST_REPRICING) : null;
         //assetDetail.Last_Repricing_Date__c = Date.valueof(loanStatusRow.LAST_REPRICING).daysBetween(System.Today()) < 180 ? 'Last repricing <6 months' : 'Last repricing >6 months';
         assetDetail.Is_Restructured__c = loanStatusRow.RESTRUCTURED == 'Yes'? 'Re-structured Not Done' : 'Re-structured Done';
-        assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE); 
+        assetDetail.Bounce__c = loanStatusRow.BOUNCE != null ? Decimal.valueOf(loanStatusRow.BOUNCE) : null; 
         //assetDetail.Bounce__c = Decimal.valueOf(loanStatusRow.BOUNCE) > 0 ? 'Bounce > 0' : 'Bounce < 0';
         assetDetail.Is_PDD__c = loanStatusRow.PDD == 'Yes'? 'PDD Pending' : 'PDD Not Pending';
         assetDetail.Is_NACH__c = loanStatusRow.NACH == 'Yes'? 'NACH Registered' : 'NACH Not Registered';
@@ -314,7 +314,7 @@ public with sharing class ABHFL_MultipleLANController {
         assetDetail.Fixed_Period__c = loanStatusRow.FixedPeriod != null ? Decimal.valueOf(loanStatusRow.FixedPeriod) : null;
         //assetDetail.Fixed_Period__c = Decimal.valueOf(loanStatusRow.FixedPeriod) > 0 ? 'Fixed Period > 0' : '';
         assetDetail.VAN__c = loanStatusRow.VAN;
-        assetDetail.MOB__c = loanStatusRow.MOB != null ? Date.valueof(loanStatusRow.MOB) : null;
+        assetDetail.MOB__c = String.isNotBlank(loanStatusRow.MOB)? Date.valueof(loanStatusRow.MOB) : null;
         //assetDetail.MOB__c = Date.valueof(loanStatusRow.MOB).daysBetween(System.Today()) < 180 ? 'MOB < 6 months' : 'MOB > 6 months';
         assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS;
         //assetDetail.Account_Status__c = loanStatusRow.LOANSTATUS != 'Standard' ? 'Not Standard' : 'Standard';
@@ -322,8 +322,9 @@ public with sharing class ABHFL_MultipleLANController {
         //assetDetail.Overdues__c = assetDetail.Amount_Overdue__c > 0 ? 'Overdue Pending' : 'No Overdue Pending';
         assetDetail.Current_Balance__c = loanInfoRow.CURRENT_BALANCE != null ? Decimal.valueof(loanInfoRow.CURRENT_BALANCE) : null;
         assetDetail.LAN__c = assetRecord.LAN__c;//loanInfoRow.LOAN_ACCOUNT_NUMBER;
-        assetDetail.Interest_Rate__c = loanInfoRow.INTEREST_RATE != null ? Decimal.valueof(loanInfoRow.INTEREST_RATE.Left(4)) : null;
-        assetDetail.ARR__c = Decimal.valueof(loanStatusRow.BPLR.Left(4));
+        assetDetail.Interest_Rate__c = loanInfoRow.INTEREST_RATE != null ? Decimal.valueof(loanInfoRow.INTEREST_RATE.Substring(0,loanInfoRow.INTEREST_RATE.length()-1)) : null;
+        system.debug('loanInfoRow.INTEREST_RATE after'+assetDetail.Interest_Rate__c);
+        assetDetail.ARR__c = loanStatusRow.BPLR != null ? Decimal.valueof(loanStatusRow.BPLR.Substring(0,loanStatusRow.BPLR.length()-1)) : null;
         assetDetail.Asset__c = assetRecord.Id;
         assetDetail.Case__c = caseRecId;
         assetDetail.Failure_Reason__c = failureReasonDetermination(assetDetail);
@@ -341,10 +342,10 @@ public with sharing class ABHFL_MultipleLANController {
         if(assetDetail.Account_Status__c != 'Standard'){
             failureReason = 'Not Standard';
         }
-        if(assetDetail.MOB__c.daysBetween(System.Today()) < 180){
+        if(assetDetail.MOB__c != null && assetDetail.MOB__c.daysBetween(System.Today()) < 180){
             failureReason = 'MOB < 6 months';
         }
-        if(assetDetail.Last_Repricing_Date__c.daysBetween(System.Today()) < 180){
+        if(assetDetail.Last_Repricing_Date__c != null && assetDetail.Last_Repricing_Date__c.daysBetween(System.Today()) < 180){
             failureReason = 'Last repricing <6 months';
         }
         if(assetDetail.Is_NACH__c == 'NACH Not Registered'){
@@ -589,6 +590,33 @@ public with sharing class ABHFL_MultipleLANController {
       }
       return responseList;
     }
+
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - deleteRecords
+    * @param assetDetailid -  Asset Detail Id.
+    * @param userId - currentUserId.
+    * @return - List<ABHFL_Asset_Detail__c>.
+    * @Description - Upsert Asset Detail Record.
+    *****************************************************************************************************************/
+    @AuraEnabled
+    public static String deleteRecordOwnerChange(Id assetDetailid,Id userId){
+        try {
+            ABHFL_Asset_Detail__c toBeDeletedRecord = [Select id,OwnerId from ABHFL_Asset_Detail__c where Id =: assetDetailid limit 1];
+            if(toBeDeletedRecord.OwnerId != userId){
+                toBeDeletedRecord.OwnerId = userId;
+                if(Schema.sObjectType.ABHFL_Asset_Detail__c.isUpdateable()){
+                    update toBeDeletedRecord;
+                }
+            }
+            delete toBeDeletedRecord;
+            
+            return assetDetailid;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    
     public class MultipleLanWrapper{
         @AuraEnabled
         public List<AssetDetailWrapper> assetDetailRecords;

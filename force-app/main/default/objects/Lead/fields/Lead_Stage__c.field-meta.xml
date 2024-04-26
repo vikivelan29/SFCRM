@@ -10,9 +10,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>&quot;Unattended</fullName>
+                <fullName>Unattended</fullName>
                 <default>false</default>
-                <label>&quot;Unattended</label>
+                <label>Unattended</label>
             </value>
             <value>
                 <fullName>Deal Captured</fullName>
@@ -20,9 +20,9 @@
                 <label>Deal Captured</label>
             </value>
             <value>
-                <fullName>Disbursed&quot;</fullName>
+                <fullName>Disbursed</fullName>
                 <default>false</default>
-                <label>Disbursed&quot;</label>
+                <label>Disbursed</label>
             </value>
             <value>
                 <fullName>Disqualified</fullName>

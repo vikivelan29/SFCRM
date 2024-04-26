@@ -260,7 +260,10 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                             System.debug('@@@resultWrap'+resultWrap);
                             if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage)){
-                                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                                if(caseInteg.CreatedById == userInfo.getUserId() && resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId != userInfo.getUserId()) {
+                       				 resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                    			}
+                                //if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
                                 update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                             }else{
                                 ABCL_Logger.enableExceptionLogging();
@@ -296,15 +299,23 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                WHERE ABFL_Case_Detail__c IN:caseDetailList AND IsClosed = FALSE
                                WITH SYSTEM_MODE];
 
-        List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);
+        Map<Id, ASF_Case_Integration__c> mapCaseIdCreatedId = new Map<Id, ASF_Case_Integration__c>();
+        for(ASF_Case_Integration__c caseIntg: [SELECT Name, CreatedById, CreatedBy.Name FROM ASF_Case_Integration__c WHERE Case__c IN :caseList 
+                                             AND Status__c = :ABFL_Constants.PENDING AND Type__c = 'BRE']) {
+                                            mapCaseIdCreatedId.put(caseIntg.Case__c, caseIntg);
+                                             }
+        //List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);
 
         for (Case caseRecord : caseList){
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
             System.debug('@@@resultWrap'+resultWrap);
-            if(userList != null && userList.size() > 0) {
-                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userList[0].Id;
+          
+            if(mapCaseIdCreatedId != null && mapCaseIdCreatedId.containsKey(caseRecord.Id) &&
+               mapCaseIdCreatedId.get(caseRecord.Id).CreatedById == userInfo.getUserId() && 
+               resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId != userInfo.getUserId()) {
+                resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = UserInfo.getUserId();
             }
             casesToUpdateList.add(resultWrap.get(caseRecord.Id).caseToBeUpdated);
         }

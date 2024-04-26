@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -261,6 +289,20 @@
         <value>Please select Loan Account Number to process Case type search</value>
     </labels>
     <labels>
+        <fullName>ASF_File_Update_Val_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
+        <value>You do not have access edit / delete this file</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File Update Validation</shortDescription>
+        <value>Cannot Update/Delete the files linked to a closed case</value>
+    </labels>
+    <labels>
         <fullName>ASF_HiddenComps</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -308,6 +350,13 @@
         <protected>false</protected>
         <shortDescription>ASF_No_SMSemplate_On_CCC</shortDescription>
         <value>No template available on this record. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
     </labels>
     <labels>
         <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
@@ -384,7 +433,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email</shortDescription>
-        <value>No Reply Address</value>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
         <fullName>ASF_default_no_reply_email_address</fullName>
@@ -597,24 +646,66 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ASF_BulkThresholdForQueueable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
-        <value>9000</value>
-    </labels>
-    <labels>
         <fullName>ASF_File_Update_Val_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
-        <value>You do not have access edit / delete this file</value>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
-        <fullName>ASF_File_Update_Validation</fullName>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ASF_File Update Validation</shortDescription>
-        <value>Cannot Update/Delete the files linked to a closed case</value>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
     </labels>
 </CustomLabels>

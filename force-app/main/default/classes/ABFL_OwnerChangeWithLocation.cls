@@ -302,4 +302,25 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             update insertFinalUpdateCase;
         }
     }
+
+    /****************************************************************************************************************
+    * @Function - createCaseCommentWhenClosedAfterInsert
+    * @param caseList -  list of cases from trigger.new.
+    * @return - void .
+    * @Description - Invoked from AfterInsert, this method creates CaseComment from Case.Comments field when the Case.IsClsoed = true while creation.
+    *****************************************************************************************************************/
+    
+    public static void createCaseCommentWhenClosedAfterInsert(list<Case> caseList){
+        if(!caselist.isEmpty()){
+            list<CaseComment> commentListToInsert = new List<CaseComment>();
+            for(Case caseObj: caseList){
+                if( !String.isBlank(caseObj.Comments) && caseObj.IsClosed && caseObj.business_unit__c == 'ABFL'){
+                    commentListToInsert.add(new CaseComment(ParentId = caseObj.Id, CommentBody = caseObj.Comments));
+                }
+            } 
+            if(!commentListToInsert.isEmpty()){
+                insert commentListToInsert;
+            }
+        }
+    }
 }

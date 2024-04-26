@@ -298,12 +298,13 @@ export default class Asf_CRNTagging extends LightningElement {
                 accountId: this.selectedCustomer,
                 assetId: selectedAsstId,
                 caseId: this.recordId,
-                faNumber: selectedFANum
+                faNumber: selectedFANum,
+                reqFromRecat: false
             })
                 .then(result => {
                     const event = new ShowToastEvent({
                         title: 'Success',
-                        message: 'SR updated',
+                        message: 'Case updated',
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -447,8 +448,19 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
             })
             .catch(error => {
-            this.showError('error', 'Error occured', error);
-            console.log('@@@ERRORJSON - '+JSON.stringify(error));
+                if(JSON.stringify(error).includes('INSUFFICIENT_ACCESS_OR_READONLY')){
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Error updating record',
+                            message: ' You dont have access to make changes as you are not the owner of the case.',
+                            variant: 'error',
+                        }),
+                    );      
+                }  
+                else{
+                    this.showError('error', 'Error occured', error);
+                } 
+                console.log('@@@ERRORJSON - '+JSON.stringify(error));
 
             });
 
@@ -484,6 +496,15 @@ export default class Asf_CRNTagging extends LightningElement {
     }
     handleBack(event){
         this.showProspectCreation = false;
+    }
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
     }
 
     // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.

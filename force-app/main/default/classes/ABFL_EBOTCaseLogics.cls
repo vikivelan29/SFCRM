@@ -438,6 +438,7 @@ public with sharing class ABFL_EBOTCaseLogics {
         peLogger.Status__c = 'Pending';
         peLogger.LOB__c = 'ABFL';
         peLogger.Send_To_Specific_Emails__c = True;
+        peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
         peLogger.Specific_To_Address__c = SpecificEmailId;
         peLogger.Email_Template_Name__c = emailTemplate;
         if(Schema.sObjectType.PE_Logger__c.isCreateable())
