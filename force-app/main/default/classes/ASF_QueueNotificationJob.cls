@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<AggregateResult>{ 
     global Iterable<AggregateResult> start(Database.batchableContext info){ 
         return new ASF_QueueNotificationIterable(); 

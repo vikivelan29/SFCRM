@@ -5,5 +5,9 @@
     <columns>Status__c</columns>
     <columns>Stage_Name__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Case__c</field>
+        <operation>notEqual</operation>
+    </filters>
     <label>Admin View</label>
 </ListView>

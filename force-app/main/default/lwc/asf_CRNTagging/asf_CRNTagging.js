@@ -509,6 +509,14 @@ export default class Asf_CRNTagging extends LightningElement {
 
     // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
 
-      
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
+    }
 
 }
