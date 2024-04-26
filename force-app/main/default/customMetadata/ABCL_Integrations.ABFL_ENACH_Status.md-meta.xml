@@ -8,11 +8,11 @@
     </values>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abfl/api/v1/nach/query</value>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abfl/enachstatus</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Merchant_Id__c</field>
-        <value xsi:type="xsd:string">MRC7734</value>
+        <value xsi:type="xsd:string">MRC0006</value>
     </values>
     <values>
         <field>Mock_Response_Resource__c</field>

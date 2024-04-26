@@ -153,7 +153,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Closed as Exception</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -166,18 +178,6 @@
         </values>
         <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Invalid information</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>

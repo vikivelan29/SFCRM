@@ -55,6 +55,51 @@
                 <default>false</default>
                 <label>POP</label>
             </value>
+            <value>
+                <fullName>SME</fullName>
+                <default>false</default>
+                <label>SME</label>
+            </value>
+            <value>
+                <fullName>LC-MM</fullName>
+                <default>false</default>
+                <label>LC-MM</label>
+            </value>
+            <value>
+                <fullName>Infra</fullName>
+                <default>false</default>
+                <label>Infra</label>
+            </value>
+            <value>
+                <fullName>Construction Finance</fullName>
+                <default>false</default>
+                <label>Construction Finance</label>
+            </value>
+            <value>
+                <fullName>CMG-Insti</fullName>
+                <default>false</default>
+                <label>CMG-Insti</label>
+            </value>
+            <value>
+                <fullName>CMG-Retail</fullName>
+                <default>false</default>
+                <label>CMG-Retail</label>
+            </value>
+            <value>
+                <fullName>LAP-Insti</fullName>
+                <default>false</default>
+                <label>LAP-Insti</label>
+            </value>
+            <value>
+                <fullName>LRD-Insti</fullName>
+                <default>false</default>
+                <label>LRD-Insti</label>
+            </value>
+            <value>
+                <fullName>Supply Chain</fullName>
+                <default>false</default>
+                <label>Supply Chain</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
