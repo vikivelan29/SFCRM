@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 04-12-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 02-29-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
     
@@ -534,6 +534,8 @@ public class ASF_CaseMovementHelper {
                         if(resultWrapper.ownerId == null){
                             casesWithoutAssignment.add(caseRec);
                         }
+                    }else{
+                        casesWithoutAssignment.add(caseRec);
                     }
                 }
             }
