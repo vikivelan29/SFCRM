@@ -530,6 +530,9 @@
                         <valueListItems>
                             <value>Stage__c|EQUALS|[&quot;Open&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Nature__c|EQUALS|[&quot;Complaint&quot;]</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
