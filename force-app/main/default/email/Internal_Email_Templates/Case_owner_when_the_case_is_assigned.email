@@ -4,7 +4,7 @@ Assignment Date & Time :  {!Case.CreatedDate}
 Expected Resolution Time : {!Case.Overall_Case_Closure_SLA__c}
 Case Nature: {!Case.Nature__c}
 Case Type :{!Case.Type_Text__c}
-Case Sub Type :{!Case. Sub_Type_Text__c}
+Case Sub Type :{!Case.Sub_Type_Text__c}
 Created Date/Time: {!Case.CreatedDate}
 Created By: {!Case.CreatedBy}
 
