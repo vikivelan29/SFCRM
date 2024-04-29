@@ -1,16 +1,15 @@
 /*********************************************************
 ** Class        :  ABFL_ReassignProspectsBatch
 ** Author       :  Srjana
-** Description  :  Reassigns cases from prospects to existing customers
+** Description  :  PR970457-568 - Reassigns cases from prospects to existing customers
 ** Created Date :  15/12/2023
 *********************************************************/
-global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
+public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
     
-    global Database.QueryLocator start(Database.BatchableContext BC) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         // Fetch the configurable number of days from Custom Label
         Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
         Date startDate = Date.today().addDays(-numberOfDays);
-        system.debug('Start Date:' + startDate);
         // Query for cases where Business_Unit__c is 'ABFL' and SuppliedEmail is not null
         return Database.getQueryLocator([
             SELECT Id, Subject, Lead__c, SuppliedEmail,Business_Unit__c 
@@ -23,7 +22,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         ]);
     }
     
-    global void execute(Database.BatchableContext BC, List<Case> scope) {
+    public void execute(Database.BatchableContext bc, List<Case> scope) {
         Set<String> setEmailID =  new Set<String>();
         Set<String> setBusinessUnit =  new Set<String>();
         
@@ -67,7 +66,6 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
                 update casesToUpdate;
             } catch (Exception e) {
                 // Handle exceptions
-                System.debug('Error: ' + e.getMessage());
                 ABCL_Logger.enableExceptionLogging();
                 ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
                 ABCL_Logger.message(e.getMessage());
@@ -76,7 +74,6 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         }
     }
     
-    global void finish(Database.BatchableContext BC) {
-        System.debug('Batch job finished successfully.');
+    public void finish(Database.BatchableContext bc) {
     }
 }
