@@ -1,7 +1,8 @@
 /*********************************************************
 ** Class        :  ABFL_UserTeamDataUpdateBatch
 ** Author       :  SaiRahul
-** Description  :  Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
+** Description  :  Created as part of US # PR970457-1205. 
+                   Update managerGroupId__c on user record based on the queue user is part of.
 ** Created Date :  21/02/2024
 *********************************************************/
 public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<SObject>, Database.Stateful {
