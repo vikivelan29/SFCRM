@@ -39,8 +39,8 @@ private class ABFL_UserTeamDataUpdateBatchTest {
             //Creating Public group and queue assignments
             List<GroupMember> gmList = new List<GroupMember>();
             for(User u : userList){
-            GroupMember gm = new GroupMember(GroupId = testGroup.Id, UserOrGroupId = u.Id);
-            gmList.add(gm);
+                GroupMember gm = new GroupMember(GroupId = testGroup.Id, UserOrGroupId = u.Id);
+                gmList.add(gm);
             }
             GroupMember gmQ = new GroupMember(GroupId = testQueue.Id, UserOrGroupId = testGroup.Id);
             gmList.add(gmQ);
@@ -60,13 +60,12 @@ private class ABFL_UserTeamDataUpdateBatchTest {
         Group publicGrp = [Select id, Name from Group WHERE Name ='ABFL Test group' LIMIT 1];
 		        
         Test.startTest();
-        ABFL_UserTeamDataUpdateBatch batchJob = new ABFL_UserTeamDataUpdateBatch();
-        Database.executeBatch(batchJob);
+            ABFL_UserTeamDataUpdateBatch batchJob = new ABFL_UserTeamDataUpdateBatch();
+            Database.executeBatch(batchJob);
         Test.stopTest();
         
         User updatedUser = [SELECT Id, managerGroupId__c, IsActive FROM User WHERE Name LIKE 'Testing%' LIMIT 1];
-        
-        //System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
+        System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
         
     }
 
