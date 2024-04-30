@@ -53,7 +53,7 @@ public without sharing class ABFL_SuppressEmailHelper {
                         allOutputs.put(inp.caseId,output);
                     }
                 }
-                if(c.FTR__c == true || c.OnCreateCloseSR__c == true || c.Source__c =='OneABC'){
+                if(c.FTR__c == true || c.OnCreateCloseSR__c == true || c.Source__c =='OneABC' || c.Winning_Email__c== System.label.Restrict_Email_Address){
                     ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
                     output.supressEmail = true;
                     output.templateName = inp.templateName;
