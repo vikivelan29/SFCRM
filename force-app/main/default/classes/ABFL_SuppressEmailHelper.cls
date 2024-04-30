@@ -39,7 +39,7 @@ public without sharing class ABFL_SuppressEmailHelper {
                                           Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
     {
         System.debug('caseIds --> '+caseIds);
-        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c,FTR__c,OnCreateCloseSR__c FROM Case WHERE Id =: caseIds]);
+        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c,Winning_Email__c,FTR__c,OnCreateCloseSR__c FROM Case WHERE Id =: caseIds]);
         for(ASF_CustomerEmailInvocable.EmailInputWrapper inp : inpArg){
             if(mCases.containsKey(inp.caseId)){
                 Case c = mCases.get(inp.caseId);
