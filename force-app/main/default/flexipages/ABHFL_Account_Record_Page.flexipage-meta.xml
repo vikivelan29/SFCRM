@@ -482,9 +482,6 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -680,6 +677,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-fd10c1ca-3c0d-4bc2-b09b-3744243d66ac</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Open Complaints</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
