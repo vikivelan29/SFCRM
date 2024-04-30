@@ -62,6 +62,7 @@ public without sharing class ASF_Email2CaseHandler {
                         if(mCases.containsKey(msg.ParentId)){
                             Case c = new Case(Id = msg.ParentId);
                             c.EmailMessageIdentifier__c = msg.MessageIdentifier;
+                            c.Winning_Email__c = msg.Winning_Email__c; // populationg this Id for reporting purpose. US-PR970457-1272
                             if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                 c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
                             }
