@@ -61,8 +61,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -913,6 +913,10 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-f7c6002d-9c8e-46b9-a979-7de885cebff0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -985,6 +989,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f7c6002d-9c8e-46b9-a979-7de885cebff0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy View</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
