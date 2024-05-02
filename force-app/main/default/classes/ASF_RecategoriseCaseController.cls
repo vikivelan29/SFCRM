@@ -127,6 +127,10 @@ public with sharing class ASF_RecategoriseCaseController {
             if(!contactList.isEmpty()){
                 toUpdateCase.ContactId = contactList[0].Id;
             }
+            List<Account> accountList = [SELECT id, Client_Code__c from Account where Id =: (String)caseObject.get('AccountId')];
+            if(!accountList.isEmpty()){
+                toUpdateCase.Client_Code_Text__c = accountList[0].Client_Code__c;
+            }
         }
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
