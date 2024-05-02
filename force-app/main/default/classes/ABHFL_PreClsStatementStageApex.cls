@@ -22,6 +22,13 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
                 sendPrclsStatementclosureEligibleCases.add(caseRec);
                 
             }
+            //AM-PR970457-1214
+            if(caseRec.CCC_External_Id__c=='qbccdd01' && caseRec.ABHFL_Case_Detail__r.PP_Status__c=='Part Payment Not Done'){
+                retCls = returnWrapper.get(caseRec.Id);
+                retCls.status = ABHFL_Constants.ERROR;
+                retCls.errorMessage = 'Cannot move to next stage when Part Payment not done';
+                returnWrapper.put(caseRec.Id, retCls);
+            }
         }
         if(!sendPrclsStatementclosureEligibleCases.isEmpty()){
             ABHFL_CTSTHelper.sendPrclsStatementclosure(sendPrclsStatementclosureEligibleCases);
