@@ -5,6 +5,7 @@
     <label>Payment Identifier</label>
     <length>100</length>
     <required>true</required>
+    <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
