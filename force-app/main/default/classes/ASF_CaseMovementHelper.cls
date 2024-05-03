@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 04-24-2024
+ * @last modified on  : 05-04-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseMovementHelper {
@@ -152,18 +152,18 @@ public class ASF_CaseMovementHelper {
         }
 
         if(!casesAfterBackward.isEmpty()){
-            system.debug('inside cases after backward');
-            //Run validation on current Stage
-            Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(casesAfterBackward.values(), currentStageMap);
-            for(Id caseId : validationResults.keySet()){
+            //Find the next stage when moved forward after backward movement
+            Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values(), currentStageMap);
+            for(Id caseId : caseIdToNextStageMap.keySet()){
+                StageConfigWrapper nextStage = caseIdToNextStageMap.get(caseId);
                 StageWrapper resultWrapper = resultWrapperMap.get(caseId);
                 if(nextStage.status != 'Error'){
                     Case updatedCase = new Case(Id = caseId);
-		    //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
+        //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
                     //When case get to Gateway stage after backward movement, unable to find valid next stage.
                     if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
-                    	updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
-                    	updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
+                      updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
+                      updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
                         resultWrapper.ownerId = nextStage.ownerId;
                     }
                     updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
@@ -182,73 +182,8 @@ public class ASF_CaseMovementHelper {
                 else{
                     resultWrapper.errorMessage = nextStage.errorMessage;
                     resultWrapper.status = 'Error';
-                    casesAfterBackward.remove(caseId);
-                    resultWrapperMap.put(caseId, resultWrapper);
                 }
-            }
-            
-            Map<Id, Case> casesWithNextStageFound = new Map<Id, Case>();
-            Map<Id, ASF_Case_Stage_Config__c> nextStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
-            if(!casesAfterBackward.isEmpty()){
-                //Find the next stage when moved forward after backward movement
-                Map<Id, StageConfigWrapper> caseIdToNextStageMap = ASF_CaseMovementHelper.findNextStageAfterBackward(casesAfterBackward.values(), currentStageMap);
-                for(Id caseId : caseIdToNextStageMap.keySet()){
-                    StageConfigWrapper nextStage = caseIdToNextStageMap.get(caseId);
-                    StageWrapper resultWrapper = resultWrapperMap.get(caseId);
-                    Case caseRec =  casesAfterBackward.get(caseId);
-                    if(nextStage.status != 'Error'){
-                        casesWithNextStageFound.put(caseRec.Id, caseRec);
-                        nextStageConfigMap.put(caseRec.Id, nextStage.stageConfig);
-                        Case updatedCase = new Case(Id = caseId);
-                        //Workaround for Gateway stage -- to be removed when Gateway stage movement is fixed
-                        //When case get to Gateway stage after backward movement, unable to find valid next stage.
-                        if(!ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped){
-                            updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
-                            updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
-                            resultWrapper.ownerId = nextStage.ownerId;
-                        }
-                        updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
-                    	updatedCase.MoveToNext__c = false;
-                        resultWrapper.errorOwnerId = nextStage.errorOwnerId;
-                        // If moved to Previous Stage, Remove Pending Clarification Flag
-                        if(nextStage.isPreviousStage){
-                            updatedCase.pending_clarification__c = false;
-                        }
-                        resultWrapper.caseToBeUpdated = updatedCase;
-                    	resultWrapper.status = 'Success';
-                        resultWrapper.nextStageConfig = nextStage.stageConfig;                      
-                        resultWrapperMap.put(caseRec.Id, resultWrapper);
-                    }else{
-                        resultWrapper.errorMessage = nextStage.errorMessage;
-                        resultWrapper.status = 'Error';
-                        resultWrapperMap.put(caseRec.Id, resultWrapper);
-                    }  
-                }
-                if(!casesWithNextStageFound.isEmpty()){
-                    Map<Id, CaseStageValidationWrapper> beforeResultMap = validateNextStageEntry(casesWithNextStageFound.values(), nextStageConfigMap);
-                    for(Id caseId : beforeResultMap.keySet()){
-                        StageWrapper resultWrapper = resultWrapperMap.get(caseId);
-                        CaseStageValidationWrapper beforeResult = beforeResultMap.get(caseId);
-                        ASF_Case_Stage_Config__c nextStage = nextStageConfigMap.get(caseId);
-                        if(beforeResult != null && beforeResult.status != 'Success'){
-                            resultWrapper.errorMessage = beforeResult.errorMessage;
-                            resultWrapper.status = 'Error';
-                            resultWrapperMap.put(caseId, resultWrapper);
-                        }else{
-                            Case updatedCase = resultWrapper.caseToBeUpdated;
-                            // If Before Apex Class Run returned any fields on Case, append the same
-                            if(beforeResult.isCaseUpdated == true){
-                                Map<String, Object> sourceFields = beforeResult.updatedCase.getPopulatedFieldsAsMap();
-                                for (String fieldName : sourceFields.keySet()) {
-                                    updatedCase.put(fieldName, sourceFields.get(fieldName));
-                                }
-                            }
-                            resultWrapper.caseToBeUpdated = updatedCase;
-                            resultWrapper.status = 'Success';
-                            resultWrapperMap.put(caseId, resultWrapper);
-                        }
-                    }
-                }
+                resultWrapperMap.put(caseId, resultWrapper);
             }
         }
 
@@ -838,7 +773,7 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-		ASF_CaseQueryHandler.refreshRecords = true;
+    ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
