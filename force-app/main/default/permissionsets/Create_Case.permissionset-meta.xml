@@ -731,6 +731,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Approv__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Approv__c.Approval_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2437,6 +2442,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Integration__c.Priority__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Integration__c.C3ExternalId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2763,6 +2773,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.LOB_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.LOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

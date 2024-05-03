@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_117_121_SURENDRA_NAGAR_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL 117/121 # SURENDRA NAGAR</label>
+  <queue>ABHFL_117_121_SURENDRA_NAGAR</queue>
+  <sharedTo>
+    <group>ABHFL_117_121_SURENDRA_NAGAR_G</group>
+  </sharedTo>
+</ListView>

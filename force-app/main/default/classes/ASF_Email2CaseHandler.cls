@@ -7,6 +7,7 @@
 *********************************************************/
 @SuppressWarnings('PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments'};
     public class multipleEmail2CaseAddressException extends exception{}
     
     /* THIS MEHTOD IS USED TO UPDATE THE MESSAGEIDENTIFIER FIELD ON CASE OBJECT.
