@@ -46,6 +46,7 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             }  
         }
     }
+    
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;
         Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;

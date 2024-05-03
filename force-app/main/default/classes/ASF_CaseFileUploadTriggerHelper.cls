@@ -128,6 +128,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         }
         return docId;
     }
+    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
