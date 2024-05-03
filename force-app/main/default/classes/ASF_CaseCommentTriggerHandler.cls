@@ -41,9 +41,9 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                       UserInfo.getUserId() != caseCommentRec.CreatedById){
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
-                    createFeedItem(newList, oldMap);
                 }
-            }  
+            } 
+            createFeedItem(newList, oldMap);
         }
     }
     
