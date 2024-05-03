@@ -15,6 +15,31 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
             ShareType = 'V'
         );
         insert cdl;
+        
+        EmailMessage emailMessageRec = new EmailMessage(
+            ParentId = [select Id from case LIMIT 1].Id,
+            Subject = 'Test Email',
+            FromAddress = 'test@example.com',
+            TextBody = 'This is a test email message.'
+        );
+        insert emailMessageRec;
+        
+        // Create a ContentVersion record
+        ContentVersion contentVersion = new ContentVersion(
+            Title = emailMessageRec.Subject,
+            VersionData = Blob.valueOf(emailMessageRec.TextBody),
+            PathOnClient = 'test.txt',
+            FirstPublishLocationId = emailMessageRec.Id
+        );
+        insert contentVersion;
+
+        // Create a ContentDocumentLink record associating ContentVersion with Case
+        ContentDocumentLink contentLink = new ContentDocumentLink(
+            ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId,
+            LinkedEntityId = [select Id from case LIMIT 1].Id,
+            ShareType = 'V'
+        );
+        insert contentLink;
     }
 
     static testmethod void contentLinkDeleteTest() {
