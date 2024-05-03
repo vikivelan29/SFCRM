@@ -41,6 +41,11 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_DATE_VALIDATION;
         }
+        // Check From Date is greater than Today
+        else if(caseRecord.ABFL_Case_Detail__r.To_Date__c == caseRecord.ABFL_Case_Detail__r.From_Date__c) { 
+            result.status = ABFL_Constants.ERROR;
+            result.response = ABFL_Constants.EVALUATION_FAILED_FROM_TO_DATE_VALIDATION;
+        }    
         else if(caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c == null) { // Check New_Bank_Account_No__c
             result.status = ABFL_Constants.ERROR;
             result.response = ABFL_Constants.EVALUATION_FAILED_BANK_ACCOUNT_ERROR;
@@ -112,7 +117,7 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         payload.enach_data = enachData;
         System.debug('@@@payloadWrap'+JSON.serialize(payload));
          
-        Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e (
+        EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,
             Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
@@ -138,8 +143,6 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
             System.debug('@@@decryptedResponse'+decryptedResponse);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-                ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 System.debug('@@@decryptedResponse'+decryptedResponse);
                 ABFL_EnachRegistrationResponse jsonMap = (ABFL_EnachRegistrationResponse)JSON.deserialize(decryptedResponse, ABFL_EnachRegistrationResponse.class);
                 if(jsonMap.registration_data.return_code == '0000' && jsonMap.registration_data.registration_link != '') {

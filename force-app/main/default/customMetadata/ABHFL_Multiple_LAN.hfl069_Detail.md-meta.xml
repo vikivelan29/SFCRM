@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Asset_Detail_Editable_Fields__c</field>
-        <value xsi:type="xsd:string">Revised_ROI__c,Impact__c,Cycle_Date__c,Revised_EMI_Tenure__c</value>
+        <value xsi:type="xsd:string">Revised_ROI__c,Impact__c,Cycle_Date__c</value>
     </values>
     <values>
         <field>Asset_Detail_Fields__c</field>
@@ -13,6 +13,10 @@
     <values>
         <field>Asset_Fields__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Impact_Option_Logic__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Stages_Allowing_Add_Rows__c</field>
