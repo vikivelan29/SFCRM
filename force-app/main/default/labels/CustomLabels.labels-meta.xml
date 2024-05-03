@@ -708,4 +708,11 @@
         <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
         <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
     </labels>
+    <labels>
+        <fullName>Restrict_Email_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restrict Email Address</shortDescription>
+        <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
+    </labels>
 </CustomLabels>
