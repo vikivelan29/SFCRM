@@ -41,11 +41,12 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                       UserInfo.getUserId() != caseCommentRec.CreatedById){
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
-                    createFeedItem(newList, oldMap);
                 }
-            }  
+            } 
+            createFeedItem(newList, oldMap);
         }
     }
+    
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;
         Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;

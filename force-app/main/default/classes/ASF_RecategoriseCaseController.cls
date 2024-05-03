@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 //Controller class for asf_RecategoriseCase LWC
 //Created by JT & Santanu
 public with sharing class ASF_RecategoriseCaseController {
@@ -126,6 +136,10 @@ public with sharing class ASF_RecategoriseCaseController {
             List<Contact> contactList = [SELECT Id from Contact where AccountId = :(String)caseObject.get('AccountId') AND Primary__c = TRUE LIMIT 1];
             if(!contactList.isEmpty()){
                 toUpdateCase.ContactId = contactList[0].Id;
+            }
+            List<Account> accountList = [SELECT id, Client_Code__c from Account where Id =: (String)caseObject.get('AccountId')];
+            if(!accountList.isEmpty()){
+                toUpdateCase.Client_Code_Text__c = accountList[0].Client_Code__c;
             }
         }
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){

@@ -44,7 +44,6 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.response = 'Case is not Approved, cannot generate payment link';
         }
         //--Dhinesh ends
-
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
