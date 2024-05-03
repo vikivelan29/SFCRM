@@ -590,7 +590,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             }
                         }
                         console.log('******this.defaultTextValuesMap',this.defaultTextValuesMap);
-                        console.log('default value 593--', JSON.stringify(this.defaultValues));
                         if (this.defaultFieldValuesMap.size > 0) {
                             let result = await getDefaultValues({ caseId: this.recordId, fieldNames: this.defaultFieldNames, fieldValues: this.defaultFieldValues })
                             .catch(error => {
@@ -598,7 +597,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                 this.showError('error', 'Oops! Error occured', error);
                             });
                             if(result){
-                                console.log('get default--',JSON.stringify(result));
                                 this.caseDefaultValuesObj = result;
                                 var revisedList = [];
                                 for (var field in this.defaultFieldValues) {
@@ -957,8 +955,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             if (this.caseExtensionRecordId) {
                 caseExtnRec["id"] = this.caseExtensionRecordId;
                 console.log('caseExtnRec', JSON.stringify(caseExtnRec));
-                console.log('default--',JSON.stringify(this.defaultFieldNames));
-                console.log('default values--',JSON.stringify(this.defaultValues));
                 let aprManualStg = this.caseObj.is_Manual_Approval__c;
                 executeValidation({
                     cccId: this.cccExternalId,
