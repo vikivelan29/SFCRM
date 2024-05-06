@@ -104,6 +104,9 @@ export class asf_Utility {
 
         fields[ID_FIELD.fieldApiName] = parentJS.recordId;
         fields[NEW_STAGE.fieldApiName] = true;
+        if(parentJS.noAutoCommValue){
+            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        }
 
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');

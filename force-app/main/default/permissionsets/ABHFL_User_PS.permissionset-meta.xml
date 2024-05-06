@@ -129,7 +129,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
+        <apexClass>ASF_CloneCCCController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_DownloadCCCController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -164,6 +168,11 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Competition_ROI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
@@ -207,6 +216,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Current_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Cycle_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -289,6 +303,11 @@
         <field>ABHFL_Asset_Detail__c.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Asset_Detail__c.Revised_EMI_Tenure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.Revised_EMI_Tenure__c</field>
@@ -317,6 +336,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Account_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.BT_Banks__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2676,7 +2700,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Total_Disbursement_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Website</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Variant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2853,6 +2887,15 @@
         <object>DMS_Files__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+<objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Knowledge__kav</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
@@ -2908,6 +2951,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_DownloadCCC</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

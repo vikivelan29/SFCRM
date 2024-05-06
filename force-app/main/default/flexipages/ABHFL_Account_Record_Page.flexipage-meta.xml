@@ -482,9 +482,6 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
