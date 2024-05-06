@@ -113,7 +113,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     
                     Map<String, String> fieldsMap = new Map<String, String>();
                     fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
-                    fieldsMap.put('Description__c',emailMsg.Parent.Description);
+                    fieldsMap.put('Description__c', emailMsg.Parent.Description.stripHtmlTags());
                     fieldsMap.put('Line_of_Business__c',LOB);
                     fieldsMap.put('Business_Unit__c',LOB);
                     fieldsMap.put('Integration_Name__c','EBOT API');
