@@ -61,8 +61,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -150,6 +150,16 @@
                 <identifier>RecordTAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Family_Code__c</fieldItem>
+                <identifier>RecordFamily_Code_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -232,6 +242,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Gross_Net_Confirmation__c</fieldItem>
                 <identifier>RecordGross_Net_Confirmation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Family_Head__c</fieldItem>
+                <identifier>RecordFamily_Head_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-85ca64d8-f6ae-487f-b640-ed7f1fc3f3fb</name>
@@ -1037,18 +1057,18 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
-                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-e7212b34-c811-4c85-8cb8-1ec2c8fd97cf</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
