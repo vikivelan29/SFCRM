@@ -1,8 +1,9 @@
-import { LightningElement,wire,api,track } from 'lwc';
+import { LightningElement,wire,api } from 'lwc';
 import getAssetRecordsandMetadata from '@salesforce/apex/ABHFL_MultipleLANController.getLanDataAndMetadata';
 import fetchAssetDetailsExt from '@salesforce/apex/ABHFL_MultipleLANController.fetchAssetDetailsExt';
 import upsertRecords from '@salesforce/apex/ABHFL_MultipleLANController.upsertRecords';
 import fetchAll from '@salesforce/apexContinuation/ABHFL_MultipleLANController.fetchAllLANDetails';
+import deleteRecordOwnerChange from '@salesforce/apex/ABHFL_MultipleLANController.deleteRecordOwnerChange';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
@@ -209,6 +210,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 }
                 if(retrieveRecords.length){
                     this.displayChildTable = false;
+                    this.displaySpinner = true;
                     upsertRecords({assetDetails : JSON.stringify(retrieveRecords), recId : this.recordId}).then((result) => {
                         console.log(result);
                         for(let record in this.selectedRows){
@@ -224,6 +226,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                             }
                         }
                         this.displayChildTable = true;
+                        this.displaySpinner = false;
                     }).catch((error) => {
                         console.log(error);
                         this.displaySpinner = false;
@@ -304,7 +307,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.displaySpinner = true;
             let deleteIndex = e.currentTarget.name;
             let deleteId = this.childTableRecords[e.currentTarget.name].detail.Id;
-            deleteRecord(this.childTableRecords[e.currentTarget.name].detail.Id)
+            deleteRecordOwnerChange({assetDetailid : this.childTableRecords[e.currentTarget.name].detail.Id,userId :this.userId})
             .then(() => {
                 this.displayChildTable = false;
                 this.childTableRecords.splice(deleteIndex,1);
@@ -408,6 +411,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     }
 
     updateAssetDetail(e){
+        this.childTableRecords = JSON.parse(JSON.stringify(this.childTableRecords));
         for(let record in this.childTableRecords){
             if(this.childTableRecords[record].asset.Id == e.detail.assetId){
                 this.childTableRecords[record].detail[e.detail.fieldName] = e.detail.value;
@@ -482,7 +486,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
             this.enableDelete = this.amIOwner?this.stagesAllowingDeleteRows.includes(currStage)?true:false:false;
         }
         if(this.stagesAllowingFetchAll && this.stagesAllowingFetchAll.length > 0){
-            this.enableFetchAll = this.amIOwner?this.stagesAllowingFetchAll.includes(currStage)?true:false:false;
+            this.enableFetchAll = this.stagesAllowingFetchAll.includes(currStage)?true:false;
         }
         if(this.stagesAllowingFileUpload && this.stagesAllowingFileUpload.length > 0){
             this.enableUpload = this.amIOwner?this.stagesAllowingFileUpload.includes(currStage)?true:false:false;
