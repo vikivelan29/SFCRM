@@ -89,18 +89,21 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         if (data) {
             let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
             if(data && data != null){
-                data.allMetadata.map(item => {
-                    if((item.Template_Name__c.includes('Close') && data.hasCloseAccess) || 
-                    (item.Template_Name__c.includes('Create') && data.hasCreateAccess)){
-                        const option = {
-                            label: item.Display_Label__c,
-                            value: item.Template_Name__c
-                        };
-                        this.optionActions = [ ...this.optionActions, option ];
-                    } 
+                let allMetadata = data;
+                allMetadata.map(item => {
+                    const option = {
+                        label: item.Display_Label__c,
+                        value: item.Template_Name__c
+                    };
+                    this.optionActions = [ ...this.optionActions, option ];
+                    if(!this.operationRecordTypeValue){
+                        this.operationRecordTypeValue = item.Template_Name__c;
+                    }
+                    if(this.hasPermission){
+                        this.hasPermission = true;
+                    }
                 });
-                this.allConfigMetaList = data.allMetadata;
-                this.hasPermission = (data.hasCreateAccess || data.hasCloseAccess) ? true : false;
+                this.allConfigMetaList = allMetadata;
                 this.hasLoaded = true;
             }
 
@@ -203,9 +206,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
         /*Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep! 
         quotes: true,*/
-        if(this.operationRecordTypeValue.includes('Close')){
-            csvString = csvString.replaceAll('\n', '\n=');
-        } 
+        // if(this.operationRecordTypeValue.includes('Close')){
+        //     csvString = csvString.replaceAll('\n', '\n=');
+        // } 
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
