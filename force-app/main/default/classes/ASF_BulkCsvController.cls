@@ -14,22 +14,22 @@ public with sharing class ASF_BulkCsvController {
      * Output : Wrapper class with access and metadata details
      */
     @AuraEnabled(cacheable=true)
-    public static MetadataWrapper getMetadataDetails() {
-        MetadataWrapper resultWrapper = new MetadataWrapper();
+    public static List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> getMetadataDetails() {
+        List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> allMetadata = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
 
         String businessUnit = [select Id, Business_Unit__c from User where Id=: userInfo.getUserId()].Business_Unit__c;
         List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> configMetaRec = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
 
         configMetaRec = [Select Id, MasterLabel,DeveloperName, Display_Label__c, SObject_Name__c,
-                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c, Fields_Name__c
+                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c, Fields_Name__c, Custom_Permission_for_Access__c
                 FROM ASF_Bulk_Row_to_Record_Converter_Config__mdt
-                WHERE Active__c = true AND SObject_Name__c = 'Case' AND Business_Unit__c =:businessUnit ORDER BY Order__c];
-
-        resultWrapper.allMetadata =  configMetaRec;
-        resultWrapper.hasCreateAccess = FeatureManagement.checkPermission('Bulk_Case_Create');
-        resultWrapper.hasCloseAccess = FeatureManagement.checkPermission('Bulk_Case_Close');
-                
-        return resultWrapper;  
+                WHERE Active__c = true AND Business_Unit__c =:businessUnit ORDER BY Order__c];
+        for(ASF_Bulk_Row_to_Record_Converter_Config__mdt config : configMetaRec){
+            if(String.isBlank(config.Custom_Permission_for_Access__c) || FeatureManagement.checkPermission(config.Custom_Permission_for_Access__c)){
+                allMetadata.add(config);
+            }
+        }
+        return allMetadata;  
     }  
     
     /**
@@ -160,15 +160,5 @@ public with sharing class ASF_BulkCsvController {
             processComplete = false;
         }
     }    
-    public class MetadataWrapper {
-        @AuraEnabled public List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> allMetadata;
-        @AuraEnabled public Boolean hasCreateAccess;
-        @AuraEnabled public Boolean hasCloseAccess;
-
-        public MetadataWrapper(){
-            allMetadata = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
-            hasCreateAccess = false;
-            hasCloseAccess = false;
-        }
-    }    
+       
 }
