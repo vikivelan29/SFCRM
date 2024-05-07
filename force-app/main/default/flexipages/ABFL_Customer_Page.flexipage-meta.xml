@@ -61,8 +61,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
