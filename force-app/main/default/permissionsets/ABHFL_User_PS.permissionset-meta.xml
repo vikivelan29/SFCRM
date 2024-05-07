@@ -170,6 +170,11 @@
     </customPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Grievance_Details_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Competition_ROI__c</field>
         <readable>true</readable>
     </fieldPermissions>
