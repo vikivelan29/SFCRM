@@ -312,13 +312,13 @@ public with sharing class ASF_CloneCCCController {
     }
     
     public static String populateCaseFieldConfig(String treeRequest, ASF_Case_Field_Config__c eachConfigRecord ,Map<String, Schema.SObjectField> cfcFieldMap) {
-        List<String> ignoreFieldsList = new List<String>{'field_external_id__c','id'};
+        List<String> ignoreFieldsList = new List<String>{'field_external_id__c','id','field_external_id_c__c'};
         referenceRecordIdMap.put('ASF_Case_Field_Config__c' + eachConfigRecord.Id ,eachConfigRecord.id);
         recordIdObjectNameMap.put(eachConfigRecord.id,'Case Field Config');
         treeRequest += ',{"method" : "POST","url" : "/services/data/v57.0/sobjects/ASF_Case_Field_Config__c",';
         treeRequest += '"referenceId" : "ASF_Case_Field_Config__c' + eachConfigRecord.Id +'",';
         treeRequest += '"body" : { "Case_Main_Config__c" :' +  '"@{refCategoryConfig.id}"' +  + ',';
-        treeRequest += '"Field_External_Id__c" :' +  '"' + generateUniqueString()  + '"' + ',';
+        treeRequest += '"Field_External_Id_c__c" :' +  '"' + generateUniqueString()  + '"' + ',';
         //treeRequest += '"Field_External_Id__c" :' +  '"' + 'staticString'  + '"' + ',';
         
         treeRequest += mapfields((SObject)eachConfigRecord, ignoreFieldsList, cfcFieldMap, 'ASF_Case_Field_Config__c');
