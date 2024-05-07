@@ -5,6 +5,7 @@
 *Last Modified:  12/12/2023
 *@description  :  General Utility Class for Integration 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_IntegrationCommonUtility {
     public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
