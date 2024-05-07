@@ -188,12 +188,6 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Case.Change_Priority</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Close_the_Case</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.NewChildCase</value>
                         </valueListItems>
                     </valueList>
@@ -267,6 +261,16 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showChecklistColumn</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>aSF_DMSViewDatatable</componentName>
+                <identifier>c_aSF_DMSViewDatatable</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
