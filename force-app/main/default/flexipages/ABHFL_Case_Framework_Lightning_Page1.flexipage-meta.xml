@@ -534,6 +534,9 @@
                         <valueListItems>
                             <value>Error_Message__c</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
