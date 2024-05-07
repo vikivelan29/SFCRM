@@ -61,8 +61,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -1057,18 +1057,18 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
-                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-e7212b34-c811-4c85-8cb8-1ec2c8fd97cf</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
