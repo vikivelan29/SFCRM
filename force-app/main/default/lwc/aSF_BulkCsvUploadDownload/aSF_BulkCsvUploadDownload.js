@@ -99,11 +99,14 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     if(!this.operationRecordTypeValue){
                         this.operationRecordTypeValue = item.Template_Name__c;
                     }
-                    if(this.hasPermission){
+                    if(!this.hasPermission){
                         this.hasPermission = true;
                     }
                 });
                 this.allConfigMetaList = allMetadata;
+                if(this.hasPermission){
+                    this.findAndSetSelectedConfig();
+                }
                 this.hasLoaded = true;
             }
 
@@ -112,6 +115,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             }
 
         } else if (error) {
+            console.log('error'+JSON.stringify(error));
             this.displayErrorMessage(error, '');
         }
     }
@@ -156,6 +160,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //This method executes when user selects an operation to perform
     onChangeOperationRecordTypeChange(event){
         this.operationRecordTypeValue = event.target.value;
+        this.findAndSetSelectedConfig();
+    }
+    findAndSetSelectedConfig(){
         this.allConfigMetaList.forEach((element) => {
             if(element.Template_Name__c == this.operationRecordTypeValue){
                 this.selectedConfigRec = element;
@@ -168,6 +175,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
         this.strErrorMessage = '';
+
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
                             strSelectedRecords : this.selectedCases,
