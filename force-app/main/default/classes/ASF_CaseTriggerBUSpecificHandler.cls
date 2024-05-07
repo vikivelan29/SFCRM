@@ -4,7 +4,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
 
         ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
         ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
-        ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
     }
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         
