@@ -12,6 +12,12 @@
                         <valueListItems>
                             <value>Delete</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>ASF_Case_Category_Config__c.Clone_Complete_Config</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ASF_Case_Category_Config__c.Download_Complete_Config</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
