@@ -1,0 +1,37 @@
+<!--
+  @description       : 
+  @author            : shubham.sinha@salesforce.com
+  @group             : 
+  @last modified on  : 05-08-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                         Modification
+  1.0   05-02-2024   shubham.sinha@salesforce.com   PR970457-1404
+-->
+<template>
+    <lightning-spinner if:true={isLoading}></lightning-spinner>
+    <template if:true={isRecordPresent}>
+        <lightning-card>
+            <!-- Check if showChecklistColumn is true to include checkbox column -->
+            <template if:true={showChecklistColumn}>
+                <lightning-button label="Sync Records" onclick={syncDMSRecords} disabled={isDisabled} slot="actions"> </lightning-button>  
+                <lightning-datatable class="slds-resizable" key-field="Id" data={data} columns={columns} selected-rows={selectedRows}  onrowselection={handleRowSelects} onrowaction={handleRowAction} min-column-width="155">
+                </lightning-datatable>
+            </template>
+            <template if:false={showChecklistColumn}>
+                <lightning-datatable class="slds-resizable" hide-checkbox-column="true" key-field="id" data={data} columns={columns}  onrowaction={handleRowAction} min-column-width="155">
+                </lightning-datatable>
+            </template>
+            <br>
+            <div class="slds-align_absolute-center">
+                <button class="slds-button slds-button_neutral slds-button_stretch" onclick={handlePrevious} disabled={isPreviousDisabled} data-id="previousButton" style="margin-right: 10px;width:85px" >Previous</button>
+                <button class="slds-button slds-button_neutral slds-button_stretch" onclick={handleNext} disabled={isNextDisabled} data-id="nextButton" style="margin-left: 10px;width:85px" >Next</button>
+            </div>
+        </lightning-card>
+    </template>
+    <template if:false={isRecordPresent}>
+        <div style="text-align: center; margin-top: 20px;" class="slds-box">
+            <strong>{noFileAvailableLabel}</strong>
+        </div>
+    </template>
+</template>
