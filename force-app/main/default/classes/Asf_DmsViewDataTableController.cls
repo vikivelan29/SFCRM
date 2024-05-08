@@ -12,7 +12,7 @@ public with sharing class Asf_DmsViewDataTableController {
 * @@description - created to fetch the datatable columns
 *****************************************************************************************************************/ 
     @AuraEnabled
-    public static List<Asf_Dynamic_Datatable_Child__mdt> getColumns() {
+    public static List<Asf_Dynamic_Datatable_Child__mdt> getColumns(String configName) {
     return [SELECT MasterLabel,Order__c, DeveloperName ,Asf_Dynamic_Datatable_Parent__c , Api_Name__c, Data_Type__c
             FROM Asf_Dynamic_Datatable_Child__mdt
             WHERE Asf_Dynamic_Datatable_Parent__r.DeveloperName = 'Asf_DMS_File_Datatable' WITH SYSTEM_MODE
