@@ -17,7 +17,7 @@ import Sync_Manually from '@salesforce/label/c.Sync_Manually';
 
 
 export default class ASF_DMSViewDatatable extends NavigationMixin(LightningElement) {
-    isLoading=true;
+    isLoading=false;
     @api recordId;
     @track data = [];
     @track columns = [];
@@ -38,6 +38,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
         this.isPreviousDisabled = true;
     }
     retrieveData() {
+        this.isLoading=true;
         this.retrieveColumns()
             .then(() => this.retrieveDataTable())
             .catch(error => {
