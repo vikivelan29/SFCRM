@@ -4,9 +4,10 @@
 *Created Date :  08/01/2024
 *Description  :  This class is created to change the owner of case wrt to location code of LAN 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
-    public static String QUEUE_GROUP_QUERY = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
+    public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
  /****************************************************************************************************************
 * @param  - List<CASE> & Map of Old Cases
@@ -27,7 +28,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-                Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+                Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : newCaseMap.Values()){
                     system.debug('objCaseIssd '+objCase.Id);
                     if(oldMap.get(objCase.Id).OwnerId != objCase.OwnerId && objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) ){
@@ -70,7 +71,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -96,7 +97,9 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             ASF_Constants.bypassOwnerChangeValidation = true;
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
-            update insertFinalUpdateCase;
+            if ( Schema.sObjectType.Case.isUpdateable()){
+                update insertFinalUpdateCase;
+            }
         }
     }
 /****************************************************************************************************************
@@ -127,7 +130,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -172,7 +175,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-                Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+                Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : lstCase){
                     system.debug('objCaseId '+objCase.ownerId);
                     system.debug('objCaseIdOWNER '+objCase.LAN__c);
@@ -205,7 +208,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-            	Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+            	Group queueRecord = (Group) Database.query(queueGroupQueue);
                 List<Case> afterCases = [SELECT ID,OwnerId,LAN__c,Business_Unit__c FROM Case WHERE ID IN :lstCase AND OWNERID =: queueRecord.ID ];
                 if(!afterCases.isEmpty()){
                     for(Case objCase : afterCases){
@@ -244,7 +247,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -281,7 +284,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -318,8 +321,59 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                     commentListToInsert.add(new CaseComment(ParentId = caseObj.Id, CommentBody = caseObj.Comments));
                 }
             } 
-            if(!commentListToInsert.isEmpty()){
+            if(!commentListToInsert.isEmpty() &&  Schema.sObjectType.CaseComment.isCreateable()){
                 insert commentListToInsert;
+            }
+        }
+    }
+
+    /****************************************************************************************************************
+    * @Function - checkCCCExternalIdAndAddRTId
+    * @param caseList -  list of cases from trigger.new.
+    * @return - void .
+    * @Description - Invoked from beforeInsert, this method checks the CCCExternal Id is valid or not. If not valid then assign the RecordType as the Ineraction(Pre-framework).
+                     Also checks if the Source is other than email then assigns this case to the particular queue based on the Asset LOB
+    *****************************************************************************************************************/
+    public static void checkCCCExternalIdAndAddRTId(List<Case> caseList){
+        Id interactionRTId = ASF_Constants.RT_INTERACTION;
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
+        map<String, String> mAssetLOBswithQueue = ABFL_Constants.mAssetLOBsVSDefaultQueue;
+        map<String, String> mGroupDevNameWithIds = new map<String, String>();
+        map<String,String> mLANWithLOB = new map<String,String>();
+
+        set<String> sCCCIds = new set<String>();
+        set<String> sValidCCCIds = new set<String>();
+        for(Case cObj : caseList){
+            if(cObj.RecordTypeId == frameworkRTId ){
+                sCCCIds.add(cobj.CCC_External_Id__c);
+                if(cObj.AssetId != null){
+                    mLANWithLOB.put(cObj.AssetId,'');
+                }
+            }
+        }
+        if(!sCCCIds.isEmpty()){
+            for(ASF_Case_Category_Config__c cccObj : [SELECT id, Name,CCC_External_Id__c from ASF_Case_Category_Config__c where CCC_External_Id__c IN : sCCCIds AND Business_Unit__c='ABFL' WITH SYSTEM_MODE]){
+                sValidCCCIds.add(cccObj.CCC_External_Id__c);
+            }
+        }
+        if(!mLANWithLOB.isEmpty()){
+            for(Asset aObj : [SELECT Id,LOB__c from Asset Where Id IN : mLANWithLOB.keySet() OR LAN__c IN: mLANWithLOB.keySet()]){
+                mLANWithLOB.put(aObj.Id, aObj.LOB__c);
+            }
+            //get the Queue Ids from QueueDevName
+            for(Group gObj: [SELECT Id, DeveloperName FROM Group WHERE Type = 'Queue' AND DeveloperName IN : mAssetLOBswithQueue.values() ]){
+                mGroupDevNameWithIds.put(gObj.DeveloperName, gObj.Id);
+            }
+        }
+
+        for(Case cobj: caselist){
+            if(cObj.RecordTypeId == frameworkRTId && !sValidCCCIds.contains(cobj.CCC_External_Id__c)){
+                cobj.recordTypeId = interactionRTId;
+                if(cObj.AssetId !=null && cObj.Source__c !='Email'){
+                    String queueDevName = mAssetLOBswithQueue.get(mLANWithLOB.get(cObj.AssetId));
+                    if(mGroupDevNameWithIds.containsKey(queueDevName))
+                        cobj.OwnerId = mGroupDevNameWithIds.get(queueDevName);
+                }
             }
         }
     }
