@@ -13,18 +13,17 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
-
-        // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-        //          - Moved here to check the valid CCC Ids if not valid then assign the Intertaction recordTypeId to current Case (Jira - PR970457-1517)
-        buSpecificCls.executeBeforeASFCodeInBeforeInsert((list<Case>)newItemsCase);   
-
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
             ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
-            
-            
-            
+        }
+        // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+        //          - Moved here to check the valid CCC Ids if not valid then assign the Intertaction recordTypeId to current Case (Jira - PR970457-1517)
+        buSpecificCls.executeBeforeASFCodeInBeforeInsert((list<Case>)newItemsCase);   
+
+        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+
             //Validation methods
             ASF_CaseTriggerModularHelper.validateIfCCCInAPIRequest(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(mRecordTypeVsCases.get(frameworkRTId), null);
