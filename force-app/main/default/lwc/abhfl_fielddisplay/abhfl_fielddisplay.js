@@ -145,9 +145,11 @@ export default class Abhfl_fielddisplay extends LightningElement {
         if(this.columnName == "Impact__c" && this.displayCombo && this.impactLogic && this.loanDisbursementStatus == "Partially") {
             let getSelect = this.template.querySelector('[name="selection"]');
             for(let columnName of getSelect) {
-                if(columnName.innerHTML === "EMI") { 
+                if(columnName.innerHTML === "EMI") {
+                    let eObj = {target : {value : "EMI"}};
                     columnName.selected = true;
                     this.template.querySelector('[name="selection"]').disabled = true;
+                    this.handleChange(eObj);
                 }
             }
          }
