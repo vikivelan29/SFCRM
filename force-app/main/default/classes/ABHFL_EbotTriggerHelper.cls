@@ -20,7 +20,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
         }
 
         Map<Id,EmailMessage> emailMsgMap = new Map<Id,EmailMessage>([Select Contentdocumentids,HasAttachment,CCAddress,FromAddress,ToAddress,BCCAddress,ParentId,Parent.Description,
-        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c from EmailMessage where id in: emailMsgIds]);
+        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c,Winning_Email__c from EmailMessage where id in: emailMsgIds]);
 
         system.debug('emailMsgMap'+emailMsgMap);
 
@@ -119,7 +119,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     fieldsMap.put('Integration_Name__c','EBOT API');
                     fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
                     fieldsMap.put('From_Address__c',emailMsg.FromAddress);
-                    fieldsMap.put('To_Address__c',toAddress);
+                    fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
                     fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
                     fieldsMap.put('Additional_Emails__c',additionalEmails);
                     fieldsMap.put('File_Names__c',fileNames); 
