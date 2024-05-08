@@ -31,7 +31,7 @@ export default class Abfl_base_view_screen extends LightningElement {
 	connectedCallback() {
 		this.callFunction();
 	}
-
+	@api
 	async callFunction() {
 		try {
 			console.log('***callFunction-in'+JSON.stringify(this.payloadInfo));
