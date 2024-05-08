@@ -6,7 +6,7 @@
 *History        :
 Name                Date                  Change Description
 *********************************************************/
-@SuppressWarnings('PMD.PropertyNamingConventions') 
+@SuppressWarnings('PMD.PropertyNamingConventions')
 public with sharing class ABFL_Constants {
 	public static final string SUCCESS = 'Success';
     public static final string BRE = 'BRE';
