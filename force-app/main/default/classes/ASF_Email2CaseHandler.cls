@@ -107,6 +107,21 @@ public without sharing class ASF_Email2CaseHandler {
         Map<String,List<ASF_PriorityEmailAddressesByBU__mdt>> mBUVsPriorityEmails = new Map<String,List<ASF_PriorityEmailAddressesByBU__mdt>>();
         Set<Id> caseIds = new Set<Id>();
         
+        Set<Id> allcaseIds = new Set<Id>();
+        
+        for(EmailMessage msg : newList){
+            if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
+                allcaseIds.add(msg.ParentId);
+            }
+        }
+        
+        Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
+                                                                                      GROUP BY ParentId]);
+
+		
+
+        
+        
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
                 boolean bReplyOnClosedCase = false;
@@ -116,9 +131,20 @@ public without sharing class ASF_Email2CaseHandler {
                 if(msg.Headers != null){
                     system.debug('msg'+msg);
                     system.debug('msg.ReplyToEmailMessageId'+msg.ReplyToEmailMessageId);
-                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) ||
-                        (msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
-                        caseIds.add(msg.ParentId);
+                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) || (msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId))){
+                        //|| (msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
+                        if(bReplyOnClosedCase){
+                            caseIds.add(msg.ParentId);
+                        }
+                        else if(msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId)){
+                            Integer iCountOfEmail = Integer.ValueOf(mCaseEmailMessageCount.get(msg.ParentId).get('countOfRec'));
+                            if(iCountOfEmail == 0){
+                                caseIds.add(msg.ParentId);
+                            }
+                        }
+                        else{
+                            caseIds.add(msg.ParentId);
+                        }
                     }
                 }
                 else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
