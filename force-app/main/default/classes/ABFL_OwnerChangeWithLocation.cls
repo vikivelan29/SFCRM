@@ -357,7 +357,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             }
         }
         if(!mLANWithLOB.isEmpty()){
-            for(Asset aObj : [SELECT Id,LOB__c from Asset Where Id IN : mLANWithLOB.keySet() OR LAN__c IN: mLANWithLOB.keySet()]){
+            for(Asset aObj : [SELECT Id,LOB__c from Asset Where Id IN : mLANWithLOB.keySet()]){
                 mLANWithLOB.put(aObj.Id, aObj.LOB__c);
             }
             //get the Queue Ids from QueueDevName
