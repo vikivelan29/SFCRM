@@ -134,6 +134,21 @@ export default class Abhfl_fielddisplay extends LightningElement {
             this.template.querySelector("select[name=selection]").value = this.colValue;
             //this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.value = this.colValue;});
         }
+        this.impactLogicForPartiallyDisbLoan();
+    }
+
+    impactLogicForPartiallyDisbLoan() {
+        if(this.columnName == "Impact__c" && this.displayCombo && this.impactLogic && this.loanDisbursementStatus == "Partially") {
+            let getSelect = this.template.querySelector('[name="selection"]');
+            for(let columnName of getSelect) {
+                if(columnName.innerHTML === "EMI") {
+                    let eObj = {target : {value : "EMI"}};
+                    columnName.selected = true;
+                    this.template.querySelector('[name="selection"]').disabled = true;
+                    this.handleChange(eObj);
+                }
+            }
+         }
     }
 
     @api
