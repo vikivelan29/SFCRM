@@ -110,13 +110,12 @@
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
-                        <sortColumn>FORMULA1</sortColumn>
                         <sortOrder>d</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
                 <header>ABFL Case Agent count</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>ABFL/ABFL_Case_Agent_count_sTS</report>
+                <report>ABFL/Wealth/ABFL_Case_Agent_count_sTS</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
