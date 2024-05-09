@@ -74,14 +74,13 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.product_type = '';
         paymentData.product_id = '';
         paymentData.customer_id = caseRecord.Client_Code__c;
-        paymentData.invoice_no = '';
+        paymentData.invoice_no = caseRecord.caseNumber+mercOrderDate;
         paymentData.order_desc = '';
         paymentData.customer_name = name;
         paymentData.customer_email = emailId;
         paymentData.customer_phone = mobileNo;
         paymentData.udf1 = '';
         paymentData.udf2 = '';
-        paymentData.invoice_No = caseRecord.caseNumber+mercOrderDate;
         paymentData.orderDesc = '';
         paymentData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
         paymentData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
