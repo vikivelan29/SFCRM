@@ -1,5 +1,8 @@
 /**
- * @description ABCL DMS Retry implementation class
+ * @description         : ABCL DMS Retry implementation class
+ * @author              : sjaitly@salesforce.com
+ * @last modified on    : 05-09-2024
+ * @last modified by    : udit.singhal@salesforce.com
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class ABCL_RetryDMSFileTransfer {
