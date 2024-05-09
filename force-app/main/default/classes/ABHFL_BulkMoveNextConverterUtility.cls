@@ -61,6 +61,15 @@ public with sharing class ABHFL_BulkMoveNextConverterUtility implements ASF_Bulk
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            String caseKey = caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c + ''+ caseNumberToCaseMap.get(caseNumber).Stage__c;
+            if(!stageConfigMap.containsKey(caseKey) || !stageConfigMap.get(caseKey)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case current stage is not enabled for stage movement in bulk');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            //Any other BU specific checks - add here
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             caseRec.MoveToNext__c = true;
             //Any other BU specific checks - add here
