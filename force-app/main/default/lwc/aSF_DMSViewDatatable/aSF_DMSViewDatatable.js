@@ -171,7 +171,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
             }
         } else if (action.name === 'manualSync') {
             console.log('manualSync ');
-            syncDMSFilesManually({ dmsFileRecordId: row.Id })
+            syncDMSFilesManually({ lDmsIds: row.Id })
                 .then(result => {
                     console.log('***result:'+JSON.stringify(result));
                     if(result.isSuccess === true) {

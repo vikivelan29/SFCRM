@@ -233,6 +233,7 @@ public class ABFL_TestDataFactory {
         a.Office_Email__c = 'testAcc@123.com';
         a.Phone = '444-010-4444';
         a.PAN__c = 'ADNPN4241N';
+        a.Client_Code__c = '1234';
         //a.CRN__c = '12344';
         insert a;
         

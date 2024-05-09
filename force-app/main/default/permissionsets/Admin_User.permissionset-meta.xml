@@ -12,15 +12,6 @@
         <apexClass>ABFL_RetailController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
-        <enabled>true</enabled>
-        <name>Case_Ownership_Management</name>
-    </customPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Repeated__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCCustomerTAT__c</field>
@@ -36,11 +27,6 @@
         <field>ABFL_Case_Detail__c.Action_Taken__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!--<fieldPermissions>
-        <editable>false</editable>
-        <field>ABFL_Case_Detail__c.Ageing_Assigned_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>-->
     <fieldPermissions>
         <editable>false</editable>
         <field>ABFL_Case_Detail__c.Ageing_Assigned_Date__c</field>
@@ -723,11 +709,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Auto_Create_Case_Extension__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Action_Taken__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -783,6 +764,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Change_Effect_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Circle__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -822,12 +808,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Correct_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Correct_Sub_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -837,7 +823,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Correct_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -857,7 +843,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Current_Financial_Year__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -983,12 +969,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Grievance_Type__c</field>
+        <field>ABHFL_Case_Detail__c.Grievance_Details_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Grievance_Details_Sent__c</field>
+        <field>ABHFL_Case_Detail__c.Grievance_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1202,7 +1188,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Priority1__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1364,6 +1350,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Sub_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.TDS_Refunded_LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1539,16 +1530,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Category_Config__c.ASF_Is_Cloneable__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Additional_Email_Templates__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Additional_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3076,11 +3057,6 @@
         <field>ASF_Integration__c.Auto_Run_on_Load__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Integration__c.Priority__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Integration__c.C3ExternalId__c</field>
@@ -3154,11 +3130,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Integration__c.When_to_Appear__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Integration__c.Query_Fields__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5178,6 +5149,106 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>DMS_Files__c.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Branch_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentVersionId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DMS_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DocumentID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Extension__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Has_Multiple_Versions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Is_Latest_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.RM_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry_Attempt__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Version_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>EmailMessage.Send_to_EBOT__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6991,60 +7062,6 @@
         <object>WorkStepTemplate</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__CS_Scan_Result__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Field__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Object__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Data_Detect_Schedule__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Run_Log__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>datadetect__Scan_Log__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Account.Non_Individual</recordType>
         <visible>true</visible>
@@ -7078,6 +7095,14 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>ASF_Checklist__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>DMS_Files__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>LOB_Master__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -7095,10 +7120,6 @@
     </tabSettings>
     <tabSettings>
         <tab>standard-report</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>ASF_Checklist__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>
