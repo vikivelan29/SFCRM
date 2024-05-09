@@ -130,13 +130,12 @@ public without sharing class ASF_Email2CaseHandler {
                 }
                 if(msg.Headers != null){
                     system.debug('msg'+msg);
-                    system.debug('msg.ReplyToEmailMessageId'+msg.ReplyToEmailMessageId);
-                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) || (msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId))){
+                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) || mCaseEmailMessageCount.containsKey(msg.ParentId)){
                         //|| (msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
                         if(bReplyOnClosedCase){
                             caseIds.add(msg.ParentId);
                         }
-                        else if(msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId)){
+                        else if(mCaseEmailMessageCount.containsKey(msg.ParentId)){
                             Integer iCountOfEmail = Integer.ValueOf(mCaseEmailMessageCount.get(msg.ParentId).get('countOfRec'));
                             if(iCountOfEmail == 0){
                                 caseIds.add(msg.ParentId);
