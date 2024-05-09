@@ -279,12 +279,13 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
 
 syncDMSRecords() {
     // get selected records from this.selectedRows
-    this.selectedRows.forEach(dmsRec=>{
-        this.dmsList.add(dmsRec.Id);
-    });
-    console.log(this.dmsList);
 
-    syncDMSFilesManually({ lDmsIds: this.dmsList })
+    /*this.selectedRows.forEach(dmsRec=>{
+        this.dmsList.add(dmsRec.Id);
+    });*/
+    console.log('this.dmsList ',this.selectedRows);
+
+    syncDMSFilesManually({ lDmsIds: this.selectedRows })
         .then(result => {
             // Perform any actions after the Apex method call, if needed
             console.log('***result:'+JSON.stringify(result));
