@@ -124,4 +124,5 @@ public with sharing class ABFL_LegacyView {
         @AuraEnabled public String label;
         @AuraEnabled public String value;
     }
+
 }
