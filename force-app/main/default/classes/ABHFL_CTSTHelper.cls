@@ -9,7 +9,7 @@ public without sharing class ABHFL_CTSTHelper {
 
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
-
+    
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
@@ -133,17 +133,15 @@ public without sharing class ABHFL_CTSTHelper {
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
-                                    c.Stage__c = 'Duplicate';
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    /*String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
-                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                    }else{
-                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }*/
-                                    c.Stage__c = 'Duplicate';
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }
