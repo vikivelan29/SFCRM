@@ -30,7 +30,7 @@ export default class Abfl_LegacyCases extends LightningElement {
     leagcyCaseData;
     startDate;
     endDate;
-    payload = [];
+    payloadInfo;
     @track displayResult = [];
     options = '';
     statusCode;
@@ -147,14 +147,20 @@ export default class Abfl_LegacyCases extends LightningElement {
         console.log('this.v'+JSON.stringify(event.detail));
      }
     callRowAction(event) {
-        console.log('Hi'+JSON.stringify(event.detail.row));
+        console.log('Hi>1'+JSON.stringify(event.detail.row));
+        // reset var
         this.showChildTable = false;
+        this.payloadInfo = null;
+        let result = {};
+        
         this.selectedRow = JSON.stringify(event.detail.row);
-        this.payload['statusCode'] = this.statusCode;
-        this.payload['payload'] = this.selectedRow;
+        result.statusCode= this.statusCode;
+        result.payload = this.selectedRow;
+        this.payloadInfo = result;
         this.showChildTable = true;
+
         setTimeout(() => {             
-             this.template.querySelector('c-abfl_base_view_screen').callFunction();
+            this.template.querySelector('c-abfl_base_view_screen').generateScreen();
         }, 200);
         
     }
