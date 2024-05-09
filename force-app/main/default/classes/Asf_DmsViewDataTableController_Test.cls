@@ -59,11 +59,11 @@ public class Asf_DmsViewDataTableController_Test {
                 insert newCase; 
             
             DMS_Files__c dmsFile = new DMS_Files__c();
-            	dmsFile.DocumentID__c  = '1111';
-            	dmsFile.Status__c   = 'Pending';
-               	dmsFile.Business_Unit__c = 'ABFL';
-            	dmsFile.Case__c = newCase.Id;
-            	dmsFile.DMS_External_ID__c  = '777777';
+                dmsFile.DocumentID__c  = '1111';
+                dmsFile.Status__c   = 'Pending';
+                dmsFile.Business_Unit__c = 'ABFL';
+                dmsFile.Case__c = newCase.Id;
+                dmsFile.DMS_External_ID__c  = '777777';
             insert dmsFile;
         }
     }
@@ -74,11 +74,11 @@ public class Asf_DmsViewDataTableController_Test {
         system.runAs(usr)
         { 
             Test.startTest(); 
-           		Asf_DmsViewDataTableController.getColumns();
+                Asf_DmsViewDataTableController.getColumns('abcd');
                 Asf_DmsViewDataTableController.executeQuery(objCase[0].Id,2,1);
                 Asf_DmsViewDataTableController.getUserBDid('ABCDD');
                 Asf_DmsViewDataTableController.makeApiCall('ABCDD');
-             	System.assertEquals(1, objCase.size(),'record found');          
+                System.assertEquals(1, objCase.size(),'record found');          
              Test.stopTest();            
          }
     }

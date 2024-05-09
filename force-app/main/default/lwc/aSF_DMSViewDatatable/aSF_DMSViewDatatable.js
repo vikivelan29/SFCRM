@@ -204,7 +204,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
         // get only pending rows
         this.selectedRows = event.detail.selectedRows.map(row => {
             let rtnId;
-            if(row.Status__c == 'Pending'){
+            if(row.Status__c == 'Pending' ||row.Status__c == 'Failure' ){
                 rtnId = row.Id;
             }
             return rtnId;
