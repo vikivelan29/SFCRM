@@ -80,8 +80,8 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.udf2 = '';
         paymentData.invoice_No = '';
         paymentData.orderDesc = '';
-        paymentData.account_no = '';
-        paymentData.account_ifsc = '';
+        paymentData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
+        paymentData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
         paymentData.payment_mode = 'nach';
 
         
@@ -89,7 +89,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         System.debug('@@@payloadWrap'+JSON.serialize(payload));
         System.debug('@@@name'+name);
          
-        Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e (
+        EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,
             Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
@@ -117,8 +117,6 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             System.debug('@@@decryptedResponse'+decryptedResponse);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-                ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 System.debug('@@@decryptedResponse'+decryptedResponse);
                 ABFL_PaymentLinkResponse response = (ABFL_PaymentLinkResponse)JSON.deserialize(decryptedResponse, ABFL_PaymentLinkResponse.class);
                 if((response.order_data.status_code == '0300'  || response.order_data.status_code == '0002')&& response.order_data.links.payment_link_web != '') {
