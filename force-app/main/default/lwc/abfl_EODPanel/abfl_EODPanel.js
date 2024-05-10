@@ -59,6 +59,7 @@ export default class Abfl_EODPanel extends LightningElement {
         if(this.checkInput(this.apiName)) {
             if(!this.checkInput(lan)) {
                 this.showToast("Error", 'The asset does not have a valid Loan Account Number', 'error');
+                this.isLoading = false;
             } else {
                 // invoke API
                 invokeAPI({ apiName: this.apiName, assetId: this.recordId })
@@ -81,8 +82,12 @@ export default class Abfl_EODPanel extends LightningElement {
                         if (this.payloadInfo) {
                             this.showBaseViewScreen = true;
                         } else {
-                            console.log(JSON.stringify(error));
-                            this.showToast("Error", this.label.errorMessage, 'error');
+                            let res = JSON.parse(result?.payload);
+                            if(res?.error?.description) {
+                                this.showToast("Error", res.error.description, 'error');
+                            } else {
+                                this.showToast("Error", this.label.errorMessage, 'error');
+                            }
                         }
                     })
                     .catch((error) => {
