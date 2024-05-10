@@ -167,7 +167,6 @@ public class ASF_CaseMovementHelper {
 
         if(!casesMovingNextPure.isEmpty()){
             //Find the next stage when moved purely forward
-            
             //Run validation on current Stage
             Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(casesMovingNextPure.values(), currentStageMap);
             for(Id caseId : validationResults.keySet()){
