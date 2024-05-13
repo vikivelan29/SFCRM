@@ -24,7 +24,7 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
         for(ASF_Case_Stage_Config__c rec: [SELECT Id,Default_Queue__c,Case_Category_Config__r.CCC_External_Id__c, StageName__c , 
                                                     (SELECT Id FROM Case_Rules__r WHERE type__c = 'Assignment')
                                             FROM ASF_Case_Stage_Config__c
-                                            WHERE Case_Category_Config__r.Business_Unit__c= :ABFL_Constants.ABFL
+                                            WHERE Case_Category_Config__r.Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
                                             AND Status_Mapping__c IN :lOpenStatuses])
         {
             mStageConfigs.put(rec.Case_Category_Config__r.CCC_External_Id__c+rec.StageName__c,rec);
