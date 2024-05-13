@@ -715,4 +715,11 @@
         <shortDescription>Restrict Email Address</shortDescription>
         <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
     </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select EMI Value. Please select other value for impact field.</value>
+    </labels>
 </CustomLabels>
