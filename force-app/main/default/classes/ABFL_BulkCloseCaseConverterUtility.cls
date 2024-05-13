@@ -23,15 +23,29 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
-            caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
-        }
+        Map<String, Id> cccExterToCaseIdMap = new Map<String,Id>();
+        Map<String, List<String>> categoryToFieldMap = new Map<String, List<String>>();
 
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId, ABFL_Case_Detail__c, ABFL_Case_Detail__r.BOT_Response__c from Case where CaseNumber IN :caseNumbers]){
+            caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
+            cccExterToCaseIdMap.put(caseRec.CCC_External_Id__c,caseRec.id);
+        }
+        /*Added by Rajender Kumar for PR970457-1555*/
+        for (ASF_Case_Field_Config__c fieldConfig : [SELECT Id, Case_Category_Config__c, FieldAPIName__c FROM ASF_Case_Field_Config__c WHERE Case_Category_Config__c IN :cccExterToCaseIdMap.keySet()]) {
+            String categoryConfigId = fieldConfig.Case_Category_Config__c;
+            if (!categoryToFieldMap.containsKey(categoryConfigId)) {
+                categoryToFieldMap.put(categoryConfigId, new List<String>());
+            }
+            categoryToFieldMap.get(categoryConfigId).add(fieldConfig.FieldAPIName__c);
+        }
+		/*Added by Rajender Kumar for PR970457-1555 close here*/
+        
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
             String caseNumber = String.isNotBlank(keyValueMap.get('Case number'))?keyValueMap.get('Case number').trim():keyValueMap.get('Case number');
             String resolutionComments = String.isNotBlank(keyValueMap.get('Resolution Comment'))?keyValueMap.get('Resolution Comment').trim():keyValueMap.get('Resolution Comment');
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
+            String BOTResponse = String.isNotBlank(keyValueMap.get('BOT Response'))?keyValueMap.get('BOT Response').trim():keyValueMap.get('BOT Response'); 
             if(caseNumber == null || caseNumber.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case number is required');
@@ -42,6 +56,13 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
             if(resolutionComments == null || resolutionComments.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Resolution Comments is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(BOTResponse == null || BOTResponse.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'BOT Response is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
@@ -76,7 +97,11 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
             caseRec.Is_Manual_Moved__c = true;
             caseRec.Resolution_Comments__c = resolutionComments;
             caseRec.Description = description;
-            
+            if(caseRec.ABFL_Case_Detail__c != null){
+               if(categoryToFieldMap.get(caseRec.CCC_External_Id__c).contains('BOT_Response__c')){
+               		caseRec.ABFL_Case_Detail__r.BOT_Response__c=BOTResponse;
+               } 
+            }
             //Any other BU specific checks - add here
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
@@ -90,12 +115,15 @@ public with sharing class ABFL_BulkCloseCaseConverterUtility implements ASF_Bulk
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case number',
             'Resolution_Comments__c'=>'Resolution Comment',
-            'Description'=>'Description'
+            'Description'=>'Description',
+            'BOT Response'=>'BOT_Response__c'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case number'=>'CaseNumber',
             'Resolution Comment'=>'Resolution_Comments__c',
-            'Description'=>'Description'
+            'Description'=>'Description',
+            'BOT Response'=>'BOT_Response__c'
+
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
