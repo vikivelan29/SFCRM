@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-25-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @IsTest
 public class ASF_CaseUIController_Test{
     @TestSetup
@@ -106,6 +96,14 @@ public class ASF_CaseUIController_Test{
         }
     
     @isTest
+    public static void caseExtensionTest(){
+		ABHFL_Case_Detail__c record = new ABHFL_Case_Detail__c();
+        Case caseRec = [select id from Case limit 1];
+        ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
+        Id result = ASF_CaseUIController.createCaseExtension(record,cc,caseRec.Id, 'ABHFL_Case_Detail__c');
+        }
+    
+    @isTest
     public static void getMatchingContactsTest(){
         Account acc = [select id from account limit 1];
         ASF_CaseUIController.resWrapper reswrap = new ASF_CaseUIController.resWrapper('222','111');
@@ -157,19 +155,6 @@ public class ASF_CaseUIController_Test{
         System.assertEquals(null, relObjName);
         //}
         
-    }
-    
-    @isTest
-    public static void CreateProspectAndUpdateOnCaseTest(){
-		Case caseRecord = new Case();
-        Lead leadRecord = new Lead();
-        leadRecord.MobilePhone  = '9855494949';
-        leadRecord.LastName = 'test';
-        insert caseRecord;
-        //insert leadRecord;
-        //caseRecord.Lead__c =leadRecord.Id;
-        ASF_CaseUIController.CreateProspectAndUpdateOnCase(null,leadRecord);
-        ASF_CaseUIController.CreateProspectAndUpdateOnCase(caseRecord,null);
     }
     
 
