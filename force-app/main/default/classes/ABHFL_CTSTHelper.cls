@@ -54,7 +54,7 @@ public without sharing class ABHFL_CTSTHelper {
         }
     }
     
-    //AM-PR970457-1295
+    //AM-PR970457-1295-Send Grievance Officer mail
     public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
         
         Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
