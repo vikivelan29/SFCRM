@@ -31,25 +31,30 @@ public class ASF_CaseStageSLATimeBasedAction_Test {
         insert userList;
 
         Group SLAGroup = new Group();
+        Group SLAqueue = new Group();
         system.runAs(userList.get(0)){
-            SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', type='Queue');
+            SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
             insert SLAGroup;
-                            
+            
+            SLAqueue = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', type='queue');
+            insert SLAqueue;
+            
+            system.debug('queue id--'+SLAqueue.Id);
+            
+            GroupMember gmGroup = new GroupMember(GroupId = SLAqueue.Id, UserOrGroupId = SLAGroup.Id);
+            insert gmGroup;
+            
             for(integer i=0;i<3;i++){
-                GroupMember gm = new GroupMember(GroupId = SLAGroup.Id, UserOrGroupId = userList.get(i).Id);
+                GroupMember gm = new GroupMember(GroupId = SLAqueue.Id, UserOrGroupId = userList.get(i).Id);
                 insert gm;
+            }  
         }
-       
-
-        }
-
-       
-                
+           
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                  EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                  LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                  TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk56@gmail.com',
-                 managerGroupId__c=SLAGroup.Id);
+                 managerGroupId__c= SLAqueue.Id);
                     insert userRecord1;
                     
 

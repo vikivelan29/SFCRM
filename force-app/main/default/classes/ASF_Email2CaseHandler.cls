@@ -1,21 +1,29 @@
-/*********************************************************
-* Class        : ASF_Email2CaseHandler
-* Author       : Virendra Patil
-* Created Date : 05/01/2024
-* Last Modified: 05/01/2024
-* Description  : Class is having all the E2C Validation of Email Boxes logic.
-*********************************************************/
-@SuppressWarnings('PMD.ClassNamingConventions')
+/**
+ * @description       : Class is having all the E2C Validation of Email Boxes logic.
+ * @author            : virendra
+ * @group             : 
+ * @last modified on  : 05-14-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
+**/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
     public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments'};
+    /**
+    * @description : Exception
+    **/
     public class multipleEmail2CaseAddressException extends exception{}
-    
-    /* THIS MEHTOD IS USED TO UPDATE THE MESSAGEIDENTIFIER FIELD ON CASE OBJECT.
-* THIS FIELD BEING MARKED AS UNIQUE, IF SINGLE EMAIL IS SENT TO MULTIPLE E2C EMAIL ADDRESSES,
-* ONLY ONE CASE IS CREATED. CASE CREATED WILL BE SET TO QUEUE ASSIGNED FOR HIGHEST PRIORITY EMAILADDRESS IN EMAIL TO CASE.
-* PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METADATA.
-*/
-    public static void updateMessageIdentifierOnCase(List<EmailMessage> newList){
+    /**
+    * @description : THIS MEHTOD IS USED TO UPDATE THE MESSAGEIDENTIFIER FIELD ON CASE OBJECT.
+                     THIS FIELD BEING MARKED AS UNIQUE, IF SINGLE EMAIL IS SENT TO MULTIPLE E2C EMAIL ADDRESSES,
+                     ONLY ONE CASE IS CREATED. CASE CREATED WILL BE SET TO QUEUE ASSIGNED FOR HIGHEST PRIORITY EMAILADDRESS IN EMAIL TO CASE.
+                     PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METADATA.
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param newList 
+    **/
+  public static void updateMessageIdentifierOnCase(List<EmailMessage> newList){
         Set<Id> caseIds = new Set<Id>();
         Set<String> winningEmailAddr = new Set<String>();
         Map<String,ASF_PriorityEmailAddressesByBU__mdt> mWinningEmailDetailMdt = new Map<String,ASF_PriorityEmailAddressesByBU__mdt>();
@@ -103,6 +111,11 @@ public without sharing class ASF_Email2CaseHandler {
     }
     
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-14-2024 
+    * @param newList 
+    **/
     public static void setPriorityEmailAddress(List<EmailMessage> newList){
         Map<String,List<ASF_PriorityEmailAddressesByBU__mdt>> mBUVsPriorityEmails = new Map<String,List<ASF_PriorityEmailAddressesByBU__mdt>>();
         Set<Id> caseIds = new Set<Id>();
@@ -130,13 +143,12 @@ public without sharing class ASF_Email2CaseHandler {
                 }
                 if(msg.Headers != null){
                     system.debug('msg'+msg);
-                    system.debug('msg.ReplyToEmailMessageId'+msg.ReplyToEmailMessageId);
-                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) || (msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId))){
+                    if((!msg.Headers.contains('In-Reply-To:') ||  bReplyOnClosedCase) || mCaseEmailMessageCount.containsKey(msg.ParentId)){
                         //|| (msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
                         if(bReplyOnClosedCase){
                             caseIds.add(msg.ParentId);
                         }
-                        else if(msg.Headers.contains('In-Reply-To:') && mCaseEmailMessageCount.containsKey(msg.ParentId)){
+                        else if(mCaseEmailMessageCount.containsKey(msg.ParentId)){
                             Integer iCountOfEmail = Integer.ValueOf(mCaseEmailMessageCount.get(msg.ParentId).get('countOfRec'));
                             if(iCountOfEmail == 0){
                                 caseIds.add(msg.ParentId);
@@ -147,9 +159,9 @@ public without sharing class ASF_Email2CaseHandler {
                         }
                     }
                 }
-                else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
+                // else if (msg.FromAddress.equals(Label.ABFL_CRMUAT_EMAIL) && msg.CcAddress.contains(Label.ABFL_DIGITAL_FINANCE)) {
 
-                }
+                // }
                 else{
                     caseIds.add(msg.ParentId);
                 }

@@ -158,7 +158,7 @@ private class ASF_PreFrameworkSLATest {
             ASF_PreFrameworkSLA.sendEmailSLA(caseList);
             Test.stopTest();
             List<Case> csList = [SELECT Id FROM Case];
-            System.assertEquals(3, csList.size(), 'One case record should be present');
+            System.assertEquals(4, csList.size(), 'One case record should be present');
             ASF_PreFrameworkSLA.TimerWrapperClass wrapper = new ASF_PreFrameworkSLA.TimerWrapperClass();
             wrapper.caseObj = csList[0];
             wrapper.overdueTotalSec = 60 * 60 * 1000;
@@ -195,13 +195,37 @@ private class ASF_PreFrameworkSLATest {
         ASF_PreFrameworkSLA.sendEmailSLA(caseList);
         Test.stopTest();
         List<Case> csList = [SELECT Id FROM Case];
-        System.assertEquals(4, csList.size(), 'One case record should be present');
+        System.assertEquals(5, csList.size(), 'One case record should be present');
         ASF_PreFrameworkSLA.TimerWrapperClass wrapper = new ASF_PreFrameworkSLA.TimerWrapperClass();
         wrapper.caseObj = csList[0];
         wrapper.overdueTotalSec = 60 * 60 * 1000;
         wrapper.leftTotalSec = 60 * 60 * 1000;
         wrapper.todaysMilisec = 60 * 60 * 1000;
         
+    }
+        @isTest
+    static void testSendEmailSLA3() {
+        List<Id> caseList = new List<Id>();
+        List<Case> caseToUpdate = new List<Case>();
+        List<Account> accountList = [SELECT id From Account];
+        List<User> userList = [SELECT Id from User where Email='stanrduserEmails@testorg.com' LIMIT 1];
+        
+        Id ownerId;
+        Case cs = new Case();
+        cs.AccountId = accountList[0].Id;
+        cs.CCC_External_Id__c = '12345';
+        cs.Status = 'New';
+        cs.Stage__c='New';
+        cs.OwnerId=userList[0].id;
+        insert cs;
+        caseList.add(cs.id);
+        Test.startTest();
+        
+        
+        ASF_PreFrameworkSLA.sendEmailSLA(caseList);
+        Test.stopTest();
+        List<Case> csList = [SELECT Id FROM Case];
+        System.assertEquals(5, csList.size(), 'One case record should be present');
     }
     
 }
