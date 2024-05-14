@@ -71,16 +71,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
         }        
         
         if (!usersList.isEmpty()) {
-            try {
-                update usersList;
-            } catch (Exception e) {
-                // Handle exceptions
-                System.debug('Error: ' + e.getMessage());
-                ABCL_Logger.enableExceptionLogging();
-                ABCL_Logger.push('ABFL_UserTeamDataUpdateBatch.execute');
-                ABCL_Logger.message(e.getMessage());
-                ABCL_Logger.emit();
-            }
+            Database.SaveResult[] saveResults = Database.update(usersList, false);
         }
     }
     
