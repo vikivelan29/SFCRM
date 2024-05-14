@@ -5,7 +5,7 @@
     <name>Grievance Details In InProgress Stage</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Aditya Birla Housing Finance Limited- Acknowledgement for received request {{{Case.CaseNumber}}}</subject>
+    <subject>Aditya Birla Housing Finance Limited - Acknowledgement for received request {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
