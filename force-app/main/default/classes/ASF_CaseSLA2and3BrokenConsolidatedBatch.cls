@@ -1,0 +1,167 @@
+@SuppressWarnings('PMD.FormalParameterNamingConventions')
+/**
+ * This batch class sends SLA 2 and SLA 3 breach emails at scheduled time.
+ * It sends the consolidated email to managers i.e. one email for one manager, listing all escalated cases.
+ */
+global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Schedulable,Database.Batchable<sObject>{
+    global Database.QueryLocator start(Database.BatchableContext context){
+        DateTime currentTime = System.now();
+        String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name, Last_Owner_Change_Date__c,Sub_Type_Text__c,Business_Unit__c,Stage__c FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false';
+        return Database.getQueryLocator(query);
+    }
+
+    global void execute(Database.BatchableContext context, List<Case> scope){
+
+        DateTime currentTime = System.now();
+        Map<String,User> emailUserIdMap = new Map<String,User>();
+        List<String> caseEmailList = new List<String>();
+        map<Id,ASF_Case_SLA_History__c> caseIdSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
+        List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
+        Map<String, Set<Id>> managerEmailToCasesForSLA2 = new Map<String, Set<Id>>();
+        Map<String, Set<Id>> managerEmailToCasesForSLA3 = new Map<String, Set<Id>>();
+        Map<Id, Case> casesMap = new Map<Id, Case>(scope);
+
+        for(Case caseRec : scope){
+            if(caseRec.SLA_Target_1__c!=null){
+                caseEmailList.add(caseRec.SLA_Target_1__c);
+            }
+            if(caseRec.SLA_Target_2__c!=null){
+                caseEmailList.add(caseRec.SLA_Target_2__c);
+            }
+            if(caseRec.SLA_Target_3__c!=null){
+                caseEmailList.add(caseRec.SLA_Target_3__c);
+            }     
+        }
+
+        if(caseEmailList.size() > 0){
+            for(User user: [SELECT Id, name, Email FROM User WHERE Email IN :caseEmailList AND IsActive = true]){
+                emailUserIdMap.put(user.Email,user);
+            }
+        }
+
+        for(ASF_Case_SLA_History__c slaHistory : [SELECT Id,Current_Owner__c,is_Running_Record__c,Stage_End_Date__c,Stage_Start_Date__c,BusinessHoursId__c,Case__c,Case__r.Stage_SLA_1__c,Case__r.Stage_SLA_2__c,Case__r.Stage_SLA_3__c,Stage__c,Overdue__c,Status__c,Stage_Violation_Start_Date__c,Current_Owner_Id__c,Level__c,SLA_2_Email_Sent__c,SLA_3_Email_sent__c,Case__r.SLA_Target_1__c,Case__r.SLA_Target_2__c,Case__r.SLA_Target_3__c,Case__r.OwnerId,Breached_User_Level2__c,Breached_User_Level3__c FROM  ASF_Case_SLA_History__c WHERE Case__c IN: scope AND Stage_End_Date__c = null AND is_Running_Record__c = true ]){
+
+            Boolean isCaseWithinBusinessHours = false;
+            if(slaHistory.BusinessHoursId__c != null){
+                isCaseWithinBusinessHours = BusinessHours.isWithin(slaHistory.BusinessHoursId__c, system.now());
+            }
+
+            if(slaHistory.Stage_Violation_Start_Date__c == null ){
+                slaHistory.Stage_Violation_Start_Date__c = slaHistory.Case__r.Stage_SLA_1__c;
+                slaHistory.Status__c = 'Violated';
+            }
+
+            if(slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&slaHistory.Case__r.Stage_SLA_3__c < currentTime && slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
+                slaHistory.Level__c = '3';
+                slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
+                caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                if(isCaseWithinBusinessHours || Test.isRunningTest()){
+                    if(!managerEmailToCasesForSLA3.containsKey(slaHistory.Case__r.SLA_Target_3__c)){
+                        managerEmailToCasesForSLA3.put(slaHistory.Case__r.SLA_Target_3__c, new Set<Id>());
+                    }
+                    managerEmailToCasesForSLA3.get(slaHistory.Case__r.SLA_Target_3__c).add(slaHistory.Case__c);
+                }
+            }
+            else if(slaHistory.Level__c == '1' && slaHistory.Case__r.Stage_SLA_2__c != null && slaHistory.Case__r.Stage_SLA_2__c < currentTime && slaHistory.Case__r.SLA_Target_2__c != null && slaHistory.SLA_2_Email_Sent__c != slaHistory.Case__r.SLA_Target_2__c){
+                slaHistory.Level__c = '2';
+                slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
+                caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                if(isCaseWithinBusinessHours || Test.isRunningTest()){
+                    if(!managerEmailToCasesForSLA2.containsKey(slaHistory.Case__r.SLA_Target_2__c)){
+                        managerEmailToCasesForSLA2.put(slaHistory.Case__r.SLA_Target_2__c, new Set<Id>());
+                    }
+                    managerEmailToCasesForSLA2.get(slaHistory.Case__r.SLA_Target_2__c).add(slaHistory.Case__c);
+                }
+            }
+        }
+        if(!managerEmailToCasesForSLA2.isEmpty() || !managerEmailToCasesForSLA3.isEmpty()){
+            Map<String, EmailTemplate> emailTemplateMap = new Map<String, EmailTemplate>();
+            //SLA_Breach_Email_Consolidated
+            for(EmailTemplate emailTemp : [SELECT id, Subject, DeveloperName FROM EmailTemplate WHERE DeveloperName IN (:Label.ASF_TAT_3_Breach_Email_Temp_Consolidated, :Label.ASF_TAT_2_Breach_Email_Temp_Consolidated)]){
+                emailTemplateMap.put(emailTemp.DeveloperName, emailTemp);
+            }
+            Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName=:System.Label.ASF_default_no_reply_email_address LIMIT 1].get(0).Id;
+            if(emailTemplateMap.containsKey(Label.ASF_TAT_2_Breach_Email_Temp_Consolidated)){
+                for(String email : managerEmailToCasesForSLA2.keySet()){
+                    if(emailUserIdMap.containsKey(email)){
+                        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                        mail.setTemplateId(emailTemplateMap.get(Label.ASF_TAT_2_Breach_Email_Temp_Consolidated).Id);
+                        mail.setOrgWideEmailAddressId(orgWideAdressId);
+                        mail.saveAsActivity = false;
+                        mail.setTreatBodiesAsTemplate(true);
+                        mail.setUseSignature(false);
+                        mail.setTargetObjectId(emailUserIdMap.get(email).Id);
+                        mail.setSubject('TAT Level 2 Breach for cases');
+                        String casesTable = prepareHTMLTable(managerEmailToCasesForSLA2.get(email), casesMap, emailUserIdMap, true);
+                        Messaging.SingleEmailMessage dummyEmailForHtml = Messaging.renderStoredEmailTemplate(emailTemplateMap.get(Label.ASF_TAT_2_Breach_Email_Temp_Consolidated).Id, emailUserIdMap.get(email).Id, null,Messaging.AttachmentRetrievalOption.NONE);
+                        String emailBody = dummyEmailForHtml.getHtmlBody();
+                        emailBody = emailBody.replace('<ENTER_CASES>', casesTable);
+                        emailBody = emailBody.replace('<ENTER_LEVEL>', '2');
+                        mail.setHtmlBody(emailBody);
+                        emailList.add(mail);
+                        for(Id caseId : managerEmailToCasesForSLA2.get(email)){
+                            caseIdSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = casesMap.get(caseId).SLA_Target_2__c;
+                        }
+                    }
+                }
+            }
+            if(emailTemplateMap.containsKey(Label.ASF_TAT_3_Breach_Email_Temp_Consolidated)){
+                for(String email : managerEmailToCasesForSLA3.keySet()){
+                    if(emailUserIdMap.containsKey(email)){
+                        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                        mail.setTemplateId(emailTemplateMap.get(Label.ASF_TAT_3_Breach_Email_Temp_Consolidated).Id);
+                        mail.setOrgWideEmailAddressId(orgWideAdressId);
+                        mail.saveAsActivity = false;
+                        mail.setTreatBodiesAsTemplate(true);
+                        mail.setUseSignature(false);
+                        mail.setTargetObjectId(emailUserIdMap.get(email).Id);
+                        mail.setSubject('TAT Level 3 Breach for cases');
+                        String casesTable = prepareHTMLTable(managerEmailToCasesForSLA3.get(email), casesMap, emailUserIdMap, false);
+                        Messaging.SingleEmailMessage dummyEmailForHtml = Messaging.renderStoredEmailTemplate(emailTemplateMap.get(Label.ASF_TAT_3_Breach_Email_Temp_Consolidated).Id, emailUserIdMap.get(email).Id, null,Messaging.AttachmentRetrievalOption.NONE);
+                        String emailBody = dummyEmailForHtml.getHtmlBody();
+                        emailBody = emailBody.replace('<ENTER_CASES>', casesTable);
+                        emailBody = emailBody.replace('<ENTER_LEVEL>', '3');
+                        mail.setHtmlBody(emailBody);
+                        emailList.add(mail);
+                        for(Id caseId : managerEmailToCasesForSLA3.get(email)){
+                            caseIdSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = casesMap.get(caseId).SLA_Target_3__c;
+                        }
+                    }
+                }
+            }
+            if(!caseIdSLAHistoryMap.isEmpty()){ 
+                UPDATE caseIdSLAHistoryMap.values();
+            }
+            if(!emailList.isEmpty()){
+                Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);
+            }
+        }
+    }
+
+    private String prepareHTMLTable(Set<Id> caseIds, Map<Id, Case> casesMap, Map<String,User> emailUserIdMap, Boolean isSLA2){
+        String table = '<table>';
+        //saving some CPU time by putting entire header row together, readability compromised.
+        table += '<thead><tr><th>Case No.</th><th>Case Creation date</th><th>Assigned On</th><th>Current Owner</th><th>L1 Manager</th><th>Breached on</th><th>Case Type</th><th>Case Sub-Type</th><th>LOB</th><th>Current stage breached</th>';
+        table += isSLA2?'<th>SLA 3 breach time</th>':'';
+        table += '</tr></thead><tbody>';
+        for(Id caseId : caseIds){
+            Case caseRec = casesMap.get(caseId);
+            table += '<tr><td>'+caseRec.CaseNumber+'</td><td>'+caseRec.CreatedDate.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td>';
+            table += '<td>'+caseRec.Last_Owner_Change_Date__c.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td><td>'+caseRec.Owner.Name+'</td>';
+            table += '<td>'+caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):''+'</td>';
+            table += '<td>'+(isSLA2?caseRec.Stage_SLA_2__c.format('dd-MM-yyyy HH:mm:ss', 'IST'):caseRec.Stage_SLA_3__c.format('dd-MM-yyyy HH:mm:ss', 'IST'))+'</td>';
+            table += '<td>'+caseRec.Type_Text__c+'</td><td>'+caseRec.Sub_Type_Text__c+'</td><td>'+caseRec.Business_Unit__c+'</td><td>'+caseRec.Stage__c+'</td>';
+            table += isSLA2?'<td>'+caseRec.Stage_SLA_3__c.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td></tr>':'</tr>';
+        }
+        table += '</tbody></table>';
+        return table;
+    }
+    
+    global void finish(Database.BatchableContext context){ 
+        system.debug('Completed');
+    }
+
+    global void execute(SchedulableContext scon) {
+        Database.executeBatch(new ASF_CaseSLA2and3BrokenConsolidatedBatch(),50);
+    }
+}
