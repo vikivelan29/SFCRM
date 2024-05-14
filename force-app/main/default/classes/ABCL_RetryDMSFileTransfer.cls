@@ -1,7 +1,7 @@
 /**
  * @description         : ABCL DMS Retry implementation class
  * @author              : sjaitly@salesforce.com
- * @last modified on    : 05-09-2024
+ * @last modified on    : 05-10-2024
  * @last modified by    : udit.singhal@salesforce.com
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
@@ -134,7 +134,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 DateTime currentDateTime = System.now();
                 fileRec.DMS_External_ID__c = file.ContentVersionId__c + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = file.File_Extension__c;
-                fileRec.Next_Retry__c = System.now().addMinutes(15);
+                fileRec.Next_Retry__c = System.now().addMinutes((Integer)Asf_Dynamic_Datatable_Parent__mdt.getInstance(ABFL_Constants.DMS_METADATA).DMS_Retry_Interval__c);
                 fileRec.Retry_Attempt__c = noOfAttempt;
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;

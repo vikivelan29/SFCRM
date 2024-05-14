@@ -34,7 +34,7 @@ public with sharing class ABFL_Constants {
     public static final String LITMUS = 'Litmus';
     public static final String ENACH_INTEGRATION_METADATA = 'ABFL_Enach';
     
-    public static final String DMS_SOQL_FIELD_METADATA = 'Asf_DMS_File_Datatable';
+    public static final String DMS_METADATA = 'Asf_DMS_File_Datatable';
     public static final String DMS_GENERIC_ERROR = System.Label.ASF_ErrorMessage;
     public static final String DMS_SYNC_FILE_SIZE_ERROR = 'The syncing process was stopped because the file size surpassed 5 MB';
     public static final String INVALID_DMS_RECORD_ERROR = 'Selected DMS record is invalid';

@@ -3,7 +3,7 @@
  * @author            : udit.singhal@salesforce.com
  * @group             : 
  * @last modified on  : 05-09-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified by  : udit.singhal@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-30-2024   udit.singhal@salesforce.com  PR970457-1404
@@ -154,7 +154,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         nDMSFileRec.Version_Number__c = conVer==null?dmsRec.Version_Number__c:conVer.VersionNumber;
         nDMSFileRec.DMS_External_ID__c = (conVer==null?dmsRec.ContentVersionId__c:conVer.Id) + '' + System.now().getTime();
         nDMSFileRec.Retry_Attempt__c = conVer==null?++dmsRec.Retry_Attempt__c : 0;
-        nDMSFileRec.Next_Retry__c = System.now().addMinutes(ABFL_Constants.NEXT_DMS_RETRY);
+        nDMSFileRec.Next_Retry__c = System.now().addMinutes((Integer)Asf_Dynamic_Datatable_Parent__mdt.getInstance(ABFL_Constants.DMS_METADATA).DMS_Retry_Interval__c);
         nDMSFileRec.Status__c = ABFL_Constants.PENDING;
         if(dmsRec != null) {
             nDMSFileRec.Case__r = dmsRec.Case__r; 
@@ -222,7 +222,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
      * @return Asf_Dynamic_Datatable_Parent__mdt 
      **/
     public static Asf_Dynamic_Datatable_Parent__mdt getSOQLFieldsForDMS() {
-        Asf_Dynamic_Datatable_Parent__mdt  metadataRecord = [SELECT DMS_Case_SOQL_Fields__c, DMS_Files_SOQL_Fields__c  FROM Asf_Dynamic_Datatable_Parent__mdt WHERE DeveloperName =: ABFL_Constants.DMS_SOQL_FIELD_METADATA WITH SYSTEM_MODE LIMIT 1];
+        Asf_Dynamic_Datatable_Parent__mdt  metadataRecord = [SELECT DMS_Case_SOQL_Fields__c, DMS_Files_SOQL_Fields__c  FROM Asf_Dynamic_Datatable_Parent__mdt WHERE DeveloperName =: ABFL_Constants.DMS_METADATA WITH SYSTEM_MODE LIMIT 1];
         return metadataRecord != null ? metadataRecord : null;
     }
 
