@@ -20,7 +20,7 @@ public with sharing class ABFL_CreateCaseProspectHelper {
         }
         if(!prospectPanMap.isEmpty()){
             Map<String,String> panLeadMap = new Map<String,String>();
-            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet() WITH SECURITY_ENFORCED]){
+            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet() WITH SYSTEM_MODE]){
                 panLeadMap.put(le.PANNO__c,le.Id);
             }
             List<Lead> newLeadsList = new List<Lead>();

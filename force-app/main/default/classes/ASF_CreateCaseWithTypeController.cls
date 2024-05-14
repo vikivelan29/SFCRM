@@ -23,7 +23,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         String subSource = ''; 
         Map<String, String> sourceToSubsource = new Map<String, String>();
 
-        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() WITH SECURITY_ENFORCED LIMIT 1 ];
+        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() WITH SYSTEM_MODE LIMIT 1 ];
         String userSourceCode = objUser.Source_Code__c;
         String strLOB = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
         LOBMappingDetails__mdt choosenOneMTD;  
@@ -45,7 +45,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
-                          WITH SECURITY_ENFORCED
+                          WITH SYSTEM_MODE
                           LIMIT 1];
         
         
@@ -111,7 +111,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper getTypeSubTypeByCustomerDetails(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
         CaseDetailsWrapper returnVal = new CaseDetailsWrapper();
         returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob); 
-        List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
+        //List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
         String loggedInUsersBU = returnVal.userBu;
         if(loggedInUsersBU == 'ABFL'){
             // BU SPECIFIC LOGIC
@@ -278,6 +278,6 @@ return boolShowDownloadButton;
     *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static Account getAccountRec(String recId){
-        return [select id,Line_of_Business__c,Business_Unit__c,RecordType.Name  from account where id=:recId WITH SECURITY_ENFORCED];
+        return [select id,Line_of_Business__c,Business_Unit__c,RecordType.Name  from account where id=:recId WITH SYSTEM_MODE];
     }
 }
