@@ -543,6 +543,9 @@
                         <valueListItems>
                             <value>CREATEDBY_USER</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
