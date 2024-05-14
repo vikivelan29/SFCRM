@@ -31,14 +31,14 @@ public without sharing class ASF_SMSCommunicationParser {
             Id leadId = cs[0].Lead__c;
             if(accId != null){
                 for(Contact con: [SELECT Id, Name, MobilePhone FROM Contact 
-                                  WHERE AccountId  =: accId WITH SECURITY_ENFORCED])
+                                  WHERE AccountId  =: accId WITH SYSTEM_MODE])
                 {
                     conLst.add(new ASF_ContactDetailsWrapper(con));
                 }
             }
             if(leadId != null){
                 for(Lead prospect : [SELECT Id,Name,MobilePhone FROM Lead
-                                     WHERE Id =: leadId WITH SECURITY_ENFORCED])
+                                     WHERE Id =: leadId WITH SYSTEM_MODE])
                 {
                     conLst.add(new ASF_ContactDetailsWrapper(prospect));
                 } 
