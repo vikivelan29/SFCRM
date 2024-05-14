@@ -150,7 +150,7 @@
 												<br />
 												Greetings From Aditya Birla Housing Finance Limited<br />
 												<br />
-												Please be informed that your EMI date has been changed to $$ABHFL_Case_Detail__r.Change_Effect_Date__c$$.<br />
+												This is with reference to your email dated {{{Case.CreatedDate}}} pertaining the {{{Case.Type_Text__c}}}-{{{Case.Sub_Type_Text__c}}} for your loan account number {{{Case.Masked_LAN__c}}}.<br />
 												<br />
 												Further, we wish to state that since your loan is partially disbursed and currently under Pre-EMI Stage hence Amortization Schedule cannot be generated since the same can be calculated only upon full disbursement of your loan.<br />
 												<br />

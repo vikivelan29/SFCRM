@@ -996,6 +996,7 @@
         <field>ABHFL_Case_Detail__c.Grievance_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Impact__c</field>
