@@ -129,14 +129,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_CloneCCCController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_DownloadCCCController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_FrameworkFunctionalityExtender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -160,6 +152,10 @@
         <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABHFL_OtherRefundOnResolvedStage</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Calendar_Year__mdt</name>
@@ -168,6 +164,11 @@
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
     </customPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Reason_of_Refund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Competition_ROI__c</field>
@@ -2951,10 +2952,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ASF_BulkUploadCSV_VF</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>ASF_DownloadCCC</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
