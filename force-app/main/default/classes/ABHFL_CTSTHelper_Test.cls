@@ -10,7 +10,7 @@
 **/
 @isTest
 public class ABHFL_CTSTHelper_Test {
-     @TestSetup
+     @TestSetup 
     static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
