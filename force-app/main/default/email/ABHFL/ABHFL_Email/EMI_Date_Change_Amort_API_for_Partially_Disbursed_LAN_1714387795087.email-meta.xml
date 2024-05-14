@@ -5,7 +5,7 @@
     <name>EMI Date Change - Amort API for Partially Disbursed LAN</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>EMI date change for Loan account no. {{{Case.Masked_LAN__c}}}</subject>
+    <subject>Aditya Birla Housing Finance Limited- Acknowledgement for received request {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
