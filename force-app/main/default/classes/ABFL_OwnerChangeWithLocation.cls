@@ -2,24 +2,24 @@
 *Class        :  ABFL_OwnerChangeWithLocation
 *Author       :  Shubham Sinha 
 *Created Date :  08/01/2024
-*Description  :  This class is created to change the owner of case wrt to location code of LAN 
+*@description  :  This class is created to change the owner of case wrt to location code of LAN 
 *********************************************************/
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
     public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
  /****************************************************************************************************************
-* @param  - List<CASE> & Map of Old Cases
-* @return - void .
-* @Description - created to change the owner of case wrt to location code of LAN 
+* @param lstCase
+* @param oldMap
+* @description - created to change the owner of case wrt to location code of LAN 
 *****************************************************************************************************************/ 
     public static void updateSpocWrtLocation(List<Case> lstCase,Map<Id, Case> oldMap){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         List<Case> filteredCase = new List<Case>();
         SET<ID> setExpectedLogic = new SET<ID>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
-        system.debug('mRecordTypeCase '+mRecordTypeVsCases);
+       // system.debug('mRecordTypeCase '+mRecordTypeVsCases);
         if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case cse : lstCase){
@@ -30,10 +30,10 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             if(!setExpectedLogic.isEmpty()){
                 Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : newCaseMap.Values()){
-                    system.debug('objCaseIssd '+objCase.Id);
+                    //system.debug('objCaseIssd '+objCase.Id);
                     if(oldMap.get(objCase.Id).OwnerId != objCase.OwnerId && objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) ){
                          filteredCase.add(objCase);
-                        system.debug('filteredCase1 '+filteredCase);
+                        //system.debug('filteredCase1 '+filteredCase);
                    }  
                 }
                if (!filteredCase.isEmpty()) {
@@ -44,9 +44,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
     	}
     }
 /****************************************************************************************************************
-* @param  - List<CASE> 
-* @return - void .
-* @Description - when LAN Starts with ABFL then if 5th to 7th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
+* @param lstCase
+* @description - when LAN Starts with ABFL then if 5th to 7th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
 *****************************************************************************************************************/ 
     public static void updateSpocAbflLAN(List<Case> lstCase){
         Set<String> extractedSubstring = new Set<String>();
@@ -64,7 +63,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 Asset relatedAsset = assetMap.get(objCase.AssetId);
                 if(relatedAsset.LAN__c.startsWithIgnoreCase('ABFL')&& relatedAsset.LAN__c.length()>6){
                     extractedSubstring.add(relatedAsset.LAN__c.substring(4, 7));
-                    system.debug('extractedSubstringId '+extractedSubstring);
+                    //system.debug('extractedSubstringId '+extractedSubstring);
                     finalUpdateCase.add(objCase);
                 }
             }
@@ -82,7 +81,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                     if (locationRecord != null && locationRecord.SPOC__c != null) {
                         if(Trigger.isBefore){
                             updateCase.OwnerId = locationRecord.SPOC__c;
-                            system.debug('OwnerIdtest'+updateCase.OwnerId);
+                           // system.debug('OwnerIdtest'+updateCase.OwnerId);
                         }
                         else if(Trigger.isAfter){
                             Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
@@ -103,9 +102,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
     }
 /****************************************************************************************************************
-* @param  - List<CASE> & Map 
-* @return - void .
-* @Description - when LAN does not start with ABFL then if 3rd to 5th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
+* @param  lstCase
+* @description - when LAN does not start with ABFL then if 3rd to 5th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
 *****************************************************************************************************************/ 
     public static void updateSpocNotAbflLAN(List<Case> lstCase){
         Set<String> extractedSubstring = new Set<String>();
@@ -123,7 +121,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 Asset relatedAsset = assetMap.get(objCase.AssetId);
                 if(!relatedAsset.LAN__c.startsWithIgnoreCase('ABFL')&& relatedAsset.LAN__c.length()>4){
                     extractedSubstring.add(relatedAsset.LAN__c.substring(2, 5));
-                    system.debug('extractedSubstringId '+extractedSubstring);
+                    //system.debug('extractedSubstringId '+extractedSubstring);
                     finalUpdateCase.add(objCase);
                 }
             }
@@ -159,9 +157,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
     }
 /****************************************************************************************************************
-* @param  - List<CASE> 
-* @return - void .
-* @Description - for beforeInsert Event
+* @param  lstCase
+* @description - for beforeInsert Event
 *****************************************************************************************************************/ 
     public static void beforeInsertupdateSpoc(List<Case> lstCase){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
@@ -177,11 +174,11 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             if(!setExpectedLogic.isEmpty()){
                 Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : lstCase){
-                    system.debug('objCaseId '+objCase.ownerId);
-                    system.debug('objCaseIdOWNER '+objCase.LAN__c);
+                   // system.debug('objCaseId '+objCase.ownerId);
+                    //system.debug('objCaseIdOWNER '+objCase.LAN__c);
                     if(objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) && objCase.LAN__c != NULL){
                         filteredCase.add(objCase);
-                        system.debug('filteredCase3 '+filteredCase);
+                       // system.debug('filteredCase3 '+filteredCase);
                     }  
                 }
                if (!filteredCase.isEmpty()) {
@@ -192,9 +189,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
     }
     /****************************************************************************************************************
-* @param  - List<CASE> 
-* @return - void .
-* @Description - for beforeInsert Event
+* @param  lstCase
+* @description - for beforeInsert Event
 *****************************************************************************************************************/ 
     public static void afterInsertupdateSpoc(List<Case> lstCase){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
@@ -212,11 +208,11 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 List<Case> afterCases = [SELECT ID,OwnerId,LAN__c,Business_Unit__c FROM Case WHERE ID IN :lstCase AND OWNERID =: queueRecord.ID ];
                 if(!afterCases.isEmpty()){
                     for(Case objCase : afterCases){
-                        system.debug('objCaseId '+objCase.ownerId);
-                        system.debug('objCaseIdOWNER '+objCase.LAN__c);
+                        //system.debug('objCaseId '+objCase.ownerId);
+                        //system.debug('objCaseIdOWNER '+objCase.LAN__c);
                         if(objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) && objCase.LAN__c != NULL){
                             filteredCase.add(objCase);
-                            system.debug('filteredCase3 '+filteredCase);
+                            //system.debug('filteredCase3 '+filteredCase);
                         }  
                     }
                 }
@@ -228,9 +224,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
     }
     /****************************************************************************************************************
-* @param  - List<CASE> 
-* @return - void .
-* @Description - when LAN Starts with ABFL then if 5th to 7th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
+* @param lstCase
+* @description - when LAN Starts with ABFL then if 5th to 7th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc
 *****************************************************************************************************************/ 
     public static void updateSpocAbflLANAfter(List<Case> lstCase){
         Set<String> extractedSubstring = new Set<String>();
@@ -240,7 +235,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             if (objCase.LAN__c != null) {
                 if(objCase.LAN__c.startsWithIgnoreCase('ABFL')&& objCase.LAN__c.length()>6){
                     extractedSubstring.add(objCase.LAN__c.substring(4, 7));
-                    system.debug('extractedSubstringIdAfter '+extractedSubstring);
+                    //system.debug('extractedSubstringIdAfter '+extractedSubstring);
                     finalUpdateCase.add(objCase);
                 }
             }
@@ -269,7 +264,11 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             update insertFinalUpdateCase;
         }
     }
-     public static void updateSpocNotAbflLANAfter(List<Case> lstCase){
+/****************************************************************************************************************
+* @param  lstCase
+* @description - updateSpocAbflLANAfter
+*****************************************************************************************************************/ 
+    public static void updateSpocNotAbflLANAfter(List<Case> lstCase){
         Set<String> extractedSubstring = new Set<String>();
         List<Case> finalUpdateCase = new List<Case>();
         List<Case> insertFinalUpdateCase = new List<Case>();
@@ -277,7 +276,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             if (objCase.LAN__c != null) {
                 if(!objCase.LAN__c.startsWithIgnoreCase('ABFL')&& objCase.LAN__c.length()>4){
                     extractedSubstring.add(objCase.LAN__c.substring(2, 5));
-                    system.debug('extractedSubstringId '+extractedSubstring);
+                   //system.debug('extractedSubstringId '+extractedSubstring);
                     finalUpdateCase.add(objCase);
                 }
             }
@@ -309,8 +308,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
     /****************************************************************************************************************
     * @Function - createCaseCommentWhenClosedAfterInsert
     * @param caseList -  list of cases from trigger.new.
-    * @return - void .
-    * @Description - Invoked from AfterInsert, this method creates CaseComment from Case.Comments field when the Case.IsClsoed = true while creation.
+    * @description - Invoked from AfterInsert, this method creates CaseComment from Case.Comments field when the Case.IsClsoed = true while creation.
     *****************************************************************************************************************/
     
     public static void createCaseCommentWhenClosedAfterInsert(list<Case> caseList){
@@ -344,7 +342,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         set<String> sCCCIds = new set<String>();
         set<String> sValidCCCIds = new set<String>();
         for(Case cObj : caseList){
-            if(cObj.RecordTypeId == frameworkRTId ){
+            if(cObj.RecordTypeId == frameworkRTId && cobj.Business_Unit__c == ABFL_Constants.ABFL ){
                 sCCCIds.add(cobj.CCC_External_Id__c);
                 if(cObj.AssetId != null){
                     mLANWithLOB.put(cObj.AssetId,'');
@@ -352,27 +350,31 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             }
         }
         if(!sCCCIds.isEmpty()){
-            for(ASF_Case_Category_Config__c cccObj : [SELECT id, Name,CCC_External_Id__c from ASF_Case_Category_Config__c where CCC_External_Id__c IN : sCCCIds AND Business_Unit__c='ABFL' WITH SYSTEM_MODE]){
+            for(ASF_Case_Category_Config__c cccObj : [SELECT id, Name,CCC_External_Id__c from ASF_Case_Category_Config__c where CCC_External_Id__c IN : sCCCIds AND Business_Unit__c=:ABFL_Constants.ABFL WITH SYSTEM_MODE]){
                 sValidCCCIds.add(cccObj.CCC_External_Id__c);
             }
-        }
-        if(!mLANWithLOB.isEmpty()){
-            for(Asset aObj : [SELECT Id,LOB__c from Asset Where Id IN : mLANWithLOB.keySet()]){
-                mLANWithLOB.put(aObj.Id, aObj.LOB__c);
+        
+            if(!mLANWithLOB.isEmpty()){
+                for(Asset aObj : [SELECT Id,LOB__c from Asset Where Id IN : mLANWithLOB.keySet() WITH SYSTEM_MODE]){
+                    mLANWithLOB.put(aObj.Id, aObj.LOB__c);
+                }
+                //get the Queue Ids from QueueDevName
+                for(Group gObj: [SELECT Id, DeveloperName FROM Group WHERE Type = 'Queue' AND DeveloperName IN : mAssetLOBswithQueue.values()  WITH SYSTEM_MODE ]){
+                    mGroupDevNameWithIds.put(gObj.DeveloperName, gObj.Id);
+                }
             }
-            //get the Queue Ids from QueueDevName
-            for(Group gObj: [SELECT Id, DeveloperName FROM Group WHERE Type = 'Queue' AND DeveloperName IN : mAssetLOBswithQueue.values() ]){
-                mGroupDevNameWithIds.put(gObj.DeveloperName, gObj.Id);
-            }
-        }
 
-        for(Case cobj: caselist){
-            if(cObj.RecordTypeId == frameworkRTId && !sValidCCCIds.contains(cobj.CCC_External_Id__c)){
-                cobj.recordTypeId = interactionRTId;
-                if(cObj.AssetId !=null && cObj.Source__c !='Email'){
-                    String queueDevName = mAssetLOBswithQueue.get(mLANWithLOB.get(cObj.AssetId));
-                    if(mGroupDevNameWithIds.containsKey(queueDevName))
-                        cobj.OwnerId = mGroupDevNameWithIds.get(queueDevName);
+            for(Case cobj: caselist){
+                if(cObj.RecordTypeId == frameworkRTId && !sValidCCCIds.contains(cobj.CCC_External_Id__c)  ){
+                    cobj.recordTypeId = interactionRTId;
+                    if(cObj.AssetId !=null && cObj.Source__c !='Email') 
+                    {
+                        String queueDevName = mAssetLOBswithQueue.get(mLANWithLOB.get(cObj.AssetId));
+                        if(mGroupDevNameWithIds.containsKey(queueDevName))
+                        {
+                            cobj.OwnerId = mGroupDevNameWithIds.get(queueDevName);
+                        }
+                    }
                 }
             }
         }
