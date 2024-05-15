@@ -193,7 +193,7 @@
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>ABFL All TIme Open Cases</name>
+    <name>ABFL All Time Open Cases</name>
     <params>
         <name>units</name>
         <value>h</value>
