@@ -23,6 +23,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.TDS_Refunded_LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Change_Effect_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCCustomerTAT__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3434,6 +3444,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Website</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.RM_Contact_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Segment_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.ECS_Bounce_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
