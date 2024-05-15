@@ -513,7 +513,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 if(result){
                     this.iCounter++;
                     this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
-                    console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
+                    console.log('getCaseFieldsConfig results received', JSON.stringify(result));
                     let caseFieldsCount = 0, extnFieldsCount = 0;
                     for (let item of this.caseFieldsMetadata) {
                         if (item.isCase == true) {
@@ -573,6 +573,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                 if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
                                     if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
                                         this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                        this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
+                                        this.defaultValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                     }
                                     else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
                                         this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);

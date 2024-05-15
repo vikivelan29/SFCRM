@@ -1,0 +1,44 @@
+<apex:page showHeader="false" sidebar="false" standardController="ASF_Case_Category_Config__c" extensions="ASF_DownloadCCCController">
+    <apex:slds />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <div id="result"></div>
+        <script>
+            var recordId = '{!cccId}';
+    function downloadExcel() {
+        // Call Apex method to retrieve data
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ASF_DownloadCCCController.getConfigData}',
+            recordId,
+            function(result, event) {
+                if (event.status) {
+                    if (Array.isArray(result)) {
+                        // Create Excel workbook with multiple tabs
+                        var wb = XLSX.utils.book_new();
+                        result.forEach(function(sheetData) {
+                            var ws = XLSX.utils.json_to_sheet(sheetData.data);
+                            XLSX.utils.book_append_sheet(wb, ws, sheetData.name);
+                        });
+                        var fileName = 'ConfigMetadata_' + recordId + '.xlsx';
+                        XLSX.writeFile(wb, fileName );
+                        
+                        document.getElementById('result').innerText = 'Download successful. Please close the window';
+                    } else {
+                        document.getElementById('result').innerText = 'Error: Data returned from Apex is not in the expected format.';
+                    } 
+                } else {
+                    document.getElementById('result').innerText = 'Error: ' + event.message;
+                }
+            },
+            { escape: false }
+        );
+    }
+ 
+    window.onload = function() {
+        downloadExcel();
+    };
+    
+    </script>
+    
+    <!-- Include FileSaver.js library for saving Blob objects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    </apex:page>
