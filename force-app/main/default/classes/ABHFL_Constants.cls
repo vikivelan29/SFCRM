@@ -62,6 +62,7 @@ public with sharing class ABHFL_Constants {
     public static final String WK_EVALUATION_FAILED_DIGITAL_ERROR = 'Evaluation failed. Disbursal date is > 6 months.';
     public static final String WK_EVALUATION_FAILED_OFFLINE_ERROR = 'Disbursal date is > 6 months. Please inform the customer that Welcome Kit cannot be provided.'; 
     
+    public static final String ERROR_DESC_FOR_CANCELLED_DMS = 'Not processed-Missing Lead ID';
     public static final String ACCOUNT_STATUS_CLOSED = 'Closed';
     public static final String NDC_STP_NAME = 'NDC';
     public static final String NDC_REPORT = 'NDCReport';
