@@ -14,9 +14,17 @@
             <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
             Search old Cases
         </div>
-      
+        <!--<template if:false={loaded}>
+            <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+        </template>-->
+
+        
         <div class = "slds-m-around_medium">
             <template if:true={isLoading}>
+                <!--<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                    class="slds-modal slds-fade-in-open slds-modal_large bring-to-front">
+                    <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+                </section>-->
                 <div class="slds-backdrop" role="presentation"></div>
 
                 <div class="slds-fade-in-open  slds-modal_large">
@@ -63,6 +71,7 @@
         <div lwc:if = {displayError}>
             {errorMessage}
         </div>
+    
 
         <template lwc:if = {showChildTable}>
             <c-abfl_base_view_screen api_id = {apiName} payload-info = {payloadInfo}></c-abfl_base_view_screen>
