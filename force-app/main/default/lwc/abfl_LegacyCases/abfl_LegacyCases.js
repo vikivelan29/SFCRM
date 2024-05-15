@@ -1,28 +1,19 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import fetchAssets from "@salesforce/apex/ABFL_LegacyView.getLANRelatedAccount";
 import getLegacyData from "@salesforce/apex/ABFL_LegacyView.getLegacyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 
-// const columns = [
-    
-//     { label: 'Customer Name', fieldName: 'Customer' },
-//     { label: 'Case Id', fieldName: 'CaseID' },
-//     { label: 'Category', fieldName: 'Category'},
-//     { label: 'Case Type', fieldName: 'CaseType' },
-//     { label: 'Case SubType', fieldName: 'SubType' },
-//     { label: 'Source', fieldName: 'Source' },
-//     { label: 'Loan No', fieldName: 'LoanAccountNo' },
-//     { label: 'Case Created Date', fieldName: 'CreatedOn'},
-//     { label: 'Case Status', fieldName: 'CaseStatus' },
-//     { label: 'Last Updated Date', fieldName: 'LastUpdatedOn'},
-//     { label: 'Case Owner', fieldName: 'Owner' },
-// ];
+import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
+const fields = [CLIENT_CODE_FIELD, LOB_FIELD];   
 
 export default class Abfl_LegacyCases extends LightningElement {
     @api recordId;
     @api apiName = 'ABFL_Legacy_Case';
+    @api payloadInfo;
     displayTable = false;
     displayError = false;
     showChildTable = false;
@@ -30,12 +21,15 @@ export default class Abfl_LegacyCases extends LightningElement {
     leagcyCaseData;
     startDate;
     endDate;
-    payloadInfo;
+    loaded = false;
+    disabled = false;
     @track displayResult = [];
     options = '';
     statusCode;
     columns;
     errorMessage;
+    lob;
+    customerId;
    
    /* @wire(fetchAssets,{accRec: "$recordId"})
         fetchAssets ({ error, data }) {
@@ -51,6 +45,11 @@ export default class Abfl_LegacyCases extends LightningElement {
     label = {
         errorMessage
     };
+    @wire(getRecord, {
+        recordId: "$recordId",
+        fields
+      })
+    account;
     connectedCallback() {
         console.log('***rec'+this.recordId);
         // get columns
@@ -89,6 +88,8 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchAssets({accRec: this.recordId})
         .then(result => {
             this.options = result;
+           /* this.lob = result.lob;
+            this.customerId = result.clientCode;*/
         })
         .catch(error => {
             console.error("Error", error);
@@ -96,36 +97,52 @@ export default class Abfl_LegacyCases extends LightningElement {
     }
     //Callout to get Legacy data
     fetchLegacyCases() {
-        console.log('selected asset', this.selectedAsset);
+        this.displayTable = false;
+        this.displayError = false;
+       
+
+        this.data = null;
+        this.customerId = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
+        this.lob = getFieldValue(this.account.data, LOB_FIELD);
+        console.log('Acc'+this.lob);
         if(this.checkFieldValidity()) {
-            getLegacyData({customerId: this.recordId, lanNumber: this.selectedAsset, startDate: this.startDate,
-                endDate: this.endDate}).then(result=>{
+            this.disabled = true;
+             this.isLoading = true;
+            getLegacyData({customerId: this.customerId, lanNumber: this.selectedAsset, startDate: this.startDate,
+                endDate: this.endDate, lob: this.lob}).then(result=>{
                 this.leagcyCaseData = result;
                 console.log('Result1 ==> ', result);
                 this.isLoading = false;
                 if (this.leagcyCaseData && this.leagcyCaseData.returnCode == '1' && this.leagcyCaseData.statusCode == 200) {
                     this.statusCode = this.leagcyCaseData.statusCode;
+                    this.loaded = true;
                     this.displayTable = true;
                     this.data = this.leagcyCaseData.legacyCaseResponse;
+                    this.disabled = false;
                 }
-                else if(this.leagcyCaseData && this.leagcyCaseData.returnCode == '2') {
+                else if(this.leagcyCaseData && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
                     console.log('@@@Erro');
                     this.displayError = true;
+                    this.loaded = true;
                     this.errorMessage = this.leagcyCaseData.returnMessage;
+                    this.disabled = false;
                     //this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                 }
                 else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 200 && result.response.includes('error_message')){
                     let parsedjson = JSON.parse(JSON.parse(result.response).body);
+                    this.loaded = true;
+                    this.disabled = false;
                     this.showNotification("Error", parsedjson.error_message, 'error');
                 } 
             }).catch(error=>{
                 console.log('error ==> ', error);
                 this.showNotification("Error", this.label.errorMessage, 'error');
                 this.isLoading = false;
+                this.loaded = true;
+                this.disabled = false;
             })
-           
         }
-            
+
     }
    /* handleRowSelection(event)
     {   
@@ -147,9 +164,10 @@ export default class Abfl_LegacyCases extends LightningElement {
         console.log('this.v'+JSON.stringify(event.detail));
      }
     callRowAction(event) {
+        //this.showChildTable = false;
         console.log('Hi>1'+JSON.stringify(event.detail.row));
         // reset var
-        this.showChildTable = false;
+        this.showChildTable = true;
         this.payloadInfo = null;
         let result = {};
         
@@ -157,12 +175,10 @@ export default class Abfl_LegacyCases extends LightningElement {
         result.statusCode= this.statusCode;
         result.payload = this.selectedRow;
         this.payloadInfo = result;
-        this.showChildTable = true;
 
         setTimeout(() => {             
             this.template.querySelector('c-abfl_base_view_screen').generateScreen();
         }, 200);
-        
     }
     startDateChange(event)
     {
@@ -176,6 +192,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         console.log('The endDate selected is '+this.endDate );
     }
     checkFieldValidity(){
+        this.isLoading = false;
         let checkAllFieldsValid = true;
         checkAllFieldsValid = [
             ...this.template.querySelectorAll('.inpFieldCheckValidity'),
