@@ -88,6 +88,8 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchAssets({accRec: this.recordId})
         .then(result => {
             this.options = result;
+           /* this.lob = result.lob;
+            this.customerId = result.clientCode;*/
         })
         .catch(error => {
             console.error("Error", error);
