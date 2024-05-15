@@ -646,34 +646,6 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ASF_File_Update_Val_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
         <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -681,38 +653,31 @@
         <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
     <labels>
-        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
-        <value>Omni-Channel</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
         <fullName>Restrict_Email_Address</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Restrict Email Address</shortDescription>
         <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
     </labels>
 </CustomLabels>

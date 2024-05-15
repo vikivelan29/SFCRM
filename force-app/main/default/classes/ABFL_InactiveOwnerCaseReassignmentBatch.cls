@@ -2,7 +2,7 @@
  * @description       : Assign cases with inactive users to default stage owner / manager hierarchy.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-15-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
