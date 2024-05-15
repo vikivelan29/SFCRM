@@ -74,8 +74,8 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
                                             ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
                                             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c, OwnerId, Stage__c 
                                             FROM Case 
-                                            WHERE id='500Bl00000ACxBSIA1']);
-                                            //WHERE Business_Unit__c = :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND Owner.IsActive = false AND isClosed=false]);
+                                            //WHERE id='500Bl00000ACxBSIA1']);
+                                            WHERE Business_Unit__c = :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND Owner.IsActive = false AND isClosed=false]);
         
     }
 
