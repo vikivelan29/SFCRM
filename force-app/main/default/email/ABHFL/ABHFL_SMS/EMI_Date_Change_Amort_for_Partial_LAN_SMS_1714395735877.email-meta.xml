@@ -3,7 +3,7 @@
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
     <name>EMI Date Change Amort for Partial LAN SMS</name>
-    <relatedEntityType>Case</relatedEntityType>
+    <relatedEntityType>ASF_Communication_Log__c</relatedEntityType>
     <style>none</style>
     <type>custom</type>
     <uiType>SFX</uiType>
