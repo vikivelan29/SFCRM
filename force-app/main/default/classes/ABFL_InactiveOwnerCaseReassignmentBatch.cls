@@ -1,19 +1,26 @@
 /**
- * @description       : 
+ * @description       : Assign cases with inactive users to default stage owner / manager hierarchy.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-11-2024
+ * @last modified on  : 05-15-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-11-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Database.Batchable<sObject>, Database.Stateful {
+@SuppressWarnings('PMD.EmptyStatementBlock')
+public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Database.Batchable<sObject>, Database.Stateful {
     private Map<Id, User> allInactiveUser = new Map<Id, User>();
     private Map<Id, User> allactiveUser = new Map<Id, User>();
     private Map<String, ASF_Case_Stage_Config__c> mStageConfigs = new Map<String, ASF_Case_Stage_Config__c>();
     private Map<String, List<ASF_Case_Rule__c>> mStageRuleConfigs = new Map<String, List<ASF_Case_Rule__c>>();
-    public Database.QueryLocator start(Database.BatchableContext BC) {
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    * @return Database.QueryLocator 
+    **/
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         // get all stage config records for ABFL where Status_Mapping__c != isClosed values
         List<String> lOpenStatuses = new List<String>();
         for(CaseStatus rec: [Select Id, MasterLabel,ApiName From CaseStatus Where IsClosed = false]){
@@ -32,7 +39,6 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
                 lStageIds.add(rec.Id);
             }
         }
-        System.debug('***mStageConfigs:'+mStageConfigs);
         for(ASF_Case_Rule__c rec: [SELECT Id, type__c, Logical_Condition__c, Assigned_Queue_Id__c, Assigned_Error_Queue_Id__c, Case_Stage_Config__c,
                                     (SELECT Id, Data_Type__c, Number__c, Operator__c, Value__c, Field_Api_Name__c 
                                             FROM Case_Rule_Entries__r) 
@@ -44,7 +50,6 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
                 mStageRuleConfigs.put(rec.Case_Stage_Config__c, new List<ASF_Case_Rule__c>{rec});
             }
         }
-        System.debug('***mStageRuleConfigs:'+mStageRuleConfigs);
 
         // Get active and inactive user map
         for(User rec: [SELECT Id, IsActive, ManagerId,Manager.Name FROM User]){
@@ -69,14 +74,18 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
                                             ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
                                             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c, OwnerId, Stage__c 
                                             FROM Case 
-                                            // WHERE id='500Bl00000ACxBSIA1']);
-                                            WHERE Business_Unit__c = :ABFL_Constants.ABFL AND Owner.IsActive = false AND isClosed=false]);
+                                            //WHERE id='500Bl00000ACxBSIA1']);
+                                            WHERE Business_Unit__c = :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND Owner.IsActive = false AND isClosed=false]);
         
     }
 
-    public void execute(Database.BatchableContext BC, List<Case> scope) {
-        System.debug('***scope'+scope);
-        System.debug('***SJ-->'+mStageConfigs);
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    * @param scope 
+    **/
+    public void execute(Database.BatchableContext bc, List<Case> scope) {
         // get all stage config records for the records in scope
         List<Case> casesToUpdate = new List<Case>();
         for(Case cs : scope) {
@@ -87,41 +96,38 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
             }
            
         }
-        System.debug('**final->'+casesToUpdate);
         if (!casesToUpdate.isEmpty()) {
-            try {
-                Database.update(casesToUpdate);
-               
-            } catch (Exception e) {
-                ABCL_Logger.enableExceptionLogging();
-                ABCL_Logger.push('ABFL_InactiveOwnerCaseReassignmentBatch.execute.casesToUpdate');
-                ABCL_Logger.message(e.getMessage());
-                ABCL_Logger.emit();
-                
-            }
+            Database.update(casesToUpdate);
         }
     }
 
-    public void finish(Database.BatchableContext BC) {
-
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    **/
+    public void finish(Database.BatchableContext bc) {
+        // Empty finish block
     }
 
-    //Get default queue assigned to the stage
+    
+    /**
+    * @description : Get default queue assigned to the stage
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param cs 
+    * @return Id 
+    **/
     public Id reassignCase(Case cs) {
         String cccId = cs.CCC_External_Id__c;
         String stage = cs.Stage__c;
-        String caseId = cs.Id;
         ASF_Case_Stage_Config__c csc = mStageConfigs.get(cccId+stage);
-        System.debug(cccId+stage);
-        System.debug('***SJ'+csc); 
        
-        Id assignedQueue = csc.Default_Queue__c;
+        Id assignedQueue = csc?.Default_Queue__c;
        
         if (String.isBlank(assignedQueue)){ 
-            if (csc.Case_Rules__r.size() > 0) {
+            if (csc!=null && csc.Case_Rules__r.size() > 0) {
                 Map<Id, List<ASF_Case_Rule__c>> mapOfCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
                 mapOfCaseRules.put(cs.Id, mStageRuleConfigs.get(csc.Id));
-                System.debug('***mapOfCaseRules:'+mapOfCaseRules);
                 Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> mapOfAssignedQueue = ASF_CaseFrameworkHelper.runAssignmentRules(new List<Case>{cs},mapOfCaseRules);
                 assignedQueue = mapOfAssignedQueue.get(cs.Id).defaultOwnerId;
             }else {
@@ -132,6 +138,12 @@ public with sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements Dat
         return assignedQueue;
     }
     
+    /**
+    * @description : Get active manager from hierarchy
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param userId 
+    * @return Id 
+    **/
     public Id getActiveManagerId(Id userId){
         Id mgrId=userId;
         // in case userId (ManagerId in recurssive call) is not null
