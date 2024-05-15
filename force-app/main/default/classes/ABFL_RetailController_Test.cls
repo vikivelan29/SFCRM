@@ -48,7 +48,6 @@ public class ABFL_RetailController_Test{
         System.runAs(userRecord1){
             Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             SLA_Threshold_Warning__c thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
-            thresholdController.Stage_SLA_Threshold_3__c;
             thresholdController.Customer_Email_buffer_hours__c = 56;
             update thresholdController;
             
