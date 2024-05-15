@@ -13,16 +13,15 @@ public without sharing class ABFL_EODController{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - invokeAPI
-     * @param String apiName - apiName of the EOD API
-     * @param Id assetId - Id of the asset record
+     * @param apiName - apiName of the EOD API
+     * @param assetId - Id of the asset record
      * @return String - response wrapper for the LWC component
-     * @Description - Method to get the response for the Last EOD Details UI component
+     * @description - Method to get the response for the Last EOD Details UI component
      *****************************************************************************************************************/
     @AuraEnabled(Cacheable = false)
     public static ResponseWrapper invokeAPI(String apiName, Id assetId){
         // prepare payload to pass
         String requestPayload = generateRequestPayload(apiName, assetId);
-        System.debug('requestPayload: '+requestPayload);
 
         ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
 
@@ -40,9 +39,6 @@ public without sharing class ABFL_EODController{
                 intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.EOD_DISBURSEMENT_DETAILS_INTEGRATION_METADATA, requestPayload, null));
             }
         }
-
-        System.debug('status code: '+intResponseWrapper.statusCode);
-        System.debug('response body: '+intResponseWrapper.responseBody);
         
         return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
     }
@@ -50,10 +46,10 @@ public without sharing class ABFL_EODController{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - generateRequestPayload
-     * @param String apiName - apiName of the EOD API
-     * @param Id assetId - Id of the asset record
+     * @param apiName - apiName of the EOD API
+     * @param assetId - Id of the asset record
      * @return String - request payload for the EOD API
-     * @Description - Method to generate requestPayload based on apiName and assetId
+     * @description - Method to generate requestPayload based on apiName and assetId
      *****************************************************************************************************************/
     private static String generateRequestPayload(String apiName, Id assetId){
         Map<String, Object> requestPayload = new Map<String, Object>();
@@ -79,11 +75,20 @@ public without sharing class ABFL_EODController{
         return JSON.serialize(requestPayload);
     }
 
+    /****************************************************************************************************************
+    * @description Wrapper class to send the response to LWC
+    *****************************************************************************************************************/
     public Class ResponseWrapper{
         @AuraEnabled
         public Integer statusCode;
         @AuraEnabled
         public String payload;
+
+        /****************************************************************************************************************
+        * @description Custom constructor of ResponseWrapper class
+        * @param statusCode
+        * @param res
+        *****************************************************************************************************************/
         public ResponseWrapper(Integer statusCode, String res){
             this.statusCode = statusCode;
             this.payload = res;

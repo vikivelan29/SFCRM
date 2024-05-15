@@ -1,5 +1,18 @@
+/*********************************************************
+*Class        :  ABCL_SurveyResponseHelper
+*Author       :  Virendra Patil
+*Created Date :  03/03/2024
+*Last Modified:  14/05/2024
+*Test Class   :  ABCL_SurveyResponseTriggerHandlerTest
+*@description :  Helper class for ABCL_SurveyResponseTriggerHandler
+*********************************************************/
 public without sharing class ABCL_SurveyResponseHelper {
     public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM'};
+        /****************************************************************************************************************
+         * @function - associateCustomerAndAsset
+         * @description - Invoked from the ABCL_SurveyResponseTriggerHandler class to associate customer/asset with survery response
+         * @param newItems
+         *****************************************************************************************************************/
         public static void associateCustomerAndAsset(List<Survey_Response__c> newItems){
             Set<String> accountsClientCode = new Set<String>();
             Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
@@ -46,7 +59,7 @@ public without sharing class ABCL_SurveyResponseHelper {
             }
             
             if(accountsClientCode.size()>0){
-                for(Account acc : [SELECT ID,Client_Code__c,Business_Unit__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                for(Account acc : [SELECT ID,Client_Code__c,Business_Unit__c FROM Account WHERE Client_Code__c =: accountsClientCode AND Business_Unit__c =: LINE_OF_BUSINESS WITH SYSTEM_MODE]){
                     String tempKey = acc.Business_Unit__c +'_'+acc.Client_Code__c;
                     integer itempKey = tempKey.hashCode();
                     if(!accClientCodeVsAccIds.containsKey(itempKey)){
@@ -57,7 +70,7 @@ public without sharing class ABCL_SurveyResponseHelper {
                 } 
             }
             if(surveyLANNo.size()>0){
-                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE LAN__c =: surveyLANNo AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE LAN__c =: surveyLANNo AND Business_Unit__c =: LINE_OF_BUSINESS WITH SYSTEM_MODE]){
                     String tempKey = ast.Business_Unit__c +'_'+ast.LAN__c;
                     integer itempKey = tempKey.hashCode();
                     if(!lanNoVsAsset.containsKey(itempKey)){
@@ -103,6 +116,11 @@ public without sharing class ABCL_SurveyResponseHelper {
             }
         }
     
+    /****************************************************************************************************************
+    * @function - updateCustomersNPS
+    * @description - Invoked from the ABCL_SurveyResponseTriggerHandler class to update NPS Score on account
+    * @param newItems
+    *****************************************************************************************************************/
     public static void updateCustomersNPS(List<Survey_Response__c> newItems){
         List<Account> accounts = new List<Account>();
         for(Survey_Response__c surveyResponse : newItems){
@@ -116,8 +134,8 @@ public without sharing class ABCL_SurveyResponseHelper {
                 
             }
         }
-        if(accounts.size()>0){
-            Database.SaveResult[] results = Database.update(accounts,false);
+        if(accounts.size() > 0 && Schema.sObjectType.Account.isUpdateable()){
+            Database.update(accounts,false);
         }
     }
     
@@ -131,7 +149,7 @@ public without sharing class ABCL_SurveyResponseHelper {
     }
     
     private static void getCaseDetails(Map<Id,Case> mCaseDetails){
-        for(Case surveyCase : [SELECT ID,AccountId,Business_Unit__c FROM Case WHERE Id=:mCaseDetails.keySet()]){
+        for(Case surveyCase : [SELECT ID,AccountId,Business_Unit__c FROM Case WHERE Id=:mCaseDetails.keySet() WITH SYSTEM_MODE]){
             if(mCaseDetails.containsKey(surveyCase.Id)){
                 mCaseDetails.put(surveyCase.Id,surveyCase);
             }
