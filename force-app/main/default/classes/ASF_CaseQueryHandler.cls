@@ -2,10 +2,10 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
-public with sharing class ASF_CaseQueryHandler {
+public without sharing class ASF_CaseQueryHandler {
     private static List<Case> cases = null;
     private static List<ASF_Checklist__c> caseIncompleteChecklists = null;
     private static List<ASF_Case_Approv__c> caseApprovals = null;
@@ -38,7 +38,7 @@ public with sharing class ASF_CaseQueryHandler {
                      (Select Id, Checklist_External_Id__c, Status__c, Case__c from Checklists__r),
                      (Select Id, Work_Item_External_ID__c, WhatId from Tasks)
                      FROM Case
-                     WHERE Id = :recordIds WITH USER_MODE];
+                     WHERE Id = :recordIds WITH SYSTEM_MODE];
         }
         return cases;
     }
@@ -58,7 +58,7 @@ public with sharing class ASF_CaseQueryHandler {
                                         Mandatory__c = TRUE
                                         AND Status__c NOT IN ('Completed','Rejected')
                                         AND Case__c = :caseIds
-                                        AND Stage_Name__c = :caseStages WITH USER_MODE];
+                                        AND Stage_Name__c = :caseStages WITH SYSTEM_MODE];
         }
         return caseIncompleteChecklists;
     }
@@ -96,7 +96,7 @@ public with sharing class ASF_CaseQueryHandler {
                                    WHERE
                                    Status NOT IN ('Completed','Rejected')
                                    AND WhatId = :caseIds
-                                   AND Case_Stage__c = :caseStages WITH USER_MODE];
+                                   AND Case_Stage__c = :caseStages WITH SYSTEM_MODE];
         }
         return caseIncompleteTasks;
     }
@@ -112,7 +112,7 @@ public with sharing class ASF_CaseQueryHandler {
             cccIntegrations = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c
                                FROM ASF_Integration__c
                                WHERE Mandatory_At_Stage_Movement__c = true
-                               AND Case_Stage_Config__c =: caseStageConfigIds WITH USER_MODE];
+                               AND Case_Stage_Config__c =: caseStageConfigIds WITH SYSTEM_MODE];
         }
         return cccIntegrations;
     }
@@ -129,7 +129,7 @@ public with sharing class ASF_CaseQueryHandler {
             caseIntegrations = [SELECT Id, Is_Validation_Success__c, Integration_Ext_Id__c, Case__c
                                 FROM ASF_Case_Integration__c
                                 WHERE Case__c =: caseIds
-                                AND Integration_Ext_Id__c in: cccIntegrationExtIds WITH USER_MODE
+                                AND Integration_Ext_Id__c in: cccIntegrationExtIds WITH SYSTEM_MODE
                                 ORDER BY LastModifiedDate desc];
         }
         return caseIntegrations;
@@ -155,7 +155,7 @@ public with sharing class ASF_CaseQueryHandler {
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
-                                WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId WITH USER_MODE
+                                WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId WITH SYSTEM_MODE
                                 ORDER BY Case_Category_Config__c, Order__c];
         }
         return caseStageConfigs;
@@ -233,7 +233,7 @@ public with sharing class ASF_CaseQueryHandler {
                     'Validation',
                     'SLA Override'
                 )
-                AND C3ExternalId__c = :caseCCCExternalIds WITH USER_MODE
+                AND C3ExternalId__c = :caseCCCExternalIds WITH SYSTEM_MODE
                 ORDER BY C3ExternalId__c,Case_Stage_Config__r.Order__c, Order__c];
         }
         return caseRulesWithHierarchy;
@@ -263,7 +263,7 @@ public with sharing class ASF_CaseQueryHandler {
                                                           Stage_Start_Date__c, Stage_Violation_Start_Date__c, 
                                                           Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c 
                                                           FROM ASF_Case_SLA_History__c
-                                                          WHERE Case__c =: caseIds WITH USER_MODE order by createddate DESC
+                                                          WHERE Case__c =: caseIds WITH SYSTEM_MODE order by createddate DESC
                                                          ];
         }
         return caseSLAHistories;
@@ -278,7 +278,7 @@ public with sharing class ASF_CaseQueryHandler {
     public static Map<String, Boolean> getCaseStatusMap(){
         Map<String, Boolean> returnMap = new Map<String, Boolean>();
         if(caseStatusMap == null){
-            for(CaseStatus cs : [Select Id, ApiName, IsClosed from CaseStatus WITH USER_MODE]){
+            for(CaseStatus cs : [Select Id, ApiName, IsClosed from CaseStatus WITH SYSTEM_MODE]){
                 returnMap.put(cs.ApiName, cs.IsClosed);
             }
             caseStatusMap = returnMap;
@@ -301,7 +301,7 @@ public with sharing class ASF_CaseQueryHandler {
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
                                     Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c
                                     FROM ASF_Case_Category_Config__c 
-                                    WHERE CCC_External_Id__c IN :cccExternalIds WITH USER_MODE];
+                                    WHERE CCC_External_Id__c IN :cccExternalIds WITH SYSTEM_MODE];
                                     
         }
         return caseCategoryConfigs;
@@ -315,7 +315,7 @@ public with sharing class ASF_CaseQueryHandler {
     **/
     public static List<Asset> getAssets(List<Id> assetIds) {
         if(caseRelatedAssets == null || refreshRecords){
-            caseRelatedAssets = [SELECT Id, LAN__c FROM Asset WHERE ID IN :assetIds WITH USER_MODE];
+            caseRelatedAssets = [SELECT Id, LAN__c FROM Asset WHERE ID IN :assetIds WITH SYSTEM_MODE];
         }
         return caseRelatedAssets;
     }
@@ -348,7 +348,7 @@ public with sharing class ASF_CaseQueryHandler {
     public static List<ASF_Integration__c> getASFIntegrationRecordsForRetry(Set<String> integrationExtnId){
         return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH USER_MODE];
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
     }
 
     /**
@@ -358,7 +358,7 @@ public with sharing class ASF_CaseQueryHandler {
     * @return List<Case> 
     **/
     public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
-        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds WITH USER_MODE];
+        return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds WITH SYSTEM_MODE];
     }
     
 }

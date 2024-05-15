@@ -92,7 +92,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
         }        
         
         if (!usersList.isEmpty()) {
-            Database.SaveResult[] saveResults = Database.update(usersList, false);
+          Database.update(usersList, false);
         }
     }
     

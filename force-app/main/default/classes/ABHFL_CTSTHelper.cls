@@ -53,7 +53,6 @@ public without sharing class ABHFL_CTSTHelper {
             update caseDetailList;
         }
     }
-    
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();

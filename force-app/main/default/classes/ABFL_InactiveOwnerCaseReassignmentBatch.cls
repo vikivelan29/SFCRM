@@ -74,8 +74,8 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
                                             ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
                                             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c, OwnerId, Stage__c 
                                             FROM Case 
-                                            // WHERE id='500Bl00000ACxBSIA1']);
-                                            WHERE Business_Unit__c = :ABFL_Constants.ABFL AND Owner.IsActive = false AND isClosed=false]);
+                                            WHERE id='500Bl00000ACxBSIA1']);
+                                            //WHERE Business_Unit__c = :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND Owner.IsActive = false AND isClosed=false]);
         
     }
 
@@ -122,10 +122,10 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
         String stage = cs.Stage__c;
         ASF_Case_Stage_Config__c csc = mStageConfigs.get(cccId+stage);
        
-        Id assignedQueue = csc.Default_Queue__c;
+        Id assignedQueue = csc?.Default_Queue__c;
        
         if (String.isBlank(assignedQueue)){ 
-            if (csc.Case_Rules__r.size() > 0) {
+            if (csc!=null && csc.Case_Rules__r.size() > 0) {
                 Map<Id, List<ASF_Case_Rule__c>> mapOfCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
                 mapOfCaseRules.put(cs.Id, mStageRuleConfigs.get(csc.Id));
                 Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> mapOfAssignedQueue = ASF_CaseFrameworkHelper.runAssignmentRules(new List<Case>{cs},mapOfCaseRules);
