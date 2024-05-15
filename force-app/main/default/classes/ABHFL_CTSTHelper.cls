@@ -53,6 +53,7 @@ public without sharing class ABHFL_CTSTHelper {
             update caseDetailList;
         }
     }
+    
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
@@ -867,6 +868,35 @@ public without sharing class ABHFL_CTSTHelper {
 
         if(abhfl_CaseDetail_List.size() > 0) {
             update abhfl_CaseDetail_List;    
+        }
+    }
+
+    public void  ICAndPICEvaluationOnApiCall(List<Case> newCaseLst) {
+
+        ABHFL_ICAndPIC_Integration abhflICAndPICIntegrationClss = new ABHFL_ICAndPIC_Integration();
+        List<String> cccExternalIdOfCTSTList = new List<String>{'hfl037', 'hfl078'};
+        List<String> caseIdList = new List<String>();
+        List<Case> evaluationCaseList = new List<Case>();
+        List<Case> frameworkCaseList = new List<Case>();
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newCaseLst);
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+            frameworkCaseList = mRecordTypeVsCases1.get(frameworkRTId);
+        }
+
+        for(Case csRecord : frameworkCaseList) {
+            String cccExternalIdCase = csRecord.CCC_External_Id__c;
+            String bussUnitOfCase = csRecord.Business_Unit__c;
+            String caseTechnicalSource = csRecord.Technical_Source__c;
+
+            if(cccExternalIdOfCTSTList.contains(cccExternalIdCase) && bussUnitOfCase == 'ABHFL' && caseTechnicalSource == 'API') {
+                evaluationCaseList.add(csRecord);
+            }
+        }
+
+        if(evaluationCaseList.size() > 0) {
+            abhflICAndPICIntegrationClss.evaluate(evaluationCaseList);
         }
     }
 
