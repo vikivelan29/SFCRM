@@ -317,7 +317,6 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                                              AND Status__c = :ABFL_Constants.PENDING AND Type__c = 'BRE']) {
                                             mapCaseIdCreatedId.put(caseIntg.Case__c, caseIntg);
                                              }
-        //List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);
 
         for (Case caseRecord : caseList){
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();

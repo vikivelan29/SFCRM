@@ -1,7 +1,7 @@
 /*********************************************************
 ** Class        :  ABFL_TestDataFactory
 ** Author       :  Aditee Churiwala
-** Description  :  Data Factory for Test Class
+** @description  :  Data Factory for Test Class
 ** Created Date :  Dec 18, 2023
 ** Modified By  :  
 ** Modified Date :  
@@ -12,8 +12,9 @@
 @isTest
 public class ABFL_TestDataFactory {
     /****************************************************
-    * @Description - Create Case Configs 
-    * return - Map of Case Configs       
+    * @description - Create Case Configs
+    * @param isCreate
+    * @return - List<ASF_Case_Category_Config__c>      
     *****************************************************/
     public static List<ASF_Case_Category_Config__c> createCaseCategoryConfig(Boolean isCreate) {
         List<ASF_Case_Category_Config__c> listCaseCatConfig = new List<ASF_Case_Category_Config__c>();
@@ -38,6 +39,12 @@ public class ABFL_TestDataFactory {
         return listCaseCatConfig;
     }    
      
+    /****************************************************
+    * @description - Create Case stage Configs
+    * @param caseCatConfigId
+    * @param isCreate
+    * @return - List<ASF_Case_Category_Config__c>      
+    *****************************************************/
      public static List<ASF_Case_Stage_Config__c> createCaseStageConfig(Id caseCatConfigId, Boolean isCreate) {
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
     
@@ -92,40 +99,50 @@ public class ABFL_TestDataFactory {
          return stageConfigList;
      }
     
+     /****************************************************
+     * @description - Create Case rule entries
+     * @param stageConfigList 
+     *****************************************************/
      public static void createCaseRuleEntry(List<ASF_Case_Stage_Config__c> stageConfigList) {
          List<ASF_Case_Rule__c> listCaseRule = new List<ASF_Case_Rule__c>();
-         List<ASF_Case_Rule_Entry__c> CREs = new List<ASF_Case_Rule_Entry__c>();
-         ASF_Case_Rule_Entry__c stage1_Movement_RuleEntry = null;
-         ASF_Case_Rule__c stage1_StageMovement_Rule = null;
+         List<ASF_Case_Rule_Entry__c> cres = new List<ASF_Case_Rule_Entry__c>();
+         ASF_Case_Rule_Entry__c stage1MovementRuleEntry = null;
+         ASF_Case_Rule__c stage1StageMovementRule = null;
          for(ASF_Case_Stage_Config__c config : stageConfigList) {
-            stage1_StageMovement_Rule = new ASF_Case_Rule__c();
+            stage1StageMovementRule = new ASF_Case_Rule__c();
              
-             stage1_StageMovement_Rule.Case_Stage_Config__c = config.Id;
-             //stage1_StageMovement_Rule.Logical_Condition__c = '1';
-             stage1_StageMovement_Rule.Order__c = 1;
-             stage1_StageMovement_Rule.Type__c = 'Stage Movement';
+             stage1StageMovementRule.Case_Stage_Config__c = config.Id;
+             //stage1StageMovementRule.Logical_Condition__c = '1';
+             stage1StageMovementRule.Order__c = 1;
+             stage1StageMovementRule.Type__c = 'Stage Movement';
              
-             listCaseRule.add(stage1_StageMovement_Rule);
+             listCaseRule.add(stage1StageMovementRule);
          }    
-            // caseRuleList.add(stage1_StageMovement_Rule);
+            // caseRuleList.add(stage1StageMovementRule);
          insert listCaseRule;
          Integer i = 0;
          for(ASF_Case_Rule__c caseRule : listCaseRule) {
-             stage1_Movement_RuleEntry = new ASF_Case_Rule_Entry__c();
+             stage1MovementRuleEntry = new ASF_Case_Rule_Entry__c();
              //create case rule entry
-             stage1_Movement_RuleEntry.Number__c = 1;
-             stage1_Movement_RuleEntry.Case_Rule__c = caseRule.Id;
-             stage1_Movement_RuleEntry.Field_Api_Name__c = 'CCC_External_Id__c';
-             stage1_Movement_RuleEntry.Operator__c = '=';
-             stage1_Movement_RuleEntry.Data_Type__c = 'STRING';
-             stage1_Movement_RuleEntry.Value__c = '12345';
-             stage1_Movement_RuleEntry.External_ID__c = 'CRE-STAGEMV-OD-01'+i;
+             stage1MovementRuleEntry.Number__c = 1;
+             stage1MovementRuleEntry.Case_Rule__c = caseRule.Id;
+             stage1MovementRuleEntry.Field_Api_Name__c = 'CCC_External_Id__c';
+             stage1MovementRuleEntry.Operator__c = '=';
+             stage1MovementRuleEntry.Data_Type__c = 'STRING';
+             stage1MovementRuleEntry.Value__c = '12345';
+             stage1MovementRuleEntry.External_ID__c = 'CRE-STAGEMV-OD-01'+i;
              i++;
-             CREs.add(stage1_Movement_RuleEntry);
+             cres.add(stage1MovementRuleEntry);
          } 
-         insert CREs;  
+         insert cres;  
      }
      
+     /****************************************************
+     * @description - Create Case stage Configs
+     * @param caseCatConfigId
+     * @param isCreate
+     * @return - List<ASF_Case_Stage_Config__c>      
+     *****************************************************/
      public static List<ASF_Case_Stage_Config__c> createCaseStageConfigWithTwoStages(Id caseCatConfigId, Boolean isCreate) {
         List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
     
@@ -164,12 +181,15 @@ public class ABFL_TestDataFactory {
          return stageConfigList;
      }  
     /****************************************************
-    * @Description - Create ASF Integration 
-    * return - List<ASF_Integration__c>
+    * @description - Create ASF Integration
+    * @param stageConfigId
+    * @param isCreate
+    * @param processingClass
+    * @param stpAPIIdentifier
+    * @return - List<ASF_Integration__c>
     *****************************************************/
-    public static List<ASF_Integration__c> createIntegration(Id stageConfigId, Boolean isCreate,
-                                                             String processingClass, String stpAPIIdentifier) {
-    List<ASF_Integration__c> intConfigList = new List<ASF_Integration__c>();
+    public static List<ASF_Integration__c> createIntegration(Id stageConfigId, Boolean isCreate, String processingClass, String stpAPIIdentifier) {
+        List<ASF_Integration__c> intConfigList = new List<ASF_Integration__c>();
 
         ASF_Integration__c prePopInt1 = new ASF_Integration__c();
         prePopInt1.External_Id__c = 'ASF_INT_01';
@@ -191,15 +211,14 @@ public class ABFL_TestDataFactory {
     }    
     
     /****************************************************
-    * @Description - Create Case Detail
-    * return - List<ABFL_Case_Detail__c>
+    * @description - Create Case Detail
+    * @param lob
+    * @param isCreate
+    * @return - List<ABFL_Case_Detail__c>
     *****************************************************/
-    public static List<ABFL_Case_Detail__c> createCaseDetail(String Lob, Boolean isCreate) {
+    public static List<ABFL_Case_Detail__c> createCaseDetail(String lob, Boolean isCreate) {
         List<ABFL_Case_Detail__c> caseDetailList = new List<ABFL_Case_Detail__c>();
         ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c(ISREKYC__c= true,
-                                                                 //CallbackDate__c= 'CallbackDate',
-                                                                 //CallBackTimeSlot__c= 'CallBackTimeSlot',
-                                                                 //LOB__c= Lob,//'Corporate',
                                                                  Resolution_Comments__c= 'COMMENTS',
                                                                  URL__c= 'URL',
                                                                  MHNUMBER__c= 'MHNUMBER',
@@ -224,8 +243,8 @@ public class ABFL_TestDataFactory {
         return caseDetailList;
     }
     /****************************************************
-     * @Description - Create Account 
-     * @return - List of Account       
+     * @description - Create Account 
+     * @return - Account    
     *****************************************************/
     public Static Account createAccount() {
         Account a = new Account();
@@ -233,6 +252,7 @@ public class ABFL_TestDataFactory {
         a.Office_Email__c = 'testAcc@123.com';
         a.Phone = '444-010-4444';
         a.PAN__c = 'ADNPN4241N';
+        a.Client_Code__c = '1234';
         //a.CRN__c = '12344';
         insert a;
         
@@ -240,7 +260,8 @@ public class ABFL_TestDataFactory {
     }    
     
     /****************************************************
-     * @Description - Create Account 
+     * @description - Create Account 
+     * @param accountId
      * @return - List of Account       
     *****************************************************/
     public Static Contact createContact(Id accountId){
@@ -255,8 +276,11 @@ public class ABFL_TestDataFactory {
         return con;
     }    
     /****************************************************
-     * @Description - Create Case 
-     * @return - List of Case       
+     * @description - Create Case 
+     * @param noOfCase
+     * @param caseDetailId
+     * @param isCreate
+     * @return List<Case>     
     *****************************************************/
     public static List<Case> createCaseRecords(Integer noOfCase, Id caseDetailId, Boolean isCreate) {
 
