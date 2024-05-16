@@ -2292,6 +2292,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Type</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Type_Sub_Type_Mismatch_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
