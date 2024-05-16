@@ -28,6 +28,9 @@
         <field>Case.Stage_SLA_3__c</field>
     </columns>
     <columns>
+        <field>Case.Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <columns>
         <field>CREATED_DATE</field>
     </columns>
     <columns>
@@ -189,7 +192,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>0</value>
+            <value>1</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
