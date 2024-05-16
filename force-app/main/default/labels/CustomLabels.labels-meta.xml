@@ -78,6 +78,13 @@
         <value>7m4u_touchpoint</value>
     </labels>
     <labels>
+        <fullName>ABFL_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
         <language>en_US</language>
         <protected>false</protected>
