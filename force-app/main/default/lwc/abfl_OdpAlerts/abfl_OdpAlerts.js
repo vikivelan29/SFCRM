@@ -1,7 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import getOdpAlerts from '@salesforce/apex/ABFL_OdpAltertsController.getOdpAlerts';
 
-export default class Abhfl_OdpAlerts extends LightningElement {
+export default class Abfl_OdpAlerts extends LightningElement {
     @api recordId ;
     showSpinner = false;
     showErrorMessage = false;
@@ -18,7 +18,7 @@ export default class Abhfl_OdpAlerts extends LightningElement {
         this.showSpinner = true;
         this.showErrorMessage = false;
 
-        getOdpAlerts({'AccountId':this.recordId}) //new
+        getOdpAlerts({'accountId':this.recordId}) //new
         .then(result => {
             console.log('***result'+JSON.stringify(result));
             if(result[0].errorCode == undefined){
