@@ -28,6 +28,9 @@
         <field>Case.Stage_SLA_3__c</field>
     </columns>
     <columns>
+        <field>Case.Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <columns>
         <field>CREATED_DATE</field>
     </columns>
     <columns>
@@ -193,7 +196,7 @@
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>ABFL All TIme Open Cases</name>
+    <name>ABFL All Time Open Cases</name>
     <params>
         <name>units</name>
         <value>h</value>
