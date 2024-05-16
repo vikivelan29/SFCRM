@@ -11,7 +11,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
 
     /****************************************************************************************************************
     * @param lstCase
-    * @param oldMap
+    * @param oldMap  
     * @description - created to change the owner of case wrt to location code of LAN 
     *****************************************************************************************************************/ 
     public static void updateSpocWrtLocation(List<Case> lstCase,Map<Id, Case> oldMap){
