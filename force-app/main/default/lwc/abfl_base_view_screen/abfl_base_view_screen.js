@@ -29,7 +29,7 @@ export default class Abfl_base_view_screen extends LightningElement {
 	}
 
 	connectedCallback() {
-		this.callFunction();
+		this.callFunction();	
 	}
 
 	coreResult;
