@@ -8,11 +8,11 @@ public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
     public static String QUEUE_GROUP_QUERY = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
- /****************************************************************************************************************
-* @param  - List<CASE> & Map of Old Cases
-* @return - void .
-* @Description - created to change the owner of case wrt to location code of LAN 
-*****************************************************************************************************************/ 
+    /****************************************************************************************************************
+    * @param lstCase
+    * @param oldMap
+    * @description - created to change the owner of case wrt to location code of LAN 
+    *****************************************************************************************************************/ 
     public static void updateSpocWrtLocation(List<Case> lstCase,Map<Id, Case> oldMap){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
         List<Case> filteredCase = new List<Case>();

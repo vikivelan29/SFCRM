@@ -24,6 +24,9 @@ public class ASF_CaseTriggerHandler2_Test {
         ASF_TestDataFactory.createCaseCategoryConfig();
         ASF_TestDataFactory.createCaseRecords(0);
         ASF_TestDataFactory.createInteractionCaseRecords();
+        
+        
+        
     }
 
     @isTest
@@ -33,6 +36,7 @@ public class ASF_CaseTriggerHandler2_Test {
         Test.stopTest();
         List<Case> frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework'];
         Assert.areEqual(1, frameworkCase2.size(), 'Expected 1, Not found');
+        //insert new Case(subject = 'test case ', status='Resolved', business_Unit__c='ABFL',  Comments='testcomment');
     }
 
      @isTest
