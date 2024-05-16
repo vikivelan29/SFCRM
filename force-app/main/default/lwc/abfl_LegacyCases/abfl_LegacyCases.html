@@ -49,11 +49,10 @@
             <div class = "slds-p-vertical_medium slds-text-heading_medium">
                 Case List
             </div>
-            <lightning-datatable key-field = "id" data = {data} columns = {columns} enable-infinite-loading
-                 min-column-width = "160" hide-checkbox-column = "true"
-                onrowaction={callRowAction}
-                class = "slds-max-medium-table_stacked">
-            </lightning-datatable>
+
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+															></c-abfl_-data-table-with-pagination>
         </div>
         <div lwc:if = {displayError}>
             {errorMessage}

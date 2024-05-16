@@ -2,6 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import fetchAssets from "@salesforce/apex/ABFL_LegacyView.getLANRelatedAccount";
 import getLegacyData from "@salesforce/apex/ABFL_LegacyView.getLegacyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 
@@ -36,20 +37,12 @@ export default class Abfl_LegacyCases extends LightningElement {
     statusCode;
     columns;
     errorMessage;
-   
-   /* @wire(fetchAssets,{accRec: "$recordId"})
-        fetchAssets ({ error, data }) {
-            if (data) {
-                console.log('@@rec2'+this.recordId);
-                this.options = data;
-                //this.lstaccounts = data;
-            } else if (error) {
-                console.log('@@rec1'+this.recordId);
-                this.error = error;
-            }    
-    }*/
+    lob;
+    customerId;
+
     label = {
-        errorMessage
+        errorMessage,
+        pageSize
     };
     connectedCallback() {
         console.log('***rec'+this.recordId);
