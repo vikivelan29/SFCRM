@@ -9,7 +9,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @Function - evaluate
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - This method will be used to evaluate criteria for BRE API invocations.
+    * @description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -41,6 +41,13 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         }
         return result;
     }
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - evaluate
+    * @param List<Case> caseRecs - Case record from the framework.
+    * @return - Map<Id, ASF_IntegrationsController.IntegrationWrapper>
+    * @description - This method will be used to evaluate criteria for BRE API invocations.
+    *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         
@@ -86,7 +93,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @param integ - ASF_Integration record.
     * @param caseRec - Case record from the framework.
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integRec, Case caseRec){
         
@@ -115,7 +122,15 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         result.response = ABFL_Constants.WAITING_API_RESPONSE;
         return result;
     }
-    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - run
+    * @param integ - ASF_Integration record.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    *****************************************************************************************************************/
+    public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs) {
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
         // Perform additional checks as per STP identifier i.e. integration
@@ -128,9 +143,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
-                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
-                    intIds.add(integ.External_Id__c);
-                }
+                intIds.add(integ.External_Id__c);
             }
         }
 
@@ -151,7 +164,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         }
 
         ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-        update existingCaseIntegrations;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()) {
+                update existingCaseIntegrations;
+        } 
         ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 
         List<Case> caseRecords = new List<Case>();
@@ -163,21 +178,20 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         for(Case caseRec : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
-                if(integ.Processing_Class__c == 'ABFL_InvokeBREProcess'){
-                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-                    caseInt.Case__c  = caseRec.Id;
-                    caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-                    caseInt.Status__c = ABFL_Constants.PENDING;
-                    caseInt.Type__c = 'BRE';
-                    caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
-                    newCaseIntegrations.add(caseInt);
-                }
+                ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                caseInt.Case__c  = caseRec.Id;
+                caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+                caseInt.Status__c = ABFL_Constants.PENDING;
+                caseInt.Type__c = 'BRE';
+                caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
+                newCaseIntegrations.add(caseInt);
             }
         }
 
         insert newCaseIntegrations;
         Map<Id, List<ASF_Case_Integration__c>> caseIdToCaseInts = new Map<Id, List<ASF_Case_Integration__c>>();
-        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c, Status__c,Type__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
+        for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c,Status__c, Integration_Ext_Id__c, Type__c
+                                               FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
         {
             if(!caseIdToCaseInts.containsKey(caseInt.Case__c)){
                 caseIdToCaseInts.put(caseInt.Case__c, new List<ASF_Case_Integration__c>());
@@ -199,7 +213,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }
         }
         if(!peList.isEmpty()){
-            List<Database.SaveResult> publishResults = EventBus.publish(peList);
+            EventBus.publish(peList);
         }
         //}
         // Fire Actual Integration---Ends
@@ -211,9 +225,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - doAdditionalChecks
-    * @param caseInteg - ASF_Case_Integration record.
+    * @param integ, caseRec
     * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - Invoked to do Additional check for 
+    * @description - Invoked to do Additional check for 
     *****************************************************************************************************************/
     private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -248,9 +262,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 //Update Case Int from Response
                 // Assume the following response from Integration
-                String val = '{"STPFlag":"STP_SUCCESS", "STPDescription":"STPDescription", "DocumentURL":"https://docs.google.com/spreadsheets/d/1Nd2-XHHwWzsmRnSnR7O4UEYqv5wzigMXN27ftYqQ2C8/edit#gid=0"}';
                 ResponseWrapper jsonMap = (ResponseWrapper)JSON.deserialize(caseInteg.Response__c, ResponseWrapper.class);
-                List<Case> caseListToUpdate = new List<Case>();
                 List<ABFL_Case_Detail__c> caseDetailListToUpdate = new List<ABFL_Case_Detail__c>();
                 Boolean isUpdateCase = false;
                
@@ -286,7 +298,12 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
                     System.debug('@@@resultWrap'+resultWrap);
-                    resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = Userinfo.getuserId();
+                     /*if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) {
+                        resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                    }*/
+                    if(caseInteg.CreatedById == userInfo.getUserId() && resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId != userInfo.getUserId() ) {
+                        resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                    }
                     update resultWrap.get(caseRecord.Id)?.caseToBeUpdated;
                 }
                 
@@ -299,6 +316,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }
         }
         catch(Exception e) {
+            System.debug('@@@mess'+e.getMessage()+' '+e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
             ABCL_Logger.message(e.getMessage());
@@ -306,6 +324,13 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         }
        
     }
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - createCase
+    * @param String, String.
+    * @return - void.
+    * @description - Create new case
+    *****************************************************************************************************************/
     public void createCase(String externalId, Case caseRec) {
         List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
         if(!cccRec.isEmpty()) {

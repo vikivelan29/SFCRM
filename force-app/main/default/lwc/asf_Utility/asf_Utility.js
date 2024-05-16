@@ -58,7 +58,9 @@ export class asf_Utility {
                 const caseExtnRecord = { sobjectType: caseRelObjName, ...fields };
                 let caseExtensionRecordId = await createCaseExtension({
                     record : caseExtnRecord,
-                    cccRec: cccRecToPass
+                    cccRec: cccRecToPass,
+                    caseId: parentJS.recordId,
+                    extnFieldName: caseRelObjName
                 }).catch(error=>{
                     console.error(error);
                 });
@@ -102,6 +104,9 @@ export class asf_Utility {
 
         fields[ID_FIELD.fieldApiName] = parentJS.recordId;
         fields[NEW_STAGE.fieldApiName] = true;
+        if(parentJS.noAutoCommValue){
+            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        }
 
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');

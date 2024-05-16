@@ -12,8 +12,12 @@ public class ABHFL_PreClosureCaseCreation_Test {
     static void createData(){
         Test.startTest();
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
+        Branch_Master__c branchMstr = new Branch_Master__c();
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and Name like '%ABHFL%' LIMIT 1].Id;
+        insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';
+        astRec.Branch__c = branchMstr.Id;
         update astRec;
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.From_Date__c = Date.newInstance(2023, 02, 04);
@@ -44,8 +48,9 @@ public class ABHFL_PreClosureCaseCreation_Test {
 
     @IsTest
     static void testEvaluate() {        
-        Case caseRec = [SELECT id,Account.Client_Code__c,Source__c,Technical_Source__c,Nature__c FROM case LIMIT 1];
+        Case caseRec = [SELECT id,Account.Client_Code__c,Source__c,Technical_Source__c,Nature__c,Asset.Branch__r.Branch_Queue_Id__c FROM case LIMIT 1];
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls = ABHFL_PreClosureCaseCreation.afterStageMovement(new List<Case>{caseRec});
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCs1 = ABHFL_PreClosureCaseCreation.beforeStageMovement(new List<Case>{caseRec});
 
         System.assertEquals('Success', retCls.get(caseRec.Id).Status);
     }

@@ -852,6 +852,26 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abflENACHStatus</componentName>
+                <identifier>c_abflENACHStatus</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8fc16974-cf2b-4b36-aec8-8ef135ff94a4</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abfl_OutstandingCharges</componentName>
+                <identifier>c_abfl_OutstandingCharges</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ddf6a3f2-78bd-475c-b7ed-a67f133eafa5</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-d563480e-3653-47be-a87a-0b9fe36b8e2c</value>
@@ -862,6 +882,34 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8fc16974-cf2b-4b36-aec8-8ef135ff94a4</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>ENACH Status</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ddf6a3f2-78bd-475c-b7ed-a67f133eafa5</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Outstanding Charges</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9af7937b-979f-4ff6-bf8b-d9fccf2ff34a</name>
@@ -889,6 +937,12 @@
             <componentInstance>
                 <componentName>abfl_retailPanel</componentName>
                 <identifier>c_abfl_retailPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abfl_EODPanel</componentName>
+                <identifier>c_abfl_EODPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

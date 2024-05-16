@@ -149,6 +149,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Closed as Exception</fullName>
             <default>false</default>
         </values>
@@ -263,6 +267,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -319,7 +327,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>OneABC</fullName>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -5,8 +5,9 @@
 *Last Modified:  12/12/2023
 *@description  :  General Utility Class for Integration 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_IntegrationCommonUtility {
-    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
+    public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - fetchStpTemplates
@@ -290,15 +291,125 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
-        Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,
-                           Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS];
-        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
-        if(contentDocumentList.size() > 0){
-            Set<Id> contentDocumentIds = new Set<Id>();
-            for(ContentDocumentLink docLink : contentDocumentList){
-                contentDocumentIds.add(docLink.ContentDocumentId);
+        if(recIds.size() == 1){
+            Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,
+                            Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS];
+            List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
+            if(contentDocumentList.size() > 0){
+                Set<Id> contentDocumentIds = new Set<Id>();
+                for(ContentDocumentLink docLink : contentDocumentList){
+                    contentDocumentIds.add(docLink.ContentDocumentId);
+                }
+                List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber,FileExtension from ContentVersion where ContentDocumentId in: contentDocumentIds];
+                Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
+                for(ContentVersion version : contentVersionList){
+                    Integer count = 0;
+                    if(contentDocumentVersionMap.containsKey(version.ContentDocumentId)){
+                        count = contentDocumentVersionMap.get(version.ContentDocumentId);
+                    }
+                    count += 1;
+                    contentDocumentVersionMap.put(version.ContentDocumentId,count);
+                }
+                string leadId = '';
+                if(caseRecord.Asset.Lead_Id__c != null){
+                    leadId = caseRecord.Asset.Lead_Id__c;
+                } else if(caseRecord.Lead__c != null){
+                    leadId = caseRecord.Lead__c;
+                }
+                List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
+                for(ContentVersion fileVersion : contentVersionList){
+                    DMS_Files__c fileRec = new DMS_Files__c();
+                    Integer versionCount = contentDocumentVersionMap.get(fileVersion.ContentDocumentId);
+                    fileRec.ContentDocumentId__c = fileVersion.ContentDocumentId;
+                    fileRec.Case__c = caseRecord.Id;
+                    fileRec.ContentVersionId__c = fileVersion.Id;
+                    fileRec.File_Name__c = fileVersion.Title;
+                    fileRec.Has_Multiple_Versions__c = versionCount > 1 ? true : false;
+                    fileRec.Is_Latest_Version__c = versionCount == Integer.valueof(fileVersion.VersionNumber) ? true : false;
+                    fileRec.Version_Number__c = fileVersion.VersionNumber;
+                    fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
+                    DateTime currentDateTime = System.now();
+                    fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
+                    fileRec.File_Extension__c = fileVersion.FileExtension;
+                    fileRec.Next_Retry__c = System.now().addMinutes(15);
+                    if(String.isBlank(leadId)){
+                        fileRec.Status__c = ABHFL_Constants.CANCELED;
+                        fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
+                    } else {
+                        fileRec.Status__c = ABHFL_Constants.PENDING;
+                    }
+                    fileRecList.add(fileRec);
+                }
+                if(fileRecList.size() > 0){
+                    insert fileRecList;
+                    Set<Id> dmsFileIds = new Set<Id>();
+                    for(DMS_Files__c file : fileRecList){
+                        dmsFileIds.add(file.Id);
+                    }
+                    //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
+                    List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
+                    string mobile = '';
+                    if(ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL == caseRecord.Account.RecordType.Name){
+                        mobile = caseRecord.Account.PersonMobilePhone;
+                    }else {
+                        mobile = caseRecord.Account.Phone;
+                    }
+                    for(DMS_Files__c file : fileRecList){
+                        if(file.Status__c == ABHFL_Constants.PENDING){
+                            dmsEventList.add(new DMS_File_Transfer__e(
+                                Business_Unit__c = file.Business_Unit__c,
+                                CaseNumber__c = caseRecord.CaseNumber,
+                                ContentVersionId__c = file.ContentVersionId__c,
+                                Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
+                                DMS_External_ID__c = file.DMS_External_ID__c,
+                                File_Name__c = file.File_Name__c,
+                                Is_Latest_Version__c = file.Is_Latest_Version__c,
+                                Version_Number__c = file.Version_Number__c,
+                                Application_ID__c = caseRecord.Asset.LAN__c,
+                                Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
+                                File_Extension__c = file.File_Extension__c,
+                                Doc_SubType__c = caseRecord.Sub_Type_Text__c,
+                                Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
+                                Lead_ID__c = leadId,
+                                Contact_No__c = mobile,
+                                Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
+                            ));
+                        }
+                    }
+                    if(dmsEventList.size() > 0){
+                        List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
+                    }
+                }
             }
-            List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber,FileExtension from ContentVersion where ContentDocumentId in: contentDocumentIds];
+        } else {
+            transferToDMSBulk(recIds);
+        }
+    }
+
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - transferToDMSBulk
+    * @param List<recId> - Case Record Ids.
+    * @description - Initiates File Transfer to DMS for Bulk Operations
+    *****************************************************************************************************************/
+    public static void transferToDMSBulk(List<Id> recIds){
+        Map<Id,Case> caseRecordMap = new Map<Id,Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
+                                    Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,
+                                    Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
+                                    from Case where Id =: recIds and Business_Unit__c in: DMS_LINE_OF_BUSINESS]);
+
+        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink 
+                                                         where LinkedEntityId in: caseRecordMap.keySet()];
+        if(contentDocumentList.size() > 0){
+
+            Map<Id,Case> contentDocumentCaseMap = new Map<Id,Case>();
+            for(ContentDocumentLink docLink : contentDocumentList){
+                contentDocumentCaseMap.put(docLink.ContentDocumentId,caseRecordMap.get(docLink.LinkedEntityId));
+            }
+
+            List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension 
+                                                        from ContentVersion where ContentDocumentId in: contentDocumentCaseMap.keySet()];
+
             Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
             for(ContentVersion version : contentVersionList){
                 Integer count = 0;
@@ -308,24 +419,28 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 count += 1;
                 contentDocumentVersionMap.put(version.ContentDocumentId,count);
             }
-            string leadId = '';
-            if(caseRecord.Asset.Lead_Id__c != null){
-                leadId = caseRecord.Asset.Lead_Id__c;
-            } else if(caseRecord.Lead__c != null){
-                leadId = caseRecord.Lead__c;
-            }
+
             List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
             for(ContentVersion fileVersion : contentVersionList){
+
                 DMS_Files__c fileRec = new DMS_Files__c();
+                Case relatedCase = contentDocumentCaseMap.get(fileVersion.ContentDocumentId);
+                string leadId = '';
+                if(relatedCase.Asset.Lead_Id__c != null){
+                    leadId = relatedCase.Asset.Lead_Id__c;
+                } else if(relatedCase.Lead__c != null){
+                    leadId = relatedCase.Lead__c;
+                }
                 Integer versionCount = contentDocumentVersionMap.get(fileVersion.ContentDocumentId);
+
                 fileRec.ContentDocumentId__c = fileVersion.ContentDocumentId;
-                fileRec.Case__c = caseRecord.Id;
+                fileRec.Case__c = relatedCase.Id;
                 fileRec.ContentVersionId__c = fileVersion.Id;
                 fileRec.File_Name__c = fileVersion.Title;
                 fileRec.Has_Multiple_Versions__c = versionCount > 1 ? true : false;
                 fileRec.Is_Latest_Version__c = versionCount == Integer.valueof(fileVersion.VersionNumber) ? true : false;
                 fileRec.Version_Number__c = fileVersion.VersionNumber;
-                fileRec.Business_Unit__c = caseRecord.Business_Unit__c;
+                fileRec.Business_Unit__c = relatedCase.Business_Unit__c;
                 DateTime currentDateTime = System.now();
                 fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = fileVersion.FileExtension;
@@ -337,42 +452,48 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 }
                 fileRecList.add(fileRec);
             }
+
             if(fileRecList.size() > 0){
                 insert fileRecList;
-                Set<Id> dmsFileIds = new Set<Id>();
-                for(DMS_Files__c file : fileRecList){
-                    dmsFileIds.add(file.Id);
-                }
-                //List<DMS_Files__c> dmsFiles = [Select id,Name,Business_Unit__c,ContentVersionId__c,File_Name__c,Is_Latest_Version__c,Version_Number__c,File_Extension__c,DMS_External_ID__c from DMS_Files__c where id in: dmsFileIds];
+                
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
-                string mobile = '';
-                if(ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL == caseRecord.Account.RecordType.Name){
-                    mobile = caseRecord.Account.PersonMobilePhone;
-                }else {
-                    mobile = caseRecord.Account.Phone;
-                }
                 for(DMS_Files__c file : fileRecList){
                     if(file.Status__c == ABHFL_Constants.PENDING){
+                        Case relatedCase = contentDocumentCaseMap.get(file.ContentDocumentId__c);
+                        string mobile = '';
+                        if(ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL == relatedCase.Account.RecordType.Name){
+                            mobile = relatedCase.Account.PersonMobilePhone;
+                        }else {
+                            mobile = relatedCase.Account.Phone;
+                        }
+                        string leadId = '';
+                        if(relatedCase.Asset.Lead_Id__c != null){
+                            leadId = relatedCase.Asset.Lead_Id__c;
+                        } else if(relatedCase.Lead__c != null){
+                            leadId = relatedCase.Lead__c;
+                        }
+
                         dmsEventList.add(new DMS_File_Transfer__e(
                             Business_Unit__c = file.Business_Unit__c,
-                            CaseNumber__c = caseRecord.CaseNumber,
+                            CaseNumber__c = relatedCase.CaseNumber,
                             ContentVersionId__c = file.ContentVersionId__c,
-                            Customer_Client_Code__c = caseRecord.Account.Client_Code__c,
+                            Customer_Client_Code__c = relatedCase.Account.Client_Code__c,
                             DMS_External_ID__c = file.DMS_External_ID__c,
                             File_Name__c = file.File_Name__c,
                             Is_Latest_Version__c = file.Is_Latest_Version__c,
                             Version_Number__c = file.Version_Number__c,
-                            Application_ID__c = caseRecord.Asset.LAN__c,
-                            Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
+                            Application_ID__c = relatedCase.Asset.LAN__c,
+                            Document_Type__c = relatedCase.Type_Text__c+'-'+relatedCase.Sub_Type_Text__c+'-'+relatedCase.Nature__c,
                             File_Extension__c = file.File_Extension__c,
-                            Doc_SubType__c = caseRecord.Sub_Type_Text__c,
-                            Docgroup_Type__c = caseRecord.Nature__c.left(1) + '-' + caserecord.Type_Text__c,
+                            Doc_SubType__c = relatedCase.Sub_Type_Text__c,
+                            Docgroup_Type__c = relatedCase.Nature__c.left(1) + '-' + relatedCase.Type_Text__c,
                             Lead_ID__c = leadId,
                             Contact_No__c = mobile,
                             Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
                         ));
                     }
                 }
+
                 if(dmsEventList.size() > 0){
                     List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
                 }

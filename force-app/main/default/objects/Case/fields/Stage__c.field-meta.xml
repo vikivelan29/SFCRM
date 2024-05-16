@@ -195,7 +195,7 @@
                 <fullName>In Progress with RM</fullName>
                 <default>false</default>
                 <label>In Progress with RM</label>
-            </value>         
+            </value>
             <value>
                 <fullName>In Progress with Business</fullName>
                 <default>false</default>
@@ -210,6 +210,26 @@
                 <fullName>Pending Retention</fullName>
                 <default>false</default>
                 <label>Pending Retention</label>
+            </value>
+            <value>
+                <fullName>Pending with CS</fullName>
+                <default>false</default>
+                <label>Pending with CS</label>
+            </value>
+            <value>
+                <fullName>In Progress with Insurance Ops</fullName>
+                <default>false</default>
+                <label>In Progress with Insurance Ops</label>
+            </value>
+            <value>
+                <fullName>In Progress with Marketing</fullName>
+                <default>false</default>
+                <label>In Progress with Marketing</label>
+            </value>
+            <value>
+                <fullName>In Progress with IT</fullName>
+                <default>false</default>
+                <label>In Progress with IT</label>
             </value>
         </valueSetDefinition>
     </valueSet>

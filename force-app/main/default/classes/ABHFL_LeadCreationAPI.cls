@@ -46,6 +46,11 @@ public with sharing class ABHFL_LeadCreationAPI {
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
                 leadObj.Sales_Lead_Id__c = responseWrapperObj.id;
                 message = 'Send Lead to CRM is Successful';
+                try{
+                    update leadObj;    
+                }catch(Exception e){
+                    system.debug('Error=='+e.getMessage());
+                }
             }else{
                     message = responseWrapperObj.Message;
                 if(responseWrapperObj.Message!=null){
@@ -66,7 +71,7 @@ public with sharing class ABHFL_LeadCreationAPI {
 					
                 	if(!Test.isRunningTest() && !executingFromTrigger){
                         //throw new AuraHandledException('Send Lead to CRM Failed.');
-                        return 'Send Lead to CRM Failed.';
+                        return 'Send Lead to CRM Failed.Please check CRM Status Section for more Information.';
                     }
             }
             

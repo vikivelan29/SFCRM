@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-13-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-11-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ABFL_CRMToEBOTEventTriggerTest {
     
@@ -10,7 +20,7 @@ public class ABFL_CRMToEBOTEventTriggerTest {
     }
     
     @IsTest(seeAllData = false)
-    static void afterInsertMethod_Test() {
+    static void afterInsertMethod() {
         // Bulkifying test records
         List<CRM_to_EBOT_Event__e> eventsList = new List<CRM_to_EBOT_Event__e>();
         CRM_to_EBOT_Event__e efw = new CRM_to_EBOT_Event__e();
@@ -25,7 +35,6 @@ public class ABFL_CRMToEBOTEventTriggerTest {
         efw.Case_Integration_ID__c = ci1Name;
         efw.Subject__c = 'Amount Refund';
         efw.To_Address__c = 'Kumar.m.birla@abc.com';
-        String requestMade ='{"To_Address":"Kumar.m.birla@abc.com","Subject":"Amount Refund","Integration_Name":"'+ci1Name+'","From_Address":"rajendra.mitu06@abc.com","File_Names":"00P9I000001TSUz,00P9I000001TSRl","Description":"Details for case here","Case_Number":"00002986","Case_Integration_ID":"'+ci1Name+'","Business_Unit":"ABFL","Additional_Emails":"rsinghnagar@salesforce.com,rajendra.mitu06@gmail.com"}';
         eventsList.add(efw);
         
         CRM_to_EBOT_Event__e efw1 = new CRM_to_EBOT_Event__e();
@@ -40,18 +49,15 @@ public class ABFL_CRMToEBOTEventTriggerTest {
         efw1.Case_Integration_ID__c = ci2Name;
         efw1.Subject__c = 'Amount Refund';
         efw1.To_Address__c = 'Kumar.m.birla1@abc.com';
-        String requestMade1 ='{"To_Address":"Kumar.m.birla1@abc.com","Subject":"Amount Refund","Integration_Name":"'+ci2Name+'","From_Address":"rajendra.mitu061@abc.com","File_Names":"00P9I000001TSUz,00P9I000001TSRl","Description":"Details for case here","Case_Number":"00002987","Case_Integration_ID":"'+ci2Name+'","Business_Unit":"ABFL","Additional_Emails":"rsinghnagar1@salesforce.com,rajendra.mitu061@gmail.com"}';
         eventsList.add(efw1);
         
         System.runAs(new User (Id = UserInfo.getUserId())) {
             Test.StartTest();
-        	Database.SaveResult[] srList = EventBus.publish(eventsList);
+        	EventBus.publish(eventsList);
             Test.StopTest();   
         }
         String requestGot = [Select Id,Name, Request__c from ASF_Case_Integration__c where Integration_Ext_Id__c='ASF_IN_System1' limit 1].Request__c;
-        System.debug(requestMade);
-        System.debug(requestGot);
         CRM_to_EBOT_Event__e requestReceived = (CRM_to_EBOT_Event__e) JSON.deserialize(requestGot, CRM_to_EBOT_Event__e.class);
-        System.assertEquals(requestReceived.Case_Integration_ID__c,ci1Name);
+        System.assertEquals(requestReceived.Case_Integration_ID__c,ci1Name, 'Case Integration Id doesn\'t match');
     }
 }

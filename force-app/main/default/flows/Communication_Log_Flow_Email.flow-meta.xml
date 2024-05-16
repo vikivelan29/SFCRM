@@ -297,7 +297,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Send_email_to_creator_case_closed</name>
-            <conditionLogic>1 AND 2 AND 4 AND (3 OR 5)</conditionLogic>
+            <conditionLogic>1 AND 2 AND 4 AND 6 AND (3 OR 5)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>NotEqualTo</operator>
@@ -331,6 +331,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreatedBy.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -377,6 +384,13 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -720,7 +734,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -733,6 +747,27 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Recategorisation_Date__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.AccountId</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Lead__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Lead__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -872,7 +907,8 @@
         </rules>
     </decisions>
     <description>added condition to send an email for ABFL when case is categorized .
-Added condition to send email/sms when case status is Closed Duplicate</description>
+Added condition to send email/sms when case status is Closed Duplicate
+Added logic to send welcome email on account recat</description>
     <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>

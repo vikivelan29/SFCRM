@@ -16,11 +16,18 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
                 sendTrackingLinkEligibleCases.add(caseRec);
             }
             //send FCL issuance closure email for PreCls Statement/Precls Statement ret/rej. /Reissuance of FCL 
-            if((caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' &&  caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
-            (caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
-            (caseRec.Previous_Stage__c != 'Approval' && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'REFCL001') ){
+            if((caseRec.ABHFL_Case_Detail__r.As_On_Date__c != Null && caseRec.Stage__c == 'Resolved' &&  caseRec.CCC_External_Id__c == 'RRSDPRSHFC01')|| 
+            (caseRec.ABHFL_Case_Detail__r.As_On_Date__c != Null && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'RLOAPRONHFC') ||
+            (caseRec.ABHFL_Case_Detail__r.As_On_Date__c != Null && caseRec.Stage__c == 'Resolved' && caseRec.CCC_External_Id__c == 'REFCL001') ){
                 sendPrclsStatementclosureEligibleCases.add(caseRec);
                 
+            }
+            //AM-PR970457-1214
+            if(caseRec.CCC_External_Id__c=='qbccdd01' && caseRec.Stage__c=='Pending Amortization' && caseRec.ABHFL_Case_Detail__r.PP_Status__c=='Part Payment Not Done'){
+                retCls = returnWrapper.get(caseRec.Id);
+                retCls.status = ABHFL_Constants.ERROR;
+                retCls.errorMessage = 'Cannot move to next stage when Part Payment not done';
+                returnWrapper.put(caseRec.Id, retCls);
             }
         }
         if(!sendPrclsStatementclosureEligibleCases.isEmpty()){

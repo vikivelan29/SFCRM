@@ -1,0 +1,9 @@
+<template>
+    <lightning-spinner variant='brand' if:true={isLoading} alternative-text="Loading" size="small"></lightning-spinner>
+    <div class="slds-col slds-size--1-of-2 slds-small-size--1-of-1 slds-medium-size--1-of-2 slds-m-around--x-small">
+        <lightning-button variant="brand-outline" name="ABFL_Outstanding_Charges" data-name="ABFL_Outstanding_Charges" label="View Outstanding Charges" onclick={handleShowEnachStatus}></lightning-button> 
+    </div>
+    <template lwc:if={showBaseViewScreen}>
+        <c-abfl_base_view_screen api_id={apiName} payload-info={outstandingChargesResult}></c-abfl_base_view_screen>
+    </template>
+</template>

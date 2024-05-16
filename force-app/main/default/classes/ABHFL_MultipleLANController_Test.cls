@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @IsTest
 public class ABHFL_MultipleLANController_Test {
     @TestSetup
@@ -60,4 +70,9 @@ public class ABHFL_MultipleLANController_Test {
         System.assertEquals(true,lanResponseFinal!=null,'PASS');
     }
     
+    @IsTest
+    static void deleteRecordOwnerChange(){
+        List<ABHFL_Asset_Detail__c> assetDetail = [Select id from ABHFL_Asset_Detail__c ];
+        ABHFL_MultipleLANController.deleteRecordOwnerChange(assetDetail[0].Id,userinfo.getUserId());
+    } 
 }

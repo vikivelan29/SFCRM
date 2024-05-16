@@ -89,18 +89,24 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         if (data) {
             let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
             if(data && data != null){
-                data.allMetadata.map(item => {
-                    if((item.Template_Name__c.includes('Close') && data.hasCloseAccess) || 
-                    (item.Template_Name__c.includes('Create') && data.hasCreateAccess)){
-                        const option = {
-                            label: item.Display_Label__c,
-                            value: item.Template_Name__c
-                        };
-                        this.optionActions = [ ...this.optionActions, option ];
-                    } 
+                let allMetadata = data;
+                allMetadata.map(item => {
+                    const option = {
+                        label: item.Display_Label__c,
+                        value: item.Template_Name__c
+                    };
+                    this.optionActions = [ ...this.optionActions, option ];
+                    if(!this.operationRecordTypeValue){
+                        this.operationRecordTypeValue = item.Template_Name__c;
+                    }
+                    if(!this.hasPermission){
+                        this.hasPermission = true;
+                    }
                 });
-                this.allConfigMetaList = data.allMetadata;
-                this.hasPermission = (data.hasCreateAccess || data.hasCloseAccess) ? true : false;
+                this.allConfigMetaList = allMetadata;
+                if(this.hasPermission){
+                    this.findAndSetSelectedConfig();
+                }
                 this.hasLoaded = true;
             }
 
@@ -109,6 +115,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             }
 
         } else if (error) {
+            console.log('error'+JSON.stringify(error));
             this.displayErrorMessage(error, '');
         }
     }
@@ -153,6 +160,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //This method executes when user selects an operation to perform
     onChangeOperationRecordTypeChange(event){
         this.operationRecordTypeValue = event.target.value;
+        this.findAndSetSelectedConfig();
+    }
+    findAndSetSelectedConfig(){
         this.allConfigMetaList.forEach((element) => {
             if(element.Template_Name__c == this.operationRecordTypeValue){
                 this.selectedConfigRec = element;
@@ -165,6 +175,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     downloadTemplate() {
         this.boolDisplayLoadingText = true;
         this.strErrorMessage = '';
+
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
                             strSelectedRecords : this.selectedCases,
@@ -203,9 +214,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
         /*Hack - to display leading 0s of case number in the CSV file. TODO: Think of something better, for better sleep! 
         quotes: true,*/
-        if(this.operationRecordTypeValue.includes('Close')){
-            csvString = csvString.replaceAll('\n', '\n=');
-        } 
+        // if(this.operationRecordTypeValue.includes('Close')){
+        //     csvString = csvString.replaceAll('\n', '\n=');
+        // } 
         this.showLoadingSpinner = false;
         this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
     }
@@ -213,7 +224,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     //This method downloads CSV
     getCSVClick(objData,strCSVFileName){
         let downloadElement = document.createElement('a');
-        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(objData);
+        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(objData);
         downloadElement.target = '_blank';//'_self';
         downloadElement.download = strCSVFileName + '.csv';
         downloadElement.click(); 
@@ -255,9 +266,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                     this.boolCSVCheck = true;
                     this.strCSVFileError = '';
                     let parsedData = await this.parseCsv(event.target.files[0]);
+                    console.log('parsedData', JSON.stringify(parsedData));
                     this.processedCsvData = parsedData.filter(obj => {
                         const hasNonBlankValue = Object.values(obj).some(value => value.trim() !== '');
-                        return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 1;
+                        return hasNonBlankValue && Object.keys(obj)[0] !== '' && Object.keys(obj).length > 0;
                     });
                     console.log('parsed data--'+this.processedCsvData.length +'--'+JSON.stringify(this.processedCsvData));
                     this.rowCount = this.processedCsvData.length;
