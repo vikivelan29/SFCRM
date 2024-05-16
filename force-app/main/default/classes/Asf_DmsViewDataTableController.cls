@@ -26,36 +26,26 @@ public with sharing class Asf_DmsViewDataTableController {
 * @return -  List<sObject> 
 * @description - created to build the query and fetch the records for datatable
 *****************************************************************************************************************/ 
-//    @AuraEnabled
-//     public static PaginationResult executeQuery(String caseId, Integer pageNumber, Integer pageSize) {
-//         PaginationResult result = new PaginationResult();
-//         String dynamicQuery = getQuery() + '\'' + caseId + '\' ORDER BY Name';
-
-//         if(String.isNotBlank(dynamicQuery)) {
-//             try {
-//                 Integer totalRecords = [SELECT COUNT() FROM DMS_Files__c  WHERE Case__c  = :caseId WITH SYSTEM_MODE];
-//                 Integer startRowIndex = Math.max(0, (pageNumber - 1) * pageSize);
-//                 dynamicQuery += ' LIMIT :pageSize OFFSET :startRowIndex';
-//                 result.data = Database.query(dynamicQuery);
-//                 result.totalRecords = totalRecords;
-
-//                 return result;
-//             } catch(Exception ex) {
-//                 return null;
-//             }
-//         } 
-//         return null;
-//     }
-
-    @AuraEnabled
-    public static List<DMS_Files__c> executeQuery(String caseId) {
-        List<DMS_Files__c> lDMSFiles ;
+   @AuraEnabled
+    public static PaginationResult executeQuery(String caseId, Integer pageNumber, Integer pageSize) {
+        PaginationResult result = new PaginationResult();
         String dynamicQuery = getQuery() + '\'' + caseId + '\' ORDER BY Name';
+
         if(String.isNotBlank(dynamicQuery)) {
-            lDMSFiles = Database.query(dynamicQuery);
+            try {
+                Integer totalRecords = [SELECT COUNT() FROM DMS_Files__c  WHERE Case__c  = :caseId WITH SYSTEM_MODE];
+                Integer startRowIndex = Math.max(0, (pageNumber - 1) * pageSize);
+                dynamicQuery += ' LIMIT :pageSize OFFSET :startRowIndex';
+                result.data = Database.query(dynamicQuery);
+                result.totalRecords = totalRecords;
+
+                return result;
+            } catch(Exception ex) {
+                return null;
+            }
         } 
-        return lDMSFiles;
-    }
+        return null;
+        }
     
     /****************************************************************************************************************
 * @param  - String
