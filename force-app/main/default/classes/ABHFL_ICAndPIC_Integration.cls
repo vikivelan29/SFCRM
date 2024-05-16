@@ -16,7 +16,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Interest Certificate Or Provisional Interest Certificate Integration should be fired or not.
     *****************************************************************************************************************/
 
-    static List<HL_NHL_Logic__mdt> hlNhlLogicLis;
+    public static List<HL_NHL_Logic__mdt> hlNhlLogicLis;
 
     public ABHFL_ICAndPIC_Integration() {
         hlNhlLogicLis = getHL_NHL_Logic();
@@ -158,22 +158,23 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 
     public ASF_IntegrationsController.IntegrationWrapper checkHlOrNonHlValidation(Case caseRecord, ASF_IntegrationsController.IntegrationWrapper obj) {
 
-        String CustomerTypeOfCase = caseRecord.Account.RecordType.Name;
-        String productNameOfCase = caseRecord.Asset.Product2.Name;
-        String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c;
-        String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c;
+        String CustomerTypeOfCase = caseRecord.Account.RecordType.Name.toLowerCase();
+        String productNameOfCase = caseRecord.Asset.Product2.Name.toLowerCase();
+        String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c.toLowerCase();
+        String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c.toLowerCase();
 
-        for(HL_NHL_Logic__mdt nlHhlRec : hlNhlLogicLis) {
+        for(HL_NHL_Logic__mdt nlHhlRec : getHL_NHL_Logic()) {
 
-            List<String> CustomerTypeOfMdt = nlHhlRec.Customer_Type__c.split(',');
-            List<String> productNameOfMdt = nlHhlRec.Product_Name__c.split(',');
-            List<String> subSchemeOfMdt = nlHhlRec.Sub_Scheme__c.split(',');
-            List<String> propertyDetailOfMdt = nlHhlRec.Property_Detail__c.split(',');
+            List<String> CustomerTypeOfMdt = nlHhlRec.Customer_Type__c.toLowerCase().split(',');
+            List<String> productNameOfMdt = nlHhlRec.Product_Name__c.toLowerCase().split(',');
+            List<String> subSchemeOfMdt = nlHhlRec.Sub_Scheme__c.toLowerCase().split(',');
+            List<String> propertyDetailOfMdt = nlHhlRec.Property_Detail__c.toLowerCase().split(',');
 
             if(CustomerTypeOfMdt.contains(CustomerTypeOfCase) && productNameOfMdt.contains(productNameOfCase) && 
                subSchemeOfMdt.contains(subSchemeOfCase) && propertyDetailOfMdt.contains(propertyDetailOfCase)) {
                 obj.status = 'Success';
                 obj.response = '';
+                break;
             }
             else {
                 obj.status = 'Error';
