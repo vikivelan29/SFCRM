@@ -3,7 +3,7 @@
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
 **/
-@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public with sharing class  ASF_CaseUIController {
     
     @AuraEnabled
@@ -20,7 +20,6 @@ public with sharing class  ASF_CaseUIController {
                 for (Datacloud.DuplicateResult dupeResult : findDupeResult.getDuplicateResults()) {
                     for (Datacloud.MatchResult matchResult : dupeResult.getMatchResults()) {
                         for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
-                            System.debug(matchRecord.getRecord());
                             mObjectVsRecId.put('DuplicateLead',matchRecord.getRecord());
                             return mObjectVsRecId;
                         }
@@ -67,7 +66,6 @@ public with sharing class  ASF_CaseUIController {
                 String searchString = '*'+String.escapeSingleQuotes(userInp)+'*';
                 userInp = '%'+userInp+'%';
                 
-                System.debug('userInp-'+userInp);
               /*  List<List<SObject>> searchList = 
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
@@ -85,7 +83,6 @@ public with sharing class  ASF_CaseUIController {
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
-                System.debug(searchList[3]);
                 if(searchList[0].size()>0){
                     conList = (List<contact>)searchList[0];
                     for(Contact con: conList)
@@ -137,9 +134,6 @@ public with sharing class  ASF_CaseUIController {
                 }
                 
                 lstResponse.add(custResp);
-            }
-            for(integer i=0;i<lstResponse.size();i++){
-                System.debug(lstResponse);
             }
             return lstResponse;
         }
@@ -238,7 +232,7 @@ public with sharing class  ASF_CaseUIController {
             cs.put(fieldName, jsonRes.get(fieldName));
         
         Case recForOtherFields = [select id,accountId,assetId,ContactId,Lead__c  from case where Id =: cs.Id];
-        System.debug('cs.Status -->'+cs.Status);
+
         if(cs.Status ==ASF_Constants.REJECTIONSTATUS || cs.Reject_Case__c == true ){
             update cs;
             return cs;

@@ -106,7 +106,6 @@ public without sharing class ASF_CaseStageSLATimeBasedAction {
         }
 
         if(!slaHistoryList.isEmpty()){
-            system.debug(slaHistoryList);
             try{
                 UPDATE slaHistoryList;
             }catch(Exception e){
