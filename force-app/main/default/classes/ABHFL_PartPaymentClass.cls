@@ -3,6 +3,7 @@ public with sharing class ABHFL_PartPaymentClass implements ASF_CaseStageClassIn
     public Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
 
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retrnClass = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
+        initializeImpactFld(caseRecords);
         return retrnClass;
     }
 
@@ -41,5 +42,35 @@ public with sharing class ABHFL_PartPaymentClass implements ASF_CaseStageClassIn
         }
 
         return returnWrapper;
+    }
+
+    public void initializeImpactFld(List<Case> caseRecs) {
+
+        List<String> caseIdList = new List<String>();
+        List<String> abhflCaseDetailList = new List<String>();
+        List<String> validCTST = new List<String>{'qbccdd01'};
+
+        for(Case casRec : caseRecs) {
+            caseIdList.add(casRec.Id);
+        }
+        List<Case> caseRecList = [SELECT Id, ABHFL_Case_Detail__c, Asset.Loan_Disbursement_Status__c, CCC_External_Id__c 
+                                    FROM Case WHERE Id IN :caseIdList];
+
+        for(Case casRec : caseRecList) {
+            String loanDisbStatus = casRec.Asset.Loan_Disbursement_Status__c;
+            if(validCTST.contains(casRec.CCC_External_Id__c)) {
+                abhflCaseDetailList.add(casRec.ABHFL_Case_Detail__c);
+            }
+        }
+
+        List<ABHFL_Case_Detail__c> updateAbhflCaseDetailList = [SELECT id, Impact__c FROM ABHFL_Case_Detail__c WHERE Id IN :abhflCaseDetailList];
+
+        for(ABHFL_Case_Detail__c abhflCaseDetailRec : updateAbhflCaseDetailList) {
+            abhflCaseDetailRec.Impact__c = 'EMI';
+        }
+
+        if(updateAbhflCaseDetailList.size() > 0) {
+            update updateAbhflCaseDetailList;  
+        }
     }
 }
