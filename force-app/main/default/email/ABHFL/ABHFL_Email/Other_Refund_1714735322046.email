@@ -153,7 +153,7 @@
 												<br />
 												We write to you with reference to your refund request regarding your service request number {{{Case.CaseNumber}}} for your ABHFL Loan Account&nbsp;{{{Case.Masked_LAN__c}}}<br />
 												<br />
-												We wish to inform you that the refund of Rs.$$ABHFL_Case_Detail__r.Waiver_Refund_Amount__c$$ has been processed.<br />
+												We wish to inform you that the refund of Rs.$$ABHFL_Case_Detail__r.Waiver_Refund_Amount__c$$ has been processed&nbsp;vide UTR $$ABHFL_Case_Detail__r.UTR_Number__c$$ on $$ABHFL_Case_Detail__r.Refund_Date__c$$.<br />
 												<br />
 												In case of any queries, please feel free to contact us through any of our customer service channels mentioned below.<br />
 												<br />

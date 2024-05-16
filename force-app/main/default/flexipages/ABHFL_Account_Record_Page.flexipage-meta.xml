@@ -482,6 +482,9 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -564,7 +567,7 @@
                             <value>Stage__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CLOSED_DATE</value>
+                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Source__c</value>
@@ -585,7 +588,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Cases</value>
+                    <value>Open Complaints</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
