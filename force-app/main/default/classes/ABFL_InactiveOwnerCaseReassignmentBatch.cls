@@ -2,7 +2,7 @@
  * @description       : Assign cases with inactive users to default stage owner / manager hierarchy.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
+ * @last modified on  : 05-17-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -14,6 +14,8 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
     private Map<Id, User> allactiveUser = new Map<Id, User>();
     private Map<String, ASF_Case_Stage_Config__c> mStageConfigs = new Map<String, ASF_Case_Stage_Config__c>();
     private Map<String, List<ASF_Case_Rule__c>> mStageRuleConfigs = new Map<String, List<ASF_Case_Rule__c>>();
+    private Map<String,String> mWinningEmailDetailMdt = new Map<String,String>();
+    private Map<String,Id> mQueueDevNameVsId = new Map<String,Id>();
     /**
     * @description 
     * @author rsinghnagar@salesforce.com | 05-13-2024 
@@ -60,11 +62,29 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
             }
         }
 
+        Set<String> queueDevName = new Set<String>();
+        for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
+                                                              Business_Unit__c, Email2CaseAddress__c, 
+                                                              Default_Queue_Dev_Name__c, Send_to_EBOT__c,
+                                                              Case_Business_Unit__c, Case_Origin__c
+                                                              FROM ASF_PriorityEmailAddressesByBU__mdt])
+        {
+            if(!mWinningEmailDetailMdt.containsKey(winningRec.Email2CaseAddress__c)){
+                mWinningEmailDetailMdt.put(winningRec.Email2CaseAddress__c, winningRec.Default_Queue_Dev_Name__c);
+            }
+            queueDevName.add(winningRec.Default_Queue_Dev_Name__c);
+        }
+        
+        for(Group grp : [SELECT ID,DeveloperName FROM Group WHERE DeveloperName =: queueDevName AND Type ='Queue']){
+            if(!mQueueDevNameVsId.containsKey(grp.DeveloperName))
+                mQueueDevNameVsId.put(grp.DeveloperName,grp.Id);
+        }
+
         return Database.getQueryLocator([SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
                                             ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
                                             ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
                                             Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
-                                            Account.Name, Client_Code__c,Vertical__c,
+                                            Account.Name, Client_Code__c,Vertical__c, recordTypeId, Winning_Email__c,
                                             Account.Phone, ABFL_Case_Detail__r.Bank_IFSC_Code__c,
                                             ABFL_Case_Detail__r.Bank_Account_No__c, ABFL_Case_Detail__r.Frequency__c,
                                             ABFL_Case_Detail__r.Emi_Amount__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
@@ -131,7 +151,13 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
                 Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> mapOfAssignedQueue = ASF_CaseFrameworkHelper.runAssignmentRules(new List<Case>{cs},mapOfCaseRules);
                 assignedQueue = mapOfAssignedQueue.get(cs.Id).defaultOwnerId;
             }else {
-                assignedQueue = getActiveManagerId(cs.OwnerId);
+                // Check source of case + record type, if it is pre-framework and source is e2c, assign it to the e2c queue.
+                String queueDevName = mQueueDevNameVsId.get(mWinningEmailDetailMdt.get(cs.Winning_Email__c));
+                if(!String.isBlank(queueDevName) && cs.recordTypeId==ASF_Constants.RT_INTERACTION && cs.Source__c=='Email'){
+                    assignedQueue = queueDevName;
+                }else{
+                    assignedQueue = getActiveManagerId(cs.OwnerId);
+                }
             }
         }
         
