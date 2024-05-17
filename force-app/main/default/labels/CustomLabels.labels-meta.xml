@@ -750,4 +750,11 @@
         <shortDescription>Synching_initiated</shortDescription>
         <value>Synching initiated</value>
     </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
 </CustomLabels>
