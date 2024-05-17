@@ -1,18 +1,19 @@
 /*********************************************************
-*@Class        :  ABFL_InvokePaymentLink
-*@Author       :  Aditee Churiwala 
-*@Created Date :  28/03/2024
-*@Last Modified:  28/03/2024
-*@description  :  ABFL_InvokePaymentLink */
+*Class        :  ABFL_InvokePaymentLink
+*Author       :  Aditee Churiwala 
+*Created Date :  28/03/2024
+*Last Modified:  28/03/2024
+*Description  :  ABFL_InvokePaymentLink */
 public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvocable {
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
-    * @param caseRec
-    * @return ASF_IntegrationsController.IntegrationWrapper.
-    * @description This method will be used to evaluate criteria for BRE API invocations.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
+        System.debug('@@evaluate');
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
@@ -28,10 +29,10 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - run
-    * @param integRec
-    * @param caseRec
-    * @return ASF_IntegrationsController.IntegrationWrapper.
-    * @description Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    * @param integ - ASF_Integration record.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integRec, Case caseRec) {
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -54,13 +55,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         result.response = ABFL_Constants.WAITING_API_RESPONSE;
         return result;        
     }
-     /****************************************************************************************************************
-    * @LOB - ABFL
-    * @Function - createPaymentLink
-    * @param integRec
-    * @param caseRecord
-    * @description  Create Payment Link
-    *****************************************************************************************************************/
+    
     private static void createPaymentLink(ASF_Integration__c integRec, Case caseRecord) {
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Payment');
         PaymentData paymentData = new PaymentData();
@@ -79,7 +74,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.product_type = '';
         paymentData.product_id = '';
         paymentData.customer_id = caseRecord.Client_Code__c;
-        paymentData.invoice_no = caseRecord.caseNumber+mercOrderDate;
+        paymentData.invoice_No = caseRecord.caseNumber+mercOrderDate;
         paymentData.order_desc = '';
         paymentData.customer_name = name;
         paymentData.customer_email = emailId;
@@ -95,6 +90,8 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
 
         
         payload.payment_data = paymentData;
+        System.debug('@@@payloadWrap'+JSON.serialize(payload));
+        System.debug('@@@name'+name);
          
         EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
@@ -107,8 +104,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - processResponse
-    * @param caseInteg
-    * @description  Invoked when status Case Intg is updated to success, it processes the response of the integration received.
+    * @param caseInteg - ASF_Case_Integration record.
+    * @return - void.
+    * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         try {
@@ -120,8 +118,10 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()) {
                     upsert new ASF_Case_Integration__c(Id = caseInteg.Id , Response__c = decryptedResponse);
             }
+            System.debug('@@@decryptedResponse'+decryptedResponse);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
+                System.debug('@@@decryptedResponse'+decryptedResponse);
                 ABFL_PaymentLinkResponse response = (ABFL_PaymentLinkResponse)JSON.deserialize(decryptedResponse, ABFL_PaymentLinkResponse.class);
                 if((response.order_data.status_code == '0300'  || response.order_data.status_code == '0002')&& response.order_data.links.payment_link_web != '') {
                     
@@ -132,6 +132,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
                         update caseDetail;
                     }
                     ASF_Integration__c intRec = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
+                    System.debug('@@@intRec.Temp'+intRec.STP_Template__c);
                     if (String.isNotBlank(intRec.STP_Template__c)){
                         //Payment link request
                         Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, false);
@@ -146,6 +147,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             }   
         }
         catch(Exception e) {
+            System.debug('@@@mess'+e.getMessage()+' '+e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
             ABCL_Logger.message(e.getMessage());
@@ -153,12 +155,6 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         }
         
     }
-     /*********************************************************
-    * @Class           ABFL_InvokeEnachRegistration
-    * @Author          Aditee Churiwala 
-    * @Created Date    11/02/2024
-    * @Last Modified   11/02/2024
-    * @description     ABFL_InvokeEnachRegistration */
     public class PaymentData {
 		public String pl_order_id;
 		public String merc_order_date;
@@ -183,30 +179,10 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         public String expiry_period;
         public String due_date;
 	}
-    /*********************************************************
-    * @Class           ABFL_InvokeEnachRegistration
-    * @Author          Aditee Churiwala 
-    * @Created Date    11/02/2024
-    * @Last Modified   11/02/2024
-    * @description     ABFL_InvokeEnachRegistration */
     public class PaymentLink {
         PaymentData payment_data;
     }
-     /****************************************************************************************************************
-    * @LOB - ABFL
-    * @Function - evaluate
-    * @param caseRecs
-    * @return  Map<Id, ASF_IntegrationsController.IntegrationWrapper>
-    * @description  This method will be used to evaluate criteria for BRE API invocations.
-    *****************************************************************************************************************/
+
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
-     /****************************************************************************************************************
-    * @LOB - ABFL
-    * @Function - run
-    * @param integs
-    * @param caseRecs
-    * @return  Map<Id, ASF_IntegrationsController.IntegrationWrapper>
-    * @description  This method will be used to evaluate criteria for BRE API invocations.
-    *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }
