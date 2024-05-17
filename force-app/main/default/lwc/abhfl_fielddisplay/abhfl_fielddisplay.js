@@ -138,7 +138,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
             //this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.value = this.colValue;});
         }
         this.impactLogicForPartiallyDisbLoan();
-    }   
+    }
 
     impactLogicForPartiallyDisbLoan() {
         if(this.columnName == "Impact__c" && this.displayCombo && this.impactLogic && this.loanDisbursementStatus == "Partially") {
