@@ -1,15 +1,15 @@
 /*********************************************************
-* @Class        :  ABFL_InvokeBREProcess 
-* @Author       :  Aditee Churiwala
-* @description    Update STP Flow - BRE
+*Class        :  ABFL_InvokeBREProcess 
+*Author       :  Aditee Churiwala
+*Description  :  Update STP Flow - BRE
 *********************************************************/
 public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvocable {
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
-    * @param caseRec 
-    * @return  ASF_IntegrationsController.IntegrationWrapper.
-    * @description  This method will be used to evaluate criteria for BRE API invocations.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -44,9 +44,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
      /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
-    * @param caseRecs
-    * @return  Map<Id, ASF_IntegrationsController.IntegrationWrapper>
-    * @description This method will be used to evaluate criteria for BRE API invocations.
+    * @param List<Case> caseRecs - Case record from the framework.
+    * @return - Map<Id, ASF_IntegrationsController.IntegrationWrapper>
+    * @description - This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
@@ -90,10 +90,10 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - run
-    * @param integRec
-    * @param caseRec 
-    * @return ASF_IntegrationsController.IntegrationWrapper.
-    * @description Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    * @param integ - ASF_Integration record.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integRec, Case caseRec){
         
@@ -125,10 +125,10 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
      /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - run
-    * @param integs
-    * @param caseRecs
-    * @return Map<Id, ASF_IntegrationsController.IntegrationWrapper>
-    * @description Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    * @param integ - ASF_Integration record.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
     *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs) {
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
@@ -225,10 +225,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - doAdditionalChecks
-    * @param integ
-    * @param caseRec
-    * @return  ASF_IntegrationsController.IntegrationWrapper.
-    * @description  Invoked to do Additional check for 
+    * @param integ, caseRec
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @description - Invoked to do Additional check for 
     *****************************************************************************************************************/
     private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -251,8 +250,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - processResponse
-    * @param caseInteg 
-    * @description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
+    * @param caseInteg - ASF_Case_Integration record.
+    * @return - void.
+    * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         try {
@@ -297,6 +297,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 if(Schema.sObjectType.Case.isUpdateable() && isUpdateCase) {
                     resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
+                    System.debug('@@@resultWrap'+resultWrap);
                      /*if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) {
                         resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
                     }*/
@@ -315,6 +316,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }
         }
         catch(Exception e) {
+            System.debug('@@@mess'+e.getMessage()+' '+e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
             ABCL_Logger.message(e.getMessage());
@@ -325,9 +327,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
      /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - createCase
-    * @param externalId
-    * @param caseRec
-    * @description Create new case
+    * @param String, String.
+    * @return - void.
+    * @description - Create new case
     *****************************************************************************************************************/
     public void createCase(String externalId, Case caseRec) {
         List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
@@ -349,11 +351,6 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }           
         }   
     }
-    /*********************************************************
-    * @Class        :  ResponseWrapper 
-    * @Author       :  Aditee Churiwala
-    * @description     Response wrapper
-    *********************************************************/
     public class ResponseWrapper {
         public String ticketNo;
         public String sTPFlag;

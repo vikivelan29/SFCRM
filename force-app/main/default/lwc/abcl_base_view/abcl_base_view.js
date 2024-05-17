@@ -19,8 +19,7 @@ export function invokeCore(apiId, payloadInfo) {
 					console.log('***element ==> '+JSON.stringify(element));
 					for (let i = 0; i < element.fieldsLeft.length; i++) {
 						for (let key in element.fieldsLeft[i]) {
-							console.log('***payloadk ==> '+payload[element.fieldsLeft[i][key]]);
-							if (key=='value' && (typeof payload[element.fieldsLeft[i][key]] !== 'undefined' || (element.fieldsLeft[i][key] + '').indexOf('.') != -1)) {
+							if (typeof payload[element.fieldsLeft[i][key]] !== 'undefined' || (element.fieldsLeft[i][key] + '').indexOf('.') != -1) {
 								// Check if payload contains .
 								let value;
 								if (element.fieldsLeft[i][key].includes('.')) {
@@ -38,14 +37,14 @@ export function invokeCore(apiId, payloadInfo) {
 								}
 								// replace value from payload
 								element.fieldsLeft[i][key] = value;
-								break;
 							}
 						}
 					}
 
 					for (let i = 0; i < element.fieldsRight.length; i++) {
 						for (let key in element.fieldsRight[i]) {
-							if (key=='value' && (typeof payload[element.fieldsRight[i][key]] !== 'undefined' || (element.fieldsRight[i][key] + '').indexOf('.') != -1)) {
+							if (typeof payload[element.fieldsRight[i][key]] !== 'undefined' || (element.fieldsRight[i][key] + '').indexOf('.') != -1) {
+
 								// Check if payload contains .
 								let value;
 								if (element.fieldsRight[i][key].includes('.')) {
@@ -62,7 +61,6 @@ export function invokeCore(apiId, payloadInfo) {
 								}
 								// replace value from payload
 								element.fieldsRight[i][key] = value;
-								break;
 							}
 						}
 					}

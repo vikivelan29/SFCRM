@@ -47,7 +47,7 @@ public class ASF_CaseTriggerModularHelper_Test {
         update casesList;
         Test.stopTest();
         List<Case> frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework'];
-        Assert.areEqual(5, frameworkCase2.size(), 'Expected 4, Not found');
+        Assert.areEqual(4, frameworkCase2.size(), 'Expected 4, Not found');
     }
 
     @IsTest
