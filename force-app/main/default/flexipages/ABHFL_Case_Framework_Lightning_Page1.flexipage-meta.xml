@@ -529,10 +529,22 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Integration_Ext_Id__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Status__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Error_Message__c</value>
+                            <value>CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Response__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CREATEDBY_USER</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

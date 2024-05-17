@@ -48,10 +48,12 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         Case caseRec = [select Id, Status from case LIMIT 1];
         caseRec.Status = 'Closed';
         update caseRec;
-        ContentDocumentLink cdl = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1]; 
+        ContentDocumentLink cdl = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1];
+        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'EmailMessage' LIMIT 1];
         Assert.isNotNull(cdl);
         try {
             delete cdl;
+            delete cdlMsg;
         } catch (DmlException e) {
             Assert.isNotNull(e.getMessage());
         }
@@ -82,8 +84,10 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
     static testmethod void deleteFileByIdTest() {
 
         Test.StartTest();
-        Id ContentVerisonId = [SELECT Id FROM ContentVersion LIMIT 1].Id;
+        Id ContentVerisonId = [SELECT Id FROM ContentVersion where Title='Test Content' LIMIT 1].Id;
+        Id ContentVerisonMsg = [SELECT Id FROM ContentVersion where Title='Test Email' LIMIT 1].Id;
         String result = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonId, 'Test');
+        String resultmsg = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonMsg, 'Test email');
         Assert.areNotEqual('Error', result, 'result cannot be Error');
         Test.StopTest();   
     }

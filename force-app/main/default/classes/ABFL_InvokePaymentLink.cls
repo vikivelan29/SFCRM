@@ -64,8 +64,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
+        Date dueDate = System.Today();
         
-        paymentData.merc_order_id = caseRecord.caseNumber+mercOrderDate;
+        //paymentData.pl_order_id = caseRecord.caseNumber+mercOrderDate;
         paymentData.merc_order_date = mercOrderDate;
         paymentData.merc_id = ABCL_Encryption.getENachInt().Merchant_Id__c;
         paymentData.amount =String.ValueOf(caseRecord.ABFL_Case_Detail__r.Amount__c);
@@ -73,23 +74,26 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.product_type = '';
         paymentData.product_id = '';
         paymentData.customer_id = caseRecord.Client_Code__c;
+        paymentData.invoice_no = caseRecord.caseNumber+mercOrderDate;
+        paymentData.order_desc = '';
         paymentData.customer_name = name;
         paymentData.customer_email = emailId;
         paymentData.customer_phone = mobileNo;
         paymentData.udf1 = '';
         paymentData.udf2 = '';
-        paymentData.invoice_No = '';
         paymentData.orderDesc = '';
-        paymentData.account_no = '';
-        paymentData.account_ifsc = '';
-        paymentData.payment_mode = 'nach';
+        paymentData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
+        paymentData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
+        paymentData.allowed_split_payment = '0';
+        paymentData.expiry_period = '1';
+        paymentData.due_date = String.valueOf(dueDate);
 
         
         payload.payment_data = paymentData;
         System.debug('@@@payloadWrap'+JSON.serialize(payload));
         System.debug('@@@name'+name);
          
-        Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e (
+        EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,
             Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
@@ -117,8 +121,6 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             System.debug('@@@decryptedResponse'+decryptedResponse);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-                ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 System.debug('@@@decryptedResponse'+decryptedResponse);
                 ABFL_PaymentLinkResponse response = (ABFL_PaymentLinkResponse)JSON.deserialize(decryptedResponse, ABFL_PaymentLinkResponse.class);
                 if((response.order_data.status_code == '0300'  || response.order_data.status_code == '0002')&& response.order_data.links.payment_link_web != '') {
@@ -154,13 +156,14 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         
     }
     public class PaymentData {
-		public String merc_order_id;
+		public String pl_order_id;
 		public String merc_order_date;
 		public String merc_id;
 		public String amount;
 		public String return_url;
 		public String product_type;
 		public String product_id;
+        public String order_desc;
 		public String customer_id;
 		public String customer_name;
 		public String customer_email;
@@ -172,6 +175,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         public String account_no;
         public String account_ifsc;
         public String payment_mode;
+        public String allowed_split_payment;
+        public String expiry_period;
+        public String due_date;
 	}
     public class PaymentLink {
         PaymentData payment_data;
