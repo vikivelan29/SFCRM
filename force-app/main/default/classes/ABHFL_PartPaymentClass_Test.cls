@@ -1,5 +1,5 @@
 @isTest
-public with sharing class ABHFL_PartPaymentClass_Test {
+public with sharing class ABHFL_PartPaymentClass_Test { 
 
     @TestSetup
     static void testData(){
