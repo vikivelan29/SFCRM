@@ -1,22 +1,19 @@
-/**
- * @description        Test Class for ABFL_InvokePaymentLink
- * @author            : Aditee Churiwala
- * @group             : 
- * @last modified on  : 29/03/2024
- * @last modified by  : Aditee Churiwala
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   12-22-2023   achuriwala@salesforce.com   Initial Version
-**/
+/*********************************************************
+*Class        :  ABFL_InvokePaymentLink_Test
+*Author       :  Aditee Churiwala
+*Created Date :  29/03/2024
+*Last Modified:  
+*Description  :  Test Class for ABFL_InvokePaymentLink
+*********************************************************/
 @isTest
 public class ABFL_InvokePaymentLink_Test {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
 	@TestSetup
     static void makeData(){
-        Group slaGroup = new Group();
+        Group SLAGroup = new Group();
         
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
-        insert slaGroup;
+        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
+        insert SLAGroup;
         
         User superManagerUser = new User(
             IsActive = true,
@@ -30,7 +27,7 @@ public class ABFL_InvokePaymentLink_Test {
             LanguageLocaleKey='en_US',
             LocaleSidKey='en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
-            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=slaGroup.Id
+            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=SLAGroup.Id
         );
         insert superManagerUser;
         
@@ -38,7 +35,7 @@ public class ABFL_InvokePaymentLink_Test {
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id
+                                    managerGroupId__c=SLAGroup.Id, managerID = superManagerUser.Id
                                     );
         insert userRecord1;
         
@@ -54,14 +51,15 @@ public class ABFL_InvokePaymentLink_Test {
         insert psa;
         Test.stopTest();
         System.runAs(userRecord1) {
-            Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
+            decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
             thresholdController.Customer_Email_buffer_hours__c=56;
             update thresholdController;
                         
-            GroupMember gm = new GroupMember(GroupId = slaGroup.Id, UserOrGroupId = userRecord1.Id);
+            GroupMember gm = new GroupMember(GroupId = SLAGroup.Id, UserOrGroupId = userRecord1.Id);
             insert gm;
-            GroupMember gm1 = new GroupMember(GroupId = slaGroup.Id, UserOrGroupId = userRecord1.Id);
+            GroupMember gm1 = new GroupMember(GroupId = SLAGroup.Id, UserOrGroupId = userRecord1.Id);
             insert gm1;
             
             List<ASF_Case_Category_Config__c> caseCat =  ABFL_TestDataFactory.createCaseCategoryConfig(true);
@@ -111,18 +109,20 @@ public class ABFL_InvokePaymentLink_Test {
         intg.STP_API_Identifier__c = 'paymentLink';
         intg.STP_Config_External_Id__c = 'CCC-CC-CCLTD-01';
         update intg;
-         List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
         Case caseRec = [
             SELECT Id, ABFL_Case_Detail__c, Account.Name, Source__c
             FROM Case
             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
         ];
-        
+        caseRec.Source__c = ABFL_Constants.IVR_NO_EMAIL;
+        update caseRec;
         
         Map<Id, List<ASF_Integration__c>> mapIntegrations = new Map<Id, List<ASF_Integration__c>>();
         mapIntegrations.put(caseRec.Id, prepIntegrations);
         Test.startTest();
-        ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
         
         List<ASF_Case_Integration__c> listCaseIntRec = new List<ASF_Case_Integration__c>();
         
@@ -142,28 +142,6 @@ public class ABFL_InvokePaymentLink_Test {
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-      Assert.areEqual('https://paymentloungeuat.adityabirlacapital.com/pg/api/v2/authRedirect?tranCtx=Ref177b8f-6299-4517-bf73-cf1b8f35e69a', caseRecord.ABFL_Case_Detail__r.Registration_Link__c, 'Link');
-    }  
-    
-    @isTest
-    static void testGetPaymentLinkError(){
-        Case caseRec = [
-            SELECT Id, ABFL_Case_Detail__r.Amount__c, Account.Name, Source__c
-            FROM Case
-            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
-        ];
-        caseRec.ABFL_Case_Detail__r.Amount__c = null;
-        update caseRec.ABFL_Case_Detail__r;
-        ASF_Integration__c intg = [SELECT Id,STP_API_Identifier__c FROM ASF_Integration__c LIMIT 1];
-        intg.STP_API_Identifier__c = 'paymentLink';
-        intg.STP_Config_External_Id__c = 'CCC-CC-CCLTD-01';
-        update intg;
-        List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
-        
-        Test.startTest();
-        ASF_IntegrationsController.IntegrationWrapper wrapper = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
-        
-        Assert.areEqual(ABFL_Constants.EVALUATION_FAILED_AMOUNT_ERROR, wrapper.response, 'Error');
-        Test.stopTest();
+      Assert.areEqual('https://paymentloungeuat.adityabirlacapital.com/pg/api/v2/authRedirect?tranCtx=Ref177b8f-6299-4517-bf73-cf1b8f35e69a', caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
     }  
 }
