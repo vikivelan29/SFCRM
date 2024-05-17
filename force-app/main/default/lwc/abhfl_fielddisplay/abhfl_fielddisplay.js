@@ -3,7 +3,6 @@ import { LightningElement,api } from 'lwc';
 export default class Abhfl_fielddisplay extends LightningElement {
     @api columnName;
     @api rowData;
-    @api caseRecord;
     @api colValue;
     @api columnType;
     @api columnEditable;
@@ -144,15 +143,17 @@ export default class Abhfl_fielddisplay extends LightningElement {
     impactLogicForPartiallyDisbLoan() {
         if(this.columnName == "Impact__c" && this.displayCombo && this.impactLogic && this.loanDisbursementStatus == "Partially") {
             let getSelect = this.template.querySelector('[name="selection"]');
-            for(let columnName of getSelect) {
-                if(columnName.innerHTML === "EMI") {
+            let options = getSelect.options;
+
+            for(let columnName of options) {
+                if(columnName.textContent === "EMI") {
                     let eObj = {target : {value : "EMI"}};
                     columnName.selected = true;
                     this.template.querySelector('[name="selection"]').disabled = true;
                     this.handleChange(eObj);
                 }
             }
-         }
+        }
     }
 
     @api
