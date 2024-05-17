@@ -6,7 +6,7 @@
 global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Schedulable,Database.Batchable<sObject>{
     global Database.QueryLocator start(Database.BatchableContext context){
         DateTime currentTime = System.now();
-        String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name, Last_Owner_Change_Date__c,Sub_Type_Text__c,Business_Unit__c,Stage__c FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false';
+        String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name, Last_Owner_Change_Date__c,Sub_Type_Text__c,Business_Unit__c,Stage__c FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false AND Recordtype.Name = \'Framework\' and (SLA_Target_2__c != null or SLA_Target_3__c != null)';
         return Database.getQueryLocator(query);
     }
 
@@ -14,7 +14,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
 
         DateTime currentTime = System.now();
         Map<String,User> emailUserIdMap = new Map<String,User>();
-        List<String> caseEmailList = new List<String>();
+        Set<String> caseEmailList = new Set<String>();
         map<Id,ASF_Case_SLA_History__c> caseIdSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         Map<String, Set<Id>> managerEmailToCasesForSLA2 = new Map<String, Set<Id>>();
@@ -22,6 +22,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
         Map<Id, Case> casesMap = new Map<Id, Case>(scope);
 
         for(Case caseRec : scope){
+            //This SLA 1 targets are added because its needed in the email body
             if(caseRec.SLA_Target_1__c!=null){
                 caseEmailList.add(caseRec.SLA_Target_1__c);
             }
@@ -139,19 +140,19 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
     }
 
     private String prepareHTMLTable(Set<Id> caseIds, Map<Id, Case> casesMap, Map<String,User> emailUserIdMap, Boolean isSLA2){
-        String table = '<table>';
+        String table = '<table style="border: 1px solid black;border-collapse: collapse;">';
         //saving some CPU time by putting entire header row together, readability compromised.
-        table += '<thead><tr><th>Case No.</th><th>Case Creation date</th><th>Assigned On</th><th>Current Owner</th><th>L1 Manager</th><th>Breached on</th><th>Case Type</th><th>Case Sub-Type</th><th>LOB</th><th>Current stage breached</th>';
-        table += isSLA2?'<th>SLA 3 breach time</th>':'';
+        table += '<thead><tr><th style="border: 1px solid black;border-collapse: collapse;">Case No.</th><th style="border: 1px solid black;border-collapse: collapse;">Case Creation date</th><th style="border: 1px solid black;border-collapse: collapse;">Assigned On</th><th style="border: 1px solid black;border-collapse: collapse;">Current Owner</th><th style="border: 1px solid black;border-collapse: collapse;">L1 Manager</th><th style="border: 1px solid black;border-collapse: collapse;">Breached on</th><th style="border: 1px solid black;border-collapse: collapse;">Case Type</th><th style="border: 1px solid black;border-collapse: collapse;">Case Sub-Type</th><th style="border: 1px solid black;border-collapse: collapse;">LOB</th><th style="border: 1px solid black;border-collapse: collapse;">Current stage breached</th>';
+        table += isSLA2?'<th style="border: 1px solid black;border-collapse: collapse;">SLA 3 breach time</th>':'';
         table += '</tr></thead><tbody>';
         for(Id caseId : caseIds){
             Case caseRec = casesMap.get(caseId);
-            table += '<tr><td>'+caseRec.CaseNumber+'</td><td>'+caseRec.CreatedDate.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td>';
-            table += '<td>'+caseRec.Last_Owner_Change_Date__c.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td><td>'+caseRec.Owner.Name+'</td>';
-            table += '<td>'+caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):''+'</td>';
-            table += '<td>'+(isSLA2?caseRec.Stage_SLA_2__c.format('dd-MM-yyyy HH:mm:ss', 'IST'):caseRec.Stage_SLA_3__c.format('dd-MM-yyyy HH:mm:ss', 'IST'))+'</td>';
-            table += '<td>'+caseRec.Type_Text__c+'</td><td>'+caseRec.Sub_Type_Text__c+'</td><td>'+caseRec.Business_Unit__c+'</td><td>'+caseRec.Stage__c+'</td>';
-            table += isSLA2?'<td>'+caseRec.Stage_SLA_3__c.format('dd-MM-yyyy HH:mm:ss', 'IST')+'</td></tr>':'</tr>';
+            table += '<tr><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.CaseNumber+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.CreatedDate.format('dd-MM-yyyy hh:mm a', 'IST')+'</td>';
+            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Last_Owner_Change_Date__c.format('dd-MM-yyyy hh:mm a', 'IST')+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Owner.Name+'</td>';
+            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):''+'</td>';
+            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+(isSLA2?caseRec.Stage_SLA_2__c.format('dd-MM-yyyy hh:mm a', 'IST'):caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST'))+'</td>';
+            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Sub_Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Business_Unit__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage__c+'</td>';
+            table += isSLA2?'<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST')+'</td></tr>':'</tr>';
         }
         table += '</tbody></table>';
         return table;

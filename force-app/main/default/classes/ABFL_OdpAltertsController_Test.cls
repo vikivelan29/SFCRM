@@ -14,12 +14,8 @@ public class ABFL_OdpAltertsController_Test {
         try{
             List<ODPAlertResponse> result1 = ABFL_OdpAltertsController.getOdpAlerts(testAccount.Id);
         }catch(Exception e){
-            System.debug('exception e=> '+e);
-            System.AssertEquals('System.AuraHandledException: Script-thrown exception', e.toString());
+            System.AssertEquals('System.AuraHandledException: Script-thrown exception', e.toString(),'should match with the AuraHandled Exception');
         }
-		
-        System.assertNotEquals(null, result);
-        
-        
+        System.assertNotEquals(null, result,'result should not be null');    
     }
 }
