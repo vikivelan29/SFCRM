@@ -23,8 +23,19 @@ public with sharing class ABHFL_BulkMoveNextConverterUtility implements ASF_Bulk
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
+        Set<String> configIds = new Set<String>();
+        Set<String> caseStages = new Set<String>();
+        Map<String, Boolean> stageConfigMap = new Map<String, Boolean>();
         for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
+            configIds.add(caseRec.CCC_External_Id__c);
+            caseStages.add(caseRec.Stage__c);
+        }
+        if(!configIds.isEmpty()){
+            for(ASF_Case_Stage_Config__c stageConfig : [Select Id, Enable_Bulk_Move_to_Next_Stage__c, StageName__c, Case_Category_Config__r.CCC_External_Id__c from ASF_Case_Stage_Config__c where Case_Category_Config__r.CCC_External_Id__c IN : configIds AND StageName__c IN :caseStages ]){
+                String key = stageConfig.Case_Category_Config__r.CCC_External_Id__c +''+ stageConfig.StageName__c;
+                stageConfigMap.put(key, stageConfig.Enable_Bulk_Move_to_Next_Stage__c);
+            }
         }
 
         for(Id lineItemId : rows.keySet()){
@@ -61,9 +72,17 @@ public with sharing class ABHFL_BulkMoveNextConverterUtility implements ASF_Bulk
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            String caseKey = caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c + ''+ caseNumberToCaseMap.get(caseNumber).Stage__c;
+            if(!stageConfigMap.containsKey(caseKey) || !stageConfigMap.get(caseKey)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Case current stage is not enabled for stage movement in bulk');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            //Any other BU specific checks - add here
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             caseRec.MoveToNext__c = true;
-            //Any other BU specific checks - add here
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }
