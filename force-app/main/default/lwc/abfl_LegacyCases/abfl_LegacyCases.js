@@ -79,8 +79,6 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchAssets({accRec: this.recordId})
         .then(result => {
             this.options = result;
-           /* this.lob = result.lob;
-            this.customerId = result.clientCode;*/
         })
         .catch(error => {
             console.error("Error", error);
@@ -154,21 +152,24 @@ export default class Abfl_LegacyCases extends LightningElement {
         this.selectedAsset = event.detail.value;
         console.log('this.v'+JSON.stringify(event.detail));
      }
+    
     callRowAction(event) {
         //this.showChildTable = false;
-        console.log('Hi>1'+JSON.stringify(event.detail.row));
+     //   console.log('Hi>1'+JSON.stringify(event.detail));
         // reset var
         this.showChildTable = true;
         this.payloadInfo = null;
         let result = {};
         
-        this.selectedRow = JSON.stringify(event.detail.row);
+        this.selectedRow = JSON.stringify(event.detail);
+
+        console.log('Hi>1'+ this.selectedRow +'2@@ '+this.statusCode);
         result.statusCode= this.statusCode;
         result.payload = this.selectedRow;
         this.payloadInfo = result;
 
         setTimeout(() => {             
-            this.template.querySelector('c-abfl_base_view_screen').generateScreen();
+            this.template.querySelector('c-abfl_base_view_screen').callFunction();
         }, 200);
     }
     startDateChange(event)
