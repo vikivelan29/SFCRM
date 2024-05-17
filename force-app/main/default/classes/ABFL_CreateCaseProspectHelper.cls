@@ -1,14 +1,10 @@
 /*****************************************************************************
-* @Class : ABFL_CreateCaseProspectHelper
-* @Author : Venkata.Tavva
-* @description Inbound API to Create Case
+* Class : ABFL_CreateCaseProspectHelper
+* Author : Venkata.Tavva
+* Description : Inbound API to Create Case
 *****************************************************************************/
+
 public with sharing class ABFL_CreateCaseProspectHelper {
-    /****************************************************************************************************************
-    * @Function - beforeInsertMethod
-    * @param newItems
-    * @description before Insert Method
-    *****************************************************************************************************************/
     public static void beforeInsertMethod(List<Case> newItems){
         // Filter cases based on BU
         Map<String, Case> prospectPanMap = new Map<String, Case>();
@@ -18,11 +14,14 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                 prospectPanMap.put(prospect.PANNO, individualCase);
             }
         }
+        System.debug('****prospectPanMap:'+prospectPanMap);
         if(!prospectPanMap.isEmpty()){
             Map<String,String> panLeadMap = new Map<String,String>();
-            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet() WITH SYSTEM_MODE]){
+            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet()]){
                 panLeadMap.put(le.PANNO__c,le.Id);
             }
+            System.debug('****panLeadMap:'+panLeadMap);
+
             List<Lead> newLeadsList = new List<Lead>();
             for(Case individualCase : newItems){
                 if(individualCase.AccountId == null && String.isNotBlank(individualCase.Prospect_payload__c)){
@@ -43,7 +42,7 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                 }
             }
 
-            if(newLeadsList.size()>0 && Schema.sObjectType.Lead.isCreateable()) {
+            if(newLeadsList.size()>0){
                 insert newLeadsList;
                 for(Lead recLead: newLeadsList){
                     // Attach Id for new lead to cases
@@ -51,13 +50,10 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                 }
             }
             
+            System.debug('***prospectPanMap:'+prospectPanMap);
         }
     }
-    /*****************************************************************************
-    * @Class : prospectSearch
-    * @Author : Venkata.Tavva
-    * @description prospect Search
-    *****************************************************************************/
+    
     public class prospectSearch{
         public String FULLNAME;
         public String MOBILE;

@@ -16,11 +16,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
         }
     }
-      
-     /**
-     * @description - Executes after the ASF code runs in before insert context
-     * @param newItems - list of new cases
-     */
+        
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         
         List<Case> newCaseList = (List<Case>)newItems;
