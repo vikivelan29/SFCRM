@@ -2,7 +2,6 @@ import { LightningElement, track, api, wire } from 'lwc';
 import fetchAssets from "@salesforce/apex/ABFL_LegacyView.getLANRelatedAccount";
 import getLegacyData from "@salesforce/apex/ABFL_LegacyView.getLegacyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
-import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
@@ -31,10 +30,10 @@ export default class Abfl_LegacyCases extends LightningElement {
     errorMessage;
     lob;
     customerId;
+    pagesize;
 
     label = {
-        errorMessage,
-        pageSize
+        errorMessage
     };
     @wire(getRecord, {
         recordId: "$recordId",
@@ -65,6 +64,8 @@ export default class Abfl_LegacyCases extends LightningElement {
                         cellAttributes: { alignment: 'left' }
                     })),
                 ];
+                this.pagesize = result[0].Asf_Dynamic_Datatable_Parent__r.Page_Size__c;
+
             })
             .catch(error => {
                 // todo: remove hardcoding

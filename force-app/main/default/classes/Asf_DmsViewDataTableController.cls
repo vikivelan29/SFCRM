@@ -13,7 +13,8 @@ public with sharing class Asf_DmsViewDataTableController {
 *****************************************************************************************************************/ 
     @AuraEnabled
     public static List<Asf_Dynamic_Datatable_Child__mdt> getColumns(String configName) {
-    return [SELECT MasterLabel,Order__c, DeveloperName ,Asf_Dynamic_Datatable_Parent__c , Api_Name__c, Data_Type__c
+    return [SELECT MasterLabel,Order__c, DeveloperName ,Asf_Dynamic_Datatable_Parent__c , Api_Name__c, Data_Type__c,
+            Asf_Dynamic_Datatable_Parent__r.Page_Size__c
             FROM Asf_Dynamic_Datatable_Child__mdt
             WHERE Asf_Dynamic_Datatable_Parent__r.DeveloperName = :configName WITH SYSTEM_MODE
             ORDER BY Order__c ASC]; 
