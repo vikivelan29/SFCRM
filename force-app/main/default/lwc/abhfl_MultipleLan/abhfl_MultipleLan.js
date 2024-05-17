@@ -40,6 +40,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     stagesAllowingFileUpload;
     amIOwner;
     sizeClass = 'multiColumnTable';
+    impctLogic;
 
     @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
     case;
@@ -238,7 +239,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.displayChildTable = false;
                     for(let record in this.selectedRows){
                         if(!this.childTableRecords.includes(this.selectedRows[record])){
-                            this.childTableRecords.push(this.selectedRows[record]);
+                            //this.childTableRecords.push(this.selectedRows[record]);
                         }
                     }
                     this.displayChildTable = true;
