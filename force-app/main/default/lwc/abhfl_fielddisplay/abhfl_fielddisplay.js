@@ -3,6 +3,7 @@ import { LightningElement,api } from 'lwc';
 export default class Abhfl_fielddisplay extends LightningElement {
     @api columnName;
     @api rowData;
+    @api caseRecord;
     @api colValue;
     @api columnType;
     @api columnEditable;
@@ -12,6 +13,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api userId;
     @api ownerId;
     @api stagesAllowingFieldEdit;
+    @api impactLogic;
     isLAN
     assetURL;
     displayNumber;
@@ -23,11 +25,13 @@ export default class Abhfl_fielddisplay extends LightningElement {
     formatType;
     stepValue;
     displayCombo;
+    loanDisbursementStatus;
     defaultDisableVal = true;
 
     
     connectedCallback(e){
-        this.defaultDisableVal = this.disableEditField;        
+        this.defaultDisableVal = this.disableEditField;  
+        this.loanDisbursementStatus = this.rowData["asset"].Loan_Disbursement_Status__c;      
         this.setColValue();
         if(this.columnName == 'Revised_EMI_Tenure__c'){
             if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
@@ -134,6 +138,23 @@ export default class Abhfl_fielddisplay extends LightningElement {
             this.template.querySelector("select[name=selection]").value = this.colValue;
             //this.template.querySelectorAll("c-abhfl_fielddisplay").forEach(result=>{result.value = this.colValue;});
         }
+        this.impactLogicForPartiallyDisbLoan();
+    }
+
+    impactLogicForPartiallyDisbLoan() {
+        if(this.columnName == "Impact__c" && this.displayCombo && this.impactLogic && this.loanDisbursementStatus == "Partially") {
+            let getSelect = this.template.querySelector('[name="selection"]');
+            let options = getSelect.options;
+
+            for(let columnName of options) {
+                if(columnName.textContent === "EMI") {
+                    let eObj = {target : {value : "EMI"}};
+                    columnName.selected = true;
+                    this.template.querySelector('[name="selection"]').disabled = true;
+                    this.handleChange(eObj);
+                }
+            }
+        }
     }
 
     @api
@@ -143,6 +164,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
         //this.displayInput = !this.displayInput;
         if(this.columnType == 'PICKLIST'){
             this.template.querySelector("select[name=selection]").disabled = e;
+            this.impactLogicForPartiallyDisbLoan();
         }
         if(this.displayInput){
             this.template.querySelector("lightning-input").disabled = e;

@@ -192,16 +192,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>showChecklistColumn</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>aSF_DMSViewDatatable</componentName>
-                <identifier>c_aSF_DMSViewDatatable2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
                 </componentInstanceProperties>
@@ -443,20 +433,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>showChecklistColumn</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>aSF_DMSViewDatatable</componentName>
-                <identifier>c_aSF_DMSViewDatatable</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-d6ee04f5-5cf3-4a14-ba94-305826a79f14</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -562,10 +538,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-d6ee04f5-5cf3-4a14-ba94-305826a79f14</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>DMS File Details</value>
