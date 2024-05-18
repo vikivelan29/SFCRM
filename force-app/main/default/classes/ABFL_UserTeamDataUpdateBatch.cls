@@ -1,25 +1,40 @@
-/*********************************************************
-** Class        :  ABFL_UserTeamDataUpdateBatch
-** Author       :  SaiRahul
-** Description  :  Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
-** Created Date :  21/02/2024
-*********************************************************/
+/**
+ * @description       : Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-14-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.EmptyStatementBlock')
 public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>, Database.Stateful {
     
-    Map<Id,Id> PublicgrpVsQueue = new Map<Id,Id>();// Store corresponding Queue and it's Public group data 
+    Map<Id,Id> publicgrpVsQueue = new Map<Id,Id>();// Store corresponding Queue and it's Public group data 
     Map<Id,List<Id>> userVsPublicgrp = new Map<Id,List<Id>>();// store USER vs Public Group data
     List<User> usersList = new List<User>();// List of Users to be updated/modified
     
+    /**
+    * @description : Constructor
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     public ABFL_UserTeamDataUpdateBatch(){
                
        for(GroupMember grp : [SELECT GroupId,UserOrGroupId FROM GroupMember WHERE Group.Type = 'Queue' AND Group.DeveloperName LIKE 'ABFL%'])
         {
             // UserOrGroupId is Public Group ID & GroupId is Queue Id
-            PublicgrpVsQueue.put(grp.UserOrGroupId,grp.GroupId);
+            publicgrpVsQueue.put(grp.UserOrGroupId,grp.GroupId);
         }
     }
     
-    public Database.QueryLocator start(Database.BatchableContext BC) {
+    /**
+    * @description : Start method to query eligible records
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    * @return Database.QueryLocator 
+    **/
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         
         // Query ALL Active User records
         return Database.getQueryLocator([
@@ -28,7 +43,13 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
             WHERE IsActive = TRUE AND Business_Unit__c = :ABFL_Constants.ABFL]);            
     }
     
-    public void execute(Database.BatchableContext BC, List<User> scope) {
+    /**
+    * @description
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    * @param scope 
+    **/
+    public void execute(Database.BatchableContext bc, List<User> scope) {
         
         List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :scope order by SystemModstamp DESC];
                 
@@ -52,11 +73,11 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
                 publicGrpId = userVsPublicgrp.get(userId); // fetch the Public group Id User is part of   
                 Integer groupIndex = 0;
                 for(Id groupId : publicGrpId){
-                    if(PublicgrpVsQueue.get(groupId) != null){
+                  if(publicgrpVsQueue.get(groupId) != null){
                         if(groupIndex == 0){
-                            queueId = PublicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP PublicgrpVsQueue by passing the key Public grp Id
+                            queueId = publicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP publicgrpVsQueue by passing the key Public grp Id
                         }else{
-                            queueId += ','+PublicgrpVsQueue.get(groupId);
+                            queueId += ','+publicgrpVsQueue.get(groupId);
                         }
                         groupIndex ++;
                     }
@@ -71,20 +92,15 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
         }        
         
         if (!usersList.isEmpty()) {
-            try {
-                update usersList;
-            } catch (Exception e) {
-                // Handle exceptions
-                System.debug('Error: ' + e.getMessage());
-                ABCL_Logger.enableExceptionLogging();
-                ABCL_Logger.push('ABFL_UserTeamDataUpdateBatch.execute');
-                ABCL_Logger.message(e.getMessage());
-                ABCL_Logger.emit();
-            }
+            update usersList;
         }
     }
     
-    public void finish(Database.BatchableContext BC) {
-        System.debug('Batch job finished successfully.');
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param bc 
+    **/
+    public void finish(Database.BatchableContext bc) {
     }
 }
