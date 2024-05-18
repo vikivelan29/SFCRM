@@ -935,16 +935,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abfl_LegacyCases</componentName>
-                <identifier>c_abfl_LegacyCases</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5f9286a2-d15f-4ccf-9841-7c2d0f64498d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -1015,20 +1005,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-5f9286a2-d15f-4ccf-9841-7c2d0f64498d</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Legacy View</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

@@ -67,7 +67,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                 slaHistory.Level__c = '2';
                 slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
                 caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
-                if(!isCaseWithinBusinessHours || Test.isRunningTest()){
+                if(isCaseWithinBusinessHours || Test.isRunningTest()){
                     if(!managerEmailToCasesForSLA2.containsKey(slaHistory.Case__r.SLA_Target_2__c)){
                         managerEmailToCasesForSLA2.put(slaHistory.Case__r.SLA_Target_2__c, new Set<Id>());
                     }

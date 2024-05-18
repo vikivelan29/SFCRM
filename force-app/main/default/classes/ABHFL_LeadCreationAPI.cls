@@ -164,17 +164,14 @@ public with sharing class ABHFL_LeadCreationAPI {
             this.RecordType = ABHFL_Constants.EXTERNAL_RECORD_TYPE;
            
             //this.distributerName = leadObj.Distributer_Name__c;
-            /*Ishan - 14/05/2024
-            Commenting the below code as ABHFL Gateway team needs First Name and Last Name 
-            irrespective of ABHFL_Prospect_Type_c
-            */
-            //if(leadObj.ABHFL_Prospect_Type__c == 'Individual'){
-            this.First_Name = leadObj.FirstName;
-            this.Last_Name = leadObj.LastName;
-            /*}else{
+            
+            if(leadObj.ABHFL_Prospect_Type__c == 'Individual'){
+                this.First_Name = leadObj.FirstName;
+                this.Last_Name = leadObj.LastName;
+            }else{
                 this.First_Name = '';
                 this.Last_Name = '';
-            }*/
+            }
 
             this.SPOC_Name = leadObj.FirstName + ' ' + leadObj.LastName;
         }

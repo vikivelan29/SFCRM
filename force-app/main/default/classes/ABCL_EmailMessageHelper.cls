@@ -27,13 +27,14 @@ public with sharing class ABCL_EmailMessageHelper {
                 if(ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase){
                     bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
                 }
-                 if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
-                     email.Incoming == true && email.Send_To_Ebot__c == true && 
-                    ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:') || bReplyOnClosedCase ) ||
-                 	(email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
+                if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||
+                                                         ( email.Headers != null && !email.Headers.contains('In-Reply-To:')) || bReplyOnClosedCase) ||
+                                                         ( email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null)   
+                    && email.ParentId.getSObjectType() == Case.getSObjectType()
+                    && email.Incoming == true && email.Send_To_Ebot__c == true){ 
                         caseIds.add(email.ParentId);
                         caseEmailsMap.put(email.ParentId, email);
-                }
+                    }
             }
             
             // Map<Id, List<EmailMessage>> caseEmailsMap = new Map<Id, List<EmailMessage>>();

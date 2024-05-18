@@ -180,7 +180,6 @@ public with sharing class ASF_TestDataFactory {
         //asset.Financial_Account_Number__c = ASF_UtilityClass.generateTransactionId();
         asset.AccountId =accountId;
         asset.Type__c = strType;
-        asset.LOB__c = 'Corporate';
         if(Schema.sObjectType.Asset.isCreateable()){
             insert asset;
         }
@@ -271,7 +270,6 @@ public with sharing class ASF_TestDataFactory {
             newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             newCase.pending_clarification__c = true;
             
-        	
         caseList.add(newCase);
         insert caseList;
 
@@ -283,7 +281,7 @@ public with sharing class ASF_TestDataFactory {
 
         List<Case> caseList = new List<Case>();
         
-        Case newCase = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open', Source__c='Email',
+        Case newCase = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open',
                                 SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
             
             newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
@@ -319,7 +317,6 @@ public with sharing class ASF_TestDataFactory {
     caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
     caseCatConfig.Resolved_Case_Email_Template__c = 'dev_01';
     caseCatConfig.Resolved_Case_SMS_Metadata__c ='Dev_02';
-    caseCatConfig.Business_Unit__c = 'ABFL';
     
     insert caseCatConfig;
 

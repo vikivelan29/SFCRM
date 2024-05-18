@@ -1,12 +1,8 @@
-/**
- * @description ABCL DMS Retry implementation class
- */
-@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class ABCL_RetryDMSFileTransfer {
     /****************************************************************************************************************
     * @LOB - ABCL
     * @Function - retryDMSFileTransfer
-    * @param dmsRecords - DMS record Ids.
+    * @param recId - DMS record Id.
     * @description - Initiates File Transfer to DMS
     *****************************************************************************************************************/
     @InvocableMethod(label='Retry DMS File Transfer' description='This Apex is used to invoke the Failed or Pending DMS Integrations')
@@ -23,7 +19,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
             return;
         }
 
-        Map<Id,Case> relatedCaseRecords = new Map<ID, Case>([Select id,Business_Unit__c,CaseNumber,LOB__c,Account.Client_Code__c,Account.Name,Account.PAN__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,LAN__c,Client_Code__c,
+        Map<Id,Case> relatedCaseRecords = new Map<ID, Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,
                                                                 CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
                                                                 from Case where Id in: caseIds]);
 
@@ -34,7 +30,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         
         List<DMS_Files__c> oldDMSRecords = new List<DMS_Files__c> ();
         
-        if(DMS_Files__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).isAccessible()){
+        if(DMS_Files__c.SObjectType.getDescribe().isAccessible()){
             oldDMSRecords = [SELECT ID,Case__c,ContentVersionId__c FROM DMS_Files__c WHERE Case__c =:caseIds AND Case__r.IsClosed = true AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
         }
 
@@ -53,7 +49,6 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         }
 
         List<DMS_Files__c> retryDMSRecords = new List<DMS_Files__c>();
-        List<DMS_Files__c> abflRetryDMSRecords = new List<DMS_Files__c>();
         for(DMS_Files__c dms : dmsRecords){
             if(dms.Case__c != null && ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dms.Status__c)){
                 String tempKey = dms.Case__c+'_'+dms.ContentVersionId__c;
@@ -62,11 +57,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 if(dmsRecordNoOfAttemptHashMap.containsKey(ihashKey)){
                     noOfAttempts = dmsRecordNoOfAttemptHashMap.get(ihashKey);
                     if(noOfAttempts <= 2){
-                        if(dms.Business_Unit__c == ABFL_Constants.ABFL) {
-                            abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
-                        } else {
-                            retryDMSRecords.add(dms);
-                        }
+                        retryDMSRecords.add(dms);
                     }
                 }
             }
@@ -74,14 +65,6 @@ public with sharing class ABCL_RetryDMSFileTransfer {
 
         if(retryDMSRecords.size() > 0){
             retryDMSFileTransferIntegration(retryDMSRecords,relatedCaseRecords,dmsRecordNoOfAttemptHashMap);
-        }
-
-        if(abflRetryDMSRecords.size() > 0) {
-            if(Schema.sObjectType.DMS_Files__c.isCreateable()) {
-                insert abflRetryDMSRecords;
-
-                ABFL_DMSSync_Orchestrator.prepareEventsAndPublish(abflRetryDMSRecords, relatedCaseRecords);
-            }
         }
 
         if(dmsRecords.size() > 0){
@@ -139,7 +122,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRecList.add(fileRec);
             }
         }
-        if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
+        if(fileRecList.size() > 0){
             insert fileRecList;
 
             List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
@@ -185,7 +168,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
             }
 
             if(dmsEventList.size() > 0){
-                EventBus.publish(dmsEventList);
+                List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
             }
         }
     }
@@ -202,8 +185,6 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 file.Status__c = 'Canceled';
             }
         }
-        if(Schema.sObjectType.DMS_Files__c.isUpdateable()){
-            update dmsRecords;
-        }
+        update dmsRecords;
     }
 }

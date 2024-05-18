@@ -3,7 +3,7 @@
  *Author       :  Udit Singhal
  *Created Date :  07/02/2024
  *Last Modified:
- *@description  :  Test Class for ABFL_InvokeLitmusProcess
+ *Description  :  Test Class for ABFL_InvokeLitmusProcess
  *********************************************************/
 @isTest
 public class ABFL_InvokeLitmusProcess_Test{
@@ -49,8 +49,9 @@ public class ABFL_InvokeLitmusProcess_Test{
         Test.stopTest();
         
         System.runAs(userRecord1){
-            Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             SLA_Threshold_Warning__c thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
+            decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c;
             thresholdController.Customer_Email_buffer_hours__c = 56;
             update thresholdController;
             
@@ -58,6 +59,8 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
             ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
+            System.debug('caseStage size: ' + caseStage.size());
+            System.debug('caseStage: ' + caseStage);
             Account acc = ABFL_TestDataFactory.createAccount();
             ABFL_TestDataFactory.createContact(acc.ID);
             List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);

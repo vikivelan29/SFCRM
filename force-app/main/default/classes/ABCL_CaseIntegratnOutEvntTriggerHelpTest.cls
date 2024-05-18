@@ -3,7 +3,7 @@
 *Author       :  Udit Singhal
 *Created Date :  19/01/2024
 *Last Modified:
-*@description  :  Test Class for ABCL_CaseIntegratnOutEventTriggerHelper
+*Description  :  Test Class for ABCL_CaseIntegratnOutEventTriggerHelper
 *********************************************************/
 @isTest
 public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
@@ -46,7 +46,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
         Test.stopTest();
         
         System.runAs(userRecord1){
-            Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             List<ASF_Case_Category_Config__c> caseCat = ABFL_TestDataFactory.createCaseCategoryConfig(true);
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
@@ -116,15 +116,16 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
                                                                   WHERE StageName__c = 'Open'];
-            ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'GetDemandAdvice_Corp');
+            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'GetDemandAdvice_Corp');
             List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+            System.debug('@@@prepIntegrations' + prepIntegrations);
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
                             FROM Case
                             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                             LIMIT 1];
             
             Test.startTest();
-            ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
             Test.stopTest();
             
             ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c, Request__c

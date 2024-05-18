@@ -37,7 +37,11 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Set<Id> caseProspectIds = new Set<Id>();
     public static Map<Id,Lead> mLeads = new Map<Id,Lead>();
     
-    
+    // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
+    public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
+    public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
+    public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
+   
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
      * @param peLogs List of PE_Logger__c records.
@@ -60,6 +64,26 @@ public without sharing class ASF_CommPETriggerHelper {
         
         
         casefieldInfo = Schema.SObjectType.Case.fields.getMap();
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        for(BUSpecificAutoEmailMapping__mdt buSpecificAutoEmail : [SELECT ID, Business_Unit__c ,Default_Automated_Email_From_Address__c, Reply_To_Address__c  FROM BUSpecificAutoEmailMapping__mdt]){
+            if(!mBusUnitVsDefaultFromAddress.containsKey(buSpecificAutoEmail.Default_Automated_Email_From_Address__c)){
+                mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
+            }
+            mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
+
+            if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
+                mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
+            }
+        }
+        for(OrgWideEmailAddress OWA : [select Id,Address,Purpose from OrgWideEmailAddress WHERE Address=:mBusUnitVsDefaultFromAddress.keySet()]){
+            if(mBusUnitVsDefaultFromAddress.containsKey(OWA.Address)){
+                for(String strBusUnit : mBusUnitVsDefaultFromAddress.get(OWA.Address)){
+                    mBusinessUnitVsSpecificOWA.put(strBusUnit,OWA.Id);
+                }
+            }
+        }
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         
         /* Account Contact Related Operations */
         getAccountAndContactIdsAndLeadIds(peLogs);
@@ -166,6 +190,16 @@ public without sharing class ASF_CommPETriggerHelper {
                 msg.setFileAttachments(emailFileAttachments);
             }
         }
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
+            OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         
         //End
         msg.setTemplateId(eTempId);
@@ -435,13 +469,13 @@ public without sharing class ASF_CommPETriggerHelper {
                     }
                 }
         }
-        String query = 'SELECT ID,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin';
+        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> tempCaseIds = caseIds;
-            query = 'SELECT ID,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.escapeSingleQuotes(String.join(temp, ','));
+            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
         }
