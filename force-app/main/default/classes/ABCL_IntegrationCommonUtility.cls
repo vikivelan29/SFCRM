@@ -5,6 +5,7 @@
 *Last Modified:  12/12/2023
 *@description  :  General Utility Class for Integration 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_IntegrationCommonUtility {
     public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
@@ -333,6 +334,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     fileRec.Next_Retry__c = System.now().addMinutes(15);
                     if(String.isBlank(leadId)){
                         fileRec.Status__c = ABHFL_Constants.CANCELED;
+                        fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
                     } else {
                         fileRec.Status__c = ABHFL_Constants.PENDING;
                     }
