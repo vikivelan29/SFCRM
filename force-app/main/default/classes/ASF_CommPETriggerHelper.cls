@@ -41,8 +41,7 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
     public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
     public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
-    
-    
+   
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
      * @param peLogs List of PE_Logger__c records.
