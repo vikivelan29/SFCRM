@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="EMI Date Change for {!relatedTo.Masked_LAN__c}." recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="EMI Date Change Amort for Partial LAN SMS"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

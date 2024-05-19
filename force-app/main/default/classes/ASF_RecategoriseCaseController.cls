@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 //Controller class for asf_RecategoriseCase LWC
 //Created by JT & Santanu
 public with sharing class ASF_RecategoriseCaseController {
@@ -137,6 +127,10 @@ public with sharing class ASF_RecategoriseCaseController {
             if(!contactList.isEmpty()){
                 toUpdateCase.ContactId = contactList[0].Id;
             }
+            List<Account> accountList = [SELECT id, Client_Code__c from Account where Id =: (String)caseObject.get('AccountId')];
+            if(!accountList.isEmpty()){
+                toUpdateCase.Client_Code_Text__c = accountList[0].Client_Code__c;
+            }
         }
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
@@ -163,6 +157,10 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Recategorisation_Reason__c = (String)caseObject.get('Recategorisation_Reason__c');
         toUpdateCase.oldCCCIdFields__c = (String)caseObject.get('oldCCCIdFields__c');
         toUpdateCase.Bot_Feedback__c = (String)caseObject.get('Bot_Feedback__c');
+        toUpdateCase.Reopen_SLA_Broken__c = false;
+        toUpdateCase.Reopen_SLA_Broken_Date_Time__c = null;
+        toUpdateCase.SLA_Broken__c = false;
+        toUpdateCase.SLA_Broken_DateTime__c = null; 
         //ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :oldCCCId Limit 1];
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;

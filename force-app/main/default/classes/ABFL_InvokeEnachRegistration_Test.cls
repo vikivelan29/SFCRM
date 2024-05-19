@@ -70,6 +70,7 @@ public class ABFL_InvokeEnachRegistration_Test {
             Id  caseStageID = caseStage[0].StageName__c == 'Open'?caseStage[0].Id: caseStage[1].Id;
             ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
             List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageID,true,'ABFL_InvokeEnachRegistration', 'eNachRegistration ');
+            
             /*for(ASF_Integration__c integ : intConfigList){
                 integ.Query_Fields__c = 'Id,ABFL_Case_Detail__c, Account.Name, Technical_Source__c, Source__c';
             }*/
@@ -77,8 +78,8 @@ public class ABFL_InvokeEnachRegistration_Test {
             Account acc = ABFL_TestDataFactory.createAccount();
             ABFL_TestDataFactory.createContact(acc.ID);
             List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);
-            caseDetList[0].From_Date__c = Date.Today();
-            caseDetList[0].To_Date__c = Date.Today()+1;
+            caseDetList[0].From_Date__c = Date.Today()+3;
+            caseDetList[0].To_Date__c = Date.Today()+15;
             update caseDetList;
             
             Asset assetObj = new Asset();
@@ -103,24 +104,16 @@ public class ABFL_InvokeEnachRegistration_Test {
         }
         
     }
-     @isTest
-    static void testUpdateSTPFlowIVR_NoEmail(){
-        ASF_Integration__c intg = [SELECT Id,STP_API_Identifier__c FROM ASF_Integration__c LIMIT 1];
-        intg.STP_API_Identifier__c = 'eNachRegistration';
-        intg.STP_Config_External_Id__c = 'CCC-CC-CCLTD-01';
-        update intg;
+    @isTest
+    static void testEnachRegistrationFlow(){        
         List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
-        System.debug('@@@prepIntegrations'+prepIntegrations);
         Case caseRec = [
-            SELECT Id, ABFL_Case_Detail__c, Account.Name, Source__c
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
             FROM Case
             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
         ];
-        caseRec.Source__c = ABFL_Constants.IVR_NO_EMAIL;
-        update caseRec;
-        
-        Map<Id, List<ASF_Integration__c>> mapIntegrations = new Map<Id, List<ASF_Integration__c>>();
-        mapIntegrations.put(caseRec.Id, prepIntegrations);
         Test.startTest();
        // ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
         ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
@@ -139,12 +132,146 @@ public class ABFL_InvokeEnachRegistration_Test {
         Test.stopTest();
         Integer caseDetCount = [SELECT count() FROM ABFL_Case_Detail__c];
         ////Assert.areEqual(2, caseDetCount);
-        Case caseRecord = [SELECT Id, IsClosed, Status
+        Case caseRecord = [SELECT Id, IsClosed, Status, ABFL_Case_Detail__r.Registration_Link__c
                                FROM Case
                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                                LIMIT 1];
             
-      // Assert.areEqual('Resolved', caseRecord.Status, 'Case status should be Resolved');
+      Assert.areEqual('https://paymentloungeuat.adityabirlacapital.com/pg/portal/pay/enachRequest?requestID=74064986998&actionType=viewRequest&merchantid=T_11017', caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
     }
-    
+    @isTest
+    static void testEnachRegistrationFlowError(){
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
+        Case caseRec = [
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
+        ];
+        caseRec.ABFL_Case_Detail__r.EMI_Amount__c = null;
+        update caseRec.ABFL_Case_Detail__r;
+       
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);    
+        Test.stopTest();
+        Case caseRecord = [SELECT Id, IsClosed, Status, ABFL_Case_Detail__r.Registration_Link__c
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+      Assert.areEqual(null, caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
+    }   
+    @isTest
+    static void testEnachRegistrationFlowErrorDate(){
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
+        Case caseRec = [
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
+        ];
+        caseRec.ABFL_Case_Detail__r.To_Date__c = null;
+        update caseRec.ABFL_Case_Detail__r;
+        
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+        
+        
+        caseRec.ABFL_Case_Detail__r.From_Date__c = null;
+        update caseRec.ABFL_Case_Detail__r;
+        ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+
+        Test.stopTest();
+        Case caseRecord = [SELECT Id, IsClosed, Status, ABFL_Case_Detail__r.Registration_Link__c
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+      Assert.areEqual(null, caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
+    }  
+    @isTest
+    static void testEnachRegistrationFlowErrorAccount(){
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
+        Case caseRec = [
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
+        ];
+        caseRec.ABFL_Case_Detail__r.New_Bank_Account_No__c = null;
+        update caseRec.ABFL_Case_Detail__r;
+       
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);    
+        Test.stopTest();
+        Case caseRecord = [SELECT Id, IsClosed, Status, ABFL_Case_Detail__r.Registration_Link__c
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+      Assert.areEqual(null, caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
+    }   
+    @isTest
+    static void testEnachRegistrationFlowErrorIFSC(){
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
+        Case caseRec = [
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
+        ];
+        caseRec.ABFL_Case_Detail__r.Bank_IFSC_Code__c = null;
+        update caseRec.ABFL_Case_Detail__r;
+       
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);    
+        Test.stopTest();
+        Case caseRecord = [SELECT Id, IsClosed, Status, ABFL_Case_Detail__r.Registration_Link__c
+                               FROM Case
+                               WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
+                               LIMIT 1];
+            
+      Assert.areEqual(null, caseRecord.ABFL_Case_Detail__r.Registration_Link__c);
+    }   
+    @isTest
+    static void testEnachRegistrationFlowException(){
+        List<ASF_Integration__c> prepIntegrations =  ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
+        System.debug('@@@prepIntegrations'+prepIntegrations);
+        Case caseRec = [
+            SELECT Id, ABFL_Case_Detail__c,ABFL_Case_Detail__r.EMI_Amount__c, ABFL_Case_Detail__r.Frequency__c,
+            ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
+            ABFL_Case_Detail__r.Bank_IFSC_Code__c
+            FROM Case
+            WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01' LIMIT 1
+        ];
+        
+        Test.startTest();
+        ASF_IntegrationsController.IntegrationWrapper retVal =  ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+        
+        List<ASF_Case_Integration__c> listCaseIntRec = new List<ASF_Case_Integration__c>();
+        
+        for(ASF_Case_Integration__c caseIntRec : [SELECT Id, Status__c
+                                    FROM ASF_Case_Integration__c
+                                    WHERE Case__c =: caseRec.Id AND Integration_Ext_Id__c =: prepIntegrations[0].External_Id__c]) {
+                                        caseIntRec.Status__c = 'Success';
+                                        caseIntRec.Response__c = 'ittiuigjihgrrjngjgjgj=';                                     
+                                        listCaseIntRec.add(caseIntRec);
+                                    }
+       
+        update listCaseIntRec;
+        
+        Test.stopTest();
+        List<ABCLLogRecording__c> abclLogsList = [SELECT Id
+                                                  FROM ABCLLogRecording__c];
+        Assert.isTrue(abclLogsList.size() > 0, 'ABCL Log Recording records should have been created');
+    }   
+
 }

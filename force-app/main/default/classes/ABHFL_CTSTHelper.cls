@@ -9,7 +9,51 @@ public without sharing class ABHFL_CTSTHelper {
 
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
-
+    
+    //AM-PR970457-1295-Send Grievance Officer mail
+    public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+          
+        Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
+        Set<String> caseDetailIds = new Set<String>();
+        List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        List<ABHFL_Case_Detail__c> caseDetailList = new List<ABHFL_Case_Detail__c>();
+        
+        for(Case caseRec : newCaseList){
+            if(caseRec.Business_Unit__c=='ABHFL'){
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+            }
+        }
+        
+        for(ABHFL_Case_Detail__c cd : [SELECT Id, Grievance_Details_Sent__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
+            caseToDetailMap.put(cd.Id, cd);
+        }
+        
+        if(!caseDetailIds.isEmpty()){
+            List<EmailTemplate> grievanceEmailTemplate = [SELECT Id, Name, DeveloperName FROM EmailTemplate WHERE Name='Grievance Details In InProgress Stage' LIMIT 1];
+            for(Case c: newCaseList){
+               	if(caseToDetailMap.get(c.ABHFL_Case_Detail__c)!=null && !caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
+						&& (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
+                        && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G')/* && oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'*/))
+               	{
+                 	casesForCreatePELogAndinvokeCommPEevent.add(c);
+                    emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
+                    isTransferredMap.put(c.Id,true);
+                    caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
+                    caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
+               	}
+            }
+        }
+        if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
+           	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent,emailTemplateMap, smsMetadataMap, isTransferredMap);
+       	}
+        if(!caseDetailList.isEmpty()){
+            update caseDetailList;
+        }
+    }
+    
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
@@ -133,17 +177,15 @@ public without sharing class ABHFL_CTSTHelper {
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
-                                    c.Stage__c = 'Duplicate';
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    /*String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
-                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                    }else{
-                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }*/
-                                    c.Stage__c = 'Duplicate';
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
                                 }
@@ -826,6 +868,35 @@ public without sharing class ABHFL_CTSTHelper {
 
         if(abhfl_CaseDetail_List.size() > 0) {
             update abhfl_CaseDetail_List;    
+        }
+    }
+
+    public void  ICAndPICEvaluationOnApiCall(List<Case> newCaseLst) {
+
+        ABHFL_ICAndPIC_Integration abhflICAndPICIntegrationClss = new ABHFL_ICAndPIC_Integration();
+        List<String> cccExternalIdOfCTSTList = new List<String>{'hfl037', 'hfl078'};
+        List<String> caseIdList = new List<String>();
+        List<Case> evaluationCaseList = new List<Case>();
+        List<Case> frameworkCaseList = new List<Case>();
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newCaseLst);
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+            frameworkCaseList = mRecordTypeVsCases1.get(frameworkRTId);
+        }
+
+        for(Case csRecord : frameworkCaseList) {
+            String cccExternalIdCase = csRecord.CCC_External_Id__c;
+            String bussUnitOfCase = csRecord.Business_Unit__c;
+            String caseTechnicalSource = csRecord.Technical_Source__c;
+
+            if(cccExternalIdOfCTSTList.contains(cccExternalIdCase) && bussUnitOfCase == 'ABHFL' && caseTechnicalSource == 'API') {
+                evaluationCaseList.add(csRecord);
+            }
+        }
+
+        if(evaluationCaseList.size() > 0) {
+            abhflICAndPICIntegrationClss.evaluate(evaluationCaseList);
         }
     }
 
