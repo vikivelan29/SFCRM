@@ -1,6 +1,7 @@
 public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
+    public static Boolean isCustomDelete = false;
   	    
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
         Boolean isDelete = newList==null ? true : false;
@@ -140,6 +141,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         }
         return docId;
     }
+    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
@@ -174,7 +176,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                         feedItem.Body = 'The file \''+contentDocRec.Title+'\' has been deleted - '+comment;
                         feedItemList.add(FeedItem);
                     }
-                        
+                    isCustomDelete = true;   
                     delete contentDocRec;
                     insert feedItemList;
                 } 

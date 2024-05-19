@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 02-29-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
     
@@ -152,7 +152,6 @@ public class ASF_CaseMovementHelper {
         }
 
         if(!casesAfterBackward.isEmpty()){
-            system.debug('inside cases after backward');
             //Run validation on current Stage
             Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(casesAfterBackward.values(), currentStageMap);
             for(Id caseId : validationResults.keySet()){
@@ -233,7 +232,6 @@ public class ASF_CaseMovementHelper {
 
         if(!casesMovingNextPure.isEmpty()){
             //Find the next stage when moved purely forward
-            
             //Run validation on current Stage
             Map<Id, CaseStageValidationWrapper> validationResults = ASF_CaseMovementHelper.validateCurrentStageExit(casesMovingNextPure.values(), currentStageMap);
             for(Id caseId : validationResults.keySet()){
@@ -578,6 +576,8 @@ public class ASF_CaseMovementHelper {
                         if(resultWrapper.ownerId == null){
                             casesWithoutAssignment.add(caseRec);
                         }
+                    }else{
+                        casesWithoutAssignment.add(caseRec);
                     }
                 }
             }

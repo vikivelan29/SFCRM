@@ -322,6 +322,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             } 
             if(!commentListToInsert.isEmpty() &&  Schema.sObjectType.CaseComment.isCreateable()){
+
                 insert commentListToInsert;
             }
         }

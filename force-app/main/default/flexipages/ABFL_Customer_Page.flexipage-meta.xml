@@ -150,6 +150,16 @@
                 <identifier>RecordTAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Family_Code__c</fieldItem>
+                <identifier>RecordFamily_Code_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -232,6 +242,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Gross_Net_Confirmation__c</fieldItem>
                 <identifier>RecordGross_Net_Confirmation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Family_Head__c</fieldItem>
+                <identifier>RecordFamily_Head_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-85ca64d8-f6ae-487f-b640-ed7f1fc3f3fb</name>

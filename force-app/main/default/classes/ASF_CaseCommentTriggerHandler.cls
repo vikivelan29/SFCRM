@@ -46,6 +46,7 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             createFeedItem(newList, oldMap);
         }
     }
+    
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;
         Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;
@@ -59,6 +60,7 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                     messageBody = 'The case comment created on '+myDate+' has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
                 }else if(isDelete){
                     messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' created on '+myDate+' has been deleted';
+
                 }
                 FeedItem feedItem = new FeedItem();
                 feedItem.ParentId = caseCommentRec.ParentId;

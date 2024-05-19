@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -1227,7 +1217,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                                                        manager.manager.manager.id,manager.manager.manager.manager.id,
                                                        manager.manager.manager.manager.manager.id 
                                                        from user where id IN: caseOwnerIdSet]);
-            Map<Id, Id> caseOwnerGroupIdMap = new Map<Id, Id>();
+            Map<Id, List<Id>> caseOwnerGroupIdMap = new Map<Id, List<Id>>();
                         Map<Id, String> newOwnerQueueIdNameMap = new Map<Id, String>();
             Map<Id, List<Id>> oldQueueAndMemberMap = new Map<Id, List<Id>>();
             Set<Id> groupIdset = new Set<Id>();
@@ -1235,7 +1225,11 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
             newCaseOwnerMap = new Map<Id, user>([SELECT Id, Business_Unit__c, Email FROM User WHERE Id = :userInfo.getUserId() OR Id IN: newCaseOwnerUserIdset]);  
             
             for(User userRec : ownerMap.values()){
-                caseOwnerGroupIdMap.put(userRec.Id,userRec.managerGroupId__c);
+                List<Id> managergroupIds = new List<Id>();
+                if(userRec.managerGroupId__c != null){
+                    managergroupIds = userRec.managerGroupId__c.split(',');
+                }
+                caseOwnerGroupIdMap.put(userRec.Id,managergroupIds);
             }
             for(Group queueRec : [select Id, name, DeveloperName, Email from group where type='Queue' and (Id IN: oldCaseOwnerQueueIdset OR Id IN :newCaseOwnerQueueIdset)]){
                 if(oldCaseOwnerQueueIdset.contains(queueRec.Id)){
@@ -1243,12 +1237,18 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 }
                 if(newCaseOwnerQueueIdset.contains(queueRec.Id)){
                     newOwnerQueueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
+				}
+            }
+            List<Id> allManagergroupIds = new List<Id>();
+            if(!caseOwnerGroupIdMap.isEmpty()){
+                for(List<Id> ids : caseOwnerGroupIdMap.values()){
+                    allManagergroupIds.addAll(ids);
 }
             }
             //Query case owner's Queue members
             for(GroupMember gmember : [Select userOrGroupId, groupId from GroupMember where 
                                        Group.Type = 'Queue' and UserOrGroupId != null and 
-                                       (groupId IN :caseOwnerGroupIdMap.values() OR groupId IN :queueIdNameMap.keySet())]){
+                                       (groupId IN :allManagergroupIds OR groupId IN :queueIdNameMap.keySet())]){
 
                     if(!oldQueueAndMemberMap.containsKey(gmember.GroupId))
                         oldQueueAndMemberMap.put(gmember.GroupId,new List<Id>());
@@ -1275,6 +1275,21 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
             for(Case c : newList){
                 String oldOwnerId = oldMap.get(c.Id).OwnerId; 
                 String newOwnerId = c.OwnerId;
+                Boolean hasManagerQueueAccess = false;
+                    
+                if(oldOwnerId != null){
+                    for(Id idVal : caseOwnerGroupIdMap.KeySet()){
+                        if(idVal == oldOwnerId){
+                            List<Id> managerQueueIds = new List<Id>();
+                            managerQueueIds.addAll(caseOwnerGroupIdMap.get(idVal));
+                            for(Id managerQueueId : managerQueueIds){
+                                if(oldQueueAndMemberMap.get(managerQueueId) != null && oldQueueAndMemberMap.get(managerQueueId).contains(userInfo.getUserId())){
+                                    hasManagerQueueAccess = true;
+                                }
+                            }
+                        }
+                    }
+                }
                 
                 if(oldOwnerId.startsWith('00G') && 
                    !(oldQueueAndMemberMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(oldOwnerId).contains(userInfo.getUserId()) && newOwnerId == userInfo.getUserId()) &&
@@ -1289,13 +1304,12 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                          ownerMap.get(oldOwnerId).manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.Id != userInfo.getUserId() &&
                          ownerMap.get(oldOwnerId).manager.manager.manager.manager.manager.Id != userInfo.getUserId() &&
-                         !(caseOwnerGroupIdMap.get(oldOwnerId) != null && oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)) != null &&
-                           oldQueueAndMemberMap.get(caseOwnerGroupIdMap.get(oldOwnerId)).contains(userInfo.getUserId()))
+                         !(hasManagerQueueAccess)
                         ){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
                  else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
-                        c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                  }
 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
@@ -1417,8 +1431,8 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         List<Id> accountIds = new List<Id>();
         Map<String,ASF_Case_Category_Config__c> cccExternalIdCategoryMap = new Map<String,ASF_Case_Category_Config__c>();
         for(Case caseRec : newList){
-            if(oldMap != null && oldMap.get(caseRec.Id).CCC_External_Id__c != null 
-                && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
+            //AM-Removed the null check for CCC External ID
+            if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
                 || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
                     modifiedCases.add(caseRec);  
