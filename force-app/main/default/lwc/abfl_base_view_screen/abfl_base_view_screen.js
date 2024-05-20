@@ -35,13 +35,17 @@ export default class Abfl_base_view_screen extends LightningElement {
 	coreResult;
 	@api
 	async callFunction() {
+		console.log('***callFunction-success:');
+		this.coreResult = await invokeCore(this._api_id, this.payloadInfo);
+		await this.generateScreen();
+	}
+
+	@api
+	async generateScreen() {
 		try {
-			console.log('***callFunction-in'+JSON.stringify(this.payloadInfo));
-
+			let res = this.coreResult;
+			console.log('***generateScreen-success: ' + JSON.stringify(res));
 			this.isLoading = true;
-
-			let res = await invokeCore(this._api_id, this.payloadInfo);
-			console.log('***callFunction-success: ' + JSON.stringify(res));
 
 			if (this.payloadInfo?.statusCode == 200 && res?.screen) {
 				this.title = res.title;
