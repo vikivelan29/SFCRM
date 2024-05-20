@@ -1,12 +1,22 @@
+/**
+ * @description       : Test Class for ABFL_LegacyView
+ * @author            : Aditee Churiwala
+ * @group             : 
+ * @last modified on  : 18/04/2024
+ * @last modified by  : Aditee Churiwala
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   12-22-2023   achuriwala@salesforce.com   Initial Version
+**/
 @isTest
-global class ABFL_LegacyView_Test {
+public class ABFL_LegacyView_Test {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
 	@TestSetup
     static void makeData(){
-        Group SLAGroup = new Group();
+        Group slaGroup = new Group();
         
-        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
-        insert SLAGroup;
+        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
+        insert slaGroup;
         
         User superManagerUser = new User(
             IsActive = true,
@@ -20,7 +30,7 @@ global class ABFL_LegacyView_Test {
             LanguageLocaleKey='en_US',
             LocaleSidKey='en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
-            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=SLAGroup.Id
+            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=slaGroup.Id
         );
         insert superManagerUser;
         
@@ -28,7 +38,7 @@ global class ABFL_LegacyView_Test {
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com',
-                                    managerGroupId__c=SLAGroup.Id, managerID = superManagerUser.Id
+                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id
                                     );
         insert userRecord1;        
         Test.startTest();
@@ -76,31 +86,38 @@ global class ABFL_LegacyView_Test {
         List<Account> acc = [SELECT ID FROM Account LIMIT 1];
         Test.startTest();
         	List<ABFL_LegacyView.OptionsName> listLan = ABFL_LegacyView.getLANRelatedAccount(acc[0].Id);
-        	Assert.areEqual(2, listLan.size());
+        	Assert.areEqual(2, listLan.size(), 'LAN');
         Test.stopTest();
     }    
 	@isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABFL_LegacyMockResponseGenerator());
         Test.startTest();
-        ABFL_LegacyView.ResponseWrapper res = ABFL_LegacyView.getLegacyData('277956','','','');
+        ABFL_LegacyView.ResponseWrapper res = ABFL_LegacyView.getLegacyData('277956','','','','ABFL');
         Test.stopTest();
         
-        System.assertEquals(200,res.statusCode);
-        System.assertEquals('1', res.ReturnCode);
+        System.assertEquals(200,res.statusCode, 'code');
+        System.assertEquals('1', res.ReturnCode, 'return code');
     }
     @isTest static void testgetLegacyFailureData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABFL_LegacyMockFailureResponseGenerator());
         Test.startTest();
-        ABFL_LegacyView.ResponseWrapper res = ABFL_LegacyView.getLegacyData('277956','','','');
+        ABFL_LegacyView.ResponseWrapper res = ABFL_LegacyView.getLegacyData('277956','','','','ABFL');
         Test.stopTest();
         
-        System.assertEquals(404,res.statusCode);
-        System.assertEquals('2', res.ReturnCode);
+        System.assertEquals(404,res.statusCode, 'statusCode');
     }
-    global class ABFL_LegacyMockResponseGenerator implements HttpCalloutMock {
-        global HTTPResponse respond(HTTPRequest req) {
+    /**
+    * @description  Mocking success response
+    */ 
+    public class ABFL_LegacyMockResponseGenerator implements HttpCalloutMock {
+        /**
+            * @description  Mocking success response
+            * @param req
+            ** @return HTTPResponse
+        */ 
+        public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
             String s = '{\"ReturnCode\":\"1\",\"ReturnMessage\":\"Recordretrievedsuccessfully\",\"lstDetails\":[{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-2395728-C4Z3V6\",\"Category\":\"Request\",\"CaseType\":\"Pre-Closure\\/Closure\",\"SubType\":\"PreClosure\",\"Source\":\"Walkin\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"08-04-202411:24:20\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"13-04-202409:18:33\",\"Owner\":\"MeghnaKadam\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-2389442-V0H3V7\",\"Category\":\"Request\",\"CaseType\":\"Statements&Documents\",\"SubType\":\"ListofDocuments\\/Postdisbursaldocs\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"03-04-202409:12:03\",\"CaseStatus\":\"Canceled\",\"LastUpdatedOn\":\"03-04-202409:12:42\",\"Owner\":\"SunilYadav10\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-2342421-D2H4R5\",\"Category\":\"Request\",\"CaseType\":\"Statements&Documents\",\"SubType\":\"StatementofAccount\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"23-02-202414:10:47\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"23-02-202414:10:58\",\"Owner\":\"ABFSSLCRMADMIN03\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-2166297-Z9D3V0\",\"Category\":\"Query\",\"CaseType\":\"LoanAccountDetailsRelated\",\"SubType\":\"LoanAccountDetails\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"13-10-202315:07:54\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"13-10-202315:08:03\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-2125970-Z8S6T2\",\"Category\":\"Query\",\"CaseType\":\"LoanAccountDetailsRelated\",\"SubType\":\"LoanAccountDetails\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"13-09-202315:54:18\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"13-09-202315:54:27\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-994441-R9Z1G3\",\"Category\":\"Query\",\"CaseType\":\"Campaign\",\"SubType\":\"Non-Contactable\",\"Source\":\"Email\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"25-09-202113:00:37\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"25-09-202113:00:49\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-984667-K6K1P3\",\"Category\":\"Query\",\"CaseType\":\"LoanAccountDetailsRelated\",\"SubType\":\"LoanAccountDetails\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"20-09-202109:10:54\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"20-09-202109:11:04\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-984665-M2B6B1\",\"Category\":\"Query\",\"CaseType\":\"LoanAccountDetailsRelated\",\"SubType\":\"LoanAccountDetails\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"20-09-202109:10:28\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"20-09-202109:10:33\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-984664-G7B6N3\",\"Category\":\"Query\",\"CaseType\":\"LoanAccountDetailsRelated\",\"SubType\":\"LoanAccountDetails\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"20-09-202109:10:13\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"20-09-202109:10:21\",\"Owner\":\"CustomerService\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-984663-X6R1C0\",\"Category\":\"Request\",\"CaseType\":\"Statements&Documents\",\"SubType\":\"ListofDocuments\\/Postdisbursaldocs\",\"Source\":\"WhatsApp\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"20-09-202109:09:57\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"28-09-202114:31:26\",\"Owner\":\"GautamSejwal\"},{\"Customer\":\"RITESHYadav\",\"CaseID\":\"CAS-984647-K7N9D2\",\"Category\":\"Request\",\"CaseType\":\"Statements&Documents\",\"SubType\":\"InsuranceCopy\",\"Source\":\"CallCentre-Inbound\",\"LoanAccountNo\":\"LNIND0HL-07200068831\",\"CreatedOn\":\"20-09-202109:07:05\",\"CaseStatus\":\"Resolved\",\"LastUpdatedOn\":\"22-09-202105:30:18\",\"Owner\":\"DipeshVarekar\"}]}';
@@ -109,8 +126,16 @@ global class ABFL_LegacyView_Test {
             return res;
         }
     }
-    global class ABFL_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
-        global HTTPResponse respond(HTTPRequest req) {
+    /**
+    * @description Mocking failure response
+    */ 
+    public class ABFL_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
+        /**
+            * @description  Mocking failure response
+            * @param req
+            ** @return HTTPResponse
+        */ 
+        public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
 			String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
