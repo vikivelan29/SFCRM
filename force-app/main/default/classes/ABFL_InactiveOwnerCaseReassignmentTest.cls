@@ -1,12 +1,19 @@
-/*********************************************************
-** Class        :  ABFL_InactiveOwnerCaseReassignmentTest
-** Author       :  Sara
-** Description  :  Test Class to validate ABFL_InactiveOwnerCaseReassignmentBatch
-** Created Date :  01/05/2024
-*********************************************************/
-
+/**
+ * @description       : Test Class to validate ABFL_InactiveOwnerCaseReassignmentBatch
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-13-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 private class ABFL_InactiveOwnerCaseReassignmentTest {
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     @testSetup
     static void setupTestData(){
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator']; 
@@ -15,6 +22,11 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
              LocaleSidKey='en_US', ProfileId = p.Id, 
              TimeZoneSidKey='America/Los_Angeles', UserName='adminUserabcl@gmail.com');
         insert adminUser;
+        PermissionSet ps = [SELECT Id 
+                            FROM PermissionSet 
+                            WHERE Name = 'Admin_User'];
+        insert new PermissionSetAssignment(AssigneeId = adminUser.Id, PermissionSetId = ps.Id);
+
         // Create test data with inactive owner users and cases
         Group qGroup=new Group(Name= 'ABFL Test Group(G)', Type='QUEUE');
         insert qGroup;
@@ -60,9 +72,16 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
             List<ASF_Case_Stage_Config__c> caseStageList = ABFL_TestDataFactory.createCaseStageConfig(caseCategoryList[0].id, true);
         	caseStageList[0].Default_Queue__c = queueId.Id;
             update caseStageList[0];
-            List<ABFL_Case_Detail__c> caseDetailList= ABFL_TestDataFactory.createCaseDetail('Corporate',true);
+            ABFL_TestDataFactory.createCaseDetail('Corporate',true);
             Id caseDetailId=[select id from ABFL_Case_Detail__c limit 1].id;
-            ABFL_TestDataFactory.createCaseRecords(3, caseDetailId, true);
+            ABFL_TestDataFactory.createCaseRecords(1, caseDetailId, true);
+            // close the cases
+            // caseRecList[0].MoveToNext__c = true;
+            // caseRecList[0].Status = 'Closed';
+            // caseRecList[0].Nature__c = 'Query';
+            // caseRecList[0].Business_Unit__c = ABFL_Constants.ABFL;
+            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            // update caseRecList;
         }  
     }
     // Check for Queue Assignment
@@ -73,19 +92,14 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
             User au=[select id,IsActive from User where Username=:'inactiveuser2255@test.com'];
             au.IsActive = false;
             update au;
-            System.debug('***au'+au);
-            //System.debug('***CCC-->'+[SELECT ID, CCC_External_Id__c, Business_Unit__c from ASF_Case_Category_Config__c ]);
-            //System.debug('***CSC-->'+[SELECT ID, Case_Category_Config__c, Default_Queue__c, StageName__c from ASF_Case_Stage_Config__c ]);
             // Start the batch job
             Test.startTest();
                 ABFL_InactiveOwnerCaseReassignmentBatch batchJob = new ABFL_InactiveOwnerCaseReassignmentBatch();
                 Database.executeBatch(batchJob);
             Test.stopTest();
             Case updatedCase = [SELECT Id, OwnerId, owner.Name, stage__c, CCC_External_Id__c FROM Case LIMIT 1];
-            /*System.debug('***check'+[SELECT Id, OwnerId,owner.Name, stage__c, CCC_External_Id__c FROM Case LIMIT 1].owner.Name);
             Group qgroup = [Select Id from Group where type = 'Queue' and name ='ABFL Test Group(G)'];
-            System.debug('***checkQueue'+[Select Id from Group where type = 'Queue' and name ='ABFL Test Group(G)']);
-            //System.AssertEquals(updatedCase.OwnerId, qgroup.Id, 'fail');  */
+            System.AssertEquals(qgroup.Id, updatedCase.OwnerId, 'Case owner is not updated to queue.');
       }
     }
     @isTest
@@ -109,6 +123,8 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
                 Database.executeBatch(batchJob);
             Test.stopTest();
             Case updatedCase = [SELECT Id, OwnerId, Owner.name, stage__c, CCC_External_Id__c FROM Case LIMIT 1];
+            User mgr=[select id,IsActive from User where Username=:'manageruser1155@test.com'];
+            System.AssertEquals(mgr.Id, updatedCase.OwnerId, 'Case owner is not updated to queue.');
       }
     }
     @isTest
@@ -125,9 +141,12 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
                                                     and StageName__c =: caseToUpdate.stage__c];
           
           	stageToUpdate.Default_Queue__c = '';
+            update stageToUpdate;
+            Group qgroup = [Select Id from Group where type = 'Queue' and name ='ABFL Test Group(G)'];
             ASF_Case_Rule__c caseRule = new ASF_Case_Rule__c(Case_Stage_Config__c = stageToUpdate.id, 
                                                          Order__c = 1, Type__c = 'Assignment',
-                                                         Assignment_Queue_Name__c = 'ABFL CS Supply Chain',
+                                                         Assignment_Queue_Name__c = 'ABFL Test Group(G)',
+                                                         Assigned_Queue_Id__c=qgroup.Id,
                                                          Logical_Condition__c = '1');
             insert caseRule;
             ASF_Case_Rule_Entry__c caseRuleEntry = new ASF_Case_Rule_Entry__c(Number__c = 1, Case_Rule__c = caseRule.Id,
@@ -142,6 +161,7 @@ private class ABFL_InactiveOwnerCaseReassignmentTest {
                 Database.executeBatch(batchJob);
             Test.stopTest();
             Case updatedCase = [SELECT Id, OwnerId, owner.name, stage__c, CCC_External_Id__c FROM Case LIMIT 1];
+            System.AssertEquals(qgroup.Id, updatedCase.OwnerId, 'Case owner is not updated to queue.');
         }
     }
 }
