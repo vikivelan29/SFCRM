@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Mock_Response_Resource__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABFL_Legacy_View</value>
     </values>
     <values>
         <field>Mock_Status_Code__c</field>

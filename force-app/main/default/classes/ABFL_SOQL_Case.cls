@@ -23,7 +23,7 @@ public with sharing class ABFL_SOQL_Case {
             ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
             ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
              Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
-             Account.Name, Client_Code__c,
+             Account.Name, Client_Code__c, Description,
              Account.Phone, ABFL_Case_Detail__r.Bank_IFSC_Code__c,
              ABFL_Case_Detail__r.Bank_Account_No__c, ABFL_Case_Detail__r.Frequency__c,
              ABFL_Case_Detail__r.Emi_Amount__c, ABFL_Case_Detail__r.New_Bank_Account_No__c,
