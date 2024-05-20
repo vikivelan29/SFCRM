@@ -1,4 +1,4 @@
-public with sharing class ABHFL_PartPaymentClass implements ASF_CaseStageClassInvocable {
+public with sharing class ABHFL_PartPaymentClass implements ASF_CaseStageClassInvocable { 
     
     public Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> caseRecords){
 
