@@ -1,34 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <buckets>
-        <bucketType>number</bucketType>
-        <developerName>BucketField_88577568</developerName>
-        <masterLabel>NPS Score</masterLabel>
-        <nullTreatment>z</nullTreatment>
-        <sourceColumnName>Account.NPS_Score__c</sourceColumnName>
-        <useOther>false</useOther>
-        <values>
-            <sourceValues>
-                <to>6</to>
-            </sourceValues>
-            <value>Bad</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>6</from>
-                <to>8</to>
-            </sourceValues>
-            <value>Neutral</value>
-        </values>
-        <values>
-            <sourceValues>
-                <from>8</from>
-            </sourceValues>
-            <value>Good</value>
-        </values>
-    </buckets>
     <columns>
         <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Asset.Principal_Outstanding__c</field>
     </columns>
     <columns>
         <field>Case.Source__c</field>
@@ -37,7 +14,7 @@
         <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>TYPE</field>
     </columns>
     <columns>
         <field>Case.LAN__c</field>
@@ -70,7 +47,7 @@
         <field>Case.Stage__c</field>
     </columns>
     <columns>
-        <field>Case.Client_Code_Text__c</field>
+        <field>Case.Client_Code__c</field>
     </columns>
     <columns>
         <field>CDF1</field>
@@ -91,11 +68,11 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Retail - Secured;Retail - Unsecured;Digital</value>
+            <value>Retail - Secured,Retail - Unsecured,Digital</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Retail Case</name>
+    <name>Retail All cases</name>
     <params>
         <name>units</name>
         <value>h</value>
@@ -104,7 +81,7 @@
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CaseList@Case.ABFL_Case_Detail__c</reportType>
+    <reportType>CaseAsset@Case.ABFL_Case_Detail__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
