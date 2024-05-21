@@ -7,8 +7,7 @@
 *********************************************************/
 public with sharing class ABCL_EmailMessageHelper {
     
-    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL
-        
+    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
         /****************************************************************************************************************
 * @LOB - ABHFL
 * @Function - ebotHandler
@@ -27,14 +26,13 @@ public with sharing class ABCL_EmailMessageHelper {
                 if(ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase){
                     bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
                 }
-                if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||
-                                                         ( email.Headers != null && !email.Headers.contains('In-Reply-To:')) || bReplyOnClosedCase) ||
-                                                         ( email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null)   
-                    && email.ParentId.getSObjectType() == Case.getSObjectType()
-                    && email.Incoming == true && email.Send_To_Ebot__c == true){ 
+                 if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
+                     email.Incoming == true && email.Send_To_Ebot__c == true && 
+                    ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:') || bReplyOnClosedCase ) ||
+                 	(email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
                         caseIds.add(email.ParentId);
                         caseEmailsMap.put(email.ParentId, email);
-                    }
+                }
             }
             
             // Map<Id, List<EmailMessage>> caseEmailsMap = new Map<Id, List<EmailMessage>>();
