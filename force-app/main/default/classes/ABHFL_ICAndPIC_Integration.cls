@@ -159,7 +159,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     public ASF_IntegrationsController.IntegrationWrapper checkHlOrNonHlValidation(Case caseRecord, ASF_IntegrationsController.IntegrationWrapper obj) {
 
         String CustomerTypeOfCase = caseRecord.Account.RecordType.Name.toLowerCase();
-        String productNameOfCase = caseRecord.Asset.Product2.Name.toLowerCase();
+        String productNameOfCase = caseRecord.Asset?.Product2?.Name?.toLowerCase();
         String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c.toLowerCase();
         String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c.toLowerCase();
 
