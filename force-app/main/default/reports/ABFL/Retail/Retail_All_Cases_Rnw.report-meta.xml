@@ -62,6 +62,7 @@
         <label>Within / Outside TAT</label>
         <scale>2</scale>
     </customDetailFormulas>
+    <description>All cases</description>
     <filter>
         <criteriaItems>
             <column>Case.LOB__c</column>
