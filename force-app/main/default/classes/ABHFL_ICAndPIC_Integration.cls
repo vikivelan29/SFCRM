@@ -160,8 +160,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
 
         String CustomerTypeOfCase = caseRecord.Account.RecordType.Name.toLowerCase();
         String productNameOfCase = caseRecord.Asset.Product2?.Name.toLowerCase();
-        String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c.toLowerCase();
-        String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c.toLowerCase();
+        String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c?.toLowerCase();
+        String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c?.toLowerCase();
 
         for(HL_NHL_Logic__mdt nlHhlRec : getHL_NHL_Logic()) {
 
