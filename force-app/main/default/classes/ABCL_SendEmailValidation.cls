@@ -2,14 +2,14 @@
 *Class        :  ABFL_SendEmailValidation
 *Author       :  Shubham Sinha 
 *Created Date :  03/01/2024
-*Description  :  ABFL_SendEmailValidation validates the user's team while replying email from case and put the validation on from address according to user story PR970457-197
+*@description  :  ABFL_SendEmailValidation validates the user's team while replying email from case and put the validation on from address according to user story PR970457-197
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_SendEmailValidation {
 
  /****************************************************************************************************************
-    * @param  - List<EmailMessage> newEmails
-    * @return - void .
-    * @Description - check the loggedin User's team and put the validation on from address while sending an email to case.
+    * @param  newEmails List<EmailMessage> newEmails
+    * @description - check the loggedin User's team and put the validation on from address while sending an email to case.
     *****************************************************************************************************************/ 
     public static void validateUsersTeam(List<EmailMessage> newEmails){
         List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
@@ -19,9 +19,9 @@ public with sharing class ABCL_SendEmailValidation {
         Boolean isAllowedFromAddress = false;
         ///Checking if the request is coming from User Action by Clicking on Quick Action - Email.
     	Request reqInfo = Request.getCurrent();
-        String currentRequestId = reqInfo.getRequestId();
+        //String currentRequestId = reqInfo.getRequestId();
         Quiddity currentType = reqInfo.getQuiddity();
-        system.debug('currentTypevalue '+currentType);
+       // system.debug('currentTypevalue '+currentType);
         String runningUserFullName = UserInfo.getName();
         
         if((currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS) || runningUserFullName.contains('Platform')){
@@ -34,15 +34,15 @@ public with sharing class ABCL_SendEmailValidation {
 				if(email.ParentId.getSObjectType() == Case.sObjectType){
                 	outgoingCaseEmails.add(email);
                     selectedFromAddress.add(email.ValidatedFromAddress);
-                     system.debug('mdtAllowedAddress '+selectedFromAddress);
+                   //  system.debug('mdtAllowedAddress '+selectedFromAddress);
 				}
 			}
         }
         // we can extend the logic for this method by adding business unit on this custom metadata. Getting allowed business unit value.
         ABFL_Email_Validation_Configuration__mdt mdtAllowedBusinessUnit = ABFL_Email_Validation_Configuration__mdt.getInstance('Business_Unit'); 
         allowedBusinessUnit= mdtAllowedBusinessUnit.Email_Addresses_Allowed__c.split(',');
-        system.debug('allowedBusinessUnit '+allowedBusinessUnit);
-		List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit AND Profile.Name != 'System Administrator'];
+       // system.debug('allowedBusinessUnit '+allowedBusinessUnit);
+		List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit AND Profile.Name != 'System Administrator' WITH SYSTEM_MODE];
 
         if(!userTeam.isEmpty() && userTeam[0].Team__c!=null){
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
@@ -56,7 +56,7 @@ public with sharing class ABCL_SendEmailValidation {
                 for (String domain : allowedFromAddress) {
                     if (selectedFromAddress.contains(domain.toLowerCase())) {
                         isAllowedFromAddress = true;
-                        system.debug('isAllowedFromAddressValue '+isAllowedFromAddress);
+                       // system.debug('isAllowedFromAddressValue '+isAllowedFromAddress);
                     }
                 }
                 for (EmailMessage email : outgoingCaseEmails) {

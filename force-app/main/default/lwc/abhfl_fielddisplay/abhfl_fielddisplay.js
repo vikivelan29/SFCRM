@@ -12,6 +12,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
     @api userId;
     @api ownerId;
     @api stagesAllowingFieldEdit;
+    @api impactLogic;
     isLAN
     assetURL;
     displayNumber;
@@ -23,11 +24,13 @@ export default class Abhfl_fielddisplay extends LightningElement {
     formatType;
     stepValue;
     displayCombo;
+    loanDisbursementStatus;
     defaultDisableVal = true;
 
     
     connectedCallback(e){
-        this.defaultDisableVal = this.disableEditField;        
+        this.defaultDisableVal = this.disableEditField;  
+        this.loanDisbursementStatus = this.rowData["asset"].Loan_Disbursement_Status__c;      
         this.setColValue();
         if(this.columnName == 'Revised_EMI_Tenure__c'){
             if(this.currStage == 'CPU PP' && this.userId == this.ownerId){
@@ -160,6 +163,7 @@ export default class Abhfl_fielddisplay extends LightningElement {
         //this.displayInput = !this.displayInput;
         if(this.columnType == 'PICKLIST'){
             this.template.querySelector("select[name=selection]").disabled = e;
+            this.impactLogicForPartiallyDisbLoan();
         }
         if(this.displayInput){
             this.template.querySelector("lightning-input").disabled = e;
