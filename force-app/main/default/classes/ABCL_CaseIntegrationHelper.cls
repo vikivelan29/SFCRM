@@ -37,7 +37,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
                 ASF_Case_Integration__c recordAfter = (ASF_Case_Integration__c)newItems.get(caseIntId);
                 Case integrationCase = caseIdMap.get(recordAfter.Case__c);
                 // used integrationCase.Business_Unit__c == 'Payments' as ABHFL email-to-case is not setup yet.
-                if(String.isBlank(integrationCase.CCC_External_Id__c) && integrationCase.Source__c == 'Email'){
+                if(String.isBlank(integrationCase.CCC_External_Id__c) && ABCL_EmailMessageHelper.originSet.contains(integrationCase.Origin)){
                     if(integrationCase.Business_Unit__c == 'ABHFL'){
                         ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABHFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABHFL_EbotWrapper.EbotResponseWrapper.class);
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
