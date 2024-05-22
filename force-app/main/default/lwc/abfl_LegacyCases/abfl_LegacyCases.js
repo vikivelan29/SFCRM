@@ -109,7 +109,7 @@ export default class Abfl_LegacyCases extends LightningElement {
                     this.data = this.leagcyCaseData.legacyCaseResponse;
                     this.disabled = false;
                 }
-                else if(this.leagcyCaseData && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
+                else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
                     console.log('@@@Erro');
                     this.displayError = true;
                     this.loaded = true;
@@ -117,11 +117,9 @@ export default class Abfl_LegacyCases extends LightningElement {
                     this.disabled = false;
                     //this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                 }
-                else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 200 && result.response.includes('error_message')){
-                    let parsedjson = JSON.parse(JSON.parse(result.response).body);
-                    this.loaded = true;
+                else if(this.leagcyCaseData && this.leagcyCaseData.statusCode == 0){
                     this.disabled = false;
-                    this.showNotification("Error", parsedjson.error_message, 'error');
+                    this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                 } 
             }).catch(error=>{
                 console.log('error ==> ', error);

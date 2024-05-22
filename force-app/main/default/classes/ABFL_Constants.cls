@@ -74,8 +74,9 @@ public with sharing class ABFL_Constants {
     public static final string WMEMAILTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_EMAIL';
     public static final string WMSMSTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_SMS_TEMPLA';
     public static final String ABWMEMAIL = 'ABWM Email';
-    public static final String ABWM = 'ABWM';
     
+    public static final String ABWM = 'ABWM';
+
     public static final List<String> ABFL_ALLEMAILORIGIN = new List<String>{'ABFL Email','ABFL WM CHAT','ABWM Email'};
 
     /* Map to Store Asset LOB with Default Queue Names */
