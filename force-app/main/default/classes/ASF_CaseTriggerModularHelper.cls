@@ -127,7 +127,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
+                //If subject not present, set it
+                //else if the origin is NOT email, set it
+                if(String.isBlank(caseRec.Subject) || (String.isNotBlank(caseRec.Origin) && !caseRec.Origin.contains('Email'))){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
