@@ -1,4 +1,4 @@
-@SuppressWarnings('PMD.MethodNamingConventions')
+@SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
@@ -127,7 +127,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
+                //If subject not present, set it
+                //else if the origin is NOT email, set it
+                if(String.isBlank(caseRec.Subject) || (String.isNotBlank(caseRec.Origin) && !caseRec.Origin.contains('Email'))){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -159,8 +161,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 && caseRec.Is_STP__c == true && caseRec.Technical_Source__c == 'API' ){
                 caseRec.MoveToNext__c = true;
             }
-            system.debug('caseRec--'+caseRec);
-            system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
                 if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
@@ -492,8 +492,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, String> currentStageMap = new Map<Id, String>();
         //Boolean supressErrors = (newList[0].Technical_Source__c == 'API' && oldMap == null)?true:false;
         for(Case caseRec : newList){
-            System.debug('caseRec.MoveToNext__c'+caseRec.MoveToNext__c);
-           // System.debug('oldMap.get(caseRec.Id).MoveToNext__c'+oldMap.get(caseRec.Id).MoveToNext__c);
             //If update, is MoveToNext changed to true, else if insert, MoveToNext is true
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
@@ -531,8 +529,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Map<Id, Case> eligibleRecords = new Map<Id, Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         for(Case caseRec : newList){
-            System.debug('caseRec.MoveToNext__c'+caseRec.MoveToNext__c);
-            // System.debug('oldMap.get(caseRec.Id).MoveToNext__c'+oldMap.get(caseRec.Id).MoveToNext__c);
             //If update, is MoveToNext changed to true, else if insert, MoveToNext is true
             if(((isUpdate && caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c) || !isUpdate)
                && caseRec.MoveToNext__c == true){
@@ -586,7 +582,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                                 caseRecFromMap.put(fieldName, resultWrap.caseToBeUpdated.get(fieldName));
                             }
                         }
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        //caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();//commented PR970457-1746
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
@@ -720,7 +716,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                 caseRecFromMap.OwnerId = ownerInfo.defaultOwnerId!=null?ownerInfo.defaultOwnerId:caseRecFromMap.OwnerId;
-                System.debug('***triggerEncounteredError:'+triggerEncounteredError);
                 if(triggerEncounteredError.containsKey(caseRec.Id) && triggerEncounteredError.get(caseRec.Id)){
                     caseRecFromMap.OwnerId = ownerInfo.defaultErrorOwnerId!=null?ownerInfo.defaultErrorOwnerId:caseRecFromMap.OwnerId;
                 }
@@ -769,8 +764,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
             }
             for(Case caseRec : eligibleRecords){
-                System.debug(addlDataFromStageMovementMethods);
-                System.debug(dataWrapper);
                 if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
                     addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
                 }
@@ -849,8 +842,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }
             }
-
-
         }
     }
     //Creates Checklist, Tasks, Approvals
@@ -1148,7 +1139,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                 }  
                 // Get SLA History and Check for current owner
-                system.debug('CaseTriggerHelperExt.validateOwnerCheckerStage mapIDvsSLAHistory >>'+ JSON.serializePretty(mapIDvsSLAHistory));
                 for(String objCaseId : mapIDvsSLAHistory.keySet()){
                     Case newCaseSLA = (Case) newItems.get(objCaseId);
                     for(List<ASF_Case_SLA_History__c> lstSLA :mapIDvsSLAHistory.values()){

@@ -3,7 +3,6 @@ import { LightningElement,api } from 'lwc';
 export default class Abhfl_fielddisplay extends LightningElement {
     @api columnName;
     @api rowData;
-    @api caseRecord;
     @api colValue;
     @api columnType;
     @api columnEditable;
