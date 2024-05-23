@@ -75,21 +75,6 @@ public with sharing class Asf_DmsViewDataTableController {
             return null;
         }
     }
-/****************************************************************************************************************
-* @description - wrapper to get the records details
-*****************************************************************************************************************/ 
-    public class PaginationResult {
-        @AuraEnabled
-/*********************************************************
-*@description  :  data of DMS records
-*********************************************************/
-        public List<sObject> data { get; set; }
-        @AuraEnabled
-/*********************************************************
-*@description  :  totalRecords user for pagination
-*********************************************************/
-        public Integer totalRecords { get; set; }
-    }
 
     /****************************************************************************************************************
     * @description Wrapper class to send the response to LWC
