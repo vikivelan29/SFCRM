@@ -147,10 +147,9 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         //Create new DMS File record to sync the file with DMS
         DMS_Files__c nDMSFileRec = new DMS_Files__c();
         nDMSFileRec.RecordTypeId = Schema.Sobjecttype.DMS_Files__c.getRecordTypeInfosByName().get(ABFL_Constants.ABFL).getRecordTypeId();
-        nDMSFileRec.ContentDocumentId__c = conVer==null?dmsRec.RM_Name__c:caseRec.LOB__c == 'Wealth' ? caseRec.Account.ABWM_RM_Name__c : caseRec.Asset.RM_Name__c;
+        nDMSFileRec.ContentDocumentId__c = conVer==null?dmsRec.ContentDocumentId__c:conVer.ContentDocumentId;
         nDMSFileRec.LOB__c = conVer==null?dmsRec.Lob__c:caseRec.Lob__c;
         nDMSFileRec.Business_Unit__c = conVer==null?dmsRec.Business_Unit__c:caseRec.Business_Unit__c;
-        nDMSFileRec.RM_Name__c = conVer==null?dmsRec.RM_Name__c:caseRec.LOB__c == 'Wealth' ? caseRec.Account.ABWM_RM_Name__c : caseRec.Asset.RM_Name__c;
         nDMSFileRec.Branch_Name__c = conVer==null?dmsRec.Branch_Name__c:String.isNotBlank(caseRec.Branch_Master__r.Name) ? caseRec.Branch_Master__r.Name : '';
         nDMSFileRec.Branch_Code__c = conVer==null?dmsRec.Branch_Code__c:String.isNotBlank(caseRec.Branch_Master__r.Branch_Code__c) ? caseRec.Branch_Master__r.Branch_Code__c : '';
         nDMSFileRec.Case__c = conVer==null?dmsRec.Case__c:caseRec.Id;
