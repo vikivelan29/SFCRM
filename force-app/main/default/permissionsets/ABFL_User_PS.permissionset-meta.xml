@@ -2541,16 +2541,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>DMS_Files__c.Branch_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.Branch_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>DMS_Files__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2612,11 +2602,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>DMS_Files__c.Next_Retry__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.RM_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
