@@ -10,6 +10,40 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
     
+    //AM-Delete existing asset detail records on a case on customer change
+    public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseAssetDetailMap = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        List<ABHFL_Asset_Detail__c> assetDetailsToDelete = new List<ABHFL_Asset_Detail__c>();
+        for(Case cs: newCaseList){
+            if(cs.Business_Unit__c=='ABHFL'){
+            	caseIds.add(cs.Id);    
+            }
+        }
+        for(ABHFL_Asset_Detail__c assetDetail :[SELECT Id, Case__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseIds])
+        {
+            if(!caseAssetDetailMap.containsKey(assetDetail.Case__c)){
+                caseAssetDetailMap.put(assetDetail.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+       		caseAssetDetailMap.get(assetDetail.Case__c).add(assetDetail);
+        }
+        if(caseIds!=null){
+           	for(Case c: newCaseList){
+                if(caseAssetDetailMap.get(c.Id)!=null && c.AccountId!=null && oldCaseMap.get(c.Id).AccountId != c.AccountId)
+                {
+                    assetDetailsToDelete.addAll(caseAssetDetailMap.get(c.Id));
+                }
+            } 
+        }
+        if(assetDetailsToDelete!=null){
+            try{
+                delete assetDetailsToDelete;
+            }catch(Exception ex){
+                system.debug('Exception message:'+ex.getMessage());
+            }
+        }
+    }
+    
     //AM-SLA broken reset change on Open --> In Progress for Complaints
     public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
         for(Case c: newCaseList){
