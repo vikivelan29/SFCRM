@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_not_equal_0</fullName>
+    <active>true</active>
+    <errorConditionFormula>Part_Payment_Amount__c = 0</errorConditionFormula>
+    <errorDisplayField>Part_Payment_Amount__c</errorDisplayField>
+    <errorMessage>&apos;Part Payment Amount&apos; should be greater than 0</errorMessage>
+</ValidationRule>
