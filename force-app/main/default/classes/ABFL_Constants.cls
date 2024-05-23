@@ -47,6 +47,7 @@ public with sharing class ABFL_Constants {
     public static final String RTL_LOANMIS_INTEGRATION_METADATA = 'RTL_RealTime_LoanMIS';
     public static final String RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA = 'RTL_RealTime_InstallPmntDtls';
     public static final String RTL_GETCRMDETAILS_INTEGRATION_METADATA = 'RTL_RealTime_GetCRMDetails';
+    public static final String DMS_ENCRYPT_DOC_ID = 'DMS_ENCRYPT_DOC_ID';
     
     //EOD APIs
     public static final String EOD_ACCOUNT_BALANCE_INTEGRATION_METADATA = 'EOD_Account_Balance';

@@ -5,6 +5,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABCL_DMSRetryBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_RetryDMSFileTransfer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_DMSSync_Orchestrator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABFL_EODController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -12,25 +24,10 @@
         <apexClass>ABFL_RetailController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
+    <classAccesses>
+        <apexClass>Asf_DmsViewDataTableController</apexClass>
         <enabled>true</enabled>
-        <name>Case_Ownership_Management</name>
-    </customPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Repeated__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.TDS_Refunded_LAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Change_Effect_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCCustomerTAT__c</field>
@@ -5200,6 +5197,111 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Customer.TotalLifeTimeValue</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Branch_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.ContentVersionId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DMS_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DocumentID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Error_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Extension__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.File_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Has_Multiple_Versions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Is_Latest_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DMS_Files__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.RM_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry_Attempt__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Version_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
