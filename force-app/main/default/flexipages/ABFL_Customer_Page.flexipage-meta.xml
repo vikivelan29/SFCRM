@@ -428,6 +428,26 @@
                 <identifier>RecordMobile_Phone_2_pcField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PersonBirthdate</fieldItem>
+                <identifier>RecordPersonBirthdateField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.VAN__c</fieldItem>
+                <identifier>RecordVAN_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-46b506b0-55f8-4e3f-b2b2-7fd97e71e29c</name>
         <type>Facet</type>
     </flexiPageRegions>
