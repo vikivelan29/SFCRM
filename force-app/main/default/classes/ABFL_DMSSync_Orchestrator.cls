@@ -150,8 +150,6 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         nDMSFileRec.ContentDocumentId__c = conVer==null?dmsRec.ContentDocumentId__c:conVer.ContentDocumentId;
         nDMSFileRec.LOB__c = conVer==null?dmsRec.Lob__c:caseRec.Lob__c;
         nDMSFileRec.Business_Unit__c = conVer==null?dmsRec.Business_Unit__c:caseRec.Business_Unit__c;
-        nDMSFileRec.Branch_Name__c = conVer==null?dmsRec.Branch_Name__c:String.isNotBlank(caseRec.Branch_Master__r.Name) ? caseRec.Branch_Master__r.Name : '';
-        nDMSFileRec.Branch_Code__c = conVer==null?dmsRec.Branch_Code__c:String.isNotBlank(caseRec.Branch_Master__r.Branch_Code__c) ? caseRec.Branch_Master__r.Branch_Code__c : '';
         nDMSFileRec.Case__c = conVer==null?dmsRec.Case__c:caseRec.Id;
         nDMSFileRec.ContentVersionId__c = conVer==null?dmsRec.ContentVersionId__c:conVer.Id;
         nDMSFileRec.File_Name__c = conVer==null?dmsRec.File_Name__c:conVer.Title;
