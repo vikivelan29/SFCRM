@@ -73,7 +73,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
                 publicGrpId = userVsPublicgrp.get(userId); // fetch the Public group Id User is part of   
                 Integer groupIndex = 0;
                 for(Id groupId : publicGrpId){
-                    if(publicgrpVsQueue.get(groupId) != null){
+                  if(publicgrpVsQueue.get(groupId) != null){
                         if(groupIndex == 0){
                             queueId = publicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP publicgrpVsQueue by passing the key Public grp Id
                         }else{

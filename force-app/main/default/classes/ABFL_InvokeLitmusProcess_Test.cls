@@ -76,6 +76,7 @@ public class ABFL_InvokeLitmusProcess_Test{
             c.ownerid = userInfo.getuserId();
             c.AccountId = acc.ID;
             c.AssetId = assetObj.Id;
+            c.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             update c;
         }
     }

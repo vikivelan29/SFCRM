@@ -40,6 +40,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     stagesAllowingFileUpload;
     amIOwner;
     sizeClass = 'multiColumnTable';
+    impctLogic;
 
     @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
     case;
@@ -49,6 +50,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
             getAssetRecordsandMetadata({recId : this.recordId,loggedInUserId : this.userId}).then((result) => {
                 console.log(result);
                 if(result && result.columnData){
+                    this.impctLogic = result.impactLogic;
                     this.columns = result.columnData;
                     this.childColumns = result.childColumnData;
                     this.searchResult = result.assetDetailRecords;
@@ -238,7 +240,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.displayChildTable = false;
                     for(let record in this.selectedRows){
                         if(!this.childTableRecords.includes(this.selectedRows[record])){
-                            this.childTableRecords.push(this.selectedRows[record]);
+                            //this.childTableRecords.push(this.selectedRows[record]);
                         }
                     }
                     this.displayChildTable = true;

@@ -4,10 +4,11 @@
 *Created Date :  08/01/2024
 *@description  :  This class is created to change the owner of case wrt to location code of LAN 
 *********************************************************/
+
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
-    public static String QUEUE_GROUP_QUERY = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
+    public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
     /****************************************************************************************************************
     * @param lstCase
@@ -27,7 +28,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-                Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+                Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : newCaseMap.Values()){
                     if(oldMap.get(objCase.Id).OwnerId != objCase.OwnerId && objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) ){
                          filteredCase.add(objCase);
@@ -66,7 +67,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -91,7 +92,9 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             ASF_Constants.bypassOwnerChangeValidation = true;
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
-            update insertFinalUpdateCase;
+            if ( Schema.sObjectType.Case.isUpdateable()){
+                update insertFinalUpdateCase;
+            }
         }
     }
     /****************************************************************************************************************
@@ -120,7 +123,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -164,7 +167,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-                Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+                Group queueRecord = (Group) Database.query(queueGroupQueue);
                 for(Case objCase : lstCase){
                     if(objCase.OwnerId == queueRecord.Id && ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(objCase.Business_Unit__c) && objCase.LAN__c != NULL){
                         filteredCase.add(objCase);
@@ -193,7 +196,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 }
             }
             if(!setExpectedLogic.isEmpty()){
-            	Group queueRecord = (Group) Database.query(QUEUE_GROUP_QUERY);
+            	Group queueRecord = (Group) Database.query(queueGroupQueue);
                 List<Case> afterCases = [SELECT ID,OwnerId,LAN__c,Business_Unit__c FROM Case WHERE ID IN :lstCase AND OWNERID =: queueRecord.ID ];
                 if(!afterCases.isEmpty()){
                     for(Case objCase : afterCases){
@@ -227,7 +230,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -266,7 +269,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring]) {
+            for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
             }
             if(!codeToLocationMap.isEmpty()){
@@ -302,7 +305,8 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                     commentListToInsert.add(new CaseComment(ParentId = caseObj.Id, CommentBody = caseObj.Comments));
                 }
             } 
-            if(!commentListToInsert.isEmpty()){
+            if(!commentListToInsert.isEmpty() &&  Schema.sObjectType.CaseComment.isCreateable()){
+
                 insert commentListToInsert;
             }
         }

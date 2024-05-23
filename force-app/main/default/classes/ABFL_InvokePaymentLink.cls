@@ -64,8 +64,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
+        String dueDate = DateTime.now().formatGMT('dd/MM/yyyy');
         
-        paymentData.merc_order_id = caseRecord.caseNumber+mercOrderDate;
+        //paymentData.pl_order_id = caseRecord.caseNumber+mercOrderDate;
         paymentData.merc_order_date = mercOrderDate;
         paymentData.merc_id = ABCL_Encryption.getENachInt().Merchant_Id__c;
         paymentData.amount =String.ValueOf(caseRecord.ABFL_Case_Detail__r.Amount__c);
@@ -73,16 +74,18 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.product_type = '';
         paymentData.product_id = '';
         paymentData.customer_id = caseRecord.Client_Code__c;
+        paymentData.invoice_no = caseRecord.caseNumber+mercOrderDate;
         paymentData.customer_name = name;
         paymentData.customer_email = emailId;
         paymentData.customer_phone = mobileNo;
         paymentData.udf1 = '';
         paymentData.udf2 = '';
-        paymentData.invoice_No = '';
-        paymentData.orderDesc = '';
+        paymentData.order_desc = caseRecord.Description;
         paymentData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
         paymentData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
-        paymentData.payment_mode = 'nach';
+        paymentData.allowed_split_payment = '0';
+        paymentData.expiry_period = '1';
+        paymentData.due_date = dueDate;
 
         
         payload.payment_data = paymentData;
@@ -152,7 +155,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         
     }
     public class PaymentData {
-		public String merc_order_id;
+		public String pl_order_id;
 		public String merc_order_date;
 		public String merc_id;
 		public String amount;
@@ -165,11 +168,14 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
 		public String customer_phone;
         public String udf1;
 		public String udf2;
-		public String invoice_No;
-        public String orderDesc;
+		public String invoice_no;
+        public String order_desc;
         public String account_no;
         public String account_ifsc;
-        public String payment_mode;
+        //public String payment_mode;
+        public String allowed_split_payment;
+        public String expiry_period;
+        public String due_date;
 	}
     public class PaymentLink {
         PaymentData payment_data;

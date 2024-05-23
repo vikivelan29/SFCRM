@@ -180,6 +180,7 @@ public with sharing class ASF_TestDataFactory {
         //asset.Financial_Account_Number__c = ASF_UtilityClass.generateTransactionId();
         asset.AccountId =accountId;
         asset.Type__c = strType;
+        asset.LOB__c = 'Corporate';
         if(Schema.sObjectType.Asset.isCreateable()){
             insert asset;
         }
@@ -270,7 +271,18 @@ public with sharing class ASF_TestDataFactory {
             newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             newCase.pending_clarification__c = true;
             
+        	list<Asset> assetlist = [select id from Asset];
+         	Case newCase1 = new Case(Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator',
+                                SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
+            newCase1.Stage_SLA_1__c = System.now();
+            newCase1.Stage_SLA_2__c = System.now()+1;
+            newCase1.Stage_SLA_3__c = System.now()+2;
+            newCase1.CCC_External_Id__c = 'testcccId';
+        	newCase1.AssetId = (assetlist!=null && assetlist.size()>0) ? assetlist[0].Id: null;
+            newCase1.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+            newCase1.pending_clarification__c = true;
         caseList.add(newCase);
+        caseList.add(newCase1);
         insert caseList;
 
         return caseList;
@@ -281,7 +293,7 @@ public with sharing class ASF_TestDataFactory {
 
         List<Case> caseList = new List<Case>();
         
-        Case newCase = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open',
+        Case newCase = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open', Source__c='Email',
                                 SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
             
             newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
@@ -317,6 +329,7 @@ public with sharing class ASF_TestDataFactory {
     caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
     caseCatConfig.Resolved_Case_Email_Template__c = 'dev_01';
     caseCatConfig.Resolved_Case_SMS_Metadata__c ='Dev_02';
+    caseCatConfig.Business_Unit__c = 'ABFL';
     
     insert caseCatConfig;
 
