@@ -61,9 +61,7 @@ public without sharing class ABHFL_CTSTHelper {
     public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
           
         Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
-        Map<String, User> ownerMap = new Map<String,User>();
         Set<String> caseDetailIds = new Set<String>();
-        Set<String> ownerIds = new Set<String>();
         List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
@@ -72,38 +70,27 @@ public without sharing class ABHFL_CTSTHelper {
         
         for(Case caseRec : newCaseList){
             if(caseRec.Business_Unit__c=='ABHFL'){
-            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);
-                ownerIds.add(caseRec.OwnerId);
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
             }
         }
         
         for(ABHFL_Case_Detail__c cd : [SELECT Id, Grievance_Details_Sent__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
             caseToDetailMap.put(cd.Id, cd);
         }
-        for(User us : [SELECT Id, Assigned_Team__c FROM User WHERE Id IN :ownerIds]){
-            ownerMap.put(us.Id, us);
-        }
         
         if(!caseDetailIds.isEmpty()){
             List<EmailTemplate> grievanceEmailTemplate = [SELECT Id, Name, DeveloperName FROM EmailTemplate WHERE Name='Grievance Details In InProgress Stage' LIMIT 1];
             for(Case c: newCaseList){
-                //system.debug('ownerMap.get(c.OwnerId).Assigned_Team__c:'+ownerMap.get(c.OwnerId).Assigned_Team__c);
-                //if(ownerMap.get(c.OwnerId)!=null){
-                	if(caseToDetailMap.get(c.ABHFL_Case_Detail__c)!=null && ownerMap.get(c.OwnerId)!=null &&
-                       ownerMap.get(c.OwnerId).Assigned_Team__c!=null &&
-                       !caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
-                       && ownerMap.get(c.OwnerId).Assigned_Team__c.contains('Grievance'))
-                            /*&& (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
-                            && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G') /*&& oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'))*/
-                    {
-                        casesForCreatePELogAndinvokeCommPEevent.add(c);
-                        emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
-                        isTransferredMap.put(c.Id,true);
-                        caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
-                        caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
-                    }    
-                //}
-               	
+               	if(caseToDetailMap.get(c.ABHFL_Case_Detail__c)!=null && !caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
+						&& (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
+                        && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G')/* && oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'*/))
+               	{
+                 	casesForCreatePELogAndinvokeCommPEevent.add(c);
+                    emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
+                    isTransferredMap.put(c.Id,true);
+                    caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
+                    caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
+               	}
             }
         }
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
