@@ -93,6 +93,13 @@
         <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
     </labels>
     <labels>
+        <fullName>ABFL_DMSPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMSPageSize</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
