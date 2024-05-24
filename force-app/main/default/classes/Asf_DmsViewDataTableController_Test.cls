@@ -63,9 +63,8 @@ public class Asf_DmsViewDataTableController_Test {
         { 
             Test.startTest(); 
                 Asf_DmsViewDataTableController.getColumns('abcd');
-                Asf_DmsViewDataTableController.executeQuery(objCase[0].Id,2,1);
-                Asf_DmsViewDataTableController.getUserBDid('ABCDD');
-                Asf_DmsViewDataTableController.makeApiCall('ABCDD');
+                Asf_DmsViewDataTableController.executeQuery(objCase[0].Id);
+                Asf_DmsViewDataTableController.generateLinkParams('1111');
                 System.assertEquals(1, objCase.size(),'record found');          
              Test.stopTest();            
          }
