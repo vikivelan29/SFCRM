@@ -19,99 +19,80 @@ public with sharing class Asf_DmsViewDataTableController {
             WHERE Asf_Dynamic_Datatable_Parent__r.DeveloperName = :configName WITH SYSTEM_MODE
             ORDER BY Order__c ASC]; 
     }
+
     /****************************************************************************************************************
-* @param   caseId
-* @param   pageNumber
- @param pageSize
-* @return -  List<sObject> 
-* @description - created to build the query and fetch the records for datatable
-*****************************************************************************************************************/ 
-//    @AuraEnabled
-//     public static PaginationResult executeQuery(String caseId, Integer pageNumber, Integer pageSize) {
-//         PaginationResult result = new PaginationResult();
-//         String dynamicQuery = getQuery() + '\'' + caseId + '\' ORDER BY Name';
-
-//         if(String.isNotBlank(dynamicQuery)) {
-//             try {
-//                 Integer totalRecords = [SELECT COUNT() FROM DMS_Files__c  WHERE Case__c  = :caseId WITH SYSTEM_MODE];
-//                 Integer startRowIndex = Math.max(0, (pageNumber - 1) * pageSize);
-//                 dynamicQuery += ' LIMIT :pageSize OFFSET :startRowIndex';
-//                 result.data = Database.query(dynamicQuery);
-//                 result.totalRecords = totalRecords;
-
-//                 return result;
-//             } catch(Exception ex) {
-//                 return null;
-//             }
-//         } 
-//         return null;
-//     }
-
+    * @param caseId
+    * @return List<DMS_Files__c> 
+    * @description - created to build the query and fetch the records for datatable
+    *****************************************************************************************************************/ 
     @AuraEnabled
     public static List<DMS_Files__c> executeQuery(String caseId) {
-        List<DMS_Files__c> lDMSFiles ;
-        String dynamicQuery = getQuery() + '\'' + caseId + '\' ORDER BY Name';
+        Map<String, DMS_Files__c> mConvDMSFiles = new Map<String, DMS_Files__c>();
+        String dynamicQuery = getQuery() + '\'' + caseId + '\' ORDER BY createddate desc';
         if(String.isNotBlank(dynamicQuery)) {
-            lDMSFiles = Database.query(dynamicQuery);
+            // logic to get only latest DMS record for a file
+            for(DMS_Files__c rec: Database.query(dynamicQuery)){
+                if(!mConvDMSFiles.containsKey(rec.ContentVersionId__c)){
+                    mConvDMSFiles.put(rec.ContentVersionId__c, rec);
+                }
+            }
         } 
-        return lDMSFiles;
+        return mConvDMSFiles.values();
     }
     
     /****************************************************************************************************************
-* @param  - String
-* @return -  List<sObject> 
-* @description - created to build the query and fetch the records for datatable
-*****************************************************************************************************************/ 
+    * @param  - String
+    * @return -  List<sObject> 
+    * @description - created to build the query and fetch the records for datatable
+    *****************************************************************************************************************/ 
      @AuraEnabled
     public static string getQuery() {
         Asf_Dynamic_Datatable_Parent__mdt  metadataRecord = [SELECT Query__c  FROM Asf_Dynamic_Datatable_Parent__mdt WHERE DeveloperName = 'Asf_DMS_File_Datatable' WITH SYSTEM_MODE LIMIT 1];
         return metadataRecord != null ? metadataRecord.Query__c : null;
     }
+
     /****************************************************************************************************************
-* @param userBDid
-* @return   String 
-* @@description - created to store the userBDid on org cache
-*****************************************************************************************************************/ 
+    * @param documentId
+    * @return String
+    * @description - function used to get userdbid and encrypted document id
+    *****************************************************************************************************************/ 
     @AuraEnabled
-    public static string getUserBDid(string userBDid) {
-        Cache.OrgPartition orgPartition = Cache.Org.getPartition('ABC');
-        String cachedUserBDid = (String)orgPartition.get(userBDid);
-        if (cachedUserBDid != null) {
-            return cachedUserBDid;
-        } 
-        else {
-            Asf_Dynamic_Datatable_Parent__mdt cacheSettings = Asf_Dynamic_Datatable_Parent__mdt.getInstance('Asf_DMS_File_Datatable');
-            Integer cacheTimeoutSeconds = cacheSettings.Cache_Time__c.intValue();
-            //String apiResponse = makeApiCall(userBDid);
-            orgPartition.put(userBDid, 'ABCDEFGH', cacheTimeoutSeconds); 
-            String cachedValue = (String)orgPartition.get(userBDid);
-            return cachedValue;
-           // return apiResponse;
+    public static string generateLinkParams(string documentId) {
+
+        Map<String, String> requestPayload = new Map<String, String>();
+
+        if(documentId != null) {
+            requestPayload.put('DocId',documentId);
+            ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
+            intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(ABFL_Constants.DMS_ENCRYPT_DOC_ID, JSON.serialize(requestPayload), null));
+
+            if(intResponseWrapper.statusCode == 200) {
+                return intResponseWrapper.responseBody;
+            } else {
+                return  null;
+            }
+        } else{
+            return null;
         }
     }
-/****************************************************************************************************************
-* @param   userBDid
-* @return   String 
-* @description - api callout to get the userBdId
-*****************************************************************************************************************/ 
-    public static string makeApiCall(string userBDid) {
-        //  API call logic will be added here
-        // This is just a placeholder
-        return 'UserBDid from API';
-    }
-/****************************************************************************************************************
-* @description - wrapper to get the records details
-*****************************************************************************************************************/ 
-    public class PaginationResult {
+
+    /****************************************************************************************************************
+    * @description Wrapper class to send the response to LWC
+    *****************************************************************************************************************/
+    public Class ResponseWrapper{
         @AuraEnabled
-/*********************************************************
-*@description  :  data of DMS records
-*********************************************************/
-        public List<sObject> data { get; set; }
+        public Integer statusCode;
         @AuraEnabled
-/*********************************************************
-*@description  :  totalRecords user for pagination
-*********************************************************/
-        public Integer totalRecords { get; set; }
+        public String response;
+
+         /****************************************************************************************************************
+        * @description Custom constructor of ResponseWrapper class
+        * @param statusCode
+        * @param res
+        *****************************************************************************************************************/
+        public ResponseWrapper(Integer statusCode, String res){
+            this.statusCode = statusCode;
+            this.response = res;
+        }
     }
 }
