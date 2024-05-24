@@ -19,7 +19,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
     @InvocableMethod
     public static void transferABFLCaseFilesToDMS(List<Id> caseIds) {
         List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
-		final String ABFL_BUSINESS_UNIT = ABFL_Constants.ABFL; // NOPMD
+        final String ABFL_BUSINESS_UNIT = ABFL_Constants.ABFL; // NOPMD
         String query = 'SELECT ';
         query += getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
         query += ' FROM Case WHERE Id IN :caseIds AND Business_Unit__c = :ABFL_BUSINESS_UNIT AND isClosed=True WITH SYSTEM_MODE';
@@ -51,14 +51,19 @@ public without sharing class ABFL_DMSSync_Orchestrator{
                 mContentDocIdToLatestContentVer.put(cvRec.ContentDocumentId, cvRec);
             }
 
-            Map<Id, ContentVersion> mCaseIdToContentVersion = new Map<Id, ContentVersion>();
+            Map<Id, List<ContentVersion>> mCaseIdToContentVersion = new Map<Id, List<ContentVersion>>();
             for(ContentDocumentLink docLink : lContentdoclLink){
-                mCaseIdToContentVersion.put(docLink.LinkedEntityId, mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId));
+                if(!mCaseIdToContentVersion.containsKey(docLink.LinkedEntityId)){
+                    mCaseIdToContentVersion.put(docLink.LinkedEntityId, new List<ContentVersion>{mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId)});
+                }else{
+                    List<ContentVersion> tempList = mCaseIdToContentVersion.get(docLink.LinkedEntityId);
+                    tempList.add(mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId));
+                    mCaseIdToContentVersion.put(docLink.LinkedEntityId, tempList);
+                }
             }
 
             for(Case caseRecord : mCaseIdToRecord.values()){
-                ContentVersion conVerRec = mCaseIdToContentVersion.get(caseRecord.Id);
-                if(conVerRec != null){
+                for(ContentVersion conVerRec : mCaseIdToContentVersion.get(caseRecord.Id)){
                     DMS_Files__c dmsRec = prepareDMSRecord(null, caseRecord, conVerRec);
                     
                     //Cancel sync if file size exceed 5 MB
@@ -71,7 +76,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
             // Inserting DMS_Files__c records
             if(!dmsFileList.isEmpty() && Schema.sObjectType.DMS_Files__c.isCreateable()){
                 insert dmsFileList;
-
+                System.debug('***dmsFileList:'+dmsFileList);
                 prepareEventsAndPublish(dmsFileList, mCaseIdToRecord);
             }
         }
@@ -245,18 +250,18 @@ public without sharing class ABFL_DMSSync_Orchestrator{
      **/
     private static void addComplexWrapper(List<IndexWrapper> lIndexWrap, Case caseRecord, DMS_Files__c dmsRec){
         // add SUBCONTENTCODE_DESC which is nature__c - Sub_Type_Text__c 
-        lIndexWrap.add(new IndexWrapper(29,'S',caseRecord!=null?caseRecord.Nature__c+' - '+caseRecord.Sub_Type_Text__c:dmsRec.Case__r.Nature__c+' - '+dmsRec.Case__r.Sub_Type_Text__c));
+        lIndexWrap.add(new IndexWrapper(1205,'S',caseRecord!=null?caseRecord.Nature__c+' - '+caseRecord.Sub_Type_Text__c:dmsRec.Case__r.Nature__c+' - '+dmsRec.Case__r.Sub_Type_Text__c));
 
         // add Field_26 DOCUMENTS_OF
         if(caseRecord != null) {
-            lIndexWrap.add(new IndexWrapper(26,'S',caseRecord.AssetId == null ? 'Customer' : 'Loan'));
+            lIndexWrap.add(new IndexWrapper(1202,'S',caseRecord.AssetId == null ? 'Customer' : 'Loan'));
         } else {
-            lIndexWrap.add(new IndexWrapper(26,'S',dmsRec.Case__r.AssetId == null ? 'Customer' : 'Loan'));
+            lIndexWrap.add(new IndexWrapper(1202,'S',dmsRec.Case__r.AssetId == null ? 'Customer' : 'Loan'));
         }
         // add Field_1141 MASKING_STATUS - A (Already Masked), S (Aadhaar image not found)
-        lIndexWrap.add(new IndexWrapper(1141,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'A' : 'S'));
+        lIndexWrap.add(new IndexWrapper(1215,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'A' : 'S'));
         // add Field_1139 MASKING_STATUS
-        lIndexWrap.add(new IndexWrapper(1139,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'Y' : 'N'));
+        lIndexWrap.add(new IndexWrapper(1214,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'Y' : 'N'));
     }
 
     /**
