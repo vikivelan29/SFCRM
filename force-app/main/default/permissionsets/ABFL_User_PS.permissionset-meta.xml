@@ -1101,6 +1101,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.VAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.VIP_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1487,6 +1492,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Overdue_charges__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Partner_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
