@@ -172,8 +172,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseRelatedDetailsUpdate relatedDetails = new ASF_CaseRelatedDetailsUpdate();
             relatedDetails.updateRelatedObjectDetailsBulk(newCaseMap.values());
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,newCaseMap);
+            ASF_CaseRelatedDetailsUpdate.removeAccountIdBuMissMatch(null,newCaseMap);
         }
-        
         
     }
     
