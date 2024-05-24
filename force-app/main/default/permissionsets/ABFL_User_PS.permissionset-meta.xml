@@ -1761,6 +1761,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Case.Assigned_Team__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.AttachmentDone__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2591,7 +2596,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>DMS_Files__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>DMS_Files__c.Next_Retry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DMS_Files__c.RM_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
