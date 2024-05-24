@@ -139,7 +139,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                     this.tableData = result.map(res => {
                         let processedRes = { ...res }; // Create a copy of the record
                         processedRes.accLink = '/' + res.Id;
-                        if (res.DocumentID__c == null) {
+                        if (res.DocumentID__c == null || res.DocumentID__c == '0') {
                             processedRes.showButtons = true;
                         }
                         const nextRetryDateTime = new Date(res.Next_Retry__c);
