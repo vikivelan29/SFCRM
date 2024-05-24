@@ -5,7 +5,7 @@
     <name>SIP CANCELLATION</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>SIP Cancellation</subject>
+    <subject>SIP Cancellation Case ID {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
