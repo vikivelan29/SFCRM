@@ -185,8 +185,8 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
             ASF_CaseRelatedDetailsUpdate relatedDetails = new ASF_CaseRelatedDetailsUpdate();
             relatedDetails.updateRelatedObjectDetailsBulk(newCaseMap.values());
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,newCaseMap);
+            ASF_CaseRelatedDetailsUpdate.removeAccountIdBuMissMatch(null,newCaseMap);
         }
-        
         
     }
     
