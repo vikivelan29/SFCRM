@@ -611,6 +611,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Ops_Involvement_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Other_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1002,16 +1007,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Date_Of_Incorporation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Family_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Family_Head__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2356,11 +2351,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Type</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Type_Sub_Type_Mismatch_Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2541,16 +2531,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>DMS_Files__c.Branch_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.Branch_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>DMS_Files__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2612,11 +2592,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>DMS_Files__c.Next_Retry__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.RM_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
