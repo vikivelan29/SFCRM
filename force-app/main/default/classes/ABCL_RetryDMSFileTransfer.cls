@@ -67,7 +67,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 if(dmsRecordNoOfAttemptHashMap.containsKey(ihashKey)){
                     noOfAttempts = dmsRecordNoOfAttemptHashMap.get(ihashKey);
                     if(noOfAttempts <= 2){
-                        if(dms.Business_Unit__c == ABFL_Constants.ABFL) {
+                        if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(dms.Business_Unit__c)) {
                             abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
                         } else {
                             retryDMSRecords.add(dms);

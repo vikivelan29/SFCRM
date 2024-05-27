@@ -19,10 +19,10 @@ public without sharing class ABFL_DMSSync_Orchestrator{
     @InvocableMethod
     public static void transferABFLCaseFilesToDMS(List<Id> caseIds) {
         List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
-        final String ABFL_BUSINESS_UNIT = ABFL_Constants.ABFL; // NOPMD
+        final List<String> ABFL_ABWM_BUSINESSUNIT = ABFL_Constants.ABFL_ABWM_BUSINESSUNIT; // NOPMD
         String query = 'SELECT ';
         query += getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
-        query += ' FROM Case WHERE Id IN :caseIds AND Business_Unit__c = :ABFL_BUSINESS_UNIT AND isClosed=True WITH SYSTEM_MODE';
+        query += ' FROM Case WHERE Id IN :caseIds AND Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND isClosed=True WITH SYSTEM_MODE';
 
         Map<Id,Case> mCaseIdToRecord = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
 
