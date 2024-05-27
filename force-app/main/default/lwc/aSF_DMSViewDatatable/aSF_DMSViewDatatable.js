@@ -99,7 +99,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                             fieldName: '',
                             label: '',
                             fixedWidth: 40,
-                            cellAttributes: { iconName: { fieldName: 'dynamicIcon' } }
+                            cellAttributes: { iconName: { fieldName: 'dynamicIcon' }, iconAlternativeText: {fieldName: 'dynamicIconText' } }
                         }
                     ];
                     resolve();
@@ -139,13 +139,14 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                     this.tableData = result.map(res => {
                         let processedRes = { ...res }; // Create a copy of the record
                         processedRes.accLink = '/' + res.Id;
-                        if (res.DocumentID__c == null) {
+                        if (res.DocumentID__c == null || res.DocumentID__c == '0') {
                             processedRes.showButtons = true;
                         }
                         const nextRetryDateTime = new Date(res.Next_Retry__c);
-                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled' || currentDateTime < nextRetryDateTime;
+                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled'|| ((res.Retry_Attempt__c ?? 0) < 3) || currentDateTime < nextRetryDateTime;
                         processedRes.actionText = res.Status__c === 'Success' ? Synched_Already : (res.Status__c === 'Canceled' ? Sync_Canceled : (currentDateTime < nextRetryDateTime ? Synching_initiated : Sync_Manually));
                         processedRes.dynamicIcon = res.Status__c === 'Success' ? 'utility:warranty_term' : (res.Status__c === 'Canceled' ? 'utility:cancel_file_request' : (res.Status__c === 'Pending' ? 'utility:real_time' : 'utility:error'));
+                        processedRes.dynamicIconText = res.Status__c === 'Failure' ? 'Failure Text' : 'Success Text';
                         return processedRes;
                     });
                     
