@@ -15,6 +15,9 @@
     <columns>
         <field>CDF1</field>
     </columns>
+    <columns>
+        <field>Case.Winning_Email__c</field>
+    </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(Case.Pre_framework_SLA__c &lt; NOW(), &apos;Outside TAT&apos;, &apos;Within TAT&apos;)</calculatedFormula>
         <dataType>Text</dataType>
@@ -29,6 +32,20 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Case.Interaction</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Winning_Email__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>contains</operator>
+            <value>abctsl.uatabflchatwealth@adityabirlacapital.com,abfssl.uatcarewealth@adityabirlacapital.com</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Closed,Closed Duplicate,Resolved,Unresolved</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
