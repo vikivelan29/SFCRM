@@ -2,7 +2,7 @@
  * @description       : Logic to handle ABFL DMS operations
  * @author            : udit.singhal@salesforce.com
  * @group             : 
- * @last modified on  : 05-21-2024
+ * @last modified on  : 05-27-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -26,9 +26,12 @@ public without sharing class ABFL_DMSSync_Orchestrator{
 
         Map<Id,Case> mCaseIdToRecord = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
 
+        // in BRE scenerios, linkedEntityId will be of EmailMessage
+        Map<Id,EmailMessage> mEmailMsgRec = new Map<Id,EmailMessage>([select id, parentId from EmailMessage where parentId IN :mCaseIdToRecord.keySet()]);
+
         List<ContentDocumentLink> lContentdoclLink = [SELECT ContentDocumentId, LinkedEntityId 
                                              FROM ContentDocumentLink 
-                                             WHERE LinkedEntityId IN :mCaseIdToRecord.keySet()
+                                             WHERE (LinkedEntityId IN :mCaseIdToRecord.keySet() OR LinkedEntityId IN :mEmailMsgRec.keyset())
                                              WITH SYSTEM_MODE
                                             ];
 
@@ -53,12 +56,19 @@ public without sharing class ABFL_DMSSync_Orchestrator{
 
             Map<Id, List<ContentVersion>> mCaseIdToContentVersion = new Map<Id, List<ContentVersion>>();
             for(ContentDocumentLink docLink : lContentdoclLink){
-                if(!mCaseIdToContentVersion.containsKey(docLink.LinkedEntityId)){
-                    mCaseIdToContentVersion.put(docLink.LinkedEntityId, new List<ContentVersion>{mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId)});
+                // Check type of linkedEntityId 
+                Id caseId;
+                if(docLink.LinkedEntityId.getSobjectType()==Case.getSObjectType()){
+                    caseId = docLink.LinkedEntityId;
                 }else{
-                    List<ContentVersion> tempList = mCaseIdToContentVersion.get(docLink.LinkedEntityId);
+                    caseId = mEmailMsgRec.get(docLink.LinkedEntityId).parentId;
+                }
+                if(!mCaseIdToContentVersion.containsKey(caseId)){
+                    mCaseIdToContentVersion.put(caseId, new List<ContentVersion>{mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId)});
+                }else{
+                    List<ContentVersion> tempList = mCaseIdToContentVersion.get(caseId);
                     tempList.add(mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId));
-                    mCaseIdToContentVersion.put(docLink.LinkedEntityId, tempList);
+                    mCaseIdToContentVersion.put(caseId, tempList);
                 }
             }
 
@@ -107,7 +117,15 @@ public without sharing class ABFL_DMSSync_Orchestrator{
                 Boolean invalidDMSFlag = false;
                 for(DMS_Files__c dmsRec: dmsFileList){
                     DateTime thresholdTime = dmsRec.LastModifiedDate.addMinutes(Integer.valueOf(System.Label.ABFL_Manual_Sync_Threshold));
-                    if(thresholdTime > System.now() && !Test.isRunningTest()){
+                    
+                    // In case user doesn't wait for automated sync to complete - It is irrespective of status
+                    if(dmsRec.Retry_Attempt__c >= 9){
+                        throw new AuraHandledException('Maximum number of retires are exhausted. Please contact system admin.');
+                    }
+                    System.debug('****Status__c'+dmsRec.Status__c);
+                    System.debug('****Status__c'+ABFL_Constants.PENDING);
+                    // for manual sync where users click repeatively
+                    if(dmsRec.Status__c == ABFL_Constants.PENDING && thresholdTime > System.now() && !Test.isRunningTest()){
                         throw new AuraHandledException('Sync was recently initiated, please wait till '+thresholdTime.format()+'.');
                     }
                     //Cancel existing dms file record
@@ -154,7 +172,11 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         nDMSFileRec.RecordTypeId = Schema.Sobjecttype.DMS_Files__c.getRecordTypeInfosByName().get(ABFL_Constants.ABFL).getRecordTypeId();
         nDMSFileRec.ContentDocumentId__c = conVer==null?dmsRec.ContentDocumentId__c:conVer.ContentDocumentId;
         nDMSFileRec.LOB__c = conVer==null?dmsRec.Lob__c:caseRec.Lob__c;
-        nDMSFileRec.Business_Unit__c = conVer==null?dmsRec.Business_Unit__c:caseRec.Business_Unit__c;
+        String bu = conVer==null?dmsRec.Business_Unit__c:caseRec.Business_Unit__c;
+        if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(bu)){
+            bu = 'ABFL';
+        }
+        nDMSFileRec.Business_Unit__c = bu;
         nDMSFileRec.Case__c = conVer==null?dmsRec.Case__c:caseRec.Id;
         nDMSFileRec.ContentVersionId__c = conVer==null?dmsRec.ContentVersionId__c:conVer.Id;
         nDMSFileRec.File_Name__c = conVer==null?dmsRec.File_Name__c:conVer.Title;
