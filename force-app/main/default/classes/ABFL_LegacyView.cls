@@ -122,7 +122,6 @@ public with sharing class ABFL_LegacyView {
     * @Last Modified   11/02/2024
     * @description     LegacyCaseResponseWrapper */
     public class LegacyCaseResponseWrapper{
-        @AuraEnabled public String Customer;
         @AuraEnabled public String CaseID;
         @AuraEnabled public String Category;
         @AuraEnabled public String CaseType;
