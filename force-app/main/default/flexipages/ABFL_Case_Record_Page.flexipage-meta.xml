@@ -389,6 +389,38 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>maxEARContainerHeight</name>
+                    <value>500</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>shouldDisplayFiltersOnRight</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>forceKnowledge:articleSearchDesktop</componentName>
+                <identifier>forceKnowledge_articleSearchDesktop</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8d4a7a2b-5040-41f0-a258-464e57121084</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showChecklistColumn</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>aSF_DMSViewDatatable</componentName>
+                <identifier>c_aSF_DMSViewDatatable</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-6638a240-b11e-4e06-83ec-76030d883a60</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4836c3c9-53ef-4d84-81ab-fc3788f883e5</value>
                 </componentInstanceProperties>
@@ -468,6 +500,34 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8d4a7a2b-5040-41f0-a258-464e57121084</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.knowledge</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6638a240-b11e-4e06-83ec-76030d883a60</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>DMS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9e59018b-0a4a-4dd5-9711-15dd3d363291</name>

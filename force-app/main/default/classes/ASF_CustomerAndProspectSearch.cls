@@ -1,6 +1,22 @@
-@SuppressWarnings('PMD.ClassNamingConventions')
+/**
+ * @description       : 
+ * @author            : virendra.patil@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-14-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.StdCyclomaticComplexity,PMD.ClassNamingConventions')
 public with sharing class ASF_CustomerAndProspectSearch {
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param searchString 
+    * @return List<returnVal> 
+    **/
     @AuraEnabled
     public static List<returnVal> getRecords(String searchString){
         
@@ -15,7 +31,6 @@ public with sharing class ASF_CustomerAndProspectSearch {
         cls.add(new returnVal('Lead', new List<Account>()));
         
         searchString = '*'+String.escapeSingleQuotes(searchString)+'*';
-        System.debug(searchString);
         List<List<SObject>> searchList = [FIND :searchString IN ALL FIELDS 
                                           RETURNING 
                                           Account (Id, Name,Business_Unit__c,Client_Code__c), 
@@ -23,7 +38,6 @@ public with sharing class ASF_CustomerAndProspectSearch {
                                           Lead (Id,Name)
                                           LIMIT 100];
         for(List<sObject> searchObject : searchList){
-            System.debug(searchList);
             if(searchObject.size()>0){
                 String objName = String.ValueOf(searchObject[0].Id.getSObjectType());
                 for(returnVal r : cls){
@@ -34,15 +48,28 @@ public with sharing class ASF_CustomerAndProspectSearch {
                 }
             }
         }
-        System.debug(cls);
         return cls;
     }
-    
+
+    /**
+    * @description 
+    **/
     public class returnVal{
+        /**
+        * @description : ApexProperty
+        **/
         @AuraEnabled public string objectName{get;set;}
+        /**
+        * @description : ApexProperty
+        **/
         @AuraEnabled public boolean showSeperate{get;set;}
         @AuraEnabled public List<sObject> objRecords = new List<sObject>();
-        
+        /**
+        * @description 
+        * @author rsinghnagar@salesforce.com | 05-13-2024 
+        * @param objName 
+        * @param records 
+        **/
         public returnVal(String objName, List<sObject> records){
             this.objectName = objName;
             this.showSeperate = false;
@@ -55,10 +82,16 @@ public with sharing class ASF_CustomerAndProspectSearch {
         }
     }
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    * @param caseToInsert 
+    * @param caseExtnRecord 
+    * @param prospectRecord 
+    * @return Map<String,sObject>
+    **/
     @AuraEnabled
-    public static Map<String,sObject> createProspectWithCaseExtnAndCase(Case caseToInsert, 
-                                                                   sObject caseExtnRecord, 
-                                                                   Lead prospectRecord)
+    public static Map<String,sObject> createProspectWithCaseExtnAndCase(Case caseToInsert, sObject caseExtnRecord, Lead prospectRecord)
     {
         Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
         Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
@@ -73,7 +106,6 @@ public with sharing class ASF_CustomerAndProspectSearch {
                 for (Datacloud.DuplicateResult dupeResult : findDupeResult.getDuplicateResults()) {
                     for (Datacloud.MatchResult matchResult : dupeResult.getMatchResults()) {
                         for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
-                            System.debug(matchRecord.getRecord());
                             mObjectVsRecId.put('DuplicateLead',matchRecord.getRecord());
                             return mObjectVsRecId;
                         }
