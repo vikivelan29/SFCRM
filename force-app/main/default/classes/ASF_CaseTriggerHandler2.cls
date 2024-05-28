@@ -160,11 +160,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndStorePeripheralRecordsInAfterContext(newItemsCase.values(), null);
             ASF_CaseTriggerModularHelper.invokeSLACalculationMethods((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords((Map<Id, Case>)newItemsCase, null);
-            ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
-            
-            //SLA 
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,(Map<Id,Case>)newItemsCase);
-            
+            ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
             
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInAfterInsert(frameworkRTCases);            
@@ -175,8 +172,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseRelatedDetailsUpdate relatedDetails = new ASF_CaseRelatedDetailsUpdate();
             relatedDetails.updateRelatedObjectDetailsBulk(newCaseMap.values());
             ASF_CaseSLAHandlerV1.insertSLAHistory(null,newCaseMap);
+            ASF_CaseRelatedDetailsUpdate.removeAccountIdBuMissMatch(null,newCaseMap);
         }
-        
         
     }
     

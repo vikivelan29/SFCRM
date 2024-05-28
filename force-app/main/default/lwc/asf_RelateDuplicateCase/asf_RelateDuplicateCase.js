@@ -101,8 +101,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             isValid = false;
             this.showToastMessage('Error!', 'Parent case should belong to same LAN as current case', 'error');
         }
-        else if(this.wiredCurrentRec.Category != this.wiredParentRec.Category && this.wiredCurrentRec.Type != this.wiredParentRec.Type 
-            && this.wiredCurrentRec.SubType != this.wiredParentRec.SubType){
+        else if(this.wiredCurrentRec.Category != this.wiredParentRec.Category || this.wiredCurrentRec.Type != this.wiredParentRec.Type 
+            || this.wiredCurrentRec.SubType != this.wiredParentRec.SubType){
             isValid = false;
             this.showToastMessage('Error!', 'Parent case should belong to same Category, Type and Sub Type as current case', 'error');
         }
