@@ -8,14 +8,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      */
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
-        ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
-        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
-    }
-      
-     /**
-     * @description - Executes after the ASF code runs in before insert context
-     * @param newItems - list of new cases
-     */
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
         ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
@@ -101,16 +93,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      */
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){
-        	ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
+            ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
-    }
-
-    /**
-     * @description  Executes before the ASF code runs in after update context
-     * @param newItems - map of new cases
-     * @param oldItems - map of old cases
-     */
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
     }
 
