@@ -147,8 +147,11 @@ public without sharing class ASF_CaseRelatedDetailsUpdate {
                 WHERE Id IN :caseIdsToUpdate]);
             // Checking Business Unit mismatch and clearing AccountId if needed
             for (Case cs :newCases.values()) {
-                if (cs.AccountId != null && accountMap.containsKey(cs.AccountId)) {
-                    if (cs.Business_Unit__c != accountMap.get(cs.AccountId).Business_Unit__c &&  accountMap.get(cs.AccountId).Business_Unit__c != null) {
+            	String caseBu = cs.Business_Unit__c;
+                String accountBu = accountMap.get(cs.AccountId).Business_Unit__c;
+                // Excluding logic if Case BU is ABFL or ABWM and Account BU is either ABFL or ABWM as both belong to same BU.
+                if (!((caseBu == 'ABFL' || caseBu == 'ABWM') && (accountBu == 'ABFL' || accountBu == 'ABWM'))) {
+                    if (caseBu != null && accountBu != null && caseBu != accountBu) {
                         Case objToUpdate = new Case();
                         objToUpdate.Id = cs.Id;
                         objToUpdate.AccountId = null;
