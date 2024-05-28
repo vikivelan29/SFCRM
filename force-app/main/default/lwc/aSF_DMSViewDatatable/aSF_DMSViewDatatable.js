@@ -153,8 +153,8 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                             nextRetryDateTime= new Date(new Date(res.LastModifiedDate).getTime() + manualSyncThreshold*60000);
                         }
                          
-                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled' || (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime);
-                        processedRes.actionText = res.Status__c === 'Success' ? Synched_Already : (res.Status__c === 'Canceled' ? Sync_Canceled : (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime ? Synching_initiated : Sync_Manually));
+                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled' || (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime) || res.Retry_Attempt__c < 2;
+                        processedRes.actionText = res.Status__c === 'Success' ? Synched_Already : (res.Status__c === 'Canceled' ? Sync_Canceled : (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime ? Synching_initiated : (res.Status__c === 'Failure' && res.Retry_Attempt__c < 2 ? 'Autosync process' : Sync_Manually)));
                         processedRes.dynamicIcon = res.Status__c === 'Success' ? 'utility:warranty_term' : (res.Status__c === 'Canceled' ? 'utility:cancel_file_request' : (res.Status__c === 'Pending' ? 'utility:real_time' : 'utility:error'));
                         processedRes.dynamicIconText = res.Status__c;
                         processedRes.Error_Description__c = res.Error_Description__c?res.Error_Description__c:'Sync Initiated!';
