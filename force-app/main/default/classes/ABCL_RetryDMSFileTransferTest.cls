@@ -33,7 +33,7 @@ public class ABCL_RetryDMSFileTransferTest {
             fileRec.Case__c = caseRecords[i].Id;
             fileRec.ContentVersionId__c = 'test';
             fileRec.Status__c = ABFL_Constants.PENDING;
-			fileRec.Business_Unit__c = ABHFL_Constants.BUSINESS_UNIT_ABHFL;
+            fileRec.Business_Unit__c = ABHFL_Constants.BUSINESS_UNIT_ABHFL;
             DateTime currentDateTime = System.now();
             fileRec.DMS_External_ID__c = String.valueOf(i)+currentDateTime.getTime();
             fileRec.Next_Retry__c = System.now().addMinutes(15);
@@ -44,7 +44,7 @@ public class ABCL_RetryDMSFileTransferTest {
         ABCL_RetryDMSFileTransfer.retryDMSFileTransfer(fileRecList);
 
         List<DMS_Files__c> updatedDMSFilesList = [SELECT Id FROM DMS_Files__c];
-		Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
+        Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
     }
     
     @IsTest 
@@ -72,7 +72,7 @@ public class ABCL_RetryDMSFileTransferTest {
             fileRec.Case__c = cases[i].Id;
             fileRec.ContentVersionId__c = 'test';
             fileRec.Status__c = ABFL_Constants.PENDING;
-			fileRec.Business_Unit__c = ABFL_Constants.ABFL;
+            fileRec.Business_Unit__c = ABFL_Constants.ABFL;
             DateTime currentDateTime = System.now();
             fileRec.DMS_External_ID__c = String.valueOf(i)+currentDateTime.getTime();
             fileRec.Next_Retry__c = System.now().addMinutes(15);
@@ -82,9 +82,9 @@ public class ABCL_RetryDMSFileTransferTest {
         insert fileRecList;
         Test.startTest();
         ABCL_RetryDMSFileTransfer.retryDMSFileTransfer(fileRecList);
-		Test.stopTest();
+        Test.stopTest();
         
         List<DMS_Files__c> updatedDMSFilesList = [SELECT Id FROM DMS_Files__c];
-		Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
+        Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
     }
 }
