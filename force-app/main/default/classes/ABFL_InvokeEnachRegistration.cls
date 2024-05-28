@@ -1,20 +1,19 @@
 /*********************************************************
-*Class        :  ABFL_InvokeEnachRegistration
-*Author       :  Aditee Churiwala 
-*Created Date :  11/02/2024
-*Last Modified:  11/02/2024
-*Description  :  ABFL_InvokeEnachRegistration */
+* @Class           ABFL_InvokeEnachRegistration
+* @Author          Aditee Churiwala 
+* @Created Date    11/02/2024
+* @Last Modified   11/02/2024
+* @description     ABFL_InvokeEnachRegistration */
 public with sharing class ABFL_InvokeEnachRegistration implements ASF_IntegrationInvocable {
     public Enach_data enach_data;
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - evaluate
-    * @param caseRec - Case record from the framework.
-    * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - This method will be used to evaluate criteria for BRE API invocations.
+    * @param caseRec
+    * @return  ASF_IntegrationsController.IntegrationWrapper.
+    * @description  This method will be used to evaluate criteria for BRE API invocations.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
-        System.debug('@@evaluate');
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABFL_Constants.SUCCESS;
         result.response = ABFL_Constants.EVALUATION_SUCCESS;
@@ -61,10 +60,10 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - run
-    * @param integ - ASF_Integration record.
-    * @param caseRec - Case record from the framework.
-    * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @Description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+    * @param integRec
+    * @param caseRec
+    * @return  ASF_IntegrationsController.IntegrationWrapper.
+    * @description  Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
     *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integRec, Case caseRec) {
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -87,7 +86,13 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         result.response = ABFL_Constants.WAITING_API_RESPONSE;
         return result;        
     }
-    
+    /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - createEnachRegistration
+    * @param integRec
+    * @param caseRecord
+    * @description  Create Enach Registration
+    *****************************************************************************************************************/
     private static void createEnachRegistration(ASF_Integration__c integRec, Case caseRecord) {
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Enach');
         Enach_data enachData = new Enach_data();
@@ -115,9 +120,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         enachData .lan = caseRecord.LAN__c;
         enachData.return_url = 'http://localhost:8090/resultpage';
         payload.enach_data = enachData;
-        System.debug('@@@payloadWrap'+JSON.serialize(payload));
          
-        Database.SaveResult publishResult = EventBus.publish(new Case_Integration_Outbound__e (
+        EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,
             Integration_Name__c  = integRec.STP_API_Identifier__c, // STP_API_Identifier__c is the actual name of API to invoke
@@ -128,9 +132,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - processResponse
-    * @param caseInteg - ASF_Case_Integration record.
-    * @return - void.
-    * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
+    * @param caseInteg
+    * @description  Invoked when status Case Intg is updated to success, it processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         try {
@@ -140,12 +143,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
             if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()) {
                     upsert new ASF_Case_Integration__c(Id = caseInteg.Id , Response__c = decryptedResponse);
             }
-            System.debug('@@@decryptedResponse'+decryptedResponse);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
-                ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
-                Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
-                System.debug('@@@decryptedResponse'+decryptedResponse);
                 ABFL_EnachRegistrationResponse jsonMap = (ABFL_EnachRegistrationResponse)JSON.deserialize(decryptedResponse, ABFL_EnachRegistrationResponse.class);
                 if(jsonMap.registration_data.return_code == '0000' && jsonMap.registration_data.registration_link != '') {
                     
@@ -170,7 +169,6 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
             }   
         }
         catch(Exception e) {
-            System.debug('@@@mess'+e.getMessage()+' '+e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
             ABCL_Logger.message(e.getMessage());
@@ -178,6 +176,12 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         }
         
     }
+    /*********************************************************
+    * @Class           ABFL_InvokeEnachRegistration
+    * @Author          Aditee Churiwala 
+    * @Created Date    11/02/2024
+    * @Last Modified   11/02/2024
+    * @description     ABFL_InvokeEnachRegistration */
     public class Enach_data {
 		public String pl_merchant_id;
 		public String customer_Id;
@@ -194,9 +198,30 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
 		public String debit_type;
 		public String return_url;
 	}
+    /*********************************************************
+    * @Class           ABFL_InvokeEnachRegistration
+    * @Author          Aditee Churiwala 
+    * @Created Date    11/02/2024
+    * @Last Modified   11/02/2024
+    * @description     ABFL_InvokeEnachRegistration */
     public class EnachRegistration {
         Enach_data enach_data;
     }
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - evaluate
+    * @param caseRecs
+    * @return  Map<Id, ASF_IntegrationsController.IntegrationWrapper>
+    * @description  This method will be used to evaluate criteria for BRE API invocations.
+    *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - run
+    * @param integs
+    * @param caseRecs
+    * @return  Map<Id, ASF_IntegrationsController.IntegrationWrapper>
+    * @description  This method will be used to evaluate criteria for BRE API invocations.
+    *****************************************************************************************************************/
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){return null;}
 }
