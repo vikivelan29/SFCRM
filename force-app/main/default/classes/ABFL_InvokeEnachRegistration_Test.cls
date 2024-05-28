@@ -15,7 +15,7 @@ public class ABFL_InvokeEnachRegistration_Test {
     * @description 
     * @author achuriwala@salesforce.com | 22-12-2023
     **/
-	@TestSetup
+    @TestSetup
     static void makeData(){
         Group slaGroup = new Group();
         
