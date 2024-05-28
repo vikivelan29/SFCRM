@@ -33,7 +33,8 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
         DateTime currentTime = System.now();
         Map<String,User> emailUserIdMap = new Map<String,User>();
         Set<String> caseEmailList = new Set<String>();
-        map<Id,ASF_Case_SLA_History__c> caseIdSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
+        map<Id,ASF_Case_SLA_History__c> caseIdToUpdateSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
+        map<Id,ASF_Case_SLA_History__c> caseIdToSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         Map<String, Set<Id>> managerEmailToCasesForSLA2 = new Map<String, Set<Id>>();
         Map<String, Set<Id>> managerEmailToCasesForSLA3 = new Map<String, Set<Id>>();
@@ -51,6 +52,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                 caseEmailList.add(slaHistory.Case__r.SLA_Target_3__c);
             }
             casesMap.put(slaHistory.Case__c, slaHistory.Case__r);
+            caseIdToSLAHistoryMap.put(slaHistory.Case__c, slaHistory);
         }
 
         if(caseEmailList.size() > 0){
@@ -71,11 +73,11 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                 slaHistory.Status__c = 'Violated';
             }
 
-            if(slaHistory.Case__r.Stage_SLA_3__c != null && slaHistory.Case__r.Stage_SLA_3__c < currentTime && slaHistory.SLA_3_Email_Sent__c == null && slaHistory.Case__r.SLA_Target_3__c != null){
+            if(slaHistory.Case__r.Stage_SLA_3__c != null && slaHistory.Case__r.Stage_SLA_3__c < currentTime && slaHistory.Case__r.SLA_Target_3__c != null){
                 if(slaHistory.Level__c != '3'){
                     slaHistory.Level__c = '3';
                     slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
-                    caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                    caseIdToUpdateSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
                 }
                 if(isCaseWithinBusinessHours || Test.isRunningTest()){
                     if(!managerEmailToCasesForSLA3.containsKey(slaHistory.Case__r.SLA_Target_3__c)){
@@ -84,11 +86,11 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                     managerEmailToCasesForSLA3.get(slaHistory.Case__r.SLA_Target_3__c).add(slaHistory.Case__c);
                 }
             }
-            else if(slaHistory.Case__r.Stage_SLA_2__c != null && slaHistory.Case__r.Stage_SLA_2__c < currentTime && slaHistory.SLA_2_Email_Sent__c == null && slaHistory.Case__r.SLA_Target_2__c != null){
+            else if(slaHistory.Case__r.Stage_SLA_2__c != null && slaHistory.Case__r.Stage_SLA_2__c < currentTime && slaHistory.Case__r.SLA_Target_2__c != null){
                 if(slaHistory.Level__c != '2'){
                     slaHistory.Level__c = '2';
                     slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
-                    caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                    caseIdToUpdateSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
                 }
                 if(isCaseWithinBusinessHours || Test.isRunningTest()){
                     if(!managerEmailToCasesForSLA2.containsKey(slaHistory.Case__r.SLA_Target_2__c)){
@@ -124,7 +126,10 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                         mail.setHtmlBody(emailBody);
                         emailList.add(mail);
                         for(Id caseId : managerEmailToCasesForSLA2.get(email)){
-                            caseIdSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = casesMap.get(caseId).SLA_Target_2__c;
+                            if(!caseIdToUpdateSLAHistoryMap.containsKey(caseId)){
+                                caseIdToUpdateSLAHistoryMap.put(caseId, caseIdToSLAHistoryMap.get(caseId));
+                            }
+                            caseIdToUpdateSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = casesMap.get(caseId).SLA_Target_2__c;
                         }
                     }
                 }
@@ -148,13 +153,16 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                         mail.setHtmlBody(emailBody);
                         emailList.add(mail);
                         for(Id caseId : managerEmailToCasesForSLA3.get(email)){
-                            caseIdSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = casesMap.get(caseId).SLA_Target_3__c;
+                            if(!caseIdToUpdateSLAHistoryMap.containsKey(caseId)){
+                                caseIdToUpdateSLAHistoryMap.put(caseId, caseIdToSLAHistoryMap.get(caseId));
+                            }
+                            caseIdToUpdateSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = casesMap.get(caseId).SLA_Target_3__c;
                         }
                     }
                 }
             }
-            if(!caseIdSLAHistoryMap.isEmpty()){ 
-                UPDATE caseIdSLAHistoryMap.values();
+            if(!caseIdToUpdateSLAHistoryMap.isEmpty()){ 
+                UPDATE caseIdToUpdateSLAHistoryMap.values();
             }
             if(!emailList.isEmpty()){
                 Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);

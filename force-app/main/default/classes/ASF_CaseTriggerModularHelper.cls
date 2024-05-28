@@ -5,6 +5,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
     public static Map<Id, Boolean> triggerEncounteredError = new Map<Id, Boolean>();
     private static Map<Id, Case> caseFinalDMLMap = new Map<Id, Case>();
+    public static Map<Id, Case> getCaseFinalDMLMap(){
+        return caseFinalDMLMap;
+    }
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
     public static Boolean preClosureStageAlreadyStamped = false;
@@ -711,7 +714,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo ownerInfo = ownerInfoMap.get(caseRec.Id);
                 caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
                 if(!caseFinalDMLMap.containsKey(caseRec.Id)){
-                    Case caseObj = new Case(Id = caseRec.Id, OwnerId=caseRec.OwnerId);
+                    Case caseObj = new Case(Id = caseRec.Id);
                     caseFinalDMLMap.put(caseRec.Id, caseObj);
                 }
                 Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
@@ -931,7 +934,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = true;//Reserved for future use, in case any specific module/function need skip
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             System.debug('caseFinalDMLMap.values()'+caseFinalDMLMap.values());
-            for(Case caseRec : caseFinalDMLMap.values()){
+            List<String> propertiesToRemove = new List<String>{'OwnerId', 'Stage__c'};
+            //List<Case> localListForDML = (List<Case>)JSON.deserializeStrict(JSON.serialize(caseFinalDMLMap.values()), List<Case>.class);
+            List<Case> localListForDML = removeProperties(newMap, caseFinalDMLMap.values(), propertiesToRemove);
+            for(Case caseRec : localListForDML){
                 if(caseRec.Stage__c != null || caseRec.OwnerId != null){
                     //If Stage or Owner is being updated on any Case, After Trigger needs to run for SLA History calculation
                     ASF_TriggerSkipperUtility.resetTriggerRun('Case');
@@ -939,7 +945,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     break;
                 }
             }
-            List<Case> localListForDML = (List<Case>)JSON.deserializeStrict(JSON.serialize(caseFinalDMLMap.values()), List<Case>.class);
+            System.debug('caseFinalDMLMap.values() After manipulation'+localListForDML);
             caseFinalDMLMap = new Map<Id, Case>();
             Database.SaveResult[] saveResults = Database.update(localListForDML, false);
             ASF_CaseTriggerModularHelper.isRecursiveUpdate = false;
@@ -959,8 +965,26 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         caseFinalDMLMap = new Map<Id, Case>();
     }
-
-    public static void onCreateCloseServiceRequest(List<Case> newList){
+    private static List<Case> removeProperties(Map<Id, Case> currentCases, List<Object> objects, String[] propertiesToRemove){
+        // serialize / deserialize into a generic List<Map<String, Object>>
+        List<Object> deserializedList = (List<Object>) JSON.deserializeUntyped(JSON.serialize(objects));
+     
+         // For each object, remove each property
+         for (Object deserialized : deserializedList) {
+             Map<string, Object> obj = (Map<string, Object>) deserialized;
+             Case triggerCase = currentCases.get((Id)obj.get('Id'));
+             for(string property : propertiesToRemove){
+                if(obj.containsKey(property) && 
+                (obj.get(property) == null || (String)triggerCase.get(property) == (String)obj.get(property))){
+                    obj.remove(property);
+                }
+             }
+         }
+         // serialize / deserialize back to object type
+         return (List<Case>)JSON.deserializeStrict(JSON.serialize(deserializedList), List<Case>.class);
+     }
+    
+     public static void onCreateCloseServiceRequest(List<Case> newList){
         List<Case> onCreateCloseCases = new List<Case>();
         
         for(case caseRec : newList){

@@ -14,6 +14,7 @@ import Sync_Canceled from '@salesforce/label/c.Sync_Canceled';
 import Synching_initiated from '@salesforce/label/c.Synching_initiated';
 import Sync_Manually from '@salesforce/label/c.Sync_Manually';
 import pageSize from '@salesforce/label/c.ABFL_DMSPageSize';
+import manualSyncThreshold from '@salesforce/label/c.ABFL_Manual_Sync_Threshold';
 
 export default class ASF_DMSViewDatatable extends NavigationMixin(LightningElement) {
     isLoading=false;
@@ -66,7 +67,15 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                             label: DMS_File_Name,
                             fieldName: 'accLink',
                             type: 'url',
+                            fixedWidth: 260,
                             typeAttributes: { label: { fieldName: 'File_Name__c' }, target: '_self' }
+                        },
+                        {
+                            fieldName: 'Error_Description__c',
+                            label: 'Status',
+                            type: 'url',
+                            typeAttributes: { label: { fieldName: 'dynamicIconText' }, target: '_self' },
+                            cellAttributes: { iconName: { fieldName: 'dynamicIcon' }, iconAlternativeText: {fieldName: 'dynamicIconText' } }
                         }
                         ,
                         ...result.map(col => ({
@@ -94,12 +103,6 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                                 variant: 'base',
                                 disabled: { fieldName: 'showButtonsSynch' }
                             }
-                        },
-                        {
-                            fieldName: '',
-                            label: '',
-                            fixedWidth: 40,
-                            cellAttributes: { iconName: { fieldName: 'dynamicIcon' }, iconAlternativeText: {fieldName: 'dynamicIconText' } }
                         }
                     ];
                     resolve();
@@ -128,7 +131,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
         }
         // this.selectedRows = [];
     }
-
+    
     retrieveDataTable() {
         executeQuery({ caseId: this.recordId})
             .then(result => {
@@ -142,11 +145,19 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                         if (res.DocumentID__c == null || res.DocumentID__c == '0') {
                             processedRes.showButtons = true;
                         }
-                        const nextRetryDateTime = new Date(res.Next_Retry__c);
-                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled'|| ((res.Retry_Attempt__c ?? 0) < 3) || currentDateTime < nextRetryDateTime;
-                        processedRes.actionText = res.Status__c === 'Success' ? Synched_Already : (res.Status__c === 'Canceled' ? Sync_Canceled : (currentDateTime < nextRetryDateTime ? Synching_initiated : Sync_Manually));
+                        // If retry attempt is < 2, then consider Next_Retry__c else consider lastmodifieddate
+                        let nextRetryDateTime;
+                        if(res.Next_Retry__c < 2){
+                            nextRetryDateTime= new Date(res.Next_Retry__c);
+                        }else{
+                            nextRetryDateTime= new Date(new Date(res.LastModifiedDate).getTime() + manualSyncThreshold*60000);
+                        }
+                         
+                        processedRes.showButtonsSynch = res.Status__c === 'Success' || res.Status__c === 'Canceled' || (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime) || res.Retry_Attempt__c < 2;
+                        processedRes.actionText = res.Status__c === 'Success' ? Synched_Already : (res.Status__c === 'Canceled' ? Sync_Canceled : (res.Status__c === 'Pending' && currentDateTime < nextRetryDateTime ? Synching_initiated : (res.Status__c === 'Failure' && res.Retry_Attempt__c < 2 ? 'Autosync process' : Sync_Manually)));
                         processedRes.dynamicIcon = res.Status__c === 'Success' ? 'utility:warranty_term' : (res.Status__c === 'Canceled' ? 'utility:cancel_file_request' : (res.Status__c === 'Pending' ? 'utility:real_time' : 'utility:error'));
-                        processedRes.dynamicIconText = res.Status__c === 'Failure' ? 'Failure Text' : 'Success Text';
+                        processedRes.dynamicIconText = res.Status__c;
+                        processedRes.Error_Description__c = res.Error_Description__c?res.Error_Description__c:'Sync Initiated!';
                         return processedRes;
                     });
                     
@@ -219,9 +230,18 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                 })
                 .catch(error => {
                     console.log('Error:', error);
-                    this.showToast('Error','Error syncing DMS files.','Error');
+                    if(error?.body?.message) {
+                        this.showToast('Warning',error.body.message,'warning');
+                    }else{
+                        this.showToast('Error','Error syncing DMS files.','Error');
+                    }
+                    this.retrieveData();
                 });
         }
+    }
+
+    refreshTable(){
+        this.retrieveData();
     }
     showToast(title, message, variant) {
         const evt = new ShowToastEvent({
