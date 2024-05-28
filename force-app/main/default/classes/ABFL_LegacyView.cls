@@ -7,7 +7,7 @@
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-23-2024   achuriwala@salesforce.com   Initial Version
- * 2.0	 05-15-2024   achuriwala@salesforce.com   Changes according to the API details
+ * 2.0   05-15-2024   achuriwala@salesforce.com   Changes according to the API details
 **/
 public with sharing class ABFL_LegacyView {
     /* @LOB - ABFL
@@ -46,27 +46,27 @@ public with sharing class ABFL_LegacyView {
             ResponseWrapper response = null;
             LegacyCaseResponseBodyWrapper legacyCaseResponseWrapper;
             String integrationName = 'ABFL_Legacy_Case';
-          	startDate = startDate != null?startDate:'';
+            startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
             String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob));
            ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
 
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
                 legacyCaseResponseWrapper = (LegacyCaseResponseBodyWrapper)JSON.deserialize(legacyCaseResponse.responseBody,LegacyCaseResponseBodyWrapper.class);
-            	response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
+                response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
                 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
-		response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
+        response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
             }
-			//If status code is not 200, Sending reponse in string
+            //If status code is not 200, Sending reponse in string
             else if(String.isNotBlank(legacyCaseResponse.responseBody)) {
-            	 response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponse.responseBody);
-               	 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
-		 response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
+                 response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponse.responseBody);
+                 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
+         response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
             }
             //If no response
             else {
                 response = new ResponseWrapper(0, '');
-		response.returnMessage = Label.ASF_Error_Case_Merge ;
+        response.returnMessage = Label.ASF_Error_Case_Merge ;
             }
             return response;
         }catch(exception e){
@@ -133,6 +133,7 @@ public with sharing class ABFL_LegacyView {
         @AuraEnabled public String CaseStatus;
         @AuraEnabled public String LastUpdatedOn;
         @AuraEnabled public String Owner;
+        @AuraEnabled public String ResolvedDate;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper
@@ -141,8 +142,8 @@ public with sharing class ABFL_LegacyView {
     * @Last Modified   11/02/2024
     * @description     LegacyCaseResponseBodyWrapper */
     public class LegacyCaseResponseBodyWrapper{
-		public String ReturnCode;
-		public String ReturnMessage;
+        public String ReturnCode;
+        public String ReturnMessage;
         public List<LegacyCaseResponseWrapper> lstDetails;
         public LegacyCaseResponseWrapper details;
     }
