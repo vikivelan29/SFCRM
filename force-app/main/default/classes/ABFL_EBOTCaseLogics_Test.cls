@@ -46,6 +46,7 @@ public class ABFL_EBOTCaseLogics_Test {
             newCase.CCC_External_Id__c ='' ;
           newCase.Source__c =  'Email';
           newCase.Stage__c = 'Email';
+          newCase.Origin = 'ABFL Email';
           newCase.SuppliedEmail = 'abcl.abfl@gmail.com';
            newCase.Business_Unit__c  = 'ABFL'; 
             insert newCase; 
@@ -119,6 +120,7 @@ public class ABFL_EBOTCaseLogics_Test {
             newCase.CCC_External_Id__c ='' ;
           newCase.Source__c =  'Email';
           newCase.Stage__c = 'Email';
+           newCase.Origin = 'ABFL Email';
            newCase.Business_Unit__c  = 'ABFL'; 
            newCase.SuppliedEmail ='abc.de@hjash.com';
             insert newCase; 
