@@ -2,12 +2,12 @@
  * @description       Legacy View 
  * @author            : achuriwala@salesforce.com
  * @group             : 
- * @last modified on  : 05-28-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 04-23-2024
+ * @last modified by  : achuriwala@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-23-2024   achuriwala@salesforce.com   Initial Version
- * 2.0   05-15-2024   achuriwala@salesforce.com   Changes according to the API details
+ * 2.0	 05-15-2024   achuriwala@salesforce.com   Changes according to the API details
 **/
 public with sharing class ABFL_LegacyView {
     /* @LOB - ABFL
@@ -142,8 +142,8 @@ public with sharing class ABFL_LegacyView {
     * @Last Modified   11/02/2024
     * @description     LegacyCaseResponseBodyWrapper */
     public class LegacyCaseResponseBodyWrapper{
-        public String ReturnCode;
-        public String ReturnMessage;
+		public String ReturnCode;
+		public String ReturnMessage;
         public List<LegacyCaseResponseWrapper> lstDetails;
         public LegacyCaseResponseWrapper details;
     }
