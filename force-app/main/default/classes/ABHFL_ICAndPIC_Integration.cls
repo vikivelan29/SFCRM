@@ -15,6 +15,13 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
     * @return - ASF_IntegrationsController.IntegrationWrapper.
     * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Interest Certificate Or Provisional Interest Certificate Integration should be fired or not.
     *****************************************************************************************************************/
+
+    public static List<HL_NHL_Logic__mdt> hlNhlLogicLis;
+
+    public ABHFL_ICAndPIC_Integration() {
+        hlNhlLogicLis = getHL_NHL_Logic();
+    }
+
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         
         String financialYr = '';
@@ -25,7 +32,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         result.response = Custom_Messages__mdt.getInstance('IC_EVALUATION_FAILED').Message__c;
 
         Case caseRecord = [
-            SELECT Id,Stage__c, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
+            SELECT Id,Account.RecordType.Name, Stage__c, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, 
+                    Customer_name_formula__c,Asset.Product2.Name,Asset.Sub_Scheme__c,Asset.Property_Detail__c
             FROM Case
             WHERE Id =: caseRec.Id 
         ];
@@ -63,6 +71,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                 result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
             }
         }
+        result = checkHlOrNonHlValidation(caseRecord, result);
         if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
             caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
             if(Schema.sObjectType.Case.isUpdateable()){
@@ -72,19 +81,23 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
         }
         return result;
     }
+
+    public List<HL_NHL_Logic__mdt> getHL_NHL_Logic() {
+        List<HL_NHL_Logic__mdt> hlNhlLogicList = [SELECT Id, Customer_Type__c, Product_Name__c, Property_Detail__c, Sub_Scheme__c
+                                                    FROM HL_NHL_Logic__mdt];
+
+        return hlNhlLogicList;
+    }
+
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-        
-        // Case caseRecord = [
-        //     SELECT Id, ABHFL_Case_Detail__r.Financial_Year__c, Technical_Source__c, Asset.LAN__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c 
-        //     FROM Case
-        //     WHERE Id =: caseRec.Id 
-        // ];
         List<Case> caseRecords = new List<Case>();
         List<Case> downloadStpCases = new List<Case>();
+
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
+
 		for(Case caseRecord : caseRecords){
             String financialYr = '';
             String integrationName = '';
@@ -95,8 +108,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             integrationName = getIntegrationName(caseRecord.Sub_Type_Text__c);
             financialYr = getFinancialYr(caseRecord);
             String lan   = caseRecord.Asset.LAN__c;
-
             String stpRequestType = String.isNotBlank(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c) ? caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c  : '';
+
             if(integrationName == 'Interest Certificate') {
                 if(String.isNotBlank(financialYr) && String.isNotBlank(lan) && stpRequestType == ABHFL_Constants.EMAIL) {
                     result.status = 'Success';
@@ -125,6 +138,8 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
                     result.response = Custom_Messages__mdt.getInstance('PIC_EVALUATION_FAILED').Message__c;
                 }
             }
+            result = checkHlOrNonHlValidation(caseRecord, result);
+
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
@@ -139,6 +154,34 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             update downloadStpCases;
         }
         return resultMap;
+    }
+
+    public ASF_IntegrationsController.IntegrationWrapper checkHlOrNonHlValidation(Case caseRecord, ASF_IntegrationsController.IntegrationWrapper obj) {
+
+        String CustomerTypeOfCase = caseRecord.Account.RecordType.Name.toLowerCase();
+        String productNameOfCase = caseRecord.Asset.Product2?.Name.toLowerCase();
+        String subSchemeOfCase = caseRecord.Asset.Sub_Scheme__c?.toLowerCase();
+        String propertyDetailOfCase = caseRecord.Asset.Property_Detail__c?.toLowerCase();
+
+        for(HL_NHL_Logic__mdt nlHhlRec : getHL_NHL_Logic()) {
+
+            List<String> CustomerTypeOfMdt = nlHhlRec.Customer_Type__c.toLowerCase().split(',');
+            List<String> productNameOfMdt = nlHhlRec.Product_Name__c.toLowerCase().split(',');
+            List<String> subSchemeOfMdt = nlHhlRec.Sub_Scheme__c.toLowerCase().split(',');
+            List<String> propertyDetailOfMdt = nlHhlRec.Property_Detail__c.toLowerCase().split(',');
+
+            if(CustomerTypeOfMdt.contains(CustomerTypeOfCase) && productNameOfMdt.contains(productNameOfCase) && 
+               subSchemeOfMdt.contains(subSchemeOfCase) && propertyDetailOfMdt.contains(propertyDetailOfCase)) {
+                obj.status = 'Success';
+                obj.response = '';
+                break;
+            }
+            else {
+                obj.status = 'Error';
+                obj.response = Custom_Messages__mdt.getInstance('Non_Housing_Loan_Evaluation').Message__c;
+            }
+        }
+        return obj;
     }
 
     /****************************************************************************************************************
