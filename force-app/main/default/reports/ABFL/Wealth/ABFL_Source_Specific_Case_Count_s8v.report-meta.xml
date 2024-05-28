@@ -31,10 +31,10 @@
         <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case.Sub_Type_Text__c</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Branch_Master__c</field>
@@ -42,13 +42,24 @@
     <columns>
         <field>Case.Overall_Case_Closure_SLA__c</field>
     </columns>
+    <columns>
+        <field>Case.Ageing_Business_Days__c</field>
+    </columns>
     <filter>
+        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
-            <column>Case.LOB__c</column>
+            <column>Case.Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
-            <value>Wealth</value>
+            <value>ABFL ABWM Customer Service</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OWNER</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>ABFL ABWM Customer Service</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>
@@ -72,7 +83,7 @@
     </params>
     <reportType>CaseList</reportType>
     <scope>organization</scope>
-    <showDetails>true</showDetails>
+    <showDetails>false</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>

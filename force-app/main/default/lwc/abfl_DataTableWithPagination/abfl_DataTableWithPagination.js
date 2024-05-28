@@ -71,4 +71,13 @@ export default class Abfl_DataTableWithPagination extends LightningElement {
             this.recordsToDisplay.push(this.tableData[i]);
         }
     }
+
+    callRowAction(event){
+        console.log('Hi'+JSON.stringify(event.detail.row));
+        const custEvent = new CustomEvent(
+            'rowaction', {
+                detail: event.detail.row
+        });
+        this.dispatchEvent(custEvent);                    
+    }
 }

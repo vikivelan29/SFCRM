@@ -16,6 +16,19 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @description - Executes after the ASF code runs in before insert context
      * @param newItems - list of new cases
      */
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+        ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+            ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
+            ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+        }
+    }
+      
+     /**
+     * @description - Executes after the ASF code runs in before insert context
+     * @param newItems - list of new cases
+     */
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         
         List<Case> newCaseList = (List<Case>)newItems;
@@ -98,6 +111,14 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @param newItems - map of new cases
      * @param oldItems - map of old cases
      */
+        ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+    }
+
+    /**
+     * @description  Executes before the ASF code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
     public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)newItems.values(), (Map<Id, Case>)oldItems);
     }
@@ -121,6 +142,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         //AM-PR970457-1295
         ABHFL_CTSTHelper.sendGrievanceDetailsEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        //AM-call method to delete existing asset detail records on customer change
+        ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABCL_InvokeOneABC.evaluateCasesForOneABC((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
 
