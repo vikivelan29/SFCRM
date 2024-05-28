@@ -2,7 +2,7 @@
   @description       : 
   @author            : shubham.sinha@salesforce.com
   @group             : 
-  @last modified on  : 05-20-2024
+  @last modified on  : 05-27-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                         Modification
@@ -13,6 +13,7 @@
     <template if:true={isRecordPresent}>
         <lightning-card>
             <!-- Check if showChecklistColumn is true to include checkbox column -->
+            <lightning-button label="Refresh" onclick={refreshTable} slot="actions" class="slds-m-right_small"> </lightning-button> 
             <template if:true={showChecklistColumn}>
                 <lightning-button label="Sync Records" onclick={syncDMSRecords} disabled={isDisabled} slot="actions"> </lightning-button>  
                 <lightning-datatable class="slds-resizable" key-field="Id" data={recordsToDisplay} columns={columns} selected-rows={selectedRows}  onrowselection={handleRowSelects} onrowaction={handleRowAction} min-column-width="155">

@@ -24,6 +24,6 @@
     </values>
     <values>
         <field>Query__c</field>
-        <value xsi:type="xsd:string">Select Id,Next_Retry__c,Retry_Attempt__c,Business_Unit__c,Name,DocumentID__c,Status__c,Case__c, File_Name__c,ContentVersionId__c,format(LastModifiedDate), File_Extension__c FROM DMS_Files__c WHERE Case__c =</value>
+        <value xsi:type="xsd:string">Select Id,Next_Retry__c,Retry_Attempt__c,Business_Unit__c,Name,DocumentID__c,Status__c,Case__c, File_Name__c,ContentVersionId__c,LastModifiedDate, File_Extension__c, Error_Description__c FROM DMS_Files__c WHERE Case__c =</value>
     </values>
 </CustomMetadata>
