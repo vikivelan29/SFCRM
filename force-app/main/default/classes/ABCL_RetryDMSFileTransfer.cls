@@ -1,8 +1,15 @@
+/**
+ * @description         : ABCL DMS Retry implementation class
+ * @author              : sjaitly@salesforce.com
+ * @last modified on    : 05-10-2024
+ * @last modified by    : udit.singhal@salesforce.com
+ */
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class ABCL_RetryDMSFileTransfer {
     /****************************************************************************************************************
     * @LOB - ABCL
     * @Function - retryDMSFileTransfer
-    * @param recId - DMS record Id.
+    * @param dmsRecords - DMS record Ids.
     * @description - Initiates File Transfer to DMS
     *****************************************************************************************************************/
     @InvocableMethod(label='Retry DMS File Transfer' description='This Apex is used to invoke the Failed or Pending DMS Integrations')
@@ -18,10 +25,12 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         if(caseIds.size() < 1){
             return;
         }
+        
+        String query = 'SELECT ';
+        query += ABFL_DMSSync_Orchestrator.getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
+        query += ' FROM Case WHERE Id IN :caseIds';
 
-        Map<Id,Case> relatedCaseRecords = new Map<ID, Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,
-                                                                CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
-                                                                from Case where Id in: caseIds]);
+        Map<Id,Case> relatedCaseRecords = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
 
         DateTime startOfLast60Mins = System.now().addMinutes(-60);
         DateTime currentTime = System.now();
@@ -30,7 +39,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         
         List<DMS_Files__c> oldDMSRecords = new List<DMS_Files__c> ();
         
-        if(DMS_Files__c.SObjectType.getDescribe().isAccessible()){
+        if(DMS_Files__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).isAccessible()){
             oldDMSRecords = [SELECT ID,Case__c,ContentVersionId__c FROM DMS_Files__c WHERE Case__c =:caseIds AND Case__r.IsClosed = true AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
         }
 
@@ -49,6 +58,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         }
 
         List<DMS_Files__c> retryDMSRecords = new List<DMS_Files__c>();
+        List<DMS_Files__c> abflRetryDMSRecords = new List<DMS_Files__c>();
         for(DMS_Files__c dms : dmsRecords){
             if(dms.Case__c != null && ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dms.Status__c)){
                 String tempKey = dms.Case__c+'_'+dms.ContentVersionId__c;
@@ -57,7 +67,11 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 if(dmsRecordNoOfAttemptHashMap.containsKey(ihashKey)){
                     noOfAttempts = dmsRecordNoOfAttemptHashMap.get(ihashKey);
                     if(noOfAttempts <= 2){
-                        retryDMSRecords.add(dms);
+                        if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(dms.Business_Unit__c)) {
+                            abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
+                        } else {
+                            retryDMSRecords.add(dms);
+                        }
                     }
                 }
             }
@@ -65,6 +79,14 @@ public with sharing class ABCL_RetryDMSFileTransfer {
 
         if(retryDMSRecords.size() > 0){
             retryDMSFileTransferIntegration(retryDMSRecords,relatedCaseRecords,dmsRecordNoOfAttemptHashMap);
+        }
+
+        if(abflRetryDMSRecords.size() > 0) {
+            if(Schema.sObjectType.DMS_Files__c.isCreateable()) {
+                insert abflRetryDMSRecords;
+
+                ABFL_DMSSync_Orchestrator.prepareEventsAndPublish(abflRetryDMSRecords, relatedCaseRecords);
+            }
         }
 
         if(dmsRecords.size() > 0){
@@ -112,7 +134,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 DateTime currentDateTime = System.now();
                 fileRec.DMS_External_ID__c = file.ContentVersionId__c + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = file.File_Extension__c;
-                fileRec.Next_Retry__c = System.now().addMinutes(15);
+                fileRec.Next_Retry__c = System.now().addMinutes((Integer)Asf_Dynamic_Datatable_Parent__mdt.getInstance(ABFL_Constants.DMS_METADATA).DMS_Retry_Interval__c);
                 fileRec.Retry_Attempt__c = noOfAttempt;
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
@@ -122,7 +144,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRecList.add(fileRec);
             }
         }
-        if(fileRecList.size() > 0){
+        if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
             insert fileRecList;
 
             List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
@@ -168,7 +190,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
             }
 
             if(dmsEventList.size() > 0){
-                List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
+                EventBus.publish(dmsEventList);
             }
         }
     }
@@ -185,6 +207,8 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 file.Status__c = 'Canceled';
             }
         }
-        update dmsRecords;
+        if(Schema.sObjectType.DMS_Files__c.isUpdateable()){
+            update dmsRecords;
+        }
     }
 }
