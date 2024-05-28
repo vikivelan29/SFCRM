@@ -47,6 +47,7 @@ public with sharing class ABFL_Constants {
     public static final String RTL_LOANMIS_INTEGRATION_METADATA = 'RTL_RealTime_LoanMIS';
     public static final String RTL_INSTALLPMNTDTLS_INTEGRATION_METADATA = 'RTL_RealTime_InstallPmntDtls';
     public static final String RTL_GETCRMDETAILS_INTEGRATION_METADATA = 'RTL_RealTime_GetCRMDetails';
+    public static final String DMS_ENCRYPT_DOC_ID = 'DMS_ENCRYPT_DOC_ID';
     
     //EOD APIs
     public static final String EOD_ACCOUNT_BALANCE_INTEGRATION_METADATA = 'EOD_Account_Balance';
@@ -75,6 +76,8 @@ public with sharing class ABFL_Constants {
     public static final string WMSMSTEMPLATENAME = 'ABFL_WM_BASIC_ACKNOWLEDGEMENT_SMS_TEMPLA';
     public static final String ABWMEMAIL = 'ABWM Email';
     
+    public static final String ABWM = 'ABWM';
+
     public static final List<String> ABFL_ALLEMAILORIGIN = new List<String>{'ABFL Email','ABFL WM CHAT','ABWM Email'};
 
     /* Map to Store Asset LOB with Default Queue Names */

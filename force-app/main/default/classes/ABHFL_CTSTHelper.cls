@@ -10,6 +10,53 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
     
+    //AM-Delete existing asset detail records on a case on customer change
+    public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseAssetDetailMap = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        List<ABHFL_Asset_Detail__c> assetDetailsToDelete = new List<ABHFL_Asset_Detail__c>();
+        for(Case cs: newCaseList){
+            if(cs.Business_Unit__c=='ABHFL'){
+            	caseIds.add(cs.Id);    
+            }
+        }
+        for(ABHFL_Asset_Detail__c assetDetail :[SELECT Id, Case__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseIds])
+        {
+            if(!caseAssetDetailMap.containsKey(assetDetail.Case__c)){
+                caseAssetDetailMap.put(assetDetail.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+       		caseAssetDetailMap.get(assetDetail.Case__c).add(assetDetail);
+        }
+        if(caseIds!=null){
+           	for(Case c: newCaseList){
+                if(caseAssetDetailMap.get(c.Id)!=null && c.AccountId!=null && oldCaseMap.get(c.Id).AccountId != c.AccountId)
+                {
+                    assetDetailsToDelete.addAll(caseAssetDetailMap.get(c.Id));
+                }
+            } 
+        }
+        if(assetDetailsToDelete!=null){
+            try{
+                delete assetDetailsToDelete;
+            }catch(Exception ex){
+                system.debug('Exception message:'+ex.getMessage());
+            }
+        }
+    }
+    
+    //AM-SLA broken reset change on Open --> In Progress for Complaints
+    public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        for(Case c: newCaseList){
+            if(c.Business_Unit__c =='ABHFL' && c.SLA_Broken__c == true && c.SLA_Broken_DateTime__c!=null &&
+              	c.Stage__c== 'In Progress' && oldCaseMap.get(c.Id).Stage__c == 'Open' && 
+               	ABHFL_Constants.SLA_Broken_Reset_CCC_List.split(',').contains(c.CCC_External_Id__c))
+            {
+           		c.SLA_Broken__c = false;
+                c.SLA_Broken_DateTime__c = null;
+           	}
+        }
+    }
+    
     //AM-PR970457-1295-Send Grievance Officer mail
     public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
           
@@ -868,6 +915,35 @@ public without sharing class ABHFL_CTSTHelper {
 
         if(abhfl_CaseDetail_List.size() > 0) {
             update abhfl_CaseDetail_List;    
+        }
+    }
+
+    public void  ICAndPICEvaluationOnApiCall(List<Case> newCaseLst) {
+
+        ABHFL_ICAndPIC_Integration abhflICAndPICIntegrationClss = new ABHFL_ICAndPIC_Integration();
+        List<String> cccExternalIdOfCTSTList = new List<String>{'hfl037', 'hfl078'};
+        List<String> caseIdList = new List<String>();
+        List<Case> evaluationCaseList = new List<Case>();
+        List<Case> frameworkCaseList = new List<Case>();
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newCaseLst);
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+            frameworkCaseList = mRecordTypeVsCases1.get(frameworkRTId);
+        }
+
+        for(Case csRecord : frameworkCaseList) {
+            String cccExternalIdCase = csRecord.CCC_External_Id__c;
+            String bussUnitOfCase = csRecord.Business_Unit__c;
+            String caseTechnicalSource = csRecord.Technical_Source__c;
+
+            if(cccExternalIdOfCTSTList.contains(cccExternalIdCase) && bussUnitOfCase == 'ABHFL' && caseTechnicalSource == 'API') {
+                evaluationCaseList.add(csRecord);
+            }
+        }
+
+        if(evaluationCaseList.size() > 0) {
+            abhflICAndPICIntegrationClss.evaluate(evaluationCaseList);
         }
     }
 

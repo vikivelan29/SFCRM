@@ -1,5 +1,8 @@
 /**
- * @description ABCL DMS Retry implementation class
+ * @description         : ABCL DMS Retry implementation class
+ * @author              : sjaitly@salesforce.com
+ * @last modified on    : 05-10-2024
+ * @last modified by    : udit.singhal@salesforce.com
  */
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class ABCL_RetryDMSFileTransfer {
@@ -22,10 +25,12 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         if(caseIds.size() < 1){
             return;
         }
+        
+        String query = 'SELECT ';
+        query += ABFL_DMSSync_Orchestrator.getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
+        query += ' FROM Case WHERE Id IN :caseIds';
 
-        Map<Id,Case> relatedCaseRecords = new Map<ID, Case>([Select id,Business_Unit__c,CaseNumber,LOB__c,Account.Client_Code__c,Account.Name,Account.PAN__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,LAN__c,Client_Code__c,
-                                                                CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
-                                                                from Case where Id in: caseIds]);
+        Map<Id,Case> relatedCaseRecords = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
 
         DateTime startOfLast60Mins = System.now().addMinutes(-60);
         DateTime currentTime = System.now();
@@ -62,7 +67,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 if(dmsRecordNoOfAttemptHashMap.containsKey(ihashKey)){
                     noOfAttempts = dmsRecordNoOfAttemptHashMap.get(ihashKey);
                     if(noOfAttempts <= 2){
-                        if(dms.Business_Unit__c == ABFL_Constants.ABFL) {
+                        if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(dms.Business_Unit__c)) {
                             abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
                         } else {
                             retryDMSRecords.add(dms);
@@ -129,7 +134,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 DateTime currentDateTime = System.now();
                 fileRec.DMS_External_ID__c = file.ContentVersionId__c + '' + currentDateTime.getTime();
                 fileRec.File_Extension__c = file.File_Extension__c;
-                fileRec.Next_Retry__c = System.now().addMinutes(15);
+                fileRec.Next_Retry__c = System.now().addMinutes((Integer)Asf_Dynamic_Datatable_Parent__mdt.getInstance(ABFL_Constants.DMS_METADATA).DMS_Retry_Interval__c);
                 fileRec.Retry_Attempt__c = noOfAttempt;
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
