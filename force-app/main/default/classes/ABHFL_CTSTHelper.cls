@@ -9,53 +9,57 @@ public without sharing class ABHFL_CTSTHelper {
 
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
-
-    //AM-PR970457-1295
-    public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
-        
-        Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
-        Set<String> caseDetailIds = new Set<String>();
-        List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
-        Map<Id, String> emailTemplateMap = new Map<Id, String>();
-        Map<Id, String> smsMetadataMap = new Map<Id, String>();
-        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
-        List<ABHFL_Case_Detail__c> caseDetailList = new List<ABHFL_Case_Detail__c>();
-        
-        for(Case caseRec : newCaseList){
-            if(caseRec.Business_Unit__c=='ABHFL'){
-            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+    
+    //AM-Delete existing asset detail records on a case on customer change
+    public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseAssetDetailMap = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        List<ABHFL_Asset_Detail__c> assetDetailsToDelete = new List<ABHFL_Asset_Detail__c>();
+        for(Case cs: newCaseList){
+            if(cs.Business_Unit__c=='ABHFL'){
+            	caseIds.add(cs.Id);    
             }
         }
-        
-        for(ABHFL_Case_Detail__c cd : [SELECT Id, Grievance_Details_Sent__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
-            caseToDetailMap.put(cd.Id, cd);
+        for(ABHFL_Asset_Detail__c assetDetail :[SELECT Id, Case__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseIds])
+        {
+            if(!caseAssetDetailMap.containsKey(assetDetail.Case__c)){
+                caseAssetDetailMap.put(assetDetail.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+       		caseAssetDetailMap.get(assetDetail.Case__c).add(assetDetail);
         }
-        
-        if(!caseDetailIds.isEmpty()){
-            List<EmailTemplate> grievanceEmailTemplate = [SELECT Id, Name, DeveloperName FROM EmailTemplate WHERE Name='Grievance Details In InProgress Stage' LIMIT 1];
-            for(Case c: newCaseList){
-                if(!caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
-                        && (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
-                        && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G')/* && oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'*/))
+        if(caseIds!=null){
+           	for(Case c: newCaseList){
+                if(caseAssetDetailMap.get(c.Id)!=null && c.AccountId!=null && oldCaseMap.get(c.Id).AccountId != c.AccountId)
                 {
-                    casesForCreatePELogAndinvokeCommPEevent.add(c);
-                    emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
-                    isTransferredMap.put(c.Id,true);
-                    caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
-                    caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
+                    assetDetailsToDelete.addAll(caseAssetDetailMap.get(c.Id));
                 }
+            } 
+        }
+        if(assetDetailsToDelete!=null){
+            try{
+                delete assetDetailsToDelete;
+            }catch(Exception ex){
+                system.debug('Exception message:'+ex.getMessage());
             }
         }
-        if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
-           	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent,emailTemplateMap, smsMetadataMap, isTransferredMap);
-       	}
-        if(!caseDetailList.isEmpty()){
-            update caseDetailList;
+    }
+    
+    //AM-SLA broken reset change on Open --> In Progress for Complaints
+    public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        for(Case c: newCaseList){
+            if(c.Business_Unit__c =='ABHFL' && c.SLA_Broken__c == true && c.SLA_Broken_DateTime__c!=null &&
+              	c.Stage__c== 'In Progress' && oldCaseMap.get(c.Id).Stage__c == 'Open' && 
+               	ABHFL_Constants.SLA_Broken_Reset_CCC_List.split(',').contains(c.CCC_External_Id__c))
+            {
+           		c.SLA_Broken__c = false;
+                c.SLA_Broken_DateTime__c = null;
+           	}
         }
     }
     
     //AM-PR970457-1295-Send Grievance Officer mail
     public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+          
         Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
         Set<String> caseDetailIds = new Set<String>();
         List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();

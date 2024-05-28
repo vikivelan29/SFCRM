@@ -29,10 +29,11 @@ export default class Abfl_base_view_screen extends LightningElement {
 	}
 
 	connectedCallback() {
-		this.callFunction();
+		this.callFunction();	
 	}
 
 	coreResult;
+	@api
 	async callFunction() {
 		console.log('***callFunction-success:');
 		this.coreResult = await invokeCore(this._api_id, this.payloadInfo);

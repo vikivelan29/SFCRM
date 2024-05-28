@@ -4,17 +4,17 @@
 *Created Date :  19/01/2024
 *Last Modified:
 *Test Class   :  ABCL_CaseIntegratnOutEvntTriggerHelpTest
-*Description  :  ABCL_CaseIntegratnOutEventTrigger helper class
+*@description :  ABCL_CaseIntegratnOutEventTrigger helper class
 *********************************************************/
 public without sharing class ABCL_CaseIntegratnOutEventTriggerHelper{
     
     /****************************************************************************************************************
 * @LOB - ABFL
 * @Function - afterInsertMethod
-* @param List<Case_Integration_Outbound__e> List of new reords from trigger
-* @return - void
-* @Description - Function to store payload after publishing of Case_Integration_Outbound__e event
-*****************************************************************************************************************/
+* @param newRecords -  List of new reords from trigger
+* @description - Function to store payload after publishing of Case_Integration_Outbound__e event
+*****************************************************************************************************************
+*/
     public static void afterInsertMethod(List<Case_Integration_Outbound__e> newRecords){
         try {
             // Fetch case integration records
