@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-17-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 05-28-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-17-2024   rsinghnagar@salesforce.com   Initial Version
@@ -48,7 +48,6 @@ public class ASF_CaseTriggerHandler2_Test {
         Test.stopTest();
         List<Case> frameworkCase2 = [Select Id, Subject from Case where RecordType.Name = 'Framework'];
         Assert.areEqual(1, frameworkCase2.size(), 'Expected 1, Not found');
-        insert new Case(subject = 'test case ', status='Resolved', business_Unit__c='ABFL',  Comments='testcomment');
     }
 
      @isTest

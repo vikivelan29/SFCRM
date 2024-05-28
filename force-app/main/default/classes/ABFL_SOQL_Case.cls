@@ -1,6 +1,6 @@
 /**
-* @Class name:      ABFL_SOQL_Case
-* @Description:
+* @Class name  :     ABFL_SOQL_Case
+* @description :     SOQL Util class for Case Obj
 * @Group:
 * Modification Log:
 * ------------------------------------------------------------------------------------
@@ -9,14 +9,15 @@
 * Aditee                     1.0       13/12/2023              #
 */
 public with sharing class ABFL_SOQL_Case {
-	/********************************************************************************************************
-    * @author           Salesforce
-    * @date             13/12/2023
-    * @description      SOQL method for getting case details for an given Case Id
-    * @Paramters        String
-    * @return           case
-    *********************************************************************************************************/
     private static Case caseRec;
+    private static List<Case> caseDetailRecs;
+
+    /****************************************************************************************************************
+     * @function - getCaseInfo
+     * @description - SOQL method for getting case details for an given Case Id
+     * @param caseid
+     * @return Case
+     *****************************************************************************************************************/
     public static Case getCaseInfo(string caseid){
         if(caseRec==null){
             caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
@@ -38,6 +39,12 @@ public with sharing class ABFL_SOQL_Case {
         return caseRec;
     }
     
+    /****************************************************************************************************************
+     * @function - getCases
+     * @description - SOQL method for getting cases for an given Case Id Set
+     * @param caseIdSet
+     * @return Map<Id, Case>
+     *****************************************************************************************************************/
     public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
 
@@ -51,23 +58,23 @@ public with sharing class ABFL_SOQL_Case {
         }
         return caseMapToReturn;
     }
-    /**
-    * @description: Fetch case origin info
-    * @author rsinghnagar@salesforce.com | 01-02-2024 
-    * @param List<Id> idList 
-    * @return Case 
-    **/
+
+    /****************************************************************************************************************
+     * @function - getCaseOrginInfo
+     * @description - SOQL method for getting cases for an given Case Id Set
+     * @param idSet
+     * @return List<Case>
+     *****************************************************************************************************************/
     public static List<Case> getCaseOrginInfo(Set<Id> idSet){
-        return [SELECT Id, origin FROM Case WHERE ID IN : idSet]; // this is invoked by E2C, hence can't use with_security_enforced
+        return [SELECT Id, origin FROM Case WHERE ID IN : idSet WITH USER_MODE]; // this is invoked by E2C, hence can't use with_security_enforced
     }
 
     /**
-    * @description: Fetch case details info
+    * @description : Fetch case details info
     * @author rsinghnagar@salesforce.com | 01-02-2024 
-    * @param List<Id> idList 
-    * @return Case 
+    * @param idSet 
+    * @return List<Case> 
     **/
-    private static List<Case> caseDetailRecs;
     public static List<Case> getCasedetails(Set<Id> idSet){
         if(caseDetailRecs==null){
             caseDetailRecs = [SELECT Business_Unit__c,
