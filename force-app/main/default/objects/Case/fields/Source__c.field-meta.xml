@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <externalId>false</externalId>
     <label>Source</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -163,15 +162,21 @@
                 <label>RBI</label>
             </value>
             <value>
-                <fullName>Legal</fullName>
+                <fullName>Others</fullName>
                 <default>false</default>
-                <label>Legal</label>
+                <label>Others</label>
             </value>
             <value>
                 <fullName>Call Centre</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Call Centre</label>
+            </value>
+            <value>
+                <fullName>IVR-Inbound</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IVR-Inbound</label>
             </value>
             <value>
                 <fullName>Walk-In</fullName>
