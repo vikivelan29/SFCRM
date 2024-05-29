@@ -20,7 +20,30 @@
             <default>false</default>
         </values>
     </picklistValues>
-        <picklistValues>
+    <picklistValues>
+        <picklist>Bot_Feedback__c</picklist>
+        <values>
+            <fullName>Change as per Customer Need</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Classification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manually case created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multiple Intent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Uncategorised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Business_Unit__c</picklist>
         <values>
             <fullName>ABFL</fullName>
@@ -32,10 +55,6 @@
         </values>
         <values>
             <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -99,10 +118,6 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABWM Email</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -153,19 +168,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Invalid information</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Closed as Exception</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -178,6 +181,18 @@
         </values>
         <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -264,6 +279,10 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
