@@ -179,6 +179,8 @@ public with sharing class ABFL_EBOTCaseLogics {
             Case objCase = new Case();
             objCase.Id = recCase.Id;
             objCase.OwnerId  = Userinfo.getuserId();
+            objcase.typeSubTypeMismatch__c  = false;
+            objcase.Type_Sub_Type_Mismatch_Reason__c = null;
             objCase.Stage__c = 'Resolved';
             lstUpdateCase.add(objCase);
             if(!lstUpdateChecklist.isEmpty()){
