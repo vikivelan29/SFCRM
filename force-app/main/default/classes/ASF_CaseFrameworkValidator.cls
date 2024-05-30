@@ -53,10 +53,10 @@ public with sharing class ASF_CaseFrameworkValidator {
                     ? fieldList[0].replace('__r','__c')
                     : fieldList[0] + 'Id';
                 if (caseRecord.get(fieldCheckStr) != null) {
-                    if(fieldList[0].contains('__r')){
+                    //if(fieldList[0].contains('__r')){
                         sobject rs = caseRecord.getSobject(fieldList[0]);
                         caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
-                    }
+                    //}
                 }else{
                     caseRecordValue = '0';
                 }
@@ -100,11 +100,13 @@ public with sharing class ASF_CaseFrameworkValidator {
                         }
                         when 'not in'{
                             //split the string by comma -> check if any string prensent -> false -> else true
-                            comparisonResult = comparsonValue.indexOf(caseRecordValue) == -1 ? true:false;
+                            //comparisonResult = comparsonValue.indexOf(caseRecordValue) == -1 ? true:false;
+                            comparisonResult = comparsonValue.split(',').contains(caseRecordValue)?false:true;
                         }
                         when 'in'{
                             //split the string by comma -> check if any string prensent -> true -> else false
-                            comparisonResult = comparsonValue.indexOf(caseRecordValue) != -1 ? true:false;
+                            //comparisonResult = comparsonValue.indexOf(caseRecordValue) != -1 ? true:false;
+                            comparisonResult = comparsonValue.split(',').contains(caseRecordValue)?true:false;
                         }
                         when else {
                             comparisonResult = false;
