@@ -6,10 +6,10 @@
         <description>Rule to share all articles owned by ABFL role to other ABFL users</description>
         <label>ABFL Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>
