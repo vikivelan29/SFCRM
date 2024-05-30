@@ -94,7 +94,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
 
     validateDuplicateCase(){
         let isValid = true;
-        if(this.wiredParentRec.IsClosed && this.wiredParentRec.BusinessUnit !='ABFL' || this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
+        if(this.wiredParentRec.IsClosed && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a closed case as parent', 'error');
         }
