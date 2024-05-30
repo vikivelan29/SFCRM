@@ -1258,9 +1258,7 @@ public class ASF_CaseMovementHelper {
     * In case of Cases getting converted from Pre-Framework to Framework from UI, don't change the owner.
     * 
     */
-    public static void preFrameworkToFrameworkMovementAssignment(List<Case> newList,boolean isUpdate,
-                                                                 Map<Id, Case> oldMap,Map<Id,String> nextStageMap,
-                                                                Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap){
+    public static Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> preFrameworkToFrameworkMovementAssignment(List<Case> newList,boolean isUpdate, Map<Id, Case> oldMap, Map<Id,String> nextStageMap){
         List<Case> updFrameworkCases = new List<Case>();
                                                                     
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
@@ -1280,24 +1278,25 @@ public class ASF_CaseMovementHelper {
             // CHECK IF THE CASE IF UPDATED FROM PREFRAMEWORK TO FRAMEWORK.
             ownerInfo = ASF_CaseMovementHelper.getAssignmentForStage(updFrameworkCases, nextStageMap);
         }
-        for(Case caseRec : newList){
-            ASF_Case_Category_Config__c appliedCCC;
-            if(isUpdate){
-                if(String.isNotBlank(caseRec.CCC_External_Id__c) 
-                && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
-                    appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
-                }
-            }
-            if(appliedCCC != null){ 
-                //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
-                //from interaction to framework RT. So run assignment rule for first stage of framework
-                //Update 1: This assignment rules should run for recategoriasation too.
-                if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
-                    caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
-                    (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
-                }
-            }
-        }
+        return ownerInfo;
+        // for(Case caseRec : newList){
+        //     ASF_Case_Category_Config__c appliedCCC;
+        //     if(isUpdate){
+        //         if(String.isNotBlank(caseRec.CCC_External_Id__c) 
+        //         && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
+        //             appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+        //         }
+        //     }
+        //     if(appliedCCC != null){ 
+        //         //For Technical Source = Email, if CCC External Id is being populated which means case is converting 
+        //         //from interaction to framework RT. So run assignment rule for first stage of framework
+        //         //Update 1: This assignment rules should run for recategoriasation too.
+        //         if(isUpdate && ownerInfo.containsKey(caseRec.Id)){
+        //             caseRec.OwnerId = ownerInfo.get(caseRec.Id).defaultOwnerId != null ? ownerInfo.get(caseRec.Id).defaultOwnerId : 
+        //             (ownerInfo.get(caseRec.Id).defaultErrorOwnerId != null ? ownerInfo.get(caseRec.Id).defaultErrorOwnerId : caseRec.OwnerId);
+        //         }
+        //     }
+        // }
     }
     
     

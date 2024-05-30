@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler {
     private Boolean isTriggerDisabled(){
         return isDisabled('Case');
@@ -28,11 +18,13 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
             ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
-            // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-            buSpecificCls.executeBeforeASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
-            
-            
-            
+        }
+        // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
+        //          - Moved here to check the valid CCC Ids if not valid then assign the Intertaction recordTypeId to current Case (Jira - PR970457-1517)
+        buSpecificCls.executeBeforeASFCodeInBeforeInsert((list<Case>)newItemsCase);   
+
+        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+
             //Validation methods
             ASF_CaseTriggerModularHelper.validateIfCCCInAPIRequest(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase(mRecordTypeVsCases.get(frameworkRTId), null);
@@ -122,7 +114,7 @@ ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHa
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
-            
+            ASF_CaseTriggerModularHelper.assignCasesInFirstStageAfterConversion((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndProcessReopenCase(newCaseMap.values(),(map<Id,Case>)oldItems);
             ASF_CaseTriggerModularHelper.checkAndProcessManualStageMovement(newCaseMap, (Map<Id, Case>)oldItems);

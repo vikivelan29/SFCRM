@@ -40,7 +40,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Set<Id> casesChangingRT = new Set<Id>();
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper objCaseDetailsWrapper;
         Map<String, Boolean> statusMap = new Map<String, Boolean>();
-        Map<Id,String> nextStageMap = new Map<Id,String>();
+        
         Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfo  = new Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo>();
 
         Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
@@ -53,7 +53,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
         //Get the Issue Code for API cases and CCC External id for UI cases.
         //Integer index = 0;
         for(Case caseRec : newList){
-            nextStageMap.put(caseRec.Id, caseRec.Stage__c);
             
             if(isUpdate){
                 if(caseRec.RecordTypeId != oldMap.get(caseRec.Id).RecordTypeId && caseRec.RecordTypeId == frameworkRecordTypeId){
@@ -149,10 +148,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
                 
-                //VIRENDRA - Added check to update the stage Map. 
-                if(nextStageMap.containsKey(caseRec.Id)){
-                    nextStageMap.put(caseRec.Id,caseRec.Stage__c);
-                }
+                
             }else if(isUpdate && casesChangingRT.contains(caseRec.Id)){
                 //error out cases with wrong Issue Code while converting from preframework to framework
                 //during case creation in framework, if wrong issue code is provided(some api), allow. 
@@ -190,14 +186,53 @@ public without sharing class ASF_CaseTriggerModularHelper {
             }
             //index++;
         }
-        
+    }
+
+    public static void assignCasesInFirstStageAfterConversion(List<Case> newList, Map<Id, Case> oldMap) {
+        Boolean isUpdate = oldMap!=null?true:false;
+        Map<Id,String> nextStageMap = new Map<Id,String>();
+        List<String> cccExternalIds = new List<String>();
+        Map<String, ASF_Case_Category_Config__c> cccExtIdToCCCMap = new Map<String, ASF_Case_Category_Config__c>();
+
+        for(Case caseRec : newList){
+            nextStageMap.put(caseRec.Id,caseRec.Stage__c);
+            cccExternalIds.add(caseRec.CCC_External_Id__c);
+        }
+
+        if(!cccExternalIds.isEmpty()){
+            //Fetch CCC
+            for(ASF_Case_Category_Config__c cccRec : ASF_CaseQueryHandler.getCaseCategoryConfigs(cccExternalIds))
+            {
+                if(cccExternalIds.contains(cccRec.CCC_External_Id__c)){
+                    cccExtIdToCCCMap.put(cccRec.CCC_External_Id__c, cccRec);
+                }
+            }
+        }
         //VIRENDRA - MOVED QUEUE Assignment Logic below.
         if(isUpdate){
-            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap);
+            for(Case caseRec : newList){
+                if(ownerInfos.containsKey(caseRec.Id)){
+                    ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrap = ownerInfos.get(caseRec.Id);
+                    ASF_Case_Category_Config__c appliedCCC;
+                    if(String.isNotBlank(caseRec.CCC_External_Id__c) 
+                    && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
+                        appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+                    }
+                    if(appliedCCC != null){
+                        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                        if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                            Case caseObj = new Case(Id = caseRec.Id);
+                            caseFinalDMLMap.put(caseObj.Id, caseObj);
+                        }
+                        Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                    }
+                }
+            }
         }
-        
-        
-        
     }
 
     public static void createFeedItem(Map<Id, Case> newMap, Map<Id, Case> oldMap){
