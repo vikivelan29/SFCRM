@@ -51,9 +51,9 @@
         <label>ABWM</label>
     </customValue>
     <customValue>
-        <fullName>ABFL</fullName>
+        <fullName>ABSLI</fullName>
         <default>false</default>
-        <label>ABFL</label>
+        <label>ABSLI</label>
     </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
