@@ -73,7 +73,7 @@ public without sharing class ASF_EmailMessageHelper {
                                         Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
                                         (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
                                         FROM Case 
-                                        WHERE Id IN :caseIds AND RecordTypeId = :ASF_Constants.RT_FRAMEWORK];
+                                        WHERE Id IN :caseIds];
             
             for(Case caseRec : existingCases){
                 //check if closed or not
@@ -132,7 +132,7 @@ public without sharing class ASF_EmailMessageHelper {
                     EmailMessage em = caseIdToEmailMessageMap.get(oldCaseId);
                     em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
                 }
-                // sending acknowledgment email if it is  Wealth cases
+                // added logic to send acknowledgment email for new case creatd after email comes to closed case for ABWM Email
                 for(Case newCase : oldCaseIdToNewCaseMap.values()){
                     if(newCase.Origin == ABFL_Constants.ABWMEMAIL){
                         ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(newCase, ABFL_Constants.WMEMAILTEMPLATENAME, newCase.SuppliedEmail, '', '');

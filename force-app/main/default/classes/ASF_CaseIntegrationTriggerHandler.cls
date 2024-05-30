@@ -1,45 +1,35 @@
 /**
- * @description       : After Update, when Response is received from External System on Case Integration, the processing of response needs to be done
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 05-13-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
-**/
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
+ * ASF_CaseIntegrationTriggerHandler
+ * After Update, when Response is received from External System on
+ * Case Integration, the processing of response needs to be done
+ */
 public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
     
     public static Boolean TriggerDisabled = false;
     
-    /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param newItems 
-    **/
     public override void beforeInsert(list<sObject> newItems) {
         for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems){
             caseInteg.Next_Retry__c = System.now().addMinutes(15);
         }
     }
     
-   /**
-    * @description : Framework Method - to Process the Response on Case Integration, Used when Async Integrations are called, the Case Integration is updated back and status is modified
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param newItems 
-    * @param oldItems 
-    **/
+    /**
+     * Framework Method - to Process the Response on Case Integration
+     * Used when Async Integrations are called, the Case Integration
+     * is updated back and status is modified
+     */
     public override void afterUpdate(map<Id, sObject> newItems,map<Id, sObject> oldItems) {
         
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('ASF_Case_Integration__c', 'After')){return;}
         // Query ASF Integration Record, and Process the Response from 
         // Processing Class indicated on ASF Integration Record
         Map<Id, String> asfItegExtIds = new Map<Id, String>();
+        Set<Id> eBotCaseIntegrations = new Set<Id>();
         Map<Id, sObject> eBotNewItems = new Map<Id, sObject>();
         Map<Id, sObject> eBotOldItems = new Map<Id, sObject>();
         for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems.values()){
-            if(caseInteg.Integration_Ext_Id__c != null){
+            system.debug('Case Integration test:'+caseInteg);
+            if(caseInteg.Integration_Ext_Id__c != null && caseInteg.Type__c != 'eBOT'){
                 if(caseInteg.Status__c != ((ASF_Case_Integration__c)oldItems.get(caseInteg.Id)).Status__c){
                     asfItegExtIds.put(caseInteg.Id, caseInteg.Integration_Ext_Id__c);
                 }
@@ -52,6 +42,7 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
 
         // Call eBot Handler for Generic Case Integraitons
         if(!eBotNewItems.isEmpty()){
+            system.debug('eBotHandler:');
             ABCL_CaseIntegrationHelper.eBotHandler(eBotNewItems,eBotOldItems);
         }
 
@@ -66,6 +57,8 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                 asfProcessingClass.put(asfInteg.External_Id__c, asfInteg.Processing_Class__c);
             }
         }
+		System.debug('***asfItegExtIds:'+asfItegExtIds);
+        System.debug('***asfProcessingClas:'+asfProcessingClass);
         
         for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems.values()){
             

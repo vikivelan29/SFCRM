@@ -214,6 +214,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     boolSaveReassignButton = false;
     boolCallSaveReassign = false;
 
+    // VIRENDRA 
+    openConfirmFieldPopup = false;
+    confirmFieldType = 'text';
+    fieldNameToSearch = '';
+    originalTextValue = '';
+    bConfirmationTextNotMatching = true;
+    iconClass = '';
+
 
     arr_CaseStatuses = [];
 
@@ -223,7 +231,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     refreshContainerID;
 
     resolutionReasonPopUpFld = ''; //VIRENDRA - ADDED FOR RESOLUTION COMMENT ON POPUP.
-    notApplicable = false;
+
     //Optimization variables
     allowRenderedCallback = false;
     loadReady = false;
@@ -233,8 +241,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     showForwardStages = false;
     closureTypeSelected = 'resolved';
     selectedStage;
-    showErrors = false;
-    errorMessage;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -513,7 +519,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 if(result){
                     this.iCounter++;
                     this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
-                    console.log('getCaseFieldsConfig results received', JSON.stringify(result));
+                    console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
                     let caseFieldsCount = 0, extnFieldsCount = 0;
                     for (let item of this.caseFieldsMetadata) {
                         if (item.isCase == true) {
@@ -573,8 +579,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                 if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
                                     if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
                                         this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
-                                        this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
-                                        this.defaultValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                     }
                                     else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
                                         this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
@@ -672,7 +676,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 let toastMsg = this.skipMoveToNextStage ? 'Case updated' : 'Case updated and moved to next stage';
                 this.showSuccessMessage('success', toastMsg, '');
                 this.handlePublishEvent();
-                this.openClosurePopUp = false;
                 this.loading = false;
                 this.skipMoveToNextStage == false;
                 this.loadReady = false;
@@ -730,9 +733,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 updateRecord(recordInput)
                     .then(result => {
                         console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
-                        this.openClosurePopUp = false;
                         this.showSuccessMessage('success', "Success", "SR is Rejected");
                         this.handlePublishEvent();
+                        this.openClosurePopUp = false;
                         this.loading = false;
                         this.loadReady = false;
                         refreshApex(this.processApexReturnValue);
@@ -881,16 +884,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     setRejectedReason(event) {
         this.rejectedReason = event.target.value;
-        if (this.rejectedReason && this.rejectedReason.length >255) {
-            this.notApplicable=true;
-            this.showErrors=true;
-            this.errorMessage = 'Length must be less than or equal to 255 characters for Close Unresolved Details';   
-        }
-        else{
-            this.notApplicable=false;
-            this.showErrors=false;
-
-        }
     }
     handleRejReasonChange(event) {
         this.selectedReason = event.target.value;
@@ -2820,6 +2813,55 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             this.handleSearchPicklistRendering();
           }
         
+    }
+    handleVerifyField(event){
+        let bValid = false;
+        this.fieldNameToSearch = event.target.getAttribute('data-field-name');
+        /*this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if(ele.fieldName == this.fieldNameToSearch){
+                bValid = ele.reportValidity();
+            }
+        });
+        if(bValid){
+            this.openConfirmFieldPopup = true;
+        }*/
+        this.openConfirmFieldPopup = true;
+        
+        
+        debugger;
+    }
+    cancelConfirmFieldPopup(event){
+        this.openConfirmFieldPopup = false;
+        this.fieldNameToSearch = '';
+        this.bConfirmationTextNotMatching = true;
+    }
+    varifyConfirmFieldPopup(event){
+        
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if(ele.fieldName == this.fieldNameToSearch){
+                ele.value = this.originalTextValue;
+                this.cancelConfirmFieldPopup();
+            }
+        });
+    }
+    handleConfirmTextChange(event){
+        let val = event.target.value;
+        if(this.originalTextValue == val){
+            this.bConfirmationTextNotMatching = false;
+            this.iconClass = 'successBtn';
+        }
+        else{
+            this.bConfirmationTextNotMatching = true;
+        }
+    }
+    handleOriginalTextChange(event){
+        this.originalTextValue = event.target.value; 
+    }
+    handlePreventInput(event){
+        this.fieldNameToSearch = event.target.getAttribute('data-field-name');
+        event.target.value = '';
+        event.preventDefault();
+        this.openConfirmFieldPopup = true;
     }
 
 

@@ -28,16 +28,10 @@ public without sharing class ASF_CaseStageSLATimeBasedAction {
         //to mitigate, sending single email to all queue members of managerGroupId__c.
         if(userManagerGroupIdList.size() > 0){
             for(User u: [SELECT Id, managerGroupId__c FROM User where Id IN :userManagerGroupIdList AND isActive=true]){
-                List<Id> managergroupIds = new List<Id>();
-                if(u.managerGroupId__c != null){
-                    managergroupIds = u.managerGroupId__c.split(',');
+                if(!managerGroupIdToOwners.containsKey(u.managerGroupId__c)){
+                    managerGroupIdToOwners.put(u.managerGroupId__c, new List<Id>());
                 }
-                for(Id managergroupId : managergroupIds){
-                    if(!managerGroupIdToOwners.containsKey(managergroupId)){
-                        managerGroupIdToOwners.put(managergroupId, new List<Id>());
-                    }
-                    managerGroupIdToOwners.get(managergroupId).add(u.Id);
-                }  
+                managerGroupIdToOwners.get(u.managerGroupId__c).add(u.Id);
             }
         }
 

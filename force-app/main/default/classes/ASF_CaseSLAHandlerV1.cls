@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 11-20-2023
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 04-24-2024
+* @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
     
@@ -262,23 +262,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             caseBackStageMovementCheck = getMovedBackCases(oldCases,newCases);
         }
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
-        Map<Id, Case> internalCaseUpdateMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
+        // for(Case c : newCases.values()){
         //without query, owner.name will not come  . hence this query is needed 
         for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
-            Case updatedCase = internalCaseUpdateMap.get(c.Id);
-            //pure insert and
-            //(updatecase present and owner id is populated - means assigment yet to happen during insert
-            //or skipsla is populated)
-            //then skip
-            if(oldCases == null &&
-            (
-                (updatedCase != null && updatedCase.OwnerId != null)
-                ||
-                newCases.get(c.Id).SkipModifyingSLAHistory__c != null
-            )
-            ){
-                continue;
-            }
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
             slaHistory.Current_Owner__c = c.Owner.Name;
             slaHistory.Current_Owner_Id__c = c.OwnerId;
@@ -468,8 +454,14 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            updateOldCaseSLAHistory(modifiedCases);
-            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap);
+            //If the updateOldCaseSLAHistory didnt find any existing record to update,
+            // that means its actually an insert happening and its internal Case after update happening
+            // assignment rules are assigning ownerid
+            // so skip creating new SLA history, 
+            // the after insert will call insertSLAHistory and will create one entry.
+            if(updateOldCaseSLAHistory(modifiedCases)){ 
+                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
+            }
         }
     }
 

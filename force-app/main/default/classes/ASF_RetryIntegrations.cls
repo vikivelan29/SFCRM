@@ -1,20 +1,15 @@
-/**
- * @description       : This class is used for retrying the PROCESS type and EBOT related Integrations.
- * @author            : virendra
- * @group             : 
- * @last modified on  : 05-14-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
-**/
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
+/*
+*********************************************************
+Apex Class Name    : ASF_RetryIntegrations
+Created Date       : 16 Jan 2024
+@description       : This class is used for retrying the PROCESS type and EBOT related Integrations.
+@author            : Virendra Patil
+Modification Log:
+Ver   Date         Author                               Modification
+1.0   16 Jan 2024   Virendra Patil                      Initial Version
+*********************************************************
+*/
 public without sharing class ASF_RetryIntegrations {
-    /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param caseIntegrationRecords 
-    **/
     @InvocableMethod(label='Retry Integrations' description='This Apex is used to invoke the Failed or Pending Integrations')
     public static void retryIntegration(List<ASF_Case_Integration__c> caseIntegrationRecords) {
         Set<Id> caseIds = new Set<Id>();
@@ -76,6 +71,7 @@ public without sharing class ASF_RetryIntegrations {
             mhashCaseCaseIntegrationVsAttempt.put(ihashKey,iTempCounter);
         }
         
+        System.debug(mhashCaseCaseIntegrationVsAttempt);
         
         if(intExtIds.size()>0){
             intergraionMaster = ASF_CaseQueryHandler.getASFIntegrationRecordsForRetry(intExtIds);
@@ -101,6 +97,7 @@ public without sharing class ASF_RetryIntegrations {
                         continue;
                     }
                     String tempUniqueKeyForMdt = cRec.Business_Unit__c+'_'+cInt.Type__c;
+                    System.debug('tempUniqueKeyForMdt '+tempUniqueKeyForMdt);
                     integer iHashUniqueKeyForMdt = 0;
                     if(tempUniqueKeyForMdt != null && tempUniqueKeyForMdt != ''){
                         iHashUniqueKeyForMdt = tempUniqueKeyForMdt.hashCode();
@@ -118,6 +115,7 @@ public without sharing class ASF_RetryIntegrations {
                             if(mhashCaseCaseIntegrationVsAttempt.containsKey(ihashKey)){
                                 iAttempts = mhashCaseCaseIntegrationVsAttempt.get(ihashKey);
                             }
+                            System.debug('iAttempts --> '+iAttempts);
                             if(iAttempts <= 2){
                                 retryProcessTypeIntegrations(integ,cRec,casesToUpdate);
                                 
@@ -134,6 +132,7 @@ public without sharing class ASF_RetryIntegrations {
                         
                     }
                     else if(mHashedMdtVsPlatformEvtName.containsKey(iHashUniqueKeyForMdt)){
+                        System.debug('I am here...');
                         String platformEventToFire = mHashedMdtVsPlatformEvtName.get(iHashUniqueKeyForMdt);
                         retryNonASFIntegrationRelatedIntegration(cInt,nonASFIntegrationPlaformEvents,platformEventToFire);
                         setNextRetryParametersOnCaseIntegrations(cInt,caseInteToUpdate);
@@ -165,36 +164,25 @@ public without sharing class ASF_RetryIntegrations {
         
         
         if(casesToUpdate.size()>0){
-            Database.update(casesToUpdate,false);
+            Database.SaveResult[] results = Database.update(casesToUpdate,false);
         }
         if(nonASFIntegrationPlaformEvents.size()>0){
-            EventBus.publish(nonASFIntegrationPlaformEvents);
+            Database.SaveResult[] srList = EventBus.publish(nonASFIntegrationPlaformEvents);
+            System.debug('I am triggering...');
         }
         if(caseInteToUpdate.size()>0){
-            Database.update(caseInteToUpdate,false);
+            Database.SaveResult[] results = Database.update(caseInteToUpdate,false);
         }
     }
     
-    /**
-    * @description : retryNonASFIntegrationRelatedIntegration
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param cInt 
-    * @param plaformEventToTrigger 
-    * @param platformEventToFire 
-    **/
-    private static void retryNonASFIntegrationRelatedIntegration(ASF_Case_Integration__c cInt, List<sObject> plaformEventToTrigger, String platformEventToFire)
+    private static void retryNonASFIntegrationRelatedIntegration(ASF_Case_Integration__c cInt,
+                                                                 List<sObject> plaformEventToTrigger,
+                                                                 String platformEventToFire)
     {
         sObject evt = (sObject)JSON.deserialize(cInt.Request__c, sObject.class);
         plaformEventToTrigger.add(evt);
     }
     
-    /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param integ 
-    * @param cRec 
-    * @param casesToUpdate 
-    **/
     private static void retryProcessTypeIntegrations(ASF_Integration__c integ, Case cRec,List<Case> casesToUpdate){
         ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, cRec);
         
@@ -204,12 +192,6 @@ public without sharing class ASF_RetryIntegrations {
         }
     }
     
-    /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param cInt 
-    * @param caseInteToUpdate 
-    **/
     private static void setNextRetryParametersOnCaseIntegrations(ASF_Case_Integration__c cInt,List<ASF_Case_Integration__c> caseInteToUpdate){
         cInt.Status__c = 'Pending';
         cInt.Next_Retry__c = System.now().addMinutes(15);
@@ -224,5 +206,6 @@ public without sharing class ASF_RetryIntegrations {
             cInt.Retry__c = false;
         }
         caseInteToUpdate.add(cInt);
+        System.debug(caseInteToUpdate);
     }
 }

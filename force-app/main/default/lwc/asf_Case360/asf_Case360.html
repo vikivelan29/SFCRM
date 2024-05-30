@@ -159,11 +159,18 @@
                                             </template>
                                             <template if:false={ccfield.bSearchablePicklist}>
                                                 <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                    <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                        value={ccfield.value} onchange={handleChange}
-                                                        class={ccfield.editClassString} disabled={ccfield.ReadOnly}
-                                                        required={ccfield.Required}>
-                                                    </lightning-input-field>
+                                                    <template if:false={ccfield.bShowAsCustomLink}>
+                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                            value={ccfield.value} onchange={handleChange}
+                                                            class={ccfield.editClassString} disabled={ccfield.ReadOnly}
+                                                            required={ccfield.Required}>
+                                                        </lightning-input-field>
+                                                    </template>
+                                                    <template if:true={ccfield.bShowAsCustomLink}>
+                                                        <lightning-output-field
+                                                            field-name={ccfield.FieldAPINAme}></lightning-output-field>
+                                                    </template>
+
                                                 </template>
                                             </template>
                                         </div>
@@ -187,8 +194,8 @@
                     <!--CASE EXTN CORE FORM-->
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
-                            onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad}
-                            data-id="caseRelObjEditForm" density="compact">
+                            onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad} data-id="caseRelObjEditForm"
+                            density="compact">
                             <!--<lightning-layout horizontal-align="space" multiple-rows>-->
                             <div class="slds-grid slds-wrap">
                                 <template if:true={caseFieldsMetadata}>
@@ -226,11 +233,74 @@
                                                 </template>
                                                 <template if:false={ccfield.bSearchablePicklist}>
                                                     <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                            value={ccfield.value} class={ccfield.editClassString}
-                                                            onchange={handleChange} disabled={ccfield.ReadOnly}
-                                                            required={ccfield.Required}>
-                                                        </lightning-input-field>
+
+                                                        <template if:true={ccfield.bConfirmationRequired}>
+                                                            <div style="position:relative">
+                                                                <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                    value={ccfield.value} onkeydown={handlePreventInput}
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    required={ccfield.Required} autocomplete="off">
+                                                                </lightning-input-field><!--class={ccfield.editClassString}-->
+                                                                <lightning-button-icon icon-name="utility:success"
+                                                                    alternative-text="verify" title="verify"
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    style="position: absolute; right: 0%; top: 1%; z-index: 10;"
+                                                                    onclick={handleVerifyField}></lightning-button-icon>
+
+                                                                <!-- CONFIRM FIELD POPUPs-->
+                                                                <template lwc:if={openConfirmFieldPopup}>
+                                                                    <section role="dialog" tabindex="-1"
+                                                                        aria-modal="true"
+                                                                        aria-labelledby="modal-heading-01"
+                                                                        class="slds-modal slds-fade-in-open">
+                                                                        <div class="slds-modal__container">
+                                                                            <div class="slds-modal__header">
+                                                                                <h1
+                                                                                    class="slds-modal__title slds-hyphenate">
+                                                                                    Confirm Value</h1>
+                                                                            </div>
+                                                                            <div
+                                                                                class="slds-modal__content slds-p-around_medium">
+                                                                                <lightning-input required
+                                                                                    type="password"
+                                                                                    class="slds-m-top_small confirmation"
+                                                                                    label="Enter Value"
+                                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                                    onchange={handleOriginalTextChange}></lightning-input>
+                                                                                <lightning-input type={confirmFieldType}
+                                                                                    required class="slds-m-top_small"
+                                                                                    label="Re enter value"
+                                                                                    onchange={handleConfirmTextChange}></lightning-input>
+                                                                            </div>
+                                                                            <div class="slds-modal__footer">
+                                                                                <lightning-button
+                                                                                    class="slds-m-around_small"
+                                                                                    label="Cancel"
+                                                                                    onclick={cancelConfirmFieldPopup}></lightning-button>
+                                                                                <lightning-button
+                                                                                    class="slds-m-around_small"
+                                                                                    label="Save"
+                                                                                    onclick={varifyConfirmFieldPopup}
+                                                                                    disabled={bConfirmationTextNotMatching}></lightning-button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </section>
+                                                                    <div class="slds-backdrop slds-backdrop_open"
+                                                                        role="presentation"></div>
+                                                                </template>
+
+                                                                <!-- CONFIRM FIELD POP UP CLOSES HERE-->
+
+                                                            </div>
+                                                        </template>
+                                                        <template if:false={ccfield.bConfirmationRequired}>
+                                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                value={ccfield.value} onchange={handleChange}
+                                                                disabled={ccfield.ReadOnly}
+                                                                class={ccfield.editClassString}
+                                                                required={ccfield.Required}>
+                                                            </lightning-input-field>
+                                                        </template>
                                                     </template>
                                                 </template>
                                             </div>
@@ -256,8 +326,11 @@
                                     already
                                     approved.</span>
                             </div>
+
                         </lightning-record-edit-form>
                     </template>
+
+
 
                     <!-- Case Closure POP UP -->
                     <template lwc:if={openClosurePopUp}>
@@ -267,11 +340,6 @@
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">Case Closure</h1>
                                 </div>
-                                <template if:true={showErrors}>
-                                    <div class="slds-notify slds-notify_alert slds-alert_error">
-                                        <div class="slds-var-p-horizontal_small">{errorMessage}</div>
-                                    </div>
-                                </template>
                                 <div class="slds-modal__content slds-p-around_medium">
                                     <lightning-radio-group name="closureType" label="Closure Type"
                                         options={closureTypeOptions} value={closureTypeSelected} type="button"
@@ -289,16 +357,17 @@
                                         </lightning-combobox>
                                     </template>
                                     <template lwc:else>
-                                        <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
-                                            label="Resolution Remarks" variant="label-stacked"
-                                            value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
+                                        <lightning-textarea name="resolutionCommentPopupFld"
+                                            class="ReasonInput validate" required label="Resolution Remarks"
+                                            variant="label-stacked" value={resolutionReasonPopUpFld}
+                                            onchange={handleResolnCommntChng}
                                             placeholder="type here..."></lightning-textarea>
                                     </template>
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelClose}></lightning-button>
-                                    <lightning-button class="slds-m-around_small" label="Save" disabled={notApplicable}
+                                    <lightning-button class="slds-m-around_small" label="Save"
                                         onclick={closeTheCase}></lightning-button>
                                 </div>
                             </div>

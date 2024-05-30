@@ -2,18 +2,12 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 05-13-2024
-* @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 01-25-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.StdCyclomaticComplexity')
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI'};
         
-        /**
-        * @description : Associate AccountId and AssetId based on text fields.
-        * @author rsinghnagar@salesforce.com | 05-13-2024 
-        * @param newList 
-        **/
         public static void searchAndAssocCustomerForAPICases(List<Case> newList){
             Set<String> accountsClientCode = new Set<String>();
             Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
