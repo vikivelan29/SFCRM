@@ -39,6 +39,9 @@ public without sharing class ABCL_CaseDuplicateCheck {
             if(key == 'Payments'){
                 PAY_CaseDeDupeCheck.runDuplicateCheck(mChannelVsCases.get(key));
             }
+            else if(key == 'ABSLI'){
+                ABSLI_CasDeDupeCheck.runDuplicateCheck(mChannelVsCases.get(key));
+            }
         }
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){//AM-ABHFL Case DEDUPE
         	ABHFL_CTSTHelper.runDuplicateCheck(abhflCases);  
