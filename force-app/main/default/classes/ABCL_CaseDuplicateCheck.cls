@@ -3,7 +3,7 @@ public without sharing class ABCL_CaseDuplicateCheck {
     public void runDuplicateCheck(List<Case> newList){
         Map<String,Map<String,String>> mLobToChannelToQueue = new Map<String,Map<String,String>>();
         List<Case> paymentCases = new List<Case>();
-        List<LOBVsAPIChannels__mdt> lobToChannelQueue = [SELECT Id, Line_Of_Business__c, Source__c, Queue_DeveloperName__c FROM LOBVsAPIChannels__mdt];
+        List<LOBVsAPIChannels__mdt> lobToChannelQueue = [SELECT Id, Line_Of_Business__c, Source__c, Queue_DeveloperName__c FROM LOBVsAPIChannels__mdt WITH SYSTEM_MODE];
         Map<String,List<Case>> mChannelVsCases = new Map<String,List<Case>>();
         Set<String> queueDevName = new Set<String>();
         List<Case> abhflCases = new List<Case>();//AM-ABHFL Case DEDUPE
