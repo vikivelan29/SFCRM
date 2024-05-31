@@ -86,7 +86,7 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                 else{
                     fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
                 }
-                System.debug('fieldValue --> '+fieldValue);
+                System.debug('fieldValue -->  '+fieldValue);
                 //fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
                 
                 fieldValue = formatedValue(caseRecord,arr[0],fieldValue,arr[1]);
