@@ -15,7 +15,7 @@ public class ABHFL_StageMovementHelperTest {
         caseRecList[0].Source__c = 'Chatbot';
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         caseRecList[0].Business_Unit__c = 'ABHFL';
-        caseRecList[0].CCC_External_Id__c = 'hfl074';
+        caseRecList[0].CCC_External_Id__c = 'hfl074';//comment
         caseRecList[0].Technical_Source__c = 'LWC';
         update caseRecList[0];
     }
