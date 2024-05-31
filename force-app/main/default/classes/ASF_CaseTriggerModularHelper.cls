@@ -8,7 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-@SuppressWarnings('PMD.MethodNamingConventions')
+@SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
