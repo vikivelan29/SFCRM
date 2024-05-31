@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-12-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -205,7 +215,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         //VIRENDRA - MOVED QUEUE Assignment Logic below.
         if(isUpdate){
-            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap);
+            List<Case> eligibleCaseList = new List<Case>();
+            for(Case caseRec : newList){
+                // Do not change the owner for certain CCC when recategorized
+                if(!(ASF_RecategoriseCaseController.requestFromRecat && cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c).No_Owner_Change_on_Recat__c)){
+                    eligibleCaseList.add(caseRec);
+                }
+            }
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(eligibleCaseList,isUpdate,oldMap,nextStageMap);
             for(Case caseRec : newList){
                 if(ownerInfos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrap = ownerInfos.get(caseRec.Id);
@@ -222,7 +239,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime(); 
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }
