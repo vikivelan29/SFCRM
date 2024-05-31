@@ -29,7 +29,7 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                         concatinatedSubFields+=str + ',';
                     }
                 }
-                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap);
+                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap,caseBusinessUnit);
                 inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
             }    
 
