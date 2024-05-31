@@ -3,16 +3,18 @@
 * Author       : Aditya Mehrotra
 * Created Date : 11/29/2023
 * Last Modified: 12/04/2023
-* @description  : Class for EBOT API call.
+* Description  : Class for EBOT API call.
 *********************************************************/
 public with sharing class ABCL_EmailMessageHelper {
     
-    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
+    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABSLI Email'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL
+        
         /****************************************************************************************************************
 * @LOB - ABHFL
 * @Function - ebotHandler
 * @param newEmails - map of cases from trigger.newMap.
-* @description - Invoked from AfterInsert method, this method calls EBOT to send details of cases created from emails.
+* @return - void.
+* @Description - Invoked from AfterInsert method, this method calls EBOT to send details of cases created from emails.
 *****************************************************************************************************************/
         public static void ebotHandler(Map<Id, sObject> newEmails) {
             // Find eligible records
@@ -22,17 +24,18 @@ public with sharing class ABCL_EmailMessageHelper {
             
             for (EmailMessage email : (List<EmailMessage>) newEmails.values()) {
                 boolean bReplyOnClosedCase = false;
-                //System.debug('ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase --> '+ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase);
+                System.debug('ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase --> '+ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase);
                 if(ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase){
                     bReplyOnClosedCase = ASF_EmailMessageHelper.bNewCaseByReplyToCloseCase;
                 }
-                 if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
-                     email.Incoming == true && email.Send_To_Ebot__c == true && 
-                    ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:') || bReplyOnClosedCase ) ||
-                 	(email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
+                if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||
+                                                         ( email.Headers != null && !email.Headers.contains('In-Reply-To:')) || bReplyOnClosedCase) ||
+                                                         ( email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null)   
+                    && email.ParentId.getSObjectType() == Case.getSObjectType()
+                    && email.Incoming == true && email.Send_To_Ebot__c == true){ 
                         caseIds.add(email.ParentId);
                         caseEmailsMap.put(email.ParentId, email);
-                }
+                    }
             }
             
             // Map<Id, List<EmailMessage>> caseEmailsMap = new Map<Id, List<EmailMessage>>();
@@ -44,7 +47,7 @@ public with sharing class ABCL_EmailMessageHelper {
             //     }
             // }
             
-            for (Case c : [SELECT Id, CaseNumber, Origin, CCC_External_Id__c,SuppliedEmail, Technical_Source__c, Business_Unit__c FROM Case WHERE ID IN :caseIds WITH SYSTEM_MODE ]) 
+            for (Case c : [SELECT Id, CaseNumber, Origin, CCC_External_Id__c,SuppliedEmail, Technical_Source__c, Business_Unit__c FROM Case WHERE ID IN :caseIds]) 
             {
                 /*
 * * 1. Condition to check first Email Message for a case
@@ -64,17 +67,12 @@ public with sharing class ABCL_EmailMessageHelper {
                 }
             }
             
-            if(csList.size() > 0 && Schema.sObjectType.Case.isUpdateable()){
+            if(csList.size() > 0) {
                 ASF_TriggerSkipperUtility.markTriggerRun('Case');
                 update csList;
             }
         }
-      /****************************************************************************************************************
-* @Function - getEligibles
-* @param emails 
-* @return  List<EmailMessage>
-* @description - getEligibles 
-*****************************************************************************************************************/
+    
     public static List<EmailMessage> getEligibles(List<EmailMessage> emails){
         List<EmailMessage> lEMessages = new List<EmailMessage>();
         for (EmailMessage email : emails) {

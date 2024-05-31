@@ -2,16 +2,14 @@
 *Class        :  ABCL_AssetTriggerHelper
 *Author       :  Shubham Sinha
 *Created Date :  16/01/2024
-*@description  :  Trigger helper for Asset 
+*Description  :  Trigger helper for Asset 
 *********************************************************/
 public class ABCL_AssetTriggerHelper {
 /****************************************************************************************************************
 * @LOB - Abfl
-* @function - updateRmAssignment
-* @param newAssetMap - new asset map values.
-* @param oldAssetMpa - old asset map values.
+* @Function - updateRmAssignment
 * @return - void.
-* @description - Update RM_Assignment__c field to Pending if RM_Code__c is updated.
+* @Description - Update RM_Assignment__c field to Pending if RM_Code__c is updated.
 *****************************************************************************************************************/
 	public static void updateRmAssignment(Map<Id,Asset> oldAssetMpa,Map<Id,Asset> newAssetMap){ 
         for(Asset  objAsset: newAssetMap.values()){

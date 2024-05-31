@@ -2,7 +2,7 @@
 *Class        :  ABCL_AssetTriggerHandler
 *Author       :  Shubham Sinha
 *Created Date :  16/01/2024
-*@description  :  Trigger Handler for Asset 
+*Description  :  Trigger Handler for Asset 
 *********************************************************/
 public with sharing class ABCL_AssetTriggerHandler extends ASF_VTriggerHandler {
 	public static Boolean TriggerDisabled = false;

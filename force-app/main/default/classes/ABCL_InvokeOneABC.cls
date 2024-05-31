@@ -3,16 +3,9 @@
 *Author       :  Shubham Sinha 
 *Created Date :  14/02/2024
 *Last Modified:  14/02/2024
-*@description  :  ABCL_InvokeOneABC sends the details to OneABC for ABFL and ABHFL when case source is OneABC and case is resolved.
+*Description  :  ABCL_InvokeOneABC sends the details to OneABC for ABFL and ABHFL when case source is OneABC and case is resolved.
 *********************************************************/
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public without sharing class ABCL_InvokeOneABC {
-/****************************************************************************************************************
-    * @Function - evaluateCasesForOneABC
-    * @param newCaseMap 
-    * @param oldCaseMap 
-    * @description - evaluate method
-    *****************************************************************************************************************/
 	public static void evaluateCasesForOneABC(Map<Id, Case> newCaseMap, Map<Id, Case> oldCaseMap){
         try{
             List<Case> lstOneABCCases = new List<Case>();
@@ -33,11 +26,12 @@ public without sharing class ABCL_InvokeOneABC {
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    } 
+    }
      /****************************************************************************************************************
     * @Function - oneAbcCallout
-    * @param caseRecord - Case record from the framework.
-    * @description - callout method
+    * @param caseRec - Case record from the framework.
+    * @return - void
+    * @Description - callout method
     *****************************************************************************************************************/
     public static void oneAbcCallout(List<Case> caseRecord){
     	try{
@@ -70,9 +64,9 @@ public without sharing class ABCL_InvokeOneABC {
                 caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
             }    
             if(!caseIdToCaseIntMap.isEmpty()){
-               for (Case caseRecordFinal : [SELECT ID,OwnerText__c,CaseNumber,Business_Unit__c ,Stage__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.Resolution_comments__c FROM CASE WHERE ID IN:caseRecord WITH SYSTEM_MODE]){
+               for (Case caseRecordFinal : [SELECT ID,OwnerText__c,CaseNumber,Business_Unit__c ,Stage__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.Resolution_comments__c FROM CASE WHERE ID IN:caseRecord]){
                    if(caseIdToCaseIntMap.containsKey(caseRecordFinal.Id)){
-                       //system.debug('enterePE');
+                       system.debug('enterePE');
                         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                             'AssignedTeam' => caseRecordFinal.OwnerText__c, 
                             'AssignedUser' =>  caseRecordFinal.OwnerText__c,

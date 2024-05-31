@@ -6,7 +6,6 @@
 * @description  :  Class for Email Templates
 *********************************************************/
 
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount')
 public without sharing class ASF_CaseEmailController {
     /*********************************************************
     * @description - Use for Store case record.    
@@ -44,9 +43,13 @@ public without sharing class ASF_CaseEmailController {
     *****************************************************************************************************************/
     
     public String getOutputBody(){
-        CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:caseId ];
-        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName OR DeveloperName=:emailTemplateDeveloperName WITH SECURITY_ENFORCED LIMIT 1];  
-        Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), caseId);
+        String cId = '500Bl00000ASWs3IAH';
+        CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:cId ];
+        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = 'ABSLI Sample Rejection Template' OR DeveloperName='ABSLI Sample Rejection Template'];  
+        Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), cId);
+        //CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:caseId ];
+        //Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName OR DeveloperName=:emailTemplateDeveloperName WITH SECURITY_ENFORCED LIMIT 1];  
+        //Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), caseId);
         String htmlBody = mail.getHtmlBody();
 
 
@@ -73,8 +76,10 @@ public without sharing class ASF_CaseEmailController {
         
         Pattern regex2 = Pattern.compile(regExpForSubQuery);
         Matcher matcher2 = regex2.matcher(inputText);
+        
+        String caseBusinessUnit = caseObject.Business_Unit__c;
 
-        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL')?true:false;
+        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL' || caseObject.Business_Unit__c == 'ABSLI')?true:false;
         
         List<String> dynamicFieldsToReplace = new List<String>();
         Map<String,String> resultMap = new Map<String, String>();
@@ -92,6 +97,7 @@ public without sharing class ASF_CaseEmailController {
         while (matcher.find()) {
             String capturedString = matcher.group(1);
             if (!dynamicFieldsToReplace.contains(capturedString)){
+                System.debug('captured string'+capturedString);
                 if(capturedString.contains(':')){
                     String fs = capturedString;
                     // 1st -> field api, 2nd: either date/datetime, 3rd: function, 4th: number
@@ -120,8 +126,10 @@ public without sharing class ASF_CaseEmailController {
         }else{
             resultMap.put('Today',Date.today().format());
         }
+        System.debug(resultMap);
+        System.debug(inputText);
 
-        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL);
+        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL,caseBusinessUnit);
         if (resultMap != null){
             for (String resKey : resultMap.keySet()) {
                 String resVal = resultMap.get(resKey);
@@ -162,17 +170,22 @@ public without sharing class ASF_CaseEmailController {
             // date
             when 'd'{
                 if(splitList[2]=='add'){
+                    System.debug('***fv:'+fv);
                     Datetime datetimeVal = (Datetime) Date.parse(fv);
+                    System.debug('***datetimeVal:'+datetimeVal);
                     retVal = datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
                 }
             }
             when 'cd'{
                 if(splitList[2]=='add'){
+                    System.debug('inside custom.');
                     Datetime datetimeVal = (Datetime) Date.parse(fv);
                     retVal =  datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
+                    System.debug('cusyom date ==> '+retVal);
                 }
             }
         }
+        System.debug('***retVal:'+retVal);
         return retVal;
     }
 
@@ -189,6 +202,7 @@ public without sharing class ASF_CaseEmailController {
         Map<String,String> resultMap = new Map<String,String>();
 
         Map<String, String> subFieldWithQuery = ASF_CaseEmailControllerBUSpecificHandler.handleSubQueries(subQueriesToReplace);
+        System.debug('subFieldWithQuery --> '+subFieldWithQuery);
         Id recordId1 = Id.valueOf(recordId);
 
         set<String> fieldsToQueryUniqueset = new set<String>();
@@ -199,13 +213,14 @@ public without sharing class ASF_CaseEmailController {
         set<String> allfieldsToQueryUniqueset = new set<String>();
         allfieldsToQueryUniqueset.addAll(subFieldWithQuery.values());
         allfieldsToQueryUniqueset.addAll(fieldsToQuery);
-        List<String> allfieldsToQuerUiqueList = new List<String>();
-        allfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        List<String> AllfieldsToQuerUiqueList = new List<String>();
+        AllfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        System.debug('allfieldsToQueryUniqueset --> '+allfieldsToQueryUniqueset);
 
         String sobjectType = recordId1.getSObjectType().getDescribe().getName();
         String dynamicSOQL ;
         
-        dynamicSOQL = buildDynamicSOQL(sobjectType, allfieldsToQuerUiqueList, recordId1);
+        dynamicSOQL = buildDynamicSOQL(sobjectType, AllfieldsToQuerUiqueList, recordId1);
 
         List<sObject> documentGenerationList = Database.query(dynamicSOQL);        
         sObject documentGenObject = documentGenerationList.get(0);
@@ -216,6 +231,7 @@ public without sharing class ASF_CaseEmailController {
         }
 
         for(String s : fieldsToQuerUiqueList){
+            //documentGenObject.getSObject('Primary_Borrower__r').get('Full_Name__c')
             //relationship queries need second level. 
             if (s.contains('__r')){
                 processRelationshipField(resultMap, s, documentGenObject, objectSchemas, dateFormat);
@@ -262,6 +278,9 @@ public without sharing class ASF_CaseEmailController {
         String objectName = field.substring(0,field.indexOf('.'));
         String fieldName = field.substring(field.indexOf('.') + 1);
         object fieldValue = ' --- ';
+        /*if(documentGenObject.getSObject(objectName) != null){
+            fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?String.valueOf(documentGenObject.getSObject(objectName).get(fieldName)):fieldValue;
+        }*/
         if(documentGenObject.getSObject(objectName) != null){
             fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?documentGenObject.getSObject(objectName).get(fieldName):fieldValue;
         }
@@ -294,17 +313,6 @@ public without sharing class ASF_CaseEmailController {
         }
     }
 
-    /****************************************************************************************************************
-    * @Function - setDateTimeField
-    * @return - void
-    * @param field - Name of field
-    * @param objectFields - hold Object fields details
-    * @param relationShipfield - holds the relationship field API Names
-    * @param fieldValue - Holds the value of the field from record
-    * @param resultMap - holds the map of fields with value of record
-    * @param dateFormat - hold the format of date to which it should be displayed
-    * @description - Used for setting the date time fields;
-    *****************************************************************************************************************/
     private static void setDateTimeField(String field, Map<String,Schema.SObjectField> objectFields, List<String> relationShipfield, object fieldValue, Map<String, String> resultMap, String dateFormat){
         if(objectFields.containsKey(relationShipfield.get(1))){
             String dataType=string.valueOf(objectFields.get(relationShipfield.get(1)).getDescribe().getType());

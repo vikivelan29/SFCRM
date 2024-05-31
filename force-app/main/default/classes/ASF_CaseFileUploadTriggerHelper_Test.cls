@@ -17,7 +17,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         insert cdl;
         
         EmailMessage emailMessageRec = new EmailMessage(
-            ParentId = [select Id from case LIMIT 1].Id, // Link to the Case
+            ParentId = [select Id from case LIMIT 1].Id,
             Subject = 'Test Email',
             FromAddress = 'test@example.com',
             TextBody = 'This is a test email message.'

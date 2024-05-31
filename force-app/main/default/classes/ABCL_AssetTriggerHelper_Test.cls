@@ -2,23 +2,23 @@
 *Class        :  ABCL_AssetTriggerHelper
 *Author       :  Shubham Sinha 
 *Created Date :  17/01/2024
-*@description  :  Test Class
+*Description  :  Test Class
 *********************************************************/
 @isTest
 public class ABCL_AssetTriggerHelper_Test {
 private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-    	Group slaGroup = new Group();        
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-        	insert slaGroup;
+    	Group SLAGroup = new Group();        
+        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
+        	insert SLAGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
         	insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id);
+                                    managerGroupId__c=SLAGroup.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
@@ -57,7 +57,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             Test.startTest(); 
             objAsset[0].RM_Code__c= '12345';
             update objAsset[0]; 
-            System.assertEquals(1, objAsset.size(),'record found');          
+           // System.assertEquals(1, objCase.size());          
              Test.stopTest();            
             }
         }

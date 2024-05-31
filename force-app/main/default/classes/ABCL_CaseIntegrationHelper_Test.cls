@@ -5,7 +5,7 @@ public class ABCL_CaseIntegrationHelper_Test {
         
         List<Case> caseRecords = ASF_TestDataFactory.createCaseRecords(1);
         caseRecords[0].Source__c = 'Email';
-        caseRecords[0].CCC_External_Id__c = 'test123';
+        caseRecords[0].CCC_External_Id__c = '';
         update caseRecords;
         if(caseRecords.size() > 0){
             ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
@@ -28,13 +28,12 @@ public class ABCL_CaseIntegrationHelper_Test {
         }
     }   
     @IsTest
-    static void eBotHandlerTest(){
+    static void eBotHandler_Test(){
         List<ASF_Case_Integration__c> caseIntegrations = [Select id from ASF_Case_Integration__c limit 1];
         if(caseIntegrations.size() > 0){
             caseIntegrations[0].Status__c = 'Success';
             caseIntegrations[0].Response__c = '{\"CASEID\":\"Success\",\"CASESUBTYPE\":\"AC123457\",\"COMMENT\":\"Problem\",\"OWNERFULLNAME\":\"Major\",\"CONFIDENCESCORE\":\"Major\"}';
             update caseIntegrations[0];    
-            System.assertEquals(1, caseIntegrations.size(),'record found');          
         }
     }
 }

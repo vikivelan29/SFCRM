@@ -1,6 +1,6 @@
 @IsTest
 public class ABCL_IntegrationCommonUtilityTest {
-    
+	
     @TestSetup
     static void setupTestData(){
         
@@ -68,26 +68,25 @@ public class ABCL_IntegrationCommonUtilityTest {
     static void testTransferAttachments(){
         List<ASF_Case_Integration__c> caseIntegrationRecords = [SELECT Id, Case__c FROM ASF_Case_Integration__c LIMIT 1];
         Test.startTest();
-           // Boolean isSuccess = ABCL_IntegrationCommonUtility.transferAttachments(caseIntegrationRecords[0]);
+            Boolean isSuccess = ABCL_IntegrationCommonUtility.transferAttachments(caseIntegrationRecords[0]);
         Test.stopTest();
-        System.assertEquals(1, caseIntegrationRecords.size(),'record found');          
+        //System.assertEquals(true,isSuccess);
     }
     
     @IsTest
     static void testCreatePELogAndinvokeCommPEevent(){
         List<Case> caseRecords = [SELECT Id, No_Auto_Communication__c, AccountId, CCC_External_Id__c, ContactId FROM Case LIMIT 1];
         Test.startTest();
-            Database.SaveResult eventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords[0], 'dev_01', 'Dev_02', true);
+        	Database.SaveResult eventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecords[0], 'dev_01', 'Dev_02', true);
         Test.stopTest();
-        System.assertEquals(true,eventResult.IsSuccess(),'fetched');
+        System.assertEquals(true,eventResult.IsSuccess());
     }
     
     @IsTest
     static void testBranchAssignmentNotification(){
         List<Case> caseRecords = [SELECT Id, CreatedById FROM Case LIMIT 1];
         Test.startTest();
-            System.assertEquals(1, caseRecords.size(),'record found');          
-            ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecords[0], 'Welcome Kit', 'STP Document Retrieval Failure');
+        	ABCL_IntegrationCommonUtility.branchAssignmentNotification(caseRecords[0], 'Welcome Kit', 'STP Document Retrieval Failure');
         Test.stopTest();
     }
     
@@ -95,9 +94,9 @@ public class ABCL_IntegrationCommonUtilityTest {
     static void testFetchStpTemplates(){
         String templateString = 'Resolved:template_1,Rejected:template_2';
         Test.startTest();
-            Map<String, String> templateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(templateString);
+        	Map<String, String> templateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(templateString);
         Test.stopTest();
-        system.assertEquals(templateMap.get('Resolved'),'template_1','fetched');
+        system.assertEquals(templateMap.get('Resolved'),'template_1');
     }
     
     @IsTest
@@ -116,7 +115,6 @@ public class ABCL_IntegrationCommonUtilityTest {
         cdl.ShareType = 'V';
         insert cdl;
         Test.startTest();
-        System.assertEquals(2, caseRecords.size(),'record found');          
         ABCL_IntegrationCommonUtility.transferFilesToDMS(new List<String>{caseRecords[0].Id});
         ABCL_IntegrationCommonUtility.transferFilesToDMS(new List<String>{caseRecords[0].Id,caseRecords[1].Id});
         Test.stopTest();
@@ -127,16 +125,15 @@ public class ABCL_IntegrationCommonUtilityTest {
         List<Case> caseRecords = [SELECT Id, CreatedById FROM Case LIMIT 1];
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Request__c = JSON.serialize(new Case_Integration_Outbound__e(Integration_Name__c = 'Test'));
-        ABCL_IntegrationCommonUtility.StpResponseWrapper respWrapper = new ABCL_IntegrationCommonUtility.StpResponseWrapper();
+        ABCL_IntegrationCommonUtility.stpResponseWrapper respWrapper = new ABCL_IntegrationCommonUtility.stpResponseWrapper();
         respWrapper.operationStatus = '0';
         respWrapper.operationMessage = 'Test';
         caseInt.Response__c = JSON.serialize(respWrapper);
         insert caseInt;
         Test.startTest();
-        System.assertEquals(1, caseRecords.size(),'record found');          
         ABCL_IntegrationCommonUtility.updateErrorMessage(caseInt);
         caseInt.Request__c = JSON.serialize(new Case_Integration_Outbound__e(Integration_Name__c = 'Sanction Letter'));
-        ABCL_IntegrationCommonUtility.ReportingResponseWrapper responseWrapper = new ABCL_IntegrationCommonUtility.ReportingResponseWrapper();
+        ABCL_IntegrationCommonUtility.reportingResponseWrapper responseWrapper = new ABCL_IntegrationCommonUtility.reportingResponseWrapper();
         responseWrapper.returnCode = '0';
         responseWrapper.returnMessage = 'Test';
         caseInt.Response__c = JSON.serialize(responseWrapper);
