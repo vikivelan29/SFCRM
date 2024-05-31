@@ -639,4 +639,32 @@
         <shortDescription>Impact Field Error</shortDescription>
         <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
 </CustomLabels>
