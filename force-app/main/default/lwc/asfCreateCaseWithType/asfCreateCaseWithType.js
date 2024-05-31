@@ -46,7 +46,7 @@ import IS_CLONEABLE from '@salesforce/schema/Case.ASF_Is_Cloneable__c'; //Functi
 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
-import ANI_NUMBER from '@salesforce/schema/ABSLI_Case_Detail__c.ANI_Number__c';
+import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
@@ -614,7 +614,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
             fields[TRACK_ID.fieldApiName] = this.trackId;
         }
-        if(this.businessUnit === ABSLI_BU && this.issueTypeVal && this.issueTypeVal != null){
+        if(this.aniNumber && this.aniNumber != null){
+            fields[ANI_NUMBER.fieldApiName] = this.aniNumber;
+        }
+        if(this.issueTypeVal && this.issueTypeVal != null){
             fields[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         if (this.isasset == false) {
@@ -715,9 +718,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
         }
         console.log('rel object name--'+this.caseRelObjName+'BU--'+this.businessUnit);
-        if(this.businessUnit === ABSLI_BU && this.aniNumber && this.aniNumber != null){
-            fields[ANI_NUMBER.fieldApiName] = this.aniNumber;
-        }
         const caseRecord = { apiName: this.caseRelObjName, fields: fields };
 
         await createRecord(caseRecord)
