@@ -209,12 +209,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_IntegrationsPanel</componentName>
-                <identifier>c_asf_IntegrationsPanel2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentName>asf_Case360</componentName>
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
@@ -357,32 +351,6 @@
                 <identifier>force_relatedListSingleContainer4</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Histories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer7</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -461,20 +429,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-4b68a4b6-7a51-497f-a47b-3482adf59c1d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>showChecklistColumn</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>aSF_DMSViewDatatable</componentName>
-                <identifier>c_aSF_DMSViewDatatable</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-230f19ae-40a8-441c-a0ff-3d68266f5741</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -582,20 +536,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-230f19ae-40a8-441c-a0ff-3d68266f5741</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>DMS</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>
