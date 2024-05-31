@@ -36,17 +36,6 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
                 returnWrapper.put(caseId, retCls);
             }
         }
-        //AM-PR970457-552
-        for(Case c:caseRecords){
-            ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(c.Id);
-            if(c.Nature__c=='Complaint' && (c.ABHFL_Case_Detail__r.Refund_Amount__c!=null || c.ABHFL_Case_Detail__r.Disputed_Amount__c!=null)){
-                if(c.ABHFL_Case_Detail__r.Disputed_Amount__c < c.ABHFL_Case_Detail__r.Refund_Amount__c){
-                    retCls.status = ABHFL_Constants.ERROR;
-                    retCls.errorMessage = 'Refund Amount cannot be greater than Disputed Amount';
-                }
-                returnWrapper.put(c.Id, retCls);
-            }
-        }
         return returnWrapper;
     }
     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){

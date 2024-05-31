@@ -120,7 +120,7 @@ public class ABHFL_CTSTHelper_Test {
         system.debug('test class debug Aditya:'+caseList[1].isClosed);
         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
         ABFL_Constants consts = ABFL_Constants.getAllConstants();
-        String failure = ABFL_Constants.BREFAILURE; 
+        String failure = ABFL_Constants.BREFAILURE;
         String success = ABFL_Constants.BRESUCCESS;
         //update caseList[0];
     }

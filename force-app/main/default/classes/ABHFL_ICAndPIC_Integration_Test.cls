@@ -171,16 +171,22 @@
            				     if condition when Both Loan Account Number and Financial Year is not Blank
 			*/
             ASF_IntegrationsController.IntegrationWrapper result1 = icAndPicObj.evaluate(case1);
+            System.assertEquals('Success', result1.status,'Done');
+            System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Both Loan Account Number and Financial Year is Blank
             */
             ASF_IntegrationsController.IntegrationWrapper result2 = icAndPicObj.evaluate(case2);
+            System.assertEquals('Error', result2.status,'Done');
+            System.assertEquals('Please fill the Financial Year and Loan Account Number also save the data before calling the STP.', result2.response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Financial Year is Blank.
             */
             ASF_IntegrationsController.IntegrationWrapper result3 = icAndPicObj.evaluate(case3);
+            System.assertEquals('Error', result3.status,'Done');
+            System.assertEquals('Please fill the Financial Year.', result3.response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Loan Account Number is Blank.
@@ -242,9 +248,7 @@
         Case case3 = new Case();
         Case case4 = new Case();
           
-        List<Case> caseLst = [Select Id, Account.RecordType.Name, Asset.Product2.Name, Asset.Sub_Scheme__c, Asset.Property_Detail__c, 
-                              Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, 
-                              ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
+        List<Case> caseLst = [Select Id, Technical_Source__c, Sub_Type_Text__c, ABHFL_Case_Detail__r.STP_Request_Type__c, ABHFL_Case_Detail__r.Financial_Year__c, Asset.LAN__c, Notes__c From Case];
         for(Case cs : caseLst) {
             if(cs.Notes__c == 'Test Case 1') {
                 case1 = cs;
@@ -266,16 +270,22 @@
            				     if condition when Both Loan Account Number and Financial Year is not Blank
 			*/
             Map<Id, ASF_IntegrationsController.IntegrationWrapper> result1 = icAndPicObj.evaluate(new List<Case>{case1});
+            System.assertEquals('Success', result1.get(case1.Id).status,'Done');
+            System.assertEquals('Evaluation Success, Submit to get the Interest Certificate.', result1.get(case1.Id).response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Both Loan Account Number and Financial Year is Blank
             */
             Map<Id, ASF_IntegrationsController.IntegrationWrapper> result2 = icAndPicObj.evaluate(new List<Case>{case2});
+            System.assertEquals('Error', result2.get(case2.Id).status,'Done');
+            System.assertEquals('Please fill the Financial Year and Loan Account Number also save the data before calling the STP.', result2.get(case2.Id).response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Financial Year is Blank.
             */
             Map<Id, ASF_IntegrationsController.IntegrationWrapper> result3 = icAndPicObj.evaluate(new List<Case>{case3});
+            System.assertEquals('Error', result3.get(case3.Id).status,'Done');
+            System.assertEquals('Please fill the Financial Year.', result3.get(case3.Id).response,'Done');
             
             /* Description - Calling evaluate Method for 
                                 if condition when Loan Account Number is Blank.

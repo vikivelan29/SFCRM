@@ -15,10 +15,6 @@
         <value xsi:type="xsd:string">LAN__c</value>
     </values>
     <values>
-        <field>Impact_Option_Logic__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
         <field>Stages_Allowing_Add_Rows__c</field>
         <value xsi:type="xsd:string">Open,Retention/Branch,Approval</value>
     </values>

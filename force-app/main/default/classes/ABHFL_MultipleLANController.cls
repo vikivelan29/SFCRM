@@ -19,7 +19,7 @@ public with sharing class ABHFL_MultipleLANController {
             MultipleLanWrapper lanWrapper = new MultipleLanWrapper();
             Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId ];
             //ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
-            List<ABHFL_Multiple_LAN__mdt> lanMetadataList = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label,Impact_Option_Logic__c, QualifiedApiName, SystemModstamp, 
+            List<ABHFL_Multiple_LAN__mdt> lanMetadataList = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label, QualifiedApiName, SystemModstamp, 
                                                     Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c, 
                                                     Stages_Allowing_Fetch_All__c, Stages_Allowing_Add_Rows__c, Stages_Allowing_Delete_Rows__c, Stages_Allowing_File_Upload__c 
                                                     FROM ABHFL_Multiple_LAN__mdt where DeveloperName =: caseRecord.CCC_External_Id__c];
@@ -28,8 +28,6 @@ public with sharing class ABHFL_MultipleLANController {
             if(lanMetadataList.size() > 0){
                 lanMetadata = lanMetadataList[0];
             }
-            lanWrapper.impactLogic = lanMetadata.Impact_Option_Logic__c;
-
             ABHFL_Multiple_LAN__mdt childLanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c+'_Detail');
             Boolean validLoggedInUser = false;
             if(caseRecord.OwnerId.getSObjectType().getDescribe().getName() == 'User'){
@@ -214,7 +212,7 @@ public with sharing class ABHFL_MultipleLANController {
                 lanIds.add(lanMap.LAN__c);
             }
         }
-        string queryStr = 'Select id,Account.Client_Code__c,Loan_Disbursement_Status__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) + ' from Asset where Id in: lanIds';
+        string queryStr = 'Select id,Account.Client_Code__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) + ' from Asset where Id in: lanIds';
         List<sObject> assetRecords = Database.Query(queryStr);
         string assetDetailQueryStr = 'Select id,Asset__c';
         if(String.isNotBlank(childlanMetadata.Asset_Detail_Fields__c)){
@@ -648,8 +646,6 @@ public with sharing class ABHFL_MultipleLANController {
         public List<String> stagesAllowingFileUpload;
         @AuraEnabled
         public List<String> stagesAllowingDeleteRows;
-        @AuraEnabled
-        public Boolean impactLogic;
 
         public MultipleLanWrapper(){
             this.displayMultipleLan = false;
@@ -658,7 +654,6 @@ public with sharing class ABHFL_MultipleLANController {
             this.displayAddRows = false;
             this.displayDeleteRows = false;
             this.displayFileUpload = false;
-            this.impactLogic = false;
         }
     }
 
