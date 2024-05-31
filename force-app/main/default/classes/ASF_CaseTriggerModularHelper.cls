@@ -223,6 +223,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        
+                        // Do not change the owner for certain CCC when recategorized
+                        if(ASF_RecategoriseCaseController.requestFromRecat && cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c).No_Owner_Change_on_Recat__c){
+                            caseRecFromMap.OwnerId = oldMap.get(caseRec.Id).OwnerId;
+                        }
+                        
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }
