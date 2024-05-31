@@ -86,7 +86,7 @@ private class ABSLI_AssignAccountTeamBatch_Test {
 		}
         
         for (AccountTeamMember atm : atmList) {
-            System.assertEquals('ABSLI Virtual Relationship Manager', atm.TeamMemberRole);
+            System.assertEquals('ABSLI Virtual Relationship Manager', atm.TeamMemberRole,'Should be Virtual Relationship Manager');
             System.assert(userIds.contains(atm.UserId), 'The UserId should belong to a user with the correct role.');
         }
     }
