@@ -5,7 +5,7 @@
     <name>Escrow Statement</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Escrow statement for ABHFL Loan account no. {{{Case.Masked_LAN__c}}}</subject>
+    <subject>Escrow statement for ABHFL Loan account no. {{{Case.Masked_LAN__c}}}.</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
