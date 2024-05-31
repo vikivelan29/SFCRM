@@ -1,5 +1,5 @@
 /******************************************************  
-* Description      - Class for handling the data query on the LWC CreateCaseWithType
+* @description      - Class for handling the data query on the LWC CreateCaseWithType
 ********************************************************
 */
 @SuppressWarnings('PMD.ApexSOQLInjection')
@@ -13,25 +13,25 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage;
     
     /****************************************************************************************************************
-* @Description - Gets the Source tagged to User and its Relavant Channel list.     
-* @return -  CaseDetailsWrapper - Wrapper containing Source and List of Channel.     
-*****************************************************************************************************************/
+    * @description  Gets the Source tagged to User and its Relavant Channel list.     
+    * @return  CaseDetailsWrapper
+    *****************************************************************************************************************/
     
     public static CaseDetailsWrapper getUserDetails(){
 
         String source = '';
         String subSource = ''; 
         Map<String, String> sourceToSubsource = new Map<String, String>();
-
-        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() LIMIT 1];
+        User objUser = [SELECT Id, LOB__c,Business_Unit__c, Source_Code__c FROM User WHERE Id =: UserInfo.getUserId() WITH SYSTEM_MODE LIMIT 1 ];
         String userSourceCode = objUser.Source_Code__c;
         String strLOB = String.isNotBlank(objUser.Business_Unit__c) ? objUser.Business_Unit__c.trim() :'';
         LOBMappingDetails__mdt choosenOneMTD;  
         
         // Return from Method if no CC or LOB mappping is present
-        if(String.isBlank(strLOB))
+        if(String.isBlank(strLOB)) {
             return objCaseDetailsWrapper;
-        
+        }
+            
         objCaseDetailsWrapper.userBu = strLOB;
         
         List<LOBMappingDetails__mdt> lstLOBMapping = new List<LOBMappingDetails__mdt>();
@@ -44,6 +44,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
+                          WITH SYSTEM_MODE
                           LIMIT 1];
         
         
@@ -60,11 +61,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strSource = source;
             objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             objCaseDetailsWrapper.mapOfSourceToSubsource = sourceToSubsource;
-            List<String> lstChannel = new List<String>();
-            if(choosenOneMTD.Channel__c != null){
-                choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
-            }
-            
+            List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
         
@@ -72,9 +69,9 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     
     /****************************************************************************************************************
-    * @Description - Populates the ASF_OptionsWrapper with the Channel List .   
-    * @param lstChannel -  List of String containting the Channel List.
-    * @return -  List<ASF_OptionsWrapper> - Wrapper containing Channel List which can be iterated by lighnting-combobox.     
+    * @description  Populates the ASF_OptionsWrapper with the Channel List .   
+    * @param lstChannel
+    * @return  List<ASF_OptionsWrapper>
     *****************************************************************************************************************/
     
     public static List<ASF_OptionsWrapper> populateOptionWrapper( List<String> lstChannel){
@@ -89,20 +86,31 @@ public with sharing class ASF_CreateCaseWithTypeController {
     }
     
     /****************************************************************************************************************
-* @Description - Fetches relevant CCC records . 
-* @param keyword -  Seached Keyword.
-* @param asssetProductType - Relavant Business Unit of Selected Asset.
-* @return -  CaseDetailsWrapper  - Returns CaseDetailsWrapper to LWC.     
-*****************************************************************************************************************/
+    * @description - Fetches relevant CCC records . 
+    * @param keyword 
+    * @param asssetProductType
+    * @param isasset
+    * @return  CaseDetailsWrapper
+    *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountData(String keyword ,string asssetProductType,string isasset) {
         return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,'',''); 
     }
+    /****************************************************************************************************************
+    * @description - get Type SubType By Customer Details
+    * @param keyword 
+    * @param asssetProductType
+    * @param isasset
+    * @param accRecordType
+    * @param assetLob
+    * @param inpArg
+    * @return  CaseDetailsWrapper
+    *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getTypeSubTypeByCustomerDetails(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
         CaseDetailsWrapper returnVal = new CaseDetailsWrapper();
         returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob); 
-        List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
+        //List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
         String loggedInUsersBU = returnVal.userBu;
         if(loggedInUsersBU == 'ABFL'){
             // BU SPECIFIC LOGIC
@@ -120,13 +128,23 @@ public with sharing class ASF_CreateCaseWithTypeController {
         
         return returnVal;
     }
+     /****************************************************************************************************************
+    * @description getAccountDataByCustomerType
+    * @param keyword 
+    * @param asssetProductType
+    * @param accRecordType
+    * @param isasset
+    * @param assetLob
+    * @return  CaseDetailsWrapper
+    *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
         string searchKeyword = '%' + String.escapeSingleQuotes(keyword) + '%';
-        if(asssetProductType == '' || asssetProductType ==null )
+        if(asssetProductType == '' || asssetProductType ==null ) {
             asssetProductType ='';
+        }
         //String loanTypes ;
         if(asssetProductType == ASF_Constants.STRING_IS_API_LOAD){
             asssetProductType = 'Loans';
@@ -144,7 +162,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
@@ -165,7 +183,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
           else if(isasset == 'false' && userBu == 'ABFL' && assetLob !=null && assetLob != 'Not classified' ){
-            system.debug('abflbusinessunit');
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
                 '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')'+' AND LOB__c =\''+ String.escapeSingleQuotes(assetLob)+'\'';
@@ -175,7 +192,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
-        system.debug('dynamicQuery'+dynamicQuery);
         
         searchResults =
             new Map<Id, ASF_Case_Category_Config__c>(
@@ -188,7 +204,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
-            system.debug('exclusionBus'+exclusionBus);
             
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
@@ -209,7 +224,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     
     
     /****************************************************************************************************************
-* @Description - Wrapper class of  CaseDetailsWrapper.   
+* @description - Wrapper class of  CaseDetailsWrapper.   
 *****************************************************************************************************************/
     
     public class CaseDetailsWrapper{
@@ -223,6 +238,10 @@ public with sharing class ASF_CreateCaseWithTypeController {
         private list<string> exclusionBus;
         private string userBu;
         
+         /****************************************************************************************************************
+        * @description - Wrapper class of  CaseDetailsWrapper.   
+        *****************************************************************************************************************/
+            
         public CaseDetailsWrapper(){
             lstCCCrecords = new List<ASF_Case_Category_Config__c>();
             strSource = ASF_Constants.STRING_BLANK;
@@ -251,9 +270,13 @@ boolShowDownloadButton= true;
 }
 return boolShowDownloadButton;
 }*/
-    
+      /****************************************************************************************************************
+    * @description getAccountRec
+    * @param recId 
+    * @return  Account
+    *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
-    public static Account getAccountRec( String recId){
-        return [select id,Line_of_Business__c,Business_Unit__c,RecordType.Name  from account where id=:recId];
+    public static Account getAccountRec(String recId){
+        return [select id,Line_of_Business__c,Business_Unit__c,RecordType.Name  from account where id=:recId WITH SYSTEM_MODE];
     }
 }

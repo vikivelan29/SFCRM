@@ -8,6 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   02-09-2024   rsinghnagar@salesforce.com   Initial Version
 **/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount')
 public class ASF_CaseEmailControllerBUSpecificHandler {
     public static String replaceDynamicFields(String inputText, Map<String, String> resultMap, Boolean isABHFL,
                                              String caseBusinessUnit) {
@@ -16,47 +17,38 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                 inputText = inputText.subStringBefore('||')+inputText.substring(inputText.lastIndexOf('##'),inputText.length()-1);
             }
             String regExpForMultipleChildsValue = '\\@\\@(.*?)\\@\\@';
+
             Pattern regex = Pattern.compile(regExpForMultipleChildsValue);
             Matcher matcher = regex.matcher(inputText);
+
             while (matcher.find()) {
                 String capturedString = matcher.group(1);
                 String concatinatedSubFields = '';
                 for(String str : resultMap.keySet()){
-                    System.debug('str --> '+str);
                     if(capturedString.contains('##' + str + '##')){
                         concatinatedSubFields+=str + ',';
                     }
                 }
-                System.debug('concatinatedSubFields   ----   ' + concatinatedSubFields);
-                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap,caseBusinessUnit);
+                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap);
                 inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
             }    
 
-            System.debug('result Map  =------ >   '+resultMap);
             if (resultMap != null){
                 for (String s : resultMap.keySet()) {
                     inputText = inputText.replace('##' + s + '##', resultMap.get(s));
                 }
             }
         }
-        // if (resultMap != null){
-        //     for (String s : resultMap.keySet()) {
-        //         System.debug('$$ ==> '+s);
-        //         inputText = inputText.replace('$$' + s + '$$', resultMap.get(s) != null ? resultMap.get(s) : ' --- ');
-        //     }
-        // }
+        
         return inputText;
     }
 
     private static String generateMultipleFields(String capturedString, String concatinatedSubFields, Map<String, String> resultMap,
                                                 String caseBusinessUnit) {
         List<String> subFields = concatinatedSubFields.split('\\,');
-        System.debug('subFields   ----    ' + subFields);
-        System.debug(concatinatedSubFields + ' -----  >>   ' + concatinatedSubFields != null);
         List<List<String>> listMPL = new List<List<String>>();
         String resultantString = '';
         for(String str : subFields){
-            // System.debug(str+'    ----  '+resultMap.get(str));
             if(String.isNotEmpty(resultMap.get(str))){
                 listMPL.add(resultMap.get(str).split('\\,'));
             }
@@ -65,7 +57,6 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
         Integer maxFieldNum = (listMPL.isEmpty())?0:listMPL[0].size();
         for(Integer i=0; i<maxFieldNum; i++){
             String storeSingleRow = capturedString;
-            System.debug('storeSingleRow --> '+storeSingleRow);
             for(Integer j =0;j<subFields.size();j++){
                 if(caseBusinessUnit == 'ABSLI'){
                     storeSingleRow = '<li>'+storeSingleRow.replace('##' + subFields[j] + '##', listMPL[j][i])+' </li>';
@@ -114,7 +105,6 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                }
                subFieldWithQuery.put(subField, '');
                List<String> objectAndField = subField.split('\\.'); 
-               System.debug('objectAndField --> '+objectAndField);
                if(!subQueryMap.containsKey(objectAndField[0])){
                    subQueryMap.put(objectAndField[0], new List<String>());
                }
@@ -127,13 +117,11 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                String subQuery =  createSubQuery(str, subQueryMap.get(str),subQueryWhereClauseStr);
                System.debug('subQuery --> '+subQuery);
                for(String fullSubField : subFieldWithQuery.keySet()){
-                   System.debug('fullSubField --> '+fullSubField);
                    List<String> objectAndField = fullSubField.split('\\.');
                    if(str == objectAndField[0]){
                        subFieldWithQuery.put(fullSubField, subQuery);
                    }
                }
-               //fieldsToQuery.add(subQuery);
            }
            return subFieldWithQuery;
     }

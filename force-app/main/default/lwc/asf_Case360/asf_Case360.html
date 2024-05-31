@@ -194,8 +194,8 @@
                     <!--CASE EXTN CORE FORM-->
                     <template if:true={caseExtensionRecordId}>
                         <lightning-record-edit-form object-api-name={caseRelObjName} record-id={caseExtensionRecordId}
-                            onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad} data-id="caseRelObjEditForm"
-                            density="compact">
+                            onsubmit={handleSubmitRelatedObject2} onload={handleRecordLoad}
+                            data-id="caseRelObjEditForm" density="compact">
                             <!--<lightning-layout horizontal-align="space" multiple-rows>-->
                             <div class="slds-grid slds-wrap">
                                 <template if:true={caseFieldsMetadata}>
@@ -326,11 +326,8 @@
                                     already
                                     approved.</span>
                             </div>
-
                         </lightning-record-edit-form>
                     </template>
-
-
 
                     <!-- Case Closure POP UP -->
                     <template lwc:if={openClosurePopUp}>
@@ -340,6 +337,11 @@
                                 <div class="slds-modal__header">
                                     <h1 class="slds-modal__title slds-hyphenate">Case Closure</h1>
                                 </div>
+                                <template if:true={showErrors}>
+                                    <div class="slds-notify slds-notify_alert slds-alert_error">
+                                        <div class="slds-var-p-horizontal_small">{errorMessage}</div>
+                                    </div>
+                                </template>
                                 <div class="slds-modal__content slds-p-around_medium">
                                     <lightning-radio-group name="closureType" label="Closure Type"
                                         options={closureTypeOptions} value={closureTypeSelected} type="button"
@@ -357,17 +359,16 @@
                                         </lightning-combobox>
                                     </template>
                                     <template lwc:else>
-                                        <lightning-textarea name="resolutionCommentPopupFld"
-                                            class="ReasonInput validate" required label="Resolution Remarks"
-                                            variant="label-stacked" value={resolutionReasonPopUpFld}
-                                            onchange={handleResolnCommntChng}
+                                        <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
+                                            label="Resolution Remarks" variant="label-stacked"
+                                            value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
                                             placeholder="type here..."></lightning-textarea>
                                     </template>
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelClose}></lightning-button>
-                                    <lightning-button class="slds-m-around_small" label="Save"
+                                    <lightning-button class="slds-m-around_small" label="Save" disabled={notApplicable}
                                         onclick={closeTheCase}></lightning-button>
                                 </div>
                             </div>

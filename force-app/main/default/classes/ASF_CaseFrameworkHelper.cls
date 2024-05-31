@@ -305,6 +305,7 @@ public with sharing class ASF_CaseFrameworkHelper {
         List<ASF_IntegrationsController.IntegrationWrapper> intResults = new List<ASF_IntegrationsController.IntegrationWrapper>();
         for(ASF_Integration__c integ : allIntegrations){
             if(integ.Auto_Run_on_Load__c){
+                system.debug('runIntegration');
                 ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, currentCase);
                 intResults.add(intResult);
             }
@@ -335,7 +336,7 @@ public with sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c){
+                    if(integ.Auto_Run_on_Load__c && !(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false)){
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);

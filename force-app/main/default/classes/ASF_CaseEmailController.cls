@@ -43,13 +43,9 @@ public without sharing class ASF_CaseEmailController {
     *****************************************************************************************************************/
     
     public String getOutputBody(){
-        String cId = '500Bl00000ASWs3IAH';
-        CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:cId ];
-        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = 'ABSLI Sample Rejection Template' OR DeveloperName='ABSLI Sample Rejection Template'];  
-        Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), cId);
-        //CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:caseId ];
-        //Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName OR DeveloperName=:emailTemplateDeveloperName WITH SECURITY_ENFORCED LIMIT 1];  
-        //Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), caseId);
+        CaseObject = [Select id, Business_Unit__c, Subject from Case where Id =:caseId ];
+        Emailtemplate emailT = [Select HtmlValue,id, subject  from EmailTemplate where Name = :emailTemplateName OR DeveloperName=:emailTemplateDeveloperName WITH SECURITY_ENFORCED LIMIT 1];  
+        Messaging.SingleEmailMessage mail = Messaging.renderStoredEmailTemplate(emailT.Id, userInfo.getUserId(), caseId);
         String htmlBody = mail.getHtmlBody();
 
 
