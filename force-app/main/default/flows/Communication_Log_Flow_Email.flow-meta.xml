@@ -12,6 +12,10 @@
             <targetReference>Check_for_contact_or_account</targetReference>
         </connector>
         <dataTypeMappings>
+            <typeName>T__caseRecord</typeName>
+            <typeValue>Case</typeValue>
+        </dataTypeMappings>
+        <dataTypeMappings>
             <typeName>T__cccRecord</typeName>
             <typeValue>ASF_Case_Category_Config__c</typeValue>
         </dataTypeMappings>
@@ -20,6 +24,12 @@
             <name>caseId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>caseRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -35,11 +45,39 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>emailFieldName</name>
+            <value>
+                <elementReference>EmailTemplateFieldName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>LanguagePreference</name>
+            <value>
+                <elementReference>$Record.Account.Language_Preference__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>SmsFieldName</name>
+            <value>
+                <elementReference>SMSTemplateFieldName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>SmsTemplateName</name>
+            <value>
+                <elementReference>SMSCustomMetadataName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>templateName</name>
             <value>
                 <elementReference>EmailTempDevName</elementReference>
             </value>
         </inputParameters>
+        <outputParameters>
+            <assignToReference>SMSCustomMetadataName</assignToReference>
+            <name>SmsTemplateName</name>
+        </outputParameters>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -112,6 +150,20 @@
                 <elementReference>Get_case_config.Recategorisation_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Recategorisation_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Recategorisation_SMS_Metadata__c</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Email_Template_Found</targetReference>
         </connector>
@@ -140,6 +192,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_case_config.Resolved_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Resolved_Case_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Resolved_Case_SMS_Metadata__c</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -172,6 +238,20 @@
                 <elementReference>Get_case_config.Duplicate_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Resolved_Duplicate_Case_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Duplicate_Case_SMS_Metadata__c</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Email_Template_Found</targetReference>
         </connector>
@@ -202,6 +282,20 @@
                 <elementReference>Get_case_config.New_Case_SMS_Metadata__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New_Case_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New_Case_SMS_Metadata__c</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Email_Template_Found</targetReference>
         </connector>
@@ -230,6 +324,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Get_case_config.Rejected_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Rejected_Case_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Rejected_Case_SMS_Metadata__c</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -714,6 +822,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_case_config.Send_FTR_communications__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Is_Case_Recategorised</targetReference>
             </connector>
@@ -847,9 +962,16 @@
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>EmailTempDevName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SMSCustomMetadataName</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -902,7 +1024,10 @@
     </decisions>
     <description>added condition to send an email for ABFL when case is categorized .
 Added condition to send email/sms when case status is Closed Duplicate
-Added logic to send welcome email on account recat</description>
+Added logic to send welcome email on account recat
+Added Regional Template Logic
+Added Condition on Decision box -Email Template Found</description>
+    <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>
@@ -1158,11 +1283,25 @@ Added logic to send welcome email on account recat</description>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>SMSCustomMetadataName</name>
+        <name>EmailTemplateFieldName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>SMSCustomMetadataName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>SMSTemplateFieldName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>SuppresssEmail</name>
