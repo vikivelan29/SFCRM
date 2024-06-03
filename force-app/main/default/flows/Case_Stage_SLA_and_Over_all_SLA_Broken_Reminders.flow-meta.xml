@@ -165,9 +165,38 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_send_communication_flags</name>
+        <label>Check send communication flags</label>
+        <locationX>710</locationX>
+        <locationY>1008</locationY>
+        <defaultConnector>
+            <targetReference>Create_PE_Logger</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Communication_disabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Stage__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Open</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Query_Case_Category_Config.Send_open_stage_communications__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Communication disabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Email_Template_Found</name>
         <label>Email Template Found?</label>
-        <locationX>710</locationX>
+        <locationX>908</locationX>
         <locationY>600</locationY>
         <defaultConnector>
             <targetReference>Send_Holding_Response</targetReference>
@@ -192,7 +221,7 @@
     <decisions>
         <name>Send_Holding_Response</name>
         <label>Send Holding Response</label>
-        <locationX>710</locationX>
+        <locationX>908</locationX>
         <locationY>900</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
@@ -227,7 +256,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_PE_Logger</targetReference>
+                <targetReference>Check_send_communication_flags</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -499,7 +528,7 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>EmailTempDevName</name>
         <dataType>String</dataType>
