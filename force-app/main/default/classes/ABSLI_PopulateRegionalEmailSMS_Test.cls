@@ -3,13 +3,13 @@ public class ABSLI_PopulateRegionalEmailSMS_Test {
 
     @TestSetup
     static void makeData(){
-        List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+        Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
-        List<Case> cases = ASF_TestDataFactory.createCaseRecords(3);
+        ASF_TestDataFactory.createCaseRecords(3);
     }
     
     @isTest
-    public static void ABSLI_FtrRegionalTest(){
+    public static void absliFtrRegionalTest(){
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
         
         List<Case> cases = [SELECT ID,CCC_External_Id__c,Status,FTR__c FROM Case WHERE RecordTypeId=:frameworkRecordTypeId];
@@ -29,7 +29,7 @@ public class ABSLI_PopulateRegionalEmailSMS_Test {
                 ccc.Business_Unit__c = 'ABSLI';
                 ccc.Send_FTR_communications__c = true;
             }
-            ASF_Regional_SMS_Email_Template__c regRec = new ASF_Regional_SMS_Email_Template__c(Language__c = 'Hindi', Case_Category_Config__c = cccRecords[0].Id,
+            ASF_Case_Email_Config__c  regRec = new ASF_Case_Email_Config__c(Language__c = 'Hindi', Case_Category_Config__c = cccRecords[0].Id,
                                                                                        FTR_Email_Template__c = 'Hindi_Template', Regional_Template_External_ID__c = 'REG-HINDI-TEST');
             insert regRec;
             List<ASF_CustomerEmailInvocable.EmailInputWrapper> wrappers = new List<ASF_CustomerEmailInvocable.EmailInputWrapper>();
@@ -46,6 +46,7 @@ public class ABSLI_PopulateRegionalEmailSMS_Test {
             wrappers.add(wrapper);
             
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);  
+            Assert.areEqual(outputWrappers[0].templateName, 'Hindi_Template','Regional template should be picked');
             for(case c : cases){
                 c.Business_Unit__c = 'ABSLI';
                 c.FTR__c = true;
@@ -55,6 +56,7 @@ public class ABSLI_PopulateRegionalEmailSMS_Test {
             update cases;
             wrappers[0].caseStatus = 'Resolved';
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers2 = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
+            Assert.areEqual(outputWrappers2[0].supressEmail, false,'Emails should not be supressed');
         }
     }
 }
