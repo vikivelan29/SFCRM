@@ -1,40 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-        <types>
-        <members>ASF_CreateCaseWithTypeController</members>
-        <members>ASF_CaseTriggerBUSpecificHandler</members>
-        <members>ABSLI_BeforeUpdateTriggerLogic</members>
-        <members>ASF_Constants</members>
-        <members>ASF_CustomerEmailInvocable</members>
-        <members>ABSLI_PopulateRegionalEmailSMS</members>
-        <members>ASF_EmailMessageQueryHandler</members>
-        <members>ASF_CustomerEmailInvocable_Test</members>
-        <members>ABSLI_PopulateRegionalEmailSMS_Test</members>
-        <members>ABSLI_BeforeUpdateTriggerLogic_Test</members>
+    <types>
+        <members>ABFL_OwnerChangeWithLocation</members>
         <name>ApexClass</name>
-    </types>
-    <types>
-        <members>asfCreateCaseWithType</members>
-        <members>aSF_createCaseWithType</members>
-        <members>asf_Utility</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>Case.ANI_Number__c</members>
-        <members>Case.Issue_Type__c</members>
-        <members>ASF_Case_Category_Config__c.Show_FTR_Flag_on_Creation__c</members>
-        <members>ASF_Case_Category_Config__c.Send_FTR_communications__c</members>
-        <members>ASF_Case_Category_Config__c.FTR_Email_Template__c</members>
-        <members>ASF_Case_Category_Config__c.FTR_SMS_Metadata__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>ASF_Case_Email_Config__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>Communication_Log_Flow_Email</members>
-        <name>Flow</name>
     </types>
     <version>59.0</version>
 </Package>
