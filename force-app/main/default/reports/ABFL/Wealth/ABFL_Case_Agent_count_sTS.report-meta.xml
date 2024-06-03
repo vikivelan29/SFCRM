@@ -21,7 +21,7 @@
     <name>Wealth–Cases worked by an agent Summ</name>
     <params>
         <name>co</name>
-        <value>1</value>
+        <value>0</value>
     </params>
     <reportType>Case_SLA_History__c</reportType>
     <scope>organization</scope>

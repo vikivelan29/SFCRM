@@ -13,6 +13,7 @@ import CATEGORY_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
 import TYPE_FIELD from '@salesforce/schema/Case.Sub_Type_Text__c';
 import SUBTYPE_FIELD from '@salesforce/schema/Case.Type_Text__c';
 import OWNER_FIELD from '@salesforce/schema/Case.OwnerId';
+import BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c'
 import USER_ID from '@salesforce/user/Id';
 
 export default class Asf_RelateDeduplicateCase extends LightningElement {
@@ -26,7 +27,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     wiredCurrentRec;
     userId = USER_ID;
     errorMessage = 'You do not have access. Only case owner is allowed to mark the case as Relate/ Duplicate';
-    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD];
+    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD, BUSINESS_UNIT_FIELD];
     
     @wire(getRecord, { recordId: '$recordId', fields: '$caseFields' })
     wiredRecord({ error, data }) {
@@ -37,7 +38,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                     Category: getFieldValue(data, CATEGORY_FIELD),
                     Type: getFieldValue(data, TYPE_FIELD),
                     SubType: getFieldValue(data, SUBTYPE_FIELD),
-                    Owner: getFieldValue(data, OWNER_FIELD)
+                    Owner: getFieldValue(data, OWNER_FIELD),
+                    BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD)
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
             this.ownerValidation();
@@ -53,7 +55,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                 IsClosed: getFieldValue(data, ISCLOSED_FIELD),
                 Category: getFieldValue(data, CATEGORY_FIELD),
                 Type: getFieldValue(data, TYPE_FIELD),
-                SubType: getFieldValue(data, SUBTYPE_FIELD)
+                SubType: getFieldValue(data, SUBTYPE_FIELD),
+                BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD)
         };
         } else if (error) {
             console.error('Error loading parent record', error);
@@ -91,8 +94,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
 
     validateDuplicateCase(){
         let isValid = true;
-
-        if(this.wiredParentRec.IsClosed){
+        if(this.wiredParentRec.IsClosed && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a closed case as parent', 'error');
         }
@@ -101,8 +103,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             isValid = false;
             this.showToastMessage('Error!', 'Parent case should belong to same LAN as current case', 'error');
         }
-        else if(this.wiredCurrentRec.Category != this.wiredParentRec.Category && this.wiredCurrentRec.Type != this.wiredParentRec.Type 
-            && this.wiredCurrentRec.SubType != this.wiredParentRec.SubType){
+        else if(this.wiredCurrentRec.Category != this.wiredParentRec.Category || this.wiredCurrentRec.Type != this.wiredParentRec.Type 
+            || this.wiredCurrentRec.SubType != this.wiredParentRec.SubType){
             isValid = false;
             this.showToastMessage('Error!', 'Parent case should belong to same Category, Type and Sub Type as current case', 'error');
         }

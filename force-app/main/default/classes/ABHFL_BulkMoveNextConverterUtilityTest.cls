@@ -92,6 +92,7 @@ public with sharing class ABHFL_BulkMoveNextConverterUtilityTest {
         utility.convertJSONRows(jsonRows);
         Test.stopTest();
     }
+
     @IsTest
     static void testprepareDownloadTemplate() {        
         List<String> columnNames = new List<String>{'Case number'};

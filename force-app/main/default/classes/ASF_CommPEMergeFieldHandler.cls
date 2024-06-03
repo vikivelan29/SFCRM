@@ -1,12 +1,12 @@
 /**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 01-17-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+* @description       : 
+* @author            : rsinghnagar@salesforce.com
+* @group             : 
+* @last modified on  : 01-17-2024
+* @last modified by  : rsinghnagar@salesforce.com
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 public without sharing class ASF_CommPEMergeFieldHandler {
     
@@ -86,8 +86,11 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                 else{
                     fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
                 }
-                    System.debug('fieldValue --> '+fieldValue);
+                System.debug('fieldValue -->  '+fieldValue);
                 //fieldValue = String.valueOf(caseRecord.getSobject(arr[0])?.get(arr[1]));
+                
+                fieldValue = formatedValue(caseRecord,arr[0],fieldValue,arr[1]);
+                
             }else{
                 
                 Schema.DisplayType FldType = casefieldInfo.get(mergeField).getDescribe().getType();
@@ -96,9 +99,9 @@ public without sharing class ASF_CommPEMergeFieldHandler {
                     Datetime dt = (Datetime) caseRecord.get(mergeField);
                     if(dt!=null){
                         //if(mergeField =='CreatedDate')
-                            fieldValue = dt.format();
+                        fieldValue = dt.format();
                         //else
-                            //fieldValue = dt.date().format();
+                        //fieldValue = dt.date().format();
                     }
                     
                 }else if(FldType == Schema.DisplayType.Date){
@@ -124,11 +127,31 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
         masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
         masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
-
+        
         mPeLogIdCommunicationLog.put(pLogId, masterlog);
         
         
     }
     public enum Channel {SMS, Whatsapp, Email}
+    
+    
+    public static string formatedValue(Case caseRecord,String objectName,String fieldValue,String fieldName){
+        String extObjectName = String.valueOf(caseRecord.getSobject(objectName).getSObjectType());
+        System.debug('extObjectName --> '+extObjectName);
+        Map<String, Schema.SObjectField> extFields = Schema.getGlobalDescribe().get(extObjectName.toLowerCase()).getDescribe().fields.getMap();
+        Schema.DisplayType FldType = extFields.get(fieldName).getDescribe().getType();
+        if(FldType == Schema.DisplayType.DateTime){
+            Datetime dt =  DateTime.ValueOf(fieldValue); 
+            if(dt!=null){
+                fieldValue = dt.format();
+            }
+            
+        }else if(FldType == Schema.DisplayType.Date){
+            Date dt = Date.valueOf(fieldValue);
+            if(dt!=null)
+                fieldValue = dt.format();
+        }
+        return fieldValue;
+    }
     
 }
