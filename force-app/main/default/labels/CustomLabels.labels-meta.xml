@@ -714,4 +714,11 @@
         <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
         <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
     </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
 </CustomLabels>
