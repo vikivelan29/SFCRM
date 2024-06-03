@@ -1,16 +1,41 @@
+/**
+ * @description       : Class for Fund Value LWC
+ * @author            : Viren, dhinesh.t@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-03-2024
+ * @last modified by  : dhinesh.t@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
+**/
 public without sharing class ABSLI_FundValueCompController {
-	public static final string strMetadataName = 'ABSLI_Premium_Payment_Link';
+	public static final string STR_METADATA_NAME = 'ABSLI_Premium_Payment_Link';
     
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - getTemplateBody
+     * @param whatId  
+     * @param policyId
+     * @return String.
+     * @description - Method to get the Template Body
+     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static String getTemplateBody(String whatId,String policyId){
 
 		/* Fund Value API call, store the value in which field?*/
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Template_Name__c FROM Customer_Notification_Config__mdt 
-                                                    WHERE DeveloperName=: strMetadataName ];
-        EMAILTemplate eTemplate = [SELECT ID,HTMLValue FROM EMAILTemplate WHERE DeveloperName =: commMdt.SMS_Template_Name__c];
+                                                    WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
+        EMAILTemplate eTemplate = [SELECT ID,HTMLValue FROM EMAILTemplate WHERE DeveloperName =: commMdt.SMS_Template_Name__c WITH SECURITY_ENFORCED];
         String retVal = generateMessageBody(eTemplate.Id,UserInfo.getUserId(), policyId,true);
         return retVal;
     }
+    
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - getPolicyColumns
+     * @return List<Map<String, String>> 
+     * @description - Method to get PolicyColumns from custom label
+     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
 	public static List<Map<String, String>> getPolicyColumns() {
     	List<Map<String, String>> columns = new List<Map<String, String>>();
@@ -29,9 +54,17 @@ public without sharing class ABSLI_FundValueCompController {
             	}	
         	}
     	}
-	    System.debug(columns);
+	    System.debug(LoggingLevel.INFO,columns);
     	return columns;
 	}
+    
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - getAllRelatedAssets
+     * @param recordId
+     * @return List<Asset>
+     * @description - Method to get getAllRelatedAsset related to the account.
+     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
 	public static List<Asset> getAllRelatedAssets(Id recordId) {
     	// Fetch policy columns from custom label
@@ -40,26 +73,52 @@ public without sharing class ABSLI_FundValueCompController {
     	for (Map<String, String> column : columns) {
         	columnAPINames.add(column.get('fieldName'));
     	}
-
+        
+        for (String columnName : columnAPINames) {
+   			 if (!Pattern.matches('^[a-zA-Z0-9_]+$', columnName)) {
+        		throw new IllegalArgumentException('Invalid column name: ' + columnName);
+    		}
+		}
+        String columnNames = String.join(columnAPINames, ', ');
     	// Construct SOQL query dynamically
     	String query = 'SELECT ';
-    	query += String.join(columnAPINames, ', ') + ' FROM Asset WHERE AccountId = :recordId AND Type__c = \'ULIP\'';
-        System.debug(Database.query(query));
+    	query += columnNames + ' FROM Asset WHERE AccountId = :recordId AND Type__c = \'ULIP\' WITH SECURITY_ENFORCED';
+        System.debug(LoggingLevel.INFO,Database.query(query));
     	return Database.query(query);
 	}	
     
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - generateMessageBody
+     * @param templateID
+     * @param whoID
+     * @param whatID
+     * @param isPlainText
+     * @return String
+     * @description - Method to generate Message Body
+     *****************************************************************************************************************/
     private static String generateMessageBody(String templateID, String whoID, STring whatID, Boolean isPlainText){
         Messaging.SingleEmailMessage msg = Messaging.renderStoredEmailTemplate(templateID, whoId, whatID, Messaging.AttachmentRetrievalOption.NONE); 
         String richTextMessage = msg.getHtmlBody(); 
         return isPlainText ? richTextMessage.StripHtmlTags() : richTextMessage;
     }
+    
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - sendCommunication
+     * @param accountId
+     * @param policyId
+     * @param unregisteredNumber
+     * @return void
+     * @description - Method to sendCommunication
+     *****************************************************************************************************************/
     @AuraEnabled
     public static void sendCommunication(string accountId,string policyId,string unregisteredNumber){
-        Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : accountId LIMIT 1];
+        Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : accountId WITH SECURITY_ENFORCED LIMIT 1];
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c
                                                     FROM Customer_Notification_Config__mdt 
-                                                    WHERE DeveloperName=: strMetadataName ];
+                                                    WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
         if(c.MobilePhone != null && c.MobilePhone != ''){
             List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
             String templateBody = getTemplateBody(accountId,policyId);
@@ -79,19 +138,28 @@ public without sharing class ABSLI_FundValueCompController {
             }
             
             cLog.LOB__c = 'ABSLI';
-            insert cLog;
-            System.debug('record Inserted...'+cLog.Id);
+             if (Schema.sObjectType.ASF_Communication_Log__c.isCreateable()) {
+    			insert cLog;
+			}
+            System.debug(LoggingLevel.INFO,'record Inserted...'+cLog.Id);
             
             List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
             eventList.add(createOutboundCommunication(cLog,'SMS'));
             List<Database.SaveResult> results = EventBus.publish(eventList);
-            System.debug(results);
+            System.debug(LoggingLevel.INFO,results);
         }
         
-        
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - sendCommunication
+     * @param log
+     * @param msgType
+     * @return Outbound_Communication__e
+     * @description - Method to createOutboundCommunication
+     *****************************************************************************************************************/    
     }
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
-        System.debug('***createOutboundCommunication --> ');
+        System.debug(LoggingLevel.INFO,'***createOutboundCommunication --> ');
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
