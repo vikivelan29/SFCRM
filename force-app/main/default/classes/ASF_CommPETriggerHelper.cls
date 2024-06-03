@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-24-2024
+ * @last modified on  : 01-17-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -41,7 +41,6 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
     public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
     public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
-  
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
      * @param peLogs List of PE_Logger__c records.
@@ -715,54 +714,6 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param leadId The ID of the lead.
      * @return The populated ASF_Communication_Log__c record.
      */
-Ids.add(pLog.AccountId__c);
-            }
-            if(pLog.ContactId__c != null){
-                caseConIds.add(pLog.ContactId__c);
-            }
-            if(pLog.Lead__c != null){
-                caseProspectIds.add(pLog.Lead__c);
-            }
-        }
-    }
-    private static void setCaseFields(Customer_Notification_Config__mdt comm_config, String developerName){
-        String mergeFieldCSV = (String) comm_config.get(developerName);
-        if(mergeFieldCSV !=null && String.IsNotBlank(mergeFieldCSV)){
-            setCaseFields.addAll(mergeFieldCSV.split(','));
-        }
-    }
-.add(pLog.AccountId__c);
-            }
-            if(pLog.ContactId__c != null){
-                caseConIds.add(pLog.ContactId__c);
-            }
-            if(pLog.Lead__c != null){
-                caseProspectIds.add(pLog.Lead__c);
-            }
-        }
-    }
-    private static void setCaseFields(Customer_Notification_Config__mdt comm_config, String developerName){
-        String mergeFieldCSV = (String) comm_config.get(developerName);
-        if(mergeFieldCSV !=null && String.IsNotBlank(mergeFieldCSV)){
-            setCaseFields.addAll(mergeFieldCSV.split(','));
-        }
-    }
-s.add(pLog.AccountId__c);
-            }
-            if(pLog.ContactId__c != null){
-                caseConIds.add(pLog.ContactId__c);
-            }
-            if(pLog.Lead__c != null){
-                caseProspectIds.add(pLog.Lead__c);
-            }
-        }
-    }
-    private static void setCaseFields(Customer_Notification_Config__mdt comm_config, String developerName){
-        String mergeFieldCSV = (String) comm_config.get(developerName);
-        if(mergeFieldCSV !=null && String.IsNotBlank(mergeFieldCSV)){
-            setCaseFields.addAll(mergeFieldCSV.split(','));
-        }
-    }
     private static ASF_Communication_Log__c createCommunincationLogRecord(ASF_Communication_Log__c log,
                                                                           Id accountId,
                                                                           Id contactId,
