@@ -1,14 +1,4 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
-@SuppressWarnings('PMD.MethodNamingConventions')
+@SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
     /** STATIC VARIABLES to pass data between Before and After events*/
@@ -137,7 +127,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                if(caseRec.Source__c != 'Email' && String.isBlank(caseRec.Subject)){
+                //If the incoming subject of the case is not blank, system will no longer overwrite it, 
+                //irrespective of origin/source of the case. PR970457-1880
+                if(String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -193,7 +185,35 @@ public without sharing class ASF_CaseTriggerModularHelper {
         
         //VIRENDRA - MOVED QUEUE Assignment Logic below.
         if(isUpdate){
-            ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap,cccExtIdToCCCMap);
+            List<Case> eligibleCaseList = new List<Case>();
+            for(Case caseRec : newList){
+                // Do not change the owner for certain CCC when recategorized
+                if(!(ASF_RecategoriseCaseController.requestFromRecat && cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c).No_Owner_Change_on_Recat__c)){
+                    eligibleCaseList.add(caseRec);
+                }
+            }
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(eligibleCaseList,isUpdate,oldMap,nextStageMap);
+            for(Case caseRec : newList){
+                if(ownerInfos.containsKey(caseRec.Id)){
+                    ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrap = ownerInfos.get(caseRec.Id);
+                    ASF_Case_Category_Config__c appliedCCC;
+                    if(String.isNotBlank(caseRec.CCC_External_Id__c) 
+                    && cccExtIdToCCCMap.containsKey(caseRec.CCC_External_Id__c)){
+                        appliedCCC = cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c);
+                    }
+                    if(appliedCCC != null){
+                        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                        if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                            Case caseObj = new Case(Id = caseRec.Id);
+                            caseFinalDMLMap.put(caseObj.Id, caseObj);
+                        }
+                        Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                    }
+                }
+            }
         }
         
         
@@ -1295,7 +1315,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
                  else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
-                        c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                  }
 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
