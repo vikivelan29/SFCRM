@@ -55,9 +55,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
-
-        // Create Comment if the case is closed while creation.[through api]
-        ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
