@@ -6,7 +6,6 @@
  * @author Abinash Panigrahi
  * @date 2024-05-28
  */
-@SuppressWarnings('PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssMethodCount,PMD.CyclomaticComplexity')
 public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_IntegrationInvocable {
 	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
@@ -69,34 +68,6 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		List<Case> caseRecs
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-
-		Set<String> intIds = new Set<String>();
-		for (Case caseRec : caseRecs) {
-			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_BankAccountUpdateIntegration.class.getName()) {
-					intIds.add(integ.External_Id__c);
-				}
-			}
-		}
-
-		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
-		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
-			if (integs.containsKey(caseInt.Case__c)) {
-				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
-					if (
-						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
-						caseInt.Status__c == ABSLI_Constants.PENDING
-					) {
-						caseInt.Status__c = ABSLI_Constants.CANCELED;
-						existingCaseIntegrations.add(caseInt);
-					}
-				}
-			}
-		}
-
-		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
-		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 
 		List<Case> caseRecords = new List<Case>();
 		for (Case caseRec : caseRecs) {
@@ -186,6 +157,42 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		return resultMap;
 	}
 
+    /**
+	 * @description Before Initiating new Integration callout, cancel existing running request
+	 *
+	 * @param integs - List of Integration configs
+	 * @param caseRecs - List of Case record from the framework
+	 */
+	public void cancelPendingCaseIntegrationRequests(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs) {
+		Set<String> intIds = new Set<String>();
+		for (Case caseRec : caseRecs) {
+			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
+				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+					intIds.add(integ.External_Id__c);
+				}
+			}
+		}
+
+		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
+			if (integs.containsKey(caseInt.Case__c)) {
+				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
+					if (
+						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
+						caseInt.Status__c == ABSLI_Constants.PENDING
+					) {
+						caseInt.Status__c = ABSLI_Constants.CANCELED;
+						existingCaseIntegrations.add(caseInt);
+					}
+				}
+			}
+		}
+
+		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+	}
+
 	/**
 	 * @description Invoked from the Case Integration trigger, this method processes the response of the integration received
 	 * If ProcessCode = 0, Successful Transaction. Then Resolve Case
@@ -239,7 +246,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 	/**
 	 * @description Policy Account Statement (PAS) Wrapper Class to build Integration Request Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
 	public class BAURequestWrapper {
 		public string TRANS_NO { get; set; }
 		public service service { get; set; }
@@ -266,7 +273,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		}
 	}
 
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
 	public class service {
 		public string source { get; set; }
 		public string polId { get; set; }
@@ -308,7 +315,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 	/**
 	 * @description Policy Account Statement (PAS) Wrapper Class to follow through Response Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
 	public class BAUResponseWrapper {
 		public String LSIR_RETURN_CD { get; set; }
 		public String MIR_NEFT_IFSC_CD { get; set; }
