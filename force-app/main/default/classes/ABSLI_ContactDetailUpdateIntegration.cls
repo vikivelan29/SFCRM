@@ -6,20 +6,14 @@
  * @author Abinash Panigrahi
  * @date 2024-05-28
  */
-@SuppressWarnings('PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssMethodCount,PMD.CyclomaticComplexity')
 public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_IntegrationInvocable{
-/**
+
+    /**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
-	 * @param caseRec - Case record from the framework
-	 * @return ASF_IntegrationsController.IntegrationWrapper
+	 * @param caseRecs - List of Case record from the framework
+	 * @return Map<Id, ASF_IntegrationsController.IntegrationWrapper>
 	 */
-	public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec) {
-		ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-		result = evaluate(new List<Case>{ caseRec }).get(caseRec.Id);
-		return result;
-	}
-
 	public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
@@ -51,56 +45,21 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
-	/**
+    /**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
-	 * @param caseInteg - ASF_Integration record
-	 * @param caseRec - Case record from the framework
-	 * @return ASF_IntegrationsController.IntegrationWrapper
+	 * @param caseIntegs - List of ASF_Integration record
+	 * @param caseRecs - List of Case record from the framework
+	 * @return Map<Id, ASF_IntegrationsController.IntegrationWrapper>
 	 */
-	public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c caseInteg, Case caseRec) {
-		ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-		result = run(
-				new Map<Id, List<ASF_Integration__c>>{ caseRec.Id => new List<ASF_Integration__c>{ caseInteg } },
-				new List<Case>{ caseRec }
-			)
-			.get(caseRec.Id);
-		return result;
-	}
-
 	public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(
 		Map<Id, List<ASF_Integration__c>> integs,
 		List<Case> caseRecs
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-		Set<String> intIds = new Set<String>();
-		for (Case caseRec : caseRecs) {
-			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_ContactDetailUpdateIntegration.class.getName()) {
-					intIds.add(integ.External_Id__c);
-				}
-			}
-		}
-
-		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
-		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
-			if (integs.containsKey(caseInt.Case__c)) {
-				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
-					if (
-						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
-						caseInt.Status__c == ABSLI_Constants.PENDING
-					) {
-						caseInt.Status__c = ABSLI_Constants.CANCELED;
-						existingCaseIntegrations.add(caseInt);
-					}
-				}
-			}
-		}
-
-		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
-		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+        //Before Initiating new Integration callout, cancel existing running request
+		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
 		for (Case caseRec : caseRecs) {
@@ -191,6 +150,42 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
+    /**
+	 * @description Before Initiating new Integration callout, cancel existing running request
+	 *
+	 * @param integs - List of Integration configs
+	 * @param caseRecs - List of Case record from the framework
+	 */
+	public void cancelPendingCaseIntegrationRequests(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs) {
+		Set<String> intIds = new Set<String>();
+		for (Case caseRec : caseRecs) {
+			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
+				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+					intIds.add(integ.External_Id__c);
+				}
+			}
+		}
+
+		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
+			if (integs.containsKey(caseInt.Case__c)) {
+				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
+					if (
+						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
+						caseInt.Status__c == ABSLI_Constants.PENDING
+					) {
+						caseInt.Status__c = ABSLI_Constants.CANCELED;
+						existingCaseIntegrations.add(caseInt);
+					}
+				}
+			}
+		}
+
+		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+	}
+
 	/**
 	 * @description Invoked from the Case Integration trigger, this method processes the response of the integration received
 	 * If ProcessCode = 0, Successful Transaction. Then Resolve Case
@@ -209,28 +204,14 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 				);
 
 				if (jsonMap.ProcessCode == '00') {
-                    System.debug('Inside Return Code 00');
-					List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-						caseRecord.CCC_External_Id__c
-					);
+                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+                    sendoutEmailSMSNotification(caseRecord);
 
-					Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-						cccRecord[0].Additional_Email_Templates__c
-					);
-					Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-						cccRecord[0].Additional_SMS_Metadata__c
-					);
-
-					Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-						caseRecord,
-						emailTemplateMap.get('Resolved'),
-						smsMetadataMap.get('Resolved'),
-						true
-					);
+                    caseRecord.MoveToNext__c = true;
+				    Database.update(caseRecord, AccessLevel.USER_MODE);
 				}
 
-				caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.USER_MODE);
+
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -239,6 +220,60 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
+	}
+
+    /**
+	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+	 *
+	 * @param caseRecord - Case record from the framework
+	 */
+	public void sendoutEmailSMSNotification(Case caseRecord) {
+		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
+			caseRecord.CCC_External_Id__c
+		);
+
+		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_Email_Templates__c
+		);
+		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_SMS_Metadata__c
+		);
+
+		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
+			caseRecord,
+			emailTemplateMap.get('Resolved'),
+			smsMetadataMap.get('Resolved'),
+			true
+		);
+	}
+
+    /**
+	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
+	 *
+	 * @param caseRec - Case record from the framework
+	 * @return ASF_IntegrationsController.IntegrationWrapper
+	 */
+	public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec) {
+		ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+		result = evaluate(new List<Case>{ caseRec }).get(caseRec.Id);
+		return result;
+	}
+
+    /**
+	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
+	 *
+	 * @param caseInteg - ASF_Integration record
+	 * @param caseRec - Case record from the framework
+	 * @return ASF_IntegrationsController.IntegrationWrapper
+	 */
+	public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c caseInteg, Case caseRec) {
+		ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+		result = run(
+				new Map<Id, List<ASF_Integration__c>>{ caseRec.Id => new List<ASF_Integration__c>{ caseInteg } },
+				new List<Case>{ caseRec }
+			)
+			.get(caseRec.Id);
+		return result;
 	}
 
 	/**
