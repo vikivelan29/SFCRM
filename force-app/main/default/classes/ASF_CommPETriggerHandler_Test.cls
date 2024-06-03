@@ -90,6 +90,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.AccountId__c = cList[i].AccountId;
             peLogger.ContactId__c = cList[i].ContactId;
             peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
+            peLogger.Is_Attachment__c = true;
             peLoggers.add(peLogger);
             
             ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
@@ -136,6 +137,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
+            peLogger.Is_Attachment__c = true;
             peLoggers.add(peLogger);
             
             ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
@@ -177,6 +179,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
+            peLogger.Is_Attachment__c = true;
             peLoggers.add(peLogger);
             
             ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
