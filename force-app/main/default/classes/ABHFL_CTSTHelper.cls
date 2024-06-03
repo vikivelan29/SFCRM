@@ -10,6 +10,40 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
     
+    //AM-Delete existing asset detail records on a case on customer change
+    public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id, List<ABHFL_Asset_Detail__c>> caseAssetDetailMap = new Map<Id, List<ABHFL_Asset_Detail__c>>();
+        List<ABHFL_Asset_Detail__c> assetDetailsToDelete = new List<ABHFL_Asset_Detail__c>();
+        for(Case cs: newCaseList){
+            if(cs.Business_Unit__c=='ABHFL'){
+            	caseIds.add(cs.Id);    
+            }
+        }
+        for(ABHFL_Asset_Detail__c assetDetail :[SELECT Id, Case__c FROM ABHFL_Asset_Detail__c WHERE Case__c IN :caseIds])
+        {
+            if(!caseAssetDetailMap.containsKey(assetDetail.Case__c)){
+                caseAssetDetailMap.put(assetDetail.Case__c, new List<ABHFL_Asset_Detail__c>());
+            }
+       		caseAssetDetailMap.get(assetDetail.Case__c).add(assetDetail);
+        }
+        if(caseIds!=null){
+           	for(Case c: newCaseList){
+                if(caseAssetDetailMap.get(c.Id)!=null && c.AccountId!=null && oldCaseMap.get(c.Id).AccountId != c.AccountId)
+                {
+                    assetDetailsToDelete.addAll(caseAssetDetailMap.get(c.Id));
+                }
+            } 
+        }
+        if(assetDetailsToDelete!=null){
+            try{
+                delete assetDetailsToDelete;
+            }catch(Exception ex){
+                system.debug('Exception message:'+ex.getMessage());
+            }
+        }
+    }
+    
     //AM-SLA broken reset change on Open --> In Progress for Complaints
     public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
         for(Case c: newCaseList){
@@ -27,7 +61,9 @@ public without sharing class ABHFL_CTSTHelper {
     public static void sendGrievanceDetailsEmail(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
           
         Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
+        Map<String, User> ownerMap = new Map<String,User>();
         Set<String> caseDetailIds = new Set<String>();
+        Set<String> ownerIds = new Set<String>();
         List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
@@ -36,27 +72,38 @@ public without sharing class ABHFL_CTSTHelper {
         
         for(Case caseRec : newCaseList){
             if(caseRec.Business_Unit__c=='ABHFL'){
-            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);
+                ownerIds.add(caseRec.OwnerId);
             }
         }
         
         for(ABHFL_Case_Detail__c cd : [SELECT Id, Grievance_Details_Sent__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
             caseToDetailMap.put(cd.Id, cd);
         }
+        for(User us : [SELECT Id, Assigned_Team__c FROM User WHERE Id IN :ownerIds]){
+            ownerMap.put(us.Id, us);
+        }
         
         if(!caseDetailIds.isEmpty()){
             List<EmailTemplate> grievanceEmailTemplate = [SELECT Id, Name, DeveloperName FROM EmailTemplate WHERE Name='Grievance Details In InProgress Stage' LIMIT 1];
             for(Case c: newCaseList){
-               	if(caseToDetailMap.get(c.ABHFL_Case_Detail__c)!=null && !caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
-						&& (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
-                        && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G')/* && oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'*/))
-               	{
-                 	casesForCreatePELogAndinvokeCommPEevent.add(c);
-                    emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
-                    isTransferredMap.put(c.Id,true);
-                    caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
-                    caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
-               	}
+                //system.debug('ownerMap.get(c.OwnerId).Assigned_Team__c:'+ownerMap.get(c.OwnerId).Assigned_Team__c);
+                //if(ownerMap.get(c.OwnerId)!=null){
+                	if(caseToDetailMap.get(c.ABHFL_Case_Detail__c)!=null && ownerMap.get(c.OwnerId)!=null &&
+                       ownerMap.get(c.OwnerId).Assigned_Team__c!=null &&
+                       !caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c && c.Stage__c=='In Progress' 
+                       && ownerMap.get(c.OwnerId).Assigned_Team__c.contains('Grievance'))
+                            /*&& (oldCaseMap.get(c.Id).OwnerId != c.OwnerId) && (c.OwnerId!=null && String.valueOf(c.OwnerId).startsWith('005'))
+                            && (oldCaseMap.get(c.Id).OwnerId!=null && String.valueOf(oldCaseMap.get(c.Id).OwnerId).startsWith('00G') /*&& oldCaseMap.get(c.Id).Owner.Name=='ABHFL Grievance'))*/
+                    {
+                        casesForCreatePELogAndinvokeCommPEevent.add(c);
+                        emailTemplateMap.put(c.Id, grievanceEmailTemplate[0].DeveloperName);
+                        isTransferredMap.put(c.Id,true);
+                        caseToDetailMap.get(c.ABHFL_Case_Detail__c).Grievance_Details_Sent__c = true;
+                        caseDetailList.add(caseToDetailMap.get(c.ABHFL_Case_Detail__c));
+                    }    
+                //}
+               	
             }
         }
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
@@ -190,18 +237,17 @@ public without sharing class ABHFL_CTSTHelper {
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
-                                    c.Stage__c = 'Duplicate';
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
                                     c.Is_Duplicate__c = true;
                                     c.ParentId = dupeCase.Id;
-                                    c.status= ASF_Constants.DUPLICATESTATUS;
-                                    c.Rejected_Reason__c = 'Duplicate Case';
                                 }else if(!c.ABHFL_Case_Detail__r.Skip_Dedupe__c){
-                                    String overallCaseClosureSLA = (dupeCase.Overall_Case_Closure_SLA__c != null) ? (dupeCase.Overall_Case_Closure_SLA__c.format('dd/MM/yyyy hh:mm:ss a','IST')) : '';
-                                    if(dupeCase.SLA_Broken_DateTime__c!=null){
-                                        c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Outside TAT');
-                                    }else{
-                                      	c.addError('Existing case available in CRM#'+dupeCase.CaseNumber+',CaseSubType#'+dupeCase.Sub_Type_Text__c+',ResolutionDate#'+overallCaseClosureSLA+',CASESTATUS#Active,TATSTATUS#Within TAT');  
-                                    }
+                                    c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                                    c.Status = ASF_Constants.DUPLICATESTATUS;
+                                    c.Rejected_Reason__c = 'Duplicate Case';
+                                    c.Is_Duplicate__c = true;
+                                    c.ParentId = dupeCase.Id;
                                 }
                             }
                         }
