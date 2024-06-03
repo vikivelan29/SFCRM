@@ -15,9 +15,9 @@ Ver   Date         Author                               Modification
 public class ASF_CustomerEmailInvocable_Test {
     @TestSetup
     static void makeData(){
-        List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+        Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
-        List<Case> cases = ASF_TestDataFactory.createCaseRecords(3);
+        ASF_TestDataFactory.createCaseRecords(3);
     }
     @isTest
     public static void getEmailTemplateNameTest(){
@@ -34,7 +34,7 @@ public class ASF_CustomerEmailInvocable_Test {
             wrapper.templateName = 'Generic_SR_Created';
             wrappers.add(wrapper);
             
-            List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
+            ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
         }
     }
     
@@ -64,10 +64,11 @@ public class ASF_CustomerEmailInvocable_Test {
             wrappers.add(wrapper);
             
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
-            System.assertEquals(outputWrappers[0].supressEmail,true,'Supression Logic working as expected');            
+            System.assertEquals(outputWrappers[0].supressEmail,true,'Supression Logic working as expected');
+            
+            
         }
     }
-    
     @isTest
     public static void ABSLI_FtrRegionalTest(){
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
@@ -101,5 +102,6 @@ public class ASF_CustomerEmailInvocable_Test {
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);      
         }
     }
+
     
 }

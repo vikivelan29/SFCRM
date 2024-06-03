@@ -1,5 +1,17 @@
+/**
+ * @description       : BSLI email logic for flow
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 06-01-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
-
+    /**
+     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+     * updated. If the case is marked as FTR, the case status is updated to 'Resolved'
+     * @param newMap
+     * @param oldMap
+     */
     public static void autoResolveFtrCases(Map<Id, Case> newMap, Map<Id, Case> oldMap){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
         List<Case> absliCases = new List<Case>();

@@ -493,6 +493,16 @@
                 <default>false</default>
                 <label>Others</label>
             </value>
+            <value>
+                <fullName>Duplicate Policy Document Related - Undertaking form</fullName>
+                <default>false</default>
+                <label>Duplicate Policy Document Related - Undertaking form</label>
+            </value>
+            <value>
+                <fullName>Mode change procedure</fullName>
+                <default>false</default>
+                <label>Mode change procedure</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
