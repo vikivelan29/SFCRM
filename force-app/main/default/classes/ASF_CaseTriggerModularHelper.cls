@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-12-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-12-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -139,9 +129,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                //If subject not present, set it
-                //else if the origin is NOT email, set it
-                if(String.isBlank(caseRec.Subject) || (String.isNotBlank(caseRec.Origin) && !caseRec.Origin.contains('Email'))){
+                //If the incoming subject of the case is not blank, system will no longer overwrite it, 
+                //irrespective of origin/source of the case. PR970457-1880
+                if(String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -239,7 +229,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                         caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime(); 
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }
@@ -1377,7 +1367,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                             c.addError(System.Label.ASF_Owner_Change_Access_Val_Msg);
                         }
                  else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
-                        c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
+                     	c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                  }
 else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
