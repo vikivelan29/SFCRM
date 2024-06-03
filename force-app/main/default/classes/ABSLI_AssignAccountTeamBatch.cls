@@ -12,9 +12,9 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - start function of batch 
-     * @param String bC - Batchable Context
+     * @param bC - Batchable Context
      * @return Database.getQueryLocator
-     * @Description - Method to get the satsifying asset records that VRM Role have access to 
+     * @description - Method to get the satsifying asset records that VRM Role have access to 
      *****************************************************************************************************************/
     global Database.QueryLocator start(Database.BatchableContext bC) {
     return Database.getQueryLocator([
@@ -27,10 +27,9 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - execute function of batch 
-     * @param String bC - Batchable Context
-     * @param List scope - List of Assets
-     * @return 
-     * @Description - Method to assign VRM role users as account Team Members to the accounts retrieved.
+     * @param bC - Batchable Context
+     * @param scope - List of Assets
+     * @description - Method to assign VRM role users as account Team Members to the accounts retrieved.
      *****************************************************************************************************************/
     global void execute(Database.BatchableContext bC, List<Asset> scope) {
     	Map<Id, Set<Id>> accountUserMap = new Map<Id, Set<Id>>();
@@ -75,7 +74,12 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
 	}
 
 
-
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - finish function of batch 
+     * @param bC - Batchable Context
+     * @description - Method to assign VRM role users as account Team Members to the accounts retrieved.
+     *****************************************************************************************************************/
     global void finish(Database.BatchableContext bC) {
         //nothing to process here
     }

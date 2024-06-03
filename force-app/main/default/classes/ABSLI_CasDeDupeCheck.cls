@@ -11,8 +11,7 @@
 public without sharing class ABSLI_CasDeDupeCheck {
      /****************************************************************************************************************
      * @Function - runDuplicateCheck
-     * @param List cases - Batchable Context
-     * @return Void
+     * @param cases 
      * @Description - Method for Case dedupe
      *****************************************************************************************************************/
     public static void runDuplicateCheck(List<Case> cases)
@@ -70,7 +69,7 @@ public without sharing class ABSLI_CasDeDupeCheck {
         
         
         // Get Case Category Configuration. 
-        caseCategoryConfigs = [SELECT ID,Nature__c,Type__c, Sub_Type__c,Is_Transaction_Related__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mCCCVsAccountIds.keySet() WITH SYSTEM_MODE];
+        caseCategoryConfigs = [SELECT ID,Nature__c,Type__c, Sub_Type__c,Is_Transaction_Related__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mCCCVsAccountIds.keySet() WITH SECURITY_ENFORCED];
         
         for(ASF_Case_Category_Config__c ccc : caseCategoryConfigs){
             if(ccc.Nature__c == ABSLI_Constants.QUERY || ccc.Nature__c == ABSLI_Constants.REQUEST){
@@ -84,7 +83,7 @@ public without sharing class ABSLI_CasDeDupeCheck {
         * 		
        */
         
-        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false WITH SYSTEM_MODE]){
+        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false WITH SECURITY_ENFORCED]){
             if(transactionRelatedCCC.contains(dupeCase.CCC_External_Id__c )){
                 System.debug(LoggingLevel.INFO,'I am here....'+dupeCase.Id);
                 if(mAccountIdVsCases.containsKey(dupeCase.AccountId)){
