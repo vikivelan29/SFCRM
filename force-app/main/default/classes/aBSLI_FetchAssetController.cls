@@ -1,14 +1,22 @@
-/****************************************************************************************************************
-  * Author           - Dhinesh
-  * Date             - 14-May-2024
-  *****************************************************************************************************************/
-public with sharing class aBSLI_FetchAssetController {
+/**
+ * @description       : ABSLI Fetch Asset LWC Controller
+ * @author            : dhinesh.t@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-03-2024
+ * @last modified by  : dhinesh.t@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
+**/
+public with sharing class ABSLI_FetchAssetController {
 	 
-    /****************************************************** 
-    * Description      - Getting asset records on the basis of Account LOB and to the related account.
-    * return params    - Asf_FetchAssetRelatedToAccountControllerWrapper object
-    ********************************************************
-    */
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - fetchAssets  - fetch assets related to the account.
+     * @param String accountRecordId - Account Id
+     * @return Asf_FetchAssetRelatedToAccountControllerWrapper - Wrapper
+     * @Description - Method to get the assets related to the account.
+     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static Asf_FetchAssetRelatedToAccountControllerWrapper fetchAssets(String accountRecordId) {
 
@@ -17,7 +25,7 @@ public with sharing class aBSLI_FetchAssetController {
         Asf_FetchAssetRelatedToAccountControllerWrapper findAssetObj                 = new Asf_FetchAssetRelatedToAccountControllerWrapper();
         Asf_FetchAssetRelatedToAccountControllerWrapper  fieldApiNameOnBasisOfLOBObj = new Asf_FetchAssetRelatedToAccountControllerWrapper();
 
-        List<Account> accList = [SELECT Line_of_Business__c FROM Account WHERE id =:accountRecordId];
+        List<Account> accList = [SELECT Line_of_Business__c FROM Account WHERE id =:accountRecordId WITH SECURITY_ENFORCED];
         accLOB                = accList[0].Line_of_Business__c;
 
         fieldApiNameOnBasisOfLOBObj  = fetchFieldApiNameOnBasisOfLOB(accLOB);
@@ -27,10 +35,10 @@ public with sharing class aBSLI_FetchAssetController {
         String allFieldApiNameString = String.join(fieldApiNamList,',');
         String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId';
-        System.debug('***dynamicQuery:'+dynamicQuery);
+        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId OR Interested_Party__c =:accountRecordId WITH SECURITY_ENFORCED';
+        System.debug(LoggingLevel.INFO,'***dynamicQuery:'+dynamicQuery);
         List<Sobject> assetRecLst = Database.query(dynamicQuery);
-        System.debug('***dynamicQueryResult:'+assetRecLst);
+        System.debug(LoggingLevel.INFO,'***dynamicQueryResult:'+assetRecLst);
 
         findAssetObj.columnNameList = colmnNameList;
         findAssetObj.assetRecords   = (List<Asset>) assetRecLst;
@@ -40,11 +48,13 @@ public with sharing class aBSLI_FetchAssetController {
 
     }
 
-    /****************************************************** 
-    * Description      - Getting field Api Name list, column Name List and field Mapping for Case on the basis of Account LOB.
-    * return params    - Asf_FetchAssetRelatedToAccountControllerWrapper object
-    ********************************************************
-    */
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - fetchFieldApiNameOnBasisOfLOB  - fetch field API name based on LOB
+     * @param String accLOB - Account's LOB
+     * @return Asf_FetchAssetRelatedToAccountControllerWrapper - Wrapper
+     * @Description - Method to populate the wrapper with columns and their properties.
+     *****************************************************************************************************************/
     public static Asf_FetchAssetRelatedToAccountControllerWrapper fetchFieldApiNameOnBasisOfLOB(String accLOB) {
         
         List<String> fieldApiNameList                       = new List<String>();
@@ -116,6 +126,10 @@ public with sharing class aBSLI_FetchAssetController {
         return obj;
     }
 
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - Asf_FetchAssetRelatedToAccountControllerWrapper wrapper
+     *****************************************************************************************************************/
     public class Asf_FetchAssetRelatedToAccountControllerWrapper {
         @AuraEnabled public List<ColumnName> columnNameList;
         @AuraEnabled public List<Asset> assetRecords;
@@ -123,7 +137,10 @@ public with sharing class aBSLI_FetchAssetController {
         @AuraEnabled public String fieldMappingForCase;
         @AuraEnabled public String accBusinessUnit;
     }
-
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - ColumnName wrapper
+     *****************************************************************************************************************/
     public class ColumnName {
         @AuraEnabled public String label;
         @AuraEnabled public String fieldName;
@@ -131,7 +148,10 @@ public with sharing class aBSLI_FetchAssetController {
         @AuraEnabled public TypeAttributes typeAttributes;
         @AuraEnabled public CellAttributes cellAttributes;
     }
-
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - TypeAttributes wrapper
+     *****************************************************************************************************************/
     public class TypeAttributes {
         @AuraEnabled public String day;
         @AuraEnabled public String month;
@@ -141,15 +161,24 @@ public with sharing class aBSLI_FetchAssetController {
         @AuraEnabled public TypeAttributesLabel label;
         @AuraEnabled public ToolTip tooltip;
     }
-
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - CellAttributes wrapper
+     *****************************************************************************************************************/
     public class CellAttributes {
         @AuraEnabled public String alignment;
     }
-
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - TypeAttributesLabel wrapper
+     *****************************************************************************************************************/
     public class TypeAttributesLabel {
         @AuraEnabled public String fieldName;
     }
-
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Description - ToolTip wrapper
+     *****************************************************************************************************************/
     public class ToolTip {
         @AuraEnabled public String fieldName;
     }
