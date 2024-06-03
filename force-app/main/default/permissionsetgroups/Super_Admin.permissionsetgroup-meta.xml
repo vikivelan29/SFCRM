@@ -9,5 +9,6 @@
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Manage_Case_Config</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
+    <permissionSets>ABSLI_User</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
