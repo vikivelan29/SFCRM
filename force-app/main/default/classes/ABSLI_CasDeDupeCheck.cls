@@ -1,5 +1,20 @@
+/**
+ * @description       : ABSLI Dedupe check class
+ * @author            : dhinesh.t@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-03-2024
+ * @last modified by  : dhinesh.t@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
+**/
 public without sharing class ABSLI_CasDeDupeCheck {
-
+     /****************************************************************************************************************
+     * @Function - runDuplicateCheck
+     * @param List cases - Batchable Context
+     * @return Void
+     * @Description - Method for Case dedupe
+     *****************************************************************************************************************/
     public static void runDuplicateCheck(List<Case> cases)
     {
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
@@ -18,7 +33,7 @@ public without sharing class ABSLI_CasDeDupeCheck {
 		 * Set of Payment Detail records Id.
 		 */
         
-        System.debug(cases);
+        System.debug(LoggingLevel.INFO,cases);
         for(Case c : cases){
             if(!mCCCVsAccountIds.containsKey(c.CCC_External_Id__c)){
                 mCCCVsAccountIds.put(c.CCC_External_Id__c, new Set<Id>());
@@ -55,7 +70,7 @@ public without sharing class ABSLI_CasDeDupeCheck {
         
         
         // Get Case Category Configuration. 
-        caseCategoryConfigs = [SELECT ID,Nature__c,Type__c, Sub_Type__c,Is_Transaction_Related__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mCCCVsAccountIds.keySet()];
+        caseCategoryConfigs = [SELECT ID,Nature__c,Type__c, Sub_Type__c,Is_Transaction_Related__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mCCCVsAccountIds.keySet() WITH SYSTEM_MODE];
         
         for(ASF_Case_Category_Config__c ccc : caseCategoryConfigs){
             if(ccc.Nature__c == ABSLI_Constants.QUERY || ccc.Nature__c == ABSLI_Constants.REQUEST){
@@ -69,15 +84,15 @@ public without sharing class ABSLI_CasDeDupeCheck {
         * 		
        */
         
-        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false]){
+        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false WITH SYSTEM_MODE]){
             if(transactionRelatedCCC.contains(dupeCase.CCC_External_Id__c )){
-                System.debug('I am here....'+dupeCase.Id);
+                System.debug(LoggingLevel.INFO,'I am here....'+dupeCase.Id);
                 if(mAccountIdVsCases.containsKey(dupeCase.AccountId)){
-                                    System.debug('I am here....2'+dupeCase.Id);
+                                    System.debug(LoggingLevel.INFO,'I am here....2'+dupeCase.Id);
                     if(mIssueTypeVsCases.containsKey(dupeCase.Issue_Type__c)){
-                                                            System.debug('I am here....3'+dupeCase.Id);
+                                                            System.debug(LoggingLevel.INFO,'I am here....3'+dupeCase.Id);
                         for(Case c : mAccountIdVsCases.get(dupeCase.AccountId)){
-                                                                System.debug('Finally here....4'+dupeCase.Id);
+                                                                System.debug(LoggingLevel.INFO,'Finally here....4'+dupeCase.Id);
                              c.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);
                             /*if(mABSLIExtension.containsKey(c.ABSLI_Case_Detail__c)){
                                                                     System.debug('I am here....5');

@@ -94,6 +94,21 @@ public class ABSLI_CaseDeDupeCheck_Test {
     static void testDedupeForInsertAndUpdate(){
         List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, CCC_External_Id__c,Business_Unit__c, isClosed, Issue_Type__c, ABSLI_Case_Detail__c FROM Case WHERE Business_Unit__c='ABSLI'];
 		ABSLI_CasDeDupeCheck.runDuplicateCheck(caseList);
+        
+        List<Case> existingSR = [SELECT ID,CaseNumber FROM Case WHERE CCC_External_Id__c ='CCC-CC-CCLTD-01'];
+        Case c = new Case();
+        c.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+        c.Subject = 'Test Subject';
+        c.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+        c.Status = 'New';
+		c.Stage__c='New';
+        insert c;
+           try{
+            ABSLI_CasDeDupeCheck.runDuplicateCheck(new List<Case>{c});
+        }
+        catch(exception e){
+            System.assertEquals(true,e.getMessage().contains('Duplicate Case found.'),'Success');
+        }
     }
     
 }
