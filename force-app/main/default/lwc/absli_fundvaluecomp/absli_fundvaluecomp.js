@@ -247,9 +247,6 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         console.log('Class Name --> '+parentRecordId);
         if(this.IsInputValid()){
             let unregistedPhoneNumber = null;
-            if(this.refs.unregisterednumber){
-                unregistedPhoneNumber = this.refs.unregisterednumber.value;
-            }
             sendCommunication({accountId : parentRecordId, policyId : this.selectedPolicyId, unregisteredNumber: unregistedPhoneNumber})
             .then((result)=>{
                 this.invokeCloseModal();

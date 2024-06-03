@@ -1,26 +1,65 @@
+/**
+ * @description       : Class for Reach Us LWC
+ * @author            : Viren, dhinesh.t@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-03-2024
+ * @last modified by  : dhinesh.t@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
+**/
 public without sharing class ABSLI_ReachUsButtonController {
-    public static final string strMetadataName = 'ABSLI_Reach_Us';
+    public static final string STR_METADATA_NAME = 'ABSLI_Reach_Us';
      
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - getTemplateBody
+     * @param whatId
+     * @return String.
+     * @description - Method to get the Template Body
+     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static String getTemplateBody(String whatId){
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Template_Name__c FROM Customer_Notification_Config__mdt 
-                                             WHERE DeveloperName=: strMetadataName ];
-        EMAILTemplate eTemplate = [SELECT ID,HTMLValue FROM EMAILTemplate WHERE DeveloperName =: commMdt.SMS_Template_Name__c];
+                                             WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
+        EMAILTemplate eTemplate = [SELECT ID,HTMLValue FROM EMAILTemplate WHERE DeveloperName =: commMdt.SMS_Template_Name__c WITH SECURITY_ENFORCED];
         String retVal = generateMessageBody(eTemplate.Id,UserInfo.getUserId(), whatId,true);
         return retVal;
     }
+    
+    
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - generateMessageBody
+     * @param templateID
+     * @param whoID
+     * @param whatID
+     * @param isPlainText
+     * @return String
+     * @description - Method to generate Message Body
+     *****************************************************************************************************************/
     private static String generateMessageBody(String templateID, String whoID, STring whatID, Boolean isPlainText){
         Messaging.SingleEmailMessage msg = Messaging.renderStoredEmailTemplate(templateID, whoId, whatID, Messaging.AttachmentRetrievalOption.NONE); 
         String richTextMessage = msg.getHtmlBody(); 
         return isPlainText ? richTextMessage.StripHtmlTags() : richTextMessage;
     }
+    
+    /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - sendCommunication
+     * @param accountId
+     * @param policyId
+     * @param unregisteredNumber
+     * @return void
+     * @description - Method to sendCommunication
+     *****************************************************************************************************************/
     @AuraEnabled
     public static void sendCommunication(string accountId,string unregisteredNumber){
-        Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : accountId LIMIT 1];
+        Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : accountId WITH SECURITY_ENFORCED LIMIT 1];
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c
                                                     FROM Customer_Notification_Config__mdt 
-                                             WHERE DeveloperName=: strMetadataName ];
+                                             WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
         if(c.MobilePhone != null && c.MobilePhone != ''){
             List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
             String templateBody = getTemplateBody(accountId);
@@ -40,19 +79,30 @@ public without sharing class ABSLI_ReachUsButtonController {
             }
             
             cLog.LOB__c = 'ABSLI';
-            insert cLog;
-            System.debug('record Inserted...'+cLog.Id);
+             if (Schema.sObjectType.ASF_Communication_Log__c.isCreateable()) {
+    			insert cLog;
+			}
+            System.debug(LoggingLevel.INFO,'record Inserted...'+cLog.Id);
             
             List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
             eventList.add(createOutboundCommunication(cLog,'SMS'));
             List<Database.SaveResult> results = EventBus.publish(eventList);
-            System.debug(results);
+            System.debug(LoggingLevel.INFO,results);
         }
         
         
     }
+    
+     /****************************************************************************************************************
+     * @LOB - ABSLI
+     * @Function - sendCommunication
+     * @param log
+     * @param msgType
+     * @return Outbound_Communication__e
+     * @description - Method to createOutboundCommunication
+     *****************************************************************************************************************/    
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
-        System.debug('***createOutboundCommunication --> ');
+        System.debug(LoggingLevel.INFO,'***createOutboundCommunication --> ');
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
