@@ -13,9 +13,9 @@ public with sharing class ABSLI_FetchAssetController {
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - fetchAssets  - fetch assets related to the account.
-     * @param String accountRecordId - Account Id
+     * @param accountRecordId - Account Id
      * @return Asf_FetchAssetRelatedToAccountControllerWrapper - Wrapper
-     * @Description - Method to get the assets related to the account.
+     * @description - Method to get the assets related to the account.
      *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static Asf_FetchAssetRelatedToAccountControllerWrapper fetchAssets(String accountRecordId) {
@@ -51,9 +51,9 @@ public with sharing class ABSLI_FetchAssetController {
     /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - fetchFieldApiNameOnBasisOfLOB  - fetch field API name based on LOB
-     * @param String accLOB - Account's LOB
+     * @param accLOB - Account's LOB
      * @return Asf_FetchAssetRelatedToAccountControllerWrapper - Wrapper
-     * @Description - Method to populate the wrapper with columns and their properties.
+     * @description - Method to populate the wrapper with columns and their properties.
      *****************************************************************************************************************/
     public static Asf_FetchAssetRelatedToAccountControllerWrapper fetchFieldApiNameOnBasisOfLOB(String accLOB) {
         
@@ -61,7 +61,7 @@ public with sharing class ABSLI_FetchAssetController {
         Asf_FetchAssetRelatedToAccountControllerWrapper obj = new Asf_FetchAssetRelatedToAccountControllerWrapper();
         List<ColumnName> colNameLst                         = new List<ColumnName>();
 
-        List<ASF_Asset_Metadata__mdt> assetMetaList   = [SELECT Fields_to_Fetch__c,Field_Mapping__c FROM ASF_Asset_Metadata__mdt WHERE Line_Of_Business__c =:accLOB];
+        List<ASF_Asset_Metadata__mdt> assetMetaList   = [SELECT Fields_to_Fetch__c,Field_Mapping__c FROM ASF_Asset_Metadata__mdt WHERE Line_Of_Business__c =:accLOB WITH SECURITY_ENFORCED];
 
         for(ASF_Asset_Metadata__mdt assetMetaRec : assetMetaList) {
 
@@ -122,13 +122,13 @@ public with sharing class ABSLI_FetchAssetController {
         obj.fieldApiNameLst = fieldApiNameList;
         obj.columnNameList  = colNameLst;
         obj.fieldMappingForCase = assetMetaList[0].Field_Mapping__c;
-        system.debug(obj);
+        //system.debug(obj);
         return obj;
     }
 
      /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - Asf_FetchAssetRelatedToAccountControllerWrapper wrapper
+     * @description - Asf_FetchAssetRelatedToAccountControllerWrapper wrapper
      *****************************************************************************************************************/
     public class Asf_FetchAssetRelatedToAccountControllerWrapper {
         @AuraEnabled public List<ColumnName> columnNameList;
@@ -139,7 +139,7 @@ public with sharing class ABSLI_FetchAssetController {
     }
      /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - ColumnName wrapper
+     * @description - ColumnName wrapper
      *****************************************************************************************************************/
     public class ColumnName {
         @AuraEnabled public String label;
@@ -150,7 +150,7 @@ public with sharing class ABSLI_FetchAssetController {
     }
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - TypeAttributes wrapper
+     * @description - TypeAttributes wrapper
      *****************************************************************************************************************/
     public class TypeAttributes {
         @AuraEnabled public String day;
@@ -163,21 +163,21 @@ public with sharing class ABSLI_FetchAssetController {
     }
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - CellAttributes wrapper
+     * @description - CellAttributes wrapper
      *****************************************************************************************************************/
     public class CellAttributes {
         @AuraEnabled public String alignment;
     }
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - TypeAttributesLabel wrapper
+     * @description - TypeAttributesLabel wrapper
      *****************************************************************************************************************/
     public class TypeAttributesLabel {
         @AuraEnabled public String fieldName;
     }
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Description - ToolTip wrapper
+     * @description - ToolTip wrapper
      *****************************************************************************************************************/
     public class ToolTip {
         @AuraEnabled public String fieldName;
