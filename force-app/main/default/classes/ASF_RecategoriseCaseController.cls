@@ -165,7 +165,7 @@ public with sharing class ASF_RecategoriseCaseController {
             if(!contactList.isEmpty()){
                 toUpdateCase.ContactId = contactList[0].Id;
             }
-            List<Account> accountList = [SELECT id, Client_Code__c from Account where Id =: (String)caseObject.get('AccountId')];
+            List<Account> accountList = [SELECT Id, Client_Code__c from Account where Id =: (String)caseObject.get('AccountId')];
             if(!accountList.isEmpty()){
                 toUpdateCase.Client_Code_Text__c = accountList[0].Client_Code__c;
             }
@@ -173,6 +173,10 @@ public with sharing class ASF_RecategoriseCaseController {
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
             toUpdateCase.Lead__c = null;
+            List<Asset> assetList = [SELECT Id, LAN__c from Asset where Id =: (String)caseObject.get('AssetId')];
+            if(!assetList.isEmpty()){
+                toUpdateCase.LAN__c = assetList[0].LAN__c;
+            }
         }
         if((String)caseObject.get('Lead__c') != null && (String)caseObject.get('Lead__c') != ''){
             toUpdateCase.Lead__c = (String)caseObject.get('Lead__c');
@@ -302,6 +306,10 @@ public with sharing class ASF_RecategoriseCaseController {
             if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
                 toUpdateCase.AssetId = (String)caseObject.get('AssetId');
                 toUpdateCase.Lead__c = null;
+                List<Asset> assetList = [SELECT Id, LAN__c from Asset where Id =: (String)caseObject.get('AssetId')];
+                if(!assetList.isEmpty()){
+                    toUpdateCase.LAN__c = assetList[0].LAN__c;
+                }
             }
             if((String)caseObject.get('Lead__c') != null && (String)caseObject.get('Lead__c') != ''){
                 toUpdateCase.Lead__c = (String)caseObject.get('Lead__c');
