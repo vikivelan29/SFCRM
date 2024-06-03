@@ -211,7 +211,7 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
                         WHERE Id =: caseInteg.Case__c ];
         Map<String, Integer> statusCountMap = new Map<String, Integer>();
         AggregateResult[] groupedResults = [SELECT COUNT(Id) recordCount, Status__c FROM ASF_Case_Integration__c
-                                                WHERE Case__c=:caseRec.Id GROUP BY Status__c];
+                                                WHERE Case__c=:caseRec.Id and Business_External_Id__c!=null GROUP BY Status__c];
         for (AggregateResult ar : groupedResults) {
          	statusCountMap.put(String.valueOf(ar.get('Status__c')), Integer.valueOf(ar.get('recordCount'))==null?0:Integer.valueOf(ar.get('recordCount')));
         }

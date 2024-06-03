@@ -9,6 +9,18 @@
  
 *********************************************************/
 public with sharing class ABHFL_Constants {
+    
+    public static final String SLA_Broken_Reset_CCC_List = 'CCUSADGEHFC,ABHFL_Complaint_CCC_5,CCUSMAGEHFC,CCUSMOGEHFC,'+
+        'CCUSNAGEHFC,ABHFL_Complaint_CCC_9,CCVNESLHFC,ABHFL_Complaint_CCC_11,CDISLOMIHFC,ABHFL_Complaint_CCC_13,'+
+        'CCNROPHFC,hfl027,CGSTGSEDHFC,CGSTGSONHFC,ABHFL_Complaint_CCC_19,CLOALOLSHFC,CLOAAPUSHFC,HFCCICND,hfl033,'+
+        'hfl044,comloanphis,COVEOVSSHFC,CPMAPMNGHFC,CPMAYSS,ABHFL_Complaint_CCC_31,hfl028,hfl075,hfl077,CLOALINEDHFC,'+
+        'CLOALONTHFC,CLOANOEDHFC,CLOAPRCEHFC,CLOAPRNTHFC,REFCL002,ABHFL_Complaint_CCC_42,CREPBOEDHFC,CREPEONHFC,'+
+        'hfl024,hfl025,COMEMIDC,CREPEMETHFC,CREPEMEDHFC,CREPMAEDHFC,ABHFL_Complaint_CCC_51,ABHFL_Complaint_CCC_53,'+
+        'CRESCHEHFC,CRESCHLHFC,hfl019,CRESPANEHFC,CRESRONTHFC,ABHFL_Complaint_CCC_59,CSTAAMLEHFC,CSTABAERHFC,'+
+        'CSTACOTSHFC,HFCCDNRSC,HFCCINRID,CSTAESNTHFC,CSTAITEHFC,hfl041,CSTAPRITEHFC,CSTAPOTSHFC,CSTAPRTEHFC,'+
+        'costatrepay,CSTASAERHFC,CSTASHONHFC,CSTASIONHFC,hfl076,ABHFL_Complaint_CCC_77,ABHFL_Complaint_CCC_78,'+
+		'ABHFL_Complaint_CCC_79,CSTASTNTHFC,COMPBCRW,HFCCSDFNRTR,CWAIEMNDHFC,CWAIESNDHFC,cowaiforech,cowaivinter,'+
+        'cowailockch,COMPPCRW,cowaivpartp,COMPPRECCW,COMPFRW,ABHFL_Complaint_CCC_92,ABHFL_Complaint_CCC_93';
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
@@ -62,6 +74,7 @@ public with sharing class ABHFL_Constants {
     public static final String WK_EVALUATION_FAILED_DIGITAL_ERROR = 'Evaluation failed. Disbursal date is > 6 months.';
     public static final String WK_EVALUATION_FAILED_OFFLINE_ERROR = 'Disbursal date is > 6 months. Please inform the customer that Welcome Kit cannot be provided.'; 
     
+    public static final String ERROR_DESC_FOR_CANCELLED_DMS = 'Not processed-Missing Lead ID';
     public static final String ACCOUNT_STATUS_CLOSED = 'Closed';
     public static final String NDC_STP_NAME = 'NDC';
     public static final String NDC_REPORT = 'NDCReport';
