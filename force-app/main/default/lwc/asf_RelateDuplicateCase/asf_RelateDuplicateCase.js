@@ -115,7 +115,6 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             isValid = false;
             this.showToastMessage('Error!', 'Parent case should belong to same Category, Type and Sub Type as current case', 'error');
         }
-        return ;
         return isValid;
     }
 
