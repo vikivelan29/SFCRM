@@ -13,14 +13,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABSLI_NSDLPANVerification</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABSLI_NomineeDetailController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABSLI_PremiumPaymentLinkController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -33,14 +25,9 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>aBSLI_FetchAssetController</apexClass>
+        <apexClass>ABSLI_FetchAssetController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <fieldPermissions>
-	    <editable>false</editable>
-	    <field>ASF_Case_Email_Config__c.Case_Category_Config__c</field>
-	<readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
@@ -109,11 +96,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Email_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Email_Config__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -443,67 +425,67 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Duplicate_Case_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.FTR_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.FTR_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.FTR_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.FTR_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.New_Case_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.New_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.New_Case_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.New_Case_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Recategorisation_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.Recategorisation_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Recategorisation_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.Recategorisation_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Regional_Template_External_ID__c</field>
+        <field>ASF_Case_Email_Config__c.Regional_Template_External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Rejected_Case_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.Rejected_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Rejected_Case_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.Rejected_Case_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Resolved_Case_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.Resolved_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Resolved_Case_SMS_Metadata__c</field>
+        <field>ASF_Case_Email_Config__c.Resolved_Case_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Regional_SMS_Email_Template__c.Resolved_Duplicate_Case_Email_Template__c</field>
+        <field>ASF_Case_Email_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2158,11 +2140,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Branch_Master__c.Branch_State__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Branch_Master__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2551,7 +2528,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>ASF_Regional_SMS_Email_Template__c</object>
+        <object>ASF_Case_Email_Config__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -2570,15 +2547,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Case</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>ASF_Case_Email_Config__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
 </PermissionSet>
