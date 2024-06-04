@@ -125,6 +125,12 @@
                 <identifier>RecordProperty_Detail_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.EMI_End_Date__c</fieldItem>
+                <identifier>RecordEMI_End_Date__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>
