@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <externalId>false</externalId>
     <label>Source</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -168,9 +167,139 @@
                 <label>Legal</label>
             </value>
             <value>
-                <fullName>Others</fullName>
+                <fullName>Branch (walk-in / phone)</fullName>
                 <default>false</default>
-                <label>Others</label>
+                <label>Branch (walk-in / phone)</label>
+            </value>
+            <value>
+                <fullName>Anywhere Service</fullName>
+                <default>false</default>
+                <label>Anywhere Service</label>
+            </value>
+            <value>
+                <fullName>Advisor Portal</fullName>
+                <default>false</default>
+                <label>Advisor Portal</label>
+            </value>
+            <value>
+                <fullName>Bulk Upload from HO</fullName>
+                <default>false</default>
+                <label>Bulk Upload from HO</label>
+            </value>
+            <value>
+                <fullName>CAMS FO</fullName>
+                <default>false</default>
+                <label>CAMS FO</label>
+            </value>
+            <value>
+                <fullName>Deadline</fullName>
+                <default>false</default>
+                <label>Deadline</label>
+            </value>
+            <value>
+                <fullName>EMT CNX</fullName>
+                <default>false</default>
+                <label>EMT CNX</label>
+            </value>
+            <value>
+                <fullName>EMT HO</fullName>
+                <default>false</default>
+                <label>EMT HO</label>
+            </value>
+            <value>
+                <fullName>Fax</fullName>
+                <default>false</default>
+                <label>Fax</label>
+            </value>
+            <value>
+                <fullName>HO Back office</fullName>
+                <default>false</default>
+                <label>HO Back office</label>
+            </value>
+            <value>
+                <fullName>IGMS</fullName>
+                <default>false</default>
+                <label>IGMS</label>
+            </value>
+            <value>
+                <fullName>Inbound ABC</fullName>
+                <default>false</default>
+                <label>Inbound ABC</label>
+            </value>
+            <value>
+                <fullName>Inbound call</fullName>
+                <default>false</default>
+                <label>Inbound call</label>
+            </value>
+            <value>
+                <fullName>Inbound CNX</fullName>
+                <default>false</default>
+                <label>Inbound CNX</label>
+            </value>
+            <value>
+                <fullName>Inbound ConnectQ</fullName>
+                <default>false</default>
+                <label>Inbound ConnectQ</label>
+            </value>
+            <value>
+                <fullName>Insurance Repositary website</fullName>
+                <default>false</default>
+                <label>Insurance Repositary website</label>
+            </value>
+            <value>
+                <fullName>Insurance Repository</fullName>
+                <default>false</default>
+                <label>Insurance Repository</label>
+            </value>
+            <value>
+                <fullName>Letters and Faxes</fullName>
+                <default>false</default>
+                <label>Letters and Faxes</label>
+            </value>
+            <value>
+                <fullName>MH</fullName>
+                <default>false</default>
+                <label>MH</label>
+            </value>
+            <value>
+                <fullName>Outbound Altruist</fullName>
+                <default>false</default>
+                <label>Outbound Altruist</label>
+            </value>
+            <value>
+                <fullName>Outbound call</fullName>
+                <default>false</default>
+                <label>Outbound call</label>
+            </value>
+            <value>
+                <fullName>Outbound CNX</fullName>
+                <default>false</default>
+                <label>Outbound CNX</label>
+            </value>
+            <value>
+                <fullName>Outbound ConnectQ</fullName>
+                <default>false</default>
+                <label>Outbound ConnectQ</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
+            </value>
+            <value>
+                <fullName>Telephone</fullName>
+                <default>false</default>
+                <label>Telephone</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Website Redressal</fullName>
+                <default>false</default>
+                <label>Website Redressal</label>
             </value>
             <value>
                 <fullName>Call Centre</fullName>
@@ -179,15 +308,16 @@
                 <label>Call Centre</label>
             </value>
             <value>
+                <fullName>IVR-Inbound</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IVR-Inbound</label>
+            </value>
+            <value>
                 <fullName>Walk-In</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Walk-In</label>
-            </value>
-            <value>
-                <fullName>Branch (walk-in / phone)</fullName>
-                <default>false</default>
-                <label>Branch (walk-in / phone)</label>
             </value>
         </valueSetDefinition>
     </valueSet>
