@@ -154,14 +154,14 @@ public with sharing class ABFL_EBOTCaseLogics {
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         List<ASF_Checklist__c> lstUpdateChecklist = new List<ASF_Checklist__c>();
+        List<ABFL_Case_Detail__c> lstUpdateAbflExtension = new List<ABFL_Case_Detail__c>();
         List<Task> lstUpdateTask = new List<Task>();
         if(closed){
-            //List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id LIMIT 1];
-            //commenting the below line as we need to send the closure email
-           /* ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
+           // List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolution_Comments__c,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id  WITH SYSTEM_MODE LIMIT 1];
+            ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
             objUpdateCaseExt.Id = abflCaseExtId;
-            objUpdateCaseExt.Resolution_Comments__c = 'ebotclosed';
-            update objUpdateCaseExt;*/
+            objUpdateCaseExt.Resolution_Comments__c = 'Auto closed by EBOT';
+            lstUpdateAbflExtension.add(objUpdateCaseExt);
             List<ASF_Checklist__c > objCheckList = [SELECT ID, Status__c ,Case__c from ASF_Checklist__c WHERE Case__c =:recCase.ID AND Status__c !='Completed' WITH SYSTEM_MODE];
             List<Task > objTask = [SELECT ID,Status,WhatId from Task WHERE WhatId =:recCase.ID AND Status !='Completed' WITH SYSTEM_MODE];
             if(!objCheckList.isEmpty()){
@@ -179,8 +179,14 @@ public with sharing class ABFL_EBOTCaseLogics {
             Case objCase = new Case();
             objCase.Id = recCase.Id;
             objCase.OwnerId  = Userinfo.getuserId();
+            objcase.typeSubTypeMismatch__c  = false;
+            objcase.Type_Sub_Type_Mismatch_Reason__c = null;
             objCase.Stage__c = 'Resolved';
             lstUpdateCase.add(objCase);
+            //system.debug('lstUpdateCaseasas '+lstUpdateCase);
+            if(!lstUpdateAbflExtension.isEmpty()){
+                Database.SaveResult[] updateResultAbflExt = Database.update(lstUpdateAbflExtension,false); 
+            }
             if(!lstUpdateChecklist.isEmpty()){
                 Database.SaveResult[] updateResultCheck = Database.update(lstUpdateChecklist,false); 
             }
