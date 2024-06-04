@@ -97,7 +97,7 @@
         </template>
         <!-- CUSTOMER SELECTION ENDS HERE.-->
 
-
+        <template if:false={showApproval}>
         <template if:true={showRecategorisationDiv}>
             <!--<div class="slds-form" role="list">
                 <div class="slds-form__row">
@@ -260,13 +260,24 @@
             </div>
             
         </template>
+        <template if:true={approvalPending}>
+            <div class="slds-box">
+                <p>This case is under Approval for Recategorization</p>
+            </div>
+            
+        </template>
         <div slot="footer">
             <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
             <template if:true={recategorizeEnabled}>
-                <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
-                onclick={updateCaseHandler}></lightning-button>
+                <lightning-button label="Submit" variant="brand" class="slds-p-left_x-small" disabled={isNotSelected}
+                onclick={handleUpdate}></lightning-button>
             </template>
             
         </div>
+        </template>
     </lightning-quick-action-panel>
+    <template if:true={showApproval}>
+        <c-asf_case-manual-approval record-id={recordId} object-api-name="Case" is-recat-request={isTrue}
+        type-sub-type-text={newTypeSubType} onclosescreen={closeAction} onsubmitcase={updateCaseHandlerNew}> </c-asf_case-manual-approval>      
+    </template>
 </template>
