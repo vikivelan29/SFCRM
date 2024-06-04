@@ -43,11 +43,6 @@
                 <isActive>false</isActive>
                 <label>Payment</label>
             </value>
-            <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
