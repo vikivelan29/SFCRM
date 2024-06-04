@@ -25,7 +25,7 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
             
-            //AM-PR970457-1219 && AM-PR970457-1220
+            //AM-PR970457-1219 && AM-PR970457-1220 comment
             if((caseRec.CCC_External_Id__c=='HFCRAREMIDC' && (caseRec.Asset.Loan_Disbursement_Status__c=='Partially' || caseRec.Asset.Loan_Disbursement_Status__c=='PARTIALLY DISBURSED')) || (caseRec.CCC_External_Id__c=='hfl029')){
                 //Trigger email here
                 Map<String, String> emailMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(configIdToConfigMap.get(caseRec.CCC_External_Id__c).Additional_Email_Templates__c);
