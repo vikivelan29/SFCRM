@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>ABFL_Cases_to_ABFL_Users</fullName>
+        <fullName>ABFL_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABFL Cases to ABFL Users</label>
+        <label>ABFL Asset Sharing</label>
         <sharedTo>
             <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABFL</value>
         </criteriaItems>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABWM</value>
-        </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
+        <fullName>ABHFL_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>Share ABHFL Cases to ABHFL Users</label>
+        <label>ABHFL Asset Sharing</label>
         <sharedTo>
             <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
@@ -35,23 +29,9 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Share Payment Cases to Payment Users</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-     <sharingCriteriaRules>
-        <fullName>ABSLI_Case_Sharing</fullName>
+        <fullName>ABSLI_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLI Case Sharing</label>
+        <label>ABSLI Asset Sharing</label>
         <sharedTo>
             <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
         </sharedTo>
@@ -59,6 +39,31 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Asset_Sharing_with_VRM</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI Asset Sharing with VRM</label>
+        <sharedTo>
+            <role>ABSLI_Virtual_Relationship_Manager</role>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
+        <criteriaItems>
+            <field>Assign_to_DM__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Channel__c</field>
+            <operation>equals</operation>
+            <value>DM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Loyalty_Service_Agent_Name__c</field>
+            <operation>notEqual</operation>
+            <value></value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
