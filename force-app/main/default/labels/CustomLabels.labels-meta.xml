@@ -9,6 +9,13 @@
         <value>5</value>
     </labels>
     <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
         <fullName>No_DMS_File</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -925,5 +932,12 @@
         <protected>false</protected>
         <shortDescription>ABSLI_Ivkey</shortDescription>
         <value>8149208531345452</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
+        <value>4170703839</value>
     </labels>
 </CustomLabels>

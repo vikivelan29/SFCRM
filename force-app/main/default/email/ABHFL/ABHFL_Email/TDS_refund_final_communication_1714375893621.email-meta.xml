@@ -5,7 +5,7 @@
     <name>TDS refund final communication</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>TDS refund successfully done.</subject>
+    <subject>TDS refund successfully done</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

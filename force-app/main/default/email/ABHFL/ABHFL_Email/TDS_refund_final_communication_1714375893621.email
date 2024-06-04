@@ -149,9 +149,11 @@
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear Customer,<br />
 												<br />
 												Greetings from Aditya Birla Capital.<br />
-												<br />
-												We write to you with reference to your request regarding TDS refund for your ABHFL Loan Account&nbsp;$$ABHFL_Case_Detail__r.TDS_Refunded_LAN__c$$.<br />
-												<br />
+												&nbsp;</div>
+
+												<div style="margin-right: 4px; margin-left: 4px;">We write to you with reference to your request regarding TDS refund for your ABHFL Loan Account&nbsp;$$ABHFL_Case_Detail__r.TDS_Refunded_LAN__c$$.</div>
+
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify"><br />
 												We wish to inform you that the refund of Rs.$$ABHFL_Case_Detail__r.Refund_Amount_TDS__c$$&nbsp;has been processed vide UTR&nbsp;$$ABHFL_Case_Detail__r.UTR_Number__c$$ on $$ABHFL_Case_Detail__r.Refund_Date__c$$.<br />
 												<br />
 												In case of any queries, please feel free to contact us through any of our customer service channels mentioned below.<br />

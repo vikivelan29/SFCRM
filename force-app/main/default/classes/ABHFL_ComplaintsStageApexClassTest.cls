@@ -29,7 +29,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         update caseRecList[0];
-        
+        //AM-create case category config
         ASF_TestDataFactory.createCaseCategoryConfig();
 
         //create ASF Integration
