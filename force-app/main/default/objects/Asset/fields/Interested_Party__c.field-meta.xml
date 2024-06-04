@@ -3,6 +3,7 @@
     <fullName>Interested_Party__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>ABSLI Field</description>
+    <externalId>false</externalId>
     <label>Interested Party</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Assets (Interested Party)</relationshipLabel>
