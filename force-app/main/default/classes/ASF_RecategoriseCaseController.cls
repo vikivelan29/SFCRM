@@ -1,6 +1,6 @@
 //Controller class for asf_RecategoriseCase LWC
 //Created by JT & Santanu
-public with sharing class ASF_RecategoriseCaseController {
+public without sharing class ASF_RecategoriseCaseController {
     
     public static boolean requestFromRecat = false;
     /* when agent wants to recategrize , there is existing CCC id.
@@ -33,7 +33,7 @@ public with sharing class ASF_RecategoriseCaseController {
         Map<String,Object> caseObject =  (Map<String,Object>) rawObj.get('fields');
         Case caseRec = new Case(Id=recId);
         caseRec.Requested_Recat_Json__c = newCaseJson;
-        caseRec.Requested_CCC_Details__c = 'Nature - '+nature+'\n Type - '+typeVal+'\n Sub Type - '+subType+'\n Recategorisation Reason - '+(String)caseObject.get('Recategorisation_Reason__c');
+        caseRec.Requested_CCC_Details__c = 'Nature - '+nature+'\n Type - '+typeVal+'\n Sub Type - '+subType+'\n Recategorization Reason - '+(String)caseObject.get('Recategorisation_Reason__c');
         List<Account> accountList = [SELECT id, Name from Account where Id =: (String)caseObject.get('AccountId')];
         List<Asset> assetList = [SELECT id, Name from Asset where Id =: (String)caseObject.get('AssetId')];
         List<Lead> prospectList = [SELECT id, Name from Lead where Id =: (String)caseObject.get('Lead__c')];
