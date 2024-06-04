@@ -20,7 +20,30 @@
             <default>false</default>
         </values>
     </picklistValues>
-        <picklistValues>
+    <picklistValues>
+        <picklist>Bot_Feedback__c</picklist>
+        <values>
+            <fullName>Change as per Customer Need</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Classification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manually case created</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multiple Intent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Uncategorised</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Business_Unit__c</picklist>
         <values>
             <fullName>ABFL</fullName>
@@ -99,7 +122,7 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
-        <values>
+         <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -271,6 +294,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -324,6 +351,10 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
