@@ -13,6 +13,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Anywhere Service</fullName>
+                <default>false</default>
+                <label>Anywhere Service</label>
+            </value>
+            <value>
                 <fullName>Advisor Portal</fullName>
                 <default>false</default>
                 <label>Advisor Portal</label>
