@@ -168,9 +168,9 @@
                 <label>Legal</label>
             </value>
             <value>
-                <fullName>Branch (walk-in / phone)</fullName>
+                <fullName>Others</fullName>
                 <default>false</default>
-                <label>Branch (walk-in / phone)</label>
+                <label>Others</label>
             </value>
             <value>
                 <fullName>Call Centre</fullName>
@@ -183,6 +183,11 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Walk-In</label>
+            </value>
+            <value>
+                <fullName>Branch (walk-in / phone)</fullName>
+                <default>false</default>
+                <label>Branch (walk-in / phone)</label>
             </value>
         </valueSetDefinition>
     </valueSet>
