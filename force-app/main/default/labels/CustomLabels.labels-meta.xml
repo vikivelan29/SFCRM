@@ -906,7 +906,7 @@
         <value>10</value>
     </labels>
     <labels>
-        <fullName>ABSLI Policy Search Columns</fullName>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Policy Search Columns</shortDescription>
