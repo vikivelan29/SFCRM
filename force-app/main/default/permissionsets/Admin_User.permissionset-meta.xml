@@ -33,11 +33,6 @@
         <name>Case_Ownership_Management</name>
     </customPermissions>
     <fieldPermissions>
-	    <editable>true</editable>
-	    <field>ASF_Case_Email_Config__c.Case_Category_Config__c</field>
-	    <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
         <readable>true</readable>
@@ -105,11 +100,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Email_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Email_Config__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -297,6 +287,11 @@
 		<field>Asset.Policy_No__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
+    <fieldPermissions>
+		<editable>true</editable>
+		<field>Asset.Status_Changed_Date__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
 		<field>Asset.PIVC_Status__c</field>
@@ -434,7 +429,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>Asset.Withdrawal_Available_Amount__c</field>
+		<field>Asset.Withdrawal_avaialble_amount__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -504,7 +499,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>Asset.ncome_Benefit__c</field>
+		<field>Asset.Income_Benefit__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -589,7 +584,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>true</editable>
-		<field>Asset.Amount_Outstanding_In_DOP_UIP__c</field>
+		<field>Asset.Amount_outstanding_in_DOP_ULIP__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -615,11 +610,6 @@
 	<fieldPermissions>
 		<editable>true</editable>
 		<field>Asset.Income__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<editable>true</editable>
-		<field>Asset.Nominee_Details__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -4431,6 +4421,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.City__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Created_On__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9171,6 +9166,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>WorkPlanTemplate</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ASF_Case_Email_Config__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
