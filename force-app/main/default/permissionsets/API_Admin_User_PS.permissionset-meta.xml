@@ -306,7 +306,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>Asset.Withdrawal_Available_Amount__c</field>
+		<field>Asset.Withdrawal_avaialble_amount__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -376,7 +376,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>Asset.ncome_Benefit__c</field>
+		<field>Asset.Income_Benefit__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -461,7 +461,7 @@
 	</fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
-		<field>Asset.Amount_Outstanding_In_DOP_UIP__c</field>
+		<field>Asset.Amount_outstanding_in_DOP_ULIP__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -487,11 +487,6 @@
 	<fieldPermissions>
 		<editable>false</editable>
 		<field>Asset.Income__c</field>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<editable>false</editable>
-		<field>Asset.Nominee_Details__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
@@ -887,11 +882,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Nominee__c.Appointee_Last_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Nominee__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6949,6 +6939,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>ASF_Integration__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ASF_Case_Email_Config__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
