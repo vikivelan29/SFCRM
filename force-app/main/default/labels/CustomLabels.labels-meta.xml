@@ -69,7 +69,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Business_Unit</shortDescription>
-        <value>ABHFL,ABFL,Payments</value>
+        <value>ABHFL,ABFL,Payments,ABSLI</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_UserName</fullName>
