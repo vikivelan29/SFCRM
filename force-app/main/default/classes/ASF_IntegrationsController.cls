@@ -22,7 +22,7 @@ public with sharing class ASF_IntegrationsController {
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
-                AND (Type__c = 'Process' OR Type__c = 'Pre Populate')
+                AND (Type__c = 'Process' OR Type__c = 'Pre Populate' OR Type__c = 'UI Action')
                 ORDER BY Display_Order__c
             ];
         }

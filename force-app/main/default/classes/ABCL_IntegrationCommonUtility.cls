@@ -504,6 +504,23 @@ public with sharing class ABCL_IntegrationCommonUtility {
         }
     }
 
+    public static void caseIntegrationLogger(String caseId,
+                                             String request,
+                                             String respose,
+                                             String intExtId,
+                                             String status){
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Case__c = caseId;
+        caseInt.Request__c = request;
+        caseInt.Response__c = respose;
+        caseInt.Status__c = status;
+        caseInt.Integration_Ext_Id__c = intExtId;
+        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            insert caseInt;
+        }
+        
+        
+    }
 /*********************************************************
 *@description  :  wrapper class
 *********************************************************/
