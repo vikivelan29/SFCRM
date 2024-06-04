@@ -21,6 +21,7 @@ import CASE_ASSET_LAN_NUMBER from '@salesforce/schema/Case.Asset.LAN__c';
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
+import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
 
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import LightningConfirm from 'lightning/confirm';
@@ -32,6 +33,7 @@ import getTypeSubTypeData from '@salesforce/apex/ASF_RecategoriseCaseController.
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import getCaseRecordDetails from '@salesforce/apex/ASF_RecategoriseCaseController.getCaseRecordDetails';
 import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.updateCaseWithNewCCCId';
+import updateRequestedCCC from '@salesforce/apex/ASF_RecategoriseCaseController.updateRequestedCCC';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
 import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeedbackApi';
 
@@ -128,6 +130,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     selectedType;
     selectedSubType;
     recategorizeEnabled;
+    approvalPending;
     sendBotFeedback = true;
     showBotFeedback = false;
 
@@ -160,7 +163,14 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     recategorisationBtn2Lable = getConstants.RECATEGORISATION_PROCEED;
     eligibleWithNewCustomerCSTSMsg = getConstants.CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
     noneligibleWithNewCustomerCSTMsg  = getConstants.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
-
+    //Added for approval
+    showApproval = false;
+    isTrue = true;
+    newTypeSubType = '';
+    selectedCCC;
+    recatReason = '';
+    botFeedbackReason = '';
+    requestedCCC = '';
     
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
     */
@@ -427,6 +437,134 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         }
 
     }
+    validateApprovalEligibility(){
+        let selectedCCC = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+        let requestQueryList = ['Request','Query'];
+        let validBUs = Recat_Approval_Required_BU_label.includes(',') ? Recat_Approval_Required_BU_label.split(',') : [Recat_Approval_Required_BU_label];
+        console.log('validBUs--'+validBUs+'--'+selectedCCC.LOB__c+'--'+this.currentNature+'--current nature--'+selectedCCC.Nature__c);
+        if(validBUs.includes(selectedCCC.LOB__c) && 
+        ((requestQueryList.includes(this.currentNature) && !requestQueryList.includes(selectedCCC.Nature__c)) ||
+        (!requestQueryList.includes(this.currentNature) && requestQueryList.includes(selectedCCC.Nature__c)))
+        ){
+            return true;
+        }
+        return false;
+    }
+    async handleUpdate(){
+        if(this.validateApprovalEligibility()){
+            console.log('approval flow');
+            if(!this.isInputValid()) {
+                return;
+            }
+            const rejectionReason = this.template.querySelector('[data-id="rejectReason"]');
+            if(rejectionReason.value == undefined || rejectionReason.value == null || rejectionReason.value.trim() == ''){
+                rejectionReason.reportValidity();
+                return;
+            }
+            const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
+            if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
+                botfeedback.reportValidity();
+                return;
+            } 
+            this.selectedCCC = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+            
+            if(!await this.validateNewCCC(this.selectedCCC.CCC_External_Id__c)){
+                return;
+            }
+            this.newTypeSubType = this.selectedCCC.Type__c + ' - ' + this.selectedCCC.Sub_Type__c;
+            this.recatReason = this.template.querySelector('[data-id="rejectReason"]').value;
+            this.botFeedbackReason = this.template.querySelector('[data-id="botfeedback"]').value;
+            this.showApproval = true;
+        }else{
+            console.log('regular flow');
+            this.updateCaseHandler();
+        }
+    }
+
+    async updateCaseHandlerNew(event){
+        console.log('inside new handler');
+        //this.loaded = false;
+        const fields = {};
+        for(let fldToStamp in this.fieldToBeStampedOnCase) {
+            fields[fldToStamp] = this.fieldToBeStampedOnCase[fldToStamp];
+        }
+        await this.getCaseRelatedObjName(this.selectedCCC.CCC_External_Id__c);
+ 
+        if (this.caseRelObjName) {
+            /*
+            only if extension object is changing , then do this. 
+            else does not matter.but on save, losing fields , winning fields should do
+            */
+            if(this.oldCaseDetails.currentExtensionName != this.caseRelObjName ){
+                await this.createExtensionObj();
+                fields[this.caseRelObjName] = this.caseExtensionRecordId;
+            }
+        }
+        fields[CCC_FIELD.fieldApiName] = this.selectedCCC.CCC_External_Id__c;
+        console.log('new Type__c--'+this.selectedCCC.Type__c+this.selectedCCC.Sub_Type__c);
+        fields[NATURE_FIELD.fieldApiName] = this.natureVal;
+       // fields[SOURCE_FIELD.fieldApiName] = this.strSource;
+       // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
+        //jay
+        fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.recatReason;
+        fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.botFeedbackReason;
+        let currentDateVal = new Date();
+        let formattingOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'IST',
+            hour12:true,
+  			hour:'2-digit',
+  			minute:'2-digit'
+        };
+        let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions);
+        var typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
+        console.log('typeSubTypeText--'+typeSubTypeText);
+        let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
+        fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
+        // VIRENDRA - ADDED BELOW CHECKS FOR REPARENTING - 
+        //console.log('this.accountId --> '+this.accountId);
+        //console.log('this.selectedCustomer --> '+this.selectedCustomer);
+        if(this.accountId != '' && this.accountId != undefined && this.accountId != null){
+            fields[CASE_ACCOUNT_ID.fieldApiName]=this.accountId;
+            fields[CASE_ASSET_ID.fieldApiName]=this.assetId;
+        }
+        else if(this.leadId != '' && this.leadId != undefined && this.leadId != null){
+            fields[CASE_LEAD_ID.fieldApiName]=this.leadId;
+        }
+        if(this.showBotFeedback && this.sendBotFeedback){
+            fields['Is_send_Bot_Feedback'] = this.sendBotFeedback;
+        }else{
+            fields['Is_send_Bot_Feedback'] = false;
+        }
+        const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields }; 
+        console.log('json--'+JSON.stringify(fields));
+        updateRequestedCCC({
+            recId: this.recordId,
+            newCaseJson : JSON.stringify(caseRecord),
+            typeVal : this.selectedCCC.Type__c,
+            subType : this.selectedCCC.Sub_Type__c,
+            nature : this.selectedCCC.Nature__c
+        })
+        .then(result => {
+            if(!result.startsWith('Error')){
+                this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
+                this.template.querySelector('c-asf_case-manual-approval').submitApproval(result,this.recordId);
+            }else{
+                this.loaded = true; 
+                this.showError('error', 'Oops! Error occured', result);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            this.showError('error', 'Oops! Error occured', error);
+            this.loaded = true; 
+        }); 
+
+    }
     
     async updateCaseHandler() {
         
@@ -499,7 +637,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             fields[CASE_LEAD_ID.fieldApiName]=this.leadId;
         }
         
-
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false; 
         
@@ -521,6 +658,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
             this.createCaseWithAll = false; 
+            //window.location.reload();
         })
         .catch(error => {
             console.log(error);
@@ -749,6 +887,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             
             this.oldCaseDetails = result;
             this.recategorizeEnabled = result.recategorizeEnabled;
+            this.approvalPending = result.approvalPending;
             var caseparsedObject = JSON.parse(this.oldCaseDetails.caseDetails);
             this.accountId = caseparsedObject.AccountId;
             this.assetId = caseparsedObject.AssetId;
@@ -882,7 +1021,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.showCustomerSelection = false;
     }
     get showRecategorisationDiv(){
-        if(this.recategorizeEnabled == true && this.bProceedToRecategorisation == true){
+        if(this.recategorizeEnabled == true && this.approvalPending == false && this.bProceedToRecategorisation == true){
             //console.log(this.refs.myDiv);
             //console.log(this.template.querySelectorAll('[data-id="mydummydiv"]'));
 
@@ -904,7 +1043,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     }
     get showRecategorisationOptions(){
-        if(this.recategorizeEnabled){
+        if(this.recategorizeEnabled && !this.approvalPending){
             if(!this.isAssetChange && !this.bProceedToRecategorisation){
                 return true;
             }

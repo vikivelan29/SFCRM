@@ -3,7 +3,7 @@
     <apiVersion>59.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>EMI Date Change - Amort Partial LAN VF</name>
+    <name>EMI Date change - Amort Partial LAN VF</name>
     <style>none</style>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
