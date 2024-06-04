@@ -1,6 +1,8 @@
 //Controller class for asf_RecategoriseCase LWC
 //Created by JT & Santanu
-public with sharing class ASF_RecategoriseCaseController {
+public without sharing class ASF_RecategoriseCaseController {
+    
+    public static boolean requestFromRecat = false;
     /* when agent wants to recategrize , there is existing CCC id.
     So agent should not see current CCC id. But other ids to change,
     Hence this method 
@@ -22,7 +24,38 @@ public with sharing class ASF_RecategoriseCaseController {
         }
         originalList.lstCCCrecords = filteredCCCList;
         return originalList;
-    }    
+    }  
+
+    @AuraEnabled(Cacheable = false) 
+    public static String updateRequestedCCC(String recId, String newCaseJson, String typeVal, String subType, String nature){
+        String result = 'Success';
+        Map<String,Object> rawObj = (Map<String,Object>) JSON.deserializeUntyped(newCaseJson);
+        Map<String,Object> caseObject =  (Map<String,Object>) rawObj.get('fields');
+        Case caseRec = new Case(Id=recId);
+        caseRec.Requested_Recat_Json__c = newCaseJson;
+        caseRec.Requested_CCC_Details__c = 'Nature - '+nature+'\n Type - '+typeVal+'\n Sub Type - '+subType+'\n Recategorization Reason - '+(String)caseObject.get('Recategorisation_Reason__c');
+        List<Account> accountList = [SELECT id, Name from Account where Id =: (String)caseObject.get('AccountId')];
+        List<Asset> assetList = [SELECT id, Name from Asset where Id =: (String)caseObject.get('AssetId')];
+        List<Lead> prospectList = [SELECT id, Name from Lead where Id =: (String)caseObject.get('Lead__c')];
+        if(!accountList.isEmpty()){
+            caseRec.Requested_CCC_Details__c += '\n Account - '+accountList[0].Name;
+        }
+        if(!assetList.isEmpty()){
+            caseRec.Requested_CCC_Details__c += '\n LAN - '+assetList[0].Name;
+        }
+        if(!prospectList.isEmpty()){
+            caseRec.Requested_CCC_Details__c += '\n Prospect - '+prospectList[0].Name;
+        }
+        try{
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            update caseRec;
+            result = caseRec.Requested_CCC_Details__c;
+            system.debug('Requested_CCC_Details__c--'+caseRec.Requested_CCC_Details__c);
+        }catch (Exception e){
+            result = 'Error - '+e;
+        }
+        return result;
+    } 
 
     @AuraEnabled(Cacheable = false)
     public static Map<String,Object> getCaseRecordDetails( String recId){

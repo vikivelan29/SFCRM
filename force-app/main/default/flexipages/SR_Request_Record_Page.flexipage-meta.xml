@@ -85,7 +85,17 @@
                 <identifier>RecordRequestor_Comments_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-829cd35a-9968-4f26-bb32-e5818540dbd2</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
+                <identifier>RecordRequested_CCC_Details__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-50780d6a-cc77-4375-9af4-c8a42329b7cc</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
