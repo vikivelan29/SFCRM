@@ -113,12 +113,13 @@ public with sharing class ASF_Constants {
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
     public static final String ABFL_BU = 'ABFL';
-    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API','Email'};
+    public static final String ABSLI_BU = 'ABSLI';
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI'};
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};

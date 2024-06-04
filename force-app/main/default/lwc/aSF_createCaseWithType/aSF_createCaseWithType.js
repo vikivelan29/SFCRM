@@ -16,6 +16,7 @@ import AMIOwner from '@salesforce/schema/Case.AmIOwner__c';
 import AccountId from '@salesforce/schema/Case.AccountId';
 import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -156,6 +157,13 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     cols; 
 
+    //BSLI
+    //showFtr = false;
+    //ftrValue = false;
+    showIssueType = false;
+    issueTypeVal;
+    issueTypeOptions = [];
+
     get stageOptions() {
         return [
             { label: 'Pending for Rejection', value: 'Pending for Rejection' },
@@ -196,7 +204,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
@@ -315,6 +322,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = null;
         this.createCaseWithAll = false;
         this.isNotSelected = true;
+        //this.showFtr = false;
+        this.showIssueType = false;
+        //this.ftrValue = false;
 
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
@@ -378,6 +388,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.natureVal = '';
         this.sourceVal = '';
         this.sourceValues = [];
+        //this.ftrValue = false;
+        //this.showFtr = false;
+        this.showIssueType = false;
+        this.issueTypeVal = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         this.complaintSelected = '';
 
@@ -387,9 +401,23 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging)){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU){
             this.showAutoComm = true;
         }
+        /*if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
+            this.showFtr = true;
+        } */
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+            if(!selected.Allowed_Issue_Types__c.includes(';')){
+                this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
+            }else{
+                this.issueTypeOptions = selected.Allowed_Issue_Types__c.split(';').map(item => ({
+                    label: item,
+                    value: item
+                }));
+            }
+            this.showIssueType = true;
+        } 
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
             this.createCaseWithAll = true;
             this.isNotSelected = true;
@@ -590,6 +618,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.selectedCaseStage = event.detail.value;
         //this.createCaseHandler();
     }
+   /* handleFtr(event){
+        this.ftrValue = event.target.checked;
+    } */
+    handleIssueTypeChange(event){
+        this.issueTypeVal = event.detail.value;
+    }
     gotoMainScreen() {
         this.contactSelected = true;
     }
@@ -775,6 +809,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
+        //this.ftrValue = false;
+        //this.showFtr = false;
+        this.showIssueType = false;
+        this.issueTypeVal = '';
         this.cancelReject();
     }
 
