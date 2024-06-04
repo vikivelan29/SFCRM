@@ -36,7 +36,7 @@ public with sharing class ABHFL_ComplaintsValidateOnResolvedStage implements ASF
                 returnWrapper.put(caseId, retCls);
             }
         }
-        //AM-PR970457-552
+        //AM-PR970457-552-Comment
         for(Case c:caseRecords){
             ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = returnWrapper.get(c.Id);
             if(c.Nature__c=='Complaint' && (c.ABHFL_Case_Detail__r.Refund_Amount__c!=null || c.ABHFL_Case_Detail__r.Disputed_Amount__c!=null)){

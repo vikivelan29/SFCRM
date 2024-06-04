@@ -3,7 +3,7 @@
     <apiVersion>59.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>TDS refund final communication VF</name>
+    <name>TDS Refund final communication VF</name>
     <style>none</style>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
