@@ -14,6 +14,7 @@ import TYPE_FIELD from '@salesforce/schema/Case.Sub_Type_Text__c';
 import SUBTYPE_FIELD from '@salesforce/schema/Case.Type_Text__c';
 import OWNER_FIELD from '@salesforce/schema/Case.OwnerId';
 import BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c'
+import IS_DUPLICATE_FIELD from '@salesforce/schema/Case.Is_Duplicate__c'
 import USER_ID from '@salesforce/user/Id';
 
 export default class Asf_RelateDeduplicateCase extends LightningElement {
@@ -39,7 +40,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                     Type: getFieldValue(data, TYPE_FIELD),
                     SubType: getFieldValue(data, SUBTYPE_FIELD),
                     Owner: getFieldValue(data, OWNER_FIELD),
-                    BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD)
+                    BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD),
+                    IsDuplicate : getFieldValue(data, IS_DUPLICATE_FIELD)
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
             this.ownerValidation();
@@ -56,7 +58,8 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                 Category: getFieldValue(data, CATEGORY_FIELD),
                 Type: getFieldValue(data, TYPE_FIELD),
                 SubType: getFieldValue(data, SUBTYPE_FIELD),
-                BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD)
+                BusinessUnit : getFieldValue(data, BUSINESS_UNIT_FIELD),
+                IsDuplicate : getFieldValue(data, IS_DUPLICATE_FIELD)
         };
         } else if (error) {
             console.error('Error loading parent record', error);
@@ -94,7 +97,11 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
 
     validateDuplicateCase(){
         let isValid = true;
-        if(this.wiredParentRec.IsClosed && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
+        if(this.wiredParentRec.isDuplicate && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
+            isValid = false;
+            this.showToastMessage('Error!', 'You cannot choose a duplicate case as parent', 'error');
+        }
+        else if(this.wiredParentRec.IsClosed && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a closed case as parent', 'error');
         }
