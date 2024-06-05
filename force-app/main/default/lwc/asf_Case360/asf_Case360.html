@@ -159,11 +159,18 @@
                                             </template>
                                             <template if:false={ccfield.bSearchablePicklist}>
                                                 <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                    <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                        value={ccfield.value} onchange={handleChange}
-                                                        class={ccfield.editClassString} disabled={ccfield.ReadOnly}
-                                                        required={ccfield.Required}>
-                                                    </lightning-input-field>
+                                                    <template if:false={ccfield.bShowAsCustomLink}>
+                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                            value={ccfield.value} onchange={handleChange}
+                                                            class={ccfield.editClassString} disabled={ccfield.ReadOnly}
+                                                            required={ccfield.Required}>
+                                                        </lightning-input-field>
+                                                    </template>
+                                                    <template if:true={ccfield.bShowAsCustomLink}>
+                                                        <lightning-output-field
+                                                            field-name={ccfield.FieldAPINAme}></lightning-output-field>
+                                                    </template>
+
                                                 </template>
                                             </template>
                                         </div>
@@ -226,11 +233,43 @@
                                                 </template>
                                                 <template if:false={ccfield.bSearchablePicklist}>
                                                     <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                            value={ccfield.value} class={ccfield.editClassString}
-                                                            onchange={handleChange} disabled={ccfield.ReadOnly}
-                                                            required={ccfield.Required}>
-                                                        </lightning-input-field>
+
+                                                        <template if:true={ccfield.bConfirmationRequired}>
+                                                            <div style="position:relative">
+                                                                <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                    value={ccfield.value} onkeydown={handlePreventInput}
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    required={ccfield.Required} autocomplete="off">
+                                                                </lightning-input-field><!--class={ccfield.editClassString}-->
+                                                                <lightning-button-icon icon-name="utility:success"
+                                                                    alternative-text="verify" title="verify"
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    data-field-lwc-name = {ccfield.confirmationLWCName}
+                                                                    style="position: absolute; right: 0%; top: 1%; z-index: 10;"
+                                                                    onclick={handleVerifyField}></lightning-button-icon>
+
+                                                                <!-- CONFIRM FIELD POPUPs-->
+                                                                <template lwc:if={openConfirmFieldPopup}>
+                                                                    <!-- THE CODE FOR FIELD EXTENSION LWC GOES HERE. -->
+                                                                    <lwc:component lwc:is={componentConstructor} onclosepopup={cancelConfirmFieldPopup}
+                                                                                record-id={recordId} field-name-to-search = {fieldNameToSearch} oncase360fieldextn={handleCase360FieldExtn}></lwc:component>
+                                                                                <div class="slds-backdrop slds-backdrop_open"
+                                                                                role="presentation"></div>
+                                                                    <!--<c-asf_case360fieldextension field-name-to-search = {fieldNameToSearch} record-id={recordId} oncase360fieldextn={handleCase360FieldExtn} onclosepopup = {cancelConfirmFieldPopup}></c-asf_case360fieldextension>-->
+                                                                </template>
+
+                                                                <!-- CONFIRM FIELD POP UP CLOSES HERE-->
+
+                                                            </div>
+                                                        </template>
+                                                        <template if:false={ccfield.bConfirmationRequired}>
+                                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                value={ccfield.value} onchange={handleChange}
+                                                                disabled={ccfield.ReadOnly}
+                                                                class={ccfield.editClassString}
+                                                                required={ccfield.Required}>
+                                                            </lightning-input-field>
+                                                        </template>
                                                     </template>
                                                 </template>
                                             </div>

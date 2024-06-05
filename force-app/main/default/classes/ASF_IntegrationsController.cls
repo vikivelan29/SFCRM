@@ -17,12 +17,12 @@ public with sharing class ASF_IntegrationsController {
         List<ASF_Integration__c> returnList = new List<ASF_Integration__c>();
         if(c3ExtId != null && stageName != null){
             returnList = [
-                SELECT Id, Processing_Class__c, STP_Processing_Class__c,
+                SELECT Id, Processing_Class__c, STP_Processing_Class__c,UI_Component__c,
                     External_Id__c, Type__c, Display_Name__c,STP_API_Identifier__c, Query_Fields__c
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
-                AND (Type__c = 'Process' OR Type__c = 'Pre Populate')
+                AND (Type__c = 'Process' OR Type__c = 'Pre Populate' OR Type__c = 'UI Action')
                 ORDER BY Display_Order__c
             ];
         }
@@ -64,7 +64,17 @@ public with sharing class ASF_IntegrationsController {
         try {
             IntegrationWrapper result = new IntegrationWrapper();
             //Object result;
-            
+            Set<String> all_fields = new Set<String>{'id'};
+            if(integ.Query_Fields__c != null){
+                all_fields.addAll(integ.Query_Fields__c.toLowerCase().split(','));
+            }
+
+            Set<Id> caseRecs = new Set<Id>{caseRec.Id};
+            ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>((List<Case>)Database.query(
+                'SELECT ' +
+                String.join(all_fields, ',') +
+                ' FROM Case WHERE Id IN :caseRecs'
+            ));
             // First check evaluation
             Type customType = Type.forName(integ.Processing_Class__c);
             ASF_IntegrationInvocable instance = (ASF_IntegrationInvocable)customType.newInstance();
