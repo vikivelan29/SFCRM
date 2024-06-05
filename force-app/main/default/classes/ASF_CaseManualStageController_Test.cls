@@ -158,7 +158,7 @@
             {
                 Test.startTest(); 
                 try{
-                    ASF_CaseManualStageController.fetchAllManualStagesWithCase(caseRecord.Id);                 
+                    ASF_CaseManualStageController.fetchAllManualStagesWithCase(caseRecord.Id, caseRecord.Stage__c);                 
                 }   
                 catch(Exception e){
                  } 
