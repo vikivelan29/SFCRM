@@ -214,6 +214,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     boolSaveReassignButton = false;
     boolCallSaveReassign = false;
 
+    // VIRENDRA 
+    openConfirmFieldPopup = false;
+    confirmFieldType = 'text';
+    fieldNameToSearch = '';
+    fieldConfirmationLWCName = '';
+    originalTextValue = '';
+    confirmTextValue = '';
+    bConfirmationTextNotMatching = true;
+    iconClass = '';
+
 
     arr_CaseStatuses = [];
 
@@ -699,6 +709,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.skipMoveToNextStage == false;
                 this.loadReady = false;
                 refreshApex(this.processApexReturnValue);
+
+                // VIRENDRA - 31 May 2024 - publish Event to invoke LWC on Save.
             })
             .catch((error) => {
                 console.error(error);
@@ -1158,6 +1170,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         console.log('Extension Id =>' + this.caseExtensionRecordId);
         this.loading = true;
         registerListener("refreshpagepubsub", this.handlePublishedMessage, this);
+        registerListener("refreshfromIntLWC", this.handleRecordEditFormRefresh, this);
         //this.handlePublishEvent();
         //console.log('starting registerRefresh');
         //this.refreshContainerID = registerRefreshContainer(this, this.refreshContainer);
@@ -1834,49 +1847,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             this.isMoveToNextStageButtonDisabled = false;
                             this.isMoveToStageButtonDisabled = true;
 
-                            /*
-                            if (error.body.message.includes('Reversal Amount')) {
-                                this.dispatchEvent(
-                                    new ShowToastEvent({
-                                        title: 'Error updating record',
-                                        message: 'Reversal amount should be less than transaction amount',
-                                        variant: 'error',
-                                    }),
-                                );
-                            }
-                            else if (error.body.message.includes('Closing Reason is mandatory when moving to Closed stage')) {
-                                this.dispatchEvent(
-                                    new ShowToastEvent({
-                                        title: 'Error updating record',
-                                        message: 'Closing Reason is mandatory when moving to Closed stage',
-                                        variant: 'error',
-                                    }),
-                                );
-                            }
-                            else if (error.body.message.includes('FIELD_CUSTOM_VALIDATION_EXCEPTION')) {
-                                console.log('FIELD_CUSTOM_VALIDATION_EXCEPTION');
-                                this.errorMessage = error.body.message.substring(82 + ('FIELD_CUSTOM_VALIDATION_EXCEPTION').length);
-                                var word = this.errorMessage.replace(': []', '');
-                                console.log('FIELD_CUSTOM_VALIDATION_EXCEPTIONss', this.errorMessage);
-                                this.dispatchEvent(
-                                    new ShowToastEvent({
-                                        title: 'Error updating record',
-                                        message: word,
-                                        variant: 'error',
-                                    }),
-                                );
-                            }
-    
-                            else if (!(error.body.message.includes('Case Record is in Approval process'))) {
-                                this.dispatchEvent(
-                                    new ShowToastEvent({
-                                        title: 'Error updating record',
-                                        message: error.body.message,
-                                        variant: 'error',
-                                    }),
-                                );
-                            }
-                            */
+                            
                         });
                 }
                 else {
@@ -2821,6 +2792,119 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
           }
         
     }
+    async handleImportCompoent(compName){
+        const { default: ctor } = await import(compName)
+            .catch((err) => {
+                console.log("loadDynamicUIAction Error importing component", JSON.stringify(err))
+                this.showLWC = false;
+            });
+            this.componentConstructor = ctor;
+    }
+    async handleVerifyField(event){
+        let bValid = false;
+        this.fieldNameToSearch = event.target.getAttribute('data-field-name');
+        this.fieldConfirmationLWCName = event.target.getAttribute('data-field-lwc-name');
+
+        if(this.fieldConfirmationLWCName != null && this.fieldConfirmationLWCName != "" && this.fieldConfirmationLWCName != undefined){
+            await this.handleImportCompoent(this.fieldConfirmationLWCName);
+        }
+
+        this.openConfirmFieldPopup = true;
+
+        // INVOKE EVENT HERE.
+        
+        
+        
+        //debugger;
+    }
+    cancelConfirmFieldPopup(event){
+        this.openConfirmFieldPopup = false;
+        this.fieldNameToSearch = '';
+        this.bConfirmationTextNotMatching = true;
+    }
+    varifyConfirmFieldPopup(event){
+        
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if(ele.fieldName == this.fieldNameToSearch){
+                ele.value = this.originalTextValue;
+                this.cancelConfirmFieldPopup();
+                this.handleDynamicComponentOpen();
+            }
+        });
+    }
+    handleConfirmTextChange(event){
+        let val = event.target.value;
+        this.confirmTextValue = val;
+        this.confirmationCheck();
+    }
+    confirmationCheck(){
+        if(this.originalTextValue == this.confirmTextValue){
+            this.bConfirmationTextNotMatching = false;
+            this.iconClass = 'successBtn';
+        }
+        else{
+            this.bConfirmationTextNotMatching = true;
+        }
+    }
+    handleOriginalTextChange(event){
+        this.originalTextValue = event.target.value; 
+        this.confirmationCheck();
+    }
+    handlePreventInput(event){
+        this.fieldNameToSearch = event.target.getAttribute('data-field-name');
+        event.target.value = '';
+        event.preventDefault();
+        this.openConfirmFieldPopup = true;
+    }
+
+    // VIRENDRA - ADDED TO FIX THE REFRESH ISSUE RELATED TO INTEGRATION LWC PANEL.
+    async handleRecordEditFormRefresh(payload){
+        
+        if (payload.source != 'case360' && this.recordId == payload.recordId) {
+            this.showLoading = true;
+            this.loadReady = false;
+            setTimeout(()=>{
+                this.loadReady = true;
+                this.showLoading = false;
+            },100);
+
+            //this.loadReady = false;
+            refreshApex(this.processApexReturnValue);
+        }
+        
+    }
+
+    handleDynamicComponentOpen(){
+        console.log('handleDynamicComponentOpen');
+        let payload = { 'source': 'case360', 
+        'recordId': this.recordId, 
+        'componentName': 'c/absli_FetchBankDetails',
+        'now' : Date.now() };
+        fireEventNoPageRef(this.pageRef, "openLWCFromEvent", payload);
+        console.log('fireEventNoPageRef done');
+    }
+
+    handleCase360FieldExtn(event){
+        let arr_result = event.detail.arr_fieldDetails;
+        for(var i=0;i<arr_result.length;i++){
+            let record = arr_result[i];
+            let fieldApiNm = record.FieldAPINAme;
+            let fieldVal = record.fieldValue;
+            let result = record.status;
+
+            if(result == 'Success'){
+                this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+                    if(ele.fieldName == fieldApiNm){
+                        ele.value = fieldVal;
+                    }
+                });
+            }
+        }
+        this.cancelConfirmFieldPopup();
+        
+        
+    }
+    
 
 
 
