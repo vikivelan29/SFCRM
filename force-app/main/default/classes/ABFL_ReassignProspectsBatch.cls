@@ -62,6 +62,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             if(mHashkeyVsCase.containsKey(iCompositeKey)){
                 for(Case c : mHashkeyVsCase.get(iCompositeKey)){
                     c.AccountId = con.AccountId;
+                    c.Lead__c = null;
                     casesToUpdate.add(c);
                 }
                 
