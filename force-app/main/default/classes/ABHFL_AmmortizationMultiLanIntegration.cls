@@ -204,46 +204,88 @@ public with sharing class ABHFL_AmmortizationMultiLanIntegration implements ASF_
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg)
     {
-        Case caseRec = [SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, 
-                        	Channel__c, Source__c, AccountId, ContactId, 
-                        	Attachment_Status__c, No_Auto_Communication__c
-                        FROM Case
-                        WHERE Id =: caseInteg.Case__c ];
-        Map<String, Integer> statusCountMap = new Map<String, Integer>();
-        AggregateResult[] groupedResults = [SELECT COUNT(Id) recordCount, Status__c FROM ASF_Case_Integration__c
-                                                WHERE Case__c=:caseRec.Id GROUP BY Status__c];
-        for (AggregateResult ar : groupedResults) {
-         	statusCountMap.put(String.valueOf(ar.get('Status__c')), Integer.valueOf(ar.get('recordCount'))==null?0:Integer.valueOf(ar.get('recordCount')));
-        }
-        
-        if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
-            
-            Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
-            if(isTransferred){
-                /*List<ABHFL_Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM ABHFL_Asset_Detail__c];*/
-                List<ABHFL_Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
-                                                     FROM ABHFL_Asset_Detail__c 
-                                                     WHERE Asset__r.Lan__c =:caseInteg.Business_External_Id__c
-                                                     AND Case__c =:caseRec.Id LIMIT 1];
-                assetDetail[0].AmmortApiStatus__c = isTransferred;
-                update assetDetail[0];
-            }
-            if((statusCountMap.get('Pending')==0 || statusCountMap.get('Pending')==null) && 
-               	(statusCountMap.get('Failure')==0 || statusCountMap.get('Failure')==null)){
+        Datetime startTime = Datetime.now();
+        Integer retryCount = 0;
+    	Boolean success = false;
+        //while(!success && retryCount < 3){
+            //try{
+             	Case caseRec = [SELECT Id, CCC_External_Id__c,MoveToNext__c, Asset.LAN__c, Asset.Last_Disbursement_Date__c, 
+                                    Channel__c, Source__c, AccountId, ContactId, 
+                                    Attachment_Status__c, No_Auto_Communication__c
+                                FROM Case
+                                WHERE Id =: caseInteg.Case__c ];
                 
-                processSuccessResponse(caseRec);
+                // Fetch and lock all ASF_Case_Integration__c records related to the case
+                // Ticket Number: INC000001518770
+                // Developer: Ishan Khichadia- EY
+                // Updated the query with Integration_Ext_Id to check only integrations related to Multi Lan 
+                List<ASF_Case_Integration__c> integrationRecords = [
+                    SELECT Id, Status__c, Business_External_Id__c, Integration_Ext_Id__c 
+                    FROM ASF_Case_Integration__c
+                    WHERE Case__c = :caseRec.Id AND Integration_Ext_Id__c IN ('ABHFL_ASFInt82','ABHFL_ASFInt76','ABHFL_ASFInt88') 
+                    FOR UPDATE
+                ];
+                
+                Map<String, Integer> statusCountMap = new Map<String, Integer>();
+                for (ASF_Case_Integration__c record : integrationRecords) {
+                    String status = record.Status__c;
+                    if (statusCountMap.containsKey(status)) {
+                        statusCountMap.put(status, statusCountMap.get(status) + 1);
+                    } else {
+                        statusCountMap.put(status, 1);
+                    }
+                }	
+                /*AggregateResult[] groupedResults = [SELECT COUNT(Id) recordCount, Status__c FROM ASF_Case_Integration__c
+                                   WHERE Case__c=:caseRec.Id and Business_External_Id__c!=null GROUP BY Status__c];
+                for (AggregateResult ar : groupedResults) {
+                    statusCountMap.put(String.valueOf(ar.get('Status__c')), Integer.valueOf(ar.get('recordCount'))==null?0:Integer.valueOf(ar.get('recordCount')));
+                }*/
+                
+                if(caseInteg.Status__c == ABHFL_Constants.SUCCESS){
                     
-            }
-            
-        }
-        if(statusCountMap.get('Failure')>0 && statusCountMap.get('Pending')==0){
-			//assign to non financial team  
-           	Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
-            caseRec.OwnerId = csQueue.Id;
-            update caseRec;
-        }
+                    Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+                    if(isTransferred){
+                        /*List<ABHFL_Asset_Detail__c> assetDetailTest = [SELECT Id,Case__c, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                             FROM ABHFL_Asset_Detail__c];*/
+                        List<ABHFL_Asset_Detail__c> assetDetail = [SELECT Id, Asset__r.Lan__c, AmmortApiStatus__c 
+                                                             FROM ABHFL_Asset_Detail__c 
+                                                             WHERE Asset__r.Lan__c =:caseInteg.Business_External_Id__c
+                                                             AND Case__c =:caseRec.Id LIMIT 1 FOR UPDATE];
+                        assetDetail[0].AmmortApiStatus__c = isTransferred;
+                        update assetDetail[0];
+                    }
+                    if((statusCountMap.get('Pending')==0 || statusCountMap.get('Pending')==null) && 
+                        (statusCountMap.get('Failure')==0 || statusCountMap.get('Failure')==null)){
+                        
+                        processSuccessResponse(caseRec); 
+                        
+                    }
+                
+                }
+                if(statusCountMap.get('Failure')>0 && (statusCountMap.get('Pending')==0 || statusCountMap.get('Pending')==null)){
+                    //assign to non financial team  
+                    Group csQueue = [SELECT Id FROM Group WHERE Type =: ABHFL_Constants.QUEUE AND DeveloperName =: ABHFL_Constants.ABHFL_CUSTOMER_SERVICE_TEAM  Limit 1];
+                    caseRec.OwnerId = csQueue.Id;
+                    update caseRec;
+                }
+               	//success = true;
+            /*}catch (Exception ex){
+               	retryCount++;
+                if (retryCount >= 3) {
+                    throw ex;
+                } else {
+                    System.debug('Retrying due to record lock. Attempt: ' + retryCount);
+                }
+            }*/
+        //}
+        Datetime endTime = Datetime.now();
+		Long timeDifference = endTime.getTime() - startTime.getTime();
         
+        // Convert milliseconds to seconds for readability
+        Decimal timeInSeconds = timeDifference / 1000.0;
+        
+        // Output the time taken
+        System.debug('Time taken to execute the block of code: ' + timeInSeconds + ' seconds');        
     }
     
     private void processSuccessResponse(Case caseRec){
