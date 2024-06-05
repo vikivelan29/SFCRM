@@ -6,32 +6,53 @@
 global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Schedulable,Database.Batchable<sObject>{
     global Database.QueryLocator start(Database.BatchableContext context){
         DateTime currentTime = System.now();
-        String query = 'SELECT Id, CaseNumber, Status, OwnerId, Owner.Name,Is_Approval_Stage__c, SLA_Target_1__c, SLA_Target_2__c, SLA_Target_3__c, Stage_SLA_1__c, Stage_SLA_2__c, Stage_SLA_3__c, BusinessHoursId, LastModifiedDate,Nature__c,Type_Text__c, CreatedDate,CreatedBy.Name, Last_Owner_Change_Date__c,Sub_Type_Text__c,Business_Unit__c,Stage__c FROM  Case WHERE (Stage_SLA_2__c < :currentTime OR Stage_SLA_3__c < :currentTime) AND isClosed = false AND Recordtype.Name = \'Framework\' and (SLA_Target_2__c != null or SLA_Target_3__c != null)';
+        String query = '';
+        
+        //SLA history fields
+        query += 'SELECT Id,Current_Owner__c,is_Running_Record__c,Stage_End_Date__c,Stage_Start_Date__c,BusinessHoursId__c,Case__c,Stage__c,Overdue__c,Status__c,Stage_Violation_Start_Date__c,Current_Owner_Id__c,Level__c,SLA_2_Email_Sent__c,SLA_3_Email_sent__c,Breached_User_Level2__c,Breached_User_Level3__c,';
+        
+        //Case fields
+        query += 'Case__r.Id,Case__r.CaseNumber, Case__r.Status, Case__r.OwnerId, Case__r.Owner.Name,Case__r.Is_Approval_Stage__c, Case__r.SLA_Target_1__c, Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c, Case__r.Stage_SLA_1__c, Case__r.Stage_SLA_2__c, Case__r.Stage_SLA_3__c, Case__r.BusinessHoursId, Case__r.LastModifiedDate,Case__r.Nature__c,Case__r.Type_Text__c, Case__r.CreatedDate,Case__r.CreatedBy.Name, Case__r.Last_Owner_Change_Date__c,Case__r.Sub_Type_Text__c,Case__r.Business_Unit__c,Case__r.Stage__c';
+        
+        query += ' FROM ASF_Case_SLA_History__c WHERE is_Running_Record__c = true AND Stage_End_Date__c = null';
+        query += ' AND Case__r.Recordtype.Name = \'Framework\' AND Case__r.isClosed = false';
+        query += ' AND(';
+        //Cases for which SLA 2 and 3 are breached, scheduled flow has updated the records, only email needs to be sent
+        query += ' ((Level__c = \'2\' AND Case__r.SLA_Target_2__c != null) OR (Level__c = \'3\' AND Case__r.SLA_Target_3__c != null))';
+        
+        query += ' OR';
+        //Cases for which scheduled flow somehow failed to update the records, but SLA 2 and 3 actualy breached, so SLA history update and email send both are needed
+        query += ' ((Case__r.Stage_SLA_2__c < :currentTime AND Case__r.SLA_Target_2__c != null) OR (Case__r.Stage_SLA_3__c < :currentTime AND Case__r.SLA_Target_3__c != null))';
+
+        query += ') order by Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c';
         return Database.getQueryLocator(query);
     }
 
-    global void execute(Database.BatchableContext context, List<Case> scope){
+    global void execute(Database.BatchableContext context, List<ASF_Case_SLA_History__c> scope){
 
         DateTime currentTime = System.now();
         Map<String,User> emailUserIdMap = new Map<String,User>();
         Set<String> caseEmailList = new Set<String>();
-        map<Id,ASF_Case_SLA_History__c> caseIdSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
+        map<Id,ASF_Case_SLA_History__c> caseIdToUpdateSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
+        map<Id,ASF_Case_SLA_History__c> caseIdToSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         Map<String, Set<Id>> managerEmailToCasesForSLA2 = new Map<String, Set<Id>>();
         Map<String, Set<Id>> managerEmailToCasesForSLA3 = new Map<String, Set<Id>>();
-        Map<Id, Case> casesMap = new Map<Id, Case>(scope);
+        Map<Id, Case> casesMap = new Map<Id, Case>();
 
-        for(Case caseRec : scope){
+        for(ASF_Case_SLA_History__c slaHistory : scope){
             //This SLA 1 targets are added because its needed in the email body
-            if(caseRec.SLA_Target_1__c!=null){
-                caseEmailList.add(caseRec.SLA_Target_1__c);
+            if(slaHistory.Case__r.SLA_Target_1__c!=null){
+                caseEmailList.add(slaHistory.Case__r.SLA_Target_1__c);
             }
-            if(caseRec.SLA_Target_2__c!=null){
-                caseEmailList.add(caseRec.SLA_Target_2__c);
+            if(slaHistory.Case__r.SLA_Target_2__c!=null){
+                caseEmailList.add(slaHistory.Case__r.SLA_Target_2__c);
             }
-            if(caseRec.SLA_Target_3__c!=null){
-                caseEmailList.add(caseRec.SLA_Target_3__c);
-            }     
+            if(slaHistory.Case__r.SLA_Target_3__c!=null){
+                caseEmailList.add(slaHistory.Case__r.SLA_Target_3__c);
+            }
+            casesMap.put(slaHistory.Case__c, slaHistory.Case__r);
+            caseIdToSLAHistoryMap.put(slaHistory.Case__c, slaHistory);
         }
 
         if(caseEmailList.size() > 0){
@@ -40,22 +61,23 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
             }
         }
 
-        for(ASF_Case_SLA_History__c slaHistory : [SELECT Id,Current_Owner__c,is_Running_Record__c,Stage_End_Date__c,Stage_Start_Date__c,BusinessHoursId__c,Case__c,Case__r.Stage_SLA_1__c,Case__r.Stage_SLA_2__c,Case__r.Stage_SLA_3__c,Stage__c,Overdue__c,Status__c,Stage_Violation_Start_Date__c,Current_Owner_Id__c,Level__c,SLA_2_Email_Sent__c,SLA_3_Email_sent__c,Case__r.SLA_Target_1__c,Case__r.SLA_Target_2__c,Case__r.SLA_Target_3__c,Case__r.OwnerId,Breached_User_Level2__c,Breached_User_Level3__c FROM  ASF_Case_SLA_History__c WHERE Case__c IN: scope AND Stage_End_Date__c = null AND is_Running_Record__c = true ]){
+        for(ASF_Case_SLA_History__c slaHistory : scope){
 
             Boolean isCaseWithinBusinessHours = false;
             if(slaHistory.BusinessHoursId__c != null){
                 isCaseWithinBusinessHours = BusinessHours.isWithin(slaHistory.BusinessHoursId__c, system.now());
             }
-
             if(slaHistory.Stage_Violation_Start_Date__c == null ){
                 slaHistory.Stage_Violation_Start_Date__c = slaHistory.Case__r.Stage_SLA_1__c;
                 slaHistory.Status__c = 'Violated';
             }
 
-            if(slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&slaHistory.Case__r.Stage_SLA_3__c < currentTime && slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
-                slaHistory.Level__c = '3';
-                slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
-                caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+            if(slaHistory.Case__r.Stage_SLA_3__c != null && slaHistory.Case__r.Stage_SLA_3__c < currentTime && slaHistory.Case__r.SLA_Target_3__c != null){
+                if(slaHistory.Level__c != '3'){
+                    slaHistory.Level__c = '3';
+                    slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
+                    caseIdToUpdateSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                }
                 if(isCaseWithinBusinessHours || Test.isRunningTest()){
                     if(!managerEmailToCasesForSLA3.containsKey(slaHistory.Case__r.SLA_Target_3__c)){
                         managerEmailToCasesForSLA3.put(slaHistory.Case__r.SLA_Target_3__c, new Set<Id>());
@@ -63,10 +85,12 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                     managerEmailToCasesForSLA3.get(slaHistory.Case__r.SLA_Target_3__c).add(slaHistory.Case__c);
                 }
             }
-            else if(slaHistory.Level__c == '1' && slaHistory.Case__r.Stage_SLA_2__c != null && slaHistory.Case__r.Stage_SLA_2__c < currentTime && slaHistory.Case__r.SLA_Target_2__c != null && slaHistory.SLA_2_Email_Sent__c != slaHistory.Case__r.SLA_Target_2__c){
-                slaHistory.Level__c = '2';
-                slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
-                caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+            else if(slaHistory.Case__r.Stage_SLA_2__c != null && slaHistory.Case__r.Stage_SLA_2__c < currentTime && slaHistory.Case__r.SLA_Target_2__c != null){
+                if(slaHistory.Level__c != '2'){
+                    slaHistory.Level__c = '2';
+                    slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
+                    caseIdToUpdateSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
+                }
                 if(isCaseWithinBusinessHours || Test.isRunningTest()){
                     if(!managerEmailToCasesForSLA2.containsKey(slaHistory.Case__r.SLA_Target_2__c)){
                         managerEmailToCasesForSLA2.put(slaHistory.Case__r.SLA_Target_2__c, new Set<Id>());
@@ -101,7 +125,10 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                         mail.setHtmlBody(emailBody);
                         emailList.add(mail);
                         for(Id caseId : managerEmailToCasesForSLA2.get(email)){
-                            caseIdSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = casesMap.get(caseId).SLA_Target_2__c;
+                            if(!caseIdToUpdateSLAHistoryMap.containsKey(caseId)){
+                                caseIdToUpdateSLAHistoryMap.put(caseId, caseIdToSLAHistoryMap.get(caseId));
+                            }
+                            caseIdToUpdateSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = casesMap.get(caseId).SLA_Target_2__c;
                         }
                     }
                 }
@@ -125,13 +152,16 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
                         mail.setHtmlBody(emailBody);
                         emailList.add(mail);
                         for(Id caseId : managerEmailToCasesForSLA3.get(email)){
-                            caseIdSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = casesMap.get(caseId).SLA_Target_3__c;
+                            if(!caseIdToUpdateSLAHistoryMap.containsKey(caseId)){
+                                caseIdToUpdateSLAHistoryMap.put(caseId, caseIdToSLAHistoryMap.get(caseId));
+                            }
+                            caseIdToUpdateSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = casesMap.get(caseId).SLA_Target_3__c;
                         }
                     }
                 }
             }
-            if(!caseIdSLAHistoryMap.isEmpty()){ 
-                UPDATE caseIdSLAHistoryMap.values();
+            if(!caseIdToUpdateSLAHistoryMap.isEmpty()){ 
+                UPDATE caseIdToUpdateSLAHistoryMap.values();
             }
             if(!emailList.isEmpty()){
                 Messaging.sendEmailResult[] sendEmailResults  = Messaging.SendEmail(emailList);
@@ -149,7 +179,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
             Case caseRec = casesMap.get(caseId);
             table += '<tr><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.CaseNumber+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.CreatedDate.format('dd-MM-yyyy hh:mm a', 'IST')+'</td>';
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Last_Owner_Change_Date__c.format('dd-MM-yyyy hh:mm a', 'IST')+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Owner.Name+'</td>';
-            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):''+'</td>';
+            table += '<td style="border: 1px solid black;border-collapse: collapse;">'+(caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):'')+'</td>';
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+(isSLA2?caseRec.Stage_SLA_2__c.format('dd-MM-yyyy hh:mm a', 'IST'):caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST'))+'</td>';
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Sub_Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Business_Unit__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage__c+'</td>';
             table += isSLA2?'<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST')+'</td></tr>':'</tr>';
