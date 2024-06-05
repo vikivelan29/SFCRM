@@ -68,6 +68,10 @@
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Constitution__c</picklist>
@@ -249,6 +253,10 @@
         </values>
         <values>
             <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
     </picklistValues>
