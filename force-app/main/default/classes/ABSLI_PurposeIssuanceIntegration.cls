@@ -83,7 +83,9 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 					? '-' + caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c
 					: '');
 
-			string requestBody = JSON.serialize(new POIRequestWrapper(caseRecord.CaseNumber, policyNumber, purpose_of_ins));
+			string requestBody = JSON.serialize(
+				new POIRequestWrapper(caseRecord.CaseNumber, policyNumber, purpose_of_ins)
+			);
 
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
 				if (intSpec.Processing_Class__c == ABSLI_PurposeIssuanceIntegration.class.getName()) {
@@ -202,13 +204,13 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 					POIResponseWrapper.class
 				);
 
-                if (jsonMap.MESSAGE == ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_RESPONSE) {
-                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-                    sendoutEmailSMSNotification(caseRecord);
+				if (jsonMap.MESSAGE == ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_RESPONSE) {
+					//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+					sendoutEmailSMSNotification(caseRecord);
 
-                    caseRecord.MoveToNext__c = true;
-                    Database.update(caseRecord, AccessLevel.USER_MODE);
-                }
+					caseRecord.MoveToNext__c = true;
+					Database.update(caseRecord, AccessLevel.USER_MODE);
+				}
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -279,13 +281,13 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class POIRequestWrapper {
 		public String source;
-        public String TRANS_NO;
+		public String TRANS_NO;
 		public String policyNumber;
 		public String purpose_of_ins;
 
 		public POIRequestWrapper(String caseNumber, String policyNumber, String purpose_of_ins) {
 			this.source = ABSLI_Constants.ESB_SOURCE_ID;
-            this.TRANS_NO = caseNumber;
+			this.TRANS_NO = caseNumber;
 			this.policyNumber = policyNumber;
 			this.purpose_of_ins = purpose_of_ins;
 		}
