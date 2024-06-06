@@ -113,7 +113,7 @@ public with sharing class ASF_Constants {
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
     public static final String ABFL_BU = 'ABFL';
-    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API','Email'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
