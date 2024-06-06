@@ -26,17 +26,13 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 			result.status = ABSLI_Constants.ERROR;
 			result.response = result.response = Custom_Messages__mdt.getInstance(
-					ABSLI_Constants.POLICYSTATEMENT_EVALUATION_ERROR
+					ABSLI_Constants.TAXCERTIFICATE_EVALUATION_ERROR
 				)
 				.Message__c;
 
-			//TODO: Add Condition Check if Criteria Condition is Matched
-
 			if (
-				caseRecord.Asset.Policy_No__c != null &&
-				caseRecord.Account.PersonBirthdate != null &&
-				caseRecord.ABSLI_Case_Detail__r.From_Date__c != null &&
-				caseRecord.ABSLI_Case_Detail__r.To_Date__c != null
+				(caseRecord.Technical_Source__c == 'API' && caseRecord.FTR__c) ||
+				caseRecord.Technical_Source__c == 'LWC'
 			) {
 				result.status = ABSLI_Constants.SUCCESS;
 				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
@@ -61,7 +57,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-        //Before Initiating new Integration callout, cancel existing running request
+		//Before Initiating new Integration callout, cancel existing running request
 		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
@@ -76,11 +72,10 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 		for (Case caseRecord : caseRecords) {
 			string requestBody = JSON.serialize(
-				new PASRequestWrapper(
-					caseRecord.Asset?.Policy_No__c,
+				new TCDRequestWrapper(
+					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
 					caseRecord.ABSLI_Case_Detail__r?.From_Date__c?.toString(),
-					caseRecord.ABSLI_Case_Detail__r?.To_Date__c?.toString(),
-					caseRecord.Account?.PersonBirthdate?.toString()
+					caseRecord.ABSLI_Case_Detail__r?.To_Date__c?.toString()
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
@@ -96,8 +91,8 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
 					caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
 					caseIntOut.Request_Payload__c = requestBody;
-					caseIntOut.Integration_Name__c = ABSLI_Constants.POLICYSTATEMENT_SERVICE_NAME;
-					caseIntOut.ServiceName__c = ABSLI_Constants.POLICYSTATEMENT_SERVICE_NAME;
+					caseIntOut.Integration_Name__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
+					caseIntOut.ServiceName__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
 					peMap.put(index, caseIntOut);
 					indexToCaseId.put(index, caseRecord.Id);
 				}
@@ -132,13 +127,13 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.POLICYSTATEMENT_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.POLICYSTATEMENT_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
@@ -194,17 +189,17 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
 
-                // TODO : Response Attribute Reference to determine
-				PASResponseWrapper jsonMap = (PASResponseWrapper) JSON.deserialize(
+				// TODO : Response Attribute Reference to determine
+				TCDResponseWrapper jsonMap = (TCDResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
-					PASResponseWrapper.class
+					TCDResponseWrapper.class
 				);
 
-                // Transfer Attachment to Case
+				// Transfer Attachment to Case
 				Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 
-                //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-                sendoutEmailSMSNotification(caseRecord);
+				//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+				sendoutEmailSMSNotification(caseRecord);
 
 				caseRecord.MoveToNext__c = true;
 				Database.update(caseRecord, AccessLevel.USER_MODE);
@@ -273,39 +268,41 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	}
 
 	/**
-	 * @description Policy Account Statement (PAS) Wrapper Class to build Integration Request Body JSON
+	 * @description Tax Certificate Download (TCD) Wrapper Class to build Integration Request Body JSON
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class PASRequestWrapper {
-		public String PolicyID;
-		public String Source;
-		public String StartDate;
-		public String EndDate;
-		public String StatementOption;
-		public String OutputFormat;
-		public String StatmentFormat;
-		public String AgentCode;
-		public String InsuredDOB;
+	public class TCDRequestWrapper {
+		public Details details { get; set; }
 
-		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public PASRequestWrapper(String policyID, String startDate, String endDate, String insuredDOB) {
-			this.PolicyID = policyID;
-			this.Source = ABSLI_Constants.ESB_SOURCE_ID;
-			this.StartDate = startDate;
-			this.EndDate = endDate;
-			this.StatementOption = ABSLI_Constants.POLICYSTATEMENT_STATEMENT_OPTION;
-			this.OutputFormat = ABSLI_Constants.POLICYSTATEMENT_OUTPUT_FORMAT;
-			this.StatmentFormat = ABSLI_Constants.POLICYSTATEMENT_STATEMENT_FORMAT;
-			this.AgentCode = ABSLI_Constants.POLICYSTATEMENT_AGENT_CODE;
-			this.InsuredDOB = insuredDOB;
+		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
+			this.details = new Details(policyID, startDate, endDate);
+		}
+	}
+
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	public class Details {
+		public String POLICYID;
+		public String SOURCE;
+		public String STARTDATE;
+		public String ENDDATE;
+		public String AGENTCODE;
+		public String OUTPUTFORMAT;
+
+		public Details(String policyID, String startDate, String endDate) {
+			this.POLICYID = policyID;
+			this.SOURCE = ABSLI_Constants.ESB_SOURCE_ID;
+			this.STARTDATE = startDate;
+			this.ENDDATE = endDate;
+			this.AGENTCODE = ABSLI_Constants.TAXCERTIFICATE_AGENT_CODE;
+			this.OUTPUTFORMAT = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
 		}
 	}
 
 	/**
-	 * @description Policy Account Statement (PAS) Wrapper Class to follow through Response Body JSON
+	 * @description Tax Certificate Download (TCD) Wrapper Class to follow through Response Body JSON
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class PASResponseWrapper {
+	public class TCDResponseWrapper {
 		public String pdfBytes;
 		public String URL;
 		public String outputFormat;
