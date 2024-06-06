@@ -83,7 +83,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 					? '-' + caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c
 					: '');
 
-			string requestBody = JSON.serialize(new POIRequestWrapper(policyNumber, purpose_of_ins));
+			string requestBody = JSON.serialize(new POIRequestWrapper(caseRecord.CaseNumber, policyNumber, purpose_of_ins));
 
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
 				if (intSpec.Processing_Class__c == ABSLI_PurposeIssuanceIntegration.class.getName()) {
@@ -279,11 +279,13 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class POIRequestWrapper {
 		public String source;
+        public String TRANS_NO;
 		public String policyNumber;
 		public String purpose_of_ins;
 
-		public POIRequestWrapper(String policyNumber, String purpose_of_ins) {
+		public POIRequestWrapper(String caseNumber, String policyNumber, String purpose_of_ins) {
 			this.source = ABSLI_Constants.ESB_SOURCE_ID;
+            this.TRANS_NO = caseNumber;
 			this.policyNumber = policyNumber;
 			this.purpose_of_ins = purpose_of_ins;
 		}

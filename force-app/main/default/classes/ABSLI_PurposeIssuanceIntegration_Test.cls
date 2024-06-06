@@ -14,7 +14,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'PNFT008';
 		integ.Display_Name__c = 'Purpose of Issuance';
-		integ.Query_Fields__c = 'Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c';
+		integ.Query_Fields__c = 'Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c';
 		integ.Processing_Class__c = 'ABSLI_PurposeIssuanceIntegration';
 		integ.When_to_Appear__c = 'Stage Entry';
 		integ.Type__c = 'Process';
@@ -67,7 +67,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		ABSLI_PurposeIssuanceIntegration integrationObj = new ABSLI_PurposeIssuanceIntegration();
 		Case caseRec = [
 			SELECT
-            Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
+            Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
 			FROM Case
 			LIMIT 1
 		];
@@ -89,7 +89,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		];
 		Case caseRec = [
 			SELECT
-            Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
+            Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
 			FROM Case
 			LIMIT 1
 		];
@@ -106,7 +106,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		ABSLI_PurposeIssuanceIntegration integrationObj = new ABSLI_PurposeIssuanceIntegration();
 		Case caseRec = [
 			SELECT
-            Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
+            Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
 			FROM Case
 			LIMIT 1
 		];
@@ -131,7 +131,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 
 		Case caseRec = [
 			SELECT
-            Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
+            Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
 			FROM Case
 			LIMIT 1
 		];
@@ -151,7 +151,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		ABSLI_PurposeIssuanceIntegration integrationObj = new ABSLI_PurposeIssuanceIntegration();
 		Case caseRec = [
 			SELECT
-            Id, Status, OwnerId, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
+            Id, Status, CaseNumber, AssetId, Asset.Policy_No__c, LAN__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, ABSLI_Case_Detail__r.POI_Option_1__c, ABSLI_Case_Detail__r.POI_Option_2__c, ABSLI_Case_Detail__r.POI_Option_3__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c
 			FROM Case
 			LIMIT 1
 		];
