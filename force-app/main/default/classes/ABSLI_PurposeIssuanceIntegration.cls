@@ -1,14 +1,13 @@
 /**
- * @description Outbound Callout to Contact Update (Email and/or Mobile Number) Deatils of Customer
- *  Service Agent to manually invoke STP by clicking on the Integration Button
- *  Customer Portal to create Cases by API. On Successful response, case to be marked as Closed
+ * @description Outbound Callout to Purpose of Issuance with Ingenium
+ * Service Agent to Click on the button initiate the integration. On Successful response, case to be marked as Closed
+ * This Case is always STP Case meaning, whenever case is created from API, it is always going to invoke Purpose of Issuance API
  *
  * @author Abinash Panigrahi
- * @date 2024-05-28
+ * @date 2024-05-17
  */
-public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_IntegrationInvocable{
-
-    /**
+public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_IntegrationInvocable {
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRecs - List of Case record from the framework
@@ -26,14 +25,12 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 
 			result.status = ABSLI_Constants.ERROR;
-            String evaluationErrorMetadataName = '';
-            if(ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.containsKey(caseRecord.CCC_External_Id__c)){
-                evaluationErrorMetadataName = ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.get(caseRecord.CCC_External_Id__c);
-            }
-			result.response = Custom_Messages__mdt.getInstance(
-					evaluationErrorMetadataName
+			result.response = result.response = Custom_Messages__mdt.getInstance(
+					ABSLI_Constants.PURPOSEISSUANCE_EVALUATION_ERROR
 				)
 				.Message__c;
+
+			//TODO: Add Condition Check if Criteria Condition is Matched
 
 			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
 				result.status = ABSLI_Constants.SUCCESS;
@@ -45,10 +42,10 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
-	 * @param caseIntegs - List of ASF_Integration record
+	 * @param integs - List of ASF_Integration record
 	 * @param caseRecs - List of Case record from the framework
 	 * @return Map<Id, ASF_IntegrationsController.IntegrationWrapper>
 	 */
@@ -58,7 +55,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-        //Before Initiating new Integration callout, cancel existing running request
+		//Before Initiating new Integration callout, cancel existing running request
 		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
@@ -72,34 +69,37 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
 
 		for (Case caseRecord : caseRecords) {
-            String caseClientCodeText = '';
-            if(caseRecord.Technical_Source__c == 'API'){
-                caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c : caseRecord.Client_Code_Text__c;
-            }
-			string requestBody = JSON.serialize(
-				new ContactDetailRequestWrapper(
-					caseRecord.CaseNumber,
-					caseClientCodeText,
-					caseRecord.ABSLI_Case_Detail__r?.Mobile_Number__c ,
-					caseRecord.ABSLI_Case_Detail__r?.Email_Id__c
-                )
-			);
+			String policyNumber = caseRecord.Asset?.Policy_No__c == null
+				? caseRecord.LAN__c
+				: caseRecord.Asset?.Policy_No__c;
+			String purpose_of_ins =
+				(caseRecord.ABSLI_Case_Detail__r?.POI_Option_1__c != null
+					? caseRecord.ABSLI_Case_Detail__r?.POI_Option_1__c
+					: '') +
+				(caseRecord.ABSLI_Case_Detail__r?.POI_Option_2__c != null
+					? '-' + caseRecord.ABSLI_Case_Detail__r?.POI_Option_2__c
+					: '') +
+				(caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c != null
+					? '-' + caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c
+					: '');
+
+			string requestBody = JSON.serialize(new POIRequestWrapper(policyNumber, purpose_of_ins));
+
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-				if (intSpec.Processing_Class__c == ABSLI_ContactDetailUpdateIntegration.class.getName()) {
+				if (intSpec.Processing_Class__c == ABSLI_PurposeIssuanceIntegration.class.getName()) {
 					ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
 					caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
 					caseInteg.Case__c = caseRecord.Id;
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                    caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
 					caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
 					caseIntOut.Request_Payload__c = requestBody;
-					caseIntOut.Integration_Name__c = ABSLI_Constants.CONTACTUPDATE_SERVICE_NAME;
-					caseIntOut.ServiceName__c = ABSLI_Constants.CONTACTUPDATE_SERVICE_NAME;
+					caseIntOut.Integration_Name__c = ABSLI_Constants.PURPOSEISSUANCE_SERVICE_NAME;
+					caseIntOut.ServiceName__c = ABSLI_Constants.PURPOSEISSUANCE_SERVICE_NAME;
 					peMap.put(index, caseIntOut);
 					indexToCaseId.put(index, caseRecord.Id);
 				}
@@ -134,13 +134,13 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.CONTACTUPDATE_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.CONTACTUPDATE_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.PURPOSEISSUANCE_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
@@ -150,7 +150,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Before Initiating new Integration callout, cancel existing running request
 	 *
 	 * @param integs - List of Integration configs
@@ -160,7 +160,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		Set<String> intIds = new Set<String>();
 		for (Case caseRec : caseRecs) {
 			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+				if (integ.Processing_Class__c == ABSLI_PurposeIssuanceIntegration.class.getName()) {
 					intIds.add(integ.External_Id__c);
 				}
 			}
@@ -188,41 +188,38 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 
 	/**
 	 * @description Invoked from the Case Integration trigger, this method processes the response of the integration received
-	 * If ProcessCode = 0, Successful Transaction. Then Resolve Case
 	 *
 	 * @param caseInteg - ASF_Integration record
-	 * @return
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
 
-				ContactDetailResponseWrapper jsonMap = (ContactDetailResponseWrapper) JSON.deserialize(
+				// TODO : Response Attribute Reference to determine
+				POIResponseWrapper jsonMap = (POIResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
-					ContactDetailResponseWrapper.class
+					POIResponseWrapper.class
 				);
 
-				if (jsonMap.ProcessCode == '00') {
+                if (jsonMap.MESSAGE == ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_RESPONSE) {
                     //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
                     sendoutEmailSMSNotification(caseRecord);
 
                     caseRecord.MoveToNext__c = true;
-				    Database.update(caseRecord, AccessLevel.USER_MODE);
-				}
-
-
+                    Database.update(caseRecord, AccessLevel.USER_MODE);
+                }
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
-			ABCL_Logger.push('ABSLI_ContactDetailUpdateIntegration.processResponse');
+			ABCL_Logger.push('ABSLI_PurposeIssuanceIntegration.processResponse');
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
 	}
 
-    /**
+	/**
 	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
 	 *
 	 * @param caseRecord - Case record from the framework
@@ -247,7 +244,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		);
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRec - Case record from the framework
@@ -259,7 +256,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return result;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
 	 * @param caseInteg - ASF_Integration record
@@ -277,64 +274,26 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 	}
 
 	/**
-	 * @description Contact Detail Update Wrapper Wrapper Class to build Integration Request Body JSON
+	 * @description Purpose of Issuance (POI) Wrapper Class to build Integration Request Body JSON
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class ContactDetailRequestWrapper {
-		public string TRANS_NO { get; set; }
-		public service service { get; set; }
+	public class POIRequestWrapper {
+		public String source;
+		public String policyNumber;
+		public String purpose_of_ins;
 
-		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public ContactDetailRequestWrapper(
-			String caseNumber,
-			String clientCode,
-			String phoneNum,
-			String emailAddr
-		) {
-			this.TRANS_NO = caseNumber;
-			this.service = new service(
-				clientCode,
-				phoneNum,
-				emailAddr
-			);
-		}
-	}
-
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class service {
-		public string source { get; set; }
-        public string strClientId{get;set;}
-		public string strBusiness { get; set; }
-        public string strCellularPhone{get;set;}
-        public string strEmail{get;set;}
-        public string strPager{get;set;}
-        public string strResidence{get;set;}
-
-		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public service(
-            String clientCode,
-            String phoneNum,
-			String emailAddr
-		) {
+		public POIRequestWrapper(String policyNumber, String purpose_of_ins) {
 			this.source = ABSLI_Constants.ESB_SOURCE_ID;
-            this.strClientId = clientCode;
-            this.strBusiness = '';
-            this.strCellularPhone = phoneNum;
-            this.strEmail = emailAddr;
-            this.strPager ='';
-            this.strResidence = 'Thane';
+			this.policyNumber = policyNumber;
+			this.purpose_of_ins = purpose_of_ins;
 		}
 	}
 
 	/**
-	 * @description Contact Detail Update Wrapper Class to follow through Response Body JSON
+	 * @description Purpose of Issuance (POI) Wrapper Class to follow through Response Body JSON
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class ContactDetailResponseWrapper {
-		public String TRANS_NO  { get; set; }
-		public String ProcessMessage { get; set; }
-		public String ProcessCode { get; set; }
-        public String FaultCode{get;set;}
-        public String FaultMessage{get;set;}
+	public class POIResponseWrapper {
+		public String MESSAGE;
 	}
 }
