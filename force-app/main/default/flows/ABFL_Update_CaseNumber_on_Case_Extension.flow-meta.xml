@@ -23,7 +23,7 @@
         <locationX>264</locationX>
         <locationY>539</locationY>
         <assignmentItems>
-            <assignToReference>UpdateRecords.Case_Details__c</assignToReference>
+            <assignToReference>UpdateRecords.CaseNumber__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.CaseNumber</elementReference>
