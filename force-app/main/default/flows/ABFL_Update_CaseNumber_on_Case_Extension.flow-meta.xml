@@ -80,7 +80,7 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Case_Details__c</field>
+            <field>CaseNumber__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>true</booleanValue>
