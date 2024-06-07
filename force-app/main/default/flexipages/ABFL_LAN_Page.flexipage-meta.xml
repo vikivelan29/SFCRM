@@ -374,6 +374,16 @@
                 <identifier>RecordRepayment_Mode_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ECS_Bounce_Reason__c</fieldItem>
+                <identifier>RecordECS_Bounce_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-77b739eb-b0c8-4fb1-966a-aaf2f3fdacf8</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -408,6 +418,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Name__c</fieldItem>
+                <identifier>RecordPartner_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Principal_Outstanding__c</fieldItem>
                 <identifier>RecordPrincipal_Outstanding_cField</identifier>
             </fieldInstance>
@@ -434,6 +454,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.EMI_Start_Date__c</fieldItem>
                 <identifier>RecordEMI_Start_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EMI_End_Date__c</fieldItem>
+                <identifier>RecordEMI_End_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
