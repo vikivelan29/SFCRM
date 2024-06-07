@@ -2624,4 +2624,8 @@
         <object>Case</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>PersonAccount.ABSLI_Advisor</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
 </PermissionSet>
