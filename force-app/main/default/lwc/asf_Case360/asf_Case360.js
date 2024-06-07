@@ -320,7 +320,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
     }
 
     get displayBackButton() {

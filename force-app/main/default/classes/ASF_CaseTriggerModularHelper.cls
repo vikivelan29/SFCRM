@@ -205,7 +205,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         //VIRENDRA - MOVED QUEUE Assignment Logic below.
         if(isUpdate){
-            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap);
+            List<Case> eligibleCaseList = new List<Case>();
+            for(Case caseRec : newList){
+                // Do not change the owner for certain CCC when recategorized
+                if(!(ASF_RecategoriseCaseController.requestFromRecat && cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c).No_Owner_Change_on_Recat__c)){
+                    eligibleCaseList.add(caseRec);
+                }
+            }
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(eligibleCaseList,isUpdate,oldMap,nextStageMap);
             for(Case caseRec : newList){
                 if(ownerInfos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrap = ownerInfos.get(caseRec.Id);
