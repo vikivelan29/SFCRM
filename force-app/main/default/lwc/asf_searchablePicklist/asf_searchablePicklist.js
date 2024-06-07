@@ -1,5 +1,6 @@
-import { LightningElement, wire, api } from 'lwc';
-import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getPicklistValues';
+import { LightningElement, wire, api, track } from 'lwc';
+//import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getPicklistValues';
+import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getDependentPicklistValues';
 
 export default class Asf_searchablePicklist extends LightningElement {
     picklistVal;
@@ -19,6 +20,8 @@ export default class Asf_searchablePicklist extends LightningElement {
     formElementClasses = "slds-form-element slds-form-element_horizontal";
     bshowErrorHelpText = false;
     selectedValues = [];
+    @track mapReturnVal = new Map();
+    @track dependentPicklist = false;
 
 
     connectedCallback() {
@@ -27,11 +30,23 @@ export default class Asf_searchablePicklist extends LightningElement {
     handleLoad() {
         getPicklists({ sObjectName: this.objectname, fieldName: this.fieldname })
             .then(result => {
-                this.picklistVal = result;
-                this.serverSidePiclistVal = result;
-                this.serverSidePiclistVal.forEach(ele => {
-                    this.arr_originalVal.push(ele.value.toLowerCase().trim());
-                })
+                debugger;
+                this.mapReturnVal = JSON.parse(JSON.stringify(result));
+
+                Object.entries(this.mapReturnVal).forEach(([key, value]) => {
+                    if(key == 'SYS_DEFAULT'){
+                        this.picklistVal = value;
+                        this.serverSidePiclistVal = value;
+                        this.serverSidePiclistVal.forEach(ele => {
+                            this.arr_originalVal.push(ele.value.toLowerCase().trim());
+                        })
+                    }
+                    else{
+                        this.dependentPicklist = true;
+                    }
+                });
+                
+                
             })
             .catch(error => {
                 if (Array.isArray(error.body)) {
@@ -75,6 +90,18 @@ export default class Asf_searchablePicklist extends LightningElement {
             this.selectedValue = value;
         }
 
+    }
+
+    @api callDependentPicklistChanges(controllingValue){
+        Object.entries(this.mapReturnVal).forEach(([key, value]) => {
+            if(key == controllingValue){
+                this.picklistVal = value;
+                this.serverSidePiclistVal = value;
+                this.serverSidePiclistVal.forEach(ele => {
+                    this.arr_originalVal.push(ele.value.toLowerCase().trim());
+                });
+            }
+        });
     }
 
     /*

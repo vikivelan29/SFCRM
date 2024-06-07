@@ -255,7 +255,6 @@
                                                                                 record-id={recordId} field-name-to-search = {fieldNameToSearch} oncase360fieldextn={handleCase360FieldExtn}></lwc:component>
                                                                                 <div class="slds-backdrop slds-backdrop_open"
                                                                                 role="presentation"></div>
-                                                                    <!--<c-asf_case360fieldextension field-name-to-search = {fieldNameToSearch} record-id={recordId} oncase360fieldextn={handleCase360FieldExtn} onclosepopup = {cancelConfirmFieldPopup}></c-asf_case360fieldextension>-->
                                                                 </template>
 
                                                                 <!-- CONFIRM FIELD POP UP CLOSES HERE-->
@@ -300,6 +299,8 @@
 
                     <!-- Case Closure POP UP -->
                     <template lwc:if={openClosurePopUp}>
+                        <!--<c-absli_caseclosurepopup show-errors={showErrors} closure-type-options = {closureTypeOptions} reason-l-o-v = {reasonLOV}
+                        onclosure={handleClosureCommentPopup}></c-absli_caseclosurepopup>-->
                         <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
                             class="slds-modal slds-fade-in-open">
                             <div class="slds-modal__container">
