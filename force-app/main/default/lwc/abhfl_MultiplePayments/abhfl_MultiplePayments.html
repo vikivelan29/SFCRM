@@ -62,6 +62,7 @@
                                     {item.Amount__c}
                                 </template>
                                 <template if:true={item.isPaymentAmountEditable}>
+                                    <!--Updated type parameter by Sujay (EY team)-->
                                     <lightning-input 
                                         data-id={item.key} 
                                         data-fieldname="Amount__c"

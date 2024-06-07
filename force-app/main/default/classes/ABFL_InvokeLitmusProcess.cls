@@ -35,7 +35,16 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 for (Case caseRecord : caseIdToRecordMap.values()){
                     
                     String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-                    String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+                    
+                    String userEmail = '';
+                    if(caseRecord.Account.IsPersonAccount) {
+                        userEmail = caseRecord.Account.PersonEmail;
+                    }
+                    else {
+                        List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+                        userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    }
+                    //String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
     
                     if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
                         casesToFurtherProcessSet.add(caseRecord.Id);
