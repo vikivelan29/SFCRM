@@ -42,7 +42,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
                     }
                     else {
                         List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
-                        userEmail = con.size() > 0 ? con[0]?.Email : ''; 
+                        userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
                     }
                     //String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
     
