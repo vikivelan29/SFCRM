@@ -14,6 +14,12 @@ public class ABFL_BRE_APIImplementation {
     public static void callout(ASF_Integration__c integRec, Case caseRec){
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRec.Id,ABFL_Constants.BRE);
+
+        if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
+            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+			emailIdBusiness = con.size()>0?con[0]?.Email:caseRecord.Account.Office_Email__c; 
+        }
+        
         // Determine the API to invoke & generate wrapper 
      	switch on integRec.STP_API_Identifier__c {
             when 'BRE_BalanceConfirmation_Retail', 'BRE_Foreclosure_Retail', 'BRE_NDCReasonMaster_Retail',

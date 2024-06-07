@@ -97,7 +97,15 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Enach');
         Enach_data enachData = new Enach_data();
         EnachRegistration payload = new EnachRegistration();
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = '';
+        if(caseRecord.AccountId != NULL && caseRecord.Account.IsPersonAccount) {
+            emailId = caseRecord.Account.PersonEmail;
+        }
+        else if(caseRecord.AccountId != NULL) {
+            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+            emailId = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+        }
+        //String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         Date toDate = caseRecord.ABFL_Case_Detail__r.To_Date__c;
