@@ -285,7 +285,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL'){
+            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU){
                 this.cols = [
                     { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
                     { label: 'Type', fieldName: 'Type__c', type: 'text' },
