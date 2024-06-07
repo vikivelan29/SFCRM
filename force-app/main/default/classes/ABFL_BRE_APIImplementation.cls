@@ -4,6 +4,7 @@
 * @description    BRE API implementation class
 *********************************************************/
 public class ABFL_BRE_APIImplementation {
+    public static String emailIdBusiness = '';
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - callout
@@ -14,6 +15,12 @@ public class ABFL_BRE_APIImplementation {
     public static void callout(ASF_Integration__c integRec, Case caseRec){
         Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseRec.Id);
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRec.Id,ABFL_Constants.BRE);
+
+        if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
+            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+			emailIdBusiness = con.size()>0?con[0]?.Email:''; 
+        }
+        
         // Determine the API to invoke & generate wrapper 
      	switch on integRec.STP_API_Identifier__c {
             when 'BRE_BalanceConfirmation_Retail', 'BRE_Foreclosure_Retail', 'BRE_NDCReasonMaster_Retail',
@@ -102,7 +109,7 @@ public class ABFL_BRE_APIImplementation {
     * @description Called for Different APIs : BRE_Foreclosure_Retail,BRE_BalanceConfirmation_Retail,BRE_ClosureProcess_Retail
     *****************************************************************************************************************/
     public static void fireWithoutDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
@@ -132,7 +139,7 @@ public class ABFL_BRE_APIImplementation {
     * @description Called for Different APIs : BRE_Foreclosure_Retail,BRE_BalanceConfirmation_Retail,BRE_ClosureProcess_Retail
     *****************************************************************************************************************/
     public static Case_Integration_Outbound__e fireWithoutDatesForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
@@ -162,7 +169,7 @@ public class ABFL_BRE_APIImplementation {
     * @description Called for Different APIs : BRE_Foreclosure_Retail,BRE_BalanceConfirmation_Retail,BRE_ClosureProcess_Retail
     *****************************************************************************************************************/
     public static void fireWithoutStatus(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
@@ -191,7 +198,7 @@ public class ABFL_BRE_APIImplementation {
     * @description Called for Different APIs : BRE_Foreclosure_Retail,BRE_BalanceConfirmation_Retail,BRE_ClosureProcess_Retail
     *****************************************************************************************************************/
     public static Case_Integration_Outbound__e fireWithoutStatusForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
@@ -221,7 +228,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static void fireWithDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg, List<Date> dts){
         Map<String, Object> payloadWrap;
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         if(dts != null && !dts.isEmpty() ) {
             payloadWrap = new Map<String, Object>{ 
@@ -267,7 +274,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static Case_Integration_Outbound__e fireWithDatesForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg, List<Date> dts){
         Map<String, Object> payloadWrap;
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         if(dts != null && !dts.isEmpty() ) {
             payloadWrap = new Map<String, Object>{ 
