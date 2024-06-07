@@ -88,6 +88,7 @@ public without sharing class ASF_CustomerEmailInvocable {
             else {
                 resultWrap.supressEmail = false;
                 resultWrap.templateName = wrap.templateName;
+                resultWrap.smsTemplateName = wrap.smsTemplateName;
             }
 
             result.add(resultWrap);

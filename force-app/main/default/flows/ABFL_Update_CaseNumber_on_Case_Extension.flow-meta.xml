@@ -23,7 +23,7 @@
         <locationX>264</locationX>
         <locationY>539</locationY>
         <assignmentItems>
-            <assignToReference>UpdateRecords.Case_Details__c</assignToReference>
+            <assignToReference>UpdateRecords.CaseNumber__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.CaseNumber</elementReference>
@@ -80,7 +80,7 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Case_Details__c</field>
+            <field>CaseNumber__c</field>
             <operator>IsNull</operator>
             <value>
                 <booleanValue>true</booleanValue>
