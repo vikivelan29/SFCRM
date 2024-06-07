@@ -18,7 +18,7 @@ public class ABFL_BRE_APIImplementation {
 
         if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
-			emailIdBusiness = con.size()>0?con[0]?.Email:''; 
+			emailIdBusiness = con.size()>0?con[0]?.Email:caseRecord.Account.Office_Email__c; 
         }
         
         // Determine the API to invoke & generate wrapper 
