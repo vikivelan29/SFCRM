@@ -10,10 +10,6 @@
 **/
 
 trigger ABSLIG_Case_Detail_Trigger on ABSLIG_Case_Detail__c (before insert,after insert,before update,after update,before delete,after delete, after undelete) { // NOPMD
-
-    if(FeatureManagement.checkPermission('By_Pass_Trigger')){
-        return;
-    }
     
     TriggerDispatcher.Run(new ABSLIG_CaseDetailTriggerHandler());
 }
