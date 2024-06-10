@@ -222,11 +222,8 @@ public with sharing class ABSLI_TaxCertificateIntegration_Test {
 		];
 
 		ABSLI_TaxCertificateIntegration.TCDResponseWrapper responseObj = new ABSLI_TaxCertificateIntegration.TCDResponseWrapper();
-		responseObj.pdfBytes = 'AbinashPanigrahi';
 		responseObj.URL = 'www.abinash.com';
 		responseObj.outputFormat = 'PDF';
-		responseObj.outputJSONString = '{\"Name\": \"Abinash Panigrahi\"}';
-		responseObj.outputEmail = 'Statment Sent Successfully To panigrahi.abinash@outlook.com';
 
 		caseIntegRec.Response__c = JSON.serialize(responseObj);
 		caseIntegRec.Status__c = 'Success';
