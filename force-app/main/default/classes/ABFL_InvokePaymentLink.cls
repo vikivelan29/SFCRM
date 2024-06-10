@@ -65,7 +65,15 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Payment');
         PaymentData paymentData = new PaymentData();
         PaymentLink payload = new PaymentLink();
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+        String emailId = '';
+        if(caseRecord.AccountId != NULL && caseRecord.Account.IsPersonAccount) {
+            emailId = caseRecord.Account.PersonEmail;
+        }
+        else if(caseRecord.AccountId != NULL) {
+            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+            emailId = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+        }
+       // String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
