@@ -303,10 +303,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class TCDResponseWrapper {
-		public String pdfBytes;
 		public String URL;
 		public String outputFormat;
-		public String outputJSONString;
-		public String outputEmail;
 	}
 }
