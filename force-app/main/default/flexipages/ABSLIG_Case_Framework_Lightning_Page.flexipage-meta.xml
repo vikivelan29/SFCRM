@@ -8,13 +8,6 @@
                     <valueList>
                         <valueListItems>
                             <value>MassAccept</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
@@ -103,6 +96,16 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Relate_Duplicate</value>
+                            <visibilityRule>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
