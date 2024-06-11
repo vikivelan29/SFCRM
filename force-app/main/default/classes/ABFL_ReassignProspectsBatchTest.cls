@@ -71,4 +71,12 @@ private class ABFL_ReassignProspectsBatchTest {
         System.assertEquals(admin.Id, updatedCase.OwnerId, 'Prospects should be reassigned');
     }
     
+    @isTest
+    static void schedulableApexTest() {
+        Datetime dt = Datetime.now().addMinutes(1);
+        String CRON_EXP = '0 '+ dt.minute() + ' * ' + dt.day() + ' ' + dt.month() + ' ? ' + dt.year();
+        Test.startTest();
+        String jobId = System.schedule('Reassign Prospects', CRON_EXP, new ABFL_ReassignProspectsBatch());  
+        Test.stopTest();
+    }  
 }
