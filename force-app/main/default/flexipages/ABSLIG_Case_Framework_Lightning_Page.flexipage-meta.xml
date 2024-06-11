@@ -104,16 +104,6 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Relate_Duplicate</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Upload_File</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
