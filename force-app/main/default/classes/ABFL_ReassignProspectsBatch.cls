@@ -4,7 +4,7 @@
 ** @description  :  Reassigns cases from prospects to existing customers
 ** Created Date :  15/12/2023
 *********************************************************/
-global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
+global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>, schedulable {
     /**
      * @description Start method to return the query locator for the batch job.
      * @param bc The batchable context.
@@ -19,12 +19,12 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             SELECT Id, Subject, Lead__c, SuppliedEmail,Business_Unit__c 
             FROM Case 
             WHERE Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
-            //AND Lead__c != null
             AND SuppliedEmail != null 
             AND AccountId = null 
             AND CreatedDate >= :startDate
         ]);
     }
+    
     /**
      * @description Execute method to process the batch records.
      * @param bc The batchable context.
@@ -35,7 +35,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         Set<String> setBusinessUnit =  new Set<String>();
         
         Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
-        List<Case> casesToUpdate = new List<Case>();
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
         
         for (Case caseRecord : scope) {
             String caseBusinessUnit = caseRecord.Business_Unit__c;
@@ -61,9 +61,11 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             
             if(mHashkeyVsCase.containsKey(iCompositeKey)){
                 for(Case c : mHashkeyVsCase.get(iCompositeKey)){
-                    c.AccountId = con.AccountId;
-                    c.Lead__c = null;
-                    casesToUpdate.add(c);
+                    if(! casesToUpdate.containsKey(c.Id)){
+                        c.AccountId = con.AccountId;
+                        c.Lead__c = null;
+                        casesToUpdate.put(c.Id, c);
+                    }
                 }
                 
             }
@@ -72,7 +74,7 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         if (!casesToUpdate.isEmpty()) {
             try {
                 ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                update casesToUpdate;
+                Database.update(casesToUpdate.values(),false);
             } catch (Exception e) {
                 // Handle exceptions
                 ABCL_Logger.enableExceptionLogging();
@@ -88,5 +90,13 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
      * @param bc The batchable context.
      */
     global void finish(Database.BatchableContext bc) {
+    }
+    
+    /**
+     * @description execute method to schedule the ABFL_ReassignProspectsBatch
+     * @param sc The schedulable context
+     */
+    global void execute(SchedulableContext SC) {
+ 		database.executebatch(new ABFL_ReassignProspectsBatch());
     }
 }
