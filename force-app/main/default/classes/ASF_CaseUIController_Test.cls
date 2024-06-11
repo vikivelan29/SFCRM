@@ -2,14 +2,18 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 06-11-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @IsTest
 public class ASF_CaseUIController_Test{
+    /**
+    * @description : data setup
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     @TestSetup
     public static void setupData(){
         
@@ -40,11 +44,6 @@ public class ASF_CaseUIController_Test{
         lanMap.Customer__c = a.Id;
         lanMap.LAN__c = ast.Id;
         insert lanMap;
-        
-        LAN_Mapping__c lanMap1 = new LAN_Mapping__c();
-        lanMap1.Customer__c = a.Id;
-        lanMap1.LAN__c = ast.Id;
-        insert lanMap1;
         
         Contact con = new Contact();
         con.Lastname ='Test con';
@@ -86,7 +85,7 @@ public class ASF_CaseUIController_Test{
         test.startTest();
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         test.stopTest();
-        system.assertEquals(wrapper.size(), 0);
+        system.assertEquals(wrapper.size(), 0, 'Size is 0');
         }
 
     @isTest
@@ -99,7 +98,7 @@ public class ASF_CaseUIController_Test{
         test.startTest();
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('abc1234',false);
         test.stopTest();
-        system.assertEquals(wrapper.size(), 0);
+        system.assertEquals(wrapper.size(), 0, 'Size is 0');
         }
     @isTest
     public static void checkContactsTest(){
@@ -107,20 +106,26 @@ public class ASF_CaseUIController_Test{
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
-        system.assertEquals(wrapper.size(), 0);
+        system.assertEquals(wrapper.size(), 0, 'Size is 0');
         }
+    
+    @isTest
+    public static void caseExtensionTest(){
+		ABHFL_Case_Detail__c record = new ABHFL_Case_Detail__c();
+        Case caseRec = [select id from Case limit 1];
+        ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
+        ASF_CaseUIController.createCaseExtension(record,cc,caseRec.Id, 'ABHFL_Case_Detail__c');
+    }
     
     @isTest
     public static void getMatchingContactsTest(){
         Account acc = [select id from account limit 1];
-        ASF_CaseUIController.resWrapper reswrap = new ASF_CaseUIController.resWrapper('222','111');
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         Test.setFixedSearchResults(fixedSearchResults);
         
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         Asset ass = [SELECT Id, AccountId FROM Asset];
-        System.debug('@@@ass'+ass+' '+ wrapper);
         Lead testLead = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
@@ -128,7 +133,6 @@ public class ASF_CaseUIController_Test{
             mobilephone = '1234567890'
         );
         insert testLead;
-        ASF_CaseUIController.conAssetWrapper wrap = ASF_CaseUIController.getMatchingContacts(wrapper[0].recordId);
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
@@ -158,8 +162,8 @@ public class ASF_CaseUIController_Test{
             Company = 'Test Company',
             mobilephone = '1234567890'
         );
-        Map<String,sObject> result = ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
-        System.assertEquals(null, relObjName);
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
+        System.assertEquals(null, relObjName, 'not equal to null');
         //}
         
     }

@@ -4,22 +4,19 @@
 *Created Date :  07/02/2024
 *Last Modified:
 *Test Class   :  ABFL_InvokeLitmusProcess_Test
-*Description  :  Helper class to invoke Litmus integration
+*@description  :  Helper class to invoke Litmus integration
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity')
 public without sharing class ABFL_InvokeLitmusProcess{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - evaluateCasesForLitmus
-     * @param Map<Id, Case> newCaseMap - new case map from trigger
-     * @param Map<Id, Case> oldCaseMap - old case map from trigger
-     * @return - void
-     * @Description - Method to evaludate and filter case records for which Litmus integration needs to be fired
+     * @param newCaseMap - new case map from trigger
+     * @param oldCaseMap - old case map from trigger
+     * @description - Method to evaludate and filter case records for which Litmus integration needs to be fired
      *****************************************************************************************************************/
     public void evaluateCasesForLitmus(Map<Id, Case> newCaseMap, Map<Id, Case> oldCaseMap){
         try{
-            System.debug('In evaluateCasesForLitmus');
-            Set<Id> caseIdSet = new Set<Id>();
             Set<Id> casesToFurtherProcessSet = new Set<Id>();
             Set<String> cccExternalIdSet = new Set<String>();
             SET<ID> setExpectedLogic = new SET<ID>();
@@ -38,15 +35,18 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 for (Case caseRecord : caseIdToRecordMap.values()){
                     
                     String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-                    String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
                     
-                    System.debug('caseRecord.IsClosed: '+(caseRecord.IsClosed));
-                    System.debug('caseRecord.Status: '+(caseRecord.Status));
-                    System.debug('Lock_in_Period__c: '+(caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c));
-                    System.debug('LAN__c: '+(caseRecord.Asset.LAN__c));
-                    System.debug('Business_Unit__c: '+(caseRecord.Business_Unit__c));
+                    String userEmail = '';
+                    if(caseRecord.Account.IsPersonAccount) {
+                        userEmail = caseRecord.Account.PersonEmail;
+                    }
+                    else {
+                        List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+                        userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    }
+                    //String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
     
-                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail) && caseRecord.Business_Unit__c == ABFL_Constants.ABFL){
+                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)){
                         casesToFurtherProcessSet.add(caseRecord.Id);
                         cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
                     }
@@ -54,7 +54,6 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 
                 if (cccExternalIdSet.size() > 0){
                     cccIdToRecordsMap = ABFL_SOQL_Util.getCccIdToRecordMap(cccExternalIdSet);
-                    System.debug('cccIdToRecordsMap: ' + cccIdToRecordsMap);
                     
                     for (Id caseId : casesToFurtherProcessSet){
                         Case caseRecord = caseIdToRecordMap.get(caseId);
@@ -81,10 +80,9 @@ public without sharing class ABFL_InvokeLitmusProcess{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - callLitmusAPI
-     * @param List<Case> caseList - List of case records that are eligible for litmus integration
-     * @param Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap - Map of case category config external Id to case category config record
-     * @return - void
-     * @Description - Method to fire litmus integration
+     * @param  caseList - List of case records that are eligible for litmus integration
+     * @param cccIdToRecordsMap - Map of case category config external Id to case category config record
+     * @description - Method to fire litmus integration
      *****************************************************************************************************************/
     public void callLitmusAPI(List<Case> caseList, Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap){
         try{
@@ -137,7 +135,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             }
             
             if (caseOutEvntList.size() > 0){
-                List<Database.SaveResult> results = EventBus.publish(caseOutEvntList);
+                EventBus.publish(caseOutEvntList);
             }
         } catch (Exception e){
             ABCL_Logger.enableExceptionLogging();
@@ -148,7 +146,10 @@ public without sharing class ABFL_InvokeLitmusProcess{
     }
     
     @SuppressWarnings('PMD.FieldNamingConventions')
-    // Wrapper to send data
+    
+    /****************************************************************************************************************
+    *@description Wrapper to send data
+    *****************************************************************************************************************/
     public class ABFL_LITMUS_Wrapper{
         //Mandatory attributes
         public String app_id;
@@ -175,6 +176,10 @@ public without sharing class ABFL_InvokeLitmusProcess{
         public String tag_lan;
         public String tag_business_unit;
         
+        /****************************************************************************************************************
+         * @description Custom constructor of ABFL_LITMUS_Wrapper class
+         * @param caseRecord
+        *****************************************************************************************************************/
         public ABFL_LITMUS_Wrapper(Case caseRecord){
             this.app_id = System.Label.ABFL_LITMUS_PROJECT_ID;
             this.tag_business_unit = caseRecord.Business_Unit__c;

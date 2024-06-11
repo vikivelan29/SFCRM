@@ -1,34 +1,41 @@
 /*********************************************************
 ** Class        :  ABFL_ReassignProspectsBatch
 ** Author       :  Srjana
-** Description  :  Reassigns cases from prospects to existing customers
+** @description  :  Reassigns cases from prospects to existing customers
 ** Created Date :  15/12/2023
 *********************************************************/
-global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> {
-    
-    global Database.QueryLocator start(Database.BatchableContext BC) {
+global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>, schedulable {
+    /**
+     * @description Start method to return the query locator for the batch job.
+     * @param bc The batchable context.
+     * @return Database.QueryLocator containing the query for fetching assets.
+     */
+    global Database.QueryLocator start(Database.BatchableContext bc) {
         // Fetch the configurable number of days from Custom Label
         Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
         Date startDate = Date.today().addDays(-numberOfDays);
-        system.debug('Start Date:' + startDate);
         // Query for cases where Business_Unit__c is 'ABFL' and SuppliedEmail is not null
         return Database.getQueryLocator([
             SELECT Id, Subject, Lead__c, SuppliedEmail,Business_Unit__c 
             FROM Case 
             WHERE Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
-            //AND Lead__c != null
             AND SuppliedEmail != null 
             AND AccountId = null 
             AND CreatedDate >= :startDate
         ]);
     }
     
-    global void execute(Database.BatchableContext BC, List<Case> scope) {
+    /**
+     * @description Execute method to process the batch records.
+     * @param bc The batchable context.
+     * @param scope The list of asset records to process.
+     */
+    global void execute(Database.BatchableContext bc, List<Case> scope) {
         Set<String> setEmailID =  new Set<String>();
         Set<String> setBusinessUnit =  new Set<String>();
         
         Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
-        List<Case> casesToUpdate = new List<Case>();
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
         
         for (Case caseRecord : scope) {
             String caseBusinessUnit = caseRecord.Business_Unit__c;
@@ -54,8 +61,11 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
             
             if(mHashkeyVsCase.containsKey(iCompositeKey)){
                 for(Case c : mHashkeyVsCase.get(iCompositeKey)){
-                    c.AccountId = con.AccountId;
-                    casesToUpdate.add(c);
+                    if(! casesToUpdate.containsKey(c.Id)){
+                        c.AccountId = con.AccountId;
+                        c.Lead__c = null;
+                        casesToUpdate.put(c.Id, c);
+                    }
                 }
                 
             }
@@ -64,10 +74,9 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         if (!casesToUpdate.isEmpty()) {
             try {
                 ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                update casesToUpdate;
+                Database.update(casesToUpdate.values(),false);
             } catch (Exception e) {
                 // Handle exceptions
-                System.debug('Error: ' + e.getMessage());
                 ABCL_Logger.enableExceptionLogging();
                 ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
                 ABCL_Logger.message(e.getMessage());
@@ -76,7 +85,18 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject> 
         }
     }
     
-    global void finish(Database.BatchableContext BC) {
-        System.debug('Batch job finished successfully.');
+     /**
+     * @description Finish method to perform post-processing tasks after batch execution.
+     * @param bc The batchable context.
+     */
+    global void finish(Database.BatchableContext bc) {
+    }
+    
+    /**
+     * @description execute method to schedule the ABFL_ReassignProspectsBatch
+     * @param sc The schedulable context
+     */
+    global void execute(SchedulableContext SC) {
+ 		database.executebatch(new ABFL_ReassignProspectsBatch());
     }
 }

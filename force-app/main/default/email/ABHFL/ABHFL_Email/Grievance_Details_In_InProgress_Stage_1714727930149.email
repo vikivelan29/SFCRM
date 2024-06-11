@@ -126,7 +126,7 @@
 				}
 	</style>
 </head>
-<body aria-readonly="false" style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
+<body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
 <table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
 	
 		<tr>
@@ -150,7 +150,7 @@
 												<br />
 												Greetings from Aditya Birla Housing Finance Ltd.<br />
 												<br />
-												This is with reference to your email dated {{{Case.CreatedDate}}} pertaining the {{{Case.Type_Text__c}}} - {{{Case.Sub_Type_Text__c}}} for your loan account number {{{Case.Masked_LAN__c}}}.<br />
+												This is with reference to your email dated {{{Case.CreatedDate}}} pertaining the {{{Case.Type_Text__c}}}-{{{Case.Sub_Type_Text__c}}} for your loan account number {{{Case.Masked_LAN__c}}}.<br />
 												<br />
 												We assure you that we would take all the necessary actions to mitigate the issue. While we aim to fulfil our commitments, we apologize for the inconvenience caused in this regard.<br />
 												<br />
