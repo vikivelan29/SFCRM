@@ -26,26 +26,6 @@
         <label>Family Protection</label>
     </customValue>
     <customValue>
-        <fullName>C</fullName>
-        <default>false</default>
-        <label>Hung up/Call disconnected</label>
-    </customValue>
-    <customValue>
-        <fullName>NA</fullName>
-        <default>false</default>
-        <label>NA</label>
-    </customValue>
-    <customValue>
-        <fullName>N</fullName>
-        <default>false</default>
-        <label>Not aware</label>
-    </customValue>
-    <customValue>
-        <fullName>I</fullName>
-        <default>false</default>
-        <label>Not interested</label>
-    </customValue>
-    <customValue>
         <fullName>H</fullName>
         <default>false</default>
         <label>Protection against Health</label>
@@ -80,6 +60,12 @@
         <default>false</default>
         <label>Wealth Creation</label>
     </customValue>
+    <customValue>
+        <fullName>L</fullName>
+        <default>false</default>
+        <label>Legacy Planning</label>
+    </customValue>
+    <description>This is to be used for ABSLI</description>
     <masterLabel>ABSLI Purpose of Insurance</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
