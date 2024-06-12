@@ -73,7 +73,6 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
             emailId = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
         }
-       // String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
         String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
