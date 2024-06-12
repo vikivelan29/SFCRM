@@ -28,7 +28,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     wiredCurrentRec;
     userId = USER_ID;
     errorMessage = 'You do not have access. Only case owner is allowed to mark the case as Relate/ Duplicate';
-    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD, BUSINESS_UNIT_FIELD, IS_DUPLICATE_FIELD];
+    @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD, BUSINESS_UNIT_FIELD];
     
     @wire(getRecord, { recordId: '$recordId', fields: '$caseFields' })
     wiredRecord({ error, data }) {
@@ -97,7 +97,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
 
     validateDuplicateCase(){
         let isValid = true;
-        if(this.wiredParentRec.IsDuplicate && (this.wiredParentRec.BusinessUnit =='ABFL' || this.wiredParentRec.BusinessUnit=='ABWM') && (this.wiredCurrentRec.BusinessUnit =='ABFL' || this.wiredCurrentRec.BusinessUnit=='ABWM')){
+        if(this.wiredParentRec.isDuplicate && this.wiredParentRec.BusinessUnit !='ABFL' && this.wiredParentRec.BusinessUnit!='ABWM' && this.wiredCurrentRec.BusinessUnit !='ABFL' && this.wiredCurrentRec.BusinessUnit!='ABWM'){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a duplicate case as parent', 'error');
         }
