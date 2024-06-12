@@ -30,7 +30,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             for (Case caseRec : newCaseMap.values()){
                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c)){
                 	setExpectedLogic.add(caseRec.Id); 
-                    accountIds.add(caseRec.Account.Id);
+                    accountIds.add(caseRec.AccountId);
                 } 
             }
 
@@ -48,6 +48,10 @@ public without sharing class ABFL_InvokeLitmusProcess{
                         userEmail = mapAccIdEmail.get(caseRecord.AccountId)[0] != null? mapAccIdEmail.get(caseRecord.AccountId)[0] : caseRecord.Account.Office_Email__c; 
                         userPhone = mapAccIdEmail.get(caseRecord.AccountId)[1] != null? mapAccIdEmail.get(caseRecord.AccountId)[1] : caseRecord.Account.Phone; 
                         //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    }
+                    else if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
+                        userEmail = caseRecord.Account.Office_Email__c;
+                        userPhone = caseRecord.Account.Phone;
                     }
                     else if(caseRecord.AccountId != NULL) {
                         userEmail = caseRecord.Account.PersonEmail;
