@@ -296,6 +296,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Case_Detail__c.CaseNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Case_Categorisation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1352,6 +1357,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.EMI_Cycle_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.EMI_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
