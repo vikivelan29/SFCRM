@@ -705,6 +705,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
