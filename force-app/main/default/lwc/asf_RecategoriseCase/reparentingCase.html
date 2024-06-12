@@ -193,9 +193,11 @@
                                 <lightning-input-field field-name="Business_Unit__c" data-id="bizUnit" value={caseBUVal}
                                     class="slds-hide">
                                 </lightning-input-field>
-                                <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
-                                    value={botFeedbackVal}>
-                                </lightning-input-field>
+                                <template if:true={showBotFeedbackDropdown}>
+                                    <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
+                                        value={botFeedbackVal} onchange={handleBotDropdown}>
+                                    </lightning-input-field>
+                                </template>
                                 <template if:true={isAllNature}>
                                     <lightning-input-field field-name="Nature__c" data-id="natureField" required=true
                                         onchange={handleNatureVal} value={natureVal}>

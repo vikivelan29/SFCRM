@@ -171,6 +171,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     recatReason = '';
     botFeedbackReason = '';
     requestedCCC = '';
+    //Added for ABSLIG
+    showBotFeedbackDropdown = true;
     
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
     */
@@ -185,6 +187,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
+            if(getFieldValue(data, CASE_BU_FIELD) === 'ABSLIG'){
+                this.showBotFeedbackDropdown = false;
+            }
         } else if (error) {
             console.error('Error loading record', error);
         }
@@ -229,11 +234,14 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         }, this.doneTypingInterval);
     }
 
-    //This function gets the value from the Send Bit Feedback Checkbox
+    //This function gets the value from the Send Bot Feedback Checkbox
     handleBotFeedback(event){
         this.sendBotFeedback = event.target.checked;
     }
-
+    //This function gets the value from the Send Bot Feedback Dropdown
+    handleBotDropdown(event){
+        this.botFeedbackVal = event.target.value;
+    }
     //This function will fetch the CCC Name on basis of searchkey
     searchTypeSubtypeHandler() {
         this.accounts = null;
@@ -452,20 +460,19 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     async handleUpdate(){
         if(this.validateApprovalEligibility()){
-            console.log('approval flow');
             if(!this.isInputValid()) {
                 return;
-            }
+            } 
             const rejectionReason = this.template.querySelector('[data-id="rejectReason"]');
             if(rejectionReason.value == undefined || rejectionReason.value == null || rejectionReason.value.trim() == ''){
                 rejectionReason.reportValidity();
                 return;
             }
             const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
-            if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
+            if(this.showBotFeedbackDropdown === true && (botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == '')){
                 botfeedback.reportValidity();
                 return;
-            } 
+            }
             this.selectedCCC = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
             
             if(!await this.validateNewCCC(this.selectedCCC.CCC_External_Id__c)){
@@ -473,7 +480,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             }
             this.newTypeSubType = this.selectedCCC.Type__c + ' - ' + this.selectedCCC.Sub_Type__c;
             this.recatReason = this.template.querySelector('[data-id="rejectReason"]').value;
-            this.botFeedbackReason = this.template.querySelector('[data-id="botfeedback"]').value;
+            this.botFeedbackReason = this.botFeedbackVal;
             this.showApproval = true;
         }else{
             console.log('regular flow');
@@ -577,10 +584,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             return;
         }
         const botfeedback = this.template.querySelector('[data-id="botfeedback"]');
-        if(botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == ''){
+        if(this.showBotFeedbackDropdown === true && (botfeedback.value == undefined || botfeedback.value == null || botfeedback.value.trim() == '')){
             botfeedback.reportValidity();
             return;
-        } 
+        }
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         
         if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
@@ -610,7 +617,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
        // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
-        fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.template.querySelector('[data-id="botfeedback"]').value;
+        fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.botFeedbackVal;
         let currentDateVal = new Date();
         let formattingOptions = {
             year: 'numeric',
