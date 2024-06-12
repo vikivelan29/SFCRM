@@ -8,6 +8,7 @@
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity')
 public without sharing class ABFL_InvokeLitmusProcess{
+    public static Map<Id, String> mapCaseIdEmail = new Map<Id, String>();
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - evaluateCasesForLitmus
@@ -22,31 +23,41 @@ public without sharing class ABFL_InvokeLitmusProcess{
             SET<ID> setExpectedLogic = new SET<ID>();
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case>();
             Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
+            Set<Id> accountIds = new Set<Id>();
+            Map<Id, String> mapAccIdEmail = new Map<Id, String>();
             
             List<Case> litmusApiCasesList = new List<Case>();
             for (Case caseRec : newCaseMap.values()){
                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c)){
                 	setExpectedLogic.add(caseRec.Id); 
+                    accountIds.add(caseRec.Account.Id);
                 } 
             }
+
+            String userEmail = '';
+            for(Contact con : [SELECT Id, Email, AccountId FROM Contact WHERE AccountId IN :accountIds]) {
+                mapAccIdEmail.put(con.AccountId, con.Email);
+            }
+                    
             if(!setExpectedLogic.isEmpty()){
                 caseIdToRecordMap = ABFL_SOQL_Case.getCases(setExpectedLogic);
                 
                 for (Case caseRecord : caseIdToRecordMap.values()){
-                    
-                    String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-                    
-             
-                    String userEmail = '';
-                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
-                        List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
-                        userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty()) {
+                        userEmail = mapAccIdEmail.get(caseRecord.AccountId) != null? mapAccIdEmail.get(caseRecord.AccountId) : caseRecord.Account.Office_Email__c; 
+                        //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
                     }
                     else if(caseRecord.AccountId != NULL) {
                         userEmail = caseRecord.Account.PersonEmail;
                     }
+                    mapCaseIdEmail.put(caseRecord.Id, userEmail);
+                    
+                    String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+                    
+             
+                    
                         
-                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)){
+                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c == 'No' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)){
                         casesToFurtherProcessSet.add(caseRecord.Id);
                         cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
                     }
@@ -184,7 +195,8 @@ public without sharing class ABFL_InvokeLitmusProcess{
             this.app_id = System.Label.ABFL_LITMUS_PROJECT_ID;
             this.tag_business_unit = caseRecord.Business_Unit__c;
             this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-            this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+            //this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+            this.user_email = !mapCaseIdEmail.isEmpty() ? mapCaseIdEmail.get(caseRecord.Id) : '';
             this.customer_id = caseRecord.AccountId;
             
             this.name = caseRecord.Account.IsPersonAccount ? caseRecord.Account.Full_Name__pc : caseRecord.Account.Name;
