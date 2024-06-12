@@ -71,7 +71,7 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-			insert new ASF_Case_Integration__c(
+	   insert new ASF_Case_Integration__c(
                 Case__c  = caseRec.Id,
                 Integration_Ext_Id__c = integRec.External_Id__c,
                 Status__c = ABFL_Constants.PENDING,
