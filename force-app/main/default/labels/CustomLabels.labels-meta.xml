@@ -30,6 +30,13 @@
         <value>No file available for syncing.</value>
     </labels>
     <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
         <fullName>DMS_File_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
