@@ -8,7 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
-public without sharing class ABSLI_PremiumPaymentLinkController {
+public with sharing class ABSLI_PremiumPaymentLinkController {
     public static final string STR_METADATA_NAME = 'ABSLI_Premium_Payment_Link';
     
     /****************************************************************************************************************
