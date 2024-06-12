@@ -55,11 +55,6 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Escalation_Comment__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>Ageing_Business_Days__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
