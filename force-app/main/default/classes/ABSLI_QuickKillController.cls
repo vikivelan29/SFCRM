@@ -9,7 +9,7 @@
 * 1.0   01-17-2024   Virendra Patil   Initial Version
 **/
 
-public without sharing class ABSLI_QuickKillController {
+public with sharing class ABSLI_QuickKillController {
     
     /* THIS METHOD IS USED TO DELETE THE RECORD, WHEN SOMEONE PROCESS THE DYNAMINC LINK AND JUST BEFORE CLICKING ON SEND
 CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCELLING IT.
