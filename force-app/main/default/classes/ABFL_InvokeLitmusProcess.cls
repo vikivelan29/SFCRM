@@ -44,7 +44,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 caseIdToRecordMap = ABFL_SOQL_Case.getCases(setExpectedLogic);
                 
                 for (Case caseRecord : caseIdToRecordMap.values()){
-                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty() &&  mapAccIdEmail.get(caseRecord.AccountId) != null) {
+                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty() &&  mapAccIdEmail.containsKey(caseRecord.AccountId)) {
                         userEmail = mapAccIdEmail.get(caseRecord.AccountId)[0] != null? mapAccIdEmail.get(caseRecord.AccountId)[0] : caseRecord.Account.Office_Email__c; 
                         userPhone = mapAccIdEmail.get(caseRecord.AccountId)[1] != null? mapAccIdEmail.get(caseRecord.AccountId)[1] : caseRecord.Account.Phone; 
                         //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
