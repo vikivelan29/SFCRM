@@ -39,7 +39,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integRec.External_Id__c);
         
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-			insert new ASF_Case_Integration__c(
+		insert new ASF_Case_Integration__c(
                 Case__c  = caseRec.Id,
                 Integration_Ext_Id__c = integRec.External_Id__c,
                 Status__c = ABFL_Constants.PENDING,
@@ -99,7 +99,6 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.allowed_split_payment = '0';
         paymentData.expiry_period = '1';
         paymentData.due_date = dueDate;
-
         
         payload.payment_data = paymentData;
          
@@ -167,20 +166,20 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
     * @Last Modified   11/02/2024
     * @description     ABFL_InvokeEnachRegistration */
     public class PaymentData {
-		public String pl_order_id;
-		public String merc_order_date;
-		public String merc_id;
-		public String amount;
-		public String return_url;
-		public String product_type;
-		public String product_id;
-		public String customer_id;
-		public String customer_name;
-		public String customer_email;
-		public String customer_phone;
+	public String pl_order_id;
+	public String merc_order_date;
+	public String merc_id;
+	public String amount;
+	public String return_url;
+	public String product_type;
+	public String product_id;
+	public String customer_id;
+	public String customer_name;
+	public String customer_email;
+	public String customer_phone;
         public String udf1;
-		public String udf2;
-		public String invoice_no;
+	public String udf2;
+	public String invoice_no;
         public String order_desc;
         public String account_no;
         public String account_ifsc;
