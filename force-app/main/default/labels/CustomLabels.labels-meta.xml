@@ -828,4 +828,11 @@
         <shortDescription>Prevent_deletion_post</shortDescription>
         <value>You don&apos;t have an access to delete post</value>
     </labels>
+    <labels>
+        <fullName>CCC_External_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCC External Id</shortDescription>
+        <value>hfl060</value>
+    </labels>
 </CustomLabels>
