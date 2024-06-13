@@ -188,6 +188,10 @@
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
     </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowSalesProspect</name>
+    </customPermissions>
     <description>Permission set used for ABFL Business Unit</description>
     <fieldPermissions>
         <editable>true</editable>
