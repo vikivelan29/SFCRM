@@ -842,4 +842,18 @@
         <shortDescription>CCC External Id</shortDescription>
         <value>hfl060</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
+    </labels>
 </CustomLabels>
