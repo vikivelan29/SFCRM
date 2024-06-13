@@ -26,11 +26,6 @@
                 <label>ABFL</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
-                <default>false</default>
-                <label>ABWM</label>
-            </value>
-            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>

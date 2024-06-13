@@ -900,88 +900,10 @@
         <value>hfl060</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
-        <value>No Canned Response Available.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
-    </labels>
-    <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
         <categories>ABSLIG</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
-        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_BU_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_E2C</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG E2C</shortDescription>
-        <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
-    </labels>
-    <labels>
-        <fullName>Business_Unit_Check_For_SLA_Override</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Business Unit Check For SLA Override</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-     <labels>
-        <fullName>ABHFL_Bitly_LOB</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL_Bitly_LOB</shortDescription>
-        <value>HFLABC</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
-    </labels>
-        <labels>
-        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
-    </labels>
+        <valu
 </CustomLabels>
