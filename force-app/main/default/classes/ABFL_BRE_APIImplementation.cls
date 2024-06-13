@@ -5,6 +5,7 @@
 *********************************************************/
 public class ABFL_BRE_APIImplementation {
     public static String emailIdBusiness = '';
+    public static String mobileBusiness = '';
     /****************************************************************************************************************
     * @LOB - ABFL
     * @Function - callout
@@ -17,8 +18,9 @@ public class ABFL_BRE_APIImplementation {
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRec.Id,ABFL_Constants.BRE);
 
         if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
-            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
-	    emailIdBusiness = con.size()>0?con[0]?.Email:caseRecord.Account.Office_Email__c; 
+            List<Contact> con = [SELECT Id, Email, MobilePhone FROM Contact WHERE AccountId = :caseRecord.AccountId];
+			emailIdBusiness = con.size()>0 && con[0] != null && con[0].Email != null?con[0]?.Email:caseRecord.Account.Office_Email__c; 
+            mobileBusiness = con.size()>0 && con[0] != null && con[0].MobilePhone != null?con[0]?.MobilePhone:caseRecord.Account.Phone; 
         }
         
         // Determine the API to invoke & generate wrapper 
@@ -110,7 +112,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static void fireWithoutDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
                                                                 'ticketNo' =>  caseRecord.CaseNumber,
@@ -140,7 +142,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static Case_Integration_Outbound__e fireWithoutDatesForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
                                                                 'ticketNo' =>  caseRecord.CaseNumber,
@@ -170,7 +172,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static void fireWithoutStatus(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
                                                                 'ticketNo' =>  caseRecord.CaseNumber,
@@ -199,7 +201,7 @@ public class ABFL_BRE_APIImplementation {
     *****************************************************************************************************************/
     public static Case_Integration_Outbound__e fireWithoutStatusForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg){
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         Map<String, Object> payloadWrap = new Map<String, Object>{ 
                                                                 'loanAccountNumber' => caseRecord.LAN__c, 
                                                                 'ticketNo' =>  caseRecord.CaseNumber,
@@ -229,7 +231,7 @@ public class ABFL_BRE_APIImplementation {
     public static void fireWithDates(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg, List<Date> dts){
         Map<String, Object> payloadWrap;
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         if(dts != null && !dts.isEmpty() ) {
             payloadWrap = new Map<String, Object>{ 
                                                     'loanAccountNumber' => caseRecord.LAN__c, 
@@ -275,7 +277,7 @@ public class ABFL_BRE_APIImplementation {
     public static Case_Integration_Outbound__e fireWithDatesForBulk(ASF_Integration__c integRec, Case caseRecord, List<ASF_Case_Integration__c> caseIntg, List<Date> dts){
         Map<String, Object> payloadWrap;
         String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:emailIdBusiness):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:mobileBusiness):NULL;
         if(dts != null && !dts.isEmpty() ) {
             payloadWrap = new Map<String, Object>{ 
                                                     'loanAccountNumber' => caseRecord.LAN__c, 

@@ -8,7 +8,7 @@
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity')
 public without sharing class ABFL_InvokeLitmusProcess{
-    public static Map<Id, String> mapCaseIdEmail = new Map<Id, String>();
+    public static Map<Id, List<String>> mapCaseIdEmail = new Map<Id, List<String>>();
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - evaluateCasesForLitmus
@@ -24,35 +24,42 @@ public without sharing class ABFL_InvokeLitmusProcess{
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case>();
             Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
             Set<Id> accountIds = new Set<Id>();
-            Map<Id, String> mapAccIdEmail = new Map<Id, String>();
+            Map<Id, List<String>> mapAccIdEmail = new Map<Id, List<String>>();
             
             List<Case> litmusApiCasesList = new List<Case>();
             for (Case caseRec : newCaseMap.values()){
                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c)){
                 	setExpectedLogic.add(caseRec.Id); 
-                    accountIds.add(caseRec.Account.Id);
+                    accountIds.add(caseRec.AccountId);
                 } 
             }
 
             String userEmail = '';
-            for(Contact con : [SELECT Id, Email, AccountId FROM Contact WHERE AccountId IN :accountIds]) {
-                mapAccIdEmail.put(con.AccountId, con.Email);
+            String userPhone = '';
+            for(Contact con : [SELECT Id, Email, AccountId, MobilePhone FROM Contact WHERE AccountId IN :accountIds AND AccountId != null]) {
+                mapAccIdEmail.put(con.AccountId, new List<String>{con.Email, con.MobilePhone});
             }
                     
             if(!setExpectedLogic.isEmpty()){
                 caseIdToRecordMap = ABFL_SOQL_Case.getCases(setExpectedLogic);
                 
                 for (Case caseRecord : caseIdToRecordMap.values()){
-                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty()) {
-                        userEmail = mapAccIdEmail.get(caseRecord.AccountId) != null? mapAccIdEmail.get(caseRecord.AccountId) : caseRecord.Account.Office_Email__c; 
+                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty() &&  mapAccIdEmail.containsKey(caseRecord.AccountId)) {
+                        userEmail = mapAccIdEmail.get(caseRecord.AccountId)[0] != null? mapAccIdEmail.get(caseRecord.AccountId)[0] : caseRecord.Account.Office_Email__c; 
+                        userPhone = mapAccIdEmail.get(caseRecord.AccountId)[1] != null? mapAccIdEmail.get(caseRecord.AccountId)[1] : caseRecord.Account.Phone; 
                         //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    }
+                    else if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
+                        userEmail = caseRecord.Account.Office_Email__c;
+                        userPhone = caseRecord.Account.Phone;
                     }
                     else if(caseRecord.AccountId != NULL) {
                         userEmail = caseRecord.Account.PersonEmail;
+                        userPhone = caseRecord.Account.PersonMobilePhone;
                     }
-                    mapCaseIdEmail.put(caseRecord.Id, userEmail);
+                    mapCaseIdEmail.put(caseRecord.Id, new List<String>{userEmail, userPhone});
                     
-                    String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+                   // String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
                     
              
                     
@@ -194,9 +201,10 @@ public without sharing class ABFL_InvokeLitmusProcess{
         public ABFL_LITMUS_Wrapper(Case caseRecord){
             this.app_id = System.Label.ABFL_LITMUS_PROJECT_ID;
             this.tag_business_unit = caseRecord.Business_Unit__c;
-            this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+           // this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+            this.user_phone = !mapCaseIdEmail.isEmpty() && mapCaseIdEmail.containsKey(caseRecord.Id) ? mapCaseIdEmail.get(caseRecord.Id)[1] : '';
             //this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
-            this.user_email = !mapCaseIdEmail.isEmpty() ? mapCaseIdEmail.get(caseRecord.Id) : '';
+            this.user_email = !mapCaseIdEmail.isEmpty() && mapCaseIdEmail.containsKey(caseRecord.Id) ? mapCaseIdEmail.get(caseRecord.Id)[0] : '';
             this.customer_id = caseRecord.AccountId;
             
             this.name = caseRecord.Account.IsPersonAccount ? caseRecord.Account.Full_Name__pc : caseRecord.Account.Name;
