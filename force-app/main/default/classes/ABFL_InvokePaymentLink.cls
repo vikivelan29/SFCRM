@@ -72,15 +72,16 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
             mobileNo = caseRecord.Account.PersonMobilePhone;
         }
         else if(caseRecord.AccountId != NULL) {
-            List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId = :caseRecord.AccountId];
+            List<Contact> con = [SELECT Id, Email, MobilePhone FROM Contact WHERE AccountId = :caseRecord.AccountId];
             emailId = con.size()>0 && con[0] != null && con[0].Email != null?con[0]?.Email:caseRecord.Account.Office_Email__c; 
             mobileNo = con.size()>0 && con[0] != null && con[0].MobilePhone != null?con[0]?.MobilePhone:caseRecord.Account.Phone;
         }
+        ABFL_Payment_Link__mdt paymentLink = ABFL_Payment_Link__mdt.getInstance('ABFL_Payload');
        // String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
        // String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         String mercOrderDate = DateTime.now().formatGMT('yyyyMMddHHmmss');
-        String dueDate = DateTime.now().formatGMT('dd/MM/yyyy');
+        Date dueDate = paymentLink.ABFL_Due_Date__c;
         
         //paymentData.pl_order_id = caseRecord.caseNumber+mercOrderDate;
         paymentData.merc_order_date = mercOrderDate;
@@ -100,9 +101,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         paymentData.account_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
         paymentData.account_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
         paymentData.allowed_split_payment = '0';
-        paymentData.expiry_period = '1';
-        paymentData.due_date = dueDate;
-
+        paymentData.expiry_period = String.valueOf(paymentLink.ABFL_Expiry_Period__c.intValue());
+        paymentData.due_date = DateTime.newInstance(dueDate.year(),dueDate.month(),dueDate.day()).format('dd/MM/yyyy');
+		paymentData.send_invoice_notification = paymentLink.ABFL_Send_Notification__c ;
         
         payload.payment_data = paymentData;
          
@@ -191,6 +192,7 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         public String allowed_split_payment;
         public String expiry_period;
         public String due_date;
+        public String send_invoice_notification;
     }
     /*********************************************************
     * @Class           ABFL_InvokeEnachRegistration
