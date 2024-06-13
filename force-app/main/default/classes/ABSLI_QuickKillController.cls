@@ -9,7 +9,7 @@
 * 1.0   01-17-2024   Virendra Patil   Initial Version
 **/
 
-public with sharing class ABSLI_QuickKillController {
+public without sharing class ABSLI_QuickKillController {
     
     /* THIS METHOD IS USED TO DELETE THE RECORD, WHEN SOMEONE PROCESS THE DYNAMINC LINK AND JUST BEFORE CLICKING ON SEND
 CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCELLING IT.
@@ -112,7 +112,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         return [SELECT ID,Client_Code__c FROM Account WHERE Id =: accountId];
     }
     private static Asset getPolicyDetails(String policyId){
-        return [SELECT ID,Name,Type__c FROM Asset WHERE Id =: policyId];
+        return [SELECT ID,Name,Plan_Name__c FROM Asset WHERE Id =: policyId];
     }
     
     /* THIS METHOD IS USE FOR CREATING THE COMMUNICATION LOG RECORD. 
@@ -141,7 +141,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             cLog.External_Template_ID__c = commMdt.external_templateID__c;
             cLog.Status__c = ABSLI_Constants.COMM_LOG_DEFAULT_STATUS;
             cLog.Function_Name__c = qkCommMdt.FunctionName__c;
-            cLog.Loan_Type__c = selectedPolicy.Type__c;
+            cLog.Loan_Type__c = selectedPolicy.Plan_Name__c;
             cLog.Policy_No__c = selectedPolicy.Name;
             cLog.LOB__c = ABSLI_Constants.BUSINESS_UNIT;
             cLog.Phone__c = c.MobilePhone;
