@@ -50,49 +50,56 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     * @param scope 
     **/
     public void execute(Database.BatchableContext bc, List<User> scope) {
-        
-        List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :scope order by SystemModstamp DESC];
-                
-        For(GroupMember grp : grpMemList){
-            if(grp.Group.type == 'Regular'){
-                if(!userVsPublicgrp.containsKey(grp.UserOrGroupId)){
-                    userVsPublicgrp.put(grp.UserOrGroupId, new List<String>{grp.GroupId});
-                }else{
-                    userVsPublicgrp.get(grp.UserOrGroupId).add(grp.GroupId);
-                }  
-            }
-        }
-        
-        if(userVsPublicgrp.keySet() != NULL)
-        {               
-            List<Id> publicGrpId = new List<Id>();
-            String queueId;
+        try{
+            List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :scope order by SystemModstamp DESC];
             
-            For(Id userId : userVsPublicgrp.KeySet())
-            {
-                publicGrpId = userVsPublicgrp.get(userId); // fetch the Public group Id User is part of   
-                Integer groupIndex = 0;
-                for(Id groupId : publicGrpId){
-                    if(publicgrpVsQueue.get(groupId) != null){
-                        if(groupIndex == 0){
-                            queueId = publicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP publicgrpVsQueue by passing the key Public grp Id
-                        }else{
-                            queueId += ','+publicgrpVsQueue.get(groupId);
-                        }
-                        groupIndex ++;
-                    }
+            For(GroupMember grp : grpMemList){
+                if(grp.Group.type == 'Regular'){
+                    if(!userVsPublicgrp.containsKey(grp.UserOrGroupId)){
+                        userVsPublicgrp.put(grp.UserOrGroupId, new List<String>{grp.GroupId});
+                    }else{
+                        userVsPublicgrp.get(grp.UserOrGroupId).add(grp.GroupId);
+                    }  
                 }
-                
-                User u = new User();
-                u.Id = userId;                
-                u.managerGroupId__c = queueId;
-                usersList.add(u);                
-            }            
+            }
             
-        }        
-        
-        if (!usersList.isEmpty()) {
-            Database.SaveResult[] saveResults = Database.update(usersList, false);
+            if(userVsPublicgrp.keySet() != NULL)
+            {               
+                List<Id> publicGrpId = new List<Id>();
+                String queueId;
+                
+                For(Id userId : userVsPublicgrp.KeySet())
+                {
+                    publicGrpId = userVsPublicgrp.get(userId); // fetch the Public group Id User is part of   
+                    Integer groupIndex = 0;
+                    for(Id groupId : publicGrpId){
+                        if(publicgrpVsQueue.get(groupId) != null){
+                            if(groupIndex == 0){
+                                queueId = publicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP publicgrpVsQueue by passing the key Public grp Id
+                            }else{
+                                queueId += ','+publicgrpVsQueue.get(groupId);
+                            }
+                            groupIndex ++;
+                        }
+                    }
+                    
+                    User u = new User();
+                    u.Id = userId;                
+                    u.managerGroupId__c = queueId;
+                    usersList.add(u);                
+                }            
+                
+            }        
+            
+            if (!usersList.isEmpty()) {
+                Database.SaveResult[] saveResults = Database.update(usersList, false);
+            }
+        } catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
     
