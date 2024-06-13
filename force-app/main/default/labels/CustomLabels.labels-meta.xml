@@ -842,4 +842,11 @@
         <shortDescription>CCC External Id</shortDescription>
         <value>hfl060</value>
     </labels>
+    <labels>
+        <fullName>ABSLIG_Acknowledgement_Email</fullName>
+        <categories>ABSLIG</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <valu
 </CustomLabels>
