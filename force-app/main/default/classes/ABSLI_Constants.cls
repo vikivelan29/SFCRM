@@ -25,6 +25,7 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
 
@@ -55,7 +56,7 @@ public class ABSLI_Constants {
     public static final String TAXCERTIFICATE_FAILURE_MESSAGE = 'ABSLI_TAXCERTIFICATE_FAILURE_MESSAGE';
 
     /* BANK ACCOUNT UPDATE INTEGRATION **/
-    public static final String BANKACCOUNTUPDATE_SERVICE_NAME = 'BankAccountUpdateApi';
+    public static final String BANKACCOUNTUPDATE_SERVICE_NAME = 'bankAccountUpdate';
     public static final String BANKACCOUNTUPDATE_MICR_CODE = '000000000';
     public static final String BANKACCOUNTUPDATE_TRANSTYPE = 'NEFT';
     public static final String BANKACCOUNTUPDATE_IMPSFLAG = 'Success';
@@ -66,7 +67,7 @@ public class ABSLI_Constants {
     public static final String BANKACCOUNTUPDATE_FAILURE_MESSAGE = 'ABSLI_BANKACCOUNTUPDATE_FAILURE_MESSAGE';
 
     /* PURPOSE OF ISSUANCE INTEGRATION **/
-    public static final String PURPOSEISSUANCE_SERVICE_NAME = 'PasApi';
+    public static final String PURPOSEISSUANCE_SERVICE_NAME = 'poiUpdate';
     public static final String PURPOSEISSUANCE_EVALUATION_ERROR = 'ABSLI_PURPOSEISSUANCE_EVALUATION_ERROR';
     public static final String PURPOSEISSUANCE_SUCCESS_MESSAGE = 'ABSLI_PURPOSEISSUANCE_SUCCESS_MESSAGE';
     public static final String PURPOSEISSUANCE_FAILURE_MESSAGE = 'ABSLI_PURPOSEISSUANCE_FAILURE_MESSAGE';
@@ -82,6 +83,7 @@ public class ABSLI_Constants {
 	  /* REAL TIME INTEGRATION METADATA NAME */
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
     public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
+    public static final String FETCHPOLICY_ESB_INTEGRATION_METADATA = 'ABSLI_FETCH_POLICY_ESB';
 
 
 }
