@@ -87,8 +87,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
                     u.Id = userId;                
                     u.managerGroupId__c = queueId;
                     usersList.add(u);                
-                }            
-                
+                }  
             }        
             
             if (!usersList.isEmpty()) {

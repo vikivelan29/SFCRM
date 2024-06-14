@@ -2,7 +2,7 @@
  * @description : Apex Controller class to handle Aura components related to retrieving recent case comments for an account.
  * This class provides a method to fetch case comments associated with a specified account.
  */
-public With Sharing class ABFL_AccRecentCaseCommController {
+public With Sharing class ABFL_AccRecentCaseCommController{
     /**********************************************************************************************************
      * @AuraEnabled(cacheable=true)
      * @description Fetches recent case comments for a specified account.

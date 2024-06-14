@@ -4,7 +4,7 @@
 *Created Date :  16/01/2024
 *@description  :  This batch class is used to insert AccountTeamMember if RM Code of LAN matches with user for ABFL Sales Role and delete the ATM if doesnt match.
 *********************************************************/
-public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject>  {
+public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject>{
     public final String query;
     /*********************************************************
     *@description  :  Constructor to initialize the query.
@@ -80,7 +80,7 @@ public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject> 
                         system.debug('accountTeamMembersToDelete--> '+accountTeamMembersToDelete); 
                     }
                 }    
-            }
+            } 
             if (!accountTeamMembersToDelete.isEmpty()) {    
                 delete accountTeamMembersToDelete;
             }
@@ -93,7 +93,7 @@ public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject> 
         }
     }
     /*********************************************************
-     * @param bc BatchableContext
+     * @param bc BatchableContext. 
     *@description  :   Finish method.
     *********************************************************/
     public void finish(Database.BatchableContext bc) {

@@ -168,7 +168,6 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
                 }
             }
         }
-        
         return assignedQueue;
     }
     
