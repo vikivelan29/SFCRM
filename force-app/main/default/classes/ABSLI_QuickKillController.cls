@@ -134,7 +134,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();
             cLog.Account__c = selectedCustomer.Id;
             cLog.Contact__c = c.Id;
-            cLog.Contact_Name__c = c.Salutation + ' ' + c.Name;
+            cLog.Contact_Name__c = c.Name;
             cLog.SMS_Entity_Id__c = commMdt.SMS_Entity_Id__c;
             cLog.SMS_Sender_Id__c = commMdt.SMS_Sender_Id__c;
             cLog.SMS_LT_Name__c = commMdt.SMS_Template_Name__c;
