@@ -39,7 +39,6 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                     }
                 }
             }
-
             if(newLeadsList.size()>0){
                 insert newLeadsList;
                 for(Lead recLead: newLeadsList){

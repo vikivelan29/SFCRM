@@ -1,6 +1,5 @@
 @isTest
 public class ABFL_OdpAltertsController_Test {
-
     @isTest
     static void testGetOdpAlerts() {
         // Test data setup
