@@ -4,13 +4,13 @@
 ** @description  :  Reassigns cases from prospects to existing customers
 ** Created Date :  15/12/2023
 *********************************************************/
-global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>, schedulable {
+public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>, schedulable {
     /**
      * @description Start method to return the query locator for the batch job.
      * @param bc The batchable context.
      * @return Database.QueryLocator containing the query for fetching assets.
      */
-    global Database.QueryLocator start(Database.BatchableContext bc) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         // Fetch the configurable number of days from Custom Label
         Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
         Date startDate = Date.today().addDays(-numberOfDays);
@@ -30,58 +30,58 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
      * @param bc The batchable context.
      * @param scope The list of asset records to process.
      */
-    global void execute(Database.BatchableContext bc, List<Case> scope) {
-        Set<String> setEmailID =  new Set<String>();
-        Set<String> setBusinessUnit =  new Set<String>();
-        
-        Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
-        Map<Id, Case> casesToUpdate = new Map<Id, Case>();
-        
-        for (Case caseRecord : scope) {
-            String caseBusinessUnit = caseRecord.Business_Unit__c;
-            String caseEmailSupplied = caseRecord.SuppliedEmail;
-            String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
-            integer iCompositeKey = compositeKey.hashCode();
-            if(!mHashkeyVsCase.containsKey(iCompositeKey)){
-                mHashkeyVsCase.put(iCompositeKey, new List<Case>());
-            }
-            mHashkeyVsCase.get(iCompositeKey).add(caseRecord);
+    public void execute(Database.BatchableContext bc, List<Case> scope) {
+        try{
+            Set<String> setEmailID =  new Set<String>();
+            Set<String> setBusinessUnit =  new Set<String>();
             
-            setEmailID.add(caseRecord.SuppliedEmail);  
-            setBusinessUnit.add(caseRecord.Business_Unit__c);             
-        }
-        
-        for(Contact con : [SELECT ID,Email,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
-                           AND Account.Business_Unit__c IN : setBusinessUnit ORDER BY CreatedDate DESC])
-        {
-            String caseBusinessUnit = con.Account.Business_Unit__c;
-            String caseEmailSupplied = con.Email;
-            String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
-            integer iCompositeKey = compositeKey.hashCode(); 
+            Map<integer,List<Case>> mHashkeyVsCase = new Map<integer,List<Case>>();
+            Map<Id, Case> casesToUpdate = new Map<Id, Case>();
             
-            if(mHashkeyVsCase.containsKey(iCompositeKey)){
-                for(Case c : mHashkeyVsCase.get(iCompositeKey)){
-                    if(! casesToUpdate.containsKey(c.Id)){
-                        c.AccountId = con.AccountId;
-                        c.Lead__c = null;
-                        casesToUpdate.put(c.Id, c);
-                    }
+            for (Case caseRecord : scope) {
+                String caseBusinessUnit = caseRecord.Business_Unit__c;
+                String caseEmailSupplied = caseRecord.SuppliedEmail;
+                String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
+                integer iCompositeKey = compositeKey.hashCode();
+                if(!mHashkeyVsCase.containsKey(iCompositeKey)){
+                    mHashkeyVsCase.put(iCompositeKey, new List<Case>());
                 }
+                mHashkeyVsCase.get(iCompositeKey).add(caseRecord);
                 
+                setEmailID.add(caseRecord.SuppliedEmail);  
+                setBusinessUnit.add(caseRecord.Business_Unit__c);             
             }
-        }
-        
-        if (!casesToUpdate.isEmpty()) {
-            try {
+            
+            for(Contact con : [SELECT ID,Email,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
+                               AND Account.Business_Unit__c IN : setBusinessUnit ORDER BY CreatedDate DESC])
+            {
+                String caseBusinessUnit = con.Account.Business_Unit__c;
+                String caseEmailSupplied = con.Email;
+                String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
+                integer iCompositeKey = compositeKey.hashCode(); 
+                
+                if(mHashkeyVsCase.containsKey(iCompositeKey)){
+                    for(Case c : mHashkeyVsCase.get(iCompositeKey)){
+                        if(! casesToUpdate.containsKey(c.Id)){
+                            c.AccountId = con.AccountId;
+                            c.Lead__c = null;
+                            casesToUpdate.put(c.Id, c);
+                        }
+                    }
+                    
+                }
+            }
+            
+            if (!casesToUpdate.isEmpty()) {
                 ASF_TriggerSkipperUtility.markTriggerRun('Case');
                 Database.update(casesToUpdate.values(),false);
-            } catch (Exception e) {
-                // Handle exceptions
-                ABCL_Logger.enableExceptionLogging();
-                ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
-                ABCL_Logger.message(e.getMessage());
-                ABCL_Logger.emit();
             }
+        }catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
     
@@ -89,14 +89,14 @@ global class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
      * @description Finish method to perform post-processing tasks after batch execution.
      * @param bc The batchable context.
      */
-    global void finish(Database.BatchableContext bc) {
+    public void finish(Database.BatchableContext bc) {
     }
     
     /**
      * @description execute method to schedule the ABFL_ReassignProspectsBatch
      * @param sc The schedulable context
      */
-    global void execute(SchedulableContext SC) {
- 		database.executebatch(new ABFL_ReassignProspectsBatch());
+    public void execute(SchedulableContext sc) {
+        database.executebatch(new ABFL_ReassignProspectsBatch());
     }
 }
