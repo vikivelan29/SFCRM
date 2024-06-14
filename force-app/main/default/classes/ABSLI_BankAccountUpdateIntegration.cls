@@ -100,7 +100,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 					caseRecord.ABSLI_Case_Detail__r?.IFSC_Code__c,
 					caseRecord.ABSLI_Case_Detail__r?.Account_Number__c,
 					caseRecord.ABSLI_Case_Detail__r?.Account_Type__c,
-					caseRecord.ABSLI_Case_Detail__r?.Bank_IMPS_Date__c?.toString(),
+					ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.Bank_IMPS_Date__c),
 					caseRecord.ABSLI_Case_Detail__r?.Bank_Account_Holder_Name__c
 				)
 			);
@@ -188,28 +188,12 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 				);
 
 				if (jsonMap.LSIR_RETURN_CD == '00') {
-                    System.debug('Inside Return Code 00');
-					List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-						caseRecord.CCC_External_Id__c
-					);
+                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+				    sendoutEmailSMSNotification(caseRecord);
 
-					Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-						cccRecord[0].Additional_Email_Templates__c
-					);
-					Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-						cccRecord[0].Additional_SMS_Metadata__c
-					);
-
-					Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-						caseRecord,
-						emailTemplateMap.get('Resolved'),
-						smsMetadataMap.get('Resolved'),
-						true
-					);
+                    caseRecord.MoveToNext__c = true;
+				    Database.update(caseRecord, AccessLevel.USER_MODE);
 				}
-
-				caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.USER_MODE);
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -218,6 +202,31 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
+	}
+
+    /**
+	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+	 *
+	 * @param caseRecord - Case record from the framework
+	 */
+	public void sendoutEmailSMSNotification(Case caseRecord) {
+		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
+			caseRecord.CCC_External_Id__c
+		);
+
+		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_Email_Templates__c
+		);
+		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_SMS_Metadata__c
+		);
+
+		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
+			caseRecord,
+			emailTemplateMap.get('Resolved'),
+			smsMetadataMap.get('Resolved'),
+			true
+		);
 	}
 
     /**
