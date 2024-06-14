@@ -18,77 +18,84 @@ public without sharing class ABFL_DMSSync_Orchestrator{
     **/
     @InvocableMethod
     public static void transferABFLCaseFilesToDMS(List<Id> caseIds) {
-        List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
-        final List<String> ABFL_ABWM_BUSINESSUNIT = ABFL_Constants.ABFL_ABWM_BUSINESSUNIT; // NOPMD
-        String query = 'SELECT ';
-        query += getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
-        query += ' FROM Case WHERE Id IN :caseIds AND Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND isClosed=True WITH SYSTEM_MODE';
-
-        Map<Id,Case> mCaseIdToRecord = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
-
-        // in BRE scenerios, linkedEntityId will be of EmailMessage
-        Map<Id,EmailMessage> mEmailMsgRec = new Map<Id,EmailMessage>([select id, parentId from EmailMessage where parentId IN :mCaseIdToRecord.keySet()]);
-
-        List<ContentDocumentLink> lContentdoclLink = [SELECT ContentDocumentId, LinkedEntityId 
-                                             FROM ContentDocumentLink 
-                                             WHERE (LinkedEntityId IN :mCaseIdToRecord.keySet() OR LinkedEntityId IN :mEmailMsgRec.keyset())
-                                             WITH SYSTEM_MODE
-                                            ];
-
-        if(!lContentdoclLink.isEmpty()){
-            // Collecting ContentDocumentIds
-            Set<Id> contentDocumentIdSet = new Set<Id>();
-            for(ContentDocumentLink docLink : lContentdoclLink) {
-                contentDocumentIdSet.add(docLink.ContentDocumentId);
-            }
-
-            // Building a map of caseId to ContentVersion records
-            map<Id, ContentVersion> mContentDocIdToLatestContentVer = new map<Id, ContentVersion>();
-            for(ContentVersion cvRec: [SELECT Id, Title, ContentDocumentId, VersionNumber, FileExtension, ContentDocument.ContentSize
-                                                    FROM ContentVersion where ContentDocumentId 
-                                                    IN :contentDocumentIdSet and IsLatest=true
-                                                    WITH SYSTEM_MODE
-                                                    ]
-            )
-            {
-                mContentDocIdToLatestContentVer.put(cvRec.ContentDocumentId, cvRec);
-            }
-
-            Map<Id, List<ContentVersion>> mCaseIdToContentVersion = new Map<Id, List<ContentVersion>>();
-            for(ContentDocumentLink docLink : lContentdoclLink){
-                // Check type of linkedEntityId 
-                Id caseId;
-                if(docLink.LinkedEntityId.getSobjectType()==Case.getSObjectType()){
-                    caseId = docLink.LinkedEntityId;
-                }else{
-                    caseId = mEmailMsgRec.get(docLink.LinkedEntityId).parentId;
+        try{
+            List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
+            final List<String> ABFL_ABWM_BUSINESSUNIT = ABFL_Constants.ABFL_ABWM_BUSINESSUNIT; // NOPMD
+            String query = 'SELECT ';
+            query += getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
+            query += ' FROM Case WHERE Id IN :caseIds AND Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND isClosed=True WITH SYSTEM_MODE';
+            
+            Map<Id,Case> mCaseIdToRecord = new Map<Id,Case>((List<Case>)Database.query(String.escapeSingleQuotes(query)));
+            
+            // in BRE scenerios, linkedEntityId will be of EmailMessage
+            Map<Id,EmailMessage> mEmailMsgRec = new Map<Id,EmailMessage>([select id, parentId from EmailMessage where parentId IN :mCaseIdToRecord.keySet()]);
+            
+            List<ContentDocumentLink> lContentdoclLink = [SELECT ContentDocumentId, LinkedEntityId 
+                                                          FROM ContentDocumentLink 
+                                                          WHERE (LinkedEntityId IN :mCaseIdToRecord.keySet() OR LinkedEntityId IN :mEmailMsgRec.keyset())
+                                                          WITH SYSTEM_MODE
+                                                         ];
+            
+            if(!lContentdoclLink.isEmpty()){
+                // Collecting ContentDocumentIds
+                Set<Id> contentDocumentIdSet = new Set<Id>();
+                for(ContentDocumentLink docLink : lContentdoclLink) {
+                    contentDocumentIdSet.add(docLink.ContentDocumentId);
                 }
-                if(!mCaseIdToContentVersion.containsKey(caseId)){
-                    mCaseIdToContentVersion.put(caseId, new List<ContentVersion>{mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId)});
-                }else{
-                    List<ContentVersion> tempList = mCaseIdToContentVersion.get(caseId);
-                    tempList.add(mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId));
-                    mCaseIdToContentVersion.put(caseId, tempList);
+                
+                // Building a map of caseId to ContentVersion records
+                map<Id, ContentVersion> mContentDocIdToLatestContentVer = new map<Id, ContentVersion>();
+                for(ContentVersion cvRec: [SELECT Id, Title, ContentDocumentId, VersionNumber, FileExtension, ContentDocument.ContentSize
+                                           FROM ContentVersion where ContentDocumentId 
+                                           IN :contentDocumentIdSet and IsLatest=true
+                                           WITH SYSTEM_MODE
+                                          ]
+                   )
+                {
+                    mContentDocIdToLatestContentVer.put(cvRec.ContentDocumentId, cvRec);
+                }
+                
+                Map<Id, List<ContentVersion>> mCaseIdToContentVersion = new Map<Id, List<ContentVersion>>();
+                for(ContentDocumentLink docLink : lContentdoclLink){
+                    // Check type of linkedEntityId 
+                    Id caseId;
+                    if(docLink.LinkedEntityId.getSobjectType()==Case.getSObjectType()){
+                        caseId = docLink.LinkedEntityId;
+                    }else{
+                        caseId = mEmailMsgRec.get(docLink.LinkedEntityId).parentId;
+                    }
+                    if(!mCaseIdToContentVersion.containsKey(caseId)){
+                        mCaseIdToContentVersion.put(caseId, new List<ContentVersion>{mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId)});
+                    }else{
+                        List<ContentVersion> tempList = mCaseIdToContentVersion.get(caseId);
+                        tempList.add(mContentDocIdToLatestContentVer.get(docLink.ContentDocumentId));
+                        mCaseIdToContentVersion.put(caseId, tempList);
+                    }
+                }
+                
+                for(Case caseRecord : mCaseIdToRecord.values()){
+                    for(ContentVersion conVerRec : mCaseIdToContentVersion.get(caseRecord.Id)){
+                        DMS_Files__c dmsRec = prepareDMSRecord(null, caseRecord, conVerRec);
+                        
+                        //Cancel sync if file size exceed 5 MB
+                        dmsRec.Status__c = conVerRec.ContentDocument.ContentSize <= ABFL_Constants.FIVE_MB_FILE_SIZE_BYTES ? ABFL_Constants.PENDING : ABFL_Constants.CANCELED;
+                        dmsRec.Error_Description__c = dmsRec.Status__c == ABFL_Constants.CANCELED ? ABFL_Constants.DMS_SYNC_FILE_SIZE_ERROR : '';
+                        dmsFileList.add(dmsRec);
+                    }
+                }
+                
+                // Inserting DMS_Files__c records
+                if(!dmsFileList.isEmpty() && Schema.sObjectType.DMS_Files__c.isCreateable()){
+                    insert dmsFileList;
+                    prepareEventsAndPublish(dmsFileList, mCaseIdToRecord);
                 }
             }
-
-            for(Case caseRecord : mCaseIdToRecord.values()){
-                for(ContentVersion conVerRec : mCaseIdToContentVersion.get(caseRecord.Id)){
-                    DMS_Files__c dmsRec = prepareDMSRecord(null, caseRecord, conVerRec);
-                    
-                    //Cancel sync if file size exceed 5 MB
-                    dmsRec.Status__c = conVerRec.ContentDocument.ContentSize <= ABFL_Constants.FIVE_MB_FILE_SIZE_BYTES ? ABFL_Constants.PENDING : ABFL_Constants.CANCELED;
-                    dmsRec.Error_Description__c = dmsRec.Status__c == ABFL_Constants.CANCELED ? ABFL_Constants.DMS_SYNC_FILE_SIZE_ERROR : '';
-                    dmsFileList.add(dmsRec);
-                }
-            }
-    
-            // Inserting DMS_Files__c records
-            if(!dmsFileList.isEmpty() && Schema.sObjectType.DMS_Files__c.isCreateable()){
-                insert dmsFileList;
-                System.debug('***dmsFileList:'+dmsFileList);
-                prepareEventsAndPublish(dmsFileList, mCaseIdToRecord);
-            }
+        } catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
 
@@ -99,62 +106,69 @@ public without sharing class ABFL_DMSSync_Orchestrator{
      **/
     @AuraEnabled(Cacheable = false)
     public static ResponseWrapper syncDMSFilesManually(List<Id> lDmsIds) {
-        if(lDmsIds.size() > 0){
-            List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
-            String query = 'SELECT ';
-            query += getSOQLFieldsForDMS().DMS_Files_SOQL_Fields__c;
-            query += ' FROM DMS_Files__c WHERE Id = :lDmsIds WITH SYSTEM_MODE';
-            
-            // Execute the dynamic query
-            dmsFileList = Database.query(String.escapeSingleQuotes(query));
-            
-            /*
-            * * run below only if list of DMS ids (lDmsIds) are passed 
-            * * Check if lastmodifieddate+ABFL_Manual_Sync_Threshold > then current time > if not, ask user to wait
-            */
-            List<DMS_Files__c> dmsFilesToUpsertList = new List<DMS_Files__c>();
-            if(!dmsFileList.isEmpty()) {
-                Boolean invalidDMSFlag = false;
-                for(DMS_Files__c dmsRec: dmsFileList){
-                    DateTime thresholdTime = dmsRec.LastModifiedDate.addMinutes(Integer.valueOf(System.Label.ABFL_Manual_Sync_Threshold));
-                    
-                    // In case user doesn't wait for automated sync to complete - It is irrespective of status
-                    if(dmsRec.Retry_Attempt__c >= 9){
-                        throw new AuraHandledException('Maximum number of retires are exhausted. Please contact system admin.');
-                    }
-                    System.debug('****Status__c'+dmsRec.Status__c);
-                    System.debug('****Status__c'+ABFL_Constants.PENDING);
-                    // for manual sync where users click repeatively
-                    if(dmsRec.Status__c == ABFL_Constants.PENDING && thresholdTime > System.now() && !Test.isRunningTest()){
-                        throw new AuraHandledException('Sync was recently initiated, please wait till '+thresholdTime.format()+'.');
-                    }
-                    //Cancel existing dms file record
-                    if(ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dmsRec.Status__c)){
-                        DMS_Files__c file = dmsRec;
-                        // file.Retry_Attempt__c = file.Retry_Attempt__c != null ? ++file.Retry_Attempt__c : 1;
-                        file.Next_Retry__c = null;
+        try{
+            if(lDmsIds.size() > 0){
+                List<DMS_Files__c> dmsFileList = new List<DMS_Files__c>();
+                String query = 'SELECT ';
+                query += getSOQLFieldsForDMS().DMS_Files_SOQL_Fields__c;
+                query += ' FROM DMS_Files__c WHERE Id = :lDmsIds WITH SYSTEM_MODE';
+                
+                // Execute the dynamic query
+                dmsFileList = Database.query(String.escapeSingleQuotes(query));
+                
+                /*
+                 * * run below only if list of DMS ids (lDmsIds) are passed 
+                 * * Check if lastmodifieddate+ABFL_Manual_Sync_Threshold > then current time > if not, ask user to wait
+                 */
+                List<DMS_Files__c> dmsFilesToUpsertList = new List<DMS_Files__c>();
+                if(!dmsFileList.isEmpty()) {
+                    Boolean invalidDMSFlag = false;
+                    for(DMS_Files__c dmsRec: dmsFileList){
+                        DateTime thresholdTime = dmsRec.LastModifiedDate.addMinutes(Integer.valueOf(System.Label.ABFL_Manual_Sync_Threshold));
                         
-                        if(file.Status__c == ABFL_Constants.PENDING) {
-                            file.Status__c = ABFL_Constants.CANCELED;
+                        // In case user doesn't wait for automated sync to complete - It is irrespective of status
+                        if(dmsRec.Retry_Attempt__c >= 9){
+                            throw new AuraHandledException('Maximum number of retires are exhausted. Please contact system admin.');
                         }
-                        dmsFilesToUpsertList.add(file);
-                    }else{
-                        invalidDMSFlag = true;
-                        break;
+                        // for manual sync where users click repeatively
+                        if(dmsRec.Status__c == ABFL_Constants.PENDING && thresholdTime > System.now() && !Test.isRunningTest()){
+                            throw new AuraHandledException('Sync was recently initiated, please wait till '+thresholdTime.format()+'.');
+                        }
+                        //Cancel existing dms file record
+                        if(ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dmsRec.Status__c)){
+                            DMS_Files__c file = dmsRec;
+                            // file.Retry_Attempt__c = file.Retry_Attempt__c != null ? ++file.Retry_Attempt__c : 1;
+                            file.Next_Retry__c = null;
+                            
+                            if(file.Status__c == ABFL_Constants.PENDING) {
+                                file.Status__c = ABFL_Constants.CANCELED;
+                            }
+                            dmsFilesToUpsertList.add(file);
+                        }else{
+                            invalidDMSFlag = true;
+                            break;
+                        }
+                        dmsFilesToUpsertList.add(prepareDMSRecord(dmsRec, null, null));
                     }
-                    dmsFilesToUpsertList.add(prepareDMSRecord(dmsRec, null, null));
+                    if(invalidDMSFlag){
+                        return new ResponseWrapper(false, ABFL_Constants.INVALID_DMS_RECORD_ERROR);
+                    }
                 }
-                if(invalidDMSFlag){
-                    return new ResponseWrapper(false, ABFL_Constants.INVALID_DMS_RECORD_ERROR);
+                
+                if(dmsFilesToUpsertList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable() && Schema.sObjectType.DMS_Files__c.isUpdateable()){
+                    upsert dmsFilesToUpsertList;
+                    prepareEventsAndPublish(dmsFilesToUpsertList, null);
                 }
+                return new ResponseWrapper(true, null);
+            } else {
+                return new ResponseWrapper(false, ABFL_Constants.DMS_GENERIC_ERROR);
             }
-            
-            if(dmsFilesToUpsertList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable() && Schema.sObjectType.DMS_Files__c.isUpdateable()){
-                upsert dmsFilesToUpsertList;
-                prepareEventsAndPublish(dmsFilesToUpsertList, null);
-            }
-            return new ResponseWrapper(true, null);
-        } else {
+        } catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
             return new ResponseWrapper(false, ABFL_Constants.DMS_GENERIC_ERROR);
         }
     }
@@ -177,6 +191,8 @@ public without sharing class ABFL_DMSSync_Orchestrator{
             bu = 'ABFL';
         }
         nDMSFileRec.Business_Unit__c = bu;
+        nDMSFileRec.Branch_Name__c = conVer==null?dmsRec.Branch_Name__c:String.isNotBlank(caseRec.Branch_Master__r.Name) ? caseRec.Branch_Master__r.Name : '';
+        nDMSFileRec.Branch_Code__c = conVer==null?dmsRec.Branch_Code__c:String.isNotBlank(caseRec.Branch_Master__r.Branch_Code__c) ? caseRec.Branch_Master__r.Branch_Code__c : '';
         nDMSFileRec.Case__c = conVer==null?dmsRec.Case__c:caseRec.Id;
         nDMSFileRec.ContentVersionId__c = conVer==null?dmsRec.ContentVersionId__c:conVer.Id;
         nDMSFileRec.File_Name__c = conVer==null?dmsRec.File_Name__c:conVer.Title;
