@@ -309,7 +309,7 @@ System.debug(decryptedString);*/
             this.LongURL = longurl;
             this.LOB = ABSLI_Constants.BITLY_LOB_VAL;
             this.ExpiryDay = ABSLI_Constants.EXPIRY_DAY;
-            this.Source = ABSLI_Constants.ESB_SOURCE_ID;
+            this.Source = 'WYH';
             this.ClientIPAddress = ABSLI_Constants.BITLY_CLIENT_IP;
         }
     }
