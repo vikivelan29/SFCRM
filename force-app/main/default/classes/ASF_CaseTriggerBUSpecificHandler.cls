@@ -1,6 +1,13 @@
 /**
- * @description Case trigger handler class for BU specific
- */
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     /**
      * @description - Executes befor the ASF code runs in before insert context
