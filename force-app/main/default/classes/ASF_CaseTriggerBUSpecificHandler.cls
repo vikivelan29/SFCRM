@@ -97,8 +97,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     public override void executeBeforeASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
-        ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
-        ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**
