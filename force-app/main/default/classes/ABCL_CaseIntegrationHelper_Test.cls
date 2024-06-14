@@ -2,7 +2,6 @@
 public class ABCL_CaseIntegrationHelper_Test {
     @testSetup
     static void setUpData(){
-        
         List<Case> caseRecords = ASF_TestDataFactory.createCaseRecords(1);
         caseRecords[0].Source__c = 'Email';
         caseRecords[0].CCC_External_Id__c = '';
