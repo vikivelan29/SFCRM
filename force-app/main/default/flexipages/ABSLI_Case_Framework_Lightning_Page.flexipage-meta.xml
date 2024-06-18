@@ -252,7 +252,7 @@
                             <value>Case.Close_the_Case</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Framework_Snapshot</value>
+                            <value>ABSLI_Framework_Snapshot</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.NewChildCase</value>
