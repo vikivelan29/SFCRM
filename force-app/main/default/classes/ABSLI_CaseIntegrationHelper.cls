@@ -65,7 +65,7 @@ public class ABSLI_CaseIntegrationHelper {
         contentRelation.registeredAttachments = registeredAttachments;
         contentRelation.unregisteredAttachments = unregisteredAttachments;
 
-        List<ContentDocumentLink> contentLinkToBeInserted = new List<ContentDocumentLink>();
+        /*List<ContentDocumentLink> contentLinkToBeInserted = new List<ContentDocumentLink>();
         if(relatedAttachments.size() > 0){
             for(ContentDocumentLink contentLink : relatedAttachments){
                 if(!contentDocumentVersionMap.get(contentLink.ContentDocumentId).Is_Email_Body__c){
@@ -78,7 +78,7 @@ public class ABSLI_CaseIntegrationHelper {
             }
         }
 
-        Database.SaveResult[] insertResult = Database.insert(contentLinkToBeInserted,false);
+        Database.SaveResult[] insertResult = Database.insert(contentLinkToBeInserted,false);*/
 
         return contentRelation;
 
@@ -128,6 +128,7 @@ public class ABSLI_CaseIntegrationHelper {
                     string templateId = '';
                     string attachmentIds = '';
                     if(emailWrapper.Is_Register_Customer == 'Y'){
+                        caseDetail.Ebot_Email_in_Draft__c  = true;
                         templateId = contentRelation.registeredTemplateId;
                         staticAttachmentDocumentIds.addAll(contentRelation.registeredAttachments);
                     } else {
@@ -248,7 +249,7 @@ public class ABSLI_CaseIntegrationHelper {
      * @date 2024-05-28
 	 */
     public static String dateFormat(Date dt){
-        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format('dd-MM-YYYY');
+        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format('dd/MM/YYYY');
     }
 
     public class ContentRelationWrapper{
