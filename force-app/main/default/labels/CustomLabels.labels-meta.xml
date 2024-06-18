@@ -849,4 +849,12 @@
         <protected>false</protected>
         <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
         <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
 </CustomLabels>
