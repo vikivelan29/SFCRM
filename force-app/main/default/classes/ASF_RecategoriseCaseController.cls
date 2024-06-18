@@ -480,7 +480,7 @@ public without sharing class ASF_RecategoriseCaseController {
         
         ASF_Case_Category_Config__c cccRecord = [SELECT ID,Business_Unit__c,LOB__c,Custom_Segment__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = : cccId];
         
-        if(customerBU == 'ABHFL' || assetBU =='ABHFL'){
+        if(customerBU == 'ABHFL' || assetBU =='ABHFL' || customerBU == ASF_Constants.ABSLIG_BU || assetBU == ASF_Constants.ABSLIG_BU){
             if(customerBU.equalsIgnoreCase(cccRecord.Business_Unit__c) ||
                assetBU.equalsIgnoreCase(cccRecord.Business_Unit__c))
             {
@@ -541,7 +541,7 @@ public without sharing class ASF_RecategoriseCaseController {
                 objType = 'Lead';
             }
             ASF_Case_Category_Config__c cccRecord = [SELECT ID,Business_Unit__c,LOB__c,Custom_Segment__c,Is_Prospect_Related__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = : cccId];
-            if(recordBU == 'ABHFL'){
+            if(recordBU == 'ABHFL' || recordBU == ASF_Constants.ABSLIG_BU){
                 if(recordBU.equalsIgnoreCase(cccRecord.Business_Unit__c) && (objType =='Account' || (objType == 'Lead' && cccRecord.Is_Prospect_Related__c)))
                 {
                     bReturnVal = true;
