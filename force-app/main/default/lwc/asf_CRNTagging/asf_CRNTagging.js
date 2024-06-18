@@ -9,7 +9,8 @@ import ACCOUNT_CRN_FIELD from '@salesforce/schema/Case.Client_Code__c';
 import ASSET_FIELD from '@salesforce/schema/Case.AssetId';
 import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
-
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
@@ -92,7 +93,45 @@ export default class Asf_CRNTagging extends LightningElement {
         initialWidth: 180
     }
     ]
-
+    ABSLI_ASSET_COLUMNS = [{
+        label: 'Id',
+        fieldName: 'Id',
+        type: 'text',
+        fixedWidth: 1,
+        hideLabel: true,
+        hideDefaultActions: true
+    },
+    {
+        label: 'Name',
+        fieldName: 'Name',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy No',
+        fieldName: 'Policy_No__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy Status',
+        fieldName: 'Status',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy Type',
+        fieldName: 'Type__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Application No.',
+        fieldName: 'Application_Number__c',
+        type: 'text',
+        initialWidth: 180
+    }
+    ]
     accCols = [{
         label: 'Id',
         fieldName: 'recordId',
@@ -152,6 +191,9 @@ export default class Asf_CRNTagging extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            if(this.loggedInUserBusinessUnit === ABSLI_BU){
+                this.asstCols = this.ABSLI_ASSET_COLUMNS;
+            }
         } else if (error) {
             //this.error = error ;
         }
@@ -290,7 +332,11 @@ export default class Asf_CRNTagging extends LightningElement {
         let selectedFANum = 'NA';
         if (this.selectedAsset != undefined) {
             selectedAsstId = this.selectedAsset.Id;
-            selectedFANum = this.selectedAsset.LAN__c;
+            if(this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit === ABSLIG_BU){
+                selectedFANum = this.selectedAsset.Policy_No__c;
+            }else{
+                selectedFANum = this.selectedAsset.LAN__c;
+            }
         }
 
         if (this.selectedCustomer) {
@@ -411,6 +457,10 @@ export default class Asf_CRNTagging extends LightningElement {
         leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
         caseRecord["Id"] = this.recordId;
+
+        if(this.loggedInUserBusinessUnit === "ABSLIG") {
+            leadRecord["LastName"] = leadRecord?.Company ?? "default last name";
+        }
 
         /* PASS CASERECORD WITH ID AND PROSPECTRECORD TO BE CREATED.
            IF THERE IS A DUPLICATE SERVICE PROSPECT ALREADY FOUND IN THE SYSTEM, IT WILL BE RETURNED
