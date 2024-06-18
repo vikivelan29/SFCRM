@@ -11,10 +11,6 @@
     <classAccesses>
         <apexClass>ABSLI_MobileUpdateIntegration</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABSLI_FetchPolicyDetails </apexClass>
-        <enabled>true</enabled>
     </classAccesses>	
     <classAccesses>
         <apexClass>ABSLI_PremiumPaymentLinkController</apexClass>
