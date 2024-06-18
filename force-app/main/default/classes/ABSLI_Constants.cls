@@ -28,6 +28,8 @@ public class ABSLI_Constants {
     public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
+    public static final String AddressUpdateSrvName = 'Address Update';
+    public static final String ModeChangeSrvName = 'ModeChangeApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
@@ -56,7 +58,7 @@ public class ABSLI_Constants {
     public static final String TAXCERTIFICATE_FAILURE_MESSAGE = 'ABSLI_TAXCERTIFICATE_FAILURE_MESSAGE';
 
     /* BANK ACCOUNT UPDATE INTEGRATION **/
-    public static final String BANKACCOUNTUPDATE_SERVICE_NAME = 'bankAccountUpdate';
+    public static final String BANKACCOUNTUPDATE_SERVICE_NAME = 'BankAccountUpdateApi';
     public static final String BANKACCOUNTUPDATE_MICR_CODE = '000000000';
     public static final String BANKACCOUNTUPDATE_TRANSTYPE = 'NEFT';
     public static final String BANKACCOUNTUPDATE_IMPSFLAG = 'Success';
