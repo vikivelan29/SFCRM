@@ -65,6 +65,8 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
                         if(! casesToUpdate.containsKey(c.Id)){
                             c.AccountId = con.AccountId;
                             c.Lead__c = null;
+                            c.typeSubTypeMismatch__c  = false;
+                            c.Type_Sub_Type_Mismatch_Reason__c = null;
                             casesToUpdate.put(c.Id, c);
                         }
                     }
