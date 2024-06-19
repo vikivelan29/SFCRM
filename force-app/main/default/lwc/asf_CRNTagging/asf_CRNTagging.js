@@ -7,6 +7,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import ACCOUNT_CRN_FIELD from '@salesforce/schema/Case.Client_Code__c';
 import ASSET_FIELD from '@salesforce/schema/Case.AssetId';
+import Case_SUPPLIEDEMAIL from '@salesforce/schema/Case.SuppliedEmail';
 import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
@@ -47,6 +48,7 @@ export default class Asf_CRNTagging extends LightningElement {
     disableCreateBtn = false;
     accountCrn;
     FAId;
+    caseSuppliedEmail;
 
     asstCols = [{
         label: 'Id',
@@ -201,12 +203,14 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, {
         recordId: "$recordId",
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL],
         fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD]
     })
     CaseData({error, data}){
         if(data){
             this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
             this.FAId = getFieldValue(data, ASSET_FIELD);
+            this.caseSuppliedEmail = getFieldValue(data, Case_SUPPLIEDEMAIL);
             console.log('acc id--'+this.accountCrn);
         } else if(error){
             console.log(error);
@@ -428,12 +432,29 @@ export default class Asf_CRNTagging extends LightningElement {
                 if (result) {
                     this.fields = result.Fields;
                     this.error = undefined;
+                    this.prePopulateEmailFieldOfLead();
                 }
             }).catch(error => {
                 console.log(error);
                 this.error = error;
             });
     }
+
+    prePopulateEmailFieldOfLead() {
+        
+        if(this.loggedInUserBusinessUnit === ABSLIG_BU) {
+
+            for(let fld of this.fields) {
+                if(fld.FieldName === "Email") {
+                    fld.value = this.caseSuppliedEmail ?? "";
+                }
+                else {
+                    fld.value = "";
+                }
+            }
+        }
+    }
+
     /* ADDED BY - VIRENDRA
        REQUIREMENT - TO RENDER THE PROSPECT CREATION FORM WHEN USER CLICKS ON CREATE PROSPECT BUTTON.
     */
