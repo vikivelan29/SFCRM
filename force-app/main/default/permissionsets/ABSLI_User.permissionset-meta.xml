@@ -2188,7 +2188,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Withdrawal_avaialble_amount__c</field>
+        <field>Asset.Withdrawal_available_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
