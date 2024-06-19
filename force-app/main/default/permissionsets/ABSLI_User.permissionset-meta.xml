@@ -17,6 +17,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Asf_NpsIndicatiorController </apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABSLI_ReachUsButtonController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -48,6 +52,10 @@
         <enabled>true</enabled>
         <name>ASF_Quick_Link_Config__mdt</name>
     </customMetadataTypeAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
