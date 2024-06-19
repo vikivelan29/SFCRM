@@ -203,8 +203,7 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, {
         recordId: "$recordId",
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL],
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD]
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL]
     })
     CaseData({error, data}){
         if(data){
