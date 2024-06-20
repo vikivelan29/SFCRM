@@ -54,33 +54,8 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-		Set<String> intIds = new Set<String>();
-		for (Case caseRec : caseRecs) {
-			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_BankAccountUpdateIntegration.class.getName()) {
-					intIds.add(integ.External_Id__c);
-				}
-			}
-		}
-
-		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
-		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
-			if (integs.containsKey(caseInt.Case__c)) {
-				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
-					if (
-						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
-						caseInt.Status__c == ABSLI_Constants.PENDING
-					) {
-						caseInt.Status__c = ABSLI_Constants.CANCELED;
-						existingCaseIntegrations.add(caseInt);
-					}
-				}
-			}
-		}
-
-		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
-		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+        //Before Initiating new Integration callout, cancel existing running request
+		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
 		for (Case caseRec : caseRecs) {
@@ -168,6 +143,42 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		}
 
 		return resultMap;
+	}
+
+    /**
+	 * @description Before Initiating new Integration callout, cancel existing running request
+	 *
+	 * @param integs - List of Integration configs
+	 * @param caseRecs - List of Case record from the framework
+	 */
+	public void cancelPendingCaseIntegrationRequests(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs) {
+		Set<String> intIds = new Set<String>();
+		for (Case caseRec : caseRecs) {
+			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
+				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+					intIds.add(integ.External_Id__c);
+				}
+			}
+		}
+
+		List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
+		for (ASF_Case_Integration__c caseInt : ABSLI_IntegrationQueryHelper.getCaseIntegrations(caseRecs, intIds)) {
+			if (integs.containsKey(caseInt.Case__c)) {
+				for (ASF_Integration__c integ : integs.get(caseInt.Case__c)) {
+					if (
+						integ.External_Id__c == caseInt.Integration_Ext_Id__c &&
+						caseInt.Status__c == ABSLI_Constants.PENDING
+					) {
+						caseInt.Status__c = ABSLI_Constants.CANCELED;
+						existingCaseIntegrations.add(caseInt);
+					}
+				}
+			}
+		}
+
+		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 	}
 
 	/**

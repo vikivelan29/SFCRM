@@ -30,6 +30,7 @@ public class ABSLI_Constants {
     public static final String BankEsbSrvName = 'BankESBService';
     public static final String AddressUpdateSrvName = 'Address Update';
     public static final String ModeChangeSrvName = 'ModeChangeApi';
+    public static final String SurvivalUpdateSrvName = 'survivalUpdateApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';

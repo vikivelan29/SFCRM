@@ -28,7 +28,8 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Attachment_Status__c,
 				OwnerId,
 				Source__c,
-				CreatedById
+				CreatedById,
+				ABSLI_Case_Detail__c
 			FROM Case
 			WHERE Id = :caseId
 			WITH SECURITY_ENFORCED
@@ -91,6 +92,30 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 			SELECT Name, Case__c
 			FROM ASF_Case_Integration__c
 			WHERE Id IN :intgRecs
+			WITH SECURITY_ENFORCED
+		];
+	}
+
+	/**
+	 * @description Query method to fetch Case Integration records based on ExternalId
+	 *
+	 * @author Abinash Panigrahi
+	 * @date 2024-05-28
+	 *
+	 * @param externalId
+	 * @return ASF_Integration__c
+	 */
+	public static ASF_Integration__c getIntegrationInfo(String externalId) {
+		return [
+			SELECT
+				Id,
+				STP_API_Identifier__c,
+				STP_Processing_Class__c,
+				External_Id__c,
+				STP_Config_External_Id__c,
+				STP_Template__c
+			FROM ASF_Integration__c
+			WHERE External_Id__c = :externalId
 			WITH SECURITY_ENFORCED
 		];
 	}
