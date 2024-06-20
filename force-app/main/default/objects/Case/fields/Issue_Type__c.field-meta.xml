@@ -503,6 +503,11 @@
                 <default>false</default>
                 <label>Mode change procedure</label>
             </value>
+            <value>
+                <fullName>Payout Related</fullName>
+                <default>false</default>
+                <label>Payout Related</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

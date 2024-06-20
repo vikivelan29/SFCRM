@@ -21,6 +21,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Asf_NpsIndicatiorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABSLI_ReachUsButtonController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -52,6 +56,10 @@
         <enabled>true</enabled>
         <name>ASF_Quick_Link_Config__mdt</name>
     </customMetadataTypeAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>ABFL_Update_Preferred_Name</flow>
+    </flowAccesses>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.IGMS_Code__c</field>
@@ -2619,7 +2627,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Withdrawal_avaialble_amount__c</field>
+        <field>Asset.Withdrawal_available_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
