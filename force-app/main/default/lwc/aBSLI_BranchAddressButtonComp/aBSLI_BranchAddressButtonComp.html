@@ -4,7 +4,7 @@
             <div class="slds-form__row">
                 <div class="slds-form__item" role="listitem">
                     <div class="slds-form-element slds-form-element_stacked slds-is-editing">
-                        <lightning-record-picker label="Branch" placeholder="Search Branch..."
+                        <lightning-record-picker label="Branch Name" placeholder="Search Branch..."
                             object-api-name="Branch_Master__c" display-info={displayInfo} matching-info={matchingInfo}
                             onchange={handleBranchSelect} required></lightning-record-picker>
                     </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </template>
-    <template if:true={showPreview}> 
+    <template if:true={showPreview}>
         <div class="slds-form" role="list">
             <div class="slds-form__row">
                 <div class="slds-form__item" role="listitem">
@@ -89,7 +89,7 @@
     <div class="slds-modal__footer">
         <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
             onclick={invokeCloseModal}>Cancel</button>
-        
+
             <template if:false={showPreview}>
                 <template if:true={selectedBranchId}>
                     <button class="slds-button slds-button_brand" onclick={handlePrevSend}>Preview & Send</button>
