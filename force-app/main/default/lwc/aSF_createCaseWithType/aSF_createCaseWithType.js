@@ -255,6 +255,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.caseRec = data;
             this.showOnCustomerTagging = false;
             this.showOnProspectTagging = false;
+            this.isNotSelectedReject = true;
 
             this.flag = this.contactSelected = this.caseRec.fields.ContactId;
             
@@ -263,12 +264,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
-
-            if (this.caseRec.fields.AmIOwner__c.value == true) {
-                this.isNotSelectedReject = false;
-            } else {
-                this.isNotSelectedReject = true;
-            }
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -306,21 +301,21 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
+           if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
             }else{
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
             }
-        } else if (error){
+        }else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
@@ -426,12 +421,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
         let cccExternalId = '';
+
+        if (this.caseRec.fields.AmIOwner__c.value == true) {
+            this.isNotSelectedReject = false;
+        }
+
         if (selected && selected.hasOwnProperty("CCC_External_Id__c")) {
             cccExternalId = selected.CCC_External_Id__c;
             this.fetchRejectionReason(cccExternalId);
         }
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
@@ -777,13 +777,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     async handleRejectBtn(event) {
-      /*  var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        if(selected != null && selected != undefined){
-            let cccExtId = selected.CCC_External_Id__c;
-            if(cccExtId != null && cccExtId != undefined){
-                await this.fetchRejectionReason(cccExtId);
-            }
-        }  */
         
         this.showRejetedReason = true;
         this.showSRDescription = false;
@@ -941,6 +934,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
         await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+            this.reasonLOV = [];
             result.forEach(reason => {
                 const optionVal = {
                     label: reason,
@@ -948,7 +942,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-            this.showRejetedReason = true;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
@@ -986,7 +979,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.isCloseWithoutCRNFlow = true;
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
     }
 
     categoriseCaseForProspect(event){
