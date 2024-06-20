@@ -25,8 +25,50 @@
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
+    </labels>
+    <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>Manual_Synching</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Canceled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Canceled</shortDescription>
+        <value>Sync Canceled</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Manually</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Manually</shortDescription>
+        <value>Sync Manually</value>
+    </labels>
+    <labels>
+        <fullName>Synched_Already</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synched Already</shortDescription>
+        <value>Synched already</value>
+    </labels>
+    <labels>
+        <fullName>Synching_initiated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synching_initiated</shortDescription>
+        <value>Synching initiated</value>
     </labels>
     <labels>
         <fullName>ABCL_Business_Unit</fullName>
@@ -712,7 +754,7 @@
         <fullName>Impact_Field_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
     </labels>
 </CustomLabels>
