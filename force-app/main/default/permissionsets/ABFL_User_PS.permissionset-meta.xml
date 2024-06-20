@@ -624,6 +624,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Email_Team__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Ops_Involvement_Required__c</field>
         <readable>true</readable>
