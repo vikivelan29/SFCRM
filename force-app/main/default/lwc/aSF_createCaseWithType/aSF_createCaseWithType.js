@@ -240,6 +240,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.caseRec = data;
             this.showOnCustomerTagging = false;
             this.showOnProspectTagging = false;
+            this.isNotSelectedReject = true;
 
             this.flag = this.contactSelected = this.caseRec.fields.ContactId;
             
@@ -248,12 +249,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
-
-            if (this.caseRec.fields.AmIOwner__c.value == true) {
-                this.isNotSelectedReject = false;
-            } else {
-                this.isNotSelectedReject = true;
-            }
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -394,6 +389,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.transactionNumber = '';
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+
+        let cccExternalId = '';
+
+        if (this.caseRec.fields.AmIOwner__c.value == true) {
+            this.isNotSelectedReject = false;
+        }
+
+        if (selected && selected.hasOwnProperty("CCC_External_Id__c")) {
+            cccExternalId = selected.CCC_External_Id__c;
+            this.fetchRejectionReason(cccExternalId);
+        }
 
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
             this.showAutoComm = true;
@@ -735,13 +741,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     async handleRejectBtn(event) {
-        var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        if(selected != null && selected != undefined){
-            let cccExtId = selected.CCC_External_Id__c;
-            if(cccExtId != null && cccExtId != undefined){
-                await this.fetchRejectionReason(cccExtId);
-            }
-        }
         
         this.showRejetedReason = true;
         this.showSRDescription = false;
@@ -898,6 +897,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
         await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+            this.reasonLOV = [];
             result.forEach(reason => {
                 const optionVal = {
                     label: reason,
@@ -905,7 +905,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-            this.showRejetedReason = true;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
@@ -943,7 +942,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.isCloseWithoutCRNFlow = true;
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
+        this.isNotSelectedReject = true;
     }
 
     categoriseCaseForProspect(event){
