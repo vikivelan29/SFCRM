@@ -49,11 +49,8 @@ public with sharing class ABFL_LegacyView {
           	startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
             String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob));
-            System.debug('@@@conPayload'+conPayload);
            ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
 
-            System.debug('@@@legacyCaseResponse'+legacyCaseResponse);
-            System.debug('@@@legacyCaseResponse'+String.isNotBlank(legacyCaseResponse.responseBody));
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
                 legacyCaseResponseWrapper = (LegacyCaseResponseBodyWrapper)JSON.deserialize(legacyCaseResponse.responseBody,LegacyCaseResponseBodyWrapper.class);
             	response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
@@ -147,15 +144,15 @@ public with sharing class ABFL_LegacyView {
         @AuraEnabled public String Case_Closed_By;
         @AuraEnabled public String Summary;
         @AuraEnabled public String LOB;	
-		@AuraEnabled public String Closure_Description;
-		@AuraEnabled public String Created_By;	
-		@AuraEnabled public String Case_Open_DateTime;
-		@AuraEnabled public String Resoltion_Remarks;
-		@AuraEnabled public String No_Of_Time_ReOpened;
-		@AuraEnabled public String Assigned_Team;
-		@AuraEnabled public String Vartical;
-		@AuraEnabled public String RM;
-		@AuraEnabled public String Holding_Response_SLA;
+	@AuraEnabled public String Closure_Description;
+	@AuraEnabled public String Created_By;	
+	@AuraEnabled public String Case_Open_DateTime;
+	@AuraEnabled public String Resoltion_Remarks;
+	@AuraEnabled public String No_Of_Time_ReOpened;
+	@AuraEnabled public String Assigned_Team;
+	@AuraEnabled public String Vartical;
+	@AuraEnabled public String RM;
+	@AuraEnabled public String Holding_Response_SLA;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper
