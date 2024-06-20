@@ -447,9 +447,6 @@ export default class Asf_CRNTagging extends LightningElement {
                 if(fld.FieldName === "Email") {
                     fld.value = this.caseSuppliedEmail ?? "";
                 }
-                else {
-                    fld.value = "";
-                }
             }
         }
     }
