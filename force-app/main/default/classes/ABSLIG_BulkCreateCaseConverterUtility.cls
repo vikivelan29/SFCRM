@@ -30,7 +30,7 @@ public with sharing class ABSLIG_BulkCreateCaseConverterUtility implements ASF_B
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
         Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         Map<String, Id> clientCodeToAccountIdMap = new Map<String,Id>();
-        for(Asset assetRec : [Select Id, Policy_No__c, AccountId from Asset where Policy_No__c IN :lans and Business_Unit__c =: ASF_Constants.ABSLI_BU]){
+        for(Asset assetRec : [Select Id, Policy_No__c, AccountId from Asset where Policy_No__c IN :lans and Business_Unit__c =: ASF_Constants.ABSLIG_BU]){
             lanToAccountIdMap.put(assetRec.Policy_No__c, assetRec.AccountId);
             lanToAssetIdMap.put(assetRec.Policy_No__c, assetRec.Id);
         }
