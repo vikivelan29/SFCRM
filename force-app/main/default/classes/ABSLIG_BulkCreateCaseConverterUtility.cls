@@ -1,9 +1,7 @@
-@SuppressWarnings('PMD.ApexSOQLInjection')
-
-public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
-    public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
+public with sharing class ABSLIG_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+	public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'Loan Account No':'LAN1234','Issue Type Code':'ABFL1234', 'Source':'Email', 'Description':'DescriptionXYZ', 'Block Customer Communication':TRUE}
+        //{'Client Code':'5672118503', 'Asset':'LAN1234', 'Issue Code':'ABFL1234', 'Description':'DescriptionXYZ', 'Subject':'Case Subject'}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -12,25 +10,32 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
 
         Set<String> lans = new Set<String>();
         Set<String> cccExtIds = new Set<String>();
+        Set<String> clientCodes = new Set<String>();
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
-            if(String.isNotBlank(keyValueMap.get('Loan Account No'))){
-                lans.add(keyValueMap.get('Loan Account No').trim());
+            if(String.isNotBlank(keyValueMap.get('Client Code'))){
+                clientCodes.add(keyValueMap.get('Client Code').trim());
             }
-            if(String.isNotBlank(keyValueMap.get('Issue Type Code'))){
-                cccExtIds.add(keyValueMap.get('Issue Type Code').trim());
+            if(String.isNotBlank(keyValueMap.get('Asset'))){
+                lans.add(keyValueMap.get('Asset').trim());
+            }
+            if(String.isNotBlank(keyValueMap.get('Issue Code'))){
+                cccExtIds.add(keyValueMap.get('Issue Code').trim());
             }
             rows.put(lineItemId, keyValueMap);
         }
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
         Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
-        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c = 'ABFL']){
-            lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
-            lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
+        Map<String, Id> clientCodeToAccountIdMap = new Map<String,Id>();
+        for(Asset assetRec : [Select Id, Policy_No__c, AccountId from Asset where Policy_No__c IN :lans and Business_Unit__c =: ASF_Constants.ABSLIG_BU]){
+            lanToAccountIdMap.put(assetRec.Policy_No__c, assetRec.AccountId);
+            lanToAssetIdMap.put(assetRec.Policy_No__c, assetRec.Id);
+        }
+        for(Account accRec : [SELECT Id, Client_Code__c from Account where Client_Code__c IN: clientCodes]){
+            clientCodeToAccountIdMap.put(accRec.Client_Code__c, accRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
@@ -40,12 +45,10 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
 
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
-            Boolean blockCommunicationFlag = false;
-
-            String issueTypeCode = keyValueMap.get('Issue Type Code').trim();
-            String lan = keyValueMap.get('Loan Account No').trim();
-            String blockCommString = String.isNotBlank(keyValueMap.get('Block Customer Communication'))?keyValueMap.get('Block Customer Communication').trim():keyValueMap.get('Block Customer Communication');
-            String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
+            String issueTypeCode = keyValueMap.get('Issue Code').trim();
+            String lan = keyValueMap.get('Asset').trim();
+            String clientCode = keyValueMap.get('Client Code').trim();
+            String subject = String.isNotBlank(keyValueMap.get('Subject'))?keyValueMap.get('Subject').trim():keyValueMap.get('Subject');
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
             if(issueTypeCode == null || issueTypeCode.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
@@ -54,16 +57,9 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(lan == null || lan.trim() == ''){
+            if(subject == null || subject.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Loan Account No is required');
-                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                continue;
-            }
-            if(source == null || source.trim() == ''){
-                keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Source is required');
+                keyValueMap.put('Message', 'Subject is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
@@ -82,44 +78,31 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(!lanToAccountIdMap.containsKey(lan)){
+            if(lan != null && lan.trim() != '' && !lanToAccountIdMap.containsKey(lan)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Loan Account Number is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(String.isNotBlank(blockCommString)){
-                if(!blockCommString.equalsIgnoreCase('TRUE') && !blockCommString.equalsIgnoreCase('FALSE')){
-                    keyValueMap.put('Result', 'FAILURE');
-                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
-                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                    continue;
-                }
-                try{
-                    blockCommunicationFlag = Boolean.valueOf(blockCommString);
-                }catch(Exception e){
-                    keyValueMap.put('Result', 'FAILURE');
-                    keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
-                    resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                    resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                    continue;
-                }
-            }else{
+            if(clientCode != null && clientCode.trim() != '' && !clientCodeToAccountIdMap.containsKey(clientCode)){
                 keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Invalid Block Customer Communication value provided - Accepted value - TRUE/FALSE');
+                keyValueMap.put('Message', 'Client Code is not found');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
             Case caseRec = new Case();
-            caseRec.AccountId = lanToAccountIdMap.get(lan);
-            caseRec.AssetId = lanToAssetIdMap.get(lan);
+            caseRec.AssetId = lanToAssetIdMap.containsKey(lan) ? lanToAssetIdMap.get(lan) : null;
+            if(caseRec.AssetId != null){
+                caseRec.AccountId = lanToAccountIdMap.containsKey(lan) ? lanToAccountIdMap.get(lan): null;
+            }else{
+                caseRec.AccountId = clientCodeToAccountIdMap.containsKey(clientCode) ? clientCodeToAccountIdMap.get(clientCode) : null;
+            }
             caseRec.CCC_External_Id__c = issueTypeCode;
-            caseRec.Source__c = source;
+            caseRec.Source__c = 'Email';
             caseRec.Description = description;
-            caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
+            caseRec.Subject = subject;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             caseRec.Technical_Source__c = 'LWC';
             resultWrapper.resultRecords.put(lineItemId, caseRec);
@@ -132,18 +115,18 @@ public with sharing class ABFL_BulkCreateCaseConverterUtility implements ASF_Bul
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
-            'LAN__c'=>'Loan Account No',
-            'CCC_External_Id__c'=>'Issue Type Code',
-            'Source__c'=>'Source',
+            'Client_Code__c'=>'Client Code',
+            'LAN__c'=>'Asset',
+            'CCC_External_Id__c'=>'Issue Code',
             'Description'=>'Description',
-            'No_Auto_Communication__c'=>'Block Customer Communication'
+            'Subject'=>'Subject'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
-            'Loan Account No'=>'LAN__c',
-            'Issue Type Code'=>'CCC_External_Id__c',
-            'Source'=>'Source__c',
+            'Client Code'=>'Client_Code__c',
+            'Asset'=>'LAN__c',
+            'Issue Code'=>'CCC_External_Id__c',
             'Description'=>'Description',
-            'Block Customer Communication'=>'No_Auto_Communication__c'
+            'Subject'=>'Subject'
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
