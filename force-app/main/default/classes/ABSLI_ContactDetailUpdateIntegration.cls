@@ -134,13 +134,13 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.BANKACCOUNTUPDATE_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.CONTACTUPDATE_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.BANKACCOUNTUPDATE_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.CONTACTUPDATE_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
