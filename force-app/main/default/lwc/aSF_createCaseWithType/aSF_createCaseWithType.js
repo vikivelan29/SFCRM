@@ -307,15 +307,15 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 { label: 'Type', fieldName: 'Type__c', type: 'text' },
                 { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
             ];
-        }else{
+            }else{
             this.cols = [
                 { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
                 { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
                 { label: 'Type', fieldName: 'Type__c', type: 'text' },
                 { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
             ];
-        }
-        } else if (error){
+            }
+        }else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
