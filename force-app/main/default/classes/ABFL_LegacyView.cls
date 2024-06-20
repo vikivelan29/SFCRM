@@ -21,7 +21,7 @@ public with sharing class ABFL_LegacyView {
         List<OptionsName> optionList = new List<OptionsName>();
         OptionsName option = null;
         for(LAN_Mapping__c lan : [select id,Customer__r.Business_Unit__c, LAN__r.Name, LAN__r.LAN__c, Customer__r.Client_Code__c FROM
-                                  LAN_Mapping__c WHERE Customer__c = :accRec AND Customer__r.Business_Unit__c != 'ABWM' 
+                                  LAN_Mapping__c WHERE Customer__c = :accRec AND Customer__r.Business_Unit__c != ABFL_Constants.ABWM
                                   WITH SECURITY_ENFORCED]) {
             option = new OptionsName();
             option.label = lan.LAN__r.LAN__c;
