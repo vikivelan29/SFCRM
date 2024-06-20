@@ -979,7 +979,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.isCloseWithoutCRNFlow = true;
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-        this.isNotSelectedReject = true;
     }
 
     categoriseCaseForProspect(event){
