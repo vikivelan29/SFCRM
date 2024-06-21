@@ -104,7 +104,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 
 		index = 0;
 
-		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.USER_MODE);
+		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.SYSTEM_MODE);
 		Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>(
 			ABSLI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
 		);
@@ -177,7 +177,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		}
 
 		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		Database.update(existingCaseIntegrations, AccessLevel.SYSTEM_MODE);
 		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 	}
 
@@ -203,7 +203,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 				    sendoutEmailSMSNotification(caseRecord);
 
                     caseRecord.MoveToNext__c = true;
-				    Database.update(caseRecord, AccessLevel.USER_MODE);
+				    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
 			}
 		} catch (Exception e) {
