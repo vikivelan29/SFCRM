@@ -248,8 +248,8 @@ public class ABSLI_CaseIntegrationHelper {
 	 * @author Abinash Panigrahi
      * @date 2024-05-28
 	 */
-    public static String dateFormat(Date dt){
-        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format('dd/MM/YYYY');
+    public static String dateFormat(Date dt, String formatted){
+        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);
     }
 
     public class ContentRelationWrapper{

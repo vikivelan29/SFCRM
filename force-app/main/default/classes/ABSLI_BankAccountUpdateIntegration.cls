@@ -75,7 +75,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 					caseRecord.ABSLI_Case_Detail__r?.IFSC_Code__c,
 					caseRecord.ABSLI_Case_Detail__r?.Account_Number__c,
 					caseRecord.ABSLI_Case_Detail__r?.Account_Type__c,
-					ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.Bank_IMPS_Date__c),
+					ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.Bank_IMPS_Date__c, 'dd-MM-YYYY'),
 					caseRecord.ABSLI_Case_Detail__r?.Bank_Account_Holder_Name__c
 				)
 			);

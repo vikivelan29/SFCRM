@@ -95,6 +95,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -111,7 +112,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 
 		index = 0;
 
-		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.USER_MODE);
+		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.SYSTEM_MODE);
 		Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>(
 			ABSLI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
 		);
@@ -184,7 +185,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 		}
 
 		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		Database.update(existingCaseIntegrations, AccessLevel.SYSTEM_MODE);
 		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 	}
 
@@ -209,7 +210,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 					sendoutEmailSMSNotification(caseRecord);
 
 					caseRecord.MoveToNext__c = true;
-					Database.update(caseRecord, AccessLevel.USER_MODE);
+					Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
 			}
 		} catch (Exception e) {
