@@ -1,15 +1,31 @@
+/**
+ * @description - Batch class to process the communication log records
+ */
+
+ @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount,PMD.ExcessiveParameterList, PMD.EmptyStatementBlock, PMD.UnusedLocalVariable')
 public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,Schedulable {
     public string strQuery = '';
+    /**
+     * @description - //default constructor
+     */
     public ASF_commLogProcessingBatch(){
-        //default constructor
         this.strQuery = '';
     }
+    
+    /**
+     * @description - parameterised constructor to assign the query string from other class.
+     * @param qry = holds the query string 
+     */
     public ASF_commLogProcessingBatch(String qry){
         this.strQuery = qry;
     }
     
+    /**
+     * @description - Batch class's Start method
+     * @param bc - Database.BatchableContext object
+     * @return Database.QueryLocator
+     */
     public Database.QueryLocator start(Database.BatchableContext bc){
-        System.debug(this.strQuery);
         if(String.isNotBlank(this.strQuery)){
             return Database.getQueryLocator(strQuery);
         }
@@ -18,17 +34,19 @@ public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,S
                                              SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c  FROM PE_Logger__c WHERE Status__c='Processing' AND CreatedDate = Today ORDER BY CreatedDate ASC]);
         }
     }
+
+    /**
+     * @description - Batch class's execute method
+     * @param bc - Database.BatchableContext object
+     * @param scope list of records to process
+     */
     public void execute(Database.BatchableContext bc, List<PE_Logger__c> scope){
-        Map<Id,String> mCaseVsCustomMetadata = new Map<Id,String>();
-        Map<Id,Set<Pe_logger__c>> mCaseIdPELoggers = new Map<Id,Set<PE_Logger__c>>();
-        List<PE_Logger__c> temp_Update = new List<PE_Logger__c>();
         Map<Id,PE_Logger__c> mIncomingScopeIds = new Map<Id,PE_Logger__c>(scope); // Just to get the PE_Logger__c Id coming from Scope variable.
         
         // Get the latest Status of PE_Logger__c record, if during the start and execute method, if the status is changed, don't process PE_Logger__c record.
         Map<Id,PE_Logger__c> mPELoggerLatestStatus = new Map<Id,PE_Logger__c>([SELECT ID,RecordID__c,CustomMetadataName__c,Case__c,AccountId__c,ContactId__c,Email_Template_Name__c,
                                              SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c
                                                                                FROM PE_Logger__c WHERE Id =: mIncomingScopeIds.keySet()]);
-        
         
         List<PE_Logger__c> toProcessingClass = new List<PE_Logger__c>();
         List<PE_Logger__c> updPELoggerStatus = new List<PE_Logger__c>();
@@ -68,10 +86,18 @@ public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,S
                 Database.SaveResult[] results = Database.update(updPELoggerStatus,false);
             }
     }
+    /**
+     * @description - Batch class's fininsh method
+     * @param bc - Database.BatchableContext variable
+     */
     public void finish(Database.BatchableContext bc){
         
     }
     
+    /**
+     * @description - SchedulableContext's execute method
+     * @param sc - SchedulableContext variable
+     */
     public void execute(SchedulableContext sc){
         if(String.isNotBlank(this.strQuery)){
             Database.executeBatch(new ASF_commLogProcessingBatch(this.strQuery),1);
@@ -79,6 +105,5 @@ public class ASF_commLogProcessingBatch implements Database.Batchable<sObject>,S
         else{
             Database.executeBatch(new ASF_commLogProcessingBatch(),1);
         }
-        
     }
 }

@@ -1,20 +1,26 @@
 /**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
+ * @description Case trigger handler class for BU specific
+ */
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
+    /**
+     * @description - Executes befor the ASF code runs in before insert context
+     * @param newItems - list of new cases
+     */
     // INSERT CONTEXT - START HERE
     public override void executeBeforeASFCodeInBeforeInsert(List<SObject> newItems){
-
-        ABFL_CreateCaseProspectHelper.beforeInsertMethod((List<Case>)newItems);
-        ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(newItems);
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+        ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+            ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
+            ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+        }
     }
+      
+     /**
+     * @description - Executes after the ASF code runs in before insert context
+     * @param newItems - list of new cases
+     */
     public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         
         List<Case> newCaseList = (List<Case>)newItems;
@@ -42,11 +48,19 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
 
     }
 
+    /**
+     * @description  Executes before the ASF code runs in after insert context
+     * @param newItems - map of new cases
+     */
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.populateFieldsInAfterContext((List<Case>)newItems.values());
     }
 
+    /**
+     * @description  Executes after the ASF code runs in after insert context
+     * @param newItems - map of new cases
+     */
     public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
@@ -55,30 +69,52 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
+
+        // Create Comment if the case is closed while creation.[through api]
+        ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
     // UPDATE CONTEXT - ENDS HERE
+    /**
+     * @description  Executes before the ASF code runs in before update coABHFL_AmortizationIntegrationntext
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
     public override void executeBeforeASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        System.debug('Inside executeBeforeASFCodeInBeforeUpdate');
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
     }
+
+    /**
+     * @description  Executes after the ASF code runs in before update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        System.debug('Inside executeAfterASFCodeInBeforeUpdate');
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){
-        	ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
+            ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        
+        ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
     }
+
+    /**
+     * @description  Executes before the ASF code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
     public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        System.debug('Inside executeBeforeASFCodeInAfterUpdate');
         ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)newItems.values(), (Map<Id, Case>)oldItems);
     }
+
+    /**
+     * @description  Executes after the ASF code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        System.debug('Inside executeAfterASFCodeInAfterUpdate');
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
 
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
