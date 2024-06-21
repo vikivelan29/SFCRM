@@ -52,6 +52,10 @@
         <apexClass>ABSLI_CannedResponse_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABSLI_CannedResponse_Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.ANI_Number__c</field>
