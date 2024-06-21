@@ -30,13 +30,6 @@
         <value>No file available for syncing.</value>
     </labels>
     <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-    <labels>
         <fullName>DMS_File_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -794,6 +787,13 @@
         <value>ABSLI</value>
     </labels>
     <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -855,5 +855,13 @@
         <protected>false</protected>
         <shortDescription>ABSLI Canned Response Success Message</shortDescription>
         <value>Canned Response send successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_Acknowledgement_Email</fullName>
+        <categories>ABSLIG</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
     </labels>
 </CustomLabels>

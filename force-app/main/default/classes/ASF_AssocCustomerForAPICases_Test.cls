@@ -74,7 +74,7 @@ public class ASF_AssocCustomerForAPICases_Test {
         c.Status = 'New';
         c.Stage__c='New';
         c.Business_Unit__c = 'ABFL';
-        c.Technical_Source__c = 'API';
+        c.Technical_Source__c = 'Email';
         c.Client_Code_Text__c = 'CCC-CC-CCLTD-01';
         insert c;
         
