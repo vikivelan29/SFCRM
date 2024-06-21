@@ -1287,6 +1287,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABSLIG_Case_Detail__c.Checker_Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABSLIG_Case_Detail__c.Checker_Name__c</field>
         <readable>true</readable>
@@ -1309,6 +1314,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLIG_Case_Detail__c.Maker_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABSLIG_Case_Detail__c.Maker_Manager__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2484,6 +2494,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.IsEscalated</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Issue_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
