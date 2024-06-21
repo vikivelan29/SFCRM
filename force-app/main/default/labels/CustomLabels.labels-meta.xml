@@ -935,11 +935,4 @@
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
         <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
     </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
 </CustomLabels>
