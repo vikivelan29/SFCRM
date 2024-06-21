@@ -555,6 +555,10 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <relatedList>ASF_Case_Email_Config__c.Case_Category_Config__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>ABHFL_Case_Detail__c.Correct_Type_Sub_Type__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

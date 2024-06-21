@@ -150,6 +150,16 @@
                                                     <lightning-combobox class="validate" name="issueType" label="Issue Type" value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
                                                 </template>
                                             </div>
+                                            <div class="slds-col slds-size_2-of-8">
+                                                <template if:true={showCategoryType}>
+                                                    <lightning-combobox data-id="Category_Type"
+                                                    label="Category Type"
+                                                    class="validate" 
+                                                    options={categoryTypeOptions}
+                                                    onchange={handleCatTypeChange} required>
+                                                    </lightning-combobox> 
+                                                </template>
+                                            </div>
                                         </div>
                                         <template if:true={complaintLevelVisible}>
                                             <lightning-record-edit-form object-api-name="Case">
