@@ -5,7 +5,7 @@ public class ABSLI_BeforeInsertTriggerLogicTest {
     static void makeData(){
         Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
-        ASF_TestDataFactory.createCaseRecords(3);
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
     }
     @IsTest
     public static void checkComplaintApplicabilityTest() {
@@ -86,6 +86,22 @@ public class ABSLI_BeforeInsertTriggerLogicTest {
             errorMessage = ex.getMessage();
         }
         System.assertEquals(errorMessage,'Insert failed. First exception on row 0; first error: FIELD_CUSTOM_VALIDATION_EXCEPTION, The issue \'Email ID Update\' isn\'t valid for this policy.: []');
+    }
+    
+    @IsTest
+    public static void associateCustomerForAPIFromPhoneNumberTest(){
+        Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp', 'Test_1');
+        Contact con = New Contact(LastName='Test user',AccountId=accRec.Id,MobilePhone='1234567890',Business_Unit__c='ABSLI');
+        insert con;
+
+		ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
+		insert detailRec;
+        Case cs = new Case(ABSLI_Case_Detail__c=detailRec.Id,SuppliedPhone='1234567890',Business_Unit__c='ABSLI',Technical_Source__c='API',Source__c='Advisor Portal',
+                           RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId(),
+                          Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator',
+                          SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30,
+                          Stage_SLA_1__c = System.now(),Stage_SLA_2__c = System.now()+1,Stage_SLA_3__c = System.now()+2,CCC_External_Id__c = 'PNFT007');
+        insert cs;
     }
 	
 }

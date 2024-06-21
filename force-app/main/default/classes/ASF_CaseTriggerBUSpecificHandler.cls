@@ -16,7 +16,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABSLI_BeforeInsertTriggerLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+            ABSLI_BeforeInsertTriggerLogic.associateCustomerForAPIFromPhoneNumber(mRecordTypeVsCases1.get(frameworkRTId));
         }
+		
     }
       
      /**
@@ -106,7 +108,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
+        
+        //ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
         ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
@@ -126,8 +129,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      */
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
+
         ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
-        
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
 
@@ -143,6 +146,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABCL_InvokeOneABC.evaluateCasesForOneABC((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
+
         absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)newItems.values());
     }
 }
