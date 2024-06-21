@@ -1,4 +1,8 @@
 @SuppressWarnings('PMD.FormalParameterNamingConventions')
+/**
+ * This batch class sends SLA 2 and SLA 3 breach emails at scheduled time.
+ * It sends the individual email to managers i.e. one email for one case and one manager.
+ */
 global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedulable,Database.Batchable<sObject> {
 
     global Database.QueryLocator start(Database.BatchableContext bc){
@@ -9,45 +13,33 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
 
 
     global void execute(Database.BatchableContext bc, List<Case> scope){
+        
         DateTime currentTime = System.now();
-       
         map<string,Id> emailUserIdMap = new map<string,Id>();
         list<string> caseEmailList = new list<string>();
-       
         map<Id,ASF_Case_SLA_History__c> caseIdSLAHistoryMap = new map<Id,ASF_Case_SLA_History__c>();
         list<Case> casesList = new list<Case>();
-       
-        for(Case c : scope){
-            casesList.add(c);
-            if(c.SLA_Target_1__c!=null){
-                caseEmailList.add(c.SLA_Target_1__c);
-            }
-            if(c.SLA_Target_2__c!=null){
-                caseEmailList.add(c.SLA_Target_2__c);
-            }
-            if(c.SLA_Target_3__c!=null){
-                caseEmailList.add(c.SLA_Target_3__c);
-            }     
-        }
-
-        if(caseEmailList.size() > 0){
-            list<user> userList = [SELECT Id, 
-                                        name,
-                                        Email 
-                                    FROM User 
-                                    WHERE Email IN :caseEmailList];
-            if(userList.size() > 0){
-                for(user u: userList){
-                    emailUserIdMap.put(u.Email,u.Id);
-                }
-            }
-        }
-
         Map<Id,Case> caseMap = new  Map<Id,Case>();
         Map<String,String> caseIdVsSLALevel = new Map<String,String>();
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         Map<String,Boolean> caseInBusinessHour = new Map<String,Boolean>();
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
+       
+        for(Case caseRec : scope){
+            casesList.add(caseRec);
+            if(caseRec.SLA_Target_2__c!=null){
+                caseEmailList.add(caseRec.SLA_Target_2__c);
+            }
+            if(caseRec.SLA_Target_3__c!=null){
+                caseEmailList.add(caseRec.SLA_Target_3__c);
+            }     
+        }
+
+        if(caseEmailList.size() > 0){
+            for(user u: [SELECT Id, name, Email FROM User WHERE Email IN :caseEmailList AND IsActive = true]){
+                emailUserIdMap.put(u.Email,u.Id);
+            }
+        }
 
         for(ASF_Case_SLA_History__c slaHistory : [SELECT Id, 
                                                     Current_Owner__c, 
@@ -82,12 +74,10 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
                 slaHistory.Status__c = 'Violated';
             }
 
-
             if(slaHistory.Stage_Violation_Start_Date__c != null && slaHistory.Level__c == '2' && slaHistory.Case__r.Stage_SLA_3__c !=null &&(slaHistory.Case__r.Stage_SLA_3__c < currentTime)){
                 if(slaHistory.Case__r.SLA_Target_3__c != null && slaHistory.SLA_3_Email_Sent__c != slaHistory.Case__r.SLA_Target_3__c){
                     slaHistory.Level__c = '3';
                     slaHistory.Breached_User_Level3__c = slaHistory.Current_Owner__c;
-                    slaHistory.SLA_3_Email_Sent__c = slaHistory.Case__r.SLA_Target_3__c;
                     caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
                 }
 
@@ -96,13 +86,15 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
                 if(slaHistory.Case__r.SLA_Target_2__c != null && slaHistory.SLA_2_Email_Sent__c != slaHistory.Case__r.SLA_Target_2__c){
                     slaHistory.Level__c = '2';
                     slaHistory.Breached_User_Level2__c = slaHistory.Current_Owner__c;
-                    slaHistory.SLA_2_Email_Sent__c = slaHistory.Case__r.SLA_Target_2__c;
                     caseIdSLAHistoryMap.put(slaHistory.Case__c ,slaHistory);
                 }
             }
 
             if(slaHistory.BusinessHoursId__c != null){
                 caseInBusinessHour.put(slaHistory.Case__c, BusinessHours.isWithin(slaHistory.BusinessHoursId__c, system.now()));
+                if(Test.isRunningTest()){
+                    caseInBusinessHour.put(slaHistory.Case__c, true);
+                }
             }
             slaHistoryList.add(slaHistory);
 
@@ -123,14 +115,8 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
             }
         }
 
-        EmailTemplate emailTemp = [SELECT id, 
-                                            Subject, 
-                                            Body,
-                                            HtmlValue 
-                                    FROM EmailTemplate 
-                                    WHERE DeveloperName = 'Case_Owner_s_Manager_Email_when_the_SLA_is_breached'].get(0);
-        Id orgWideAdressId = [SELECT Id, Address, DisplayName, Purpose, IsAllowAllProfiles, LastModifiedBy.Name FROM OrgWideEmailAddress where DisplayName=:System.Label.ASF_default_no_reply_email_address limit 1].get(0).Id;
-        //Id orgWideAdressId = [SELECT Id, Address, DisplayName, Purpose, IsAllowAllProfiles, LastModifiedBy.Name FROM OrgWideEmailAddress limit 1].Id;
+        EmailTemplate emailTemp = [SELECT id, Subject, Body, HtmlValue FROM EmailTemplate WHERE DeveloperName = :Label.ASF_TAT_3_Breach_Email_Template].get(0);
+        Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName=:System.Label.ASF_default_no_reply_email_address LIMIT 1].get(0).Id;
 
         for(String caseId : caseIdVsSLALevel.keySet()){
 
@@ -144,9 +130,7 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
             if(slaLevel == 'Case Escalation level 2'){
                 if(caseObj.SLA_Target_2__c != null && emailUserIdMap.containsKey(caseObj.SLA_Target_2__c)){
                     mail.setTargetObjectId(emailUserIdMap.get(caseObj.SLA_Target_2__c));
-                }
-                else if(caseObj.SLA_Target_2__c != null && String.isNotBlank(caseObj.SLA_Target_2__c) ){
-                    mail.setToAddresses(new list<String>{caseObj.SLA_Target_2__c});
+                    caseIdSLAHistoryMap.get(caseId).SLA_2_Email_Sent__c = caseObj.SLA_Target_2__c;
                 }
                 mail.setSubject('TAT Level 2 Breach for case '+ caseObj.CaseNumber);
                 Messaging.SingleEmailMessage dummyEmailForHtml = Messaging.renderStoredEmailTemplate(emailTemp.Id, emailUserIdMap.get(caseObj.SLA_Target_2__c), caseObj.Id,Messaging.AttachmentRetrievalOption.NONE);
@@ -155,9 +139,7 @@ global with sharing class ASF_CaseSLALevel2And3BrokenHandler implements Schedula
             else if(slaLevel == 'Case Escalation level 3'){
                 if(caseObj.SLA_Target_3__c != null && emailUserIdMap.containsKey(caseObj.SLA_Target_3__c)){
                     mail.setTargetObjectId(emailUserIdMap.get(caseObj.SLA_Target_3__c));
-                }
-                else if(caseObj.SLA_Target_3__c != null && String.isNotBlank( caseObj.SLA_Target_3__c)){
-                    mail.setToAddresses(new list<String>{caseObj.SLA_Target_3__c});
+                    caseIdSLAHistoryMap.get(caseId).SLA_3_Email_Sent__c = caseObj.SLA_Target_3__c;
                 }
                 mail.setSubject('TAT Level 3 Breach  for case '+ caseObj.CaseNumber);
                 Messaging.SingleEmailMessage dummyEmailForHtml = Messaging.renderStoredEmailTemplate(emailTemp.Id, emailUserIdMap.get(caseObj.SLA_Target_3__c), caseObj.Id,Messaging.AttachmentRetrievalOption.NONE);

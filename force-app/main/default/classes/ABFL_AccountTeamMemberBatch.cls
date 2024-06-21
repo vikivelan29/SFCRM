@@ -4,7 +4,7 @@
 *Created Date :  16/01/2024
 *@description  :  This batch class is used to insert AccountTeamMember if RM Code of LAN matches with user for ABFL Sales Role and delete the ATM if doesnt match.
 *********************************************************/
-public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject>  {
+public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject>{
     public final String query;
     /*********************************************************
     *@description  :  Constructor to initialize the query.
@@ -25,19 +25,20 @@ public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject> 
     *@description  :   Execute method to process the batch records.
     *********************************************************/
     public void execute(Database.BatchableContext bc, List<Asset> scope) {
-        Map<String, Id> codeToFederationMap = new Map<String, Id>();
-        Set<String> accountId = new Set<String>();
-        List<AccountTeamMember> accountTeamMembersToInsert = new List<AccountTeamMember>();
-        List<AccountTeamMember> accountTeamMembersToDelete = new List<AccountTeamMember>();
-        List<Asset> updateRmAssignment = new List<Asset>();
-        Map<Id,Set<String>> mapRmCodes = new  Map<Id,Set<String>>();
-        for (Asset asset : scope) {
-            if(asset.RM_Code__c != null && asset.AccountId != null){
-                accountId.add(asset.accountId);
-                asset.RM_Assignment__c = 'Processed';
-                updateRmAssignment.add(asset);
+        try{
+            Map<String, Id> codeToFederationMap = new Map<String, Id>();
+            Set<String> accountId = new Set<String>();
+            List<AccountTeamMember> accountTeamMembersToInsert = new List<AccountTeamMember>();
+            List<AccountTeamMember> accountTeamMembersToDelete = new List<AccountTeamMember>();
+            List<Asset> updateRmAssignment = new List<Asset>();
+            Map<Id,Set<String>> mapRmCodes = new  Map<Id,Set<String>>();
+            for (Asset asset : scope) {
+                if(asset.RM_Code__c != null && asset.AccountId != null){
+                    accountId.add(asset.accountId);
+                    asset.RM_Assignment__c = 'Processed';
+                    updateRmAssignment.add(asset);
+                }
             }
-        }
             for (Asset assetAll : [SELECT ID, AccountId ,RM_Code__c  FROM Asset WHERE AccountId IN:accountId]) {
                 codeToFederationMap.put(assetAll.RM_Code__c, null);  
                 if (!mapRmCodes.containsKey(assetAll.AccountId)) {
@@ -55,37 +56,44 @@ public class ABFL_AccountTeamMemberBatch implements Database.Batchable<SObject> 
                 for (Asset asset : scope) {
                     Id userId = codeToFederationMap.get(asset.RM_Code__c);
                     if (userId != null) {
-                    AccountTeamMember atm = new AccountTeamMember();
-                    atm.AccountId = asset.AccountId;
-                    atm.UserId = userId;
-                    atm.TeamMemberRole = 'ABFL RM';
-                    atm.AccountAccessLevel  = 'Read';
-                    atm.CaseAccessLevel = 'Read';
-                    accountTeamMembersToInsert.add(atm);
+                        AccountTeamMember atm = new AccountTeamMember();
+                        atm.AccountId = asset.AccountId;
+                        atm.UserId = userId;
+                        atm.TeamMemberRole = 'ABFL RM';
+                        atm.AccountAccessLevel  = 'Read';
+                        atm.CaseAccessLevel = 'Read';
+                        accountTeamMembersToInsert.add(atm);
                     }
                 }
             }
-             if (!accountTeamMembersToInsert.isEmpty()) {
+            if (!accountTeamMembersToInsert.isEmpty()) {
                 insert accountTeamMembersToInsert;
             }
             if (!updateRmAssignment.isEmpty()) {
                 update updateRmAssignment;
             }
-        // Identifying Account Team Members to delete 
-        for (AccountTeamMember existingAccountTeamMembers :[SELECT Id, UserId,User.FederationIdentifier, AccountId FROM AccountTeamMember WHERE AccountId IN :accountId]){
-            if (mapRmCodes.containsKey(existingAccountTeamMembers.AccountId)) {
-                if (!mapRmCodes.get(existingAccountTeamMembers.AccountId).contains(existingAccountTeamMembers.User.FederationIdentifier)) {
-                    accountTeamMembersToDelete.add(existingAccountTeamMembers); 
-                    system.debug('accountTeamMembersToDelete--> '+accountTeamMembersToDelete); 
-                }
-            }    
-        }
-        if (!accountTeamMembersToDelete.isEmpty()) {    
-            delete accountTeamMembersToDelete;
+            // Identifying Account Team Members to delete 
+            for (AccountTeamMember existingAccountTeamMembers :[SELECT Id, UserId,User.FederationIdentifier, AccountId FROM AccountTeamMember WHERE AccountId IN :accountId]){
+                if (mapRmCodes.containsKey(existingAccountTeamMembers.AccountId)) {
+                    if (!mapRmCodes.get(existingAccountTeamMembers.AccountId).contains(existingAccountTeamMembers.User.FederationIdentifier)) {
+                        accountTeamMembersToDelete.add(existingAccountTeamMembers); 
+                        system.debug('accountTeamMembersToDelete--> '+accountTeamMembersToDelete); 
+                    }
+                }    
+            } 
+            if (!accountTeamMembersToDelete.isEmpty()) {    
+                delete accountTeamMembersToDelete;
+            }
+        }catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
     /*********************************************************
-     * @param bc BatchableContext
+     * @param bc BatchableContext. 
     *@description  :   Finish method.
     *********************************************************/
     public void finish(Database.BatchableContext bc) {

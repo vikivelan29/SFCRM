@@ -313,6 +313,7 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         this.totalNoOfRecordsInDatatable = this.searchResults.length;
         this.paginationHelper();
         this.selectedRows = [];
+        this.sendToUnregistered = false;
     }
 
 }

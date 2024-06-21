@@ -96,7 +96,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     }
 
     validateDuplicateCase(){
-        let isValid = true;
+        let isValid = true; 
         if(this.wiredParentRec.IsDuplicate && (this.wiredParentRec.BusinessUnit =='ABFL' || this.wiredParentRec.BusinessUnit=='ABWM') && (this.wiredCurrentRec.BusinessUnit =='ABFL' || this.wiredCurrentRec.BusinessUnit=='ABWM')){
             isValid = false;
             this.showToastMessage('Error!', 'You cannot choose a duplicate case as parent', 'error');
