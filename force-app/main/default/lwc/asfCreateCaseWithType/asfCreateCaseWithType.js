@@ -58,6 +58,7 @@ import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExt
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -170,20 +171,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
-            }else{
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
-            }
+           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
