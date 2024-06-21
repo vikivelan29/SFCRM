@@ -1,9 +1,23 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-13-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions')
 @isTest
 public class ASF_RetryIntegrations_Test {
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     @TestSetup
     static void makeData(){
-        List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+        Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
         List<Case> cases = ASF_TestDataFactory.createCaseRecords(3);
         for(Case c : cases){
@@ -28,10 +42,14 @@ public class ASF_RetryIntegrations_Test {
         }
         
         // For Testing purpose, Case record is not being passed, since the response is hard coded
-        ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prePopInt, caseRec);
+        ASF_IntegrationsController.runIntegration(prePopInt, caseRec);
         
     }
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     @isTest
     private static void ASF_RetryIntegrationsTest_PROCESS(){
         List<ASF_Case_Integration__c> caseIntegrations = [SELECT Id, Status__c,Integration_Ext_Id__c,Case__c,
@@ -40,13 +58,15 @@ public class ASF_RetryIntegrations_Test {
                                                           WHERE Integration_Ext_Id__c='ASF_INT_02'                                          	
                                                           LIMIT 1];
         
-        System.debug(caseIntegrations[0].Integration_Ext_Id__c);//ASF_INT_01
-        
         Test.StartTest();
         ASF_RetryIntegrations.retryIntegration(caseIntegrations);
         Test.StopTest();
     }
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-13-2024 
+    **/
     @isTest
     private static void ASF_RetryIntegrationsTest_EBOT(){
         Case newCase = new Case();
@@ -79,7 +99,5 @@ public class ASF_RetryIntegrations_Test {
             
             ASF_RetryIntegrations.retryIntegration(caseIntegrations);
         }
-        
-        
     }
 }

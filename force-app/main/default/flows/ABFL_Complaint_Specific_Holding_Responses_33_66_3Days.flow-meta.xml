@@ -40,6 +40,7 @@
                 <elementReference>TemplateDevName_Email</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -48,6 +49,7 @@
             <assignToReference>TemplateDevName_Email</assignToReference>
             <name>templateName</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <assignments>

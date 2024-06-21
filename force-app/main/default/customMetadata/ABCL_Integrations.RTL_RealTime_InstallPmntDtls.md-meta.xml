@@ -3,6 +3,10 @@
     <label>RTL_RealTime_InstallPmntDtls</label>
     <protected>false</protected>
     <values>
+        <field>Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>EnableMockResponse__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -20,6 +24,18 @@
     </values>
     <values>
         <field>HTTP_Headers__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Int_IV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Int_Key__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Merchant_Id__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>

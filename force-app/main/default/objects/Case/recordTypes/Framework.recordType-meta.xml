@@ -6,44 +6,6 @@
     <compactLayoutAssignment>ASF_Case_Compact_Layout</compactLayoutAssignment>
     <label>Framework</label>
     <picklistValues>
-        <picklist>Attachment_Status__c</picklist>
-        <values>
-            <fullName>Completed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Bot_Feedback__c</picklist>
-        <values>
-            <fullName>Change as per Customer Need</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect Classification</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Manually case created</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multiple Intent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Uncategorised</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Business_Unit__c</picklist>
         <values>
             <fullName>ABFL</fullName>
@@ -54,11 +16,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -78,17 +40,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist>
-        <values>
-            <fullName>Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Origin</picklist>
         <values>
             <fullName>ABFL Email</fullName>
@@ -96,6 +47,14 @@
         </values>
         <values>
             <fullName>ABHFL Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -120,10 +79,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -166,64 +121,6 @@
         </values>
         <values>
             <fullName>User didn%27t attend training</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Rejection_Reason__c</picklist>
-        <values>
-            <fullName>Cancelled</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Closed as Exception</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Complaint Rejected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer Non Contactable</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insufficient%2Fincomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Invalid information</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Out-of-Scope Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partially Resolved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Reopen_Style__c</picklist>
-        <values>
-            <fullName>Move To First Stage</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reopen Stage No Movement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reopen Stage With Movement</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -279,6 +176,10 @@
         </values>
         <values>
             <fullName>Internal Usage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -353,10 +254,6 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Legal</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
@@ -366,45 +263,6 @@
         </values>
         <values>
             <fullName>Open</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Sub_Source__c</picklist>
-        <values>
-            <fullName>Cibil Trigger</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Detractor</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incoming</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>One ABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pro-active</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Walkin</fullName>
             <default>false</default>
         </values>
     </picklistValues>

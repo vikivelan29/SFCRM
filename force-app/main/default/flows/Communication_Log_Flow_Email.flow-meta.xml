@@ -297,7 +297,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Send_email_to_creator_case_closed</name>
-            <conditionLogic>1 AND 2 AND 4 AND (3 OR 5)</conditionLogic>
+            <conditionLogic>1 AND 2 AND 4 AND 6 AND (3 OR 5)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>NotEqualTo</operator>
@@ -331,6 +331,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreatedBy.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -377,6 +384,13 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>

@@ -57,32 +57,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Constitution__c</picklist>
         <values>
-            <fullName>%2E%2E%2E%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Customer_Status__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Fraud_Status__c</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -227,27 +206,20 @@
             <fullName>ABHFL</fullName>
             <default>false</default>
         </values>
-                <values>
+        <values>
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Classified</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Wealth</fullName>
-            <default>false</default>
-        </values>
-<values>
-            <fullName>Not Classified</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Organisation_Type__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -267,21 +239,6 @@
         </values>
         <values>
             <fullName>Subsidiary</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Permanent_Addr_Flag__c</picklist>
-        <values>
-            <fullName>OFFICE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PERMANENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RESIDENTIAL</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -340,13 +297,6 @@
         </values>
         <values>
             <fullName>Reseller</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Verticals__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>

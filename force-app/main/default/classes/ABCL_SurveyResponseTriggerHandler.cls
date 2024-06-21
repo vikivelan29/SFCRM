@@ -1,3 +1,11 @@
+/*********************************************************
+*Class        :  ABCL_SurveyResponseTriggerHandler
+*Author       :  Virendra Patil
+*Created Date :  03/03/2024
+*Last Modified:  14/05/2024
+*Test Class   :  ABCL_SurveyResponseTriggerHandlerTest
+*@description :  Trigger handler class for SurveyResponse object
+*********************************************************/
 public class ABCL_SurveyResponseTriggerHandler extends ASF_VTriggerHandler {
     
     

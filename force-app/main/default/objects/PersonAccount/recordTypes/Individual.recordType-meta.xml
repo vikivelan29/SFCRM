@@ -57,11 +57,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -77,27 +77,6 @@
         </values>
         <values>
             <fullName>PAYMENTS</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Constitution__c</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Customer_Status__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Fraud_Status__c</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -243,11 +222,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wealth</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
@@ -255,7 +230,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wealth</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -275,20 +254,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Maritual_Status__pc</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Organisation_Type__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Ownership</picklist>
         <values>
             <fullName>Other</fullName>
@@ -304,21 +269,6 @@
         </values>
         <values>
             <fullName>Subsidiary</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Permanent_Addr_Flag__c</picklist>
-        <values>
-            <fullName>OFFICE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PERMANENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RESIDENTIAL</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -377,13 +327,6 @@
         </values>
         <values>
             <fullName>Reseller</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Verticals__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
