@@ -16,7 +16,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.associateCustomerForAPIFromPhoneNumber(mRecordTypeVsCases1.get(frameworkRTId));
         }
-		
     }
       
      /**
@@ -94,7 +93,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABSLI_BeforeUpdateTriggerLogic.executeBeforeLogic((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         
     }
-    
+
     /**
      * @description  Executes after the ASF code runs in before update context
      * @param newItems - map of new cases
@@ -124,8 +123,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @param oldItems - map of old cases
      */
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
-
         ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
