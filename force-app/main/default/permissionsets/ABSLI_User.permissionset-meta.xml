@@ -426,7 +426,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.Acknowledgment_contacted__c</field>
+        <field>ABSLI_Case_Detail__c.Acknowledgement_contacted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
