@@ -755,30 +755,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>absli_caseEbotIndicator</componentName>
-                <identifier>c_absli_caseEbotIndicator</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Sent_to_EBOT__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.ABSLI_Case_Detail__r.Ebot_Email_in_Draft__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>createQuickActionName</name>
                     <value>NewCase</value>
