@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auto_Rejected__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used in ABSLI when Mandatory Checklist is not populated, then move to next stage sets Auto Rejected Flag to true.</description>
+    <externalId>false</externalId>
+    <label>Auto Rejected</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
