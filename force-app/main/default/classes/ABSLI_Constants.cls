@@ -12,8 +12,14 @@ public class ABSLI_Constants {
     public static final String COMPLETED = 'Completed';
     public static final String strResidence = 'Thane';
     public static final String BANK_ESB_FAILURE_RESPONSE = 'Unable to fetch Bank details. Please try again later.';
-    public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
+    
+    /* Bitly Link REAL TIME API
+     */
+    public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
+    /* Fund Value REAL TIME API
+     */
+    public static final String FUND_VALUE_API_METADATA = 'ABSLI_Fund_Value';
 
     /* POLICY NOMINEE REAL TIME FETCH API
      */
