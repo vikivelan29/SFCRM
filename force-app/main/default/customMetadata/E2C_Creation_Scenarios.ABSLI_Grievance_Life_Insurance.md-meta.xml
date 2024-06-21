@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI Grievance Life Insurance</label>
+    <protected>false</protected>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABSLI</value>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">Case creation is failed as eligibility failed for ABSLI Grievance Life Insurance Mailbox</value>
+    </values>
+    <values>
+        <field>ToAddress__c</field>
+        <value xsi:type="xsd:string">Grievance.lifeinsurance@adityabirlacapital.com</value>
+    </values>
+</CustomMetadata>
