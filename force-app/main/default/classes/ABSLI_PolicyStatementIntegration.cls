@@ -77,9 +77,9 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 			string requestBody = JSON.serialize(
 				new PASRequestWrapper(
 					caseRecord.Asset?.Policy_No__c,
-                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c),
-                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c),
-                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.Account?.PersonBirthdate)
+                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c, 'dd-MM-YYYY'),
+                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd-MM-YYYY'),
+                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.Account?.PersonBirthdate, 'dd-MM-YYYY')
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {

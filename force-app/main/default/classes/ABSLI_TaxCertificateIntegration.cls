@@ -74,8 +74,8 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			string requestBody = JSON.serialize(
 				new TCDRequestWrapper(
 					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
-                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c),
-                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c)
+                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c, 'dd-MM-YYYY'),
+                    ABSLI_CaseIntegrationHelper.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd-MM-YYYY')
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
