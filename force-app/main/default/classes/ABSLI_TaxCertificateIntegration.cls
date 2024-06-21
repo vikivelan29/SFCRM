@@ -1,14 +1,13 @@
 /**
- * @description Outbound Callout to Update Bank Account Deatils of Customer
- *  Service Agent to manually invoke STP by clicking on the Bank Account Update Integration Button
- *  Customer Portal to create Cases by API. On Successful response, case to be marked as Closed
+ * @description Tax Certificate Download Outbound Integration From Salesforce to Ingenium
+ * Customer Portal Provides Tax Certification Download feature at Portal End because of the same reason, this case become FTR
+ * Service Agent to Click on the button initiate the integration. On Successful response, case to be marked as Closed
  *
  * @author Abinash Panigrahi
- * @date 2024-05-28
+ * @date 2024-05-17
  */
-public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_IntegrationInvocable {
-
-    /**
+public with sharing class ABSLI_TaxCertificateIntegration implements ASF_IntegrationInvocable {
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRecs - List of Case record from the framework
@@ -27,12 +26,16 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 
 			result.status = ABSLI_Constants.ERROR;
 			result.response = result.response = Custom_Messages__mdt.getInstance(
-					ABSLI_Constants.BANKACCOUNTUPDATE_EVALUATION_ERROR
+					ABSLI_Constants.TAXCERTIFICATE_EVALUATION_ERROR
 				)
 				.Message__c;
 
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
+			if (
+				(caseRecord.Technical_Source__c == 'API' && caseRecord.FTR__c) ||
+				caseRecord.Technical_Source__c == 'LWC'
+			) {
 				result.status = ABSLI_Constants.SUCCESS;
+				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
 			}
 
 			resultMap.put(caseRecord.Id, result);
@@ -41,10 +44,10 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
-	 * @param caseIntegs - List of ASF_Integration record
+	 * @param integs - List of ASF_Integration record
 	 * @param caseRecs - List of Case record from the framework
 	 * @return Map<Id, ASF_IntegrationsController.IntegrationWrapper>
 	 */
@@ -54,7 +57,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-        //Before Initiating new Integration callout, cancel existing running request
+		//Before Initiating new Integration callout, cancel existing running request
 		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
@@ -69,18 +72,14 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 
 		for (Case caseRecord : caseRecords) {
 			string requestBody = JSON.serialize(
-				new BAURequestWrapper(
-					caseRecord.CaseNumber,
-					caseRecord.LAN__c == null ? caseRecord.Asset?.Policy_No__c : caseRecord.LAN__c,
-					caseRecord.ABSLI_Case_Detail__r?.IFSC_Code__c,
-					caseRecord.ABSLI_Case_Detail__r?.Account_Number__c,
-					caseRecord.ABSLI_Case_Detail__r?.Account_Type__c,
-					ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.Bank_IMPS_Date__c, 'dd-MM-YYYY'),
-					caseRecord.ABSLI_Case_Detail__r?.Bank_Account_Holder_Name__c
+				new TCDRequestWrapper(
+					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c, 'dd-MM-YYYY'),
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd-MM-YYYY')
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-				if (intSpec.Processing_Class__c == ABSLI_BankAccountUpdateIntegration.class.getName()) {
+				if (intSpec.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
 					ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
 					caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
 					caseInteg.Case__c = caseRecord.Id;
@@ -93,8 +92,8 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
 					caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
 					caseIntOut.Request_Payload__c = requestBody;
-					caseIntOut.Integration_Name__c = ABSLI_Constants.BANKACCOUNTUPDATE_SERVICE_NAME;
-					caseIntOut.ServiceName__c = ABSLI_Constants.BANKACCOUNTUPDATE_SERVICE_NAME;
+					caseIntOut.Integration_Name__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
+					caseIntOut.ServiceName__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
 					peMap.put(index, caseIntOut);
 					indexToCaseId.put(index, caseRecord.Id);
 				}
@@ -129,13 +128,13 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.BANKACCOUNTUPDATE_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.BANKACCOUNTUPDATE_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
@@ -145,7 +144,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Before Initiating new Integration callout, cancel existing running request
 	 *
 	 * @param integs - List of Integration configs
@@ -155,7 +154,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		Set<String> intIds = new Set<String>();
 		for (Case caseRec : caseRecs) {
 			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+				if (integ.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
 					intIds.add(integ.External_Id__c);
 				}
 			}
@@ -183,39 +182,39 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 
 	/**
 	 * @description Invoked from the Case Integration trigger, this method processes the response of the integration received
-	 * If ProcessCode = 0, Successful Transaction. Then Resolve Case
 	 *
 	 * @param caseInteg - ASF_Integration record
-	 * @return
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
 
-				BAUResponseWrapper jsonMap = (BAUResponseWrapper) JSON.deserialize(
+				// TODO : Response Attribute Reference to determine
+				TCDResponseWrapper jsonMap = (TCDResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
-					BAUResponseWrapper.class
+					TCDResponseWrapper.class
 				);
 
-				if (jsonMap.LSIR_RETURN_CD == '00') {
-                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-				    sendoutEmailSMSNotification(caseRecord);
+				// Transfer Attachment to Case
+				Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 
-                    caseRecord.MoveToNext__c = true;
-				    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
-				}
+				//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+				sendoutEmailSMSNotification(caseRecord);
+
+				caseRecord.MoveToNext__c = true;
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
-			ABCL_Logger.push('ABSLI_BankAccountUpdateIntegration.processResponse');
+			ABCL_Logger.push('ABSLI_TaxCertificateIntegration.processResponse');
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
 	}
 
-    /**
+	/**
 	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
 	 *
 	 * @param caseRecord - Case record from the framework
@@ -240,7 +239,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		);
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRec - Case record from the framework
@@ -252,7 +251,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		return result;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
 	 * @param caseInteg - ASF_Integration record
@@ -270,103 +269,42 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 	}
 
 	/**
-	 * @description Policy Account Statement (PAS) Wrapper Class to build Integration Request Body JSON
+	 * @description Tax Certificate Download (TCD) Wrapper Class to build Integration Request Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
-	public class BAURequestWrapper {
-		public string TRANS_NO { get; set; }
-		public service service { get; set; }
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	public class TCDRequestWrapper {
+		public Details details { get; set; }
 
-		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public BAURequestWrapper(
-			String caseNumber,
-			String policyNumber,
-			String ifscCode,
-			String accountNumber,
-			String accountType,
-			String bankIMPSDate,
-			String bankAccountHolderName
-		) {
-			this.TRANS_NO = caseNumber;
-			this.service = new service(
-				policyNumber,
-				ifscCode,
-				accountNumber,
-				accountType,
-				bankIMPSDate,
-				bankAccountHolderName
-			);
+		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
+			this.details = new Details(policyID, startDate, endDate);
 		}
 	}
 
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
-	public class service {
-		public string source { get; set; }
-		public string polId { get; set; }
-		public string ifsc_code { get; set; }
-		public string acc_no { get; set; }
-		public string acc_type { get; set; }
-		public string micr_code { get; set; }
-		public string trantype { get; set; }
-		public string IMPS_Flag { get; set; }
-		public string IMPS_Date { get; set; }
-		public string Account_Holder_Name { get; set; }
-		public string IMPS_Status_Code { get; set; }
-		public string IMPS_Status_Desc { get; set; }
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	public class Details {
+		public String POLICYID;
+		public String SOURCE;
+		public String STARTDATE;
+		public String ENDDATE;
+		public String AGENTCODE;
+		public String OUTPUTFORMAT;
 
-		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public service(
-			String policyNumber,
-			String ifscCode,
-			String accountNumber,
-			String accountType,
-			String bankIMPSDate,
-			String bankAccountHolderName
-		) {
-			this.source = ABSLI_Constants.ESB_SOURCE_ID;
-			this.polId = policyNumber;
-			this.ifsc_code = ifscCode;
-			this.acc_no = accountNumber;
-			this.acc_type = accountType;
-			this.micr_code = ABSLI_Constants.BANKACCOUNTUPDATE_MICR_CODE;
-			this.trantype = ABSLI_Constants.BANKACCOUNTUPDATE_TRANSTYPE;
-			this.IMPS_Flag = ABSLI_Constants.BANKACCOUNTUPDATE_IMPSFLAG;
-			this.IMPS_Date = bankIMPSDate;
-			this.Account_Holder_Name = bankAccountHolderName;
-			this.IMPS_Status_Code = ABSLI_Constants.BANKACCOUNTUPDATE_IMPS_STATUSCODE;
-			this.IMPS_Status_Desc = ABSLI_Constants.BANKACCOUNTUPDATE_IMPS_STATUSDESC;
+		public Details(String policyID, String startDate, String endDate) {
+			this.POLICYID = policyID;
+			this.SOURCE = ABSLI_Constants.ESB_SOURCE_ID;
+			this.STARTDATE = startDate;
+			this.ENDDATE = endDate;
+			this.AGENTCODE = ABSLI_Constants.TAXCERTIFICATE_AGENT_CODE;
+			this.OUTPUTFORMAT = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
 		}
 	}
 
 	/**
-	 * @description Policy Account Statement (PAS) Wrapper Class to follow through Response Body JSON
+	 * @description Tax Certificate Download (TCD) Wrapper Class to follow through Response Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions,PMD.PropertyNamingConventions')
-	public class BAUResponseWrapper {
-		public String LSIR_RETURN_CD { get; set; }
-		public String MIR_NEFT_IFSC_CD { get; set; }
-		public String MIR_NEFT_IFSC_CD_UP { get; set; }
-		public String MIR_RETRN_CD { get; set; }
-		public String Page { get; set; }
-		public String MIR_NEFT_ACCT_NUM_UP { get; set; }
-		public String MIR_NEFT_ACCT_TYP_CD { get; set; }
-		public String MIR_NEFT_BNK_MICR_CD_UP { get; set; }
-		public String MIR_IMPS_FLAG { get; set; }
-		public String MIR_IMPS_DATE { get; set; }
-		public String MESSAGES { get; set; }
-		public String ProcessMessage { get; set; }
-		public String MIR_ACC_HLDR_NM { get; set; }
-		public String MIR_IMPS_STATUS_CODE { get; set; }
-		public String MIR_IFSC_SEQ_NUM { get; set; }
-		public String TRANS_NO { get; set; }
-		public String ProcessCode { get; set; }
-		public String MIR_NEFT_BNK_MICR_CD { get; set; }
-		public String MIR_NO_OF_IFSC_REC { get; set; }
-		public String MIR_NEFT_ACCT_TYP_CD_UP { get; set; }
-		public String MIR_IMPS_ACC_HLDR_NM { get; set; }
-		public String MIR_NEFT_BNK_BR_NM { get; set; }
-		public String MIR_NEFT_BNK_NM { get; set; }
-		public String MIR_NEFT_ACCT_NUM { get; set; }
-		public String MIR_IMPS_STATUS_DES { get; set; }
+	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+	public class TCDResponseWrapper {
+		public String URL;
+		public String outputFormat;
 	}
 }
