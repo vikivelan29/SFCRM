@@ -242,16 +242,6 @@ public class ABSLI_CaseIntegrationHelper {
         return caseRecord;
     }
 
-    /**
-	 * @description Change Date to in format of DD-MM-YYYY
-     *
-	 * @author Abinash Panigrahi
-     * @date 2024-05-28
-	 */
-    public static String dateFormat(Date dt, String formatted){
-        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);
-    }
-
     public class ContentRelationWrapper{
         public string registeredTemplateId;
         public string unregisteredTemplateId;
