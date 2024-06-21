@@ -9,9 +9,9 @@ public class ABCL_AssetTriggerHelper_Test {
 private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-        Group slaGroup = new Group();        
+    	Group slaGroup = new Group();        
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-            insert slaGroup;
+        	insert slaGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
             insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 

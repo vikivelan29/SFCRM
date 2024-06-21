@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-21-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-21-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -500,6 +510,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
+                                            system.debug('as-error3');
+
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
                     }
@@ -520,6 +532,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
+                            system.debug('as-error2');
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
                     }
@@ -562,7 +575,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
                     }else{
-                        caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                    system.debug('as-error1');
+                       caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                     }
                 }
             }
@@ -638,7 +652,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }else{
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
-                    }else{
+                    }else{                    system.debug('as-error6');
+
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                     }
                 }
@@ -709,7 +724,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
                     //Error scenario
-                    newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                                        system.debug('as-error5');
+
+                   newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                 }
             }
         }
@@ -734,6 +751,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
                 else{
+                                    system.debug('as-error4');
+
                     //Error scenario
                     ASF_CaseMovementHelper.StageWrapper wrapToReturn = wrapToReturnMap.get(caseRec.Id);
                     newMap.get(caseRec.Id).addError(wrapToReturn.errorMessage != null?wrapToReturn.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
@@ -1295,7 +1314,7 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 }
                 if(newCaseOwnerQueueIdset.contains(queueRec.Id)){
                     newOwnerQueueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
-				}
+                }
             }
             List<Id> allManagergroupIds = new List<Id>();
             if(!caseOwnerGroupIdMap.isEmpty()){

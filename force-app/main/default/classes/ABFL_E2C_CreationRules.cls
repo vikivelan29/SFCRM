@@ -2,7 +2,7 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 03-27-2024
+ * @last modified on  : 06-21-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -136,7 +136,7 @@ public with sharing class ABFL_E2C_CreationRules {
                     expectedIndex++;
                 } 
                 // If all words from expectedValue are found in actualValue, return true
-                else if (word.contains(expectedWords[expectedIndex])) {
+                else if (expectedIndex < expectedWords.size() && !word.contains(expectedWords[expectedIndex])) {
                     return false;
                 }
             }

@@ -132,6 +132,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         enachData.return_url = 'http://localhost:8090/resultpage';
         payload.enach_data = enachData;
          
+        System.debug('@@@mobileN'+mobileNo);
+                System.debug('@@@emailId'+emailId);
         EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,

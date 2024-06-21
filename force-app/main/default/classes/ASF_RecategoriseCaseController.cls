@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-21-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-21-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 //Controller class for asf_RecategoriseCase LWC
 //Created by JT & Santanu
 public without sharing class ASF_RecategoriseCaseController {
@@ -50,6 +60,7 @@ public without sharing class ASF_RecategoriseCaseController {
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             update caseRec;
             result = caseRec.Requested_CCC_Details__c;
+            system.debug('Requested_CCC_Details__c--'+caseRec.Requested_CCC_Details__c);
         }catch (Exception e){
             result = 'Error - '+e;
         }
@@ -174,13 +185,9 @@ public without sharing class ASF_RecategoriseCaseController {
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
             toUpdateCase.Lead__c = null;
-            List<Asset> assetList = [SELECT Id, LAN__c, Policy_No__c from Asset where Id =: (String)caseObject.get('AssetId')];
+            List<Asset> assetList = [SELECT Id, LAN__c from Asset where Id =: (String)caseObject.get('AssetId')];
             if(!assetList.isEmpty()){
-                if(ASF_Constants.BUSpecificLANKey.contains((String)caseObject.get('Business_Unit__c'))){
-                    toUpdateCase.LAN__c = assetList[0].Policy_No__c;
-                }else{
-                    toUpdateCase.LAN__c = assetList[0].LAN__c;
-                }
+                toUpdateCase.LAN__c = assetList[0].LAN__c;
             }
         }
         if((String)caseObject.get('Lead__c') != null && (String)caseObject.get('Lead__c') != ''){
@@ -215,7 +222,6 @@ public without sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Reopen_SLA_Broken_Date_Time__c = null;
         toUpdateCase.SLA_Broken__c = false;
         toUpdateCase.SLA_Broken_DateTime__c = null;
-        toUpdateCase.Issue_Type__c = (String)caseObject.get('Issue_Type__c');
         //ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :oldCCCId Limit 1];
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;

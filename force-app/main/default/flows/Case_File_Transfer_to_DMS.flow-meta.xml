@@ -14,8 +14,6 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ABFL_DMSSync_Orchestrator</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>TransferFilesToDMS</name>
@@ -31,8 +29,6 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ABCL_IntegrationCommonUtility</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <decisions>
@@ -67,7 +63,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>Case File Transfer to DMS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case File Transfer to DMS</label>
     <processMetadataValues>
@@ -108,8 +103,8 @@
                 <targetReference>Is_Business_Unit_ABFL</targetReference>
             </connector>
             <label>Create DMS File Transfer Platform Event</label>
-            <offsetNumber>1</offsetNumber>
-            <offsetUnit>Hours</offsetUnit>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
             <recordField>ClosedDate</recordField>
             <timeSource>RecordField</timeSource>
         </scheduledPaths>

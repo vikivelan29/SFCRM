@@ -92,7 +92,6 @@
     </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
-        <logo>X231204_ABC_Primary_Identity_CMYK_Wh</logo>
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
@@ -106,75 +105,51 @@
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABFL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABFL_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABFL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABHFL_Case_Framework_Lightning_Page1</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>Salesforce API Only System Integrations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABHFL_Case_Framework_Lightning_Page1</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>Salesforce API Only System Integrations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>Knowledge_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <pageOrSobjectType>Knowledge__kav</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>Knowledge_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <pageOrSobjectType>Knowledge__kav</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABHFL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>

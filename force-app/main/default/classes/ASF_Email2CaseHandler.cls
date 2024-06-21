@@ -2,7 +2,7 @@
 * @description       : Class is having all the E2C Validation of Email Boxes logic.
 * @author            : virendra
 * @group             : 
-* @last modified on  : 05-14-2024
+* @last modified on  : 06-21-2024
 * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -10,7 +10,7 @@
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
-    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG'};
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments'};
         /**
 * @description : Exception
 **/

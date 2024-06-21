@@ -62,7 +62,7 @@
         <field>Case.Assigned_Team__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
         <criteriaItems>
             <column>CLOSED_DATEONLY</column>
             <columnToColumn>false</columnToColumn>
@@ -83,6 +83,13 @@
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>ABFL ABWM Customer Service</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.LOB__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ABWM,Wealth</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>

@@ -47,7 +47,6 @@
             <targetReference>AddCurrentInstance</targetReference>
         </connector>
     </assignments>
-    <environments>Default</environments>
     <interviewLabel>ABFL - Update CaseNumber on Case Extension</interviewLabel>
     <label>ABFL - Update CaseNumber on Case Extension</label>
     <loops>
@@ -117,12 +116,6 @@
         <connector>
             <targetReference>Get_Extensions_where_Case_details_are_null</targetReference>
         </connector>
-        <filterFormula>NOT(ISNULL({!$Record.ABFL_Case_Detail__c})) &amp;&amp;
-(
-ISBLANK({!$Record.ABFL_Case_Detail__r.CaseNumber__c})
- ||
-(ISCHANGED({!$Record.OwnerId}) &amp;&amp; TEXT({!$Record.Stage__c}) = &quot;Open&quot;)
-)</filterFormula>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

@@ -449,6 +449,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Next_Retry__c = System.now().addMinutes(15);
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
+                    fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
                 } else {
                     fileRec.Status__c = ABHFL_Constants.PENDING;
                 }
@@ -503,23 +504,6 @@ public with sharing class ABCL_IntegrationCommonUtility {
         }
     }
 
-    public static void caseIntegrationLogger(String caseId,
-                                             String request,
-                                             String respose,
-                                             String intExtId,
-                                             String status){
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c = caseId;
-        caseInt.Request__c = request;
-        caseInt.Response__c = respose;
-        caseInt.Status__c = status;
-        caseInt.Integration_Ext_Id__c = intExtId;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt;
-        }
-        
-        
-    }
 /*********************************************************
 *@description  :  wrapper class
 *********************************************************/

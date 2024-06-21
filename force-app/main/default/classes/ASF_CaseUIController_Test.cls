@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
+ * @last modified on  : 06-21-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -111,7 +111,7 @@ public class ASF_CaseUIController_Test{
     
     @isTest
     public static void caseExtensionTest(){
-		ABHFL_Case_Detail__c record = new ABHFL_Case_Detail__c();
+        ABHFL_Case_Detail__c record = new ABHFL_Case_Detail__c();
         Case caseRec = [select id from Case limit 1];
         ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
         ASF_CaseUIController.createCaseExtension(record,cc,caseRec.Id, 'ABHFL_Case_Detail__c');
@@ -133,6 +133,7 @@ public class ASF_CaseUIController_Test{
             mobilephone = '1234567890'
         );
         insert testLead;
+        Test.startTest();
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
@@ -164,13 +165,14 @@ public class ASF_CaseUIController_Test{
         );
         ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName, 'not equal to null');
+        Test.stopTest();
         //}
         
     }
     
     @isTest
     public static void CreateProspectAndUpdateOnCaseTest(){
-		Case caseRecord = new Case();
+        Case caseRecord = new Case();
         Lead leadRecord = new Lead();
         leadRecord.MobilePhone  = '9855494949';
         leadRecord.LastName = 'test';

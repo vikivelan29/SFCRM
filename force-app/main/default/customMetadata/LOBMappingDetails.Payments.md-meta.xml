@@ -15,10 +15,6 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Complaint_Type__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Exclusion_Bu_s__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -41,10 +37,6 @@
     <values>
         <field>Source__c</field>
         <value xsi:type="xsd:string">Others</value>
-    </values>
-    <values>
-        <field>Sub_Source__c</field>
-        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Sub_Source__c</field>

@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-21-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-21-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ASF_CaseFileUploadTriggerHelper_Test {
 
@@ -17,7 +27,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         insert cdl;
         
         EmailMessage emailMessageRec = new EmailMessage(
-            ParentId = [select Id from case LIMIT 1].Id, // Link to the Case
+            ParentId = [select Id from case LIMIT 1].Id,
             Subject = 'Test Email',
             FromAddress = 'test@example.com',
             TextBody = 'This is a test email message.'

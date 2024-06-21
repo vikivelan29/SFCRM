@@ -110,6 +110,7 @@ public with sharing class ASF_IntegrationsController {
             Map<String, List<Case>> apexClassToCasesForEvaluate = new Map<String, List<Case>>();
             Map<String, List<Case>> apexClassToCasesForRun = new Map<String, List<Case>>();
             Set<String> all_fields = new Set<String>{'id'};
+
             for(Case caseRec : caseRecs){
                 if(integs.containsKey(caseRec.Id)){
                     for(ASF_Integration__c integ : integs.get(caseRec.Id)){
