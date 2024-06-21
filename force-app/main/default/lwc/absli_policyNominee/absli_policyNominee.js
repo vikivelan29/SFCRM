@@ -20,7 +20,7 @@ export default class Absli_policyNominee extends LightningElement {
     @track showErrorMsg = false;
 
     connectedCallback() {
-        this.data = generateData({ amountOfRecords: 25 });
+        //this.data = generateData({ amountOfRecords: 25 });
     }
 
     
