@@ -268,7 +268,7 @@ public without sharing class ASF_CaseQueryHandler {
                                                           Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c,
                                 						  Case_Assigned_Team__c
                                                           FROM ASF_Case_SLA_History__c
-                                                          WHERE Case__c =: caseIds WITH SYSTEM_MODE order by createddate DESC
+                                                          WHERE Case__c =: caseIds WITH SYSTEM_MODE order by Stage_End_Date__c DESC
                                                          ];
         }
         return caseSLAHistories;
