@@ -43,7 +43,3 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
-
-.prettierrc
-package-lock.json
-package.json
