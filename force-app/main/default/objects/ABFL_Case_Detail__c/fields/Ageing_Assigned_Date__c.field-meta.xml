@@ -13,6 +13,7 @@ DATEVALUE( Case__r.Last_Owner_Change_Date__c ) - DATE( 1900, 1, 8), 7 ) ) )</for
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

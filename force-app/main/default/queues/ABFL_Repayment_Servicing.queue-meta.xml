@@ -6,6 +6,9 @@
         <publicGroups>
             <publicGroup>ABFL_Repayment_Servicing_G</publicGroup>
         </publicGroups>
+        <users>
+            <user>yugandhara.chaudhari@infobeans.com.base.uat</user>
+        </users>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>

@@ -186,10 +186,40 @@ update c; */
         System.debug('case case case'+c);
         
         Test.startTest(); 
-        	ASF_CaseRelatedDetailsUpdate related = new ASF_CaseRelatedDetailsUpdate();
-        	related.beforeInsertUpdateCase(caseList);
+            ASF_CaseRelatedDetailsUpdate related = new ASF_CaseRelatedDetailsUpdate();
+            related.beforeInsertUpdateCase(caseList);
         System.assertEquals('CCC-CASA-ALM-003R4', c.CCC_External_Id__c);
         Test.stopTest();
     }
-    
+     @isTest
+    static void removeAccountIdtest(){
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk5612@gmail.com' LIMIT 1];
+        system.runAs(usr)
+        { 
+            Test.startTest(); 
+            Id rtId = Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
+            Id caseRecId = Schema.Sobjecttype.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+            Account acc= new Account(
+            FirstName='Test FName',
+            RecordTypeId = rtId,
+            LastName='Test LName',
+            Business_Unit__c = 'ABHFL',
+            PersonMailingStreet='test@yahoo.com',
+            PersonMailingPostalCode='12345',
+            PersonMailingCity='SFO',
+            PersonEmail='test@yahoo.com',
+            PersonHomePhone='1234567',
+            PersonMobilePhone='12345678'
+        );
+        insert acc;
+             Case newCase = new Case();
+                newCase.Subject = 'Test Case Creation';
+                newCase.Business_Unit__c  = 'ABFL';
+                newCase.RecordTypeId = caseRecId;
+                newCase.AccountId = acc.Id;
+                insert newCase;
+             System.assertEquals('ABFL', newCase.Business_Unit__c,'value found');          
+             Test.stopTest();            
+         }
+    }   
 }

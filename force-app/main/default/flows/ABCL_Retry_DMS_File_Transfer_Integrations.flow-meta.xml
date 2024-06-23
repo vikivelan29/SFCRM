@@ -14,11 +14,8 @@
                 <elementReference>$Record</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ABCL_RetryDMSFileTransfer</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
-    <environments>Default</environments>
     <interviewLabel>ABCL Retry DMS File Transfer Integrations {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABCL Retry DMS File Transfer Integrations</label>
     <processMetadataValues>
