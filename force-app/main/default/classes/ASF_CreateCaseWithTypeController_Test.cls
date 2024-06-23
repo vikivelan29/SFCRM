@@ -205,6 +205,7 @@
             {
                 Test.startTest(); 
                 ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Wealth"}');
+                ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Corporate"}');
             }
             Test.stopTest();
             Integer count = [SELECT Count() FROM Account];

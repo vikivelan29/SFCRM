@@ -105,7 +105,7 @@
         <field>Case.Bot_Feedback__c</field>
     </columns>
     <filter>
-        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
+        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <column>Case.Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
@@ -119,13 +119,6 @@
             <isUnlocked>false</isUnlocked>
             <operator>contains</operator>
             <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.LOB__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>contains</operator>
-            <value>ABWM,Wealth</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

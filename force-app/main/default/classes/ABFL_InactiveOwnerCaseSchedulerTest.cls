@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 06-20-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   06-20-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @isTest
 public class ABFL_InactiveOwnerCaseSchedulerTest {
     @isTest
@@ -30,12 +20,12 @@ public class ABFL_InactiveOwnerCaseSchedulerTest {
         // Trigger the job manually
         Test.startTest();
         ABFL_InactiveOwnerCaseReassignScheduler scheduler = new ABFL_InactiveOwnerCaseReassignScheduler();
-        scheduler.execute(null);
+        System.schedule('sample job','0 0 0 * * ?', scheduler);
         Test.stopTest();
 
         // Query the job again and verify that it has been triggered once
         scheduledJob = [SELECT Id, CronExpression, TimesTriggered FROM CronTrigger WHERE Id = :jobID];
-        // System.assertEquals(1, scheduledJob.TimesTriggered);
+        System.assertEquals(1, scheduledJob.TimesTriggered);
 
         // Clean up by deleting the scheduled job
         System.abortJob(jobID);

@@ -121,7 +121,7 @@
         <field>Case.Recategorisation_Date__c</field>
     </columns>
     <filter>
-        <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
         <criteriaItems>
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
@@ -142,13 +142,6 @@
             <isUnlocked>false</isUnlocked>
             <operator>contains</operator>
             <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.LOB__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABWM,Wealth</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>

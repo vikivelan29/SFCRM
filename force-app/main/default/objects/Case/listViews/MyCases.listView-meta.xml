@@ -2,12 +2,23 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MyCases</fullName>
     <columns>CASES.CASE_NUMBER</columns>
+    <columns>Customer_name_formula__c</columns>
     <columns>CASES.SUBJECT</columns>
+    <columns>Source__c</columns>
     <columns>CASES.STATUS</columns>
     <columns>CASES.PRIORITY</columns>
     <columns>CASES.CREATED_DATE</columns>
+    <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
-    <columns>SR_TAT_elapsed__c</columns>
+    <columns>Ageing_Business_Days__c</columns>
+    <columns>Type_Text__c</columns>
+    <columns>Sub_Type_Text__c</columns>
+    <columns>Nature__c</columns>
     <filterScope>Mine</filterScope>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Resolved,Closed Duplicate,Unresolved</value>
+    </filters>
     <label>My Cases</label>
 </ListView>

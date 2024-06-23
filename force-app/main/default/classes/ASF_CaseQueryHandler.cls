@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 06-20-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseQueryHandler {
@@ -346,9 +346,9 @@ public without sharing class ASF_CaseQueryHandler {
     * @return List<ASF_Integration__c> 
     **/
     public static List<ASF_Integration__c> getASFIntegrationRecordsForRetry(Set<String> integrationExtnId){
-        return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,Query_Fields__c,
+        return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c,Query_Fields__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
     }
 
     /**

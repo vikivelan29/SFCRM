@@ -9,7 +9,7 @@ public class ASF_BulkCsvDownloadHelper_Test {
     @isTest
     private static void getMetadataDetailsTest() {
         Test.startTest();
-            ASF_BulkCsvController.MetadataWrapper result = ASF_BulkCsvController.getMetadataDetails(); 
+            List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> result = ASF_BulkCsvController.getMetadataDetails(); 
         Test.stopTest();     
     }
     @isTest
