@@ -73,6 +73,9 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
                                 checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
+                                // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
+                                checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
+                                // VIRENDRA - 13 June 2024 - ENDS HERE.
                                 checklistList.add(checklistRecord);
                             }
                             break;
@@ -203,6 +206,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         if (result == true) {
                             resultInfo.defaultOwnerId = caseRule.Assigned_Queue_Id__c;
                             resultInfo.defaultErrorOwnerId = caseRule.Assigned_Error_Queue_Id__c;
+                            // VIRENDRA - 8 JUNE 2024 - ADDED Assignment_Queue_Name__c to response resultInfo.
+                            resultInfo.defaultOwnerName = caseRule.Assignment_Queue_Name__c;
                             break;
                         }                
                     }
@@ -220,7 +225,7 @@ public without sharing class ASF_CaseFrameworkHelper {
      * For Back Movement, Find the Previously Actioned User
      */
     public static Map<Id, CaseRuleAssignmentInfo> findAssignmentForPreviouslyVisitedStage(Map<Id, String> caseStageMap){
-        
+        Map<Id,User> mINTEGRATIONUSERS = new Map<Id,User>([SELECT ID FROM User WHERE Profile.Name = 'Salesforce API Only System Integrations']);
         Map<Id, CaseRuleAssignmentInfo> resultInfoMap = new Map<Id, CaseRuleAssignmentInfo>();
         
         // To be able to find the Owner, below is the Logic
@@ -236,25 +241,34 @@ public without sharing class ASF_CaseFrameworkHelper {
                 caseSlaHistoryMap.get(history.Case__c).add(history);
         }
         
-       Map<Id,Id> lastActionedUserIdMap = new Map<Id,Id>();
+       //Map<Id,Id> lastActionedUserIdMap = new Map<Id,Id>();
+       Map<Id,ASF_Case_SLA_History__c> lastActionedUserHistoryMap = new Map<Id,ASF_Case_SLA_History__c>();
+        Set<Id> lastActionedUsers = new Set<Id>();
+        
         for(Id caseId : caseStageMap.keySet()){
             for(ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseId)){
                 if(history.Stage__c == caseStageMap.get(caseId)){
-                    lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
-                    break;
+                    if(!mINTEGRATIONUSERS.containsKey(history.Current_Owner_Id__c)){
+                        //lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
+                        lastActionedUserHistoryMap.put(caseId,history);
+                        lastActionedUsers.add(history.Current_Owner_Id__c);
+                    	break;
+                    }
                 }
         	}
         }
         
-        if(!lastActionedUserIdMap.isEmpty()){
+        //if(!lastActionedUserIdMap.isEmpty()){
+        if(!lastActionedUserHistoryMap.isEmpty() && lastActionedUsers.size()>0){
             // Check if User is Active
             Map<Id, User> lastActionedUserMap = new Map<Id, User>([ SELECT Id, IsActive FROM User
-                								WHERE Id IN: lastActionedUserIdMap.values() AND IsActive = true]);
-            for(Id caseId : lastActionedUserIdMap.keySet()){
+                								WHERE Id IN: lastActionedUsers AND IsActive = true]);
+            for(Id caseId : lastActionedUserHistoryMap.keySet()){
                 CaseRuleAssignmentInfo resultInfo;
-                if(lastActionedUserMap.containsKey(lastActionedUserIdMap.get(caseId))){
+                if(lastActionedUserMap.containsKey(lastActionedUserHistoryMap.get(caseId).Current_Owner_Id__c)){
                     resultInfo = new CaseRuleAssignmentInfo();
-                    resultInfo.defaultOwnerId = lastActionedUserIdMap.get(caseId);
+                    resultInfo.defaultOwnerId = lastActionedUserHistoryMap.get(caseId).Current_Owner_Id__c;
+                    resultInfo.defaultOwnerName = lastActionedUserHistoryMap.get(caseId).Case_Assigned_Team__c != null ? lastActionedUserHistoryMap.get(caseId).Case_Assigned_Team__c : '';
                     resultInfoMap.put(caseId, resultInfo);
                 }
             }
@@ -335,7 +349,7 @@ public without sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c){
+                    if(integ.Auto_Run_on_Load__c && !(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false)){
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
@@ -405,6 +419,8 @@ public without sharing class ASF_CaseFrameworkHelper {
         public Id defaultErrorOwnerId;
         public string status; 
         public string errorMessage;
+        // VIRENDRA: 8 JUNE 2024 - ADDED BELOW VARIABLE TO SHOW ASSIGNED TEAM ON ON CASE.
+        public string defaultOwnerName;
     }
 
 }

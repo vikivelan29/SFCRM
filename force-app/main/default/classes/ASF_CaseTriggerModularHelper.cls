@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
     
@@ -138,12 +148,13 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                caseRec.Is_STP__c = appliedCCC.Is_STP__c;
+                caseRec.Is_STP__c = appliedCCC.Is_STP__c; 
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                
-                
+                if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
+                   	caseRec.Categorization_Date__c = system.now();     
+                } 
             }else if(isUpdate && casesChangingRT.contains(caseRec.Id)){
                 //error out cases with wrong Issue Code while converting from preframework to framework
                 //during case creation in framework, if wrong issue code is provided(some api), allow. 
@@ -558,6 +569,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseRec.Stage__c = resultWrap.nextStageConfig.StageName__c;
                     caseRec.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                     caseRec.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
+                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM ON CASE RECORD.
+                    System.debug('resultWrap.ownerName --> '+resultWrap.ownerName);
+                    caseRec.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName: '';
+                    // VIRENDRA - ENDS HERE.
                 }else{
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
@@ -608,6 +623,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         caseRecFromMap.Previous_Stage__c = oldMap.get(caseRecFromMap.Id).Stage__c;
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        
+                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
+                        caseRecFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
+                        
                         if(resultWrap.caseToBeUpdated != null){
                             Map<String, Object> populatedFieldMap = resultWrap.caseToBeUpdated.getPopulatedFieldsAsMap();
                             for(String fieldName : populatedFieldMap.keySet()){
@@ -631,6 +650,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                         }
                         //caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();//commented PR970457-1746
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
+                        // VIRENDRA - 8 JUNE 2024 - ADDED TO STAMP CASE ASSIGNED TEAM.
+                        // THIS CODE IS NEED IN CASE OF STP FLOW - WHEN CASES ARE CREATED AND MOVED TO NEXT STAGE.
+                        caseREcFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
+                        // VIRENDRA - ENDS HERE.
                         caseRecFromMap.MoveToNext__c = false;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
@@ -731,6 +754,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     }
                     caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                     caseRecFromMap.OwnerId = wrapToReturn.ownerId != null ? wrapToReturn.ownerId : (wrapToReturn.errorOwnerId != null ? wrapToReturn.errorOwnerId : caseRec.OwnerId);
+                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
+                   	caseRecFromMap.Case_Assigned_Team__c = wrapToReturn.ownerName != null ? wrapToReturn.ownerName : '';
+                    // VIRENDRA - ENDS HERE.
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
                 else{
@@ -746,10 +772,32 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static void checkAndPopulateOwnerOnCaseCreation(Map<Id, Case> newMap) {
         List<Case> eligibleCases = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
+        Map<Id, String> caseUIStageMap = new Map<Id, String>();
+        List<Case> eligibleLWCCases = new List<Case>();
+        
         for(Case caseRec : newMap.values()){
             if(caseRec.Technical_Source__c == 'API'){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
+            }
+            // VIRENDRA - 12 JUNE 2024 - TO RUN THE RULE AND FIND OUT CASE ASSIGNED TEAM.
+            else if(caseRec.Technical_Source__c == 'LWC'){
+                caseUIStageMap.put(caseRec.Id,caseRec.Stage__c);
+                eligibleLWCCases.add(caseRec);
+            }
+        }
+        if(!eligibleLWCCases.isEmpty()){
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfoMap = ASF_CaseMovementHelper.getAssignmentForStage(eligibleLWCCases, caseUIStageMap);
+            for(Case caseRec : eligibleLWCCases){
+                ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo ownerInfo = ownerInfoMap.get(caseRec.Id);
+                caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                    Case caseObj = new Case(Id = caseRec.Id);
+                    caseFinalDMLMap.put(caseRec.Id, caseObj);
+                }
+                Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                caseRecFromMap.Case_Assigned_Team__c  = ownerInfo.defaultOwnerName != null? ownerInfo.defaultOwnerName:'';
+                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
         }
         if(!eligibleCases.isEmpty()){
@@ -763,8 +811,16 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
                 caseRecFromMap.OwnerId = ownerInfo.defaultOwnerId!=null?ownerInfo.defaultOwnerId:caseRecFromMap.OwnerId;
+                // VIRENDRA - 8 JUNE 2024 - TO STORE THE CASE ASSIGNED TEAM NAME.
+                System.debug('caseRecFromMap.Case_Assigned_Team__c --> '+caseRecFromMap.Case_Assigned_Team__c);
+                caseRecFromMap.Case_Assigned_Team__c  = ownerInfo.defaultOwnerName != null? ownerInfo.defaultOwnerName:'';
+                // VIRENDRA - ENDS HERE.
                 if(triggerEncounteredError.containsKey(caseRec.Id) && triggerEncounteredError.get(caseRec.Id)){
                     caseRecFromMap.OwnerId = ownerInfo.defaultErrorOwnerId!=null?ownerInfo.defaultErrorOwnerId:caseRecFromMap.OwnerId;
+                    // VIRENDRA - 8 JUNE 2024 - TO STORE THE CASE ASSIGNED TEAM NAME.
+                    System.debug('caseRecFromMap.Case_Assigned_Team__c --> In Error Block -->'+caseRecFromMap.Case_Assigned_Team__c);
+                    caseRecFromMap.Case_Assigned_Team__c  = ownerInfo.defaultOwnerName != null? ownerInfo.defaultOwnerName:'';
+                    // VIRENDRA - ENDS HERE.
                 }
                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
             }
@@ -847,7 +903,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
             for(Id caseId : caseStageMap.keySet()){
                 if(addlDataFromStageMovementMethods.containsKey(caseId)){
                     if(addlDataFromStageMovementMethods.get(caseId).allIntegrations != null 
-                    && newMap.get(caseId).Technical_Source__c == 'API' || newMap.get(caseId).Technical_Source__c == 'Email'){
+                    && newMap.get(caseId).Technical_Source__c == 'API' || newMap.get(caseId).Technical_Source__c == 'Email'
+                      || newMap.get(caseId).Technical_Source__c == 'LWC'){
                         integCaseList.add(newMap.get(caseId));
                         //TO DOO:check on the data type of allintegrations wrapper
                         runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
@@ -1245,6 +1302,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
         Set<Id> newCaseOwnerQueueIdset = new Set<Id>();
 Set<Id> newCaseOwnerUserIdset = new Set<Id>();
         Map<Id, Group> queueIdNameMap = new Map<Id, Group>();
+        // VIRENDRA - 11 JUNE 2024 - TO UPDATE CASE ASSIGNED TEAM ON CHANGE OWNER TO QUEUE.
+        Map<Id,Group> caseAssignTeamMap = new Map<Id,Group>();
         Map<Id, user> newCaseOwnerMap;
         for(Case c : newList){
             String oldOwnerId = oldMap.get(c.Id).OwnerId;
@@ -1296,6 +1355,9 @@ if(oldOwnerId != newOwnerId && !newOwnerId.startsWith('00G')){
                 if(newCaseOwnerQueueIdset.contains(queueRec.Id)){
                     newOwnerQueueIdNameMap.put(queueRec.Id,queueRec.DeveloperName);
 				}
+                // VIRENDRA - 11 JUNE 2024 - TO STORE CASE ASSIGNED TEAM NAME.
+                caseAssignTeamMap.put(queueRec.Id,queueRec);
+                // VIRENDRA - ENDS HERE.
             }
             List<Id> allManagergroupIds = new List<Id>();
             if(!caseOwnerGroupIdMap.isEmpty()){
@@ -1413,6 +1475,15 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                         c.addError(System.Label.Owner_Change_Validation_Message);
                     }
                 }
+                
+            }
+        }
+        // VIRENDRA - 11 JUNE 2024 - TO UPDATE THE CASE TEAM ON CHANGE OWNER FROM UI AND TARGET NEW OWNER ID IS QUEUE ID.
+        for(Case c : newList){
+            if(c.OwnerId != oldMap.get(c.Id).OwnerId && c.OwnerId.getSObjectType() == Group.sObjectType){
+                    // VIRENDRA - 11 JUNE 2024 - UPDATE CASE ASSIGNED TEAM NAME IN BEFORE UPDATE CONTEXT
+                    // WHEN ONLY CASE OWNER IS CHANGED TO QUEUE.
+                    c.Case_Assigned_Team__c = caseAssignTeamMap.containsKey(c.OwnerId) ? caseAssignTeamMap.get(c.OwnerId).Name : '';
             }
         }
     }
