@@ -129,9 +129,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
-                //If subject not present, set it
-                //else if the origin is NOT email, set it
-                if(String.isBlank(caseRec.Subject) || (String.isNotBlank(caseRec.Origin) && !caseRec.Origin.contains('Email'))){
+                //If the incoming subject of the case is not blank, system will no longer overwrite it, 
+                //irrespective of origin/source of the case. PR970457-1880
+                if(String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
                 caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
@@ -205,7 +205,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
         //VIRENDRA - MOVED QUEUE Assignment Logic below.
         if(isUpdate){
-            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(newList,isUpdate,oldMap,nextStageMap);
+            List<Case> eligibleCaseList = new List<Case>();
+            for(Case caseRec : newList){
+                // Do not change the owner for certain CCC when recategorized
+                if(!(ASF_RecategoriseCaseController.requestFromRecat && cccExtIdToCCCMap.get(caseRec.CCC_External_Id__c).No_Owner_Change_on_Recat__c)){
+                    eligibleCaseList.add(caseRec);
+                }
+            }
+            Map<Id, ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo> ownerInfos = ASF_CaseMovementHelper.preFrameworkToFrameworkMovementAssignment(eligibleCaseList,isUpdate,oldMap,nextStageMap);
             for(Case caseRec : newList){
                 if(ownerInfos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrap = ownerInfos.get(caseRec.Id);

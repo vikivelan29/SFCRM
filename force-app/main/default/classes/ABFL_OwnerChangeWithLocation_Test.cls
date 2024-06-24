@@ -42,7 +42,6 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             stage1.StageName__c = 'New';
             stage1.Stage_SLA_1__c = 1;
             stage1.Status_Mapping__c = 'New';
-            // stage1.Stage_SLA_3__c = 3;
             stage1.SLA_Target_1_Type__c = 'Manager';
             stage1.Query_Fields__c = 'Id,Stage__c';
             stage1.Manual_Stage__c = false;
