@@ -257,6 +257,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abflENACHStatus</componentName>
+                <identifier>c_abflENACHStatus</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-37cd3d7f-a7a9-444c-97a0-dcc644f18ffd</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -271,6 +281,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>activityTab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-37cd3d7f-a7a9-444c-97a0-dcc644f18ffd</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>ENACH Status</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
