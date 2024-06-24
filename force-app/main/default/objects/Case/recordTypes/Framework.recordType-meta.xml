@@ -856,14 +856,6 @@
             <fullName>Welcome BOT</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Website Redressal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
