@@ -264,7 +264,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
-
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -422,7 +421,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
         let cccExternalId = '';
-
 
         if (this.caseRec.fields.AmIOwner__c.value == true) {
             this.isNotSelectedReject = false;
@@ -944,7 +942,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
