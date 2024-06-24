@@ -203,8 +203,7 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, {
         recordId: "$recordId",
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL],
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD]
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL]
     })
     CaseData({error, data}){
         if(data){
@@ -439,6 +438,7 @@ export default class Asf_CRNTagging extends LightningElement {
                 this.error = error;
             });
     }
+
     prePopulateEmailFieldOfLead() {
         
         if(this.loggedInUserBusinessUnit === ABSLIG_BU) {
@@ -447,12 +447,10 @@ export default class Asf_CRNTagging extends LightningElement {
                 if(fld.FieldName === "Email") {
                     fld.value = this.caseSuppliedEmail ?? "";
                 }
-                else {
-                    fld.value = "";
-                }
             }
         }
     }
+
     /* ADDED BY - VIRENDRA
        REQUIREMENT - TO RENDER THE PROSPECT CREATION FORM WHEN USER CLICKS ON CREATE PROSPECT BUTTON.
     */
