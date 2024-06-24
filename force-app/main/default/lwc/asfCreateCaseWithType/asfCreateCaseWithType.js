@@ -31,8 +31,7 @@ import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
@@ -111,7 +110,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     classificationValue;
     strSource = '';
     strChannelValue = '';
-    noAutoCommOptions = [];
+    @track noAutoCommOptions = [];
     noAutoCommValue = [];
     strDefaultChannel = '';
     boolChannelVisible = false;
@@ -146,7 +145,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     accountLOB = '';
     //BSLI
-    showAutoCommunication = false;
+    showAutoCommunication = true;
     showAniNumber = false;
     aniNumber;
     showFtr = false;
@@ -155,7 +154,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     issueTypeVal;
     issueTypeOptions = [];
     showCategoryType = false;
-    categoryTypeOptions = [];
+    @track categoryTypeOptions = [];
+    @api defaultRecTypeId; // this field is used to fetch the picklist values
+    @api picklistApiName = NOAUTOCOMM_FIELD;
+    @api bsliRecTypeId;
+    currentObj = CASE_OBJECT.objectApiName;
+
     
     //utility method
     showError(variant, title, error) {
@@ -173,7 +177,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
         } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
+            console.log('error in get record--'+JSON.stringify(error));
         }
     }
 
@@ -224,37 +228,53 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
     }
     
-    //To get No Auto Communication pickilst values
-    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
-    objectInfo;
+    //To get No Auto Communication and category picklist values
+    @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
+    objectInfos({ error, data}) {
+        if(data){
+            for (const [key, value] of Object.entries(data.results)) {
+                if(value.result.apiName === CASE_OBJECT.objectApiName){
+                    this.currentObj = CASE_OBJECT.objectApiName;
+                    this.defaultRecTypeId = value.result.defaultRecordTypeId;
+                    this.picklistApiName = NOAUTOCOMM_FIELD;
+                    console.log('inside case object');
+                }
+                if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
+                    this.bsliRecTypeId = value.result.defaultRecordTypeId;
+                    console.log('inside bsli object');
+                } 
+            }
+        }else if(error){
+            console.log('error in get objectInfos--'+JSON.stringify(error));
+        }
+    }
 
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
     wiredPicklistValues({ error, data}) {
+        console.log('picklist data--'+this.currentObj+JSON.stringify(this.picklistApiName));
         if (data){
-            this.noAutoCommOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
+            if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+
+                this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
+                this.defaultRecTypeId = this.bsliRecTypeId;
+                this.picklistApiName = BSLI_CATEGORY_TYPE;
+                
+            }else if(this.currentObj === ABSLI_CASE_DETAIL_OBJECT.objectApiName && this.picklistApiName === BSLI_CATEGORY_TYPE){
+                this.categoryTypeOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+            
+            console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-    //To get Category type pickilst values
-    @wire(getObjectInfo, { objectApiName: ABSLI_CASE_DETAIL_OBJECT })
-    bsliObjectInfo;
-
-    @wire(getPicklistValues, { recordTypeId: '$bsliObjectInfo.data.defaultRecordTypeId', fieldApiName: BSLI_CATEGORY_TYPE })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.categoryTypeOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    }
-
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('lob ---> ' + this.lobAsset);
@@ -371,7 +391,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if (selected) {
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
-            this.showAutoCommunication = true;
 
             if(this.businessUnit === 'ABHFL'){
                 if(this.sourceFldValue == 'Call Center'){
