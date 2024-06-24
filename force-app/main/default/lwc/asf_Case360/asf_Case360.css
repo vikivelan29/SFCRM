@@ -34,3 +34,6 @@
 .hiddenSubmitBtn{
   display: none;
 }
+.successBtn{
+  --slds-c-icon-color-foreground:#4BC980;
+}

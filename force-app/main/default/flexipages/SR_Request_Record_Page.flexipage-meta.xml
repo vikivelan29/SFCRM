@@ -33,36 +33,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListContainer</componentName>
-                <identifier>force_relatedListContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <mode>Replace</mode>
-        <name>relatedTabContent</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Approval_Type__c</fieldItem>
-                <identifier>RecordApproval_Type_cField</identifier>
+                <identifier>RecordApproval_Type_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -72,7 +49,7 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.SR__c</fieldItem>
-                <identifier>RecordSR_cField</identifier>
+                <identifier>RecordSR_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -82,10 +59,20 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Requestor_Comments__c</fieldItem>
-                <identifier>RecordRequestor_Comments_cField</identifier>
+                <identifier>RecordRequestor_Comments_cField2</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-829cd35a-9968-4f26-bb32-e5818540dbd2</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
+                <identifier>RecordRequested_CCC_Details__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-50780d6a-cc77-4375-9af4-c8a42329b7cc</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -96,10 +83,30 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Approval_Status__c</fieldItem>
-                <identifier>RecordApproval_Status_cField</identifier>
+                <identifier>RecordApproval_Status_cField2</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Recategorization_Request__c</fieldItem>
+                <identifier>RecordIs_Recategorization_Request_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-301bfe8c-0e70-46b9-818b-0b9385879d9a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -107,23 +114,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-829cd35a-9968-4f26-bb32-e5818540dbd2</value>
+                    <value>Facet-50780d6a-cc77-4375-9af4-c8a42329b7cc</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column3</identifier>
+                <identifier>flexipage_column5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</value>
+                    <value>Facet-301bfe8c-0e70-46b9-818b-0b9385879d9a</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column4</identifier>
+                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-b4b380f5-a97c-41f9-b93c-bcfe54f5c8fc</name>
+        <name>Facet-4265cfca-a3f8-4b44-a016-13ca08951f89</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -241,7 +248,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-b4b380f5-a97c-41f9-b93c-bcfe54f5c8fc</value>
+                    <value>Facet-4265cfca-a3f8-4b44-a016-13ca08951f89</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>horizontalAlignment</name>
@@ -249,10 +256,10 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Informations</value>
+                    <value>Information</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection2</identifier>
+                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -291,20 +298,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>body</name>
-                    <value>relatedTabContent</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -328,7 +321,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>SR Details</value>
+                    <value>Case Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>

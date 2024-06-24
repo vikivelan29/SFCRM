@@ -97,7 +97,7 @@
         </template>
         <!-- CUSTOMER SELECTION ENDS HERE.-->
 
-
+        <template if:false={showApproval}>
         <template if:true={showRecategorisationDiv}>
             <!--<div class="slds-form" role="list">
                 <div class="slds-form__row">
@@ -193,9 +193,11 @@
                                 <lightning-input-field field-name="Business_Unit__c" data-id="bizUnit" value={caseBUVal}
                                     class="slds-hide">
                                 </lightning-input-field>
-                                <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
-                                    value={botFeedbackVal}>
-                                </lightning-input-field>
+                                <template if:true={showBotFeedbackDropdown}>
+                                    <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
+                                        value={botFeedbackVal} onchange={handleBotDropdown}>
+                                    </lightning-input-field>
+                                </template>
                                 <template if:true={isAllNature}>
                                     <lightning-input-field field-name="Nature__c" data-id="natureField" required=true
                                         onchange={handleNatureVal} value={natureVal}>
@@ -260,13 +262,24 @@
             </div>
             
         </template>
+        <template if:true={approvalPending}>
+            <div class="slds-box">
+                <p>This case is under Approval for Recategorization</p>
+            </div>
+            
+        </template>
         <div slot="footer">
             <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
             <template if:true={recategorizeEnabled}>
-                <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
-                onclick={updateCaseHandler}></lightning-button>
+                <lightning-button label="Submit" variant="brand" class="slds-p-left_x-small" disabled={isNotSelected}
+                onclick={handleUpdate}></lightning-button>
             </template>
             
         </div>
+        </template>
     </lightning-quick-action-panel>
+    <template if:true={showApproval}>
+        <c-asf_case-manual-approval record-id={recordId} object-api-name="Case" is-recat-request={isTrue}
+        type-sub-type-text={newTypeSubType} onclosescreen={closeAction} onsubmitcase={updateCaseHandlerNew}> </c-asf_case-manual-approval>      
+    </template>
 </template>
