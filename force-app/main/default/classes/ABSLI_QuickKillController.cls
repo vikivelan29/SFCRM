@@ -9,7 +9,7 @@
 * 1.0   01-17-2024   Virendra Patil   Initial Version
 **/
 
-public without sharing class ABSLI_QuickKillController {
+public with sharing class ABSLI_QuickKillController {
     
     /* THIS METHOD IS USED TO DELETE THE RECORD, WHEN SOMEONE PROCESS THE DYNAMINC LINK AND JUST BEFORE CLICKING ON SEND
 CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCELLING IT.
@@ -112,7 +112,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         return [SELECT ID,Client_Code__c FROM Account WHERE Id =: accountId];
     }
     private static Asset getPolicyDetails(String policyId){
-        return [SELECT ID,Name,Type__c FROM Asset WHERE Id =: policyId];
+        return [SELECT ID,Name,Loan_Type__c FROM Asset WHERE Id =: policyId];
     }
     
     /* THIS METHOD IS USE FOR CREATING THE COMMUNICATION LOG RECORD. 
@@ -122,7 +122,8 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         ASF_Quick_Link_Config__mdt qkCommMdt = [SELECT ID, FunctionName__c ,FunctionCode__c,SMSMetadataName__c 
                                                 FROM ASF_Quick_Link_Config__mdt WHERE FunctionCode__c =: funcCode];
         
-        Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
+        Contact c = [SELECT ID,MobilePhone,Name,Salutation FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
+
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c,
                                                     Email_Template_Name__c 
@@ -134,14 +135,14 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();
             cLog.Account__c = selectedCustomer.Id;
             cLog.Contact__c = c.Id;
-            cLog.Contact_Name__c = c.Name;
+            cLog.Contact_Name__c = c.Salutation + ' ' + c.Name;
             cLog.SMS_Entity_Id__c = commMdt.SMS_Entity_Id__c;
             cLog.SMS_Sender_Id__c = commMdt.SMS_Sender_Id__c;
             cLog.SMS_LT_Name__c = commMdt.SMS_Template_Name__c;
             cLog.External_Template_ID__c = commMdt.external_templateID__c;
             cLog.Status__c = ABSLI_Constants.COMM_LOG_DEFAULT_STATUS;
             cLog.Function_Name__c = qkCommMdt.FunctionName__c;
-            cLog.Loan_Type__c = selectedPolicy.Type__c;
+            cLog.Loan_Type__c = selectedPolicy.Loan_Type__c;
             cLog.Policy_No__c = selectedPolicy.Name;
             cLog.LOB__c = ABSLI_Constants.BUSINESS_UNIT;
             cLog.Phone__c = c.MobilePhone;
