@@ -99,10 +99,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Purpose_of_Insurance_1__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Purpose_of_Insurance_2__c</field>
             </layoutItems>
             <layoutItems>
