@@ -7,20 +7,7 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Case.Customer_Tagging</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Open</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>ABHFL</rightValue>
-                                </criteria>
-                            </visibilityRule>
+                            <value>MassAccept</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Manual_Approval</value>
@@ -113,6 +100,16 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Relate_Duplicate</value>
+                            <visibilityRule>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>

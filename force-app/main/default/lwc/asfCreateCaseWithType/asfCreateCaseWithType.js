@@ -54,6 +54,7 @@ import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
+import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -164,7 +165,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL'){
+            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU){
                 this.cols = [
                     { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
                     { label: 'Type', fieldName: 'Type__c', type: 'text' },
@@ -847,13 +848,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     btnActive = false;
                 }
             }
-            let bsliSourceList = ['Inbound CNX','Inbound ConnectQ','Outbound CNX','Outbound ConnectQ','Customer Portal'];
+            let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
             //Changes as per PR970457-1419 to add Track id for Phone Outbound & Inbound Nodal desk
             if(this.sourceFldValue == 'Phone-Inbound' || this.sourceFldValue == 'Phone-Outbound' || this.sourceFldValue == 'Inbound Nodal Desk'){
                 btnActive = false;
                 this.isPhoneInbound = true;
             }
-            if(this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue)){
+            if(this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
