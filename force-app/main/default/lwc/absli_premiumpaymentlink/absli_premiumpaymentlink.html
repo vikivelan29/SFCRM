@@ -1,14 +1,14 @@
 <template>
     <template if:false={showPreview}>
         <div class="slds-form_large" role="list">
-            <div class="slds-form__row">
+            <div class="slds-form__row"> 
                 <div class="slds-form__item" role="listitem">
                     <div class="slds-form-element slds-form-element_stacked slds-is-editing">
                         <template if:true={showSearchInput}>
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="searchInput">Search Policy</label>
                                 <div class="slds-form-element__control">
-                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy Number" oninput={handleSearchInputChange}/>
+                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy" oninput={handleSearchInputChange}/>
                                 </div>
                             </div>
                         </template>
@@ -50,7 +50,9 @@
                 <div class="slds-form__item" role="listitem">
                     <div class="slds-form-element slds-form-element_stacked slds-is-editing">
                         <label class="slds-checkbox_toggle slds-grid">
-                            <span class="slds-form-element__label slds-m-bottom_none">Send to registered mobile
+                            <!--<legend class="slds-form-element__legend slds-form-element__label slds-text-heading_small">Send to registered mobile
+                                number</legend> -->
+                            <span class="slds-form-element__label slds-m-bottom_none slds-text-heading_small">Send to registered mobile
                                 number</span>
                             <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16"
                                 aria-describedby="checkbox-toggle-16" checked="" onchange={handleToggle} />
@@ -66,9 +68,11 @@
                 <template if:true={sendToUnregistered}>
                     <div class="slds-form__item" role="listitem">
                         <div class="slds-form-element slds-form-element_stacked slds-is-editing">
-                            <lightning-input lwc:ref="unregisterednumber" type="tel" label="Unregistered Phone Number"
-                                pattern="[0-9]{10}" name="phone2" required class="validate"
-                                message-when-pattern-mismatch="Only numbers are allowed and upto 10 digit phone number."></lightning-input>
+                            <span class="slds-form-element__label slds-m-bottom_none slds-text-heading_small">Unregistered Phone Number</span>
+                              <!--  <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_small">Unregistered Phone Number</legend>-->
+                                <lightning-input lwc:ref="unregisterednumber" type="tel" variant="label-hidden"
+                                    pattern="[0-9]{10}" name="phone2" required class="validate"
+                                    message-when-pattern-mismatch="Only numbers are allowed and upto 10 digit phone number."></lightning-input>
                         </div>
                     </div>
                 </template>
@@ -79,9 +83,9 @@
         <br>
         <div class="slds-form">
             <div class="slds-form-element slds-form-element_stacked">
-                <label class="slds-form-element__label" for="stacked-input-id-01">SMS Preview</label>
+                <label class="slds-form-element__label slds-text-heading_small" for="stacked-input-id-01">SMS Preview</label>
                 <div class="slds-form-element__control">
-                    <div class="slds-theme_shade slds-p-around_small slds-m-top_medium">
+                    <div class="slds-theme_shade slds-p-around_small slds-m-top_medium slds-text-heading_small">
                         <lightning-formatted-rich-text value={templateBody}></lightning-formatted-rich-text>
                     </div>
                 </div>
@@ -105,4 +109,5 @@
         </template>
 
     </div>
+
 </template>
