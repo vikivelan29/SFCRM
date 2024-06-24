@@ -243,9 +243,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
 
-            if (this.caseRec.fields.AmIOwner__c.value == true) {
-                this.isNotSelectedReject = false;
-            } else {
+            if (this.caseRec.fields.AmIOwner__c.value == false) {
                 this.isNotSelectedReject = true;
             }
             this.customerId = this.caseRec.fields.AccountId.value;
@@ -401,6 +399,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
+        let cccExternalId = '';
+        if (selected && selected.hasOwnProperty("CCC_External_Id__c")) {
+            cccExternalId = selected.CCC_External_Id__c;
+            this.fetchRejectionReason(cccExternalId);
+        }
+
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU){
             this.showAutoComm = true;
         }
@@ -476,7 +480,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isTransactionRelated = selected.Is_Transaction_Related__c;
             console.log('isTransactionRelated ---> ' + this.isTransactionRelated);
         }
-
     }
     async createCaseHandler() {
         this.loaded = false;
@@ -741,13 +744,13 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     async handleRejectBtn(event) {
-        var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+      /*  var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if(selected != null && selected != undefined){
             let cccExtId = selected.CCC_External_Id__c;
             if(cccExtId != null && cccExtId != undefined){
                 await this.fetchRejectionReason(cccExtId);
             }
-        }
+        }  */
         
         this.showRejetedReason = true;
         this.showSRDescription = false;
@@ -911,7 +914,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-            this.showRejetedReason = true;
+            this.isNotSelectedReject = false;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
