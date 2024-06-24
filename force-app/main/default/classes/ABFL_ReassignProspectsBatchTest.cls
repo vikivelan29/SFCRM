@@ -59,7 +59,7 @@ private class ABFL_ReassignProspectsBatchTest {
             //Lead__c = ld.Id,
             SuppliedEmail = ac.Office_Email__c,
             Business_Unit__c = 'ABFL'
-        );
+        ); 
         insert cs;
         
         Test.startTest();
@@ -74,9 +74,11 @@ private class ABFL_ReassignProspectsBatchTest {
     @isTest
     static void schedulableApexTest() {
         Datetime dt = Datetime.now().addMinutes(1);
-        String CRON_EXP = '0 '+ dt.minute() + ' * ' + dt.day() + ' ' + dt.month() + ' ? ' + dt.year();
+        String cronExp = '0 '+ dt.minute() + ' * ' + dt.day() + ' ' + dt.month() + ' ? ' + dt.year();
         Test.startTest();
-        String jobId = System.schedule('Reassign Prospects', CRON_EXP, new ABFL_ReassignProspectsBatch());  
+        String jobId = System.schedule('Reassign Prospects', cronExp, new ABFL_ReassignProspectsBatch());  
         Test.stopTest();
+
+        Assert.isTrue(jobId != null, 'Job Id should not be null');
     }  
 }
