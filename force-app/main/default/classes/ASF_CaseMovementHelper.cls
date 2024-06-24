@@ -188,10 +188,10 @@ public class ASF_CaseMovementHelper {
                         updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     	updatedCase.MoveToNext__c = false;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
-                        // If moved to Previous Stage, Remove Pending Clarification Flag
-                        if(nextStage.isPreviousStage){
+                        // If previous stage or any stage after previous stage found, Remove Pending Clarification Flag
+                        //if(nextStage.isPreviousStage){
                             updatedCase.pending_clarification__c = false;
-                        }
+                        //}
                         resultWrapper.caseToBeUpdated = updatedCase;
                     	resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;                      
