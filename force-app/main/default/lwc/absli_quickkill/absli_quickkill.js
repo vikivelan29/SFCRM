@@ -27,7 +27,6 @@ export default class Absli_quickkill extends LightningElement {
     @track originalSearchResults;
     @track selectedRows =[];
     @track showSearchInput = true;
-    @track showGenerateLink = false;
 	
 	 totalNoOfRecordsInDatatable = 0;
     pageSize = 10; //No.of records to be displayed per page
@@ -261,18 +260,12 @@ export default class Absli_quickkill extends LightningElement {
     }
     handleFuncSelection(event){
         this.selectedFuncValue = event.detail.value;
-        if(this.selectedFuncValue){
-            this.showGenerateLink = true;
-        }
-        
-         
     }
     handleGenerateLinkPrev(event){
         console.log(this.selectedFuncValue);
         this.showLoading = true;
         this.controlGenerateLink = true;
         this.showQuickServices = false;
-        this.showGenerateLink = false;
         generateLink({functionName: this.selectedFuncValue, accountId : this.recordId, policyId : this.selectedPolicyId})
         .then((result)=>{
             console.log('result --> '+result);
