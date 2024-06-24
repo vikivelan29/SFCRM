@@ -68,6 +68,11 @@
                 <field>Ageing_Business_Days__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>AssetId</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>
     <type>Update</type>
