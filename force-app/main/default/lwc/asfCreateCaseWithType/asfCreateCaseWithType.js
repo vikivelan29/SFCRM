@@ -237,11 +237,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                     this.currentObj = CASE_OBJECT.objectApiName;
                     this.defaultRecTypeId = value.result.defaultRecordTypeId;
                     this.picklistApiName = NOAUTOCOMM_FIELD;
-                    console.log('inside case object');
                 }
                 if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
                     this.bsliRecTypeId = value.result.defaultRecordTypeId;
-                    console.log('inside bsli object');
                 } 
             }
         }else if(error){
@@ -251,7 +249,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
     wiredPicklistValues({ error, data}) {
-        console.log('picklist data--'+this.currentObj+JSON.stringify(this.picklistApiName));
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
                 this.noAutoCommOptions = data.values.map(item => ({

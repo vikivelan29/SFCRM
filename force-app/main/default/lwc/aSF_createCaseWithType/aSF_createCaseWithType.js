@@ -199,29 +199,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-   /* @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.noAutoCommOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    }
-
-    @wire(getPicklistValues, { recordTypeId: '$bsliObjectInfo.data.defaultRecordTypeId', fieldApiName: BSLI_CATEGORY_TYPE })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.categoryTypeOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    } */
    //To get No Auto Communication and category picklist values
    @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
    objectInfos({ error, data}) {
@@ -231,11 +208,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                    this.currentObj = CASE_OBJECT.objectApiName;
                    this.defaultRecTypeId = value.result.defaultRecordTypeId;
                    this.picklistApiName = NOAUTOCOMM_FIELD;
-                   console.log('inside case object');
                }
                if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
                    this.bsliRecTypeId = value.result.defaultRecordTypeId;
-                   console.log('inside bsli object');
                } 
            }
        }else if(error){
@@ -245,7 +220,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
    @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
    wiredPicklistValues({ error, data}) {
-       console.log('picklist data--'+this.currentObj+JSON.stringify(this.picklistApiName));
        if (data){
            if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
                this.noAutoCommOptions = data.values.map(item => ({
@@ -262,8 +236,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                    label: item.label,
                    value: item.value
                }));
-           }
-           
+           }   
            console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
        } else if (error){
            console.log('error in get picklist--'+JSON.stringify(error));
@@ -467,7 +440,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.fetchRejectionReason(cccExternalId);
         }
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) ){ //&& this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
             this.showAutoComm = true;
         }
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
