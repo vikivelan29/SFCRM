@@ -1,0 +1,76 @@
+<template>
+    <template lwc:if={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    <template lwc:if={record}>    
+        <lightning-card>
+            <div class="slds-p-around_medium">
+                <lightning-layout class="slds-grid_align-center multiple-rows slds-p-top_small">
+                    <lightning-layout-item size="8">
+                        <lightning-input label="PAN" value={record.pan} name="pan" onchange={handleFieldChange} required disabled={verificationCompleted} maxlength="10"></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout class="slds-grid_align-center multiple-rows slds-p-top_small">
+                    <lightning-layout-item size="8">
+                        <lightning-input label="Name" value={record.name} name="name" onchange={handleFieldChange} required disabled={verificationCompleted}></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout class="slds-grid_align-center multiple-rows slds-p-top_small">
+                    <lightning-layout-item size="8">
+                        <lightning-input label="Date of Birth" value={record.dob} name="dob" onchange={handleFieldChange} type="date" required disabled={verificationCompleted}></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            <template lwc:if={nsdlResponse}>
+                <div class="slds-p-around_medium">
+                    <lightning-layout class="slds-grid_align-center multiple-rows slds-p-top_small">
+                        <lightning-layout-item size="8">
+                            <lightning-formatted-text value="NSDL Service Response"></lightning-formatted-text>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout class="slds-grid_align-center multiple-rows slds-p-top_small">
+                        <lightning-layout-item size="8">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>PAN</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.pan}></lightning-formatted-text></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.name}></lightning-formatted-text></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DOB</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.dob}></lightning-formatted-text></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fathers Name</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.fathername}></lightning-formatted-text></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PAN Status</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.pan_status}></lightning-formatted-text></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Seeding Status</td>
+                                        <td><lightning-formatted-text value={nsdlResponse.seeding_status}></lightning-formatted-text></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <div class="slds-p-top_medium" slot="footer">
+                <template lwc:if={verificationCompleted}>
+                    <lightning-button label="Accept" onclick={updatePAN} class="slds-m-right_x-small"></lightning-button>
+                    <lightning-button label="Reject" onclick={rejectionHandler} class="slds-m-left_x-small"></lightning-button>
+                </template>
+                <template lwc:else>
+                    <lightning-button label="Verify" onclick={verifyPAN}></lightning-button>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+</template>
