@@ -27,18 +27,13 @@ public without sharing class ABSLI_BankEsbIntegration implements ASF_Integration
             result.status = ABSLI_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('ABSLI_BankEsbIntegration_ERR1').Message__c;
             
-            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
+            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true){
 				if(!String.isBlank(caseRecord.ABSLI_Case_Detail__r.IFSC_Code__c) || !String.isBlank(caseRecord.ABSLI_Case_Detail__r.MICR_Code__c)){
                     result.status = ABSLI_Constants.SUCCESS;
                 }else{
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_BankEsbIntegration_ERR2').Message__c;
-                } 
-            }else if(caseRecord.Technical_Source__c =='LWC'){
-                if(!String.isBlank(caseRecord.ABSLI_Case_Detail__r.IFSC_Code__c) || !String.isBlank(caseRecord.ABSLI_Case_Detail__r.MICR_Code__c)){
-                    result.status = ABSLI_Constants.SUCCESS;
-                }else{
-                    result.response = Custom_Messages__mdt.getInstance('ABSLI_BankEsbIntegration_ERR2').Message__c;
                 }
+                
             }
             resultMap.put(caseRecord.Id, result);
         }
