@@ -38,22 +38,45 @@
                 <default>false</default>
                 <label>Change as per Customer Need</label>
             </value>
+            <value>
+                <fullName>Multiple Cases/Duplicate</fullName>
+                <default>false</default>
+                <label>Multiple Cases/Duplicate</label>
+            </value>
+            <value>
+                <fullName>Change as per Customer Issue Type</fullName>
+                <default>false</default>
+                <label>Change as per Customer Issue Type</label>
+            </value>
+            <value>
+                <fullName>System /E. Bot Error</fullName>
+                <default>false</default>
+                <label>System /E. Bot Error</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Incorrect Classification</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Manually case created</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <controllingFieldValue>ABHFL</controllingFieldValue>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
             <controllingFieldValue>ABWM</controllingFieldValue>
             <valueName>Uncategorised</valueName>
         </valueSettings>
@@ -66,6 +89,22 @@
         <valueSettings>
             <controllingFieldValue>ABHFL</controllingFieldValue>
             <valueName>Change as per Customer Need</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Multiple Cases/Duplicate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Change as per Customer Issue Type</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>System /E. Bot Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Other</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
