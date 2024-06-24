@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Priority_Index__c</field>
-        <value xsi:type="xsd:double">99.0</value>
+        <value xsi:type="xsd:double">42.0</value>
     </values>
     <values>
         <field>Send_to_EBOT__c</field>
