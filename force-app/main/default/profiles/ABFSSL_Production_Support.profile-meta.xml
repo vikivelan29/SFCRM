@@ -98,10 +98,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABHFL_OverDuePayment</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABHFL_PaymentLinkHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
