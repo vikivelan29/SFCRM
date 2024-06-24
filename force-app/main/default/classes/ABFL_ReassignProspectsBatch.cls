@@ -99,6 +99,6 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
      * @param sc The schedulable context
      */
     public void execute(SchedulableContext sc) {
-        database.executebatch(new ABFL_ReassignProspectsBatch());
+        database.executebatch(new ABFL_ReassignProspectsBatch(), 100);
     }
 }
