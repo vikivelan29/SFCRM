@@ -32,6 +32,7 @@ public class ABCL_RetryDMSFileTransferTest {
             DMS_Files__c fileRec = new DMS_Files__c();
             fileRec.Case__c = caseRecords[i].Id;
             fileRec.ContentVersionId__c = 'test';
+            fileRec.File_Name__c = 'Test File';
             fileRec.Status__c = ABFL_Constants.PENDING;
             fileRec.Business_Unit__c = ABHFL_Constants.BUSINESS_UNIT_ABHFL;
             DateTime currentDateTime = System.now();
@@ -65,12 +66,12 @@ public class ABCL_RetryDMSFileTransferTest {
         cases[1].AccountId = acc.ID;
         update cases;
         
-        
         List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
             for(integer i=0; i <= 1; i++){
             DMS_Files__c fileRec = new DMS_Files__c();
             fileRec.Case__c = cases[i].Id;
             fileRec.ContentVersionId__c = 'test';
+            fileRec.File_Name__c = 'Test File';
             fileRec.Status__c = ABFL_Constants.PENDING;
             fileRec.Business_Unit__c = ABFL_Constants.ABFL;
             DateTime currentDateTime = System.now();

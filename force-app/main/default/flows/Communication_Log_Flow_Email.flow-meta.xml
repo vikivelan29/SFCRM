@@ -51,19 +51,19 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>languagePreference</name>
+            <name>LanguagePreference</name>
             <value>
                 <elementReference>$Record.Account.Language_Preference__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>smsFieldName</name>
+            <name>SmsFieldName</name>
             <value>
                 <elementReference>SMSTemplateFieldName</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>smsTemplateName</name>
+            <name>SmsTemplateName</name>
             <value>
                 <elementReference>SMSCustomMetadataName</elementReference>
             </value>
@@ -77,7 +77,7 @@
         <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SMSCustomMetadataName</assignToReference>
-            <name>smsTemplateName</name>
+            <name>SmsTemplateName</name>
         </outputParameters>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
@@ -685,7 +685,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Case_status</name>
-            <conditionLogic>(1 OR 2 OR 3) AND  4 AND 5</conditionLogic>
+            <conditionLogic>(1 OR 2 OR 3) AND  4 AND (5 OR 6)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -709,7 +709,7 @@
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Technical_Source__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Email</stringValue>
                 </rightValue>
@@ -719,6 +719,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Payments</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLIG</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1306,7 +1313,7 @@ Added Condition on Decision box -Email Template Found</description>
         <name>SMSTemplateFieldName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>true</isInput>
+        <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
