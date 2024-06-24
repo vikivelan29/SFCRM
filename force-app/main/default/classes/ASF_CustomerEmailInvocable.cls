@@ -120,18 +120,17 @@ public without sharing class ASF_CustomerEmailInvocable {
         public String languagePreference;
         @InvocableVariable(label='Case Status' description='Case Status' required=true)
         public String caseStatus;
-
-        @InvocableVariable(label='Case Record' description='Case Record' required=true)
+        @InvocableVariable(label='Case Record' description='Case Record' required=false)
         public sObject caseRecord;
-        @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=true)
+        @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=false)
         public sObject cccRecord;
         @InvocableVariable(label='Email Template Name' description='Default Template name passed' required=false)
         public String templateName;
         @InvocableVariable(label='SMS Template Name' description='Default SMS Template name passed' required=false)
         public String smsTemplateName;
-        @InvocableVariable(label='Email Template Field Name' description='Email Template Field Name' required=true)
+        @InvocableVariable(label='Email Template Field Name' description='Email Template Field Name' required=false)
         public String emailFieldName;
-        @InvocableVariable(label='SMS Template Field Name' description='SMS Template Field Name' required=true)
+        @InvocableVariable(label='SMS Template Field Name' description='SMS Template Field Name' required=false)
         public String smsFieldName;
         
     }
