@@ -46,27 +46,27 @@ public with sharing class ABFL_LegacyView {
             ResponseWrapper response = null;
             LegacyCaseResponseBodyWrapper legacyCaseResponseWrapper;
             String integrationName = 'ABFL_Legacy_Case';
-            startDate = startDate != null?startDate:'';
+          	startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
             String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob));
            ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
 
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
                 legacyCaseResponseWrapper = (LegacyCaseResponseBodyWrapper)JSON.deserialize(legacyCaseResponse.responseBody,LegacyCaseResponseBodyWrapper.class);
-                response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
+            	response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
                 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
-        response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
+				response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
             }
-            //If status code is not 200, Sending reponse in string
+			//If status code is not 200, Sending reponse in string
             else if(String.isNotBlank(legacyCaseResponse.responseBody)) {
-                 response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponse.responseBody);
-                 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
-         response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
+            	 response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponse.responseBody);
+               	 response.returnCode = legacyCaseResponseWrapper?.ReturnCode;
+				 response.returnMessage = legacyCaseResponseWrapper?.ReturnMessage;
             }
             //If no response
             else {
                 response = new ResponseWrapper(0, '');
-        response.returnMessage = Label.ASF_Error_Case_Merge ;
+				response.returnMessage = Label.ASF_Error_Case_Merge ;
             }
             return response;
         }catch(exception e){
@@ -133,6 +133,26 @@ public with sharing class ABFL_LegacyView {
         @AuraEnabled public String LastUpdatedOn;
         @AuraEnabled public String Owner;
         @AuraEnabled public String ResolvedDate;
+        @AuraEnabled public String Case_TAT;
+        @AuraEnabled public String Ageing_by_working_days;
+        @AuraEnabled public String Assigned_to;
+        @AuraEnabled public String Case_Title;
+        @AuraEnabled public String Product_Name;
+        @AuraEnabled public String Assign_to_dept;
+        @AuraEnabled public String Priority;
+        @AuraEnabled public String Assigned_Date;
+        @AuraEnabled public String Case_Closed_By;
+        @AuraEnabled public String Summary;
+        @AuraEnabled public String LOB;	
+	@AuraEnabled public String Closure_Description;
+	@AuraEnabled public String Created_By;	
+	@AuraEnabled public String Case_Open_DateTime;
+	@AuraEnabled public String Resoltion_Remarks;
+	@AuraEnabled public String No_Of_Time_ReOpened;
+	@AuraEnabled public String Assigned_Team;
+	@AuraEnabled public String Vartical;
+	@AuraEnabled public String RM;
+	@AuraEnabled public String Holding_Response_SLA;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper

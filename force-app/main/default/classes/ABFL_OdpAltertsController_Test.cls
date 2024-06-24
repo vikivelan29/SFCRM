@@ -1,6 +1,5 @@
 @isTest
 public class ABFL_OdpAltertsController_Test {
-
     @isTest
     static void testGetOdpAlerts() {
         // Test data setup
@@ -12,7 +11,7 @@ public class ABFL_OdpAltertsController_Test {
         testAccount.Client_Code__c = '';
         update testAccount;
         try{
-            List<ODPAlertResponse> result1 = ABFL_OdpAltertsController.getOdpAlerts(testAccount.Id);
+            ABFL_OdpAltertsController.getOdpAlerts(testAccount.Id);
         }catch(Exception e){
             System.AssertEquals('System.AuraHandledException: Script-thrown exception', e.toString(),'should match with the AuraHandled Exception');
         }

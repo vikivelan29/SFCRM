@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Permission Set Group for ABSLI Admin Users</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ABSLI Admin Users</label>
+    <permissionSets>ABSLI_Admin_User</permissionSets>
+    <permissionSets>ABSLI_User</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
