@@ -537,10 +537,6 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
-         <values>
-            <fullName>ABWM Email</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -600,6 +596,10 @@
         </values>
         <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
         <values>
