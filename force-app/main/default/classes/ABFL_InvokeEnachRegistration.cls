@@ -105,8 +105,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         }
         else if(caseRecord.AccountId != NULL) {
             List<Contact> con = [SELECT Id, Email, MobilePhone FROM Contact WHERE AccountId = :caseRecord.AccountId];
-            emailId = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
-            mobileNo = con.size() > 0 ? con[0]?.MobilePhone : caseRecord.Account.Phone; 
+            emailId = con.size()>0 && con[0] != null && con[0].Email != null?con[0]?.Email:caseRecord.Account.Office_Email__c; 
+            mobileNo = con.size()>0 && con[0] != null && con[0].MobilePhone != null?con[0]?.MobilePhone:caseRecord.Account.Phone;
         }
         //String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
        // String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
