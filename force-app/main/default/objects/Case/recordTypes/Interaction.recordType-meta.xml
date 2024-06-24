@@ -65,10 +65,6 @@
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Nature__c</picklist>
