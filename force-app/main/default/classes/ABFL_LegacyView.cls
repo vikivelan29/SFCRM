@@ -21,7 +21,7 @@ public with sharing class ABFL_LegacyView {
         List<OptionsName> optionList = new List<OptionsName>();
         OptionsName option = null;
         for(LAN_Mapping__c lan : [select id,Customer__r.Business_Unit__c, LAN__r.Name, LAN__r.LAN__c, Customer__r.Client_Code__c FROM
-                                  LAN_Mapping__c WHERE Customer__c = :accRec AND Customer__r.Business_Unit__c != :ABFL_Constants.ABWM 
+                                  LAN_Mapping__c WHERE Customer__c = :accRec AND Customer__r.Business_Unit__c != :ABFL_Constants.ABWM
                                   WITH SECURITY_ENFORCED]) {
             option = new OptionsName();
             option.label = lan.LAN__r.LAN__c;
@@ -143,7 +143,16 @@ public with sharing class ABFL_LegacyView {
         @AuraEnabled public String Assigned_Date;
         @AuraEnabled public String Case_Closed_By;
         @AuraEnabled public String Summary;
-        
+        @AuraEnabled public String LOB;	
+	@AuraEnabled public String Closure_Description;
+	@AuraEnabled public String Created_By;	
+	@AuraEnabled public String Case_Open_DateTime;
+	@AuraEnabled public String Resoltion_Remarks;
+	@AuraEnabled public String No_Of_Time_ReOpened;
+	@AuraEnabled public String Assigned_Team;
+	@AuraEnabled public String Vartical;
+	@AuraEnabled public String RM;
+	@AuraEnabled public String Holding_Response_SLA;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper
