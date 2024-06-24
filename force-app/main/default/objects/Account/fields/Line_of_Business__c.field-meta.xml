@@ -73,11 +73,6 @@
                 <isActive>false</isActive>
                 <label>Retail - Unsecured</label>
             </value>
-            <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
