@@ -11,6 +11,7 @@ public class ABSLI_Constants {
     public static final string EVALUATION_SUCCESS = 'Evaluation Success';
     public static final String COMPLETED = 'Completed';
     public static final String strResidence = 'Thane';
+
     public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
 
@@ -24,6 +25,7 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
+
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
 
