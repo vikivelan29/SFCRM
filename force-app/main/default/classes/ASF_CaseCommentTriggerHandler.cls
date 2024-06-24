@@ -55,12 +55,11 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             String messageBody = '';
             List<FeedItem> feedItemList = new List<FeedItem>();
             for(CaseComment caseCommentRec : caseCommentList){
-                String myDate = caseCommentRec.CreatedDate.format('dd/MM/yyyy h:mm a');
+                String localDate = caseCommentRec.CreatedDate.format('dd/MM/yyyy h:mm a');
                 if(isUpdate){
-                    messageBody = 'The case comment created on '+myDate+' has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
+                    messageBody = 'The case comment created on '+localDate+' has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
                 }else if(isDelete){
-                    messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' created on '+myDate+' has been deleted';
-
+                    messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' created on '+localDate+' has been deleted';
                 }
                 FeedItem feedItem = new FeedItem();
                 feedItem.ParentId = caseCommentRec.ParentId;
