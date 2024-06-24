@@ -52,11 +52,11 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
                 setBusinessUnit.add(caseRecord.Business_Unit__c);             
             }
             
-            for(Contact con : [SELECT ID,Email,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
+            for(Contact con : [SELECT ID,Email,Account.Office_Email__c,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE AccountId != null AND (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
                                AND Account.Business_Unit__c IN : setBusinessUnit ORDER BY CreatedDate DESC])
             {
                 String caseBusinessUnit = con.Account.Business_Unit__c;
-                String caseEmailSupplied = con.Email;
+                String caseEmailSupplied = setEmailID.contains(con.Email) ? con.Email : con.Account.Office_Email__c;
                 String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
                 integer iCompositeKey = compositeKey.hashCode(); 
                 
@@ -65,6 +65,8 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
                         if(! casesToUpdate.containsKey(c.Id)){
                             c.AccountId = con.AccountId;
                             c.Lead__c = null;
+                            c.typeSubTypeMismatch__c  = false;
+                            c.Type_Sub_Type_Mismatch_Reason__c = null;
                             casesToUpdate.put(c.Id, c);
                         }
                     }
@@ -97,6 +99,6 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
      * @param sc The schedulable context
      */
     public void execute(SchedulableContext sc) {
-        database.executebatch(new ABFL_ReassignProspectsBatch());
+        database.executebatch(new ABFL_ReassignProspectsBatch(), 100);
     }
 }
