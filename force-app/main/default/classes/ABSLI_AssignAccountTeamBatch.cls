@@ -8,7 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
-global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable {
+global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable { 
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - start function of batch 
