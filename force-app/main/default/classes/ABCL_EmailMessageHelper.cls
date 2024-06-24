@@ -7,7 +7,7 @@
 *********************************************************/
 public with sharing class ABCL_EmailMessageHelper {
     
-    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
+    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT','ABSLI Email','ABSLIG Email'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
         /****************************************************************************************************************
 * @LOB - ABHFL
 * @Function - ebotHandler
