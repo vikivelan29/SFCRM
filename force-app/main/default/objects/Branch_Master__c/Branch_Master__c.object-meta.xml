@@ -143,7 +143,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
@@ -160,6 +160,6 @@
     </nameField>
     <pluralLabel>Branch Masters</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
