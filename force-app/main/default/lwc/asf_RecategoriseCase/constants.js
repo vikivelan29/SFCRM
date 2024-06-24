@@ -89,6 +89,45 @@ export const getConstants={
         initialWidth: 180
     }
     ],
+    ABSLI_ASSET_COLUMNS:[{
+        label: 'Id',
+        fieldName: 'Id',
+        type: 'text',
+        fixedWidth: 1,
+        hideLabel: true,
+        hideDefaultActions: true
+    },
+    {
+        label: 'Name',
+        fieldName: 'Name',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy No',
+        fieldName: 'Policy_No__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy Status',
+        fieldName: 'Status',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Policy Type',
+        fieldName: 'Type__c',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Application No.',
+        fieldName: 'Application_Number__c',
+        type: 'text',
+        initialWidth: 180
+    }
+    ], 
     RECATEGORISATION_OPTIONS: [
         { label: 'Update Case with Account and Asset', value: 'updAccAsset' },
         { label: 'Proceed to Recategorize Type and Subtype', value: 'recateCTST' },
@@ -97,6 +136,8 @@ export const getConstants={
     RECATEGORISATION_PROCEED : 'Proceed to Recategorize Type and Subtype',
     CASE_ELIGIBLE_WITH_NEW_CTST_MSG : 'Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?',
     CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
+    ABSLI_CASE_ELIGIBLE_WITH_NEW_CTST_MSG : 'Current Case Type for this case, is eligible for this Customer and Asset combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?',
+    ABSLI_CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and Asset combination. We recommend selecting the right Case Type Sub Type for the case ?',
     INITIAL_OPTIONS:[
         {
             id:1,
@@ -106,6 +147,11 @@ export const getConstants={
             id:2,
             title:'I want to change Case Type and Sub-Type.'
         }
-    ]
+    ],
+    SELECT_LAN : 'Select LAN',
+    SELECT_ASSET : 'Select Asset',
+    ASSET_SEARCH_PLACEHOLDER : 'Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#',
+    ABSLI_ASSET_SEARCH_PLACEHOLDER : 'Enter Customer Name /Client Code /Email /Mobile /Asset# /PAN#'
+    
 
 }
