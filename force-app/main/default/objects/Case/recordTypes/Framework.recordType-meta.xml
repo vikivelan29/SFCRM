@@ -773,10 +773,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Outbound Altruist</fullName>
             <default>false</default>
         </values>
