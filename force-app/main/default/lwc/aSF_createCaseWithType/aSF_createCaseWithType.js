@@ -6,7 +6,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
 import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -89,7 +89,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     customerId;
     withoutAsset;
     originValue;
-    noAutoCommOptions = [];
+    @track noAutoCommOptions = [];
     noAutoCommValue = [];
     showAutoComm = false;
     isCloseCase = false;
@@ -168,8 +168,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     issueTypeVal;
     issueTypeOptions = [];
     showCategoryType = false;
-    categoryTypeOptions = [];
+    @track categoryTypeOptions = [];
     categoryTypeVal;
+    @api defaultRecTypeId; // this field is used to fetch the picklist values
+    @api picklistApiName = NOAUTOCOMM_FIELD;
+    @api bsliRecTypeId;
+    currentObj = CASE_OBJECT.objectApiName;
 
     get stageOptions() {
         return [
@@ -200,32 +204,49 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.noAutoCommOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    }
-    //To get Category type pickilst values
-    @wire(getObjectInfo, { objectApiName: ABSLI_CASE_DETAIL_OBJECT })
-    bsliObjectInfo;
+   //To get No Auto Communication and category picklist values
+   @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
+   objectInfos({ error, data}) {
+       if(data){
+           for (const [key, value] of Object.entries(data.results)) {
+               if(value.result.apiName === CASE_OBJECT.objectApiName){
+                   this.currentObj = CASE_OBJECT.objectApiName;
+                   this.defaultRecTypeId = value.result.defaultRecordTypeId;
+                   this.picklistApiName = NOAUTOCOMM_FIELD;
+               }
+               if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
+                   this.bsliRecTypeId = value.result.defaultRecordTypeId;
+               } 
+           }
+       }else if(error){
+           console.log('error in get objectInfos--'+JSON.stringify(error));
+       }
+   }
 
-    @wire(getPicklistValues, { recordTypeId: '$bsliObjectInfo.data.defaultRecordTypeId', fieldApiName: BSLI_CATEGORY_TYPE })
-    wiredPicklistValues({ error, data}) {
-        if (data){
-            this.categoryTypeOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        } else if (error){
-            console.log('error in get picklist--'+JSON.stringify(error));
-        }
-    }
+   @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
+   wiredPicklistValues({ error, data}) {
+       if (data){
+           if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
+               this.noAutoCommOptions = data.values.map(item => ({
+                   label: item.label,
+                   value: item.value
+               }));
+
+               this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
+               this.defaultRecTypeId = this.bsliRecTypeId;
+               this.picklistApiName = BSLI_CATEGORY_TYPE;
+               
+           }else if(this.currentObj === ABSLI_CASE_DETAIL_OBJECT.objectApiName && this.picklistApiName === BSLI_CATEGORY_TYPE){
+               this.categoryTypeOptions = data.values.map(item => ({
+                   label: item.label,
+                   value: item.value
+               }));
+           }   
+           console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
+       } else if (error){
+           console.log('error in get picklist--'+JSON.stringify(error));
+       }
+   }
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
