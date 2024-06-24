@@ -246,10 +246,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>EmailWithAttachmentCheckController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>FeedItemHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
