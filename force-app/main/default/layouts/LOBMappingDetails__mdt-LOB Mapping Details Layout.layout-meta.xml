@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>Sub_Source__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>New_Source__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

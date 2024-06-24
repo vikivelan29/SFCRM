@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -20,15 +20,26 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.ASF_Clone_SR</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -45,10 +56,16 @@
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -71,8 +88,14 @@
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
@@ -81,7 +104,7 @@
                         <valueListItems>
                             <value>Case.Relate_Duplicate</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -91,6 +114,11 @@
                                     <leftValue>{!Record.Business_Unit__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Payments</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -323,32 +351,6 @@
                 <identifier>force_relatedListSingleContainer4</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Histories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer7</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-3321d559-8bb3-4425-b8f9-4b909222f04e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -534,16 +536,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>DMS File Details</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>

@@ -97,8 +97,19 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         List<ASF_Case_Integration__c> caseIntg = ABFL_SOQL_Integration.getCaseIntegrationInfo(caseRecord.Id,'Enach');
         Enach_data enachData = new Enach_data();
         EnachRegistration payload = new EnachRegistration();
-        String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
-        String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
+        String emailId = '';
+        String mobileNo = '';
+        if(caseRecord.AccountId != NULL && caseRecord.Account.IsPersonAccount) {
+            emailId = caseRecord.Account.PersonEmail;
+            mobileNo = caseRecord.Account.PersonMobilePhone;
+        }
+        else if(caseRecord.AccountId != NULL) {
+            List<Contact> con = [SELECT Id, Email, MobilePhone FROM Contact WHERE AccountId = :caseRecord.AccountId];
+            emailId = con.size()>0 && con[0] != null && con[0].Email != null?con[0]?.Email:caseRecord.Account.Office_Email__c; 
+            mobileNo = con.size()>0 && con[0] != null && con[0].MobilePhone != null?con[0]?.MobilePhone:caseRecord.Account.Phone;
+        }
+        //String emailId = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonEmail:caseRecord.Account.Office_Email__c):NULL;
+       // String mobileNo = (caseRecord.AccountId != NULL)?(caseRecord.Account.IsPersonAccount?caseRecord.Account.PersonMobilePhone:caseRecord.Account.Phone):NULL;
         String name = (caseRecord.AccountId != NULL)?(caseRecord.Account.Name != null?caseRecord.Account.Name:caseRecord.Account.Full_Name__pc):NULL;
         Date toDate = caseRecord.ABFL_Case_Detail__r.To_Date__c;
         String endDate = toDate != null ? DateTime.newInstance(toDate.year(), toDate.month(), toDate.day()).format('YYYYMMdd'): null;
@@ -108,7 +119,7 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         enachData.pl_merchant_id = ABCL_Encryption.getENachInt().Merchant_Id__c;
         enachData.customer_Id = caseRecord.Client_Code__c;
         enachData.customer_mobile_no = mobileNo;
-        enachData.customer_name =name;
+        enachData.customer_name = name;
         enachData.customer_email_id = emailId;
         enachData.customer_bank_ifsc = caseRecord.ABFL_Case_Detail__r.Bank_IFSC_Code__c;
         enachData.customer_bank_acc_no = caseRecord.ABFL_Case_Detail__r.New_Bank_Account_No__c;
