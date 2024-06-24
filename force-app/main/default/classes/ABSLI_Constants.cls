@@ -11,7 +11,7 @@ public class ABSLI_Constants {
     public static final string EVALUATION_SUCCESS = 'Evaluation Success';
     public static final String COMPLETED = 'Completed';
     public static final String strResidence = 'Thane';
-
+    public static final String BANK_ESB_FAILURE_RESPONSE = 'Unable to fetch Bank details. Please try again later.';
     public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
 
@@ -62,9 +62,11 @@ public class ABSLI_Constants {
     public static final String CONTACTUPDATE_SERVICE_NAME = 'updateClientContact';
     public static final Map<String,String> CONTACTUPDATE_EVALUATE_ERROR = new Map<String,String>{'PNFT008'=>'ABSLI_MOBILEUPDATE_EVALUATION_ERROR',
         'PNFT007' => 'ABSLI_EMAILEUPDATE_EVALUATION_ERROR'};
-            
-	/* REAL TIME INTEGRATION METADATA NAME */
+
+	  /* REAL TIME INTEGRATION METADATA NAME */
+
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
+    public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
 
 
 }
