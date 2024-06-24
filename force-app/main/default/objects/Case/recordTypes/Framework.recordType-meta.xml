@@ -506,10 +506,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -535,10 +531,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -661,10 +653,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Bulk Upload from HO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Bureau</fullName>
             <default>false</default>
         </values>
@@ -773,35 +761,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letters and Faxes</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MH</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>MOBILEAPP</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>OneABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound Altruist</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound CNX</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound ConnectQ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound call</fullName>
             <default>false</default>
         </values>
         <values>
@@ -870,10 +834,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>
