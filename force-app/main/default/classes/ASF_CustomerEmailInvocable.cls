@@ -88,6 +88,7 @@ public without sharing class ASF_CustomerEmailInvocable {
             else {
                 resultWrap.supressEmail = false;
                 resultWrap.templateName = wrap.templateName;
+                resultWrap.smsTemplateName = wrap.smsTemplateName;
             }
 
             result.add(resultWrap);
@@ -119,6 +120,7 @@ public without sharing class ASF_CustomerEmailInvocable {
         public String languagePreference;
         @InvocableVariable(label='Case Status' description='Case Status' required=true)
         public String caseStatus;
+
         @InvocableVariable(label='Case Record' description='Case Record' required=true)
         public sObject caseRecord;
         @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=true)

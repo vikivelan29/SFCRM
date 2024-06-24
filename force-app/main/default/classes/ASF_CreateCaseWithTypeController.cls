@@ -40,7 +40,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
+                          Type__c, Channel__c,Source__c,New_Source__c , Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
