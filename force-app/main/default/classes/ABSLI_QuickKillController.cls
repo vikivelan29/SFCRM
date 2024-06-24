@@ -112,7 +112,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         return [SELECT ID,Client_Code__c FROM Account WHERE Id =: accountId];
     }
     private static Asset getPolicyDetails(String policyId){
-        return [SELECT ID,Name,Type__c FROM Asset WHERE Id =: policyId];
+        return [SELECT ID,Name,Loan_Type__c FROM Asset WHERE Id =: policyId];
     }
     
     /* THIS METHOD IS USE FOR CREATING THE COMMUNICATION LOG RECORD. 
@@ -123,6 +123,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
                                                 FROM ASF_Quick_Link_Config__mdt WHERE FunctionCode__c =: funcCode];
         
         Contact c = [SELECT ID,MobilePhone,Name FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
+
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c,
                                                     Email_Template_Name__c 
@@ -141,7 +142,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             cLog.External_Template_ID__c = commMdt.external_templateID__c;
             cLog.Status__c = ABSLI_Constants.COMM_LOG_DEFAULT_STATUS;
             cLog.Function_Name__c = qkCommMdt.FunctionName__c;
-            cLog.Loan_Type__c = selectedPolicy.Type__c;
+            cLog.Loan_Type__c = selectedPolicy.Loan_Type__c;
             cLog.Policy_No__c = selectedPolicy.Name;
             cLog.LOB__c = ABSLI_Constants.BUSINESS_UNIT;
             cLog.Phone__c = c.MobilePhone;

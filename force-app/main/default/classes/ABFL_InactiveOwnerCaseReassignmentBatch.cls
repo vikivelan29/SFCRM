@@ -106,18 +106,26 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
     * @param scope 
     **/
     public void execute(Database.BatchableContext bc, List<Case> scope) {
-        // get all stage config records for the records in scope
-        List<Case> casesToUpdate = new List<Case>();
-        for(Case cs : scope) {
-            String owner = reassignCase(cs);
-            if (String.isNotBlank(owner)) {
-                cs.OwnerId = owner;
-                casesToUpdate.add(cs);
+        try{
+            // get all stage config records for the records in scope
+            List<Case> casesToUpdate = new List<Case>();
+            for(Case cs : scope) {
+                String owner = reassignCase(cs);
+                if (String.isNotBlank(owner)) {
+                    cs.OwnerId = owner;
+                    casesToUpdate.add(cs);
+                }
+                
             }
-           
-        }
-        if (!casesToUpdate.isEmpty()) {
-            Database.update(casesToUpdate);
+            if (!casesToUpdate.isEmpty()) {
+                Database.update(casesToUpdate);
+            }
+        } catch (Exception e) {
+            // Handle exceptions
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }
 
@@ -160,7 +168,6 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
                 }
             }
         }
-        
         return assignedQueue;
     }
     

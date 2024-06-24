@@ -253,8 +253,9 @@ public class ASF_CaseFrameworkHelper_Test {
     
     @isTest
     private static void runIntRulesTest() {
-        List<ASF_Integration__c> caseIntList =[Select Id, External_Id__c, Case_Stage_Config__c, Type__c, When_to_Appear__c, Display_Name__c, 
-                                               Auto_Run_on_Load__c, Processing_Class__c
+        List<ASF_Integration__c> caseIntList =[Select Id, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
+        External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
+        UI_Component__c ,Visibility_Class__c ,When_to_Appear__c,Query_Fields__c,Case_Stage_Config__c
                                                FROM ASF_Integration__c];
         Case caseRecord = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case LIMIT 1];
         
