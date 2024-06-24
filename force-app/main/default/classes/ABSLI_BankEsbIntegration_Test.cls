@@ -37,10 +37,7 @@ public class ABSLI_BankEsbIntegration_Test {
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         caseRecList[0].AssetId = assetRec.Id;
         caseRecList[0].ABSLI_Case_Detail__c = detailRec.Id;
-        caseRecList[0].Technical_Source__c = 'API';
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
         update caseRecList[0];
-        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         
         ASF_TestDataFactory.createCaseIntegration(caseRecList[0].Id, 'PNFT007');
 	}
@@ -48,7 +45,7 @@ public class ABSLI_BankEsbIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_BankEsbIntegration bankEsbInt = new ABSLI_BankEsbIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = bankEsbInt.evaluate(caseRecord);
