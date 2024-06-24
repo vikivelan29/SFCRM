@@ -188,6 +188,10 @@
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
     </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowSalesProspect</name>
+    </customPermissions>
     <description>Permission set used for ABFL Business Unit</description>
     <fieldPermissions>
         <editable>true</editable>
@@ -287,6 +291,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Cancellation_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.CaseNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -495,7 +504,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABFL_Case_Detail__c.ISREKYC__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -690,7 +699,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABFL_Case_Detail__c.REKYCURL__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -800,7 +809,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABFL_Case_Detail__c.UTRNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1306,12 +1315,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.ECS_Bounce_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.ECS_Mandate_Registration_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.EMI_Cycle_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.EMI_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1557,6 +1576,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Refund_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Repayment_Mode__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2547,6 +2571,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Voter_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DMS_Files__c.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DMS_Files__c.Branch_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

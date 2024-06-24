@@ -2521,6 +2521,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Integration__c.Run_Integration_From_LWC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Work_Item__c.Assigned_Queue__c</field>
         <readable>true</readable>
@@ -3293,6 +3298,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Recategorisation_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sent_to_EBOT__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

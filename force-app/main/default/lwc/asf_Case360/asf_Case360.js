@@ -330,7 +330,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
     }
 
     get displayBackButton() {
@@ -499,7 +499,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             if (this.cccExternalId == undefined || this.cccExternalId == null) {
                 return;
             }
-            if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
+            
+            //if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
                 let caseCatConfig = await getCaseCategoryConfig({ cccExtId: this.cccExternalId }).catch((error) => {
                     this.showError('error', 'Unable to fetch Case Category Config', error);
                     return;
@@ -511,7 +512,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     this.cccBU = this.caseCategoryConfig[0].Business_Unit__c;
                     this.getStages(this.caseCategoryConfigId);
                 }
-            }
+            //}
 
             if (this.cccExternalId != null && this.cccExternalId != undefined) {
                 console.log('cccExternalId found');
@@ -1324,7 +1325,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     // }
 
     fetchAllManualStages() {
-        fetchAllManualStagesWithCase({ caseId: this.recordId })
+        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c })
             .then(result => {
                 let stages = [];
                 // stages = [...result]
