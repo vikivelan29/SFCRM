@@ -2,7 +2,7 @@
 * @description       : BSLI BeforeInsertTrigger Logic After ASF Code
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 06-21-2024
+* @last modified on  : 06-01-2024
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeInsertTriggerLogic {
@@ -87,7 +87,46 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
         }
     }
-
+    
+    public static void associateCustomerForAPIFromPhoneNumber(List<Case> cases){
+        List<Case> absliCases = new List<Case>();
+        Set<String> phoneNumbers = new Set<String>();
+        for(Case c: cases){
+            if(c.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT 
+               && c.Technical_Source__c == 'API'
+               && c.SuppliedPhone != null && c.SuppliedPhone != ''
+               && c.AccountId == null)
+            {
+                absliCases.add(c);
+                phoneNumbers.add(c.SuppliedPhone);
+            }
+        }
+        Map<String,List<Id>> mAccWithSamePhNum = new Map<String,List<Id>>();
+        if(phoneNumbers.size()>0){
+            for(Contact con : [SELECT ID,AccountId,MobilePhone FROM Contact 
+                               WHERE MobilePhone =: phoneNumbers
+                               AND Business_Unit__c =: ABSLI_Constants.BUSINESS_UNIT])
+            {
+                if(!mAccWithSamePhNum.containsKey(con.MobilePhone))
+                {
+                    mAccWithSamePhNum.put(con.MobilePhone, new List<Id>());
+                }
+                if(!mAccWithSamePhNum.get(con.MobilePhone).contains(con.AccountId)){
+                    mAccWithSamePhNum.get(con.MobilePhone).add(con.AccountId);
+                }
+            }
+            for(Case c : absliCases){
+                if(mAccWithSamePhNum.containsKey(c.SuppliedPhone)){
+                    List<Id> accounts = mAccWithSamePhNum.get(c.SuppliedPhone);
+                    if(accounts.size() == 1){
+                        c.AccountId = accounts.get(0);
+                    }
+                }
+            }
+        }
+        
+        
+    }
     //AM-PR970457-2039-Method to validate case creation for specific CTSTs based on certain conditions
     public static void checkCreateCaseValidations(List<Case> cases){
         Set<String> issueCodes = new Set<String>();
@@ -101,11 +140,11 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                 policyIdVsCase.put(c.AssetId,c);
             }
         }
-        
+        system.debug('policyIdVsCase:'+policyIdVsCase);
         for(Asset policy: [SELECT Id, Status FROM Asset WHERE Id IN:policyIdVsCase.keySet()]){
             caseVsAsset.put(policyIdVsCase.get(policy.Id),policy);
         }
-        
+        system.debug('caseVsAsset:'+caseVsAsset);
         if(issueCodes.size()>0 && !caseVsAsset.isEmpty()){
             Map<String, ABSLI_Create_Case_Validations__mdt> issueCodeVsMdt = new Map<String, ABSLI_Create_Case_Validations__mdt>();
             List<ABSLI_Create_Case_Validations__mdt> validationMdtList = [SELECT Label,Business_Unit__c,Issue_Code__c,
@@ -140,6 +179,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             
         }
     }
+    
     //custom exception class
     public class MyCustomException extends Exception {}
     
