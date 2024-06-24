@@ -17,6 +17,7 @@ export default class Absli_premiumpaymentlink extends LightningElement {
     @track originalSearchResults;
     @track selectedRows =[];
     @track showSearchInput = true;
+    @track showPagination = false;
 
     totalNoOfRecordsInDatatable = 0;
     pageSize = 10; //No.of records to be displayed per page
@@ -77,6 +78,7 @@ export default class Absli_premiumpaymentlink extends LightningElement {
                     this.dispatchEvent(selectEvent);
                     this.selectedPolicyId = selectedRecord.Id;
                     this.showSearchInput = false;
+                    this.showPagination = true;
                 }
                  else if (result && result.length > 1){
                     this.originalSearchResults  = result;
@@ -84,6 +86,7 @@ export default class Absli_premiumpaymentlink extends LightningElement {
                     this.totalNoOfRecordsInDatatable = result.length;
                     this.paginationHelper();
                     this.selectedRows = [];
+                    this.showPagination = true;
                 } else {
                     console.error('No assets found.');
                 }
