@@ -14,7 +14,7 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
      * @Function - start function of batch 
      * @param bC - Batchable Context
      * @return Database.getQueryLocator
-     * @description - Method to get the satsifying asset records that VRM Role have access to 
+     * @description - Method to get the satsifying asset records that VRM Role have access to    
      *****************************************************************************************************************/
     global Database.QueryLocator start(Database.BatchableContext bC) {
     return Database.getQueryLocator([
