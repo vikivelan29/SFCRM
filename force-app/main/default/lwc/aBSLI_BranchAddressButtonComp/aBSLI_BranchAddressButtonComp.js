@@ -158,7 +158,7 @@ export default class ABSLI_BranchAddressButtonComp extends LightningElement {
         this.selectedBranchState = '';
         this.selectedBranchPincode = '';
         this.selectedBranchId = '';
-        this.sendToUnregistered = false;
+
     }
 
 }
