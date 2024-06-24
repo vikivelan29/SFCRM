@@ -175,6 +175,8 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
         }
 
         List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
+        Set<Id> accountIds = new Set<Id>();
+        Map<Id, List<String>> mapAccIdEmail = new Map<Id, List<String>>();
         for(Case caseRec : caseRecords){
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
@@ -185,6 +187,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 caseInt.Type__c = 'BRE';
                 caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
                 newCaseIntegrations.add(caseInt);
+            }
+            if(!caseRec.Account.IsPersonAccount) {
+                accountIds.add(caseRec.AccountId);
             }
         }
 
@@ -198,15 +203,41 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
             }
             caseIdToCaseInts.get(caseInt.Case__c).add(caseInt);
         }
+        
+        //Get Contact Email and Phone
+        if(!accountIds.isEmpty()) {
+            for(Contact con : [SELECT Id, Email, AccountId, MobilePhone FROM Contact WHERE AccountId IN :accountIds]) {
+                mapAccIdEmail.put(con.AccountId, new List<String>{con.Email, con.MobilePhone});
+            }
+        }
         List<Case_Integration_Outbound__e> peList = new List<Case_Integration_Outbound__e>();
+        List<String> userDet = new List<String>();
+        String emailId;
+        String mobileNo;
         for(Case caseRec : caseRecords){
+            emailId = '';
+            mobileNo = '';
+            if(caseRec.AccountId != NULL && !caseRec.Account.IsPersonAccount && !mapAccIdEmail.isEmpty() &&  mapAccIdEmail.containsKey(caseRec.AccountId)) {
+                emailId = mapAccIdEmail.get(caseRec.AccountId)[0] != null? mapAccIdEmail.get(caseRec.AccountId)[0] : caseRec.Account.Office_Email__c; 
+                mobileNo = mapAccIdEmail.get(caseRec.AccountId)[1] != null? mapAccIdEmail.get(caseRec.AccountId)[1] : caseRec.Account.Phone; 
+                //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+            }
+            else if(caseRec.AccountId != NULL && !caseRec.Account.IsPersonAccount) {
+                emailId = caseRec.Account.Office_Email__c;
+                mobileNo = caseRec.Account.Phone;
+            }
+            else if(caseRec.AccountId != NULL) {
+                emailId = caseRec.Account.PersonEmail;
+                mobileNo = caseRec.Account.PersonMobilePhone;
+            }
+            
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABFL_Constants.SUCCESS;
             result.response = ABFL_Constants.WAITING_API_RESPONSE;
             resultMap.put(caseRec.Id, result);
             for(ASF_Integration__c integ : integs.get(caseRec.Id))
             {
-                Case_Integration_Outbound__e peRec = ABFL_BRE_APIImplementation.callout(integ, caseRec, caseIdToCaseInts.get(caseRec.Id));
+                Case_Integration_Outbound__e peRec = ABFL_BRE_APIImplementation.callout(integ, caseRec, caseIdToCaseInts.get(caseRec.Id),emailId, mobileNo);
                 if(peRec != null){
                     peList.add(peRec);
                 }
