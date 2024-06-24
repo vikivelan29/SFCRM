@@ -186,14 +186,25 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         for(Case caseRec : currentCases){
             caseIdToReturnFlagMap.put(caseRec.Id, true);
-            if(caseToChecklistMap.containsKey(caseRec.Id)){
+            String cccExternalId = system.Label.CCC_External_Id;
+           system.debug('check external id'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
+if(caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+   && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
+&& caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' ){
+   // system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c' +caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' );
+ system.debug('check true'); 
+ if(caseToChecklistMap.containsKey(caseRec.Id)){
+     system.debug('check');
                 for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
+                    system.debug('false+++-');
                     if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
+                        system.debug('false---');
                         caseIdToReturnFlagMap.put(caseRec.Id, false);
                         break;
                     }
                 }
             }
+ }
         }
         return caseIdToReturnFlagMap;
     }

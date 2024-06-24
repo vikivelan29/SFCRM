@@ -175,11 +175,11 @@ public class ABFL_EBOTCaseLogics_Test {
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerNo(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerYes(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.confidenceScoreAndSubtypeCheck(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,'abcde',true,true,true,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,'abcde',false,true,true,true);                     
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,'abcde',false,false,false,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,'abcde',false,true,false,false);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,'abcde',false,false,false,false);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,true,true,true,true);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,true,true);                     
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,true);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,false,false);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,false);
                   ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,false,objABFL.Id,false,false,false,false);
             System.assertEquals('Success', caseIntUpdate.Status__c,'record found');          
              Test.stopTest();            

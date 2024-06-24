@@ -251,6 +251,10 @@
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Organisation_Type__c</picklist>
