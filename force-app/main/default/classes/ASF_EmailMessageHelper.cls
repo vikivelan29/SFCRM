@@ -142,6 +142,7 @@ public without sharing class ASF_EmailMessageHelper {
         }
     }
     
+    /*
     private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
         String firstOwner;
         if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
@@ -152,7 +153,7 @@ public without sharing class ASF_EmailMessageHelper {
             theMap.get(firstOwner).add(caseRec.Id);
         }
         return theMap;
-    }
+    }*/
     
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
         Case newCase = new Case();

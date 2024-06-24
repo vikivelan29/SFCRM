@@ -314,5 +314,4 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         this.paginationHelper();
         this.selectedRows = [];
     }
-
 }
