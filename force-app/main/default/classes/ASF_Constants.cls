@@ -120,7 +120,6 @@ public with sharing class ASF_Constants {
         
     /* Map to Store Case Origin Vs Business Unit */
     public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG'};
-
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};
