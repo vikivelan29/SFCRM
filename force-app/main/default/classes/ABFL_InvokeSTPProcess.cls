@@ -257,12 +257,14 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                     //                                                WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
                     //                                                WITH SECURITY_ENFORCED];
                     if (String.isNotBlank(intRec.STP_Template__c)){
-                        Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, isTransferred);
-
                         Boolean isEmailSentToCustomer = true;
+                        
+                        if(caseRecord.Winning_Email__c != System.label.Restrict_Email_Address) {
+                            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, isTransferred);
 
-                        if (!platformEventResult.isSuccess()){
-                            isEmailSentToCustomer = false;
+                            if (!platformEventResult.isSuccess()){
+                                isEmailSentToCustomer = false;
+                            }
                         }
 
                         if (isEmailSentToCustomer){
