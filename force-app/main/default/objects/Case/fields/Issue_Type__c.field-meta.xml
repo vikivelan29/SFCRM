@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Issue_Type__c</fullName>
     <description>ABSLI Sub SubType</description>
+    <externalId>false</externalId>
     <label>Issue Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -501,6 +502,11 @@
                 <fullName>Mode change procedure</fullName>
                 <default>false</default>
                 <label>Mode change procedure</label>
+            </value>
+            <value>
+                <fullName>Payout Related</fullName>
+                <default>false</default>
+                <label>Payout Related</label>
             </value>
         </valueSetDefinition>
     </valueSet>

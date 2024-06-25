@@ -1,7 +1,7 @@
 /**
  * @description Unit Test Class for Policy Account Statement Integration
  *
- * @author Abinash Panigrahi
+ * @author Abinash Panigrahi, Salesforce
  * @date 2024-05-17
  */
 @isTest

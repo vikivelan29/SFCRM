@@ -4,6 +4,7 @@ import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
+import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
@@ -17,6 +18,7 @@ import AccountId from '@salesforce/schema/Case.AccountId';
 import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -30,6 +32,7 @@ import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Busines
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
+import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -163,6 +166,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     showIssueType = false;
     issueTypeVal;
     issueTypeOptions = [];
+    showCategoryType = false;
+    categoryTypeOptions = [];
+    categoryTypeVal;
 
     get stageOptions() {
         return [
@@ -204,6 +210,21 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
+    //To get Category type pickilst values
+    @wire(getObjectInfo, { objectApiName: ABSLI_CASE_DETAIL_OBJECT })
+    bsliObjectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$bsliObjectInfo.data.defaultRecordTypeId', fieldApiName: BSLI_CATEGORY_TYPE })
+    wiredPicklistValues({ error, data}) {
+        if (data){
+            this.categoryTypeOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error){
+            console.log('error in get picklist--'+JSON.stringify(error));
+        }
+    }
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
@@ -234,6 +255,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.caseRec = data;
             this.showOnCustomerTagging = false;
             this.showOnProspectTagging = false;
+            this.isNotSelectedReject = true;
 
             this.flag = this.contactSelected = this.caseRec.fields.ContactId;
             
@@ -242,12 +264,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
-
-            if (this.caseRec.fields.AmIOwner__c.value == true) {
-                this.isNotSelectedReject = false;
-            } else {
-                this.isNotSelectedReject = true;
-            }
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -285,21 +301,21 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU){
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
+           if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
             }else{
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
             }
-        } else if (error){
+        }else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
@@ -325,6 +341,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //this.showFtr = false;
         this.showIssueType = false;
         //this.ftrValue = false;
+        this.showCategoryType = false;
 
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
@@ -391,7 +408,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //this.ftrValue = false;
         //this.showFtr = false;
         this.showIssueType = false;
+        this.showCategoryType = false;
         this.issueTypeVal = '';
+        this.categoryTypeVal = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         this.complaintSelected = '';
 
@@ -401,8 +420,23 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU){
+        let cccExternalId = '';
+
+        if (this.caseRec.fields.AmIOwner__c.value == true) {
+            this.isNotSelectedReject = false;
+        }
+
+        if (selected && selected.hasOwnProperty("CCC_External_Id__c")) {
+            cccExternalId = selected.CCC_External_Id__c;
+            this.fetchRejectionReason(cccExternalId);
+        }
+
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
+
             this.showAutoComm = true;
+        }
+        if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
+            this.showCategoryType = true;
         }
         /*if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
             this.showFtr = true;
@@ -476,7 +510,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isTransactionRelated = selected.Is_Transaction_Related__c;
             console.log('isTransactionRelated ---> ' + this.isTransactionRelated);
         }
-
     }
     async createCaseHandler() {
         this.loaded = false;
@@ -624,6 +657,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     handleIssueTypeChange(event){
         this.issueTypeVal = event.detail.value;
     }
+    handleCatTypeChange(event){
+        this.categoryTypeVal = event.detail.value;
+    }
     gotoMainScreen() {
         this.contactSelected = true;
     }
@@ -741,13 +777,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     async handleRejectBtn(event) {
-        var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        if(selected != null && selected != undefined){
-            let cccExtId = selected.CCC_External_Id__c;
-            if(cccExtId != null && cccExtId != undefined){
-                await this.fetchRejectionReason(cccExtId);
-            }
-        }
         
         this.showRejetedReason = true;
         this.showSRDescription = false;
@@ -813,6 +842,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //this.showFtr = false;
         this.showIssueType = false;
         this.issueTypeVal = '';
+        this.categoryTypeVal = '';
         this.cancelReject();
     }
 
@@ -904,6 +934,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
         await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+            this.reasonLOV = [];
             result.forEach(reason => {
                 const optionVal = {
                     label: reason,
@@ -911,7 +942,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-            this.showRejetedReason = true;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
@@ -949,7 +979,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.isCloseWithoutCRNFlow = true;
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
     }
 
     categoriseCaseForProspect(event){

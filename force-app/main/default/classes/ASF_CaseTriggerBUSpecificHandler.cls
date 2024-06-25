@@ -1,13 +1,6 @@
 /**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
-**/
+ * @description Case trigger handler class for BU specific
+ */
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
     /**
      * @description - Executes befor the ASF code runs in before insert context
@@ -69,10 +62,14 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @param newItems - map of new cases
      */
     public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
+
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
+        ABSLIG_CaseDetailHelperClass absligCaseDetHelperObj = new ABSLIG_CaseDetailHelperClass();
+
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
+
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
@@ -80,18 +77,18 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         // Create Comment if the case is closed while creation.[through api]
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
+        absligCaseDetHelperObj.populateABSLIGCaseDetailFields((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
     // UPDATE CONTEXT - ENDS HERE
     /**
-     * @description  Executes before the ASF code runs in before update context
+     * @description  Executes before the ASF code runs in before update coABHFL_AmortizationIntegrationntext
      * @param newItems - map of new cases
      * @param oldItems - map of old cases
      */
     public override void executeBeforeASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**
@@ -124,7 +121,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      */
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
-
+        ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
+        
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
 
@@ -140,7 +138,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABCL_InvokeOneABC.evaluateCasesForOneABC((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
-
+        absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)newItems.values());
     }
-    
 }
