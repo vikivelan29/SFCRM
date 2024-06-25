@@ -21,13 +21,19 @@ public with sharing class ABSLIG_CaseDetailTriggerHelper {
         
         List<ABSLIG_Case_Detail__c> newListOfABSLIGCaseDetail = newMap.values();
 
+        Id loggedInUserId  = UserInfo.getUserId();
+        User loggedInUser  = [SELECT Id, Manager.Name FROM User WHERE Id = :loggedInUserId WITH SECURITY_ENFORCED];
+        String managerName = loggedInUser?.Manager?.Name;
+
         for(ABSLIG_Case_Detail__c absligCsDetRec : newListOfABSLIGCaseDetail){
             if(absligCsDetRec.Maker_Comment__c != oldMap.get(absligCsDetRec.Id).Maker_Comment__c){
                 absligCsDetRec.Maker_Name__c = UserInfo.getName();
+                absligCsDetRec.Maker_Manager__c   = managerName;
             }
             if(absligCsDetRec.Checker_Comment__c != oldMap.get(absligCsDetRec.Id).Checker_Comment__c){
                 absligCsDetRec.Checker_Name__c = UserInfo.getName();
-            }
+                absligCsDetRec.Checker_Manager__c = managerName;
+            }   
         }
     }
 }
