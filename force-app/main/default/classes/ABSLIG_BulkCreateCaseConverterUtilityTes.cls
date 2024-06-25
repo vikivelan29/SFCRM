@@ -112,7 +112,7 @@ public class ABSLIG_BulkCreateCaseConverterUtilityTes {
         selectedRecordIds.add(caseList.Id);
 
         Test.startTest();
-         	String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case','RecentlyViewedCases');
+         	String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case');
             ASF_BulkCsvDownload_MockTest mock = new ASF_BulkCsvDownload_MockTest();
             Test.setMock(HttpCalloutMock.class, mock);
 

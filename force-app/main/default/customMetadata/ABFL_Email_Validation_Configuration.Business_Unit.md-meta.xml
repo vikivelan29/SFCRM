@@ -3,7 +3,7 @@
     <label>Business Unit</label>
     <protected>false</protected>
     <values>
-        <field>Email_Addresses_Allowed_Long__c</field>
+        <field>Email_Addresses_Allowed__c</field>
         <value xsi:type="xsd:string">ABFL,ABHFL,Payments,ABSLI,ABSLIG</value>
     </values>
 </CustomMetadata>
