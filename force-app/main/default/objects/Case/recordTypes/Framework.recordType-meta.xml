@@ -23,10 +23,6 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
-            <fullName>Change as per Customer Issue Type</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -39,19 +35,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Multiple Cases%2FDuplicate</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multiple Intent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -126,10 +110,6 @@
         </values>
         <values>
             <fullName>Benefits related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bonus</fullName>
             <default>false</default>
         </values>
         <values>
@@ -397,18 +377,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partial withdrawal request delayed%2F not received by customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payout Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -418,10 +386,6 @@
         </values>
         <values>
             <fullName>Policy Dispatch %2F Delivery Details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pre existing illness not covered</fullName>
             <default>false</default>
         </values>
         <values>
@@ -641,10 +605,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Tampered%2FForged%2FFake Documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Taxation</fullName>
             <default>false</default>
         </values>
@@ -674,10 +634,6 @@
         </values>
         <values>
             <fullName>Total Premium Paid</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Transfer from old policy</fullName>
             <default>false</default>
         </values>
         <values>
