@@ -139,11 +139,6 @@
                                                             onchange={handleAutoCommChange}>
                                             </lightning-checkbox-group>
                                         </template>
-                                        <!--<div class="slds-p-top_x-small slds-p-bottom_x-small">
-                                            <template if:true={showFtr}>
-                                                <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
-                                            </template>
-                                        </div>-->
                                         <div class="slds-grid slds-grid_vertical">
                                             <div class="slds-col slds-size_2-of-8">
                                                 <template if:true={showIssueType}>
@@ -158,6 +153,11 @@
                                                     options={categoryTypeOptions}
                                                     onchange={handleCatTypeChange} required>
                                                     </lightning-combobox> 
+                                                </template>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                                <template if:true={showFtr}>
+                                                    <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
                                                 </template>
                                             </div>
                                         </div>
