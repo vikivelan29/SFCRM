@@ -231,6 +231,26 @@
                 <default>false</default>
                 <label>In Progress with IT</label>
             </value>
+            <value>
+                <fullName>In Progress with Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Retention</label>
+            </value>
+            <value>
+                <fullName>Under Review</fullName>
+                <default>false</default>
+                <label>Under Review</label>
+            </value>
+            <value>
+                <fullName>Checker</fullName>
+                <default>false</default>
+                <label>Checker</label>
+            </value>
+            <value>
+                <fullName>Final Closure</fullName>
+                <default>false</default>
+                <label>Final Closure</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
