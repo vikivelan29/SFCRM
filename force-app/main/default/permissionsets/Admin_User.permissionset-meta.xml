@@ -4389,11 +4389,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.Branch__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5080,11 +5075,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Branch_Master__c.Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Branch_Master__c.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6614,7 +6604,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product2.UniqueKey__c</field>
+        <field>Product2.System__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.Source_Modified_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
