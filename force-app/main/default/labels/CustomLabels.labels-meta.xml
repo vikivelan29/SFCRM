@@ -58,6 +58,13 @@
         <value>Resolved By STP</value>
     </labels>
     <labels>
+        <fullName>ABFL_RESOLVED_UTR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL RESOLVED UTR</shortDescription>
+        <value>Resolved By UTR</value>
+    </labels>
+    <labels>
         <fullName>ABFL_Reassign_Case_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
