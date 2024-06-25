@@ -41,6 +41,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
 import CASE_FROM_PREFRAMEWORK_TO_FRAMEWORK from '@salesforce/schema/Case.Preframework_to_Framework_FromUI__c';
 
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export class asf_Utility {
 
@@ -175,10 +176,24 @@ export class asf_Utility {
        }
        // VIRENDRA - END PROSPECT HERE.
        console.log('####Fields##'+JSON.stringify(fields));
-       this.updateCaseJS(fields,parentJS);
+       this.updateCaseJS(fields,parentJS, selected);
    }
 
-    updateCaseJS(fields,parentJS){
+    async updateCaseJS(fields,parentJS, selected){
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoing validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecord);
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
+                return;
+            }
+            console.log('ending validator');
+        }
        const caseRecord = JSON.stringify(fields);
        updateCase({fields:caseRecord,isAsset:parentJS.withoutAsset})
            .then(result => {   
