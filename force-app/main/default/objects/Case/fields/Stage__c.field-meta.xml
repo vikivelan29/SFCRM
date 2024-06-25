@@ -221,6 +221,11 @@
                 <label>Under Review</label>
             </value>
             <value>
+                <fullName>Checker</fullName>
+                <default>false</default>
+                <label>Checker</label>
+            </value>
+            <value>
                 <fullName>Final Closure</fullName>
                 <default>false</default>
                 <label>Final Closure</label>
