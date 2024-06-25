@@ -49,11 +49,9 @@ export default class ASF_DynamicButtons extends LightningElement {
           }
     }
     handleClosePopup(event){
-        this.dispatchEvent(new CustomEvent('close'));
-        this.handleCancel();
-       /* if(event.detail.message == true || event.detail.message == "true"){
+        if(event.detail.message == true || event.detail.message == "true"){
             this.handleCancel();
-        }*/
+        }
     }
     
 }
