@@ -30,10 +30,9 @@ public without sharing class ASF_BulkCsvDownloadHelper {
         strCSVFields = String.isNotBlank(configMetaRec.Fields_Name__c)? configMetaRec.Fields_Name__c:'';
         columnNames = strCSVFields.split(',');
 
-        if(strListViewId.contains('__Recent')){
-            strListViewId = 'RecentlyViewed%';
+        if(strListViewId.contains('Recent')){
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c);
         }
-        strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
 
         Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
         ASF_BulkCSVToRecordConverter converter = (ASF_BulkCSVToRecordConverter)customType.newInstance();
@@ -91,10 +90,10 @@ public without sharing class ASF_BulkCsvDownloadHelper {
      * Input : Object API name
      * Output : List View ID
      */
-    public static String getRecentViewID(String strSobjectName, String listViewName){
+    public static String getRecentViewID(String strSobjectName){
         String strListViewId = '';
         List<ListView> lstRecentView = [SELECT Id, DeveloperName, SobjectType FROM ListView Where SobjectType =: strSobjectName 
-                                       AND DeveloperName LIKE :listViewName];
+                                       AND DeveloperName LIKE 'RecentlyViewed%'];
         if(lstRecentView!=null && !lstRecentView.isEmpty()){
             strListViewId = lstRecentView[0].Id;
         }
