@@ -443,6 +443,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
 
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
+
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
@@ -520,7 +521,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isTransactionRelated = selected.Is_Transaction_Related__c;
             console.log('isTransactionRelated ---> ' + this.isTransactionRelated);
         }
-
     }
     async createCaseHandler() {
         this.loaded = false;

@@ -506,10 +506,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -769,10 +765,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letter %2F Snail Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
@@ -782,10 +774,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -870,10 +858,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>

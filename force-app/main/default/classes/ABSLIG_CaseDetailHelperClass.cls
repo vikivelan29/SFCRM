@@ -47,7 +47,6 @@ public with sharing class ABSLIG_CaseDetailHelperClass {
             }
         }
     }
-
     /**
     * @Function - populateABSLIGCaseDetailFieldsAfterCaseUpdate
     * @param newCsList -  List of new case records.
