@@ -1,5 +1,14 @@
 @SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions, PMD.ApexSOQLInjection')
 public with sharing class ASF_Case360Controller {
+    @AuraEnabled
+    public static String dummyMethodForJSVal(String caseId){
+        System.debug('caseId'+caseId);
+        if(caseId == null){
+            return String.valueOf(1/0);
+        }
+        return 'Success';
+    }
+    
     @AuraEnabled(cacheable=true)
     public static UserAndCaseWrapper fetchUserAndCaseDetails(Id caseId){
         UserAndCaseWrapper wrap = new UserAndCaseWrapper();
@@ -50,8 +59,6 @@ public with sharing class ASF_Case360Controller {
     @AuraEnabled
     public static void updateCaseWithCaseExtn(SObject caseRec, SObject caseExtn){
         try {
-                system.debug('casecaseRec '+caseRec);
-                system.debug('casecaseExtn '+caseExtn);
             List<SObject> recordsToUpdate = new List<SObject>();
             if(caseExtn != null){
                 recordsToUpdate.add(caseExtn);
