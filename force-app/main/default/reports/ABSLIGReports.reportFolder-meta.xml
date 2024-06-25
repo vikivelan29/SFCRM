@@ -10,5 +10,5 @@
         <sharedTo>ABSLIG_Leadership</sharedTo>
         <sharedToType>RoleAndSubordinates</sharedToType>
     </folderShares>
-    <name>ABSLIG Reports</name>
+    <name>ABSLIGReports</name>
 </ReportFolder>
