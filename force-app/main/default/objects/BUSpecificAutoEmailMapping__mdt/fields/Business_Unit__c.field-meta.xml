@@ -31,9 +31,9 @@
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>ABSLI</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>ABSLI</label>
             </value>
         </valueSetDefinition>
     </valueSet>
