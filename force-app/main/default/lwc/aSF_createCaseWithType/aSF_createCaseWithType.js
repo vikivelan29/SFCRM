@@ -19,7 +19,6 @@ import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import { lanLabels } from 'c/asf_ConstantUtility';
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -117,7 +116,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     caseRecord;
     showSRModal = false;
     showFAmsg = true;
-    faValidMsg;
+    faValidMsg = FAmsg;
     isFTRJourney = false;
     showSRDescription = false;
     caseDescriptionFTR;
@@ -127,7 +126,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     complaintValues = [];
     complaintSelected;
     subsourceSelected;
-    withFALabel;
+    withFALabel = WithFA;
     withoutFALabel = WithoutFA;
     selectedSRCategory
 
@@ -162,8 +161,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     cols; 
 
     //BSLI
-    //showFtr = false;
-    //ftrValue = false;
+    showFtr = false;
+    ftrValue = false;
     showIssueType = false;
     issueTypeVal;
     issueTypeOptions = [];
@@ -323,10 +322,21 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
-           this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
-           this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
-        } else if (error){
+           if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
+            }else{
+            this.cols = [
+                { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+                { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+                { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+            ];
+            }
+        }else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
@@ -349,9 +359,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = null;
         this.createCaseWithAll = false;
         this.isNotSelected = true;
-        //this.showFtr = false;
+        this.showFtr = false;
         this.showIssueType = false;
-        //this.ftrValue = false;
+        this.ftrValue = false;
         this.showCategoryType = false;
 
         let customerId = this.caseRec.fields.AccountId.value;
@@ -416,8 +426,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.natureVal = '';
         this.sourceVal = '';
         this.sourceValues = [];
-        //this.ftrValue = false;
-        //this.showFtr = false;
+        this.ftrValue = false;
+        this.showFtr = false;
         this.showIssueType = false;
         this.showCategoryType = false;
         this.issueTypeVal = '';
@@ -443,15 +453,14 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
 
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
-
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        /*if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
             this.showFtr = true;
-        } */
+        } 
         if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -521,6 +530,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isTransactionRelated = selected.Is_Transaction_Related__c;
             console.log('isTransactionRelated ---> ' + this.isTransactionRelated);
         }
+
     }
     async createCaseHandler() {
         this.loaded = false;
@@ -662,9 +672,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.selectedCaseStage = event.detail.value;
         //this.createCaseHandler();
     }
-   /* handleFtr(event){
+    handleFtr(event){
         this.ftrValue = event.target.checked;
-    } */
+    }
     handleIssueTypeChange(event){
         this.issueTypeVal = event.detail.value;
     }
@@ -849,8 +859,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
-        //this.ftrValue = false;
-        //this.showFtr = false;
+        this.ftrValue = false;
+        this.showFtr = false;
         this.showIssueType = false;
         this.issueTypeVal = '';
         this.categoryTypeVal = '';
@@ -874,7 +884,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
-                    message: lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK != null? lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK : lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
+                    message: FA_Mandatory,
                     variant: 'Error',
                 }),
             );
