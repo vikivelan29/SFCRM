@@ -724,11 +724,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>spr_sf__Sprinklr_Case_Number__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>SR_TAT_elapsed__c</field>
             <table>Case</table>
         </columns>
