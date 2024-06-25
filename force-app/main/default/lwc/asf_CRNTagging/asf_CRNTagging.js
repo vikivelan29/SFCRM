@@ -36,7 +36,7 @@ export default class Asf_CRNTagging extends LightningElement {
     initialRecords;
     inpValueA;
     @track preSelectedRows = undefined;
-    @track preSelectedAsset = undefined;
+    preSelectedAsset = [];
     prestdAcctId;
     noUpdate = noUpdate;
     @track showLANForCustomer = false;
