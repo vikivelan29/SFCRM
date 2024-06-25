@@ -23,10 +23,6 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
-            <fullName>Change as per Customer Issue Type</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -39,19 +35,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Multiple Cases%2FDuplicate</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multiple Intent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -105,10 +89,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Annuity option not clearly explained</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Assignment Related</fullName>
             <default>false</default>
         </values>
@@ -118,10 +98,6 @@
         </values>
         <values>
             <fullName>Benefits related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bonus</fullName>
             <default>false</default>
         </values>
         <values>
@@ -149,10 +125,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Commission pass backs</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>D2C Lead</fullName>
             <default>false</default>
         </values>
@@ -166,10 +138,6 @@
         </values>
         <values>
             <fullName>Discontinued Payout Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Discrepancy in claim value</fullName>
             <default>false</default>
         </values>
         <values>
@@ -213,10 +181,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Incomplete charges explained</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Investigation related</fullName>
             <default>false</default>
         </values>
@@ -230,14 +194,6 @@
         </values>
         <values>
             <fullName>License not received</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Life assured%27s signature forged on proposal form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan</fullName>
             <default>false</default>
         </values>
         <values>
@@ -313,18 +269,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partial withdrawal request delayed%2F not received by customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payout Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -337,10 +281,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pre existing illness not covered</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Premium paid certificate %2F Policy Statement from Chatbot</fullName>
             <default>false</default>
         </values>
@@ -350,10 +290,6 @@
         </values>
         <values>
             <fullName>Product related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Proposer%27s signature forged on proposal form%2C</fullName>
             <default>false</default>
         </values>
         <values>
@@ -441,14 +377,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Renewal premium used incorrectly</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rider added%2Fdeleted without consent</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Riders Related%2FFace Amount Related</fullName>
             <default>false</default>
         </values>
@@ -470,10 +398,6 @@
         </values>
         <values>
             <fullName>Surrender Winback</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
             <default>false</default>
         </values>
         <values>
@@ -501,10 +425,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Tampered%2FForged%2FFake Documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Taxation</fullName>
             <default>false</default>
         </values>
@@ -526,10 +446,6 @@
         </values>
         <values>
             <fullName>Total Premium Paid</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Transfer from old policy</fullName>
             <default>false</default>
         </values>
         <values>
