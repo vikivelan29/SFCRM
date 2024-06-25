@@ -51,19 +51,19 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>LanguagePreference</name>
+            <name>languagePreference</name>
             <value>
                 <elementReference>$Record.Account.Language_Preference__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>SmsFieldName</name>
+            <name>smsFieldName</name>
             <value>
                 <elementReference>SMSTemplateFieldName</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
-            <name>SmsTemplateName</name>
+            <name>smsTemplateName</name>
             <value>
                 <elementReference>SMSCustomMetadataName</elementReference>
             </value>
@@ -77,7 +77,7 @@
         <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SMSCustomMetadataName</assignToReference>
-            <name>SmsTemplateName</name>
+            <name>smsTemplateName</name>
         </outputParameters>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
@@ -1313,7 +1313,7 @@ Added Condition on Decision box -Email Template Found</description>
         <name>SMSTemplateFieldName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
