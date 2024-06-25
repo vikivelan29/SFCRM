@@ -419,10 +419,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
             this.showFtr = true;
         } 
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
             }else{

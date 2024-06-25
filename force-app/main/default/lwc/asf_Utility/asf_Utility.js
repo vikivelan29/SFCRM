@@ -20,6 +20,7 @@ import REJECTION_DETAILS from '@salesforce/schema/Case.Rejected_Reason__c';
 import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -110,9 +111,11 @@ export class asf_Utility {
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
         }
-
-        if(parentJS.noAutoCommValue){
-            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        if(parentJS.ftrValue){
+            fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
+        }
+        if(parentJS.businessUnit === ABSLI_BU && parentJS.issueTypeVal != null){
+            fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;
         }
 
        if(!parentJS.rejectCase){
