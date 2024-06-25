@@ -59,7 +59,7 @@ import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 
 
 
-//Console.log();
+
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
     caseFieldsMetadata = [];
