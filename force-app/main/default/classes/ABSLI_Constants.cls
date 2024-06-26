@@ -13,7 +13,8 @@ public class ABSLI_Constants {
     public static final String strResidence = 'Thane';
     public static final String BANK_ESB_FAILURE_RESPONSE = 'Unable to fetch Bank details. Please try again later.';
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
-    
+    public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
+
     /* Bitly Link REAL TIME API
      */
     public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
@@ -88,6 +89,22 @@ public class ABSLI_Constants {
         'PNFT007' => 'ABSLI_EMAILEUPDATE_EVALUATION_ERROR'};
     public static final String CONTACTUPDATE_SUCCESS_MESSAGE = 'ABSLI_CONTACTUPDATE_SUCCESS_MESSAGE';
     public static final String CONTACTUPDATE_FAILURE_MESSAGE = 'ABSLI_CONTACTUPDATE_FAILURE_MESSAGE';
+
+    /* FETCH NEFT REF NUMBER INTEGRATION ERROR **/
+    public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
+    public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
+    public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
+    public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Fetch NEFT Ref Num Schedulde Job';
+
+    /* LOAN ASSIGNMENT INTEGRATION **/
+    public static final String LOANASSIGNMENT_SERVICE_NAME = 'LoanAssignment';
+    public static final String LOANASSIGNMENT_CLI_ID = 'BSLILOAN';
+    public static final String LOANASSIGNMENT_SUB_CD = 'B';
+    public static final String LOANASSIGNMENT_ADDR_CD = 'PR';
+    public static final String LOANASSIGNMENT_CREATE_ASSIGNEE = 'N';
+    public static final String LOANASSIGNMENT_EVALUATION_ERROR = 'ABSLI_LOANASSIGNMENT_EVALUATION_ERROR';
+    public static final String LOANASSIGNMENT_SUCCESS_MESSAGE = 'ABSLI_LOANASSIGNMENT_SUCCESS_MESSAGE';
+    public static final String LOANASSIGNMENT_FAILURE_MESSAGE = 'ABSLI_LOANASSIGNMENT_FAILURE_MESSAGE';
 
 	  /* REAL TIME INTEGRATION METADATA NAME */
 
