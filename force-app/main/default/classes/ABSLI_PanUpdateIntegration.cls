@@ -37,7 +37,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
             
             if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
                 result.status = ABSLI_Constants.SUCCESS;
-            }else if(caseRecord.Technical_Source__c=='LWC'){
+            }else if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='LWC'){
                 if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
                    && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
                 {
