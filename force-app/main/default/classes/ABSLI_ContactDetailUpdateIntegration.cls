@@ -76,6 +76,9 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
             if(caseRecord.Technical_Source__c == 'API'){
                 caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c : caseRecord.Client_Code_Text__c;
             }
+            else{
+                caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c :'';
+            }
 			string requestBody = JSON.serialize(
 				new ContactDetailRequestWrapper(
 					caseRecord.CaseNumber,
