@@ -14,13 +14,11 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                 prospectPanMap.put(prospect.PANNO, individualCase);
             }
         }
-        System.debug('****prospectPanMap:'+prospectPanMap);
         if(!prospectPanMap.isEmpty()){
             Map<String,String> panLeadMap = new Map<String,String>();
-            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet()]){
+            for(Lead le: [select Id,FirstName,LastName,MobilePhone,Email,PANNO__c from lead where PANNO__c IN :prospectPanMap.keySet() WITH SYSTEM_MODE]){
                 panLeadMap.put(le.PANNO__c,le.Id);
             }
-            System.debug('****panLeadMap:'+panLeadMap);
 
             List<Lead> newLeadsList = new List<Lead>();
             for(Case individualCase : newItems){
@@ -41,7 +39,6 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                     }
                 }
             }
-
             if(newLeadsList.size()>0){
                 insert newLeadsList;
                 for(Lead recLead: newLeadsList){
@@ -49,12 +46,11 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                     prospectPanMap.get(recLead.PANNO__c).Lead__c = recLead.Id;
                 }
             }
-            
-            System.debug('***prospectPanMap:'+prospectPanMap);
         }
     }
     
-    public class prospectSearch{
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+    public class ProspectSearch{
         public String FULLNAME;
         public String MOBILE;
         public String PANNO;

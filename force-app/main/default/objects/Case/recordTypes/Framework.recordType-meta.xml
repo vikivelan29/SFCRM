@@ -54,11 +54,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -99,6 +99,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABWM Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Email</fullName>
             <default>false</default>
         </values>
@@ -120,10 +128,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -166,6 +170,17 @@
         </values>
         <values>
             <fullName>User didn%27t attend training</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -279,6 +294,10 @@
         </values>
         <values>
             <fullName>Internal Usage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
         <values>

@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Partner Name</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -11,44 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Money view</fullName>
+                <fullName>Moneyview PL &amp; Top-Up</fullName>
                 <default>false</default>
-                <label>Money view</label>
-            </value>
-            <value>
-                <fullName>Byju (Halted)</fullName>
-                <default>false</default>
-                <label>Byju (Halted)</label>
-            </value>
-            <value>
-                <fullName>Paytm(personal)</fullName>
-                <default>false</default>
-                <label>Paytm(personal)</label>
-            </value>
-            <value>
-                <fullName>Paytm(post-paid)</fullName>
-                <default>false</default>
-                <label>Paytm(post-paid)</label>
-            </value>
-            <value>
-                <fullName>Upwards(Halted)</fullName>
-                <default>false</default>
-                <label>Upwards(Halted)</label>
-            </value>
-            <value>
-                <fullName>NAVI</fullName>
-                <default>false</default>
-                <label>NAVI</label>
-            </value>
-            <value>
-                <fullName>Fibe (Early salary) (Halted)</fullName>
-                <default>false</default>
-                <label>Fibe (Early salary) (Halted)</label>
-            </value>
-            <value>
-                <fullName>Paisa Bazaar</fullName>
-                <default>false</default>
-                <label>Paisa Bazaar</label>
+                <label>Moneyview PL &amp; Top-Up</label>
             </value>
             <value>
                 <fullName>Ola</fullName>
@@ -56,14 +22,89 @@
                 <label>Ola</label>
             </value>
             <value>
-                <fullName>Credilio</fullName>
+                <fullName>Byju&apos;s</fullName>
                 <default>false</default>
-                <label>Credilio</label>
+                <label>Byju&apos;s</label>
             </value>
             <value>
-                <fullName>Lending kart</fullName>
+                <fullName>Mobikwik</fullName>
                 <default>false</default>
-                <label>Lending kart</label>
+                <label>Mobikwik</label>
+            </value>
+            <value>
+                <fullName>Paytm PP</fullName>
+                <default>false</default>
+                <label>Paytm PP</label>
+            </value>
+            <value>
+                <fullName>Paytm PL &amp; Top-Up</fullName>
+                <default>false</default>
+                <label>Paytm PL &amp; Top-Up</label>
+            </value>
+            <value>
+                <fullName>Paytm MCA</fullName>
+                <default>false</default>
+                <label>Paytm MCA</label>
+            </value>
+            <value>
+                <fullName>Upwards</fullName>
+                <default>false</default>
+                <label>Upwards</label>
+            </value>
+            <value>
+                <fullName>Paisa Bazaar</fullName>
+                <default>false</default>
+                <label>Paisa Bazaar</label>
+            </value>
+            <value>
+                <fullName>Paisa Bazaar Distribution</fullName>
+                <default>false</default>
+                <label>Paisa Bazaar Distribution</label>
+            </value>
+            <value>
+                <fullName>Early Salary- Fibe(co-lending)</fullName>
+                <default>false</default>
+                <label>Early Salary- Fibe(co-lending)</label>
+            </value>
+            <value>
+                <fullName>NAVI(co-lending)</fullName>
+                <default>false</default>
+                <label>NAVI(co-lending)</label>
+            </value>
+            <value>
+                <fullName>Paytm Transaction EMI</fullName>
+                <default>false</default>
+                <label>Paytm Transaction EMI</label>
+            </value>
+            <value>
+                <fullName>Paytm PL (Distribution)</fullName>
+                <default>false</default>
+                <label>Paytm PL (Distribution)</label>
+            </value>
+            <value>
+                <fullName>Jar | B2C Partnership</fullName>
+                <default>false</default>
+                <label>Jar | B2C Partnership</label>
+            </value>
+            <value>
+                <fullName>Insta PL value builder</fullName>
+                <default>false</default>
+                <label>Insta PL value builder</label>
+            </value>
+            <value>
+                <fullName>Cashe (co-lending)</fullName>
+                <default>false</default>
+                <label>Cashe (co-lending)</label>
+            </value>
+            <value>
+                <fullName>CRED</fullName>
+                <default>false</default>
+                <label>CRED</label>
+            </value>
+            <value>
+                <fullName>Lending Kart</fullName>
+                <default>false</default>
+                <label>Lending Kart</label>
             </value>
             <value>
                 <fullName>Indifi</fullName>
@@ -71,74 +112,59 @@
                 <label>Indifi</label>
             </value>
             <value>
-                <fullName>FinAGG Technologies Private Limited</fullName>
+                <fullName>FinAGG</fullName>
                 <default>false</default>
-                <label>FinAGG Technologies Private Limited</label>
+                <label>FinAGG</label>
             </value>
             <value>
-                <fullName>VALOR INNOVATIONS</fullName>
+                <fullName>Loanframe</fullName>
                 <default>false</default>
-                <label>VALOR INNOVATIONS</label>
+                <label>Loanframe</label>
             </value>
             <value>
-                <fullName>MINTWALK FINTECH (GETCLARITY)</fullName>
+                <fullName>Valor innovations (cashflo)</fullName>
                 <default>false</default>
-                <label>MINTWALK FINTECH (GETCLARITY)</label>
+                <label>Valor innovations (cashflo)</label>
             </value>
             <value>
-                <fullName>Eduvanz (Eduvanz Financing Private Limited) -</fullName>
+                <fullName>Mintwalk fintech (Supermoney)</fullName>
                 <default>false</default>
-                <label>Eduvanz (Eduvanz Financing Private Limited) -</label>
+                <label>Mintwalk fintech (Supermoney)</label>
             </value>
             <value>
-                <fullName>Propelld ( Bluebear Technology Private Limited)</fullName>
+                <fullName>Flexiloans</fullName>
                 <default>false</default>
-                <label>Propelld ( Bluebear Technology Private Limited)</label>
+                <label>Flexiloans</label>
             </value>
             <value>
-                <fullName>Zest Money</fullName>
+                <fullName>Grasim</fullName>
                 <default>false</default>
-                <label>Zest Money</label>
+                <label>Grasim</label>
             </value>
             <value>
-                <fullName>CREDENC</fullName>
+                <fullName>Groww</fullName>
                 <default>false</default>
-                <label>CREDENC</label>
+                <label>Groww</label>
             </value>
             <value>
-                <fullName>Arogya finance</fullName>
+                <fullName>Bharatpe(MCA)</fullName>
                 <default>false</default>
-                <label>Arogya finance</label>
+                <label>Bharatpe(MCA)</label>
             </value>
             <value>
-                <fullName>Creditfair (K.M GLOBEL)</fullName>
+                <fullName>Eduvanz</fullName>
                 <default>false</default>
-                <label>Creditfair (K.M GLOBEL)</label>
+                <label>Eduvanz</label>
             </value>
             <value>
-                <fullName>GROW</fullName>
+                <fullName>Propelld, Gajju technologies</fullName>
                 <default>false</default>
-                <label>GROW</label>
+                <label>Propelld, Gajju technologies</label>
             </value>
             <value>
-                <fullName>Juspay Technologies Private Limited</fullName>
+                <fullName>Zest</fullName>
                 <default>false</default>
-                <label>Juspay Technologies Private Limited</label>
-            </value>
-            <value>
-                <fullName>BharatPe</fullName>
-                <default>false</default>
-                <label>BharatPe</label>
-            </value>
-            <value>
-                <fullName>Home Credit</fullName>
-                <default>false</default>
-                <label>Home Credit</label>
-            </value>
-            <value>
-                <fullName>Finsall</fullName>
-                <default>false</default>
-                <label>Finsall</label>
+                <label>Zest</label>
             </value>
             <value>
                 <fullName>Grayquest</fullName>
@@ -146,19 +172,221 @@
                 <label>Grayquest</label>
             </value>
             <value>
-                <fullName>Uno Finance (loan tap)</fullName>
+                <fullName>Credenc</fullName>
                 <default>false</default>
-                <label>Uno Finance (loan tap)</label>
+                <label>Credenc</label>
             </value>
             <value>
-                <fullName>FinancePeer (Gajju Technologies Private Limited)</fullName>
+                <fullName>Creditfair</fullName>
                 <default>false</default>
-                <label>FinancePeer (Gajju Technologies Private Limited)</label>
+                <label>Creditfair</label>
+            </value>
+            <value>
+                <fullName>Arogya</fullName>
+                <default>false</default>
+                <label>Arogya</label>
+            </value>
+            <value>
+                <fullName>Uno</fullName>
+                <default>false</default>
+                <label>Uno</label>
+            </value>
+            <value>
+                <fullName>Home Credit</fullName>
+                <default>false</default>
+                <label>Home Credit</label>
+            </value>
+            <value>
+                <fullName>Phonpe (MCA)</fullName>
+                <default>false</default>
+                <label>Phonpe (MCA)</label>
+            </value>
+            <value>
+                <fullName>Phonepe PL</fullName>
+                <default>false</default>
+                <label>Phonepe PL</label>
+            </value>
+            <value>
+                <fullName>Finsall</fullName>
+                <default>false</default>
+                <label>Finsall</label>
+            </value>
+            <value>
+                <fullName>Juspay</fullName>
+                <default>false</default>
+                <label>Juspay</label>
+            </value>
+            <value>
+                <fullName>Shopse</fullName>
+                <default>false</default>
+                <label>Shopse</label>
+            </value>
+            <value>
+                <fullName>Payme</fullName>
+                <default>false</default>
+                <label>Payme</label>
+            </value>
+            <value>
+                <fullName>Savein</fullName>
+                <default>false</default>
+                <label>Savein</label>
+            </value>
+            <value>
+                <fullName>Techfino</fullName>
+                <default>false</default>
+                <label>Techfino</label>
+            </value>
+            <value>
+                <fullName>Finburd (DSA product)</fullName>
+                <default>false</default>
+                <label>Finburd (DSA product)</label>
+            </value>
+            <value>
+                <fullName>Udyog Plus</fullName>
+                <default>false</default>
+                <label>Udyog Plus</label>
+            </value>
+            <value>
+                <fullName>Smallcase</fullName>
+                <default>false</default>
+                <label>Smallcase</label>
+            </value>
+            <value>
+                <fullName>Creditvidya</fullName>
+                <default>false</default>
+                <label>Creditvidya</label>
+            </value>
+            <value>
+                <fullName>Arogya finance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Arogya finance</label>
+            </value>
+            <value>
+                <fullName>BharatPe</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BharatPe</label>
+            </value>
+            <value>
+                <fullName>Byju (Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Byju (Halted)</label>
+            </value>
+            <value>
+                <fullName>Credilio</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Credilio</label>
             </value>
             <value>
                 <fullName>Creditap</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Creditap</label>
+            </value>
+            <value>
+                <fullName>Creditfair (K.M GLOBEL)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Creditfair (K.M GLOBEL)</label>
+            </value>
+            <value>
+                <fullName>Eduvanz (Eduvanz Financing Private Limited) -</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Eduvanz (Eduvanz Financing Private Limited) -</label>
+            </value>
+            <value>
+                <fullName>Fibe (Early salary) (Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fibe (Early salary) (Halted)</label>
+            </value>
+            <value>
+                <fullName>FinAGG Technologies Private Limited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FinAGG Technologies Private Limited</label>
+            </value>
+            <value>
+                <fullName>FinancePeer (Gajju Technologies Private Limited)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FinancePeer (Gajju Technologies Private Limited)</label>
+            </value>
+            <value>
+                <fullName>GROW</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>GROW</label>
+            </value>
+            <value>
+                <fullName>Juspay Technologies Private Limited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Juspay Technologies Private Limited</label>
+            </value>
+            <value>
+                <fullName>MINTWALK FINTECH (GETCLARITY)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MINTWALK FINTECH (GETCLARITY)</label>
+            </value>
+            <value>
+                <fullName>Money view</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Money view</label>
+            </value>
+            <value>
+                <fullName>NAVI</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NAVI</label>
+            </value>
+            <value>
+                <fullName>Paytm(personal)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Paytm(personal)</label>
+            </value>
+            <value>
+                <fullName>Paytm(post-paid)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Paytm(post-paid)</label>
+            </value>
+            <value>
+                <fullName>Propelld ( Bluebear Technology Private Limited)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Propelld ( Bluebear Technology Private Limited)</label>
+            </value>
+            <value>
+                <fullName>Uno Finance (loan tap)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Uno Finance (loan tap)</label>
+            </value>
+            <value>
+                <fullName>Upwards(Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Upwards(Halted)</label>
+            </value>
+            <value>
+                <fullName>VALOR INNOVATIONS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>VALOR INNOVATIONS</label>
+            </value>
+            <value>
+                <fullName>Zest Money</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Zest Money</label>
             </value>
         </valueSetDefinition>
     </valueSet>

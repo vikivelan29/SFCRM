@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Payment Link" recipientType="Contact" relatedToType="Case">
+<messaging:emailTemplate subject="Payment link as requested!" recipientType="Contact" relatedToType="Case">
 <messaging:htmlEmailBody >
 <c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="PAYMENT LINK REQUEST"></c:ASF_CaseEmail>
 </messaging:htmlEmailBody>

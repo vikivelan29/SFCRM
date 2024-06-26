@@ -17,17 +17,36 @@ public with sharing Class ABCL_Encryption{
     */
 	// EncodingUtil.base64Encode(Crypto.generateAesKey(256))
 	// public static final String AES_KEY = 'QVyg0S3DZ3GuYsxECIe9iEo+NGsQL4hhB1T8ugPkz+A='; 
+    /* @description get Enach Int
+    *****************************************************************************************************************/
     private static ABCL_Integrations__mdt eNachInt;
+    /* @description AES_KEY
+    *****************************************************************************************************************/
+	public static final String AES_KEY = getENachInt().Int_Key__c; 
+	// EncodingUtil.base64Encode(Crypto.generateAesKey(128))
+  	// public static final String AES_IV = 'lKOvnQbveCQ09UcGGQREiA==';
+    /* @description AES_IV
+    *****************************************************************************************************************/
+  	public static final String AES_IV = getENachInt().Int_IV__c;
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - getENachInt
+    * @return ABCL_Integrations__mdt
+    * @description get Enach
+    *****************************************************************************************************************/
     public static ABCL_Integrations__mdt getENachInt(){
         if(eNachInt==null){
             eNachInt = ABCL_Integrations__mdt.getInstance('ABFL_Enach');
         }
         return eNachInt;
     }
-	public static final String AES_KEY = getENachInt().Int_Key__c; 
-	// EncodingUtil.base64Encode(Crypto.generateAesKey(128))
-  	// public static final String AES_IV = 'lKOvnQbveCQ09UcGGQREiA==';
-  	public static final String AES_IV = getENachInt().Int_IV__c;
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - encrypt
+    * @return String
+    * @param dataToEncrypt 
+    * @description encrypt
+    *****************************************************************************************************************/
 	public static String encrypt(String dataToEncrypt) {
         // Call Crypto.encryptWithManagedIV specifying the selected AES Algorithm
         Blob encryptedData = Crypto.encrypt(
@@ -38,7 +57,13 @@ public with sharing Class ABCL_Encryption{
         );
         return EncodingUtil.base64Encode(encryptedData);
     }
-
+     /****************************************************************************************************************
+    * @LOB - ABFL
+    * @Function - decrypt
+    * @return String
+    * @param dataToDecrypt 
+    * @description decrypt
+    *****************************************************************************************************************/
     public static String decrypt(String dataToDecrypt) {
         // Call Crypto.encryptWithManagedIV specifying the selected AES Algorithm
         Blob decryptedData = Crypto.decrypt(

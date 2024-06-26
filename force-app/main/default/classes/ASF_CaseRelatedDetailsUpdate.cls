@@ -125,4 +125,45 @@ public without sharing class ASF_CaseRelatedDetailsUpdate {
             throw ex;
         }
     }
+    /****************************************************************************************************************
+    * @Function - removeAccountIdBuMissMatch
+    * @param oldCases 
+    * @param newCases 
+    * @description - remove AccountId from Case if Case BU is not matching with tagged Account' Business Unit.this is for all BUs
+    *****************************************************************************************************************/
+    public static void removeAccountIdBuMissMatch(map<Id, Case> oldCases,map<Id, Case> newCases){
+        Set<Id> caseIdsToUpdate = new Set<Id>();
+        List<Case> recordsToUpdate = new List<Case>();
+        for(Case recCase : newCases.values()){
+            if (recCase.AccountId != null) {
+                caseIdsToUpdate.add(recCase.AccountId);
+            }
+         }
+         if (!caseIdsToUpdate.isEmpty()) {
+            // Querying related Accounts to fetch Business Unit
+            Map<Id, Account> accountMap = new Map<Id, Account>([
+                SELECT Id, Business_Unit__c
+                FROM Account
+                WHERE Id IN :caseIdsToUpdate]);
+            // Checking Business Unit mismatch and clearing AccountId if needed
+            for (Case cs :newCases.values()) {
+            	String caseBu = cs.Business_Unit__c;
+                String accountBu = accountMap.get(cs.AccountId).Business_Unit__c;
+                // Excluding logic if Case BU is ABFL or ABWM and Account BU is either ABFL or ABWM as both belong to same BU.
+                if (!((caseBu == 'ABFL' || caseBu == 'ABWM') && (accountBu == 'ABFL' || accountBu == 'ABWM'))) {
+                    if (caseBu != null && accountBu != null && caseBu != accountBu) {
+                        Case objToUpdate = new Case();
+                        objToUpdate.Id = cs.Id;
+                        objToUpdate.AccountId = null;
+                        objToUpdate.ContactId = null;
+                        recordsToUpdate.add(objToUpdate);
+                    }
+                }
+            }
+         }
+        if (!recordsToUpdate.isEmpty()) {
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            update recordsToUpdate;
+        }
+    }
 }

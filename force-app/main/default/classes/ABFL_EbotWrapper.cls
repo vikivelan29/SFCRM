@@ -7,24 +7,24 @@
 *********************************************************/
     public class ABFL_EbotWrapper {
       public class EbotResponseWrapper{
-        public String AUTOCLOSURE_IN_RR;        //Trail Mail Flag of the Email
-        public String CASEID;       //Case Id
-        public String CASESUBTYPE;  //Subtype Code of the Case
-        public String COMMENT;      //Description of the Case
-        public String CONFIDENCESCORE;      //Confidence Score of the EBOT
-        public String CUSTOMERNO;       //Common Client Code of the Customer
-        public String ISATTACHMENTFLAG;     //Is attachment available against the email.
-        public String ISMULTIPLELAN;        //LAN Number of the Customer
-        public String ISREGISTEREDCUSTOMER;     //Is Registered Customer flag of the Case
-        public String ISSMT;        //Is Senior Management flag
-        public String LAN;      //LAN Number of the Customer
-        public String LOB;      //LOB of the Case
-        public String MOODSTAMP; //Mood stamp of the customer.
-        public String OWNERFULLNAME; // Owner of the Case
-        public String PAYTMINTERACTIONID; //PAYTM Interaction ID available in the Email
-        public String PRIORITY;  //Priority of the Email
-        public String AUTORESPONSEFLAG;
-        public String DISPOSITION;
+        public String AUTOCLOSURE_IN_RR {get; set;}       //Trail Mail Flag of the Email
+        public String CASEID {get; set;}       //Case Id
+        public String CASESUBTYPE {get; set;}  //Subtype Code of the Case
+        public String COMMENT {get; set;}     //Description of the Case
+        public String CONFIDENCESCORE {get; set;}     //Confidence Score of the EBOT
+        public String CUSTOMERNO {get; set;}     //Common Client Code of the Customer
+        public String ISATTACHMENTFLAG {get; set;}    //Is attachment available against the email.
+        public String ISMULTIPLELAN {get; set;}        //LAN Number of the Customer
+        public String ISREGISTEREDCUSTOMER {get; set;}     //Is Registered Customer flag of the Case
+        public String ISSMT {get; set;}       //Is Senior Management flag
+        public String LAN {get; set;}      //LAN Number of the Customer
+        public String LOB {get; set;}     //LOB of the Case
+        public String MOODSTAMP {get; set;} //Mood stamp of the customer.
+        public String OWNERFULLNAME {get; set;} // Owner of the Case
+        public String PAYTMINTERACTIONID {get; set;} //PAYTM Interaction ID available in the Email
+        public String PRIORITY {get; set;}  //Priority of the Email
+        public String AUTORESPONSEFLAG {get; set;}
+        public String DISPOSITION {get; set;}
 
       }
     }

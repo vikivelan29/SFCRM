@@ -4,6 +4,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import APPROVAL_PENDING_FIELD from '@salesforce/schema/Case.Is_Approval_Pending__c';
 
 export default class Asf_CaseEditPage extends LightningElement {
     @api fieldSetName; 
@@ -14,14 +15,16 @@ export default class Asf_CaseEditPage extends LightningElement {
     multiPicklistValueMap = new Map();
     isGetRecordExecuted = false;
     isGetPicklistValExecuted = false;
+    isApprovalPending = false;
 
     @wire(getObjectInfo, { objectApiName: 'Case' })
     objectInfo;
     
-    @wire(getRecord, { recordId: '$recordId', fields: [NOAUTOCOMM_FIELD] })
+    @wire(getRecord, { recordId: '$recordId', fields: [NOAUTOCOMM_FIELD,APPROVAL_PENDING_FIELD] })
     wiredRecord({ error, data }) {
         if (data) {
             // Access the record data and store it in a map 
+            this.isApprovalPending = getFieldValue(data, APPROVAL_PENDING_FIELD);
             this.multiPicklistValueMap.set(NOAUTOCOMM_FIELD.fieldApiName, getFieldValue(data, NOAUTOCOMM_FIELD));
             this.isGetRecordExecuted = true;
             this.fetchFieldSetFieldsWithValuesFromApex();
@@ -73,7 +76,7 @@ export default class Asf_CaseEditPage extends LightningElement {
     }
     handleInputChange(event) {
 
-        this.disableSave = false;
+        this.disableSave = !this.isApprovalPending ? false : true;
         const fieldPath = event.target.name;
         const value = event.detail.value;
 

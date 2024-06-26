@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asf_Dynamic_Datatable_Parent__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Asf_Dynamic Datatable Parent</label>
+    <referenceTo>Asf_Dynamic_Datatable_Parent__mdt</referenceTo>
+    <relationshipLabel>Asf_Dynamic Datatable Childs</relationshipLabel>
+    <relationshipName>Asf_Dynamic_Datatable_Childs</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

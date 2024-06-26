@@ -13,5 +13,15 @@
     <columns>Send_Closed_stage_communications__c</columns>
     <columns>Send_Rejected_stage_communications__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABHFL</value>
+    </filters>
+    <filters>
+        <field>Nature__c</field>
+        <operation>equals</operation>
+        <value>Request</value>
+    </filters>
     <label>ABHFL-R</label>
 </ListView>

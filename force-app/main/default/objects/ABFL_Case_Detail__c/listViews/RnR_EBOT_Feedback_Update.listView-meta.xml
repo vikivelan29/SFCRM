@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RnR_EBOT_Feedback_Update</fullName>
+    <columns>NAME</columns>
+    <columns>CaseNumber__c</columns>
+    <columns>BOT_Response__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CaseNumber__c</field>
+        <operation>contains</operation>
+        <value>00287110,00287111</value>
+    </filters>
+    <label>RnR EBOT Feedback Update</label>
+</ListView>

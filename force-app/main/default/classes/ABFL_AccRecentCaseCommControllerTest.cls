@@ -27,27 +27,29 @@ private class ABFL_AccRecentCaseCommControllerTest {
         }
         insert testCases;
 
-        List<CaseComment> CaseComm = new List<CaseComment>();
+        List<CaseComment> caseComm = new List<CaseComment>();
         for (Case testCase : testCases) {
-            CaseComm.add(new CaseComment(ParentId = testCase.Id, CommentBody = 'Test Comment'));
+            caseComm.add(new CaseComment(ParentId = testCase.Id, CommentBody = 'Test Comment'));
         }
-        insert CaseComm;
+        insert caseComm;
         }
     }
 
     @isTest
-    static void GetAccountCaseComments_Success() {
+    static void getAccountCaseCommentsSuccess() {
         
 		Account ac = [SELECT Id FROM Account LIMIT 1];
         List<Case> cs=[select id from Case];
         // Call the method
         Test.startTest();
         ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, 10);
-        
-        
+        try{
+            ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
+        }catch(Exception e){
+            
+        }
         Test.stopTest();
         System.assertEquals(cs.size(), 5);
-        //ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
     }
 
 }
