@@ -3986,11 +3986,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.Branch__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4637,6 +4632,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Product2Id</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product2.System__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8258,5 +8258,9 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewAllUsers</name>
     </userPermissions>
 </PermissionSet>
