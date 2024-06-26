@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Non_Wealth_Complaints</fullName>
+    <columns>OWNER_NAME</columns>
+    <columns>Nature__c</columns>
+    <columns>Source__c</columns>
+    <columns>Stage__c</columns>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>NAME</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Nature__c</field>
+        <operation>equals</operation>
+        <value>Complaint</value>
+    </filters>
+    <filters>
+        <field>LOB__c</field>
+        <operation>notEqual</operation>
+        <value>Wealth</value>
+    </filters>
+    <label>ABFL Non-Wealth Complaints</label>
+    <sharedTo>
+        <group>ABFL_Grievance_G</group>
+    </sharedTo>
+</ListView>

@@ -1,11 +1,12 @@
 New Case assigned to you !!
 Case No : {!Case.CaseNumber}
-Assignment Date & Time :  {!Case.CreatedDate}
+Assignment Date & Time : {!Case.CreatedDate}
 Expected Resolution Time : {!Case.Overall_Case_Closure_SLA__c}
-SR Nature: {!Case.Nature__c}
-SR Type :{!Case.Type_Text__c}
-Created Date/Time: {!Case.CreatedDate}
-Created By: {!Case.CreatedBy}
+Case Nature : {!Case.Nature__c}
+Case Type : {!Case.Type_Text__c}
+Case Sub Type : {!Case.Sub_Type_Text__c}
+Created Date/Time : {!Case.CreatedDate}
+Created By : {!Case.CreatedBy}
 
 Please click on the link below to view the record.
 {!Case.Link}

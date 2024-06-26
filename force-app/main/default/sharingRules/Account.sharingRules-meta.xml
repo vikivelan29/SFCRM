@@ -24,7 +24,7 @@
             <value>ABWM</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules> 
+    </sharingCriteriaRules>
     <sharingCriteriaRules>
         <fullName>All_ABHFL_Customer_To_ABHFL_User</fullName>
         <accessLevel>Read</accessLevel>
