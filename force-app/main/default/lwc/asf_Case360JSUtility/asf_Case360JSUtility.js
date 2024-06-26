@@ -9,5 +9,4 @@ const BUSpecificCloseCasePopupHandler = (that) => {
     }
     
 };
-
 export { BUSpecificCloseCasePopupHandler };

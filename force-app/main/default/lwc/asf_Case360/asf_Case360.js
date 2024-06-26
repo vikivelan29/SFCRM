@@ -58,8 +58,6 @@ import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistO
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 
 
-
-
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
     caseFieldsMetadata = [];

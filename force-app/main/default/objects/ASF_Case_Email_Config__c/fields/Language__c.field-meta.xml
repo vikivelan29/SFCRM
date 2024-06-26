@@ -11,9 +11,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Gujarathi</fullName>
+                <fullName>Gujarati</fullName>
                 <default>false</default>
-                <label>Gujarathi</label>
+                <label>Gujarati</label>
             </value>
             <value>
                 <fullName>Hindi</fullName>

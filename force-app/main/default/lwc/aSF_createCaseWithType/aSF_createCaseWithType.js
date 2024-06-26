@@ -162,8 +162,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     cols; 
 
     //BSLI
-    //showFtr = false;
-    //ftrValue = false;
+    showFtr = false;
+    ftrValue = false;
     showIssueType = false;
     issueTypeVal;
     issueTypeOptions = [];
@@ -309,6 +309,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
     }
 
+    get displayRejectionReason(){
+        return this.showRejetedReason && this.businessUnit != 'ABSLI';
+    }
+
 
     get isPersonAccount() {
         return getFieldValue(this.caseRec.data, ACCOUNTTYPE_FIELD);
@@ -349,9 +353,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = null;
         this.createCaseWithAll = false;
         this.isNotSelected = true;
-        //this.showFtr = false;
+        this.showFtr = false;
         this.showIssueType = false;
-        //this.ftrValue = false;
+        this.ftrValue = false;
         this.showCategoryType = false;
 
         let customerId = this.caseRec.fields.AccountId.value;
@@ -416,8 +420,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.natureVal = '';
         this.sourceVal = '';
         this.sourceValues = [];
-        //this.ftrValue = false;
-        //this.showFtr = false;
+        this.ftrValue = false;
+        this.showFtr = false;
         this.showIssueType = false;
         this.showCategoryType = false;
         this.issueTypeVal = '';
@@ -448,9 +452,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        /*if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
             this.showFtr = true;
-        } */
+        } 
         if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -662,9 +666,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.selectedCaseStage = event.detail.value;
         //this.createCaseHandler();
     }
-   /* handleFtr(event){
+    handleFtr(event){
         this.ftrValue = event.target.checked;
-    } */
+    }
     handleIssueTypeChange(event){
         this.issueTypeVal = event.detail.value;
     }
@@ -798,7 +802,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -806,7 +810,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     variant: 'Error',
                 }),
             );
-        } else if (this.selectedReason == '') {
+        } else if (this.selectedReason == '' && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -849,8 +853,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
-        //this.ftrValue = false;
-        //this.showFtr = false;
+        this.ftrValue = false;
+        this.showFtr = false;
         this.showIssueType = false;
         this.issueTypeVal = '';
         this.categoryTypeVal = '';
