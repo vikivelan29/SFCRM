@@ -46,6 +46,12 @@
                 <default>false</default>
                 <label>Payment</label>
             </value>
+            <value>
+                <fullName>eBOT Feedback</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>eBOT Feedback</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

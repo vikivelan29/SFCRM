@@ -270,6 +270,7 @@ public with sharing class ASF_TestDataFactory {
             newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             newCase.pending_clarification__c = true;
             
+        	
         caseList.add(newCase);
         insert caseList;
 

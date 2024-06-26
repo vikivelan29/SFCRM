@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>abfl_institutional_service_desk@invalid.com</email>
     <name>ABFL Institutional Service Desk</name>
     <queueMembers>
         <publicGroups>
             <publicGroup>ABFL_Institutional_Service_Desk_G</publicGroup>
         </publicGroups>
-        
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
