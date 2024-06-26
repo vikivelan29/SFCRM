@@ -549,13 +549,6 @@
         <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
-        <fullName>ASF_default_no_reply_email_address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>ABFSSL CRMAPPQKM06</value>
-    </labels>
-    <labels>
         <fullName>Allowed_Domain</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -805,7 +798,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/</value>
     </labels>
     <labels>
         <fullName>ABSLI_key</fullName>
@@ -841,6 +834,20 @@
         <protected>false</protected>
         <shortDescription>CCC External Id</shortDescription>
         <value>hfl060</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
     </labels>
     <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
@@ -927,5 +934,4 @@
         <shortDescription>ABSLI BU</shortDescription>
         <value>ABSLI</value>
     </labels>
-
 </CustomLabels>
