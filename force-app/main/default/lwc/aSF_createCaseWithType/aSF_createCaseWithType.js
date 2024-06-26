@@ -309,6 +309,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
     }
 
+    get displayRejectionReason(){
+        return this.showRejetedReason && this.businessUnit != 'ABSLI';
+    }
+
 
     get isPersonAccount() {
         return getFieldValue(this.caseRec.data, ACCOUNTTYPE_FIELD);
@@ -798,7 +802,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -806,7 +810,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     variant: 'Error',
                 }),
             );
-        } else if (this.selectedReason == '') {
+        } else if (this.selectedReason == '' && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
