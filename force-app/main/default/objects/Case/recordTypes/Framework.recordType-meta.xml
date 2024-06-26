@@ -73,6 +73,10 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
         </values>
