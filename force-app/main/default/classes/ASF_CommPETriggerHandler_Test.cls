@@ -66,6 +66,7 @@ private class ASF_CommPETriggerHandler_Test {
         }
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         insert cases;
+        System.assertNotEquals(0, cases.size() , 'case list should not be zero');
     }
     
     
@@ -77,7 +78,6 @@ private class ASF_CommPETriggerHandler_Test {
         Test.startTest();
         boolean errorCase = false;
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = false;
@@ -113,10 +113,12 @@ private class ASF_CommPETriggerHandler_Test {
             ASF_CommnunicationLog__e evt = commEvts[i];
             evt.PELoggerId__c = peLoggers[i].id;
         }
+        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
         if(commEvts.size()>0){
             
             Database.SaveResult[] results = EventBus.publish(commEvts);
             Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
         }
         Test.stopTest();
         
@@ -128,7 +130,6 @@ private class ASF_CommPETriggerHandler_Test {
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = false;
@@ -147,7 +148,7 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -156,9 +157,9 @@ private class ASF_CommPETriggerHandler_Test {
             evt.PELoggerId__c = peLoggers[i].id;
         }
         if(commEvts.size()>0){
-            
             Database.SaveResult[] results = EventBus.publish(commEvts);
             Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
         }
         Test.stopTest();
         
@@ -170,7 +171,6 @@ private class ASF_CommPETriggerHandler_Test {
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = false;
@@ -190,6 +190,7 @@ private class ASF_CommPETriggerHandler_Test {
             commEvts.add(evt);
         }
         
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -198,9 +199,9 @@ private class ASF_CommPETriggerHandler_Test {
             evt.PELoggerId__c = peLoggers[i].id;
         }
         if(commEvts.size()>0){
-            
             Database.SaveResult[] results = EventBus.publish(commEvts);
             Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
         }
         Test.stopTest();
         
@@ -212,7 +213,6 @@ private class ASF_CommPETriggerHandler_Test {
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = true;
@@ -231,23 +231,14 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
         if(commEvts.size()>0){
             Apex_PE_Framework__mdt mdtPEFramework = Apex_PE_Framework__mdt.getInstance('ASF_commLogProcessingBatch'); 
-            integer iRetryInterval = (Integer.ValueOf(mdtPEFramework.RetryInterval__c)*-1);
-            Datetime lastFifteen = Datetime.now().addMinutes(iRetryInterval);  
-            String sLastFifteen = lastFifteen.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'Z\''); 
-            Datetime currentTime = Datetime.now();
-            String sCurrTime = currentTime.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
-            String peQuery = 'Select id,Retry_Time__c, unique_id__c,PE_JSON__c,PE_Name__c,Retry_PE__c,CCCExternalId__c,CustomMetadataName__c,RecordID__c from PE_Logger__c where Retry_PE__c = true and status__c = \'Pending\'';// and (Retry_Time__c > ' + sLastFifteen + ' and Retry_Time__c < ' + sCurrTime + ')';
-            List<PE_Logger__c> peLs = Database.query(peQuery);
-            System.debug('STartTime --> '+lastFifteen);
-            System.debug('EndTime --> '+currentTime);
-            System.debug(peLs);
             //System.schedule('TestCommRetryPublisherJob', '0 30 * * * ?', new CommLogPERetryBatch());
+            System.assertNotEquals(null, mdtPEFramework, 'save result should not be null');
             Test.getEventBus().deliver();
         }
         Test.stopTest();
@@ -255,11 +246,9 @@ private class ASF_CommPETriggerHandler_Test {
     @isTest
     private static void commLogProcessingBatch_defaultContructor(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = true;
@@ -273,6 +262,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = null;
             peLoggers.add(peLogger);
         }
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -282,11 +272,9 @@ private class ASF_CommPETriggerHandler_Test {
     @isTest
     private static void commLogProcessingBatch_StringConstructor(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = true;
@@ -300,6 +288,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.No_Auto_Communication__c = 'Email;SMS';
             peLoggers.add(peLogger);
         }
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -313,7 +302,6 @@ private class ASF_CommPETriggerHandler_Test {
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
         Test.startTest();
         for(Integer i=0;i<1;i++){
-            DateTime dt = DateTime.now();
             PE_Logger__c peLogger = new PE_Logger__c();
             peLogger.PE_Name__c = 'CommnunicationLog';
             peLogger.Retry_PE__c = false;
@@ -333,7 +321,7 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-        
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -342,9 +330,9 @@ private class ASF_CommPETriggerHandler_Test {
             evt.PELoggerId__c = peLoggers[i].id;
         }
         if(commEvts.size()>0){
-            
             Database.SaveResult[] results = EventBus.publish(commEvts);
             Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
         }
         Test.stopTest();
         

@@ -14,7 +14,11 @@
         <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>Approver_02__c</name>
+                <name>Approver_05__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>Approver_03__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
@@ -26,11 +30,7 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_03__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
-                <name>Approver_05__c</name>
+                <name>Approver_02__c</name>
                 <type>relatedUserField</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
@@ -81,11 +81,11 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_05__c</name>
+                <name>Approver_01__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_01__c</name>
+                <name>Approver_03__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
@@ -93,7 +93,7 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_03__c</name>
+                <name>Approver_05__c</name>
                 <type>relatedUserField</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>

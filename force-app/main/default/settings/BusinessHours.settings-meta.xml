@@ -36,6 +36,22 @@
     </businessHours>
     <businessHours>
         <active>true</active>
+        <default>false</default>
+        <fridayEndTime>18:30:00.000Z</fridayEndTime>
+        <fridayStartTime>09:00:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:00:00.000Z</mondayStartTime>
+        <name>Payments</name>
+        <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
+        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
         <default>true</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:00:00.000Z</fridayStartTime>
@@ -305,6 +321,11 @@
         <name>Muharram</name>
     </holidays>
     <holidays>
+        <activityDate>2024-01-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Republic Day</name>
+    </holidays>
+    <holidays>
         <businessHours>ABFL</businessHours>
         <isRecurring>true</isRecurring>
         <name>Republic Day</name>
@@ -312,11 +333,6 @@
         <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
         <recurrenceStartDate>2024-01-26</recurrenceStartDate>
         <recurrenceType>RecursYearly</recurrenceType>
-    </holidays>
-    <holidays>
-        <activityDate>2024-01-26</activityDate>
-        <isRecurring>false</isRecurring>
-        <name>Republic Day</name>
     </holidays>
     <holidays>
         <activityDate>2024-02-12</activityDate>

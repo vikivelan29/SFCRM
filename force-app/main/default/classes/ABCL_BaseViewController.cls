@@ -9,7 +9,7 @@
  * 1.0   03-14-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.CognitiveComplexity')
-public with sharing class ABCL_BaseViewController {
+public with sharing class ABCL_BaseViewController{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - getDynamicScreen

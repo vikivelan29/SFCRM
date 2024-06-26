@@ -193,6 +193,10 @@
                 <behavior>Edit</behavior>
                 <field>Reopen_SLA_Broken_Date_Time__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Email_Team__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -528,6 +532,14 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Client_Code__c</fields>
+        <fields>LAN__c</fields>
+        <fields>Invitation_Id__c</fields>
+        <fields>Primary_Question_NPS__c</fields>
+        <relatedList>Survey_Response__c.Case__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedCommentsList</relatedList>
     </relatedLists>
     <relatedLists>
@@ -541,6 +553,18 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>DocumentID__c</fields>
+        <fields>DMS_External_ID__c</fields>
+        <fields>ContentDocumentId__c</fields>
+        <fields>ContentVersionId__c</fields>
+        <fields>DMS_Link__c</fields>
+        <fields>File_Extension__c</fields>
+        <fields>File_Name__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>DMS_Files__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
@@ -623,7 +647,7 @@
     <showRunAssignmentRulesCheckbox>true</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>true</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9I000000BLvZ</masterLabel>
+        <masterLabel>00hBi000000FT3J</masterLabel>
         <sizeX>3</sizeX>
         <sizeY>4</sizeY>
         <summaryLayoutItems>

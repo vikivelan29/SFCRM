@@ -29,50 +29,58 @@ export default class Abfl_base_view_screen extends LightningElement {
 	}
 
 	connectedCallback() {
-		this.callFunction();
+		this.callFunction();	
 	}
 
+	coreResult;
+	@api
 	async callFunction() {
+		console.log('***callFunction-success:'+this.payloadInfo);
+		this.coreResult = await invokeCore(this._api_id, this.payloadInfo);
+		await this.generateScreen();
+	}
+
+	@api
+	async generateScreen() {
 		try {
-			console.log('***callFunction-in'+JSON.stringify(this.payloadInfo));
+			let res = this.coreResult;
+			if(res){
+				console.log('***generateScreen-success: ' + JSON.stringify(res));
+				this.isLoading = true;
 
-			this.isLoading = true;
-
-			let res = await invokeCore(this._api_id, this.payloadInfo);
-			console.log('***callFunction-success: ' + JSON.stringify(res));
-
-			if (this.payloadInfo?.statusCode == 200 && res?.screen) {
-				this.title = res.title;
-				this.screenjson = res.screen;
-				this.show = true;
-				this.firstSection = res?.screen[0]?.label;
-				this.mergeLeftAndRightFieldSection(res);
-				this.isShowModal = true;
-			} else {
-				this.dispatchEvent(new CustomEvent('closemodal'));
-				const evt = new ShowToastEvent({
-					title: 'Error',
-					message: this.label.errorMessage,
-					variant: 'error',
-				});
-				this.dispatchEvent(evt);
-			}
-
-			if (this.show) {
-				res.screen.forEach(screen => {
-					// Extracting lTables from the current screen
-					let lTables = screen.lTables;
-
-					// Iterate over lTables to parse and transform the labels
-					lTables.forEach(table => {
-						// Transform the labels
-						table.label = this.transformLabels(table.label);
-						console.log('line 55: ' + JSON.stringify(table.label));
+				if (this.payloadInfo?.statusCode == 200 && res?.screen) {
+					this.title = res.title;
+					this.screenjson = res.screen;
+					this.show = true;
+					this.firstSection = res?.screen[0]?.label;
+					this.mergeLeftAndRightFieldSection(res);
+					this.isShowModal = true;
+				} else {
+					this.dispatchEvent(new CustomEvent('closemodal'));
+					const evt = new ShowToastEvent({
+						title: 'Error',
+						message: this.label.errorMessage,
+						variant: 'error',
 					});
-				});
-			}
+					this.dispatchEvent(evt);
+				}
 
-			this.isLoading = false;
+				if (this.show) {
+					res.screen.forEach(screen => {
+						// Extracting lTables from the current screen
+						let lTables = screen.lTables;
+
+						// Iterate over lTables to parse and transform the labels
+						lTables.forEach(table => {
+							// Transform the labels
+							table.label = this.transformLabels(table.label);
+							console.log('line 55: ' + JSON.stringify(table.label));
+						});
+					});
+				}
+
+				this.isLoading = false;
+			}
 		} catch (error) {
 			this.isLoading = false;
 			console.log("An error occurred: " + JSON.stringify(error));
