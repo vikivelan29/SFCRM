@@ -775,8 +775,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
+        this.ftrValue = false;
+        this.showFtr = false;
+        this.showIssueType = false;
+        this.issueTypeVal = '';
+        this.categoryTypeVal = '';
         this.isNotSelectedReject = true;
-        this.closeCaseWithoutCusButton = '';
         this.cancelReject();
     }
 
