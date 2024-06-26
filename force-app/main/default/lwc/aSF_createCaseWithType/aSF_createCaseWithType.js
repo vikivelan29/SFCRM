@@ -858,6 +858,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showIssueType = false;
         this.issueTypeVal = '';
         this.categoryTypeVal = '';
+        this.isNotSelectedReject = true;
         this.cancelReject();
     }
 
