@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-19-2024
+ * @last modified on  : 06-27-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -82,6 +82,12 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                             // Add an error message to the Case record
 							Case caseError = newMap.get(caseRec.Id);
 							caseError.addError('To Date/From Date should be greater than or equal to the Policy Issued Date');
+							newMap.put(caseRec.Id,caseError);
+                        }
+                        if (fromDate > toDate) {
+                            // Add an error message to the Case record
+							Case caseError = newMap.get(caseRec.Id);
+							caseError.addError('From Date should not be greater than To Date');
 							newMap.put(caseRec.Id,caseError);
                         }
                     }
