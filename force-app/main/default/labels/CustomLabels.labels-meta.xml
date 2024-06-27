@@ -30,13 +30,6 @@
         <value>No file available for syncing.</value>
     </labels>
     <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-    <labels>
         <fullName>DMS_File_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -556,13 +549,6 @@
         <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
-        <fullName>ASF_default_no_reply_email_address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>ABFSSL CRMAPPQKM06</value>
-    </labels>
-    <labels>
         <fullName>Allowed_Domain</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -794,6 +780,84 @@
         <value>ABSLI</value>
     </labels>
     <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_STATICURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_key</shortDescription>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ivkey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ivkey</shortDescription>
+        <value>8149208531345452</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
+        <value>4170703839</value>
+    </labels>
+    <labels>
+        <fullName>Prevent_deletion_post</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prevent_deletion_post</shortDescription>
+        <value>You don&apos;t have an access to delete post</value>
+    </labels>
+    <labels>
+        <fullName>CCC_External_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCC External Id</shortDescription>
+        <value>hfl060</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_Acknowledgement_Email</fullName>
+        <categories>ABSLIG</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
+    </labels>
+    <labels>
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -829,10 +893,45 @@
         <value>4170703839</value>
     </labels>
     <labels>
-        <fullName>Prevent_deletion_post</fullName>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Prevent_deletion_post</shortDescription>
-        <value>You don&apos;t have an access to delete post</value>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_STATICURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_key</shortDescription>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ivkey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ivkey</shortDescription>
+        <value>8149208531345452</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
     </labels>
 </CustomLabels>

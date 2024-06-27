@@ -6,7 +6,7 @@
  *Description  :  Test Class for ABCL_BaseViewController
  *********************************************************/
 @isTest
-public class ABCL_BaseViewController_Test {
+public class ABCL_BaseViewController_Test{
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id
                                                         FROM Profile
                                                         WHERE name = 'System Administrator'

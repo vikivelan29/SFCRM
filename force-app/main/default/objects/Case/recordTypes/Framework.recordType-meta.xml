@@ -73,6 +73,10 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
         </values>
@@ -506,10 +510,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -535,10 +535,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -600,6 +596,10 @@
         </values>
         <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
         <values>
@@ -769,10 +769,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letter %2F Snail Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
@@ -782,10 +778,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -870,10 +862,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>

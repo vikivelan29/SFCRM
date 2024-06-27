@@ -503,6 +503,16 @@
                 <default>false</default>
                 <label>Mode change procedure</label>
             </value>
+            <value>
+                <fullName>Payout Related</fullName>
+                <default>false</default>
+                <label>Payout Related</label>
+            </value>
+            <value>
+                <fullName>Query from Chatbot</fullName>
+                <default>false</default>
+                <label>Query from Chatbot</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
