@@ -33,9 +33,9 @@
                 <label>Letter sent to customer</label>
             </value>
             <value>
-                <fullName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</fullName>
+                <fullName>NEFT payout to be credited in 5 days</fullName>
                 <default>false</default>
-                <label>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</label>
+                <label>NEFT payout to be credited in 5 days</label>
             </value>
             <value>
                 <fullName>Policy has been reinstated</fullName>
@@ -541,7 +541,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Resolved</controllingFieldValue>
-            <valueName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</valueName>
+            <valueName>NEFT payout to be credited in 5 days</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Resolved</controllingFieldValue>

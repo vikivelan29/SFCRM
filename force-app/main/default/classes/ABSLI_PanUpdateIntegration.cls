@@ -18,17 +18,40 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         List<Case> caseRecords = new List<Case>();
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id,List<ASF_Checklist__c>> caseIdVsCheckListMap = new Map<Id,List<ASF_Checklist__c>>();
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
+            caseIds.add(caseRec.Id);
         }
-        
+        for(ASF_Checklist__c checklist : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c IN:caseIds AND Mandatory__c=TRUE]){
+            if(!caseIdVsCheckListMap.containsKey(checklist.Case__c)){
+                caseIdVsCheckListMap.put(checklist.Case__c,new List<ASF_Checklist__c>());
+            }
+            caseIdVsCheckListMap.get(checklist.Case__c).add(checklist);
+        }
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.ERROR;
-            result.response = result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR1').Message__c;
+            result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR1').Message__c;
             
-            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true){
+            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
                 result.status = ABSLI_Constants.SUCCESS;
+            }else if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='LWC'){
+                if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
+                   && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
+                {
+                    for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
+                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
+                            result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR2').Message__c;
+                            break;
+                        }else{
+                            result.status = ABSLI_Constants.SUCCESS;
+                        }
+                    }
+                }else{
+                    result.status = ABSLI_Constants.SUCCESS;
+                }
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -91,17 +114,21 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                     String transaction_no = String.valueOf(caseRecord.CaseNumber);
                     String source = System.label.ABSLI_ESB_SOURCE_VAL ;
                     String policyNumber = String.valueOf(caseRecord.Asset.Policy_No__c);
-					String panNumber = String.valueOf(caseRecord.Account.PAN__c);
+                    if(policyNumber == '' || policyNumber == null){
+                        policyNumber = String.valueOf(caseRecord.LAN__c);
+                    }
+					String panNumber = String.valueOf(caseRecord.ABSLI_Case_Detail__r.PAN_Number__c);
                     
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABSLI_Constants.PENDING;
-                    caseInt.Response__c = ABHFL_Constants.WAITING_API_RESPONSE;
                     caseInt.Request__c  =  JSON.serialize(new PanUpdateRequest(transaction_no,source,
                                                                                   policyNumber,
-                                                                                  panNumber));
+                                                                                  panNumber,
+                                                                              caseRecord.Account.Client_Code__c));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInt.Is_Validation_Success__c = true;
                     newCaseIntegrations.add(caseInt);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
@@ -111,7 +138,8 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                     caseIntOut.Integration_Name__c  = ABSLI_Constants.PanUpdateSrvName;
                     caseIntOut.Request_Payload__c  =  JSON.serialize(new PanUpdateRequest(transaction_no,source,
                                                                                              policyNumber,
-                                                                                             panNumber));
+                                                                                             panNumber,
+                                                                                         caseRecord.Account.Client_Code__c));
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -183,13 +211,15 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
         public updatePANDetails updatePANDetails{get;set;}
         
         public PanUpdateRequest(String caseNum,String src,
-                                   String policyNumber, String panNumber)
+                                   String policyNumber, String panNumber,String clientId)
         {
             this.TRANS_NO = caseNum;
             updatePANDetails cls = new updatePANDetails();
             cls.source = src;
             cls.policyNumber = policyNumber;
             cls.panNumber = panNumber;            
+            cls.panValidationStatus = 'Y';
+            cls.clientId = clientId;
             this.updatePANDetails = cls;
         }
     }
@@ -197,7 +227,9 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
     public class updatePANDetails{
         public string source{get;set;}
         public string policyNumber{get;set;}
-        public string panNumber{get;set;}       
+        public string panNumber{get;set;}
+        public string panValidationStatus{get;set;}
+        public string clientId{get;set;}
     }
     
 }
