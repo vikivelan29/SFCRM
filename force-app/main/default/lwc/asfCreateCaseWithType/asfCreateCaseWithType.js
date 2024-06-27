@@ -407,7 +407,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM') || (this.businessUnit === ABSLI_BU) || (this.businessUnit === ABSLIG_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
