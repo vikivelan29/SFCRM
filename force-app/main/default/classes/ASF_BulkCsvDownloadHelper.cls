@@ -32,9 +32,11 @@ public without sharing class ASF_BulkCsvDownloadHelper {
 
         if(strListViewId.contains('__Recent')){
             strListViewId = 'RecentlyViewed%';
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
         }else if(!strListViewId.startsWith('00B')){
             strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
         }
+
         Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
         ASF_BulkCSVToRecordConverter converter = (ASF_BulkCSVToRecordConverter)customType.newInstance();
         resultSobjectList = converter.prepareDownloadTemplate(columnNames, configMetaRec.SObject_Name__c, strListViewId, selectedRecIdList);
