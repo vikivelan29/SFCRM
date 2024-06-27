@@ -128,6 +128,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                                                                                   panNumber,
                                                                               caseRecord.Account.Client_Code__c));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInt.Is_Validation_Success__c = true;
                     newCaseIntegrations.add(caseInt);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
