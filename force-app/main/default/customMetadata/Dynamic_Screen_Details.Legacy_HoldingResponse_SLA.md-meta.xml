@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Attribute_Mapping__c</field>
-        <value xsi:type="xsd:string">HoldingResponse_SLA</value>
+        <value xsi:type="xsd:string">Holding_Response_SLA</value>
     </values>
     <values>
         <field>DynamicScreenHeader__c</field>
