@@ -22,6 +22,16 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
 		}
 
+		Set<Id> skipcaseIds = new Set<Id>();
+		for (ASF_Checklist__c filteredChecklist : [
+			SELECT Id, Case__c
+			FROM ASF_Checklist__c
+			WHERE Status__c NOT IN ('Yes', 'Signature Matched', 'Completed')
+            AND Case__c IN: caseRecords
+		]) {
+			skipcaseIds.add(filteredChecklist.Case__c);
+		}
+
 		for (Case caseRecord : caseRecords) {
 			ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 
