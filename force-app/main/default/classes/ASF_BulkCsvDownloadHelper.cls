@@ -32,6 +32,8 @@ public without sharing class ASF_BulkCsvDownloadHelper {
 
         if(strListViewId.contains('__Recent')){
             strListViewId = 'RecentlyViewed%';
+        }else if(!strListViewId.startsWith('00B')){
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
         }
         strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
 
