@@ -30,8 +30,11 @@ public without sharing class ASF_BulkCsvDownloadHelper {
         strCSVFields = String.isNotBlank(configMetaRec.Fields_Name__c)? configMetaRec.Fields_Name__c:'';
         columnNames = strCSVFields.split(',');
 
-        if(strListViewId.contains('Recent')){
-            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c);
+        if(strListViewId.contains('__Recent')){
+            strListViewId = 'RecentlyViewed%';
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
+        }else if(!strListViewId.startsWith('00B')){
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
         }
 
         Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
