@@ -705,6 +705,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
