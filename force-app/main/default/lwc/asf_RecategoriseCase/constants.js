@@ -44,51 +44,6 @@ export const getConstants={
         initialWidth: 180
     }
     ],
-    ASSET_COLUMNS:[{
-        label: 'Id',
-        fieldName: 'Id',
-        type: 'text',
-        fixedWidth: 1,
-        hideLabel: true,
-        hideDefaultActions: true
-    },
-    {
-        label: 'Name',
-        fieldName: 'Name',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'LAN Number',
-        fieldName: 'LAN__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Disbursal Amount',
-        fieldName: 'Disbursed_Amount__c',
-        type: 'currency',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Disbursement Status',
-        fieldName: 'Loan_Disbursement_Status__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Start Date',
-        fieldName: 'Loan_Start_Date__c',
-        type: 'date',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan End Date',
-        fieldName: 'Loan_End_Date__c',
-        type: 'date',
-        initialWidth: 180
-    }
-    ],
     RECATEGORISATION_OPTIONS: [
         { label: 'Update Case with Account and Asset', value: 'updAccAsset' },
         { label: 'Proceed to Recategorize Type and Subtype', value: 'recateCTST' },
@@ -107,5 +62,6 @@ export const getConstants={
             title:'I want to change Case Type and Sub-Type.'
         }
     ]
+    
 
 }

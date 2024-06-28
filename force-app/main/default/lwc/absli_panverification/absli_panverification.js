@@ -42,7 +42,18 @@ export default class Absli_panverification extends LightningElement {
             ...this.template.querySelectorAll('lightning-input'),
         ].reduce((validSoFar, inputCmp) => {
             inputCmp.reportValidity();
-            return validSoFar && inputCmp.checkValidity();
+            let currValidity = inputCmp.checkValidity();
+            if(inputCmp.name == 'dob' && inputCmp.value){
+                if(new Date(inputCmp.value) > new Date()){
+                    currValidity = false;
+                    inputCmp.setCustomValidity("Date of Birth can't be a future date");
+                }else{
+                    currValidity = true;
+                    inputCmp.setCustomValidity("");
+                }
+                inputCmp.reportValidity();
+            }
+            return validSoFar && currValidity;
         }, true);
         if (allValid) {
             this.showSpinner = true;
@@ -78,11 +89,11 @@ export default class Absli_panverification extends LightningElement {
         panUpdate({ caseId: this.recordId })
         .then(result => {
             if(result.isSuccess){
-                this.showToast({
+                /*this.showToast({
                     title: "Success",
                     message: "PAN Update Initiated Successfully",
                     variant: "success",
-                });
+                });*/
                 this.closeModal();
             }else {
                 this.showToast({
@@ -112,4 +123,5 @@ export default class Absli_panverification extends LightningElement {
     rejectionHandler(e){
         this.closeModal();
     }
+    
 }

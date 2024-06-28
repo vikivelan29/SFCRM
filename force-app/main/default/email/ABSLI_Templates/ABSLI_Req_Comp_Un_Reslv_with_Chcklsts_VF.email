@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Update on Your {!relatedTo.Nature__c} - Action Required (Reference Number: {!relatedTo.CaseNumber})" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ABSLI Request/Complaint Un-Resolved with Checklists"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

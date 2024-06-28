@@ -1,0 +1,39 @@
+<template>
+    <lightning-card>
+        <lightning-modal-header label="Email Composer"></lightning-modal-header>
+        <lightning-input 
+        label="To Address"
+        type="email"
+        value={record.emailToAddress} 
+        disabled={previewMode} 
+        class="slds-p-around_medium"
+        onchange={changeHandler}
+        name="emailToAddress"
+        multiple></lightning-input>
+        <lightning-input 
+        label="Subject"
+        type="Text"
+        value={record.emailSubject} 
+        disabled={previewMode} 
+        class="slds-p-around_medium"
+        name="emailSubject"
+        onchange={changeHandler}></lightning-input>
+        <lightning-modal-body>     
+            <template lwc:if={previewMode}>
+                <lightning-formatted-rich-text value={record.emailBody}></lightning-formatted-rich-text>
+            </template>
+            <template lwc:else>
+                <lightning-input-rich-text value={record.emailBody} onchange={changeHandler} name="emailBody"></lightning-input-rich-text>     
+            </template>
+        </lightning-modal-body>
+        <lightning-modal-footer class="slds-p-top_medium">
+            <template lwc:if={previewMode}>
+                <lightning-button label="Edit Mode" onclick={handleModes} class="slds-m-right_medium"></lightning-button>
+            </template>
+            <template lwc:else>
+                <lightning-button label="Preview Mode" onclick={handleModes} class="slds-m-right_medium"></lightning-button>
+            </template>
+            <lightning-button label="Send Mail" onclick={sendMail}></lightning-button>
+        </lightning-modal-footer>
+    </lightning-card>
+</template>

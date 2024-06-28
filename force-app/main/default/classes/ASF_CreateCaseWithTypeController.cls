@@ -199,6 +199,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
         
+        system.debug('query--'+dynamicQuery);
         searchResults =
             new Map<Id, ASF_Case_Category_Config__c>(
                 (List<ASF_Case_Category_Config__c>)Database.query(dynamicQuery));
@@ -207,6 +208,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strErrorMessage = STRING_NORECORDERROR;
         }
         objCaseDetailsWrapper.lstCCCrecords = searchResults.values();
+        system.debug('size--'+objCaseDetailsWrapper.lstCCCrecords.size());
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
@@ -220,6 +222,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);
+            system.debug('final size--'+objCaseDetailsWrapper.lstCCCrecords.size());
             
         }
         

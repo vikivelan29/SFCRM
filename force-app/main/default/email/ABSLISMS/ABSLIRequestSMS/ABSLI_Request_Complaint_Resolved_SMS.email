@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Dear Customer, this is to inform you that your {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} registered with us under reference number {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} has been resolved. Thank You for insuring your life with us.&nbsp;Warm Regards, Team ABSLI.<br />
+<br />
+&nbsp;</body>
+</html>
