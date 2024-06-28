@@ -91,6 +91,12 @@
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Nature__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Complaint</rightValue>
+                                </criteria>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
