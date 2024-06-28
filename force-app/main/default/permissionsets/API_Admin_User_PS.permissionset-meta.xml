@@ -521,6 +521,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Status_Valid_For_STP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Mobile_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
