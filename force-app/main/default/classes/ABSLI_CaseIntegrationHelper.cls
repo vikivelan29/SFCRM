@@ -306,27 +306,39 @@ public class ABSLI_CaseIntegrationHelper {
         Boolean isSuccess = true;
         if(String.isNotBlank(emailWrapperStr)){
             EmailComposerWrapper emailWrapper = (EmailComposerWrapper)JSON.deserialize(emailWrapperStr,EmailComposerWrapper.class);
-            ABSLI_Case_Detail__c caseDetail = [Select id,Draft_Email_Sent__c from ABSLI_Case_Detail__c 
-                                               where id in (Select ABSLI_Case_Detail__c from Case where id =: recId) limit 1];
+            Case caseRecord = [Select id,ABSLI_Case_Detail__c,ABSLI_Case_Detail__r.Draft_Email_Sent__c,
+                              (Select id from ASF_Case_Integrations__r where Type__c = 'eBOT' and Status__c = 'Success') 
+                              from Case where id =: recId Limit 1];
             List<ContentVersion> content = [Select id,VersionData,Title,PathonClient,ContentDocumentId 
-                                      from ContentVersion where ContentDocumentId =:emailWrapper.emailTemplateId and islatest = true];
+                                            from ContentVersion where ContentDocumentId =:emailWrapper.emailTemplateId and islatest = true];
             if(emailWrapper.emailBody != content[0].VersionData.toString()){
                 Blob binaryData = Blob.valueOf(emailWrapper.emailBody);
                 ContentVersion newVersion = new ContentVersion();
-                newVersion.Title = content[0].Title;
+                newVersion.Title = content[0].Title + '_SentVersion';
                 newVersion.PathOnClient = content[0].PathonClient;
                 newVersion.VersionData = binaryData;
                 newVersion.IsMajorVersion = true;
-                newVersion.ContentDocumentId = content[0].ContentDocumentId;
                 if(Schema.sObjectType.ContentVersion.isCreateable()){
                     insert newVersion;
                 }
+                ContentVersion newContent = [Select id,VersionData,Title,PathonClient,ContentDocumentId 
+                                                from ContentVersion where id =:newVersion.Id];
+                ContentDocumentLink contentLink = new ContentDocumentLink();
+                contentLink.ContentDocumentId = newContent.ContentDocumentId;
+                contentLink.LinkedEntityId = caseRecord.ASF_Case_Integrations__r[0].Id;
+                contentLink.ShareType = 'V';
+                if(Schema.sObjectType.ContentDocumentLink.isCreateable()){
+                    insert contentLink;
+                }
+                emailWrapper.emailTemplateId = newContent.ContentDocumentId;
             }
             sendAutoMail(emailWrapper.emailToAddress,
             emailWrapper.emailSubject,
             emailWrapper.emailTemplateId,
             emailWrapper.emailAttachmentIds,
             recId);
+            ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+            caseDetail.Id = caseRecord.ABSLI_Case_Detail__c;
             caseDetail.Draft_Email_Sent__c = true;
             if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable()){
                 update caseDetail;
