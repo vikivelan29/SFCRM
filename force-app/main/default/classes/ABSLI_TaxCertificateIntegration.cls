@@ -273,12 +273,17 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class TCDRequestWrapper {
-		public Details details { get; set; }
+		public RqReq RqReq { get; set; }
 
 		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
-			this.details = new Details(policyID, startDate, endDate);
+            this.RqReq = new RqReq();
+			RqReq.details = new Details(policyID, startDate, endDate);
 		}
 	}
+
+    public class RqReq{
+        public Details details { get; set; }
+    }
 
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class Details {
