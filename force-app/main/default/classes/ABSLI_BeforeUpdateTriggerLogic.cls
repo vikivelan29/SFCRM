@@ -115,7 +115,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!eligibleCases.isEmpty()){
             Map<Id,AggregateResult> mCountOfNotCompletedChecklistOnCase = new Map<Id,AggregateResult>(
                 [SELECT Case__c Id, COUNT(ID) FROM ASF_Checklist__c 
-                 WHERE Status__c = 'Signature Mismatched'
+                 WHERE Status__c IN: ABSLI_Constants.CHECKLIST_FAILURE_STATUS
                  AND Case__c =: eligibleCases.keySet()
                  AND Mandatory__c = TRUE
                  GROUP BY Case__c
