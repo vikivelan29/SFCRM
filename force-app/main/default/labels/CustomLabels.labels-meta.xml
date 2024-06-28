@@ -934,4 +934,11 @@
         <shortDescription>ABSLI BU</shortDescription>
         <value>ABSLI</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
 </CustomLabels>
