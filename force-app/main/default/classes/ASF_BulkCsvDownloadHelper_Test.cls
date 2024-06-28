@@ -9,7 +9,7 @@ public class ASF_BulkCsvDownloadHelper_Test {
     @isTest
     private static void getMetadataDetailsTest() {
         Test.startTest();
-            ASF_BulkCsvController.MetadataWrapper result = ASF_BulkCsvController.getMetadataDetails(); 
+            ASF_BulkCsvController.getMetadataDetails(); 
         Test.stopTest();     
     }
     @isTest
@@ -24,7 +24,7 @@ public class ASF_BulkCsvDownloadHelper_Test {
     private static void generateCSVFileWithDataTest() {
         Test.startTest();
         Id caseId = [select Id from case LIMIT 1].Id;
-         	Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'Recent');
+         	Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'__Recent');
         	Assert.isNotNull(result);
         Test.stopTest();     
     }
@@ -46,7 +46,7 @@ public class ASF_BulkCsvDownloadHelper_Test {
     private static void getListViewSOQLTest() {
         Test.startTest();
         Id caseId = [select Id from case LIMIT 1].Id;
-         	String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case');
+         	String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case','__Recent');
             ASF_BulkCsvDownload_MockTest mock = new ASF_BulkCsvDownload_MockTest();
             Test.setMock(HttpCalloutMock.class, mock);
         	String resultQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL('Case', listViewId);

@@ -33,6 +33,10 @@ public with sharing class ABSLI_RequestResolutionBeforeStage implements ASF_Case
                     retCls.status = ABSLI_Constants.ERROR;
                     retCls.errorMessage = wrapperResult.message; 
                 }
+           		if(wrapperResult.result && wrapperResult.blankFields.isEmpty()){
+                    retCls.status = ABSLI_Constants.ERROR;
+                    retCls.errorMessage = wrapperResult.message; 
+                }
                 returnWrapper.put(caseId, retCls);
             }
         return returnWrapper;

@@ -23,6 +23,10 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
+            <fullName>Change as per Customer Issue Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -35,7 +39,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Multiple Cases%2FDuplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Multiple Intent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -72,6 +88,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
@@ -682,6 +702,10 @@
         </values>
         <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
         <values>
