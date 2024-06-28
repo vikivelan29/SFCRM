@@ -1250,7 +1250,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
 
     fetchAllManualStages() {
-        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c })
+        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c, cccId: this.cccExternalId })
             .then(result => {
                 let stages = [];
                 // stages = [...result]
