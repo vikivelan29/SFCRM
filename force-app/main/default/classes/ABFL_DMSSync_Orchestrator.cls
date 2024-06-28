@@ -128,7 +128,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
                         
                         // In case user doesn't wait for automated sync to complete - It is irrespective of status
                         if(dmsRec.Retry_Attempt__c >= 9){
-                            return new ResponseWrapper(false, 'Maximum number of retries are exhausted. Please contact system admin.');
+                            return new ResponseWrapper(false, 'Maximum number of retires are exhausted. Please contact system admin.');
                         }
                         // for manual sync where users click repeatively
                         if(dmsRec.Status__c == ABFL_Constants.PENDING && thresholdTime > System.now() && !Test.isRunningTest()){
