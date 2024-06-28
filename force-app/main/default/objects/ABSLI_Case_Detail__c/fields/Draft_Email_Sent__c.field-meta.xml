@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Dealer_Name__c</fullName>
+    <fullName>Draft_Email_Sent__c</fullName>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Dealer Name</label>
-    <length>255</length>
-    <required>false</required>
+    <label>Draft Email Sent</label>
     <trackHistory>false</trackHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
 </CustomField>
