@@ -73,7 +73,7 @@ public without sharing class ASF_CaseManualStageController {
     }
     
     @AuraEnabled (cacheable=true)
-    public static list<ManualStagesWrapper> fetchAllManualStagesWithCase(string caseId, String currentStage){
+    public static list<ManualStagesWrapper> fetchAllManualStagesWithCase(string caseId, String currentStage, String cccId){
         list<ManualStagesWrapper> result = new list<ManualStagesWrapper>();
         try {
             Case case1 = [SELECT CCC_External_Id__c,Stage__c,IsClosed FROM Case WHERE Id =:caseId].get(0);
