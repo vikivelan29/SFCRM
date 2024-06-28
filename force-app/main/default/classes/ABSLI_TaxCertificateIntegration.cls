@@ -74,8 +74,11 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			string requestBody = JSON.serialize(
 				new TCDRequestWrapper(
 					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
-                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c, 'dd-MM-YYYY'),
-                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd-MM-YYYY')
+					ABCL_IntegrationCommonUtility.dateFormat(
+						caseRecord.ABSLI_Case_Detail__r?.From_Date__c,
+						'dd/MM/YYYY'
+					),
+					ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd/MM/YYYY')
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
@@ -86,7 +89,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                    caseInteg.Is_Validation_Success__c = true;
+					caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -276,14 +279,14 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 		public RqReq RqReq { get; set; }
 
 		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
-            this.RqReq = new RqReq();
+			this.RqReq = new RqReq();
 			RqReq.details = new Details(policyID, startDate, endDate);
 		}
 	}
 
-    public class RqReq{
-        public Details details { get; set; }
-    }
+	public class RqReq {
+		public Details Details { get; set; }
+	}
 
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class Details {
