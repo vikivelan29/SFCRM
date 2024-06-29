@@ -9,7 +9,7 @@ public class ASF_BulkCsvController_Test {
     @isTest
     private static void getMetadataDetailsTest() {
         Test.startTest();
-            ASF_BulkCsvController.getMetadataDetails(); 
+        ASF_BulkCsvController.getMetadataDetails(); 
         Test.stopTest();     
     }
     @isTest
@@ -24,7 +24,7 @@ public class ASF_BulkCsvController_Test {
     private static void generateCSVFileWithDataTest() {
         Test.startTest();
         Id caseId = [select Id from case LIMIT 1].Id;
-         	Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'Recent');
+         	Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'__Recent');
         	Assert.isNotNull(result);
         Test.stopTest();     
     }
