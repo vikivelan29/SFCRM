@@ -2,7 +2,7 @@
  * @description       : Test class for ATFCaseService Methods
  * @author            : shubham.sinha@salesforce.com
  * @group             : 
- * @last modified on  : 03-16-2024
+ * @last modified on  : 06-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -21,7 +21,7 @@ public with sharing class ATFCaseServiceTest {
 		User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                 EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                 LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
                                 managerGroupId__c=lSLAGroup[0].Id);
     	insert userRecord;
 
@@ -52,7 +52,7 @@ public with sharing class ATFCaseServiceTest {
     static void updateIncomingEmailCountTestMethod(){
         List<Case> objCase = [Select Id,ABFL_Incoming_Email_Count__c From Case WHERE Subject = 'Test Case Creation' LIMIT 1];
         System.debug('***objCase:'+objCase[0].ABFL_Incoming_Email_Count__c);
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         system.runAs(usr){
         Test.startTest(); 
             // EventBus.publish();

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_CAD_Branch_Ops_Task</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL CAD &amp; Branch Ops</label>
+    <queue>ABFL_CAD_Branch_Ops</queue>
+    <sharedTo>
+        <group>ABFL_CAD_Branch_Ops_G</group>
+    </sharedTo>
+</ListView>

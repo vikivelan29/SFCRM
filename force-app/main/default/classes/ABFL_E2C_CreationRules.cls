@@ -2,8 +2,8 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 05-06-2024
- * @last modified by  : aditya.mehrotra@salesforce.com
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                            Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com         Initial Version
@@ -14,7 +14,7 @@
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_E2C_CreationRules {
     /****************************************************************************
-     * @Origin - ABFL/ABSLI
+     * @Origin - ABFL
      * @Function - checkCreationRules
      * @param emailMessages - contains all incoming message.
      * @description - Main method for checking all creation rules
@@ -75,6 +75,8 @@ public with sharing class ABFL_E2C_CreationRules {
 
     // Method to build a map of E2C_Creation_Rules__mdt records
     private static Map<String, List<E2C_Creation_Rules__mdt>> buildMetadataMap() {
+
+        Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
 
         Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
         List<String> allowedBuList = System.Label.ABCL_BU_for_E2C_Rules.split(',');

@@ -16,7 +16,7 @@
         <field>CDF1</field>
     </columns>
     <columns>
-        <field>Case.Winning_Email__c</field>
+        <field>STATUS</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(Case.Pre_framework_SLA__c &lt; NOW(), &apos;Outside TAT&apos;, &apos;Within TAT&apos;)</calculatedFormula>

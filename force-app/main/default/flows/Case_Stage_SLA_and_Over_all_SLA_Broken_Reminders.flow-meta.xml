@@ -40,7 +40,6 @@
                 <elementReference>EmailTempDevName</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -49,7 +48,36 @@
             <assignToReference>EmailTempDevName</assignToReference>
             <name>templateName</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Handle_Stage_SLA_2_Breach_Action</name>
+        <label>Handle Stage SLA 2 Breach Action</label>
+        <locationX>1634</locationX>
+        <locationY>276</locationY>
+        <actionName>ASF_CaseStageSLA2TimeBasedAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>scope</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Handle_Stage_SLA_3_Breach_Action</name>
+        <label>Handle Stage SLA 3 Breach Action</label>
+        <locationX>1898</locationX>
+        <locationY>276</locationY>
+        <actionName>ASF_CaseStageSLA3TimeBasedAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>scope</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
     </actionCalls>
     <actionCalls>
         <name>Handle_Stage_SLA_2_Breach_Action</name>
@@ -262,7 +290,6 @@
         </rules>
     </decisions>
     <description>When case SLA is broken or Stage SLA is broken , this is executed</description>
-    <environments>Default</environments>
     <interviewLabel>Case Stage SLA and Over all SLA Broken Reminders {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case Over all SLA Broken Reminders</label>
     <processMetadataValues>

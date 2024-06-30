@@ -29,7 +29,7 @@ public class ABCL_BaseViewController_Test{
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
