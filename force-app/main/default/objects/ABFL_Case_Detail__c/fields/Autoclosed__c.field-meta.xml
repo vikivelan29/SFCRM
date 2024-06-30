@@ -5,6 +5,7 @@
     <description>This field is used in flow, to check if the cases are autoclosed after 24 hrs</description>
     <externalId>false</externalId>
     <label>Autoclosed</label>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

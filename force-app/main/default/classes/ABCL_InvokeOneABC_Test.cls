@@ -2,7 +2,7 @@
 *Class        :  ABCL_InvokeOneABC
 *Author       :  Shubham Sinha 
 *Created Date :  16/02/2024
-*Description  :  Test Class
+*@description  :  Test Class
 *********************************************************/
 @isTest
 public class ABCL_InvokeOneABC_Test {
@@ -17,7 +17,7 @@ public class ABCL_InvokeOneABC_Test {
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
                                     managerGroupId__c=slaGroup.Id);
         insert userRecord;
          User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
@@ -65,7 +65,7 @@ public class ABCL_InvokeOneABC_Test {
      @isTest
     static void oneAbcCalloutExceptionTest(){
         List<Case> objCase = [Select Id,Stage__c,OwnerId From Case WHERE Source__c = 'OneABC' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         system.runAs(usr)
         { 
             Test.startTest(); 

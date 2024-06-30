@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>Transfer_ABFL_Case_Files_To_DMS</name>
+        <label>Transfer ABFL Case Files To DMS</label>
+        <locationX>242</locationX>
+        <locationY>384</locationY>
+        <actionName>ABFL_DMSSync_Orchestrator</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
         <name>TransferFilesToDMS</name>
         <label>Transfer Files To DMS</label>
-        <locationX>308</locationX>
-        <locationY>276</locationY>
+        <locationX>506</locationX>
+        <locationY>384</locationY>
         <actionName>ABCL_IntegrationCommonUtility</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -14,11 +29,40 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ABCL_IntegrationCommonUtility</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
-    <environments>Default</environments>
+    <decisions>
+        <name>Is_Business_Unit_ABFL</name>
+        <label>Is Business Unit ABFL</label>
+        <locationX>374</locationX>
+        <locationY>276</locationY>
+        <defaultConnector>
+            <targetReference>TransferFilesToDMS</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFL</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABWM</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Transfer_ABFL_Case_Files_To_DMS</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <interviewLabel>Case File Transfer to DMS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case File Transfer to DMS</label>
     <processMetadataValues>
@@ -51,22 +95,15 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
-        <filters>
-            <field>Business_Unit__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>ABHFL</stringValue>
-            </value>
-        </filters>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>
             <name>Create_DMS_File_Transfer_Platform_Event</name>
             <connector>
-                <targetReference>TransferFilesToDMS</targetReference>
+                <targetReference>Is_Business_Unit_ABFL</targetReference>
             </connector>
             <label>Create DMS File Transfer Platform Event</label>
-            <offsetNumber>5</offsetNumber>
+            <offsetNumber>60</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>ClosedDate</recordField>
             <timeSource>RecordField</timeSource>

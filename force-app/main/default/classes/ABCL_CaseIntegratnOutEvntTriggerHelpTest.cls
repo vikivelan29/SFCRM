@@ -3,7 +3,7 @@
 *Author       :  Udit Singhal
 *Created Date :  19/01/2024
 *Last Modified:
-*Description  :  Test Class for ABCL_CaseIntegratnOutEventTriggerHelper
+*@description  :  Test Class for ABCL_CaseIntegratnOutEventTriggerHelper
 *********************************************************/
 @isTest
 public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
@@ -30,7 +30,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -46,7 +46,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
         Test.stopTest();
         
         System.runAs(userRecord1){
-            List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             List<ASF_Case_Category_Config__c> caseCat = ABFL_TestDataFactory.createCaseCategoryConfig(true);
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
@@ -111,21 +111,20 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
     static void testafterInsertMethod(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
                                                                   WHERE StageName__c = 'Open'];
-            List<ASF_Integration__c> intConfigList = ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'GetDemandAdvice_Corp');
+            ABFL_TestDataFactory.createIntegration(caseStageConfigList[0].Id, true, 'ABFL_InvokeSTPProcess', 'GetDemandAdvice_Corp');
             List<ASF_Integration__c> prepIntegrations = ASF_IntegrationsController.getAllIntegrations('CCC-CC-CCLTD-01', 'Open');
-            System.debug('@@@prepIntegrations' + prepIntegrations);
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
                             FROM Case
                             WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'
                             LIMIT 1];
             
             Test.startTest();
-            ASF_IntegrationsController.IntegrationWrapper retVal = ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
+            ASF_IntegrationsController.runIntegration(prepIntegrations[0], caseRec);
             Test.stopTest();
             
             ASF_Case_Integration__c caseIntRec = [SELECT Id, Status__c, Request__c

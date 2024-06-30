@@ -6,7 +6,7 @@
  *Description  :  Test Class for ABCL_BaseViewController
  *********************************************************/
 @isTest
-public class ABCL_BaseViewController_Test {
+public class ABCL_BaseViewController_Test{
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id
                                                         FROM Profile
                                                         WHERE name = 'System Administrator'
@@ -29,7 +29,7 @@ public class ABCL_BaseViewController_Test {
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;

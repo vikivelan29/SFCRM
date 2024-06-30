@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-28-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-28-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ASF_UbonaAccountRetrievalTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
@@ -8,13 +18,13 @@ public class ASF_UbonaAccountRetrievalTest {
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                   TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='FED12345', UserName='cdefghijk567@gmail.com',
+                                   TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='FED12345', UserName='cdefghijk5657123456@gmail.com',
                                    UserRoleId  = role.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='abhflbaseuser@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = ABHFL_BASE_USER_PROFILE.Id,Business_Unit__c = 'ABHFL',
-                                    TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='ABHFL234',UserRoleId  = role.Id, UserName='cdefghijk5657@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='ABHFL234',UserRoleId  = role.Id, UserName='cdefghijk565712345@gmail.com'
                                    );
         insert userRecord1;
         

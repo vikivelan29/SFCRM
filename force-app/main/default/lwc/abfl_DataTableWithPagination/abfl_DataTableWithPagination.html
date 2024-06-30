@@ -13,7 +13,8 @@
         <lightning-card>
             <div>
                 <lightning-datatable class="slds-resizable" key-field="id" data={recordsToDisplay} columns={columns}
-                    onrowselection={onSelectedRow} min-column-width="155" hide-checkbox-column>
+                    min-column-width="155" hide-checkbox-column
+                    onrowaction = {callRowAction}>
                 </lightning-datatable>
             </div>
         </lightning-card>
