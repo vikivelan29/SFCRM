@@ -47,6 +47,22 @@
         <field>ABCLLogRecording__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.TDS_Refunded_LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Change_Effect_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABHFL_Case_Detail__c.Grievance_Details_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ABCLLogRecording__c.SOQL__c</field>
@@ -7265,6 +7281,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>User.Source_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Team__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

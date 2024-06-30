@@ -61,6 +61,10 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Nature__c</picklist>
@@ -128,6 +132,10 @@
         </values>
         <values>
             <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
