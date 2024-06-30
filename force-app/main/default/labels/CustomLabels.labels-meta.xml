@@ -29,25 +29,11 @@
         <value>abfl.crmuat01@adityabirlacapital.com</value>
     </labels>
     <labels>
-        <fullName>ABFL_DIGITAL_FINANCE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL DIGITAL FINANCE</shortDescription>
-        <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
-    </labels>
-    <labels>
         <fullName>ABFL_DMSPageSize</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_DMSPageSize</shortDescription>
         <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
-        <value>7m4u_touchpoint</value>
     </labels>
     <labels>
         <fullName>ABFL_LegacyPageSize</fullName>
@@ -458,25 +444,11 @@
         <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
-        <fullName>Allowed_Domain</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Allowed_Domain</shortDescription>
-        <value>gmail.com</value>
-    </labels>
-    <labels>
         <fullName>DMS_File_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DMS_File_Name</shortDescription>
         <value>File Name</value>
-    </labels>
-    <labels>
-        <fullName>DMS_URL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DMS URL</shortDescription>
-        <value>https://uatbpmdms.adityabirlafinance.com/IntegrationDMS/odencrequestDecrypt.jsp?Application=DOC_VIEW&amp;cabinetName=abfl&amp;sessionIndexSet=false&amp;</value>
     </labels>
     <labels>
         <fullName>EmailRelayThreshold</fullName>
@@ -589,13 +561,6 @@
         <protected>false</protected>
         <shortDescription>Repeated Indicator</shortDescription>
         <value>30</value>
-    </labels>
-    <labels>
-        <fullName>Restrict_Email_Address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Restrict Email Address</shortDescription>
-        <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
     </labels>
     <labels>
         <fullName>STP_Flows</fullName>

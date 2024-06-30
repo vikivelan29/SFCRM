@@ -17,13 +17,13 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
                                     managerGroupId__c=slaGroup.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABFL',
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk565712345@gmail.com'
                                     );
         insert userRecord1;
         System.runAs(userRecord) {
@@ -51,7 +51,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
       @isTest
     static void beforeUpdateContainsABFLTest(){
         List<Asset> objAsset = [Select Id,Business_Unit__c,RM_Code__c From Asset WHERE Business_Unit__c = 'ABFL' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
  		system.runAs(usr)
         { 
             Test.startTest(); 

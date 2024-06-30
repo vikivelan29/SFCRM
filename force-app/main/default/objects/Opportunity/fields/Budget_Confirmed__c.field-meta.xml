@@ -5,6 +5,5 @@
     <externalId>false</externalId>
     <label>Budget Confirmed</label>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

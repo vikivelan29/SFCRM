@@ -5,6 +5,6 @@
     <label>ABFL Digital Disbursement Ops</label>
     <queue>ABFL_Digital_Disbursement_Ops</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Digital_Disbursement_Ops_G</group>
     </sharedTo>
 </ListView>

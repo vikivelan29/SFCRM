@@ -4,6 +4,22 @@
         <active>true</active>
         <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
+        <fridayStartTime>09:00:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:00:00.000Z</mondayStartTime>
+        <name>Default</name>
+        <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
+        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
+        <default>false</default>
+        <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
         <mondayStartTime>09:30:00.000Z</mondayStartTime>
@@ -20,19 +36,19 @@
     </businessHours>
     <businessHours>
         <active>true</active>
-        <default>false</default>
+        <default>true</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
-        <fridayStartTime>09:30:00.000Z</fridayStartTime>
+        <fridayStartTime>09:00:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
-        <mondayStartTime>09:30:00.000Z</mondayStartTime>
-        <name>ABFL</name>
+        <mondayStartTime>09:00:00.000Z</mondayStartTime>
+        <name>ABCL</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
-        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
+        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
         <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
-        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
+        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
         <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
-        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
+        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
     </businessHours>
     <businessHours>
         <active>true</active>
@@ -52,19 +68,19 @@
     </businessHours>
     <businessHours>
         <active>true</active>
-        <default>true</default>
+        <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
-        <fridayStartTime>09:00:00.000Z</fridayStartTime>
+        <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
-        <mondayStartTime>09:00:00.000Z</mondayStartTime>
-        <name>ABCL</name>
+        <mondayStartTime>09:30:00.000Z</mondayStartTime>
+        <name>ABFL</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
-        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
+        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
         <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
-        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
+        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
         <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
-        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
+        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
     </businessHours>
     <holidays>
         <activityDate>2024-04-06</activityDate>
@@ -321,11 +337,6 @@
         <name>Muharram</name>
     </holidays>
     <holidays>
-        <activityDate>2024-01-26</activityDate>
-        <isRecurring>false</isRecurring>
-        <name>Republic Day</name>
-    </holidays>
-    <holidays>
         <businessHours>ABFL</businessHours>
         <isRecurring>true</isRecurring>
         <name>Republic Day</name>
@@ -333,6 +344,11 @@
         <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
         <recurrenceStartDate>2024-01-26</recurrenceStartDate>
         <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2024-01-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Republic Day</name>
     </holidays>
     <holidays>
         <activityDate>2024-02-12</activityDate>

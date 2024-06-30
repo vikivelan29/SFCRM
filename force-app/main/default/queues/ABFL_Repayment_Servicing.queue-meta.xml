@@ -7,7 +7,7 @@
             <publicGroup>ABFL_Repayment_Servicing_G</publicGroup>
         </publicGroups>
         <users>
-            <user>yugandhara.chaudhari@infobeans.com.base.uat</user>
+            <user>rsinghnagar@salesforce.com.abcl</user>
         </users>
     </queueMembers>
     <queueSobject>
