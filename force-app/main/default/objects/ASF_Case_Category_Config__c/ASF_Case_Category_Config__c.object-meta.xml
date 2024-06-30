@@ -175,4 +175,5 @@
         <searchResultsAdditionalFields>Business_Unit__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
 </CustomObject>

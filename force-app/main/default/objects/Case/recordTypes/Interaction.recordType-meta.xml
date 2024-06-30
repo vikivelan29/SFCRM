@@ -585,6 +585,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>

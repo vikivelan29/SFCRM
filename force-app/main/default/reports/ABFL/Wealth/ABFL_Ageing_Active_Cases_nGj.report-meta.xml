@@ -133,15 +133,15 @@
             <column>Case.Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
-            <operator>equals</operator>
-            <value>ABFL ABWM Customer Service</value>
+            <operator>contains</operator>
+            <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
         </criteriaItems>
         <criteriaItems>
             <column>OWNER</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
-            <operator>equals</operator>
-            <value>ABFL ABWM Customer Service</value>
+            <operator>contains</operator>
+            <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>

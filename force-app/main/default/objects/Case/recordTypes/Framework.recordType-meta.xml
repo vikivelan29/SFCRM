@@ -78,7 +78,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -601,6 +601,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -898,6 +909,10 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

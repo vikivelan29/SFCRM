@@ -699,7 +699,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 //this.handleSearchPicklistRendering();
             })
             .catch((error) => {
-                console.error(error);
+                console.error(JSON.stringify(error));
                 this.showError('error', 'Oops! Error occured', error);
                 this.loading = false;
             });

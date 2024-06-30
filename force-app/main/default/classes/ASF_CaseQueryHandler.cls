@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
+ * @last modified on  : 06-30-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseQueryHandler {
@@ -21,6 +21,7 @@ public without sharing class ASF_CaseQueryHandler {
     private static Map<String, Boolean> caseStatusMap = null;
     private static List<Case> casesWithConfigQueryFields = null;
     public static boolean refreshRecords = false;
+    
     
     /**
     * @description : getcases

@@ -2,7 +2,7 @@
 * @description       : Class is having all the E2C Validation of Email Boxes logic.
 * @author            : virendra
 * @group             : 
-* @last modified on  : 05-14-2024
+* @last modified on  : 06-30-2024
 * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
