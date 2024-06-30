@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Case_Business_Unit__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABFL</value>
     </values>
     <values>
         <field>Case_Origin__c</field>

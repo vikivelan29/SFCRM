@@ -5,6 +5,6 @@
     <label>ABFL Insurance Ops</label>
     <queue>ABFL_Insurance_Ops</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Insurance_Ops_G</group>
     </sharedTo>
 </ListView>

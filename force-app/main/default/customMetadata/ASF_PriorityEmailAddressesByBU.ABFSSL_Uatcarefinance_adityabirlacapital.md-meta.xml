@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
-        <value xsi:type="xsd:string">abfssl.uatcarefinance@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">care.finance@adityabirlacapital.com</value>
     </values>
     <values>
         <field>Priority_Index__c</field>

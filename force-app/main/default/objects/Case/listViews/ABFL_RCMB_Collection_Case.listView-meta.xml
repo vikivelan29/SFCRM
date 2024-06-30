@@ -5,6 +5,6 @@
     <label>ABFL RCMB Collection</label>
     <queue>ABFL_RCMB_Collection</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_RCMB_Collection_G</group>
     </sharedTo>
 </ListView>

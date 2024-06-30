@@ -29,7 +29,7 @@
         </quickActionLayoutColumns>
         <quickActionLayoutColumns/>
     </quickActionLayout>
-    <successMessage>\&apos;Are you sure you want to send an email?\&apos;</successMessage>
+    <successMessage>\\\&apos;Are you sure you want to send an email?\\\&apos;</successMessage>
     <targetObject>Case</targetObject>
     <targetParentField>Parent</targetParentField>
     <type>Create</type>

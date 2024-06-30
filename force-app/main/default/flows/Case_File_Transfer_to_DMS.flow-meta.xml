@@ -103,7 +103,7 @@
                 <targetReference>Is_Business_Unit_ABFL</targetReference>
             </connector>
             <label>Create DMS File Transfer Platform Event</label>
-            <offsetNumber>0</offsetNumber>
+            <offsetNumber>60</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>ClosedDate</recordField>
             <timeSource>RecordField</timeSource>

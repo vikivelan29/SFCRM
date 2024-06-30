@@ -38,6 +38,16 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>GroupMember-Group.DeveloperName</field>
+            <table>GroupMember-QueuePublicGroupMembership</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GroupMember-Group.Name</field>
+            <table>GroupMember-QueuePublicGroupMembership</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>GroupMember-User.Name</field>
             <table>GroupMember-QueuePublicGroupMembership</table>
         </columns>
@@ -49,16 +59,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>GroupMember-User.LastName</field>
-            <table>GroupMember-QueuePublicGroupMembership</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>GroupMember-Group.DeveloperName</field>
-            <table>GroupMember-QueuePublicGroupMembership</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>GroupMember-Group.Name</field>
             <table>GroupMember-QueuePublicGroupMembership</table>
         </columns>
         <masterLabel>Group Member</masterLabel>

@@ -8,10 +8,7 @@
             <publicGroup>ABFL_Digital_CS_G</publicGroup>
         </publicGroups>
         <users>
-            <user>anil.jadhav3-v@adityabirlacapital.com</user>
-            <user>jigar.shah1@adityabirlacapital.com</user>
-            <user>shubham.sinha@salesforce.com.abcl.uat</user>
-            <user>sumit.kumar64@adityabirlacapital.com</user>
+            <user>rsinghnagar@salesforce.com.abcl</user>
         </users>
     </queueMembers>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>

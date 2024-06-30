@@ -2,8 +2,8 @@
 * @description       : This is the controller method for aSF_BulkCsvUploadDownload lwc
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 23-Feb-24
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 06-28-2024
+* @last modified by  : rsinghnagar@salesforce.com
 **/
 @SuppressWarnings('PMD.ApexSuggestUsingNamedCred')
 public without sharing class ASF_BulkCsvDownloadHelper {
@@ -14,7 +14,7 @@ public without sharing class ASF_BulkCsvDownloadHelper {
     /**
      * Description : This method is called when user clicks on the Download CSV for upload button
      * Input : operation name that user wishes to perform, current page url passed from VF, list of selected case IDs from list view,
-     * 		   User's current list view ID
+     *         User's current list view ID
      * Output : List of case field with values as per the chosen template to generate the csv file
      */
     public static Object generateCSVFileWithData(String strConfigName, String strURL, String strSelectedRecords, String strListViewId) {
@@ -30,10 +30,12 @@ public without sharing class ASF_BulkCsvDownloadHelper {
         strCSVFields = String.isNotBlank(configMetaRec.Fields_Name__c)? configMetaRec.Fields_Name__c:'';
         columnNames = strCSVFields.split(',');
 
-        if(strListViewId.contains('Recent')){
-            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c);
+        if(strListViewId.contains('__Recent')){
+            strListViewId = 'RecentlyViewed%';
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
+        }else if(!strListViewId.startsWith('00B')){
+            strListViewId = getRecentViewID(configMetaRec.SObject_Name__c,strListViewId);
         }
-
         Type customType = Type.forName(configMetaRec.Apex_Class_Name__c);
         ASF_BulkCSVToRecordConverter converter = (ASF_BulkCSVToRecordConverter)customType.newInstance();
         resultSobjectList = converter.prepareDownloadTemplate(columnNames, configMetaRec.SObject_Name__c, strListViewId, selectedRecIdList);
@@ -70,7 +72,7 @@ public without sharing class ASF_BulkCsvDownloadHelper {
         }
         return query;
     }
-	
+    
     /**
      * Description : This method is used to display the final upload result
      * Input : current header ID
@@ -90,10 +92,10 @@ public without sharing class ASF_BulkCsvDownloadHelper {
      * Input : Object API name
      * Output : List View ID
      */
-    public static String getRecentViewID(String strSobjectName){
+    public static String getRecentViewID(String strSobjectName, String listViewName){
         String strListViewId = '';
         List<ListView> lstRecentView = [SELECT Id, DeveloperName, SobjectType FROM ListView Where SobjectType =: strSobjectName 
-                                       AND DeveloperName LIKE 'RecentlyViewed%'];
+                                       AND DeveloperName LIKE :listViewName];
         if(lstRecentView!=null && !lstRecentView.isEmpty()){
             strListViewId = lstRecentView[0].Id;
         }
