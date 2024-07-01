@@ -38,19 +38,20 @@ public class ABSLI_EmailUpdateIntegration_Test {
 
 		ASF_TestDataFactory.createCaseIntegration(caseRec.Id, 'ABSLI_PAS');
 
-        ASF_Case_Category_Config__c caseCatConfig = new ASF_Case_Category_Config__c();
-        caseCatConfig.CCC_External_Id__c = 'ABSLI_PAS';
-        caseCatConfig.Overall_Case_Closure_SLA__c = 10;
-        caseCatConfig.First_Stage__c = 'Pending with Initiator';
-        caseCatConfig.Type__c = 'Bureau Related';
-        caseCatConfig.Sub_Type__c = 'CIBIL Related Details - Ownership Related';
-        caseCatConfig.Overall_Case_Closure_SLA__c = 56;
-        caseCatConfig.Nature__c = 'Request';
-        caseCatConfig.Source__c = 'CEC';
-        caseCatConfig.Send_FTR_communications__c = true;
-        caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
-        insert caseCatConfig;
-       
+		ASF_Case_Category_Config__c caseCatConfig = new ASF_Case_Category_Config__c();
+		caseCatConfig.CCC_External_Id__c = 'PNFT008';
+		caseCatConfig.Overall_Case_Closure_SLA__c = 10;
+		caseCatConfig.First_Stage__c = 'Pending with Initiator';
+		caseCatConfig.Type__c = 'Bureau Related';
+		caseCatConfig.Sub_Type__c = 'CIBIL Related Details - Ownership Related';
+		caseCatConfig.Overall_Case_Closure_SLA__c = 56;
+		caseCatConfig.Nature__c = 'Request';
+		caseCatConfig.Source__c = 'CEC';
+		caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+		insert caseCatConfig;
+        
+        ASF_Checklist__c chk1 = new ASF_Checklist__c(Case__c = caseRec.Id, Status__c ='Completed', Label__c= 'New Ceck Label');
+        insert chk1;
 	}
 
 	@isTest
