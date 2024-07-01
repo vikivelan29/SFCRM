@@ -164,6 +164,15 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         caseError.addError('Category Type of "Complaint" is not applicable for Non-IGMS cases');
                         newMap.put(caseRec.Id,caseError);
                 }
+                if (config.IGMS_Code__c != '#N/A' &&
+                    caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != '' &&
+                    caseRec.Nature__c == 'Complaint' && 
+                    caseRec.Technical_Source__c != 'API') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Category type cannot be changed for IGMS Synced cases');
+                        newMap.put(caseRec.Id,caseError);
+                }
             }
         }
     }
