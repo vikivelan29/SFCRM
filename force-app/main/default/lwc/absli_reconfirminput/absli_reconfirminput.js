@@ -37,7 +37,7 @@ export default class absli_reconfirminput extends LightningElement {
         }      
         if (this.selectedCountryCode === '91' && this.originalTextValue && this.originalTextValue.length != 10) {
             this.isMobileNumberError = true;
-        } else if(this.selectedCountryCode !== '91' && this.originalTextValue && this.originalTextValue.length != 15){
+        } else if(this.selectedCountryCode !== '91' && this.originalTextValue && this.originalTextValue.length > 15){
                 this.isMobileNumberError = true;
         }else {
             this.isMobileNumberError = false;
