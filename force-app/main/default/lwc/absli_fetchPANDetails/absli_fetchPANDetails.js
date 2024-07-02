@@ -1,5 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
-import fetchBankDetail from '@salesforce/apex/ABSLI_FetchBankDetailsController.fetchBankDetail';
+//import fetchBankDetail from '@salesforce/apex/ABSLI_FetchBankDetailsController.fetchBankDetail';
 import updateSTPFlagOnCaseDetail from '@salesforce/apex/ABSLI_NSDLPANVerification.updateSTPFlagOnCaseDetail';
 import { updateRecord, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import PAN_FLD from "@salesforce/schema/ABSLI_Case_Detail__c.PAN_Number__c";
