@@ -94,12 +94,12 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
 
     }
-    handleSave(event) {
-        
-        console.log('Refresh Apex called');
+    handleSave(event) {        
+        console.log('list records ',JSON.stringify(this.listRecords));
         updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);
+            this.listRecords = {};
             const event = new ShowToastEvent({
                 title: 'Success',
                 message: 'Records are updated sucessfully',
