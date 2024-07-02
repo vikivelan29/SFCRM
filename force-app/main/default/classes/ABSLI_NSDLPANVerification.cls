@@ -53,7 +53,6 @@ public with sharing class ABSLI_NSDLPANVerification {
             panInputWrapper.dob =  dobDateTime.Format('dd/MM/yyyy');
             panInputWrapper.fathername = '';
             panRequest.inputData = new List<PANInputWrapper>{panInputWrapper};
-            system.debug('panRequest---->'+panRequest);
             ABCL_IntegrationCallout.IntegrationResponseWrapper nsdlResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.PAN_VERIFICATION_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(panRequest),
                                                                                                                     null);
