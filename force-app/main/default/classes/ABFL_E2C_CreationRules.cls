@@ -7,7 +7,7 @@
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
- * 2.0 	 02-04-2024	  rajender.kumar@manras.com   areAllWordsPresent function created
+ * 2.0   02-04-2024   rajender.kumar@manras.com   areAllWordsPresent function created
 **/
 // supressing this as the code is meant as a mini framework and thus might have below PMD issues
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
@@ -61,8 +61,14 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                 }
                                 if (creationNotAllowed) {
+                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
+                                    // Log the error
+                                    ABCL_Logger.enableExceptionLogging();
+                                    ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
+                                    ABCL_Logger.message(message);
+                                    ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
-                                    emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
+                                    emailMsg.addError(message);
                                 }
                             }
                         }
