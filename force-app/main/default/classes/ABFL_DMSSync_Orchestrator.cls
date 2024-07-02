@@ -2,7 +2,7 @@
  * @description       : Logic to handle ABFL DMS operations
  * @author            : udit.singhal@salesforce.com
  * @group             : 
- * @last modified on  : 06-28-2024
+ * @last modified on  : 07-02-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -288,18 +288,18 @@ public without sharing class ABFL_DMSSync_Orchestrator{
      **/
     private static void addComplexWrapper(List<IndexWrapper> lIndexWrap, Case caseRecord, DMS_Files__c dmsRec){
         // add SUBCONTENTCODE_DESC which is nature__c - Sub_Type_Text__c 
-        lIndexWrap.add(new IndexWrapper(1205,'S',caseRecord!=null?caseRecord.Nature__c+' - '+caseRecord.Sub_Type_Text__c:dmsRec.Case__r.Nature__c+' - '+dmsRec.Case__r.Sub_Type_Text__c));
+        lIndexWrap.add(new IndexWrapper(Integer.valueOf(System.Label.ABFL_DMS_Subcontentcode_Desc_Index_Id),'S',caseRecord!=null?caseRecord.Nature__c+' - '+caseRecord.Sub_Type_Text__c:dmsRec.Case__r.Nature__c+' - '+dmsRec.Case__r.Sub_Type_Text__c));
 
         // add Field_26 DOCUMENTS_OF
         if(caseRecord != null) {
-            lIndexWrap.add(new IndexWrapper(1202,'S',caseRecord.AssetId == null ? 'Customer' : 'Loan'));
+            lIndexWrap.add(new IndexWrapper(Integer.valueOf(System.Label.ABFL_DMS_Documents_Of),'S',caseRecord.AssetId == null ? 'Customer' : 'Loan'));
         } else {
-            lIndexWrap.add(new IndexWrapper(1202,'S',dmsRec.Case__r.AssetId == null ? 'Customer' : 'Loan'));
+            lIndexWrap.add(new IndexWrapper(Integer.valueOf(System.Label.ABFL_DMS_Documents_Of),'S',dmsRec.Case__r.AssetId == null ? 'Customer' : 'Loan'));
         }
         // add Field_1141 MASKING_STATUS - A (Already Masked), S (Aadhaar image not found)
-        lIndexWrap.add(new IndexWrapper(1215,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'A' : 'S'));
-        // add Field_1139 MASKING_STATUS
-        lIndexWrap.add(new IndexWrapper(1214,'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'Y' : 'N'));
+        lIndexWrap.add(new IndexWrapper(Integer.valueOf(System.Label.ABFL_DMS_Masking_Status),'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'A' : 'S'));
+        // add Field_1139 AADHAAR_FLAG
+        lIndexWrap.add(new IndexWrapper(Integer.valueOf(System.Label.ABFL_DMS_Aadhaar_Flag),'S',dmsRec.File_Name__c.toLowerCase().contains('aadhaar') ? 'Y' : 'N'));
     }
 
     /**
