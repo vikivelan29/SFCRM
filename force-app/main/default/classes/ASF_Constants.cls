@@ -132,5 +132,7 @@ public with sharing class ASF_Constants {
     public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
     public static final String DMS_FILE_TRANSFER_SOURCE = 'SFDC';
     public static Boolean bypassOwnerChangeValidation = false;
+    public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+
 
 }
