@@ -872,7 +872,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
   			if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
                     		checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
                     	}
-                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
