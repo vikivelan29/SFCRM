@@ -1500,7 +1500,7 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         for(Case caseRec : newList){
             //AM-Removed the null check for CCC External ID
             if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
-                || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
+                || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
                     modifiedCases.add(caseRec);  
                     cccIds.add(caseRec.CCC_External_Id__c);
