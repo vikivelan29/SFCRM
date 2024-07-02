@@ -684,7 +684,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 //this.handleSearchPicklistRendering();
             })
             .catch((error) => {
-                console.error(JSON.stringify(error));
+                console.error(error);
                 this.showError('error', 'Oops! Error occured', error);
                 this.loading = false;
             });
@@ -2112,7 +2112,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     handleManualStageChange(event) {
         this.disableSkipSave = false;
         this.selectedManualStage = event.detail.value;
-
         if (this.selectedManualStage == 'None') {
 
             this.isMoveToStageButtonDisabled = true;
