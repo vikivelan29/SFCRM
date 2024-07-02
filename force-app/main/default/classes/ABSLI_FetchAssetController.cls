@@ -101,6 +101,12 @@ public with sharing class ABSLI_FetchAssetController {
                         typeAttrbtObj.tooltip = toolTp;
 
                     }
+                    else if(fieldApiName == 'Policy_No__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
+                    }
                     else if(fieldApiName == 'Advisor__r.Name') {
                         colNameObj.fieldName = 'advisorNameRecLink';
                         toolTp.fieldName = fieldApiName;
