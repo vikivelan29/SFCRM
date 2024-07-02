@@ -1,6 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABFL_Manual_Sync_Threshold</fullName>
+        <categories>ABFL DMS</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Track_Sources</shortDescription>
+        <value>Inbound CNX,Inbound ConnectQ,Outbound CNX,Outbound ConnectQ</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
+        <value>1214</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Documents_Of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
+        <value>1202</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Masking_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
+        <value>1215</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
+        <value>1205</value>
+    </labels>
+    <labels>
+        <fullName>No_DMS_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
+    </labels>
+    <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>Manual_Synching</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Canceled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Canceled</shortDescription>
+        <value>Sync Canceled</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Manually</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Manually</shortDescription>
+        <value>Sync Manually</value>
+    </labels>
+    <labels>
+        <fullName>Synched_Already</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synched Already</shortDescription>
+        <value>Synched already</value>
+    </labels>
+    <labels>
+        <fullName>Synching_initiated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synching_initiated</shortDescription>
+        <value>Synching initiated</value>
+    </labels>
+    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
