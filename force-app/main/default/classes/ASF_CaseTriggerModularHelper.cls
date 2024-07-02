@@ -868,8 +868,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<String, Boolean> checklistMap = new Map<String, Boolean>();
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
-                for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
-                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                for(ASF_Checklist__c checkRec : caseRec.Checklists__r){   
+                    if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
+                    	checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                    }
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
