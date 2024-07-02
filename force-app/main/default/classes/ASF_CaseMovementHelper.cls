@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 02-29-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseMovementHelper {
     
@@ -186,14 +186,14 @@ public class ASF_CaseMovementHelper {
                             resultWrapper.ownerId = nextStage.ownerId;
                         }
                         updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
-                    	updatedCase.MoveToNext__c = false;
+                        updatedCase.MoveToNext__c = false;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         // If previous stage or any stage after previous stage found, Remove Pending Clarification Flag
                         //if(nextStage.isPreviousStage){
                             updatedCase.pending_clarification__c = false;
                         //}
                         resultWrapper.caseToBeUpdated = updatedCase;
-                    	resultWrapper.status = 'Success';
+                        resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;                      
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }else{
@@ -815,7 +815,7 @@ public class ASF_CaseMovementHelper {
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
         }
-		ASF_CaseQueryHandler.refreshRecords = true;
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);

@@ -299,6 +299,10 @@
                 <behavior>Readonly</behavior>
                 <field>SR_TAT_elapsed__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Email_Team__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

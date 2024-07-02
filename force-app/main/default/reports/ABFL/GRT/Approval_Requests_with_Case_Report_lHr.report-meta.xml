@@ -51,7 +51,7 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
         <dateColumn>ASF_Case_Approv__c.Overall_Case_Closure__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

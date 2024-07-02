@@ -3,7 +3,7 @@
 *Author       :  Siddarth Jaitly
 *Created Date :  12/12/2023
 *Last Modified:  12/12/2023
-*@description  :  General Utility Class for Integration 
+*@description  :  General Utility Class for Integration
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_IntegrationCommonUtility {
@@ -14,7 +14,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     * @param templateString - Resolved and rejected templates string
     * @return - Map<String, String> .
     * @description - Get a map of template type and template value
-    *****************************************************************************************************************/       
+    *****************************************************************************************************************/
     public static Map<String, String> fetchStpTemplates(String templateString){
 
         Map<String, String> templateMap = new Map<String, String>();
@@ -29,17 +29,17 @@ public with sharing class ABCL_IntegrationCommonUtility {
         }
         return templateMap;
     }
-    
+
     /****************************************************************************************************************
     * @LOB - Common
     * @Function - transferAttachments
     * @param caseIntegration - case integration record
     * @return - Boolean .
     * @description - Transfers Attachments from ASF_Case_Integration__c to Case
-    *****************************************************************************************************************/       
+    *****************************************************************************************************************/
     public static Boolean transferAttachments(ASF_Case_Integration__c caseIntegration){
         Boolean isSuccess = true;
-        List<ContentDocumentLink> relatedAttachments = [Select LinkedEntityId,ContentDocumentId from ContentDocumentLink 
+        List<ContentDocumentLink> relatedAttachments = [Select LinkedEntityId,ContentDocumentId from ContentDocumentLink
                                                         where LinkedEntityId =: caseIntegration.Id WITH SECURITY_ENFORCED];
         List<ContentDocumentLink> contentLinkToBeInserted = new List<ContentDocumentLink>();
         if(relatedAttachments.size() > 0){
@@ -52,12 +52,12 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 contentLinkToBeInserted.add(link);
                 contentDocumentIds.add(contentLink.ContentDocumentId);
             }
-            
+
             List<ContentVersion> contentList = [Select id from ContentVersion where ContentDocumentId in: contentDocumentIds WITH SECURITY_ENFORCED];
             for(ContentVersion file : contentList){
                 file.IsSTP__c = true;
             }
-            
+
             Database.SaveResult[] updateResult = Database.update(contentList,false);
             for(Database.SaveResult result : updateResult){
                 if(!result.isSuccess()){
@@ -65,9 +65,9 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     break;
                 }
             }
-            
-            Database.SaveResult[] insertResult = Database.insert(contentLinkToBeInserted,false); 
-            
+
+            Database.SaveResult[] insertResult = Database.insert(contentLinkToBeInserted,false);
+
             for(Database.SaveResult result : insertResult){
                 if(!result.isSuccess()){
                     isSuccess = false;
@@ -77,7 +77,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         } else {
             isSuccess = false;
         }
-        
+
         return isSuccess;
     }
 
@@ -113,7 +113,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.CustomMetadataName__c = smsMetadataMap!= null?smsMetadataMap.get(caseRec.Id):null;
             peLogger.Email_Template_Name__c = emailTemplateMap != null?emailTemplateMap.get(caseRec.Id):null;
             peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
-            peLogger.LOB__c = caseRec.Business_Unit__c;  
+            peLogger.LOB__c = caseRec.Business_Unit__c;
             peLogger.Lead__c = caseRec.Lead__c;
            // Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
 
@@ -181,13 +181,13 @@ public with sharing class ABCL_IntegrationCommonUtility {
         if(!caseFieldValMap.containsKey('Business_Unit__c') || !caseFieldValMap.containsKey('Lead__c')){
             Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id WITH SYSTEM_MODE];
             peLogger.LOB__c = caseRecord.Business_Unit__c;
-            peLogger.Lead__c = caseRecord.Lead__c;              
+            peLogger.Lead__c = caseRecord.Lead__c;
         } else {
             if(!caseFieldValMap.containsKey('Business_Unit__c')){
-                peLogger.LOB__c = caseRec.Business_Unit__c;    
+                peLogger.LOB__c = caseRec.Business_Unit__c;
             }
             if(!caseFieldValMap.containsKey('Lead__c')){
-                peLogger.Lead__c = caseRec.Lead__c;    
+                peLogger.Lead__c = caseRec.Lead__c;
             }
         }
         if(isTransferred){
@@ -196,13 +196,13 @@ public with sharing class ABCL_IntegrationCommonUtility {
         }
         if(Schema.sObjectType.PE_Logger__c.isCreateable())
         {
-            insert peLogger;    
+            insert peLogger;
         }
-        
-        Database.SaveResult eventResult = invokeCommunicationLogPlatformEvent(caseRec, peLogger);        
+
+        Database.SaveResult eventResult = invokeCommunicationLogPlatformEvent(caseRec, peLogger);
         return eventResult;
     }
-    
+
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - invokeCommunicationLogPlatformEvent
@@ -222,7 +222,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Database.SaveResult eventResult = EventBus.publish(commEvent);
         return eventResult;
     }
-    
+
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - branchAssignmentNotification
@@ -235,7 +235,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Set<String> recepientIds = new Set<String>();
         recepientIds.add(caseRec.CreatedById);
         Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SYSTEM_MODE];
-        CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
+        CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType
                                                             WHERE DeveloperName = 'Case_Assignment_Change' WITH SYSTEM_MODE Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
@@ -243,11 +243,11 @@ public with sharing class ABCL_IntegrationCommonUtility {
         // Create a new custom notification
         Messaging.CustomNotification currNotification = new Messaging.CustomNotification();
         currNotification.setTitle(Title);
-        currNotification.setBody('Failed to Retrieve '+ stpName + ' Documents. Case ' + caseRecord.CaseNumber + ' has been assigned to '+caseRecord.Owner.Name);               
-        currNotification.setNotificationTypeId(templateInfo.Id);        
-        currNotification.setTargetId(caseRec.Id);                    
-        currNotification.send(recepientIds);                 
-    }    
+        currNotification.setBody('Failed to Retrieve '+ stpName + ' Documents. Case ' + caseRecord.CaseNumber + ' has been assigned to '+caseRecord.Owner.Name);
+        currNotification.setNotificationTypeId(templateInfo.Id);
+        currNotification.setTargetId(caseRec.Id);
+        currNotification.send(recepientIds);
+    }
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - updateErrorMessage
@@ -343,7 +343,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     fileRecList.add(fileRec);
                 }
                 if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
-                    insert fileRecList; 
+                    insert fileRecList;
                     Set<Id> dmsFileIds = new Set<Id>();
                     for(DMS_Files__c file : fileRecList){
                         dmsFileIds.add(file.Id);
@@ -397,10 +397,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
     public static void transferToDMSBulk(List<Id> recIds){
         Map<Id,Case> caseRecordMap = new Map<Id,Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
                                     Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,
-                                    Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
+                                    Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name
                                     from Case where Id =: recIds and Business_Unit__c in: DMS_LINE_OF_BUSINESS]);
 
-        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink 
+        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink
                                                          where LinkedEntityId in: caseRecordMap.keySet()  WITH SYSTEM_MODE];
         if(contentDocumentList.size() > 0){
 
@@ -409,7 +409,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 contentDocumentCaseMap.put(docLink.ContentDocumentId,caseRecordMap.get(docLink.LinkedEntityId));
             }
 
-            List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension 
+            List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension
                                                         from ContentVersion where ContentDocumentId in: contentDocumentCaseMap.keySet()  WITH SYSTEM_MODE ];
 
             Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
@@ -449,6 +449,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Next_Retry__c = System.now().addMinutes(15);
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
+                    fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
                 } else {
                     fileRec.Status__c = ABHFL_Constants.PENDING;
                 }
@@ -456,8 +457,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
             }
 
             if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
-                insert fileRecList; 
-                
+                insert fileRecList;
+
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
                 for(DMS_Files__c file : fileRecList){
                     if(file.Status__c == ABHFL_Constants.PENDING){
@@ -508,18 +509,29 @@ public with sharing class ABCL_IntegrationCommonUtility {
                                              String respose,
                                              String intExtId,
                                              String status){
-        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c = caseId;
-        caseInt.Request__c = request;
-        caseInt.Response__c = respose;
-        caseInt.Status__c = status;
-        caseInt.Integration_Ext_Id__c = intExtId;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt;
-        }
-        
-        
+                                                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+                                                 caseInt.Case__c = caseId;
+                                                 caseInt.Request__c = request;
+                                                 caseInt.Response__c = respose;
+                                                 caseInt.Status__c = status;
+                                                 caseInt.Integration_Ext_Id__c = intExtId;
+                                                 if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+                                                     insert caseInt;
+                                                 }
+
+
     }
+
+    /**
+	 * @description Change Date to in format of DD-MM-YYYY
+     *
+	 * @author Abinash Panigrahi
+     * @date 2024-05-28
+	 */
+    public static String dateFormat(Date dt, String formatted){
+        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);
+    }
+
 /*********************************************************
 *@description  :  wrapper class
 *********************************************************/

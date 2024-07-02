@@ -26,9 +26,9 @@
                 <label>ABFL</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>ABWM</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>ABWM</label>
             </value>
         </valueSetDefinition>
     </valueSet>

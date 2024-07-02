@@ -3,7 +3,7 @@
     <fullName>Manager__c</fullName>
     <description>Created for Retail report</description>
     <externalId>false</externalId>
-    <formula>Case__r.Owner:User.Manager.FirstName + &apos; &apos;+Case__r.Owner:User.Manager.LastName</formula>
+    <formula>Owner:User.Manager.FirstName+&apos; &apos;+Owner:User.Manager.LastName</formula>
     <label>Manager</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

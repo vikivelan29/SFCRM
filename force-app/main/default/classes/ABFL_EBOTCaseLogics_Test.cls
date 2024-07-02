@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-28-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @IsTest
 public class ABFL_EBOTCaseLogics_Test {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
@@ -12,7 +22,7 @@ public class ABFL_EBOTCaseLogics_Test {
           User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
                                     managerGroupId__c=slaGroup.Id);
         insert userRecord;
         System.runAs(userRecord) {
@@ -190,7 +200,7 @@ public class ABFL_EBOTCaseLogics_Test {
     static void testPaytmInteractionNotNull(){
         List<Case> objCase = [Select Id From Case WHERE Subject = 'Test Case Creation' LIMIT 1];
 
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         system.runAs(usr)
         {
         Test.startTest(); 

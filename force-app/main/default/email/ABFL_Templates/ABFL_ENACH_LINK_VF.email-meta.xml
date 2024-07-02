@@ -6,6 +6,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>ENACH LINK VF</name>
     <style>none</style>
+    <subject>Regarding re-registering the payment mode on your loan account!</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>
