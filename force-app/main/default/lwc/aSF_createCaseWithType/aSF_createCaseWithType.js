@@ -64,7 +64,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     searchKey;
     accounts;
     isNotSelected = true;
-    isNotSelectedReject = true; 
+    isNotSelectedReject = true;
     @api recordId;
     loaded = true;
     caseRelObjName;
@@ -295,6 +295,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
             let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
             this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
+
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
             if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
