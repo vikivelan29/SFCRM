@@ -73,6 +73,10 @@ export default class ABSLI_FetchAssestsRelatedToAccount extends LightningElement
             if(tempAssetRec.hasOwnProperty('LAN__c')) {
                 tempAssetRec.assetLanRecLink = assetRecordLink;
             }
+            if(tempAssetRec.hasOwnProperty('Policy_No__c')) {
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+                console.log("Here in Policy_No__c", JSON.stringify(tempAssetRec, null, 2));
+            }
 
             if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Name) {
                 tempAssetRec.assetNameRecLink   = assetRecordLink;
