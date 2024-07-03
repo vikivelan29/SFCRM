@@ -813,7 +813,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
-                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                    if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
+                        checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                      }             
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
@@ -1500,7 +1502,7 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         for(Case caseRec : newList){
             //AM-Removed the null check for CCC External ID
             if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
-                || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
+                || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
                     modifiedCases.add(caseRec);  
                     cccIds.add(caseRec.CCC_External_Id__c);

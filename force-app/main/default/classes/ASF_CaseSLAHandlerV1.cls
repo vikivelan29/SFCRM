@@ -618,13 +618,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         
         for(case c: newCases){
             //owner change loop    
-            if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
+            //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
                 }else if(string.valueOf(c.OwnerId).startsWith('00G')){
                     ownerQueueList.add(c.OwnerId);
                 }
-            }
+            //}
         }  
         Integer index = 0;
         for(Case c: newCases){
