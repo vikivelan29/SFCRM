@@ -245,10 +245,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){} 
-    /*
+        /*
         Ticket: PR970457-1883
         Modified By: Ishan Khichadia 
-        Description: Added a new variable called as impactType and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
+        Description: Added 2 new variables called as impactType and salesId and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c and caseRecord.Asset.Loan_Id__c respectively. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
         */
     public class PaytmRequestWrapper{
         public string custname;
@@ -259,17 +259,28 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string Amount;
         public string Paymentcode;
         public string ParentcaseID;
-        public string impactType;
+        public Integer impactType;
+        public string salesId;
 
         public PaytmRequestWrapper(Case caseRecord){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;
+            this.salesId = caseRecord.Asset.Loan_ID__c;
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
             this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
-            this.impactType = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
+            
+            String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
+            System.debug('emiTenure: ' + emiTenure);
+            if(emiTenure == 'EMI'){
+                this.impactType = 1;    
+            } else if(emiTenure == 'Tenure'){
+                this.impactType = 2;
+            } else{
+                this.impactType = 0;
+            }
         }
 
         public PaytmRequestWrapper(){}
