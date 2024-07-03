@@ -50,8 +50,25 @@
                 <label>ABSLI CS Team</label>
             </value>
             <value>
+                <fullName>ABSLIG_Group_UW</fullName>
+                <default>false</default>
+                <label>ABSLIG Group UW</label>
+            </value>
+            <value>
+                <fullName>ABSLIG_Group_Helpline</fullName>
+                <default>false</default>
+                <label>ABSLIG Group Helpline</label>
+            </value>
+            <value>
+                <fullName>ABHFL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ABHFL</label>
+            </value>
+            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>ABSLIG</label>
             </value>
         </valueSetDefinition>
