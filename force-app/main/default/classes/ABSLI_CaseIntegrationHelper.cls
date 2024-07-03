@@ -245,7 +245,7 @@ public class ABSLI_CaseIntegrationHelper {
             update caseRecord;
         }
 
-      if(!caseDetail.Ebot_Email_in_Draft__c){
+      if(caseRecord.FTR__c){
             caseRecord.MoveToNext__c = true;  
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRecord;
