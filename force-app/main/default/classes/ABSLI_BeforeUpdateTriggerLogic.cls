@@ -166,7 +166,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 }
                 if (config.IGMS_Code__c != '#N/A' &&
                     caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
-                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != '' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null &&
                     caseRec.Nature__c == 'Complaint' && 
                     caseRec.Technical_Source__c != 'API') {
                         Case caseError = newMap.get(caseRec.Id);

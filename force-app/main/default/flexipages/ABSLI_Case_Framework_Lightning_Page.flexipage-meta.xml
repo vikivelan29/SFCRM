@@ -105,9 +105,6 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Send_SMS</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Send_Canned_Email</value>
                         </valueListItems>
                     </valueList>

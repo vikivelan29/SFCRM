@@ -12,7 +12,7 @@ public with sharing class ABSLI_NSDLPANVerification {
             if(caseRecord.Account.IsPersonAccount){
                 panWrapper.name = caseRecord.Account.Name;
                 String panFromCaseExt = caseRecord.ABSLI_Case_Detail__r.PAN_Number__c;
-                panWrapper.pan = panFromCaseExt != null  && panFromCaseExt != '' ? panFromCaseExt : caseRecord.Account?.PAN__c;
+                panWrapper.pan = panFromCaseExt != null  && panFromCaseExt != '' ? panFromCaseExt : '';
                 panWrapper.dob = caseRecord.Account.PersonBirthdate;
                 panWrapper.panValidationStatus = caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c;
                 panWrapper.caseExtId = caseRecord.ABSLI_Case_Detail__c;
@@ -53,6 +53,7 @@ public with sharing class ABSLI_NSDLPANVerification {
             panInputWrapper.dob =  dobDateTime.Format('dd/MM/yyyy');
             panInputWrapper.fathername = '';
             panRequest.inputData = new List<PANInputWrapper>{panInputWrapper};
+            system.debug('panRequest---->'+panRequest);
             ABCL_IntegrationCallout.IntegrationResponseWrapper nsdlResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.PAN_VERIFICATION_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(panRequest),
                                                                                                                     null);
