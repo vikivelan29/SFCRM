@@ -74,7 +74,7 @@
                 <field>System__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>UniqueKey__c</field>
             </layoutItems>
         </layoutColumns>

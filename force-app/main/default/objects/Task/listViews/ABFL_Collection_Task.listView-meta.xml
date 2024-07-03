@@ -5,6 +5,6 @@
     <label>ABFL Collection</label>
     <queue>ABFL_Collection</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Collection_G</group>
     </sharedTo>
 </ListView>

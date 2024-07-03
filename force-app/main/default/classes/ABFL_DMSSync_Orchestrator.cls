@@ -2,7 +2,7 @@
  * @description       : Logic to handle ABFL DMS operations
  * @author            : udit.singhal@salesforce.com
  * @group             : 
- * @last modified on  : 05-27-2024
+ * @last modified on  : 06-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -128,11 +128,11 @@ public without sharing class ABFL_DMSSync_Orchestrator{
                         
                         // In case user doesn't wait for automated sync to complete - It is irrespective of status
                         if(dmsRec.Retry_Attempt__c >= 9){
-                            throw new AuraHandledException('Maximum number of retires are exhausted. Please contact system admin.');
+                            return new ResponseWrapper(false, 'Maximum number of retries are exhausted. Please contact system admin.');
                         }
                         // for manual sync where users click repeatively
                         if(dmsRec.Status__c == ABFL_Constants.PENDING && thresholdTime > System.now() && !Test.isRunningTest()){
-                            throw new AuraHandledException('Sync was recently initiated, please wait till '+thresholdTime.format()+'.');
+                            return new ResponseWrapper(false, 'Sync was recently initiated, please wait till '+thresholdTime.format()+'.');
                         }
                         //Cancel existing dms file record
                         if(ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dmsRec.Status__c)){

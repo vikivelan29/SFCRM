@@ -361,7 +361,9 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     * @description Create new case
     *****************************************************************************************************************/
     public void createCase(String externalId, Case caseRec) {
+        ASF_CaseQueryHandler.refreshRecords = true;
         List<ASF_Case_Category_Config__c> cccRec = ASF_CaseQueryHandler.getCaseCategoryConfigs(new List<String>{externalId});
+        ASF_CaseQueryHandler.refreshRecords = false;
         if(!cccRec.isEmpty()) {
             //create Case detail
             ABFL_Case_Detail__c detail = new ABFL_Case_Detail__c(IsRegisteredCustomer__c = 'Yes');

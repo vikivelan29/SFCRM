@@ -5,6 +5,6 @@
     <label>ABFL Retail Revenue and Retention</label>
     <queue>ABFL_Retail_Revenue_and_Retention</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_Retail_Revenue_and_Retention_G</group>
     </sharedTo>
 </ListView>

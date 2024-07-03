@@ -35,7 +35,7 @@ public class ABFL_BRE_APIImplementation {
             }
             when 'BRE_ProInterestCert_Retail' {
                 // ** from and todate is calculated for current FY - YYYY-MM-DD format.
-                List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(1,0);
+                List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0,0);
                  fireWithDates(integRec, caseRecord, caseIntg, new List<Date>{fi[0]?.StartDate, fi[0]?.EndDate});
             }
            when 'BRE_InterestCert_Retail' {
@@ -86,7 +86,7 @@ public class ABFL_BRE_APIImplementation {
             }
             when 'BRE_ProInterestCert_Retail' {
                 // ** from and todate is calculated for current FY - YYYY-MM-DD format.
-                List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(1,0);
+                List<FiscalYearSettings> fi = ABFL_SOQL_Util.getFiscalYear(0,0);
                 return fireWithDatesForBulk(integRec, caseRecord, caseIntg, new List<Date>{fi[0]?.StartDate, fi[0]?.EndDate}, emailId, mobileNo);
             }
            when 'BRE_InterestCert_Retail' {

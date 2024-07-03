@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Case_Business_Unit__c</field>
-        <value xsi:type="xsd:string">ABHFL</value>
+        <value xsi:type="xsd:string">ABFL</value>
     </values>
     <values>
         <field>Case_Origin__c</field>
@@ -24,11 +24,11 @@
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
-        <value xsi:type="xsd:string">abfssl.uatgrievancehead@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">abfl.grievancehead@adityabirlacapital.com</value>
     </values>
     <values>
         <field>Priority_Index__c</field>
-        <value xsi:type="xsd:double">39.0</value>
+        <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
         <field>Send_to_EBOT__c</field>
