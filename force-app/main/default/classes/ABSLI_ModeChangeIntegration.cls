@@ -103,7 +103,7 @@ public class ABSLI_ModeChangeIntegration implements ASF_IntegrationInvocable{
                     String source = System.label.ABSLI_ESB_SOURCE_VAL ;
                     String policyNumber = String.valueOf(caseRecord.Asset.Policy_No__c);
                     DateTime dateTimeToFormat = DateTime.newInstance(caseRecord.ABSLI_Case_Detail__r.Anniversary_Date__c, Time.newInstance(0, 0, 0, 0));
-					String anniversaryDate = dateTimeToFormat.format('dd/MM/yyyy');
+					String anniversaryDate = dateTimeToFormat.format('dd-MM-yyyy');
                     String newMode = String.valueOf(caseRecord.ABSLI_Case_Detail__r.New_Frequency__c);
                     
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
