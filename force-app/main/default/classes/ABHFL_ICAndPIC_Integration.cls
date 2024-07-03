@@ -140,7 +140,7 @@ public with sharing class ABHFL_ICAndPIC_Integration extends ABHFL_ICAndPIC_Inte
             }
             result = checkHlOrNonHlValidation(caseRecord, result);
 
-            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD && caseRecord.Stage__c != ABHFL_Constants.RESOLVED){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     downloadStpCases.add(caseRecord);
