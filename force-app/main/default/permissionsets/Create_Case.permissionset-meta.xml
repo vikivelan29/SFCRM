@@ -1651,6 +1651,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Fins_Non_Fins__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.EBOT_Auto_Close__c</field>
         <readable>false</readable>
     </fieldPermissions>
