@@ -256,7 +256,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         CASE_ASSET,
         ACOUNNTRECORDTYPE, 
         CASE_ASSET_LOB,
-        CASE_PROSPECT_ID] })
+        CASE_PROSPECT_ID,
+        NOAUTOCOMM_FIELD] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -292,7 +293,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             if(this.customerId != null && this.customerId != undefined && this.customerId != ''){
                 this.showOnCustomerTagging = true;
             }
-            
+            let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
+            this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
 
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;

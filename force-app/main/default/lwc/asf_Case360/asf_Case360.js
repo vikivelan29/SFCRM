@@ -246,6 +246,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     selectedStage;
     showErrors = false;
     errorMessage;
+    disableSkipSave = true;
+    disableBackSave = true;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -699,7 +701,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 //this.handleSearchPicklistRendering();
             })
             .catch((error) => {
-                console.error(JSON.stringify(error));
+                console.error(error);
                 this.showError('error', 'Oops! Error occured', error);
                 this.loading = false;
             });
@@ -1083,10 +1085,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     cancelBackCaseStage() {
         this.showPreviousStages = false;
         this.selectedStage = undefined;
+        this.disableBackSave = true;
     }
     cancelForwardCaseStage() {
         this.showForwardStages = false;
         this.selectedManualStage = undefined;
+        this.disableSkipSave = true;
     }
     handlePublishedMessage(payload) {
         console.log('in handlePublishedMessage!!!!!');
@@ -1995,14 +1999,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     handleStageChange(event) {
         this.selectedStage = event.detail.value;
+        this.disableBackSave = false;
         if (this.selectedStage) {
             this.isMoveToPrevStageButtonDisabled = false;
         }
     }
 
     handleManualStageChange(event) {
+        this.disableSkipSave = false;
         this.selectedManualStage = event.detail.value;
-
         if (this.selectedManualStage == 'None') {
 
             this.isMoveToStageButtonDisabled = true;
