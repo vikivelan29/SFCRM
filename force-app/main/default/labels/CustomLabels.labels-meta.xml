@@ -365,7 +365,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF Email Bot Feedback BU</shortDescription>
-        <value>ABHFL;ABFL</value>
+        <value>ABHFL;ABFL;ABSLI</value>
     </labels>
     <labels>
         <fullName>ASF_ErrorMessage</fullName>
