@@ -1,7 +1,7 @@
-<html style="overflow-y: hidden;">
+<html>
 <head>
 	<title></title>
-	<meta content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="format-detection" content="telephone=no"><meta name="x-apple-disable-message-reformatting">
+	<meta content="text/html; charset=utf-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><meta content="telephone=no" name="format-detection" /><meta name="x-apple-disable-message-reformatting" />
 	<title></title>
 	<style type="text/css">#outlook a {
 			padding: 0;
@@ -138,26 +138,26 @@
 </head>
 <body style="margin: 0px; padding: 0px; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; background-color: rgb(255, 255, 255); width: 100% !important; height: auto; min-height: auto;">
 <table border="0" cellpadding="0" cellspacing="0" class="pc-email-body" style="table-layout: fixed;" width="100%">
-	<tbody>
+	
 		<tr>
 			<td align="center" class="pc-email-body-inner" valign="top">
 			<table align="center" border="0" cellpadding="0" cellspacing="0" class="pc-email-container" style="margin: 0 auto; max-width: 620px;background: #fff;border: 1px solid;" width="100%">
-				<tbody>
+				
 					<tr>
 						<td align="left" style="padding:0px;" valign="top">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>
+							
 								<tr>
 									<td bgcolor="#ffffff" style="padding: 0px 20px; background: #ffffff; border-radius: 8px" valign="top">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
-										<tbody>
+										
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="font-family:Anek Latin;font-size: 16px; line-height: 25px; letter-spacing: -0.2px; color: #4d4d4f;padding-left: 0px; padding-right: 0px" valign="top">&nbsp;</td>
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="line-height: 28px; font-family: 'Public Sans', Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 400; letter-spacing: -0.2px; color: #7c7c7b; text-align: center" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">
-												<p style="line-height:1.2; margin-bottom:12px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear&nbsp;</span></span></span><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{{{Case.Customer_name_formula__c}}}</span></span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&thinsp;,</span></span></span></span></span></span><br />
+												<p style="line-height:1.2; margin-bottom:12px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear&nbsp;</span></span></span><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{{{Case.Customer_name_formula__c}}}</span></span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> ,</span></span></span></span></span></span><br />
 												<br />
 												<span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank you for contacting Aditya Birla Sun Life Insurance.</span></span></span></span></span></span></p>
 
@@ -170,7 +170,7 @@
 												<ul>
 													<li aria-level="1" style="list-style-type:disc"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Profile updation form duly filled and signed by Policy holder (Profile Updation form)</span></span></span></span></span></span></li>
 													<li aria-level="1" style="list-style-type:disc"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Original cancelled cheque with pre-printed name and account number or Scan image of&nbsp;pre-printed renewal premium cheque*</span></span></span></span></span></span></li>
-													<li aria-level="1" style="list-style-type:disc"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In absence of pre-printed cheque or &#39;New Account&#39; mentioned on cheque kindly submit &nbsp; &nbsp;&nbsp;attested copy of bank statement or passbook&nbsp;bearing pre-printed or handwritten name&nbsp;and account number.&nbsp;</span></span></span></span></span></span></li>
+													<li aria-level="1" style="list-style-type:disc"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In absence of pre-printed cheque or 'New Account' mentioned on cheque kindly submit &nbsp; &nbsp;&nbsp;attested copy of bank statement or passbook&nbsp;bearing pre-printed or handwritten name&nbsp;and account number.&nbsp;</span></span></span></span></span></span></li>
 													<li aria-level="1" style="list-style-type:disc"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Copy of Valid Id proof.</span></span></span></span></span></span></li>
 												</ul>
 
@@ -186,7 +186,7 @@
 
 												<p style="line-height:1.2; margin-top:19px; margin-bottom:11px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#201f1e"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">You will have to login to your One ABC ID and follow attached process to update bank details.</span></span></span></span></span></span></p>
 
-												<p style="line-height:1.2; margin-top:19px; margin-bottom:11px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#201f1e"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case you do not have &lsquo;One ABC&rsquo;,&nbsp;click on the below link&nbsp;to register now.&nbsp;</span></span></span></span></span></span></p>
+												<p style="line-height:1.2; margin-top:19px; margin-bottom:11px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#201f1e"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case you do not have ‘One ABC’,&nbsp;click on the below link&nbsp;to register now.&nbsp;</span></span></span></span></span></span></p>
 
 												<p style="line-height:1.2; margin-top:19px; margin-bottom:11px"><a href="https://protect.checkpoint.com/v2/___https://lifeinsurance.adityabirlacapital.com/Pages/Secured/Individual/OneABC/Register.aspx___.YXBzMTphZGl0eWFiaXJsYWNhcGl0YWw6YzpvOmRlOTI3MzdkNWI4MmY4Y2IwMTUzNDdkOWY0YTdlOGIzOjY6ODdiZjo1OGRjZjA4ZGZhZGQ5MjQ4YWU1YmM4NWNlOTE0NzBiMTk1ZGU0NjVhNThjYjNiNDE4YTdhZTFmMzg3MzdiNzM4OnA6Rg" style="text-decoration:none"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#1155cc"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">https://lifeinsurance.adityabirlacapital.com/Pages/Secured/Individual/OneABC/Register.aspx</span></span></span></span></span></span></span></span></a><br />
 												<br />
@@ -200,7 +200,7 @@
 
 												<p style="line-height:1.2; margin-top:12px; margin-bottom:11px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">For any further assistance, please feel free to contact us at&nbsp;</span></span></span></span></span></span><a href="mailto:care.lifeinsurance@adityabirlacapital.com?subject=care.lifeinsurance@adityabirlacapital.com" style="text-decoration:none"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">care.lifeinsurance@adityabirlacapital.com</span></span></span></span></span></span></a><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">.&nbsp;You can also call us on our toll-free number&nbsp;</span></span></span></span></span></span><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">1800-270-7000</span></span></span></span></span></span><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;(10 am - 7 pm, all days).</span></span></span></span></span></span></p>
 
-												<p style="line-height:1.2; margin-top:19px; margin-bottom:19px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We also offer instant access to policy details, fund value, statements, and premium receipts through our WhatsApp and Chatbot services. Simply send &#39;Hi&#39; to our WhatsApp number 8828800040 or visit our website to chat with us on </span></span></span></span></span></span></span><a href="https://lifeinsurance.adityabirlacapital.com/" style="text-decoration:none"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#1155cc"><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">https://lifeinsurance.adityabirlacapital.com/</span></span></span></span></span></span></span></span></span></a><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></p>
+												<p style="line-height:1.2; margin-top:19px; margin-bottom:19px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We also offer instant access to policy details, fund value, statements, and premium receipts through our WhatsApp and Chatbot services. Simply send 'Hi' to our WhatsApp number 8828800040 or visit our website to chat with us on </span></span></span></span></span></span></span><a href="https://lifeinsurance.adityabirlacapital.com/" style="text-decoration:none"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#1155cc"><span style="background-color:#ffffff"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">https://lifeinsurance.adityabirlacapital.com/</span></span></span></span></span></span></span></span></span></a><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></p>
 
 												<p style="line-height:1.2; margin-top:19px; margin-bottom:11px"><span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
 												<span style="font-size:9pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Team Aditya Birla Sun Life Insurance</span></span></span></span></span></span><br />
@@ -208,19 +208,19 @@
 												</div>
 												</td>
 											</tr>
-										</tbody>
+										
 									</table>
 									</td>
 								</tr>
-							</tbody>
+							
 						</table>
 						</td>
 					</tr>
-				</tbody>
+				
 			</table>
 			</td>
 		</tr>
-	</tbody>
+	
 </table>
 </body>
 </html>
