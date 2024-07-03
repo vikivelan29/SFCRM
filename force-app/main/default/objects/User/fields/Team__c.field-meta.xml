@@ -59,12 +59,6 @@
                 <default>false</default>
                 <label>ABSLIG Group Helpline</label>
             </value>
-            <value>
-                <fullName>ABHFL</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>ABHFL</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
