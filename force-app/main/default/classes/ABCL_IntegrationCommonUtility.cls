@@ -5,6 +5,7 @@
 *Last Modified:  12/12/2023
 *@description  :  General Utility Class for Integration 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABCL_IntegrationCommonUtility {
     public static final List<String> DMS_LINE_OF_BUSINESS = new List<String>{'ABHFL','ABFL','ABWM'};
     /****************************************************************************************************************
@@ -83,10 +84,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
      /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - createPELogAndinvokeCommPEevent
-    * @param caseRec - Case record.
-    * @param rejectionEmailTemplate - Rejection email template from Case Category Config record.
-    * @param rejectionSmsMetadata - Rejection SMS metadata from Case Category Config record.
-    * @param isTransferred
+    * @param caseRecs - Case record.
+    * @param emailTemplateMap - Rejection email template from Case Category Config record.
+    * @param smsMetadataMap - Rejection SMS metadata from Case Category Config record.
+    * @param isTransferredMap
     * @return - Database.SaveResult.
     * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email and SMS communication.
     *****************************************************************************************************************/
@@ -95,9 +96,9 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Set<Id> setOfCaseIds = new Set<Id>();
 
         for(Case caseRec : caseRecs){
-            setOfCaseIds.add(caseRec.Id);
+            setOfCaseIds.add(caseRec.Id); 
         }
-        List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds];
+        List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds WITH SYSTEM_MODE];
 
         for(Case caseRec : csList){
             PE_Logger__c peLogger = new PE_Logger__c();
@@ -114,7 +115,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
             peLogger.LOB__c = caseRec.Business_Unit__c;  
             peLogger.Lead__c = caseRec.Lead__c;
-            Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
+           // Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
 
             if(isTransferredMap.get(caseRec.Id)){
                 peLogger.Is_Attachment__c = true;
@@ -131,8 +132,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - invokeCommunicationLogPlatformEvent
-    * @param caseRec - Case record.
-    * @param peLogger - PE_Logger__c record.
+    * @param caseRecs - Case record.
+    * @param peLoggerMap - PE_Logger__c record.
     * @return - Database.SaveResult.
     * @description - Function to publish ASF_CommnunicationLog__e platform event.
     *****************************************************************************************************************/
@@ -144,7 +145,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             //commEvent.CustomMetadataName__c = 'Rejection_Reason_Available';
             commEvent.PELoggerId__c = peLoggerMap.get(caseRec.Id).Id;
             commEvent.RecordID__c = caseRec.Id;
-            DateTime dt = DateTime.now();
+            //DateTime dt = DateTime.now();
             commEvent.Unique_Id__c = 'CommunicationLog-'+UserInfo.getUserId()+'-'+System.currentTimeMillis();
             commEventList.add(commEvent);
         }
@@ -157,8 +158,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
     * @LOB - ABHFL
     * @Function - createPELogAndinvokeCommPEevent
     * @param caseRec - Case record.
-    * @param rejectionEmailTemplate - Rejection email template from Case Category Config record.
-    * @param rejectionSmsMetadata - Rejection SMS metadata from Case Category Config record.
+    * @param emailTemplate - Rejection email template from Case Category Config record.
+    * @param smsMetadata
     * @param isTransferred
     * @return - Database.SaveResult.
     * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email and SMS communication.
@@ -178,7 +179,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
         Map<String,Object> caseFieldValMap = caseRec.getPopulatedFieldsAsMap();
         if(!caseFieldValMap.containsKey('Business_Unit__c') || !caseFieldValMap.containsKey('Lead__c')){
-            Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id];
+            Case caseRecord = [Select id,Business_Unit__c,Lead__c from Case where id =: caseRec.Id WITH SYSTEM_MODE];
             peLogger.LOB__c = caseRecord.Business_Unit__c;
             peLogger.Lead__c = caseRecord.Lead__c;              
         } else {
@@ -216,7 +217,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         //commEvent.CustomMetadataName__c = 'Rejection_Reason_Available';
         commEvent.PELoggerId__c = peLogger.Id;
         commEvent.RecordID__c = caseRec.Id;
-        DateTime dt = DateTime.now();
+       // DateTime dt = DateTime.now();
         commEvent.Unique_Id__c = 'CommunicationLog-'+UserInfo.getUserId()+'-'+System.currentTimeMillis();
         Database.SaveResult eventResult = EventBus.publish(commEvent);
         return eventResult;
@@ -233,9 +234,9 @@ public with sharing class ABCL_IntegrationCommonUtility {
     public static void branchAssignmentNotification(Case caseRec,String stpName,String title){
         Set<String> recepientIds = new Set<String>();
         recepientIds.add(caseRec.CreatedById);
-        Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id];
+        Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SYSTEM_MODE];
         CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
-                                                            WHERE DeveloperName = 'Case_Assignment_Change' Limit 1];
+                                                            WHERE DeveloperName = 'Case_Assignment_Change' WITH SYSTEM_MODE Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
         }
@@ -255,51 +256,53 @@ public with sharing class ABCL_IntegrationCommonUtility {
     *****************************************************************************************************************/
     public static void updateErrorMessage(ASF_Case_Integration__c caseIntegration){
         try{
-            ASF_Case_Integration__c  caseInt = [Select id,Error_Message__c,Request__c from ASF_Case_Integration__c where id =: caseIntegration.Id  limit 1];
+            ASF_Case_Integration__c  caseInt = [Select id,Error_Message__c,Request__c from ASF_Case_Integration__c where id =: caseIntegration.Id WITH SYSTEM_MODE limit 1];
             string eventName = '';
             if(String.isNotBlank(caseInt.Request__c)){
                 Case_Integration_Outbound__e intEvent = (Case_Integration_Outbound__e)JSON.deserialize(caseInt.Request__c,Case_Integration_Outbound__e.class);
                 eventName = intEvent.Integration_Name__c;
             }
             if(eventName == 'Sanction Letter'){
-                reportingResponseWrapper response = (reportingResponseWrapper)JSON.deserialize(caseIntegration.Response__c,reportingResponseWrapper.class);
+                ReportingResponseWrapper response = (ReportingResponseWrapper)JSON.deserialize(caseIntegration.Response__c,ReportingResponseWrapper.class);
                 if(response != null && response.returnCode != null && response.returnMessage != null && caseInt.Error_Message__c == null && response.returnCode != '1' ){
-                    if(response.returnCode != '1'){
+                    if(response.returnCode != '1' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.returnMessage;
-                        update caseInt;
+                        update caseInt; 
                     }
-                }
+                } 
             }else {
                 stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
                 if(response != null && response.operationStatus != null && response.operationMessage != null && caseInt.Error_Message__c == null && response.operationStatus != '1' ){
-                    if(response.operationStatus == '0'){
+                    if(response.operationStatus == '0' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.operationMessage;
-                        update caseInt;
+                        update caseInt; 
                     }
                 }
             }
-        }catch(exception e){}
+        }catch(exception e){
+            ABCL_Logger.message(e.getMessage());
+        }
 
     }
 
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - transferFilesToDMS
-    * @param recId - Case Record Id.
+    * @param recIds - Case Record Id.
     * @description - Initiates File Transfer to DMS
     *****************************************************************************************************************/
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
         if(recIds.size() == 1){
             Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c,
-                            Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS];
-            List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id];
+                            Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS WITH SYSTEM_MODE];
+            List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseRecord.Id WITH SYSTEM_MODE];
             if(contentDocumentList.size() > 0){
                 Set<Id> contentDocumentIds = new Set<Id>();
                 for(ContentDocumentLink docLink : contentDocumentList){
                     contentDocumentIds.add(docLink.ContentDocumentId);
                 }
-                List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber,FileExtension from ContentVersion where ContentDocumentId in: contentDocumentIds];
+                List<ContentVersion> contentVersionList = [Select id,Title,ContentDocumentId,VersionNumber,FileExtension from ContentVersion where ContentDocumentId in: contentDocumentIds WITH SYSTEM_MODE ];
                 Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
                 for(ContentVersion version : contentVersionList){
                     Integer count = 0;
@@ -339,8 +342,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     }
                     fileRecList.add(fileRec);
                 }
-                if(fileRecList.size() > 0){
-                    insert fileRecList;
+                if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
+                    insert fileRecList; 
                     Set<Id> dmsFileIds = new Set<Id>();
                     for(DMS_Files__c file : fileRecList){
                         dmsFileIds.add(file.Id);
@@ -388,7 +391,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - transferToDMSBulk
-    * @param List<recId> - Case Record Ids.
+    * @param  recIds - Case Record Ids.
     * @description - Initiates File Transfer to DMS for Bulk Operations
     *****************************************************************************************************************/
     public static void transferToDMSBulk(List<Id> recIds){
@@ -398,7 +401,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                                     from Case where Id =: recIds and Business_Unit__c in: DMS_LINE_OF_BUSINESS]);
 
         List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink 
-                                                         where LinkedEntityId in: caseRecordMap.keySet()];
+                                                         where LinkedEntityId in: caseRecordMap.keySet()  WITH SYSTEM_MODE];
         if(contentDocumentList.size() > 0){
 
             Map<Id,Case> contentDocumentCaseMap = new Map<Id,Case>();
@@ -407,7 +410,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             }
 
             List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension 
-                                                        from ContentVersion where ContentDocumentId in: contentDocumentCaseMap.keySet()];
+                                                        from ContentVersion where ContentDocumentId in: contentDocumentCaseMap.keySet()  WITH SYSTEM_MODE ];
 
             Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
             for(ContentVersion version : contentVersionList){
@@ -453,8 +456,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRecList.add(fileRec);
             }
 
-            if(fileRecList.size() > 0){
-                insert fileRecList;
+            if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
+                insert fileRecList; 
                 
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
                 for(DMS_Files__c file : fileRecList){
@@ -501,15 +504,20 @@ public with sharing class ABCL_IntegrationCommonUtility {
         }
     }
 
-    public class stpResponseWrapper{
+/*********************************************************
+*@description  :  wrapper class
+*********************************************************/
+    public class StpResponseWrapper{
         public string operationStatus;
         public string operationMessage;
         public string binaryDataList;
         public string caseId;
         public string reportPath;
     }
-
-    public class reportingResponseWrapper{
+/*********************************************************
+*@description  :  wrapper class
+*********************************************************/
+    public class ReportingResponseWrapper{
         public string returnCode;
         public string returnMessage;
     }

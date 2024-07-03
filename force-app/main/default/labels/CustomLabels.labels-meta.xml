@@ -1,46 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
-        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
         <fullName>ABCL_Business_Unit</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Business_Unit</shortDescription>
-        <value>ABHFL,ABFL,Payments</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Reassign_Case_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>describe the time frame for orphan case reparenting tasks</shortDescription>
-        <value>360</value>
+        <value>ABHFL,ABFL,Payments,ABSLI</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_UserName</fullName>
@@ -64,18 +29,26 @@
         <value>abfl.crmuat01@adityabirlacapital.com</value>
     </labels>
     <labels>
-        <fullName>ABFL_DIGITAL_FINANCE</fullName>
+        <fullName>ABFL_DMSPageSize</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABFL DIGITAL FINANCE</shortDescription>
-        <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
+        <shortDescription>ABFL_DMSPageSize</shortDescription>
+        <value>5</value>
     </labels>
     <labels>
-        <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
+        <fullName>ABFL_LegacyPageSize</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABFL LITMUS PROJECT ID</shortDescription>
-        <value>7m4u_touchpoint</value>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Manual_Sync_Threshold</fullName>
+        <categories>ABFL DMS</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
+        <value>5</value>
     </labels>
     <labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
@@ -85,25 +58,18 @@
         <value>Resolved By STP</value>
     </labels>
     <labels>
-        <fullName>ABHFL_Complaint_Investigation_Details</fullName>
+        <fullName>ABFL_Reassign_Case_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHFL Complaint Investigation Details</shortDescription>
-        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority,All LANs:All LANs,Applicant Type(COAPPL):Applicant Type(COAPPL),Applicant Type(PRAPPL):Applicant Type(PRAPPL)</value>
+        <shortDescription>describe the time frame for orphan case reparenting tasks</shortDescription>
+        <value>360</value>
     </labels>
     <labels>
-        <fullName>ABHFL_Case_Dedupe_Active</fullName>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
-        <fullName>ABHFL_Data_Service_Sections</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Data Service Sections</shortDescription>
-        <value>Disbursement_History</value>
+        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
+        <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
         <fullName>ASF_BulkDownloadLimit_Msg</fullName>
@@ -113,18 +79,11 @@
         <value>Maximum record limit is 50,000. If you have selected more than 50,000 records to download, The first 50,000 records will only be downloaded.</value>
     </labels>
     <labels>
-        <fullName>ABHFL_LOD_Calendar_Year</fullName>
+        <fullName>ASF_BulkProcessorBatchSize</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHFL LOD Calendar Year</shortDescription>
-        <value>2099-01-01</value>
-    </labels>
-    <labels>
-        <fullName>ABHFL_ROI_HIstory_Fields</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL ROI HIstory Fields</shortDescription>
-        <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Old Rate:OLD_RATE,New Rate:new_rate</value>
+        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
+        <value>200</value>
     </labels>
     <labels>
         <fullName>ASF_BulkThresholdForQueueable</fullName>
@@ -139,13 +98,6 @@
         <protected>false</protected>
         <shortDescription>ASF_Bulk_Chunk_Size</shortDescription>
         <value>5000</value>
-    </labels>
-    <labels>
-        <fullName>ASF_BulkProcessorBatchSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
-        <value>200</value>
     </labels>
     <labels>
         <fullName>ASF_Bulk_Restricted_File_Ext</fullName>
@@ -167,6 +119,20 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseBrowserSubscriber</shortDescription>
         <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
     </labels>
     <labels>
         <fullName>ASF_CaseEndStatuses</fullName>
@@ -203,20 +169,6 @@
         <protected>false</protected>
         <shortDescription>ASF_CloseCaseWithoutCustomer</shortDescription>
         <value>Close Case without Customer</value>
-    </labels>
-    <labels>
-        <fullName>ASF_CaseComment_Delete_Msg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
-        <value>You cannot modify the comment of a closed case</value>
-    </labels>
-    <labels>
-        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
-        <value>You do not have access to update/delete this comment</value>
     </labels>
     <labels>
         <fullName>ASF_CreateCaseWithProspect</fullName>
@@ -266,6 +218,13 @@
         <protected>false</protected>
         <shortDescription>ASF_ErrorMessage</shortDescription>
         <value>An unexpected error occurred. Please contact system admin.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
     </labels>
     <labels>
         <fullName>ASF_Error_Case_Merge</fullName>
@@ -373,6 +332,13 @@
         <value>1</value>
     </labels>
     <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
         <fullName>ASF_SLA_NoReplyAdress</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -422,6 +388,41 @@
         <value>Case has been merged successfully.</value>
     </labels>
     <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
         <fullName>ASF_Whatsapp_No_Contacts_Available</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -443,81 +444,18 @@
         <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
-        <fullName>Allowed_Domain</fullName>
+        <fullName>DMS_File_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Allowed_Domain</shortDescription>
-        <value>gmail.com</value>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
     </labels>
     <labels>
-        <fullName>Base_URL_for_bitly</fullName>
+        <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Base URL For Bitly</shortDescription>
-        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
-    </labels>
-    <labels>
-        <fullName>Case_Closed_Validation_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Case Closed Error Message</shortDescription>
-        <value>You are not allowed to edit a Closed Case.</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
-        <value>Real Time Integration has failed. Please check with admin.</value>
-    </labels>
-    <labels>
-        <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Change Owner V2 User to user vaiidation</shortDescription>
-        <value>! Can not assign Owner, since the selected records are already owned by as user.</value>
-    </labels>
-    <labels>
-        <fullName>Change_Owner_V2_current_user_not_part_of_queue</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Change Owner V2 current user not part of queue</shortDescription>
-        <value>You are not part of the Queue</value>
-    </labels>
-    <labels>
-        <fullName>Change_Owner_v2_different_owners_error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Change Owner v2 different owners error</shortDescription>
-        <value>Selected records belongs to more than one different owners</value>
-    </labels>
-    <labels>
-        <fullName>Change_owner_v2_no_access</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Change owner v2 no access</shortDescription>
-        <value>You don&apos;t have access to change the Owner</value>
-    </labels>
-    <labels>
-        <fullName>Change_owner_v2_target_user_not_part_of_queue</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Change owner v2 target user not part of queue</shortDescription>
-        <value>Selected user is not part of the Queue</value>
-    </labels>
-    <labels>
-        <fullName>Complaint_Investigation_Fields</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Complaint Investigation Fields</shortDescription>
-        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority</value>
-    </labels>
-    <labels>
-        <fullName>EndUserProfiles</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EndUserProfiles</shortDescription>
-        <value>Base Profile</value>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
         <fullName>Error_From_Address</fullName>
@@ -541,18 +479,11 @@
         <value>You are not allowed to send email as you are not part of any team.</value>
     </labels>
     <labels>
-        <fullName>ExpiryDay_For_Bitly_URL</fullName>
+        <fullName>Impact_Field_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
-        <value>2</value>
-    </labels>
-    <labels>
-        <fullName>FA_Mandatory</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>FA_Mandatory</shortDescription>
-        <value>Please select Financial Account first to create a case with FA.</value>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
     <labels>
         <fullName>Incomplete_Checklist_Error_Message</fullName>
@@ -583,18 +514,18 @@
         <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
     </labels>
     <labels>
-        <fullName>Masked_Subject_Email_Template_Ids</fullName>
+        <fullName>Manual_Synching</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Masked Subject Email Template Ids</shortDescription>
-        <value>00X9I000000A8VlUAK</value>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
     </labels>
     <labels>
-        <fullName>ODP_Client_Code_Msg</fullName>
+        <fullName>No_DMS_File</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ODP_Client_Code_Msg</shortDescription>
-        <value>Customer&apos;s Client Code is blank.</value>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -609,13 +540,6 @@
         <protected>false</protected>
         <shortDescription>Ownership Change Validation Message</shortDescription>
         <value>You can not change owner as you are not part of the queue.</value>
-    </labels>
-    <labels>
-        <fullName>PAY_SkipCustomerCreationOnCaseCreationAPI</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
-        <value>false</value>
     </labels>
     <labels>
         <fullName>Re_Kyc_Month</fullName>
@@ -646,67 +570,32 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ASF_File_Update_Val_Message</fullName>
+        <fullName>Sync_Canceled</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
+        <shortDescription>Sync_Canceled</shortDescription>
+        <value>Sync Canceled</value>
     </labels>
     <labels>
-        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <fullName>Sync_Manually</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+        <shortDescription>Sync_Manually</shortDescription>
+        <value>Sync Manually</value>
     </labels>
     <labels>
-        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <fullName>Synched_Already</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+        <shortDescription>Synched Already</shortDescription>
+        <value>Synched already</value>
     </labels>
     <labels>
-        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <fullName>Synching_initiated</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
-        <value>Invalid Issue Code, please provide a valid Issue Code</value>
-    </labels>
-    <labels>
-        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
-        <value>Omni-Channel</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
-    </labels>
-    <labels>
-        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
-        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+        <shortDescription>Synching_initiated</shortDescription>
+        <value>Synching initiated</value>
     </labels>
     <labels>
         <fullName>Impact_Field_Error</fullName>

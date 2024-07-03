@@ -1,9 +1,13 @@
-/*********************************************************
-** Class        :  ABFL_UserTeamDataUpdateBatchTest
-** Author       :  SaiRahul
-** Description  :  Test Class to validate ABFL_UserTeamDataUpdateBatch
-** Created Date :  28/02/2024
-*********************************************************/
+/**
+ * @description       : Test Class to validate ABFL_UserTeamDataUpdateBatch
+ * @author            : SaiRahul
+ * @group             : 
+ * @last modified on  : 05-13-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 private class ABFL_UserTeamDataUpdateBatchTest {
 
@@ -13,7 +17,7 @@ private class ABFL_UserTeamDataUpdateBatchTest {
         Profile p = [SELECT Id FROM Profile WHERE Name='ABFL Base Profile' LIMIT 1]; 
         List<User> userList = new List<User>();
         
-        for(integer i = 0;i<10;i++){        
+        for(integer i = 0;i<2;i++){        
         User abflUser = new User(Alias = 'standt'+i, Email='standarduser@testorg.com'+i, 
              EmailEncodingKey='UTF-8', LastName='Testing'+i, LanguageLocaleKey='en_US',
              LocaleSidKey='en_US', ProfileId = p.Id, 
@@ -57,8 +61,6 @@ private class ABFL_UserTeamDataUpdateBatchTest {
 
         Group queue = [Select id, Name from Group WHERE Name ='ABFL Test QUEUE' LIMIT 1];
         
-        Group publicGrp = [Select id, Name from Group WHERE Name ='ABFL Test group' LIMIT 1];
-		        
         Test.startTest();
         ABFL_UserTeamDataUpdateBatch batchJob = new ABFL_UserTeamDataUpdateBatch();
         Database.executeBatch(batchJob);
@@ -66,7 +68,10 @@ private class ABFL_UserTeamDataUpdateBatchTest {
         
         User updatedUser = [SELECT Id, managerGroupId__c, IsActive FROM User WHERE Name LIKE 'Testing%' LIMIT 1];
         
-        //System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
+        System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
+
+        ABFL_UserTeamDataUpdateBatchScheduler scheduler = new ABFL_UserTeamDataUpdateBatchScheduler();
+        scheduler.execute(null);
         
     }
 

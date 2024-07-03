@@ -5,7 +5,7 @@
     <name>REDEMPTION</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Redemption</subject>
+    <subject>Redemption Case ID {{{Case.CaseNumber}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

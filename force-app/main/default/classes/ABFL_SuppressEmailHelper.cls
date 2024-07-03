@@ -1,15 +1,16 @@
-/*
-*********************************************************
-Apex Class Name    : ABFL_SuppressEmailHelper
-Created Date       : 16 Jan 2024
-@description       : This class is used for Suppressing the outbound email notification based on ABFL requirements.
-@author            : Virendra Patil
-Modification Log:
-Ver   Date         Author                               Modification
-1.0   16 Jan 2024   Virendra Patil                      Initial Version
-*********************************************************
-*/
+/*********************************************************
+*Class        :  ABFL_SuppressEmailHelper
+*Author       :  Virendra Patil
+*Created Date :  16 Jan 2024
+*@description  :  This class is used for Suppressing the outbound email notification based on ABFL requirements.
+*********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public without sharing class ABFL_SuppressEmailHelper {
+/****************************************************************************************************************
+* @param inpArg
+* @param allOutputs
+* @description - checkSuppressionLogic
+*****************************************************************************************************************/ 
     public static void checkSuppressionLogic(List<ASF_CustomerEmailInvocable.EmailInputWrapper> inpArg,
                                              Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
     {
@@ -38,8 +39,8 @@ public without sharing class ABFL_SuppressEmailHelper {
                                           List<ASF_CustomerEmailInvocable.EmailInputWrapper> inpArg,
                                           Map<Id, ASF_CustomerEmailInvocable.EmailOutputWrapper> allOutputs)
     {
-        System.debug('caseIds --> '+caseIds);
-        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c,FTR__c,OnCreateCloseSR__c FROM Case WHERE Id =: caseIds]);
+        //System.debug('caseIds --> '+caseIds);
+        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Source__c,Nature__c,Winning_Email__c,FTR__c,OnCreateCloseSR__c FROM Case WHERE Id =: caseIds]);
         for(ASF_CustomerEmailInvocable.EmailInputWrapper inp : inpArg){
             if(mCases.containsKey(inp.caseId)){
                 Case c = mCases.get(inp.caseId);
@@ -53,7 +54,7 @@ public without sharing class ABFL_SuppressEmailHelper {
                         allOutputs.put(inp.caseId,output);
                     }
                 }
-                if(c.FTR__c == true || c.OnCreateCloseSR__c == true || c.Source__c =='OneABC'){
+                if(c.FTR__c == true || c.OnCreateCloseSR__c == true || c.Source__c =='OneABC' || c.Winning_Email__c== System.label.Restrict_Email_Address){
                     ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
                     output.supressEmail = true;
                     output.templateName = inp.templateName;

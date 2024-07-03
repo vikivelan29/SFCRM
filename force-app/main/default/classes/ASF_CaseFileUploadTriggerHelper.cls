@@ -1,12 +1,16 @@
 public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
+    public static Boolean isCustomDelete = false;
   	    
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
-        if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
-           return;
-        }
         Boolean isDelete = newList==null ? true : false;
+        if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
+            if(isDelete){
+                createFeedItem(null, oldMap.values(), 'contentDocumentLink');
+            }
+            return;
+        }
         List<ContentDocumentLink> contentDocLinkList = isDelete ? oldMap.values() : newList;
         List<ContentDocumentLink> eligibleRecords = new List<ContentDocumentLink>();
         List<Id> linkedCaseIds = new List<Id>();
@@ -57,13 +61,19 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     cdLinkRec.addError(System.Label.ASF_File_Update_Val_Message);
                 }
             }
+            if(isDelete){
+                createFeedItem(null, oldMap.values(), 'contentDocumentLink');
+            }
         }
     }
     public static void validateCaseFileUpdate(Map<Id, ContentDocument> newMap, Map<Id, ContentDocument> oldMap){
+        Boolean isDelete = newMap==null ? true : false;
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
+            if(isDelete){
+                createFeedItem(oldMap, null, 'contentDocument');
+            }
             return;
         }
-        Boolean isDelete = newMap==null ? true : false;
         Map<Id,Id> contentDocLinkandCaseMap = new Map<Id,Id>();
         Map<Id,ContentDocumentLink> contentDocLinkandEMMap = new Map<Id,ContentDocumentLink>();
         Map<Id,List<Id>> contentDocandLinkMap = new Map<Id,List<Id>>();
@@ -113,6 +123,9 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     contentDocRec.addError(System.Label.ASF_File_Update_Val_Message);
                 }
             }
+            if(isDelete){
+                createFeedItem(oldMap, null, 'contentDocument');
+            }
         } 
     } 
     @AuraEnabled
@@ -128,6 +141,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         }
         return docId;
     }
+    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
@@ -162,7 +176,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                         feedItem.Body = 'The file \''+contentDocRec.Title+'\' has been deleted - '+comment;
                         feedItemList.add(FeedItem);
                     }
-                        
+                    isCustomDelete = true;   
                     delete contentDocRec;
                     insert feedItemList;
                 } 
@@ -170,8 +184,63 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                 
             }catch(Exception e) {
             	throw new AuraHandledException(e.getMessage());
-        	} 
+        	}
         }
         return result;
     }
+    
+    public static void createFeedItem(Map<Id, ContentDocument> newMap, List<ContentDocumentLink> newList, String objname){
+        Map<Id, String> emailMessageIds = new Map<Id, String>();
+        Map<Id, List<String>> caseIdToTitlesMap = new Map<Id, List<String>>();
+        Set<Id> contentDocIds = new Set<Id>();
+        if(objname == 'contentDocument'){
+            contentDocIds = newMap.keySet();
+        }else if(objname == 'contentDocumentLink'){
+            for(ContentDocumentLink cdLinkRec : newList){
+                if(cdLinkRec.LinkedEntityId.getSObjectType() == Case.SObjectType){
+                    contentDocIds.add(cdLinkRec.ContentDocumentId);
+                }
+            }
+        }
+        List<ContentDocumentLink> contentdocLinkList = [SELECT Id, LinkedEntityId, LinkedEntity.Type, ContentDocument.Title from ContentDocumentLink 
+                                                        WHERE ContentDocumentId =: contentDocIds];
+        if(!contentdocLinkList.isEmpty()){
+            List<FeedItem> feedItemList = new List<FeedItem>();
+            for(ContentDocumentLink contentLinkRec : contentdocLinkList){
+                if(contentLinkRec.LinkedEntity.Type == 'EmailMessage'){
+                    emailMessageIds.put(contentLinkRec.LinkedEntityId,contentLinkRec.ContentDocument.Title);
+                }else if(contentLinkRec.LinkedEntity.Type == 'Case'){
+                    if(!caseIdToTitlesMap.containsKey(contentLinkRec.LinkedEntityId)){
+                        caseIdToTitlesMap.put(contentLinkRec.LinkedEntityId, new List<String>{contentLinkRec.ContentDocument.Title});
+                    }else{
+                        caseIdToTitlesMap.get(contentLinkRec.LinkedEntityId).add(contentLinkRec.ContentDocument.Title);
+                    }
+                }
+            }
+            if(!emailMessageIds.isEmpty()){
+                for(EmailMessage emailMessageRec : [select Id, RelatedToId from EmailMessage where Id IN: emailMessageIds.keySet()]){
+                    if(String.valueOf(emailMessageRec.RelatedToId).startsWith('500')){
+                        if(!caseIdToTitlesMap.containsKey(emailMessageRec.RelatedToId)){
+                            caseIdToTitlesMap.put(emailMessageRec.RelatedToId, new List<String>{emailMessageIds.get(emailMessageRec.Id)});
+                        }else{
+                            caseIdToTitlesMap.get(emailMessageRec.RelatedToId).add(emailMessageIds.get(emailMessageRec.Id));
+                        }
+                    }
+                }
+            }
+            if(!isCustomDelete){
+                for(Id caseId : caseIdToTitlesMap.keySet()){
+                    for(String title : caseIdToTitlesMap.get(caseId)){
+                        FeedItem feedItem = new FeedItem();
+                        feedItem.ParentId = caseId;
+                        feedItem.Type = 'TextPost';
+                        feedItem.Body = 'The file \''+title+'\' has been deleted';
+                        feedItemList.add(FeedItem);
+                    }
+                }
+                
+                insert feedItemList; 
+            }   
+        }
+    } 
 }

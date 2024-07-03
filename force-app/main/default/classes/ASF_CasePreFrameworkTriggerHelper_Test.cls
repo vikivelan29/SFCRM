@@ -32,10 +32,10 @@ public class ASF_CasePreFrameworkTriggerHelper_Test {
                 helperObj.populateStageFields(lstCase);
                 
             }
-            
+            System.assertNotEquals(0,lstCase.size() , 'list size should be greater than 0');
         }
         catch(Exception ex){
-            system.assertEquals(ex.getMessage(), ex.getMessage());
+            system.assertEquals(ex.getMessage(), ex.getMessage(), 'Exception message should be same');
         }
         Test.stopTest();
     }
@@ -66,10 +66,10 @@ public class ASF_CasePreFrameworkTriggerHelper_Test {
             if(lstCase.size() > 0){
             	helperObj.populatePreFrameworkFields(lstCase);
             }
-            
+            System.assertNotEquals(0,lstCase.size() , 'list size should be greater than 0');
         }
         catch(Exception ex){
-            system.assertEquals(ex.getMessage(), ex.getMessage());
+            system.assertEquals(ex.getMessage(), ex.getMessage(), 'Exception message should be same');
         }
         Test.stopTest();
     }

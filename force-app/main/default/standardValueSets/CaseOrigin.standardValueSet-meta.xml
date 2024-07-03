@@ -51,4 +51,9 @@
         <default>false</default>
         <label>ABWM Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABSLI Email</fullName>
+        <default>false</default>
+        <label>ABSLI Email</label>
+    </standardValue>
 </StandardValueSet>

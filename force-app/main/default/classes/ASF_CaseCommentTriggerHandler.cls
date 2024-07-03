@@ -41,11 +41,12 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                       UserInfo.getUserId() != caseCommentRec.CreatedById){
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
-                    createFeedItem(newList, oldMap);
                 }
-            }  
+            } 
+            createFeedItem(newList, oldMap);
         }
     }
+    
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;
         Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;
@@ -54,10 +55,11 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             String messageBody = '';
             List<FeedItem> feedItemList = new List<FeedItem>();
             for(CaseComment caseCommentRec : caseCommentList){
+                String localDate = caseCommentRec.CreatedDate.format('dd/MM/yyyy h:mm a');
                 if(isUpdate){
-                    messageBody = 'The case comment has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
+                    messageBody = 'The case comment created on '+localDate+' has been updated from \''+oldMap.get(caseCommentRec.Id).CommentBody+'\' to \''+caseCommentRec.CommentBody+'\'';
                 }else if(isDelete){
-                    messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' has been deleted';
+                    messageBody = 'The case comment \''+caseCommentRec.CommentBody+'\' created on '+localDate+' has been deleted';
                 }
                 FeedItem feedItem = new FeedItem();
                 feedItem.ParentId = caseCommentRec.ParentId;

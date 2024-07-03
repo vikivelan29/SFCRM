@@ -5,46 +5,52 @@
  * @last modified on  : 02-06-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount,PMD.ExcessiveParameterList')
 public without sharing class ASF_CaseHistoryPercentageCalc {
-    private Static Map<Id, Decimal> BusinessHoursTohoursPerDay = new Map<Id, Decimal>();
+    private static Map<Id, Decimal> businessHoursTohoursPerDay = new Map<Id, Decimal>();
+    /**
+     * @description - 
+     * @param slaInMilliSec
+     * @param bh
+     * @param startTime
+     * @param c
+     */
     public void setOverallPercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
         SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
-        System.debug('@@@thresholdController '+thresholdController);
         // Overall SLA Threshold
         decimal firstThreshold = thresholdController.Case_SLA_Threshold_1__c;
         decimal secondThreshold = thresholdController.Case_SLA_Threshold_2__c;
         decimal thirdThreshold = thresholdController.Case_SLA_Threshold_3__c; 
         
-        // Stage SLA Threshold
-        decimal firstStageThreshold = thresholdController.Stage_SLA_Threshold_1__c ;
-        decimal secondStageThreshold = thresholdController.Stage_SLA_Threshold_2__c ;
-        decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c ; 
-        System.debug('@@@firstThreshold '+firstThreshold+' '+secondThreshold);
-        System.debug('@@@firstThreshold2 '+thresholdController.Customer_Email_buffer_hours__c);
         long slaIdentifier = 3600000;
         long bufferDays = 0;
         if((thresholdController.Custom_Email_Buffer_Days__c  != null && thresholdController.Custom_Email_Buffer_Days__c >0) || Test.IsRunningTest()){
             // 1. First Find out the Business Working Hours based on Business Hour.
             // 2. Multiply Custom Email Buffer Days with Business Working Hours.
             // 3. Based on the step 2 find out the millisecond values for bufferDays.
-            if(BusinessHoursTohoursPerDay.keySet().size()<=0){
+            if(businessHoursTohoursPerDay.keySet().size()<=0){
                 calculateBusinessHoursPerDay();
             }
             if(Test.isRunningTest()){
                 thresholdController.Custom_Email_Buffer_Days__c = 1;
             }
-            if(BusinessHoursTohoursPerDay.containsKey(bh)){
-                decimal workingHours = BusinessHoursTohoursPerDay.get(bh);
+            if(businessHoursTohoursPerDay.containsKey(bh)){
+                decimal workingHours = businessHoursTohoursPerDay.get(bh);
                 bufferDays = Integer.ValueOf(workingHours * thresholdController.Custom_Email_Buffer_Days__c) * slaIdentifier;
             }
             else{
                 bufferDays = 0;
-            }
-            
-            
+            } 
         }
         setFieldValue(slaInMilliSec,bh,startTime,c,firstThreshold,secondThreshold,thirdThreshold,'Case_SLA_Threshold_1__c','Case_SLA_Threshold_2__c','Case_SLA_Threshold_3__c', bufferDays);
     }
+    /**
+     * @description -  Stage percentage SLA fields
+     * @param slaInMilliSec
+     * @param bh
+     * @param startTime
+     * @param c
+     */
     public void setStagePercSLAFields(long slaInMilliSec,String bh,DateTime startTime,Case c){
         SLA_Threshold_Warning__c  thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
         // Stage SLA Threshold
@@ -58,26 +64,19 @@ public without sharing class ASF_CaseHistoryPercentageCalc {
                                decimal secondThreshold,decimal thirdThreshold,
                                String firstFieldApiName,String secondFieldApiName,String thirdFieldApiName,
                                long bufferDays)
-    {
-        long slaMulitplierInLong = 3600000;
-        
+    {   
         firstThreshold = firstThreshold != null ? firstThreshold : 0.0;
         secondThreshold = secondThreshold != null ? secondThreshold : 0.0;
         thirdThreshold = thirdThreshold != null ? thirdThreshold : 0.0;
-        System.debug('@@@slaInMilliSec'+slaInMilliSec+' '+firstThreshold);
         
         String sla50percentageHoursInMilli = String.ValueOf(slaInMilliSec * firstThreshold);
         String sla75percentageHoursInMilli = String.ValueOf(slaInMilliSec * secondThreshold);
         String sla90percentageHoursInMilli = String.ValueOf(slaInMilliSec * thirdThreshold);
         
-        
-        
-        
         long aggred50SLAHours = Decimal.VALUEOF(sla50percentageHoursInMilli).round(system.RoundingMode.CEILING);
         long aggred75SLAHours = Decimal.valueOf(sla75percentageHoursInMilli).round(system.RoundingMode.CEILING);
         long aggred90SLAHours = Decimal.valueOf(sla90percentageHoursInMilli).round(system.RoundingMode.CEILING);
 
-        
         DateTime dt50Percentage = BusinessHours.add(bh, startTime, aggred50SLAHours);
         DateTime dt75Percentage = BusinessHours.add(bh, startTime, aggred75SLAHours);
         DateTime dt90Percentage = BusinessHours.add(bh, startTime, aggred90SLAHours);
@@ -90,23 +89,25 @@ public without sharing class ASF_CaseHistoryPercentageCalc {
         }
     }
     
-    private Static void calculateBusinessHoursPerDay(){
-                
-        for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours]){
+    /**
+     * @description - methods caculates the business hours per day
+     */
+    private static void calculateBusinessHoursPerDay(){          
+        for(BusinessHours bhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours with SYSTEM_MODE]){
             
-            if(BhRec.MondayStartTime == null){
-                BusinessHoursTohoursPerDay.put(BhRec.Id, 9);
+            if(bhRec.MondayStartTime == null){
+                businessHoursTohoursPerDay.put(bhRec.Id, 9);
                 continue;
             } 
 
-            Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
-            Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
+            Decimal startMinutes = bhRec.MondayStartTime.hour() * 60 + bhRec.MondayStartTime.minute();
+            Decimal endMinutes = bhRec.MondayEndTime.hour() * 60 + bhRec.MondayEndTime.minute();
             Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
             
             if(hoursPerDay == 0){
-                BusinessHoursTohoursPerDay.put(BhRec.Id, 24);     
+                businessHoursTohoursPerDay.put(bhRec.Id, 24);     
             }else{
-                BusinessHoursTohoursPerDay.put(BhRec.Id, hoursPerDay);
+                businessHoursTohoursPerDay.put(bhRec.Id, hoursPerDay);
             }
         }
     }

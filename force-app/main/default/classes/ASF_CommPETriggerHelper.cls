@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 01-17-2024
+ * @last modified on  : 06-23-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -41,6 +41,7 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
     public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
     public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
+  
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
      * @param peLogs List of PE_Logger__c records.

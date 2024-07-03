@@ -3,7 +3,7 @@
 *Author       :  Siddarth Jaitly
 *Created Date :  28/11/2023
 *Last Modified:  30/11/2023
-*Description  :  Trigger Handler for Email Message 
+*@description  :  Trigger Handler for Email Message 
 *********************************************************/
 public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHandler {
     
@@ -17,16 +17,15 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         // VIRENDRA - CODE TO SET WINNING EMAIL ADDRESS.
         ASF_Email2CaseHandler.setPriorityEmailAddress(newItems);
         
-        for(EmailMessage em : (List<EmailMessage>)newItems){
-            System.debug('ASF - emailmessage before'+em);
-        }
+      //  for(EmailMessage em : (List<EmailMessage>)newItems){
+            //System.debug('ASF - emailmessage before'+em);
+        //}
     }
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - AfterInsert
     * @param newEmails - map of cases from trigger.newMap()
-    * @return - void .
-    * @Description - After Insert Handler for Email Message
+    * @description - After Insert Handler for Email Message
     *****************************************************************************************************************/        
     public override void AfterInsert(map<Id, sObject> newEmails){
 
@@ -37,7 +36,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
                 sEMIds.add(mesg.Id);
             }
         } 
-        System.debug('***semids:'+sEMIds);
+        //System.debug('***semids:'+sEMIds);
         
         // Check creation rules for ABFL BU - Can't be used in before as we need case details for logic
         ABFL_E2C_CreationRules.checkCreationRules(ABCL_EmailMessageHelper.getEligibles(newEmails.values()));

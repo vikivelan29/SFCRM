@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Statement of Account</fullName>
+                <default>false</default>
+                <label>Statement of Account</label>
+            </value>
+            <value>
+                <fullName>Amortization / Repayment Schedule</fullName>
+                <default>false</default>
+                <label>Amortization / Repayment Schedule</label>
+            </value>
+            <value>
+                <fullName>Welcome Letter</fullName>
+                <default>false</default>
+                <label>Welcome Letter</label>
+            </value>
+            <value>
+                <fullName>Interest Certificate</fullName>
+                <default>false</default>
+                <label>Interest Certificate</label>
+            </value>
+            <value>
+                <fullName>Provisional Interest Certificate</fullName>
+                <default>false</default>
+                <label>Provisional Interest Certificate</label>
+            </value>
+            <value>
+                <fullName>Balance Confirmation Letter</fullName>
+                <default>false</default>
+                <label>Balance Confirmation Letter</label>
+            </value>
+            <value>
+                <fullName>Sanction Letter</fullName>
+                <default>false</default>
+                <label>Sanction Letter</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement</fullName>
+                <default>false</default>
+                <label>Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Insurance Copy</fullName>
+                <default>false</default>
+                <label>Insurance Copy</label>
+            </value>
+            <value>
+                <fullName>GST Tax Invoice</fullName>
+                <default>false</default>
+                <label>GST Tax Invoice</label>
+            </value>
+            <value>
+                <fullName>Processing fee debit note</fullName>
+                <default>false</default>
+                <label>Processing fee debit note</label>
+            </value>
+            <value>
+                <fullName>List of Documents/Post disbursal docs</fullName>
+                <default>false</default>
+                <label>List of Documents/Post disbursal docs</label>
+            </value>
+            <value>
+                <fullName>Collateral Documents/Property Papers</fullName>
+                <default>false</default>
+                <label>Collateral Documents/Property Papers</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

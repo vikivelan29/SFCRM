@@ -1,4 +1,4 @@
-public with sharing class ASF_CaseFrameworkHelper {
+public without sharing class ASF_CaseFrameworkHelper {
     
     /**
      * If Approval Rules are present, Add new Approval Records with Approvers set

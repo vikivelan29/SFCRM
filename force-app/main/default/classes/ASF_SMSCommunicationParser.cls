@@ -1,22 +1,25 @@
 /*********************************************************
-*Name           :   ASF_SMSCommunicationParser
-*Author         :   Salesforce
-*Since          :    
-*Description    :   Parser class for SMS Communication 
-*History
+*@Name           :   ASF_SMSCommunicationParser
+*@Author         :   Salesforce
+*@Since          :    
+*@description    :   Parser class for SMS Communication 
+*@History
 Name                Date                  Change Description
 
 *********************************************************/
 public without sharing class ASF_SMSCommunicationParser {
+     /****************************************************
+    * @description RequestBody
+    *****************************************************/ 
     public class RequestBody{
         
         public String mobileNo;
     }
 
     /****************************************************
-    * @Description - get Contact Details for the Case  
-    * @param srId - Case Id.
-    * @return -  List of Contact associated to that case(Account).     
+    * @description get Contact Details for the Case  
+    * @param srId
+    * @return List<ASF_ContactDetailsWrapper>
     *****************************************************/
 
     @AuraEnabled(cacheable=true)
@@ -27,15 +30,13 @@ public without sharing class ASF_SMSCommunicationParser {
             Id accId = cs[0].AccountId;
             Id leadId = cs[0].Lead__c;
             if(accId != null){
-                for(Contact con: [SELECT Id, Name, MobilePhone FROM Contact 
-                                  WHERE AccountId  =: accId])
+                for(Contact con: [SELECT Id, Name, MobilePhone FROM Contact WHERE AccountId  =: accId WITH SYSTEM_MODE])
                 {
                     conLst.add(new ASF_ContactDetailsWrapper(con));
                 }
             }
             if(leadId != null){
-                for(Lead prospect : [SELECT Id,Name,MobilePhone FROM Lead
-                                     WHERE Id =: leadId])
+                for(Lead prospect : [SELECT Id,Name,MobilePhone FROM Lead WHERE Id =: leadId WITH SYSTEM_MODE])
                 {
                     conLst.add(new ASF_ContactDetailsWrapper(prospect));
                 } 
@@ -53,9 +54,10 @@ public without sharing class ASF_SMSCommunicationParser {
     }
     
     /****************************************************
-* @Description - Wrapper Class for Contact Details
-*****************************************************/ 
+    * @description  Wrapper Class for Contact Details
+    *****************************************************/ 
     public class ASF_ContactDetailsWrapper {
+       /* @description  Wrapper Class for Contact Details*/
         @AuraEnabled
         public Id id{get;set;}
         @AuraEnabled
@@ -64,13 +66,18 @@ public without sharing class ASF_SMSCommunicationParser {
         public String phone{get;set;}
         
         /****************************************************
-* @Description - paramaterized Construtor 
-*****************************************************/  
+        * @description  paramaterized Construtor 
+        * @param con
+        *****************************************************/  
         public ASF_ContactDetailsWrapper(Contact con){
             this.id = con.Id;
             this.name = con.Name;
             this.phone = con.MobilePhone;
         }
+        /****************************************************
+        * @description  paramaterized Construtor 
+        * @param prospect
+        *****************************************************/  
         public ASF_ContactDetailsWrapper(Lead prospect){
             this.id = prospect.Id;
             this.name = prospect.Name;
@@ -78,8 +85,8 @@ public without sharing class ASF_SMSCommunicationParser {
         }
         
         /****************************************************
-* @Description - Default Construtor 
-*****************************************************/  
+        * @description - Default Construtor 
+        *****************************************************/  
         public ASF_ContactDetailsWrapper(){
             this.id = ASF_Constants.STRING_BLANK;
             this.name = ASF_Constants.STRING_BLANK;
@@ -89,10 +96,10 @@ public without sharing class ASF_SMSCommunicationParser {
     
     
     /****************************************************
-* @Description - get Whatsapp Template list for the Case  
-* @param caseId - Case Id.
-* @return -  List of template.     
-*****************************************************/
+    * @description - get Whatsapp Template list for the Case  
+    * @param caseId 
+    * @return List<ASF_SMSTemplateWrapper>
+    *****************************************************/
     
     @AuraEnabled
     public static List<ASF_SMSTemplateWrapper> getListOfTemplate(String caseId){
@@ -111,14 +118,11 @@ public without sharing class ASF_SMSCommunicationParser {
                                                         WITH SECURITY_ENFORCED];
             String smsMD = cccLst[0].SMS_Templates__c ;
             List<String> smsMDLst =  smsMD.split(',');
-            
-            System.debug(smsMDLst);
-            
+                        
             for(Customer_Notification_Config__mdt mdt: [SELECT Id,SMS_Template_Name__c,label,DeveloperName
                                                         FROM Customer_Notification_Config__mdt 
                                                         WHERE DeveloperName =: smsMDLst AND Active__c = true
                                                         WITH SECURITY_ENFORCED]){
-                                                            System.debug('Check here ---> ');
                                                             if(templateNameLabelMap.containsKey(mdt.SMS_Template_Name__c)){
                                                                 SMSTempList.add(new ASF_SMSTemplateWrapper(mdt,templateNameLabelMap.get(mdt.SMS_Template_Name__c)));
                                                             }
@@ -134,21 +138,19 @@ public without sharing class ASF_SMSCommunicationParser {
     }
     
     /****************************************************
-* @Description - Wrapper Class for Email templates
-*****************************************************/ 
+    * @description - Wrapper Class for Email templates
+    *****************************************************/ 
     public class ASF_SMSTemplateWrapper {
-        @AuraEnabled
-        public Id id{get;set;}
-        @AuraEnabled
-        public String label{get;set;}
-        @AuraEnabled
-        public String mdtName{get;set;}
-        @AuraEnabled
-        public String templateName{get;set;}
+        /* @description Id */ @AuraEnabled public Id id{get;set;}
+        @AuraEnabled public String label{get;set;}
+        @AuraEnabled public String mdtName{get;set;}
+        @AuraEnabled public String templateName{get;set;}
         
         /****************************************************
-* @Description - paramaterized Construtor 
-*****************************************************/  
+        * @description paramaterized Construtor 
+        * @param mdt
+        * @param label
+        *****************************************************/  
         public ASF_SMSTemplateWrapper(Customer_Notification_Config__mdt mdt, String label){
             this.id = mdt.Id;
             this.label = label;
@@ -157,8 +159,8 @@ public without sharing class ASF_SMSCommunicationParser {
         }
         
         /****************************************************
-* @Description - Default Construtor 
-*****************************************************/  
+        * @description - Default Construtor 
+        *****************************************************/  
         public ASF_SMSTemplateWrapper(){
             this.id = ASF_Constants.STRING_BLANK;
             this.label = ASF_Constants.STRING_BLANK;
@@ -168,10 +170,10 @@ public without sharing class ASF_SMSCommunicationParser {
     }
     
     /****************************************************
-* @Description - get SMS Communication is enable against the SR  
-* @param caseId - Case Id.
-* @return -  Boolean.
-*****************************************************/
+    * @description  get SMS Communication is enable against the SR  
+    * @param caseId 
+    * @return Boolean.
+    *****************************************************/
     @AuraEnabled
     public static Boolean isCommunicationEnabled(Id caseId){
         List<Case> cs = [SELECT CCC_External_Id__c FROM Case WHERE Id =: caseId WITH SECURITY_ENFORCED LIMIT 1];

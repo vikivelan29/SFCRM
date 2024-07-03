@@ -235,6 +235,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     selectedStage;
     showErrors = false;
     errorMessage;
+    disableSkipSave = true;
+    disableBackSave = true;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -320,7 +322,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
     }
 
     get displayBackButton() {
@@ -489,7 +491,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             if (this.cccExternalId == undefined || this.cccExternalId == null) {
                 return;
             }
-            if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
+            
+            //if (this.caseCategoryConfig == undefined || this.caseCategoryConfig.length < 1) {
                 let caseCatConfig = await getCaseCategoryConfig({ cccExtId: this.cccExternalId }).catch((error) => {
                     this.showError('error', 'Unable to fetch Case Category Config', error);
                     return;
@@ -501,7 +504,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     this.cccBU = this.caseCategoryConfig[0].Business_Unit__c;
                     this.getStages(this.caseCategoryConfigId);
                 }
-            }
+            //}
 
             if (this.cccExternalId != null && this.cccExternalId != undefined) {
                 console.log('cccExternalId found');
@@ -513,7 +516,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 if(result){
                     this.iCounter++;
                     this.caseFieldsMetadata = JSON.parse(JSON.stringify(result));
-                    console.log('getCaseFieldsConfig results received', this.caseExtensionRecordDetails);
+                    console.log('getCaseFieldsConfig results received', JSON.stringify(result));
                     let caseFieldsCount = 0, extnFieldsCount = 0;
                     for (let item of this.caseFieldsMetadata) {
                         if (item.isCase == true) {
@@ -573,6 +576,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                 if (this.caseFieldsMetadata[fieldConfig].DefaultType) {
                                     if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'STRING') {
                                         this.defaultTextValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
+                                        this.defaultFieldNames.push(this.caseFieldsMetadata[fieldConfig].FieldAPINAme);
+                                        this.defaultValues.push(this.caseFieldsMetadata[fieldConfig].DefaultValue);
                                     }
                                     else if (this.caseFieldsMetadata[fieldConfig].DefaultType.toString().toUpperCase() == 'REFERENCE') {
                                         this.defaultFieldValuesMap.set(this.caseFieldsMetadata[fieldConfig].FieldAPINAme, this.caseFieldsMetadata[fieldConfig].DefaultValue);
@@ -679,7 +684,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 //this.handleSearchPicklistRendering();
             })
             .catch((error) => {
-                console.error(error);
+                console.error(JSON.stringify(error));
                 this.showError('error', 'Oops! Error occured', error);
                 this.loading = false;
             });
@@ -1030,10 +1035,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     cancelBackCaseStage() {
         this.showPreviousStages = false;
         this.selectedStage = undefined;
+        this.disableBackSave = true;
     }
     cancelForwardCaseStage() {
         this.showForwardStages = false;
         this.selectedManualStage = undefined;
+        this.disableSkipSave = true;
     }
     handlePublishedMessage(payload) {
         console.log('in handlePublishedMessage!!!!!');
@@ -1309,7 +1316,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     // }
 
     fetchAllManualStages() {
-        fetchAllManualStagesWithCase({ caseId: this.recordId })
+        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c, cccId: this.cccExternalId })
             .then(result => {
                 let stages = [];
                 // stages = [...result]
@@ -2096,12 +2103,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     handleStageChange(event) {
         this.selectedStage = event.detail.value;
+        this.disableBackSave = false;
         if (this.selectedStage) {
             this.isMoveToPrevStageButtonDisabled = false;
         }
     }
 
     handleManualStageChange(event) {
+        this.disableSkipSave = false;
         this.selectedManualStage = event.detail.value;
 
         if (this.selectedManualStage == 'None') {

@@ -5,7 +5,7 @@ public with sharing class ASF_CaseE2CHelper {
             for(String exclusionKeyword : exclusionSubjectKeywords){
                 if(String.isEmpty(e2c.subject))
                     continue;
-                if(e2c.Origin?.toUpperCase().contains('EMAIL') && e2c.subject.tolowercase().contains(exclusionKeyword))
+                if(e2c.Origin != null && e2c.Origin?.toUpperCase().contains('EMAIL') && e2c.subject.tolowercase().contains(exclusionKeyword))
                     e2c.addError('Email having subject keyword %' + exclusionKeyword + '% not allowed in Email-to-Case.');
             }
         }

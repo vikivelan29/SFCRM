@@ -5,7 +5,13 @@
 *@Last Modified:  
 *@description  :  Class is used for to get the ENACH Status
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.FieldNamingConventions,PMD.FormalParameterNamingConventions, PMD.VariableNamingConvenstions')
 public class ABFL_ENACH_Status_Controller {
+    /**
+    * @param customerId - Client Code of Account
+    * @return - ResponseWrapper 
+    * @description - this method returns the Response in the form of payload & status code for ENACH Status
+    */
     @auraEnabled
     public static ResponseWrapper getENACHStatus(String customerId){
         try{
@@ -13,13 +19,11 @@ public class ABFL_ENACH_Status_Controller {
             String integrationName = 'ABFL_ENACH_Status';
             ABCL_Integrations__mdt enachStatusIntegrationRec = ABCL_Integrations__mdt.getInstance(integrationName);
             String merchantId = enachStatusIntegrationRec.Merchant_Id__c;
-            System.debug('payload b4 encryption => '+JSON.serialize(new EnachStatusReqest(merchantId, customerId)));
             String payload =  ABCL_Encryption.encrypt(JSON.serialize(new EnachStatusReqest(merchantId, customerId)));
             String conPayload = JSON.serialize(new Map<String, Object>{'content' => payload});
             ABCL_IntegrationCallout.IntegrationResponseWrapper enachResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conpayload,null);
             String res;
             if(enachResponse.responseBody != null){
-                System.debug(' response Body ==> '+enachResponse.responseBody);
                 if(enachResponse.responseBody.toString().contains('content')){
                     Map<String, Object> mapResObject = (Map<String, object>) JSON.deserializeUntyped(enachResponse.responseBody);
                     res = ABCL_Encryption.decrypt(mapResObject.get('content').toString());
@@ -28,28 +32,43 @@ public class ABFL_ENACH_Status_Controller {
                 }
                 response = new ResponseWrapper(enachResponse.statusCode,res);
             }
-            System.debug('response==> '+response);
             return response;
         }catch(exception e){
-            System.debug('@@ER'+e.getMessage()+' '+e.getLineNumber());
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     }
 
+    /**
+    * @description - Wrapper class ENACH Status
+    */
     public class EnachStatusReqest{
         String pl_merchant_id;
         String customer_Id;
-        EnachStatusReqest(String mId, String customer_Id){
+        /**
+        * @param mId - Marchant Id
+        * @param customerId - Customer Id 
+        * @description - this method returns the Response in the form of payload & status code for ENACH Status
+        */
+        EnachStatusReqest(String mId, String customerId){
             this.pl_merchant_id = mId;
-            this.customer_Id = customer_Id;
+            this.customer_Id = customerId;
         }
     }
 
+    /**
+    * @description - Wrapper class ENACH Status response 
+    */
     public Class ResponseWrapper{
-        @AuraEnabled
+        @auraEnabled
         public Integer statusCode;
-        @AuraEnabled
+        @auraEnabled
         public String payload;
+
+        /**
+        * @param statusCode - 
+        * @param  res
+        * @description - Wrapper class ENACH Status
+        */
         public ResponseWrapper(Integer statusCode, String res){
             this.statusCode = statusCode;
             this.payload = res;

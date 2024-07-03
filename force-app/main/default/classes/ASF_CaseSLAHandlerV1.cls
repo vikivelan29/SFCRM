@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 04-24-2024
-* @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 11-20-2023
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
     
@@ -262,9 +262,23 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             caseBackStageMovementCheck = getMovedBackCases(oldCases,newCases);
         }
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
-        // for(Case c : newCases.values()){
+        Map<Id, Case> internalCaseUpdateMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
         //without query, owner.name will not come  . hence this query is needed 
         for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
+            Case updatedCase = internalCaseUpdateMap.get(c.Id);
+            //pure insert and
+            //(updatecase present and owner id is populated & stage is not changing - means assigment yet to happen during insert
+            //or skipsla is populated)
+            //then skip
+            if(oldCases == null &&
+            (
+                (updatedCase != null && updatedCase.OwnerId != null && updatedCase.Stage__c == null)
+                ||
+                newCases.get(c.Id).SkipModifyingSLAHistory__c != null
+            )
+            ){
+                continue;
+            }
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
             slaHistory.Current_Owner__c = c.Owner.Name;
             slaHistory.Current_Owner_Id__c = c.OwnerId;
@@ -398,29 +412,29 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                      AND is_Running_Record__c = TRUE
                                                      ORDER BY CreatedDate DESC]){
                                                          
-                                                         if(slaHistory.Stage_End_Date__c == null){
-                                                             slaHistory.Stage_End_Date__c = System.now();
-                                                             slaHistory.is_Running_Record__c = false;
-                                                             slaHistory.Actual_Time_Taken__c = ((slaHistory.Stage_End_Date__c).getTime() - (slaHistory.Stage_Start_Date__c).getTime())/3600000 ;
-                                                             if(slaHistory.BusinessHoursId__c != null){
-                                                                 if(slaHistory.Stage_Violation_Start_Date__c != null){
-                                                                     slaHistory.Overdue__c = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Violation_Start_Date__c, System.now())/(1000*60*60);
-                                                                 }
-                                                                 slaHistory.Time_Taken_In_Business_Hour__c = (BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c));
-                                                                 Long milliseconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                                 
-                                                                 long seconds = milliseconds / 1000;
-                                                                 long minutes = seconds / 60;
-                                                                 long hours = minutes / 60;
-                                                                 long days = hours / 24;
-                                                                 if(days < 1){
-                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
-                                                                 }else{
-                                                                     slaHistory.Time_Taken__c = (days + 'days ' + Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60) + 's '  ); 
-                                                                 }
-                                                             }
-                                                             slaHistoryList.add(slaHistory);
-                                                         }
+                                                        if(slaHistory.Stage_End_Date__c == null){
+                                                            slaHistory.Stage_End_Date__c = System.now();
+                                                            slaHistory.is_Running_Record__c = false;
+                                                            slaHistory.Actual_Time_Taken__c = ((slaHistory.Stage_End_Date__c).getTime() - (slaHistory.Stage_Start_Date__c).getTime())/3600000 ;
+                                                            if(slaHistory.BusinessHoursId__c != null){
+                                                                if(slaHistory.Stage_Violation_Start_Date__c != null){
+                                                                    slaHistory.Overdue__c = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Violation_Start_Date__c, System.now())/(1000*60*60);
+                                                                }
+                                                                slaHistory.Time_Taken_In_Business_Hour__c = (BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c));
+                                                                Long milliseconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                                                                
+                                                                long seconds = milliseconds / 1000;
+                                                                long minutes = seconds / 60;
+                                                                long hours = minutes / 60;
+                                                                long days = hours / 24;
+                                                                if(days < 1){
+                                                                    slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
+                                                                }else{
+                                                                    slaHistory.Time_Taken__c = (days + 'days ' + Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60) + 's '  ); 
+                                                                }
+                                                            }
+                                                            slaHistoryList.add(slaHistory);
+                                                        }
                                                      }
         }
         if (!slaHistoryList.isEmpty()) {
@@ -454,14 +468,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            //If the updateOldCaseSLAHistory didnt find any existing record to update,
-            // that means its actually an insert happening and its internal Case after update happening
-            // assignment rules are assigning ownerid
-            // so skip creating new SLA history, 
-            // the after insert will call insertSLAHistory and will create one entry.
-            if(updateOldCaseSLAHistory(modifiedCases)){ 
-                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
-            }
+            updateOldCaseSLAHistory(modifiedCases);
+            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap);
         }
     }
 

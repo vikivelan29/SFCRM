@@ -1,4 +1,3 @@
-
 public class ABFL_PaymentLinkResponse {
 
 	public Payment_data payment_data;
@@ -6,7 +5,7 @@ public class ABFL_PaymentLinkResponse {
 
 	public class Payment_data {
 		public String pl_order_id;
-		public String merc_order_id;
+		//public String merc_order_id;
 		public String merc_order_date;
 		public String merc_id;
 		public String amount;
@@ -23,6 +22,9 @@ public class ABFL_PaymentLinkResponse {
 		public String udf2;
 		public String account_no;
 		public String account_ifsc;
+		public String allowed_split_payment;
+		public String expiry_period;
+		public String due_date;
 	}
 
 	public class Links {
