@@ -2,8 +2,8 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 05-06-2024
+ * @last modified by  : aditya.mehrotra@salesforce.com
  * Modifications Log
  * Ver   Date         Author                            Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com         Initial Version
@@ -127,23 +127,19 @@ public with sharing class ABFL_E2C_CreationRules {
         
         // Index to keep track of position in expectedWords
         Integer expectedIndex = 0;
-        
-        // Check if actualValue contains expectedValue
-        if (actualValue.contains(expectedValue)) {
-            // Iterate through words in actualValue
-            for (String word : actualWords) {
-                // Check if the current word matches the next word in expectedValue
-                if (expectedIndex < expectedWords.size() && expectedWords[expectedIndex] == word) {
-                    expectedIndex++;
-                } 
-                // If all words from expectedValue are found in actualValue, return true
-                else if (expectedIndex < expectedWords.size() && !word.contains(expectedWords[expectedIndex])) {
-                    return false;
-                }
+
+        // Iterate through words in actualValue
+       	for (String word : actualWords) {
+          	// Check if the current word matches the next word in expectedValue
+            if (expectedIndex < expectedWords.size() && expectedWords.get(expectedIndex).equals(word)) {
+               	expectedIndex++;
+            }else{
+                expectedIndex = 0;
+            } 
+            // If all words from expectedValue are found in actualValue, return true
+            if (expectedIndex == expectedWords.size()) {
+                return true;
             }
-            
-            // If not all words from expectedValue were found in actualValue in the same order, return false
-            return expectedIndex == expectedWords.size();
         }
         
         // If actualValue does not contain expectedValue, return false
