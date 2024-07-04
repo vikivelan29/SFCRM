@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>FieldAPI__c</field>
-        <value xsi:type="xsd:string">Sub_Type_Text__c</value>
+        <value xsi:type="xsd:string">Type_Text__c</value>
     </values>
     <values>
         <field>IndexId__c</field>
