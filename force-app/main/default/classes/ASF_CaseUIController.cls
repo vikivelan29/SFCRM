@@ -324,7 +324,6 @@ public with sharing class  ASF_CaseUIController {
             this.mobile = mobile;
             this.pan = pan;
             this.objectRecordType = objRecordType;
-        }
-        
+        }        
     }
 }
