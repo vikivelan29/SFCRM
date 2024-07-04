@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : rsinghnagar@salesforce.com
 * @group             : 
-* @last modified on  : 06-30-2024
+* @last modified on  : 02-09-2024
 * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -10,14 +10,9 @@
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount')
 public class ASF_CaseEmailControllerBUSpecificHandler {
-    /**
-     * @description - Replace the dynamic fields
-     * @param inputText - Hold the input test
-     * @param resultMap - map with fields and values
-     * @param isABHFL - holds true if the value is ABFHL
-     * @return inputText with the values
-     */
-    public static String replaceDynamicFields(String inputText, Map<String, String> resultMap, Boolean isABHFL) {
+    public static String replaceDynamicFields(String inputText, Map<String, String> resultMap, Boolean isABHFL,
+                                              String caseBusinessUnit) 
+    {
         if(isABHFL){
             if((inputText.lastIndexOf('||') > -1) && (inputText.lastIndexOf('##') > -1)){
                 inputText = inputText.subStringBefore('||')+inputText.substring(inputText.lastIndexOf('##'),inputText.length()-1);
@@ -56,10 +51,13 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                         
                     }
                 }
-                String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap);
-                inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
+                //if(concatinatedSubFields !=null && concatinatedSubFields != ''){
+                    String subFeildsValue = generateMultipleFields(capturedString, concatinatedSubFields, resultMap,caseBusinessUnit);
+                	inputText = inputText.replace('@@' + capturedString + '@@', subFeildsValue);
+                //}
+	            
             }    
-
+            
             if (resultMap != null){
                 for (String s : resultMap.keySet()) {
                     inputText = inputText.replace('##' + s + '##', resultMap.get(s));
@@ -78,6 +76,7 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
                                                  String caseBusinessUnit) 
     {
         List<String> subFields = concatinatedSubFields.split('\\,');
+        
         List<List<String>> listMPL = new List<List<String>>();
         String resultantString = '';
         for(String str : subFields){
@@ -122,35 +121,39 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
         }
         
     }
-
-    /**
-     * @description handles the subquesires of the current object
-     * @param subQueriesToReplace
-     * @return Map<String, String> - holds the subqueries fields with values
-     */
+    
     public static Map<String, String> handleSubQueries(Set<String> subQueriesToReplace) {
-           // code for create and add subqueries into fieldsToQueryUniqueset...    
-           Map<String, List<String>> subQueryMap = new Map<String, List<String>>();
-           Map<String, String> subFieldWithQuery = new Map<String, String>();
-
-           for(String subField : subQueriesToReplace){
-               subFieldWithQuery.put(subField, '');
-               List<String> objectAndField = subField.split('\\.'); 
-               if(!subQueryMap.containsKey(objectAndField[0])){
-                   subQueryMap.put(objectAndField[0], new List<String>());
-               }
-               subQueryMap.get(objectAndField[0]).add(objectAndField[1]);
-           }
-
-           for(String str : subQueryMap.keySet()){
-               String subQuery =  createSubQuery(str, subQueryMap.get(str));
-               for(String fullSubField : subFieldWithQuery.keySet()){
-                   List<String> objectAndField = fullSubField.split('\\.');
-                   if(str == objectAndField[0]){
-                       subFieldWithQuery.put(fullSubField, subQuery);
-                   }
-               }
-           }
-           return subFieldWithQuery;
+        // code for create and add subqueries into fieldsToQueryUniqueset...    
+        Map<String, List<String>> subQueryMap = new Map<String, List<String>>();
+        Map<String, String> subQueryWhereClause = new Map<String,String>();
+        
+        Map<String, String> subFieldWithQuery = new Map<String, String>();
+        
+        for(String subField : subQueriesToReplace){
+            String queryWhereClause = subField.substringAfter('||');
+            if(queryWhereClause != null && queryWhereClause != ''){
+                subField = subField.substringBefore ('||');
+            }
+            subFieldWithQuery.put(subField, '');
+            List<String> objectAndField = subField.split('\\.'); 
+            if(!subQueryMap.containsKey(objectAndField[0])){
+                subQueryMap.put(objectAndField[0], new List<String>());
+            }
+            subQueryMap.get(objectAndField[0]).add(objectAndField[1]);
+            subQueryWhereClause.put(objectAndField[0],queryWhereClause);
+        }
+        
+        for(String str : subQueryMap.keySet()){
+            String subQueryWhereClauseStr = subQueryWhereClause.get(str);
+            String subQuery =  createSubQuery(str, subQueryMap.get(str),subQueryWhereClauseStr);
+            System.debug('subQuery --> '+subQuery);
+            for(String fullSubField : subFieldWithQuery.keySet()){
+                List<String> objectAndField = fullSubField.split('\\.');
+                if(str == objectAndField[0]){
+                    subFieldWithQuery.put(fullSubField, subQuery);
+                }
+            }
+        }
+        return subFieldWithQuery;
     }
 }
