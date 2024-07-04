@@ -1,4 +1,6 @@
 export const countryCodeOptions = [
+    
+    { label: 'India (91)',value: '91' },
     { label: 'Afghanistan (93)',value: '93' },
     { label: 'Albania (355)',value: '355' },
     { label: 'Algeria (213)',value: '213' },
@@ -95,7 +97,6 @@ export const countryCodeOptions = [
     { label: 'Hong Kong (852)',value: '852' },
     { label: 'Hungary (36)',value: '36' },
     { label: 'Iceland (354)',value: '354' },
-    { label: 'India (91)',value: '91' },
     { label: 'Indonesia (62)',value: '62' },
     { label: 'Iran (98)',value: '98' },
     { label: 'Iraq (964)',value: '964' },
