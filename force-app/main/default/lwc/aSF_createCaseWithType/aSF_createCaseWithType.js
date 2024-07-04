@@ -434,8 +434,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         // Reset isTransaction Related Every time selection changes. - Virendra
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
-        this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+        if(selected){
+            this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+        }
 
         let cccExternalId = '';
 
@@ -454,7 +455,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         } 
         if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
@@ -861,6 +862,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.issueTypeVal = '';
         this.categoryTypeVal = '';
         this.isNotSelectedReject = true;
+        this.showCategoryType = false;
         this.cancelReject();
     }
 
