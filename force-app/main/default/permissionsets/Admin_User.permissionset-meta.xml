@@ -33,6 +33,16 @@
         <name>Case_Ownership_Management</name>
     </customPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABCLLogRecording__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABCLLogRecording__c.SOQL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
         <readable>true</readable>
@@ -1145,6 +1155,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.OneABCId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Email_Team__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4370,6 +4390,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Beneficiary_Details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
