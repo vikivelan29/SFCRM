@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SUBCONTENTCODE_DESC</label>
+    <protected>false</protected>
+    <values>
+        <field>FieldAPI__c</field>
+        <value xsi:type="xsd:string">Sub_Type_Text__c</value>
+    </values>
+    <values>
+        <field>IndexId__c</field>
+        <value xsi:type="xsd:string">1205</value>
+    </values>
+    <values>
+        <field>Relationship__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">S</value>
+    </values>
+</CustomMetadata>
