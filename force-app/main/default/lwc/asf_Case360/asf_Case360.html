@@ -323,7 +323,7 @@
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelBackCaseStage}></lightning-button>
                                     <lightning-button class="slds-m-around_small" label="Save"
-                                        onclick={saveBackCaseStage}></lightning-button>
+                                        onclick={saveBackCaseStage} disabled={disableBackSave}></lightning-button>
                                 </div>
                             </div>
                         </section>
@@ -348,7 +348,7 @@
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelForwardCaseStage}></lightning-button>
                                     <lightning-button class="slds-m-around_small" label="Save"
-                                        onclick={saveManualCaseStage}></lightning-button>
+                                        onclick={saveManualCaseStage} disabled={disableSkipSave}></lightning-button>
                                 </div>
                             </div>
                         </section>
