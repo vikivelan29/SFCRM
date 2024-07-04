@@ -488,7 +488,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 };
                 if (this.sourceValues.length == 0) {
                     this.sourceValues.push(optionVal, optionVal1, emailVal);
-                }
+                } 
 
                 // this.sourceValues.push(optionVal1);
 

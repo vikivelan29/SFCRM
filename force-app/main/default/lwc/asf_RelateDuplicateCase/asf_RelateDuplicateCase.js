@@ -69,7 +69,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
         } else if (error) {
             console.error('Error loading parent record', error);
         }
-    }  
+    }
     ownerValidation(){
         this.loaded = true;
         if(this.wiredCurrentRec.Owner === this.userId){
