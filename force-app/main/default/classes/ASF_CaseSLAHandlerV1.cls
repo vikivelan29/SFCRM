@@ -95,7 +95,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if(externalIdStageNameCaseStageConfigMap != null)
-                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                        sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA2Override') != null){
@@ -103,7 +103,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if (externalIdStageNameCaseStageConfigMap != null)
-                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                        sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA3Override') != null){
@@ -111,7 +111,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                        sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
@@ -618,13 +618,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         
         for(case c: newCases){
             //owner change loop    
-            if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
+            //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
                 }else if(string.valueOf(c.OwnerId).startsWith('00G')){
                     ownerQueueList.add(c.OwnerId);
                 }
-            }
+            //}
         }  
         Integer index = 0;
         for(Case c: newCases){
