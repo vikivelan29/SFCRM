@@ -2006,8 +2006,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     handleManualStageChange(event) {
-        this.disableSkipSave = false;
         this.selectedManualStage = event.detail.value;
+        if(this.selectedManualStage && this.selectedManualStage != '' && this.selectedManualStage != 'None'){
+            this.disableSkipSave = false;
+        }else{
+            this.disableSkipSave = true;
+        }
         if (this.selectedManualStage == 'None') {
 
             this.isMoveToStageButtonDisabled = true;
