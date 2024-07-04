@@ -24,7 +24,7 @@ public without sharing class ABFL_Util {
         Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
 
         for(ABFL_Case_Detail__c caseDetail :newMap.values()) {
-            if(String.isNotBlank(caseDetail.UTRNo__c) && String.isBlank(oldMap.get(caseDetail.Id).UTRNo__c) && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
+            if(caseDetail.UTRNo__c != oldMap.get(caseDetail.Id).UTRNo__c && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
                 abflCaseDetailSet.add(caseDetail.Id);
             }
         }
