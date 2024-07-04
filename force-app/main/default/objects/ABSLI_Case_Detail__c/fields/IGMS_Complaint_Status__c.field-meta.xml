@@ -3,7 +3,6 @@
     <fullName>IGMS_Complaint_Status__c</fullName>
     <description>This field is used in IRDAI to Salesforce Complaint Creation Inbound API.
 This field is used in Salesforce to IRDAI Complaint Update Outbound API.</description>
-    <externalId>false</externalId>
     <label>IGMS Complaint Status</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
