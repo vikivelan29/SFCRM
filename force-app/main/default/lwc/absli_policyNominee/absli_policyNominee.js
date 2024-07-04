@@ -32,7 +32,7 @@ export default class Absli_policyNominee extends LightningElement {
         debugger;
         if(this.processApexReturnValue.bSuccess == true){
             this.data = this.processApexReturnValue.nominees;
-            this.loaded = true; 
+            this.loaded = true;
             debugger;
         }
         else{
