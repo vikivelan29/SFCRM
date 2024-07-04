@@ -1097,11 +1097,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABSLI_IGMS_Document__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ABSLI_IGMS_Document__c.Document_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
