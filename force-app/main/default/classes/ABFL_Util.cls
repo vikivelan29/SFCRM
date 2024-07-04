@@ -52,6 +52,7 @@ public without sharing class ABFL_Util {
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(validCaseList, requestedStageMap, currentStageMap);
             for(ASF_CaseMovementHelper.StageWrapper wrapper :resultWrap.values()) {
                 if(String.isBlank(wrapper.errorMessage)) {
+                    wrapper.caseToBeUpdated.OwnerId = UserInfo.getUserId();
                     casesToResolveList.add(wrapper.caseToBeUpdated);
                 }
             }
