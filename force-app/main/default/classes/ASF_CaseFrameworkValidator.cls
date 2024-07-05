@@ -113,43 +113,42 @@ public with sharing class ASF_CaseFrameworkValidator {
                         }
                     }
                 }
-                //Applied for currency,percentage, number, integer
+                
+              
+               
                 when 'decimal' {
-                    //< > <= >= = !=
+                    // Apply for currency, percentage, number, integer
+                    //  ////< > <= >= = !=
+                    try {
+                        //Added by vaishnavi EY for invalid decimal exception error
+                       // Decimal caseRecordDecimal = Decimal.valueOf(caseRecordValue);
+                       // Decimal comparsonDecimal = Decimal.valueOf(comparsonValue);
                     switch on cre.Operator__c {
                         when '<' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) <
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) < Decimal.valueOf(comparsonValue);
                         }
                         when '!=' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) !=
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) != Decimal.valueOf(comparsonValue);
                         }
                         when '>' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) >
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) > Decimal.valueOf(comparsonValue);
                         }
                         when '<=' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) <=
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) <= Decimal.valueOf(comparsonValue);
                         }
                         when '>=' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) >=
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) >= Decimal.valueOf(comparsonValue);
                         }
                         when '=' {
-                            comparisonResult =
-                                Decimal.valueOf(caseRecordValue) ==
-                                Decimal.valueOf(comparsonValue);
+                                comparisonResult = Decimal.valueOf(caseRecordValue) == Decimal.valueOf(comparsonValue);
                         }
                         when else {
                             comparisonResult = false;
                         }
+                    }
+                    } catch (Exception e) {
+                        // Handle invalid decimal conversion
+                        comparisonResult = false;
                     }
                 }
             }
@@ -191,9 +190,16 @@ public with sharing class ASF_CaseFrameworkValidator {
                     caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
                 }
             }
-        
             for(Case caseRec : currentCases){
                 caseIdToReturnFlagMap.put(caseRec.Id, true);
+            String cccExternalId = system.Label.CCC_External_Id;
+            system.debug('check external id'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
+          if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+                && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
+                && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
+               ||(caseRec.CCC_External_Id__c != cccExternalId)){
+                            // system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c' +caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' );
+                   system.debug('check true'); 
                 if(caseToChecklistMap.containsKey(caseRec.Id)){
                     for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
                         if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
