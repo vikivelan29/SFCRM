@@ -113,34 +113,32 @@ public with sharing class ASF_CaseFrameworkValidator {
                         }
                     }
                 }
-                
-              
-               
-               when 'decimal' {
-                    // Apply for currency, percentage, number, integer
-                    //  ////< > <= >= = !=
+                //Applied for currency,percentage, number, integer
+               ////< > <= >= = !=
+                when 'decimal' {
+                    
                     try {
-                        //Added by vaishnavi EY for invalid decimal exception error
-                       // Decimal caseRecordDecimal = Decimal.valueOf(caseRecordValue);
-                       // Decimal comparsonDecimal = Decimal.valueOf(comparsonValue);
+                        //Added line 122 & 123 by vaishnavi EY for invalid decimal exception error
+                        Decimal caseRecordDecimal = Decimal.valueOf(caseRecordValue);
+                        Decimal comparsonDecimal = Decimal.valueOf(comparsonValue);
                         switch on cre.Operator__c {
                             when '<' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) < Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal < comparsonDecimal;
                             }
                             when '!=' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) != Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal != comparsonDecimal;
                             }
                             when '>' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) > Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal > comparsonDecimal;
                             }
                             when '<=' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) <= Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal <= comparsonDecimal;
                             }
                             when '>=' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) >= Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal >= comparsonDecimal;
                             }
                             when '=' {
-                                comparisonResult = Decimal.valueOf(caseRecordValue) == Decimal.valueOf(comparsonValue);
+                                comparisonResult = caseRecordDecimal == comparsonDecimal;
                             }
                             when else {
                                 comparisonResult = false;
@@ -187,10 +185,10 @@ public with sharing class ASF_CaseFrameworkValidator {
             caseIdToReturnFlagMap.put(caseRec.Id, true);
             String cccExternalId = system.Label.CCC_External_Id;
             system.debug('check external id'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
-        /*  if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+          if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
                 && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                 && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
-               ||(caseRec.CCC_External_Id__c != cccExternalId)){*/
+               ||(caseRec.CCC_External_Id__c != cccExternalId)){
                             // system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c' +caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' );
                    system.debug('check true'); 
                    if(caseToChecklistMap.containsKey(caseRec.Id)){
@@ -204,7 +202,7 @@ public with sharing class ASF_CaseFrameworkValidator {
                            }
                        }
                    }
-              // }
+               }
         }
         return caseIdToReturnFlagMap;
     }
