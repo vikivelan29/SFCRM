@@ -169,28 +169,37 @@ public with sharing class ASF_CaseFrameworkValidator {
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
         Set<String> caseStages = new Set<String>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-            caseStages.add(caseRec.Stage__c);
-        }
-        // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
-        List<ASF_Checklist__c> incompleteCasesChecklists 
-        = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
-        Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
-        for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
-            if(caseToChecklistMap.containsKey(checkRec.Case__c)){
-                caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+            system.debug('validateChecklists--'+skipperFlagMap.get(caseRec.Id));
+            if(skipperFlagMap.containsKey(caseRec.Id) && skipperFlagMap.get(caseRec.Id).contains(ASF_Constants.SKIP_VALIDATE_CHECKLISTS)){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
-                caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                caseIds.add(caseRec.Id);
+                caseStages.add(caseRec.Stage__c);
             }
         }
-        for(Case caseRec : currentCases){
-            caseIdToReturnFlagMap.put(caseRec.Id, true);
-            if(caseToChecklistMap.containsKey(caseRec.Id)){
-                for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
-                    if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
-                        caseIdToReturnFlagMap.put(caseRec.Id, false);
-                        break;
+        if(!caseIds.isEmpty()){
+            // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
+            List<ASF_Checklist__c> incompleteCasesChecklists 
+            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
+            Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
+            for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
+                if(caseToChecklistMap.containsKey(checkRec.Case__c)){
+                    caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+                }else{
+                    caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                }
+            }
+        
+            for(Case caseRec : currentCases){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
+                if(caseToChecklistMap.containsKey(caseRec.Id)){
+                    for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
+                        if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
+                            caseIdToReturnFlagMap.put(caseRec.Id, false);
+                            break;
+                        }
                     }
                 }
             }
