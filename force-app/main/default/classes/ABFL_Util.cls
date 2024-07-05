@@ -24,7 +24,7 @@ public without sharing class ABFL_Util {
         Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
 
         for(ABFL_Case_Detail__c caseDetail :newMap.values()) {
-            if(String.isNotBlank(caseDetail.UTRNo__c) && String.isBlank(oldMap.get(caseDetail.Id).UTRNo__c) && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
+            if(caseDetail.UTRNo__c != oldMap.get(caseDetail.Id).UTRNo__c && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
                 abflCaseDetailSet.add(caseDetail.Id);
             }
         }
@@ -52,6 +52,7 @@ public without sharing class ABFL_Util {
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(validCaseList, requestedStageMap, currentStageMap);
             for(ASF_CaseMovementHelper.StageWrapper wrapper :resultWrap.values()) {
                 if(String.isBlank(wrapper.errorMessage)) {
+                    wrapper.caseToBeUpdated.OwnerId = UserInfo.getUserId();
                     casesToResolveList.add(wrapper.caseToBeUpdated);
                 }
             }
