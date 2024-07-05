@@ -7432,6 +7432,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ContentVersion.Action_Type__c.</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Entity_Reference_No__c </field>
         <readable>true</readable>
     </fieldPermissions>
