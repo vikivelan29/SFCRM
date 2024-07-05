@@ -5,10 +5,10 @@
 public with sharing class ASF_CaseFrameworkValidator {
     
     /**
-* Evaluates a Case Rule, by evaluating eacj Rule Entry
-* for the provided condition and the data used from case
-* No SOQL, No DML - hence not bulkifiying
-*/
+    * Evaluates a Case Rule, by evaluating eacj Rule Entry
+    * for the provided condition and the data used from case
+    * No SOQL, No DML - hence not bulkifiying
+    */
     public static Boolean evaluateCaseRule(string condition, List<ASF_Case_Rule_Entry__c> ruleEntries, Case caseRecord) {
         
         Boolean result = false;
@@ -54,12 +54,12 @@ public with sharing class ASF_CaseFrameworkValidator {
                     : fieldList[0] + 'Id';
                 if (caseRecord.get(fieldCheckStr) != null) {
                     //if(fieldList[0].contains('__r')){
-                    sobject rs = caseRecord.getSobject(fieldList[0]);
-                    caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
-                        //}
-                        }else{
-                            caseRecordValue = '0';
-                        }
+                        sobject rs = caseRecord.getSobject(fieldList[0]);
+                        caseRecordValue = rs == null ? null : (rs.get(fieldList[1]) == null ? '' : String.valueOf(rs.get(fieldList[1])));
+                    //}
+                }else{
+                    caseRecordValue = '0';
+                }
             }
             else{
                 caseRecordValue = String.valueOf(caseRecord.get(cre.Field_Api_Name__c));
@@ -114,39 +114,42 @@ public with sharing class ASF_CaseFrameworkValidator {
                     }
                 }
                 //Applied for currency,percentage, number, integer
-               ////< > <= >= = !=
                 when 'decimal' {
-                    
-                    try {
-                        //Added line 122 & 123 by vaishnavi EY for invalid decimal exception error
-                        Decimal caseRecordDecimal = Decimal.valueOf(caseRecordValue);
-                        Decimal comparsonDecimal = Decimal.valueOf(comparsonValue);
-                        switch on cre.Operator__c {
-                            when '<' {
-                                comparisonResult = caseRecordDecimal < comparsonDecimal;
-                            }
-                            when '!=' {
-                                comparisonResult = caseRecordDecimal != comparsonDecimal;
-                            }
-                            when '>' {
-                                comparisonResult = caseRecordDecimal > comparsonDecimal;
-                            }
-                            when '<=' {
-                                comparisonResult = caseRecordDecimal <= comparsonDecimal;
-                            }
-                            when '>=' {
-                                comparisonResult = caseRecordDecimal >= comparsonDecimal;
-                            }
-                            when '=' {
-                                comparisonResult = caseRecordDecimal == comparsonDecimal;
-                            }
-                            when else {
-                                comparisonResult = false;
-                            }
+                    //< > <= >= = !=
+                    switch on cre.Operator__c {
+                        when '<' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) <
+                                Decimal.valueOf(comparsonValue);
                         }
-                    } catch (Exception e) {
-                        // Handle invalid decimal conversion
-                        comparisonResult = false;
+                        when '!=' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) !=
+                                Decimal.valueOf(comparsonValue);
+                        }
+                        when '>' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) >
+                                Decimal.valueOf(comparsonValue);
+                        }
+                        when '<=' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) <=
+                                Decimal.valueOf(comparsonValue);
+                        }
+                        when '>=' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) >=
+                                Decimal.valueOf(comparsonValue);
+                        }
+                        when '=' {
+                            comparisonResult =
+                                Decimal.valueOf(caseRecordValue) ==
+                                Decimal.valueOf(comparsonValue);
+                        }
+                        when else {
+                            comparisonResult = false;
+                        }
                     }
                 }
             }
@@ -158,58 +161,55 @@ public with sharing class ASF_CaseFrameworkValidator {
     }
     
     /**
-* Validate if Incomplete Checklists are present
-* For this Case at this stage
-* Bulkified
-*/
+    * Validate if Incomplete Checklists are present
+    * For this Case at this stage
+    * Bulkified
+    */
     public static Map<Id, Boolean> validateChecklists(List<Case> currentCases, Map<Id, String> currentStageMap){
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
         Set<String> caseStages = new Set<String>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-            caseStages.add(caseRec.Stage__c);
-        }
-        // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
-        List<ASF_Checklist__c> incompleteCasesChecklists 
-            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
-        Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
-        for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
-            if(caseToChecklistMap.containsKey(checkRec.Case__c)){
-                caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+            system.debug('validateChecklists--'+skipperFlagMap.get(caseRec.Id));
+            if(skipperFlagMap.containsKey(caseRec.Id) && skipperFlagMap.get(caseRec.Id).contains(ASF_Constants.SKIP_VALIDATE_CHECKLISTS)){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
-                caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                caseIds.add(caseRec.Id);
+                caseStages.add(caseRec.Stage__c);
             }
         }
-        for(Case caseRec : currentCases){
-            caseIdToReturnFlagMap.put(caseRec.Id, true);
-            String cccExternalId = system.Label.CCC_External_Id;
-            system.debug('check external id'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
-          if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
-                && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
-                && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
-               ||(caseRec.CCC_External_Id__c != cccExternalId)){
-                            // system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c' +caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' );
-                   system.debug('check true'); 
-                   if(caseToChecklistMap.containsKey(caseRec.Id)){
-                       system.debug('check');
-                       for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
-                           system.debug('false+++-');
-                           if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
-                               system.debug('false---');
-                               caseIdToReturnFlagMap.put(caseRec.Id, false);
-                               break;
-                           }
-                       }
-                   }
-               }
+        if(!caseIds.isEmpty()){
+            // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
+            List<ASF_Checklist__c> incompleteCasesChecklists 
+            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
+            Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
+            for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
+                if(caseToChecklistMap.containsKey(checkRec.Case__c)){
+                    caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+                }else{
+                    caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                }
+            }
+        
+            for(Case caseRec : currentCases){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
+                if(caseToChecklistMap.containsKey(caseRec.Id)){
+                    for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
+                        if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
+                            caseIdToReturnFlagMap.put(caseRec.Id, false);
+                            break;
+                        }
+                    }
+                }
+            }
         }
         return caseIdToReturnFlagMap;
     }
-    
+
     /**
-* Bulkified
-*/
+     * Bulkified
+     */
     public static Map<Id, String> validateValidations(List<Case> currentCases, Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap){
         Set<String> cccExternalIds = new Set<String>();
         for(Case caseRec : currentCases){
@@ -239,15 +239,15 @@ public with sharing class ASF_CaseFrameworkValidator {
                 }
             }
         }
-        
+
         return ASF_CaseFrameworkHelper.runValidationRules(currentCases, caseIdToCaseRulesForCurrentStage);
     }
     
     /**
-* Validate if Incomplete Checklists are present
-* For this Case at this stage
-* Bulkified
-*/
+    * Validate if Incomplete Checklists are present
+    * For this Case at this stage
+    * Bulkified
+    */
     public static Map<Id, Boolean> validateTasks(List<Case> currentCases, Map<Id, String> currentStageMap){
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
@@ -258,7 +258,7 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
         List<Task> incompleteTaskslists 
-            = ASF_CaseQueryHandler.getIncompleteCaseTasks(caseIds, new Set<String>(currentStageMap.values()));
+        = ASF_CaseQueryHandler.getIncompleteCaseTasks(caseIds, new Set<String>(currentStageMap.values()));
         Map<Id, List<Task>> caseToTaskMap = new Map<Id, List<Task>>();
         for(Task taskRec : incompleteTaskslists){
             if(caseToTaskMap.containsKey(taskRec.WhatId)){
@@ -282,17 +282,17 @@ public with sharing class ASF_CaseFrameworkValidator {
     }
     
     /**
-* Validates if all Case Integrations have been Successful
-* Returns a String of Names of Integrations which are not successful (for error reporting)
-* Else, returns the string 'Success'
-* Bulkified
-*/
+    * Validates if all Case Integrations have been Successful
+    * Returns a String of Names of Integrations which are not successful (for error reporting)
+    * Else, returns the string 'Success'
+    * Bulkified
+    */
     public static Map<Id, String> validateIntegrations(List<Case> currentCases, Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap){
         // Get Incomplete, Mandatory Integrations from Query Handler for this
         String result = 'Success';
         Map<String, Map<String, ASF_Integration__c>> asfIntExtIds = new Map<String, Map<String, ASF_Integration__c>>();
         Map<Id, String> resultMap = new Map<Id, String>();
-        
+
         Set<Id> caseIds = new Set<Id>();
         Set<Id> stageConfigIds = new Set<Id>();
         for(ASF_Case_Stage_Config__c stageConfig : caseIdToCurrentStageConfigMap.values()){
@@ -353,12 +353,12 @@ public with sharing class ASF_CaseFrameworkValidator {
         
         return resultMap;
     }
-    
+
     /**
-* Validates if the Case Approval, if any, is Approved for
-* the stage movement
-* Bulkified
-*/
+     * Validates if the Case Approval, if any, is Approved for
+     * the stage movement
+     * Bulkified
+     */
     public static Map<Id, Boolean> validateApprovals(List<Case> currentCases, Map<Id, String> currentStageMap){
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
