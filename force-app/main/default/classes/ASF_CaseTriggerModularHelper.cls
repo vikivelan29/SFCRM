@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 07-01-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 07-05-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -1619,5 +1619,18 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
                 }
             }
         }
+    }
+    public static void addTocaseFinalDMLMap(Case caseRec){
+        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+        if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+            Case caseObj = new Case(Id = caseRec.Id);
+            caseFinalDMLMap.put(caseObj.Id, caseObj);
+        }
+        Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+        Map<String, Object> populatedFieldMap = caseRec.getPopulatedFieldsAsMap();
+        for(String fieldName : populatedFieldMap.keySet()){
+            caseRecFromMap.put(fieldName, caseRec.get(fieldName));
+        }
+        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
     }
 }
