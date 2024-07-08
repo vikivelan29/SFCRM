@@ -1,0 +1,78 @@
+/**
+* @description       : 
+* @author            : Salesforce
+* @group             : 
+* @last modified on  : 07-07-2024
+* @last modified by  : Salesforce 
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   04-24-2024   Salesforce   Initial Version
+**/
+@SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
+public with sharing class ABSLI_AfterUpdateLogic {
+    // This method is used to invoke all the ABSLI Classes to be used in AfterUpdateLogic.
+    public static void executeAfterInsertLogic(List<Case> newCases, Map<Id,Case> oldCasesMap){
+        List<Case> absliCases = new List<Case>();
+        Map<Id,Case> absliOldCasesMap = new Map<Id,Case>();
+        for(Case currentCase : newCases){
+            if(currentCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
+                absliCases.add(currentCase);
+                absliOldCasesMap.put(currentCase.Id,oldCasesMap.get(currentCase.Id));
+            }
+        }
+        
+        if(absliCases.size()>0){
+            updateTeamResolutionStatus(absliCases,absliOldCasesMap);
+        }
+    }
+    public static void updateTeamResolutionStatus(List<Case> newCases, Map<Id,Case> oldMap){
+        List<ABSLI_Case_Detail__c> caseExtnList = new List<ABSLI_Case_Detail__c>();
+        Set<Id> absliCaseExtnIds = new Set<Id>();
+        for(Case currentCase : newCases){
+            System.debug(currentCase.Stage__c != oldMap.get(currentCase.Id).Stage__c);
+            System.debug(currentCase.Stage__c);
+            System.debug(currentCase.ABSLI_Case_Detail__c);            
+            if((currentCase.Stage__c != oldMap.get(currentCase.Id).Stage__c
+              && (currentCase.Stage__c == ABSLI_Constants.RESOLVED_TEAM_RES_STATUS || 
+                 currentCase.Stage__c == ABSLI_Constants.UNRESOLVED_TEAM_RES_STATUS))
+              && currentCase.ABSLI_Case_Detail__c != null)
+            {
+                absliCaseExtnIds.add(currentCase.ABSLI_Case_Detail__c);
+                System.debug('currentCase.ABSLI_Case_Detail__r.Resolution__c '+currentCase.ABSLI_Case_Detail__r.Resolution__c);
+            }
+        }
+        if(absliCaseExtnIds.size()>0){
+            Map<String, List<ASF_customPicklistUtility.picklistValues>> mResolutionVal = ASF_customPicklistUtility.getDependentPicklistValues('ABSLI_Case_Detail__c', 'Resolution__c');
+            Map<String,Set<String>> mControlValVsDependentVal = new Map<String,Set<String>>();
+            
+            for(String controlVal : mResolutionVal.keySet()){
+                if(!mControlValVsDependentVal.containsKey(controlVal)){
+                    mControlValVsDependentVal.put(controlVal,new Set<String>());
+                }
+                for(ASF_customPicklistUtility.picklistValues dependentVal : mResolutionVal.get(controlVal)){
+                    mControlValVsDependentVal.get(controlVal).add(dependentVal.label);
+                }
+            }
+            Map<Id,ABSLI_Case_Detail__c> mCaseExtn = new Map<Id,ABSLI_Case_Detail__c>([SELECT ID,Outcome__c,Resolution__c FROM ABSLI_Case_Detail__c WHERE Id=:absliCaseExtnIds]);
+            for(Case currentCase : newCases){
+                if(mCaseExtn.containsKey(currentCase.ABSLI_Case_Detail__c)){
+                    ABSLI_Case_Detail__c absliCaseExtn = mCaseExtn.get(currentCase.ABSLI_Case_Detail__c);
+                    absliCaseExtn.Outcome__c = ASF_Constants.RESOLVEDSTAGES.contains(currentCase.Stage__c) ? ABSLI_Constants.RESOLVED_TEAM_RES_STATUS : (ASF_Constants.REJECTIONSTATUSES.contains(currentCase.Stage__c) ? ABSLI_Constants.UNRESOLVED_TEAM_RES_STATUS : '');
+                    if(mControlValVsDependentVal.containsKey(absliCaseExtn.Outcome__c)){
+                        String allResolutions = String.JOIN(mControlValVsDependentVal.get(absliCaseExtn.Outcome__c),';');
+                        if(allResolutions != null && allResolutions != '' && absliCaseExtn.Resolution__c != null && absliCaseExtn.Resolution__c != ''){
+                            if(!allResolutions.contains(absliCaseExtn.Resolution__c)){
+                                absliCaseExtn.Resolution__c = '';
+                            }
+                        }
+                	}
+                    caseExtnList.add(absliCaseExtn);
+                }
+            }
+            if(caseExtnList.size()>0){
+                update caseExtnList;
+            }
+        }
+    }
+
+}
