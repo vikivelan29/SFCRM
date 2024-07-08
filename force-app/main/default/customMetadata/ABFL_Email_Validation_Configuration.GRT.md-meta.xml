@@ -3,7 +3,7 @@
     <label>GRT</label>
     <protected>false</protected>
     <values>
-        <field>Email_Addresses_Allowed__c</field>
-        <value xsi:type="xsd:string">ABFL.GrievanceHead@adityabirlacapital.com,grievance.finance@adityabirlacapital.com,abfl.nodalofficereast@adityabirlacapital.com,abfl.nodalofficernorth@adityabirlacapital.com,abfl.nodalofficersouth@adityabirlacapital.com,abfl.pno@adityabirlacapital.com</value>
+        <field>Email_Addresses_Allowed_Long__c</field>
+        <value xsi:type="xsd:string">ABFL.GrievanceHead@adityabirlacapital.com,grievance.finance@adityabirlacapital.com,abfl.nodalofficereast@adityabirlacapital.com,abfl.nodalofficernorth@adityabirlacapital.com,abfl.nodalofficersouth@adityabirlacapital.com,abfl.pno@adityabirlacapital.com,abfl.nodalofficerwest@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>
