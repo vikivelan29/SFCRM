@@ -217,6 +217,7 @@ System.debug(decryptedString);*/
 */
     @AuraEnabled
     public static String generateBitlyLink(String cLogId,String funcCode){
+        String retVal = '';
         ASF_Communication_Log__c commLog = [SELECT ID,Encrypted_URL__c FROM ASF_Communication_Log__c WHERE Id=:cLogId];
         System.debug('commLog::::'+commLog);
         List<ASF_Communication_Log__c> updatecommLogList = new List<ASF_Communication_Log__c>();
@@ -230,12 +231,15 @@ System.debug(decryptedString);*/
             commLog.Tiny_URL__c = bitlyResp.URLReturned;
             updatecommLogList.add(commLog);
         }
+        else{
+            throw new AuraException('Error occured from BitlyApi please contact System Administrator.');
+        }
         
         if(!updatecommLogList.isEmpty()){
             update updatecommLogList;
+            retVal = getTemplateBody(cLogId,funcCode);
         }
         
-        String retVal = getTemplateBody(cLogId,funcCode);
         return retVal;
     }
     @AuraEnabled
