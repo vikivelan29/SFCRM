@@ -66,7 +66,7 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                 }
             }
         }
-            
+      
         try{
             //Check if the casesToUpdate list is empty or not
             if(!casesToUpdate.isEmpty() && casesToUpdate.size()>0){
