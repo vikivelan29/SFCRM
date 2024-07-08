@@ -2,6 +2,9 @@
 /**
  * This batch class sends SLA 2 and SLA 3 breach emails at scheduled time.
  * It sends the consolidated email to managers i.e. one email for one manager, listing all escalated cases.
+ String sch = '0 15 12,15,18 * * ?';
+ String jobID = System.schedule('Send consolidated SLA 2 & 3 breach emails', sch, new ASF_CaseSLA2and3BrokenConsolidatedBatch());
+ * 
  */
 global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Schedulable,Database.Batchable<sObject>{
     global Database.QueryLocator start(Database.BatchableContext context){
@@ -14,7 +17,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
         //Case fields
         query += 'Case__r.Id,Case__r.CaseNumber, Case__r.Status, Case__r.OwnerId, Case__r.Owner.Name,Case__r.Is_Approval_Stage__c, Case__r.SLA_Target_1__c, Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c, Case__r.Stage_SLA_1__c, Case__r.Stage_SLA_2__c, Case__r.Stage_SLA_3__c, Case__r.BusinessHoursId, Case__r.LastModifiedDate,Case__r.Nature__c,Case__r.Type_Text__c, Case__r.CreatedDate,Case__r.CreatedBy.Name, Case__r.Last_Owner_Change_Date__c,Case__r.Sub_Type_Text__c,Case__r.Business_Unit__c,Case__r.Stage__c';
         
-        query += ' FROM ASF_Case_SLA_History__c WHERE Last_Owner_Change_Date__c != null AND is_Running_Record__c = true AND Stage_End_Date__c = null';
+        query += ' FROM ASF_Case_SLA_History__c WHERE Case__r.Last_Owner_Change_Date__c != null AND is_Running_Record__c = true AND Stage_End_Date__c = null';
         query += ' AND Case__r.Recordtype.Name = \'Framework\' AND Case__r.isClosed = false';
         query += ' AND(';
         //Cases for which SLA 2 and 3 are breached, scheduled flow has updated the records, only email needs to be sent
@@ -24,7 +27,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
         //Cases for which scheduled flow somehow failed to update the records, but SLA 2 and 3 actualy breached, so SLA history update and email send both are needed
         query += ' ((Case__r.Stage_SLA_2__c < :currentTime AND Case__r.SLA_Target_2__c != null) OR (Case__r.Stage_SLA_3__c < :currentTime AND Case__r.SLA_Target_3__c != null))';
 
-        query += ') order by Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c';
+        query += ') order by Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c, Case__r.CreatedDate DESC';
         return Database.getQueryLocator(query);
     }
 
@@ -182,7 +185,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+(caseRec.SLA_Target_1__c!=null?String.valueOf(emailUserIdMap.get(caseRec.SLA_Target_1__c)?.Name):'')+'</td>';
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+(isSLA2?caseRec.Stage_SLA_2__c.format('dd-MM-yyyy hh:mm a', 'IST'):caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST'))+'</td>';
             table += '<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Sub_Type_Text__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Business_Unit__c+'</td><td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage__c+'</td>';
-            table += isSLA2?'<td style="border: 1px solid black;border-collapse: collapse;">'+caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST')+'</td></tr>':'</tr>';
+            table += isSLA2?('<td style="border: 1px solid black;border-collapse: collapse;">'+(caseRec.Stage_SLA_3__c!=null?(caseRec.Stage_SLA_3__c.format('dd-MM-yyyy hh:mm a', 'IST')) : 'NA')+'</td></tr>'):'</tr>';
         }
         table += '</tbody></table>';
         return table;
