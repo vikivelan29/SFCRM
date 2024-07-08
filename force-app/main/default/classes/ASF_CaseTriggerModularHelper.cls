@@ -1,12 +1,12 @@
 /**
 * @description       : 
- * @author            : rsinghnagar@salesforce.com
+* @author            : Salesforce
 * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 04-24-2024
+* @last modified by  : Salesforce 
 * Modifications Log
 * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+* 1.0   04-24-2024   Salesforce   Initial Version
 **/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
@@ -160,6 +160,8 @@ blankSourcePresent = true;
                     caseRec.Stage__c = appliedCCC.First_Stage__c;
                 }
                 caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
+                // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
+                caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
                 caseRec.Type_Text__c = appliedCCC.Type__c;
                 //If the incoming subject of the case is not blank, system will no longer overwrite it, 
                 //irrespective of origin/source of the case. PR970457-1880
@@ -170,7 +172,10 @@ blankSourcePresent = true;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                //caseRec.Is_STP__c = appliedCCC.Is_STP__c; 
+                // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
+                if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
+                    caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                }
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
@@ -304,7 +309,13 @@ blankSourcePresent = true;
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
+						            caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
+                        // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
+                        if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                        {
+                             caseRecFromMap.OwnerId = caseRec.OwnerId;
+                        }
+                       	caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
                             caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
@@ -1684,5 +1695,18 @@ User will now be forced to go recategorize.
                 }
             }
         }
+    }
+    public static void addTocaseFinalDMLMap(Case caseRec){
+        caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+        if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+            Case caseObj = new Case(Id = caseRec.Id);
+            caseFinalDMLMap.put(caseObj.Id, caseObj);
+        }
+        Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+        Map<String, Object> populatedFieldMap = caseRec.getPopulatedFieldsAsMap();
+        for(String fieldName : populatedFieldMap.keySet()){
+            caseRecFromMap.put(fieldName, caseRec.get(fieldName));
+        }
+        caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
     }
 }
