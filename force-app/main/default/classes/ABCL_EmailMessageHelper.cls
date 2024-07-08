@@ -78,11 +78,9 @@ public with sharing class ABCL_EmailMessageHelper {
     public static List<EmailMessage> getEligibles(List<EmailMessage> emails){
         List<EmailMessage> lEMessages = new List<EmailMessage>();
         for (EmailMessage email : emails) {
-            if (String.isNotBlank(email.ParentId) && (String.isBlank(email.Headers) ||( email.Headers != null && 
-                                                                                       !email.Headers.contains('In-Reply-To:')))
-                && email.ParentId.getSObjectType() == Case.getSObjectType()
-                && email.Incoming == true)
-            { 
+            if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
+            email.Incoming == true && ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:')) ||
+           (email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
                 lEMessages.add(email);
             }
         }

@@ -2,7 +2,7 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 03-27-2024
+ * @last modified on  : 07-08-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -43,9 +43,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
-                        if (metadataMap.containsKey(emailMsg.ToAddress)) {
+                        if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             // Get creation rules for the mailbox and check conditions
-                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.ToAddress)) {
+                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
