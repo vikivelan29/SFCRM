@@ -192,6 +192,13 @@
         <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
+        <fullName>ABFL_UTR_AUTO_CLOSE_ELIGIBLE_CCC</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL UTR AUTO CLOSE ELIGIBLE CCC</shortDescription>
+        <value>CFGREQDISBLOC01,CMGREQDISBLOC01</value>
+    </labels>
+    <labels>
         <fullName>ABFL_UTR_Auto_Close_Case_User</fullName>
         <language>en_US</language>
         <protected>false</protected>
