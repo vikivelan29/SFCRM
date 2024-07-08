@@ -24,6 +24,8 @@ import LightningAlert from 'lightning/alert';
 import getCommunity from "@salesforce/apex/ASF_ApprovalHistoryController.isCommunity";
 import { RefreshEvent } from 'lightning/refresh';
 import { fireEventNoPageRef } from 'c/asf_pubsub';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceErrors } from 'c/asf_ldsUtils';
 
 export default class Asf_caseManualApproval extends NavigationMixin(LightningElement) {
     nameField = NAME_FIELD;
@@ -323,6 +325,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         }
         else {
             this.isClicked = false;
+            this.showError('error','Error Occured !','Required field missing.');
         }
 
     }
@@ -384,12 +387,42 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
 
         }
     }
+    hasImgTag(htmlString) {
+        // Regular expression to match <img> tags
+        var imgRegex = /<img[^>]+>/g;
+        
+        // Check if the htmlString contains any <img> tags
+        return imgRegex.test(htmlString);
+    }
+    removeHTMLTags(htmlString) {
+        if(this.hasImgTag(htmlString)){
+            return htmlString;
+        }
+        // Create a new DOMParser instance
+        const parser = new DOMParser();
+        // Parse the HTML string into a DOM document
+        const doc = parser.parseFromString(htmlString, 'text/html');
+        // Extract the text content from the parsed document
+        const textContent = doc.body.textContent || "";
+        return textContent.trim(); // Trim any leading or trailing whitespace
+    }
     validateFields() {
         return [...this.template.querySelectorAll("lightning-input-field")].reduce((validSoFar, field) => {
             // Return whether all fields up to this point are valid and whether current field is valid
             // reportValidity returns validity and also displays/clear message on element based on validity
             let isValid = true;
             if (!field.parentElement.parentElement.className.includes('slds-hide')) {
+                //let plainTextContent  = field.value.replace(/(<([^>]+)>)/ig, '');                
+                let plainTextContent = this.removeHTMLTags(field.value);
+                if(plainTextContent == undefined || plainTextContent == null || plainTextContent == ""){
+                        field.value = plainTextContent;
+                        if(field.fieldName == "Requestor_Comments__c"){
+                            isValid = false;
+                            return (validSoFar && isValid);
+                        }
+                }
+
+
                 this.template.querySelectorAll('[data-error-help-for-field = "' + field.fieldName + '"]').forEach(ele => {
                     if (ele.innerText != null && ele.innerText != "" && ele.innerText != undefined) {
                         isValid = false;
@@ -436,6 +469,16 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             .catch(error => {
                 console.log('Errorured:- ' + error.body.message);
             });
+    }
+
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
     }
 
 
