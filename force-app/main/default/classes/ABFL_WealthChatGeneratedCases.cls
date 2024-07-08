@@ -66,8 +66,8 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                 }
             }
         }
-            
-        //try{-- Commented as email address validation should happen at chatbot end
+      
+        try{
             //Check if the casesToUpdate list is empty or not
             if(!casesToUpdate.isEmpty() && casesToUpdate.size()>0){
                 ASF_TriggerSkipperUtility.markTriggerRun('Case'); // to disable the trigger
@@ -78,14 +78,13 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                     // Platform Event trigger to send Email and SMS to the Supplied Email & Phone
                     ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(c, ABFL_Constants.WMEMAILTEMPLATENAME, c.SuppliedEmail, ABFL_Constants.WMSMSTEMPLATENAME, c.SuppliedPhone);
                 } 
-            } 
-        /*
+            }
         }catch(Exception e) {
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_WealthChatGeneratedCases: Case Generation failed');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
-        }*/
+        }
     }
     
     /**
