@@ -56,6 +56,10 @@
         <apexClass>ABSLI_CaseIntegrationHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_redirectToCaseApprovalVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ASF_Asset_Metadata__mdt</name>
@@ -2934,6 +2938,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Entity_Reference_No__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.ANI_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3316,4 +3325,8 @@
         <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <pageAccesses>
+        <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
 </PermissionSet>

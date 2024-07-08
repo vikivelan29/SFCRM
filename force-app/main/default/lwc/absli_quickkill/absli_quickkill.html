@@ -8,7 +8,7 @@
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="searchInput">Search Policy</label>
                                 <div class="slds-form-element__control">
-                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy Number"
+                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy"
                                         oninput={handleSearchInputChange} />
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
             <button class="slds-button slds-button_brand" onclick={handleGenerateLinkPrev}>Generate Link &
                 Preview</button>
         </template>
-        <template if:true={showPreview}>
+        <template if:true={showSendButton}>
             <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
         </template>
 
