@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 07-01-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseQueryHandler {
@@ -298,13 +298,14 @@ public without sharing class ASF_CaseQueryHandler {
     * @return List<ASF_Case_Category_Config__c> 
     **/
     public static List<ASF_Case_Category_Config__c> getCaseCategoryConfigs(List<String> cccExternalIds) {
+        // VIRENDRA - 28 JUN 2024 - ADDED IGMS_Code__c  in QUERY.
         if(caseCategoryConfigs == null || refreshRecords){
             caseCategoryConfigs = [SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, 
                                     Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, 
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
-                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c, No_Owner_Change_on_Recat__c
+                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c, No_Owner_Change_on_Recat__c,IGMS_Code__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds WITH SYSTEM_MODE];
                                     
