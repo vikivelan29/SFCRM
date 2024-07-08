@@ -3,7 +3,7 @@
     <label>Retail</label>
     <protected>false</protected>
     <values>
-        <field>Email_Addresses_Allowed__c</field>
+        <field>Email_Addresses_Allowed_Long__c</field>
         <value xsi:type="xsd:string">care.finance@adityabirlacapital.com,care.digitalfinance@adityabirlacapital.com,ABFL.ForeclosureRetention@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>
