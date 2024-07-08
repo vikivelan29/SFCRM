@@ -18,7 +18,7 @@ public with sharing class ABCL_SendEmailValidation {
         List<String> selectedFromAddress = new List<String>();
         Boolean isAllowedFromAddress = false;
         ///Checking if the request is coming from User Action by Clicking on Quick Action - Email.
-    	Request reqInfo = Request.getCurrent();
+        Request reqInfo = Request.getCurrent();
         //String currentRequestId = reqInfo.getRequestId();
         Quiddity currentType = reqInfo.getQuiddity();
        // system.debug('currentTypevalue '+currentType);
@@ -30,28 +30,28 @@ public with sharing class ABCL_SendEmailValidation {
             }
         } 
         for (EmailMessage email : newEmails) {
-        	if(!email.Incoming && email.ParentId != null){
-				if(email.ParentId.getSObjectType() == Case.sObjectType){
-                	outgoingCaseEmails.add(email);
+            if(!email.Incoming && email.ParentId != null){
+                if(email.ParentId.getSObjectType() == Case.sObjectType){
+                    outgoingCaseEmails.add(email);
                     selectedFromAddress.add(email.ValidatedFromAddress);
                    //  system.debug('mdtAllowedAddress '+selectedFromAddress);
-				}
-			}
+                }
+            }
         }
         // we can extend the logic for this method by adding business unit on this custom metadata. Getting allowed business unit value.
         ABFL_Email_Validation_Configuration__mdt mdtAllowedBusinessUnit = ABFL_Email_Validation_Configuration__mdt.getInstance('Business_Unit'); 
-        allowedBusinessUnit= mdtAllowedBusinessUnit.Email_Addresses_Allowed__c.split(',');
+        allowedBusinessUnit= mdtAllowedBusinessUnit.Email_Addresses_Allowed_Long__c.split(',');
        // system.debug('allowedBusinessUnit '+allowedBusinessUnit);
-		List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit AND Profile.Name != 'System Administrator' WITH SYSTEM_MODE];
+        List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit WITH SYSTEM_MODE];
 
         if(!userTeam.isEmpty() && userTeam[0].Team__c!=null){
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
-        	ABFL_Email_Validation_Configuration__mdt mdtRestrictedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance('Restricted_From_Address'); 
+            ABFL_Email_Validation_Configuration__mdt mdtRestrictedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance('Restricted_From_Address'); 
             // Getting allowed FROM address according to the team assigned on user.
              ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
              // below code checks if FROM address selected is part of user's team allowed FROM address, if not throwing an error.
-             if(mdtAllowedFromAddress.Email_Addresses_Allowed__c!= null){
-                allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed__c.split(',');
+             if(mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c != null){
+                allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c.split(',');
                 String loggedInUserEmail = UserInfo.getUserEmail();
                 for (String domain : allowedFromAddress) {
                     if (selectedFromAddress.contains(domain.toLowerCase())) {
@@ -66,9 +66,9 @@ public with sharing class ABCL_SendEmailValidation {
                 } 
             }  
              // below code checks if FROM address selected is allowed to send an email to external email ,if not then throwing an error.
-             if(mdtRestrictedFromAddress.Email_Addresses_Allowed__c!= null){
+             if(mdtRestrictedFromAddress.Email_Addresses_Allowed_Long__c != null){
                 for (EmailMessage email : outgoingCaseEmails) {
-                    if(email.ValidatedFromAddress == mdtRestrictedFromAddress.Email_Addresses_Allowed__c &&  !email.ToAddress.containsIgnoreCase(system.label.Allowed_Domain)){
+                    if(email.ValidatedFromAddress == mdtRestrictedFromAddress.Email_Addresses_Allowed_Long__c &&  !email.ToAddress.containsIgnoreCase(system.label.Allowed_Domain)){
                     email.addError(system.label.Error_Restricted_Domain+' '+email.ValidatedFromAddress);
                     }
                 } 
@@ -76,9 +76,9 @@ public with sharing class ABCL_SendEmailValidation {
         }
         // if user doesnt have any team assigned , throwing the below validation.
         else if(!userTeam.isEmpty() && userTeam[0].Team__c==null){
-			for (EmailMessage email : outgoingCaseEmails) {
+            for (EmailMessage email : outgoingCaseEmails) {
                 email.addError(system.label.Error_Team_Not_Found);
                 }
             } 
         }
-	}
+    }
