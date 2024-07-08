@@ -13,6 +13,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABCL_EBotFeedback</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CustomerEmailInvocable</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3405,6 +3409,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Recategorisation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Bulk_CaseDetail_JSON__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
