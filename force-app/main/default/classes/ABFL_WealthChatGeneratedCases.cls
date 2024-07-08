@@ -19,10 +19,11 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         for(EmailMessage msg : emailMessageList){
             if( msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType ){
                 boolean bEligible = false;
-                if(msg.Headers != null){
-                    if(!msg.Headers.contains('In-Reply-To:')){
-                        bEligible = true;
-                    }
+                if((msg.Headers != null && msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null )){
+                    bEligible = true;
+                }
+                else if(msg.Headers != null && msg.Headers.contains('In-Reply-To:')){
+                    bEligible = false;
                 }
                 else{
                     bEligible = true;
