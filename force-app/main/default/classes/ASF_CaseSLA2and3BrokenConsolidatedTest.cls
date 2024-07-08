@@ -29,6 +29,7 @@ public  class ASF_CaseSLA2and3BrokenConsolidatedTest {
         caseRecord.SLA_Target_1__c = UserInfo.getUserEmail();
         caseRecord.SLA_Target_2__c = UserInfo.getUserEmail();
         caseRecord.SLA_Target_3__c = UserInfo.getUserEmail();
+        caseRecord.Last_Owner_Change_Date__c = system.now();
         update caseRecord;
 
         // Set SLA Broken to Level 1
@@ -61,6 +62,7 @@ public  class ASF_CaseSLA2and3BrokenConsolidatedTest {
         caseRecord.SLA_Target_1__c = UserInfo.getUserEmail();
         caseRecord.SLA_Target_2__c = UserInfo.getUserEmail();
         caseRecord.SLA_Target_3__c = UserInfo.getUserEmail();
+        caseRecord.Last_Owner_Change_Date__c = system.now();
         update caseRecord;
 
         // Set SLA Broken to Level 1
