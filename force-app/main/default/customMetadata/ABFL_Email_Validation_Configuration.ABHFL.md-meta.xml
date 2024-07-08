@@ -3,7 +3,7 @@
     <label>ABHFL</label>
     <protected>false</protected>
     <values>
-        <field>Email_Addresses_Allowed__c</field>
+        <field>Email_Addresses_Allowed_Long__c</field>
         <value xsi:type="xsd:string">care.housingfinance@adityabirlacapital.com,grievance.housingfinance@adityabirlacapital.com,abhfl.expressresolution@adityabirlacapital.com,ABHFL.CeoDesk@adityabirlacapital.com,ABHFL.grievancehead@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>
