@@ -39,7 +39,6 @@ public class ABSLI_CaseIntegrationHelper_Test {
 
         // Create mock ASF_Case_Integration__c record
         ASF_Case_Integration__c caseIntegration = new ASF_Case_Integration__c(
-            Email_Body__c = 'Test Email Body',
             Type__c = 'eBOT',
             Status__c = 'Success',
             Case__c = caseList[0].id
