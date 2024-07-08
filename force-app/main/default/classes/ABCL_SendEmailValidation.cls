@@ -42,7 +42,7 @@ public with sharing class ABCL_SendEmailValidation {
         ABFL_Email_Validation_Configuration__mdt mdtAllowedBusinessUnit = ABFL_Email_Validation_Configuration__mdt.getInstance('Business_Unit'); 
         allowedBusinessUnit= mdtAllowedBusinessUnit.Email_Addresses_Allowed_Long__c.split(',');
        // system.debug('allowedBusinessUnit '+allowedBusinessUnit);
-        List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit WITH SYSTEM_MODE];
+		List<User> userTeam = [SELECT ID ,Team__c FROM USER WHERE ID = :UserInfo.getUserID() AND Business_Unit__c IN: allowedBusinessUnit AND Profile.Name != 'System Administrator' WITH SYSTEM_MODE];
 
         if(!userTeam.isEmpty() && userTeam[0].Team__c!=null){
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
