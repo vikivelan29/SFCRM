@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
-* @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 11-20-2023
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
     
@@ -483,16 +483,46 @@ public without sharing class ASF_CaseSLAHandlerV1 {
      */
     public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
         List<Case> cases = new List<Case>();
+        Set<Id> allCaseIds = new Set<Id>();
+
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
-            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
-                Case caseRec = new Case(Id=caseId);
-                cases.add(caseRec);
+            allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
+        }
+        for(Case caseRec : [Select Id, OwnerId from Case where Id IN : allCaseIds]){
+            caseRec.Last_Owner_Change_Date__c = System.now();
+            cases.add(caseRec);
+        }
+        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap = getCaseOwnerBusinessHours(null,cases);
+        if(resultMap != null){
+            Integer index = 0;
+            for(Case updatedCase : cases){
+                updatedCase.SLA_Target_1__c = null;
+                updatedCase.SLA_Target_2__c = null;
+                updatedCase.SLA_Target_3__c = null;
+                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                    }
+                }
+                index++;
             }
         }
         updateOldCaseSLAHistory(cases);
         ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
         ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
+
+        //update cases
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        update cases;
+
     }
 
     /*
@@ -620,7 +650,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<String> ownerEmailList = new List<String>();
         
         for(case c: newCases){
-            //owner change loop    
+            //owner change loop
+            //Removed the below if conditions code to accomodate SLA Target stamping 
+            //when converting from Interaction to framework    
             //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
