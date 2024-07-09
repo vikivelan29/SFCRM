@@ -47,12 +47,12 @@
                           <td data-label="Status">
                               <template if:true={accItem.Stage_Matched__c}>
                                 <template if:true={areDetailsVisible}>
-                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                    <lightning-combobox value={accItem.Status__c} options={accItem.StatusOptions}  style="height:50px" data-id={accItem.Id}
                                         data-field="Status__c" onchange={handleChange}>
                                     </lightning-combobox>
                                 </template>
                                 <template if:false={areDetailsVisible}>
-                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                    <lightning-combobox value={accItem.Status__c} options={accItem.StatusOptions}  data-id={accItem.Id}
                                         data-field="Status__c" onchange={handleChange} read-only="true">
                                     </lightning-combobox>
                                 </template>
