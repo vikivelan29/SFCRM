@@ -1,4 +1,4 @@
-import { api, LightningElement, wire } from 'lwc';
+import { api,track, LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Case_Owner from '@salesforce/schema/Case.OwnerId';
@@ -22,7 +22,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     ownerIdCase = userId;
     wiredAccountsResult;
     listRecords = {};
-    hasRecord = false;
+    @track hasRecord = false;
     isDisabled = true;
     checklistStatuses = new Map();
     statusVal;
@@ -100,6 +100,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
         else if (result.error) {
             this.error = result.error;
+            this.hasRecord = false;
             this.accounts = undefined;
         }
     }
