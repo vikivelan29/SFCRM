@@ -4448,6 +4448,9 @@
         <field>Case.Created_Date_Range__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <field>ASF_Communication_Log__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Create Case</label>
     <objectPermissions>
