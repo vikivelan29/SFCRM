@@ -19,6 +19,7 @@ public without sharing class ABFL_CaseDetailTriggerHandler extends ASF_VTriggerH
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_CaseDetailTriggerHandler.afterUpdate');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

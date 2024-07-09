@@ -21,6 +21,7 @@ public With Sharing class ABFL_AccRecentCaseCommController{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_AccRecentCaseCommController.getAccountCaseComments');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
             
