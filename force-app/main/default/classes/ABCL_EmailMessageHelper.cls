@@ -73,7 +73,7 @@ public with sharing class ABCL_EmailMessageHelper {
 * @Function - getEligibles
 * @param emails 
 * @return  List<EmailMessage>
-* @description - getEligibles 
+* @description - getEligibles  
 *****************************************************************************************************************/
     public static List<EmailMessage> getEligibles(List<EmailMessage> emails){
         List<EmailMessage> lEMessages = new List<EmailMessage>();
