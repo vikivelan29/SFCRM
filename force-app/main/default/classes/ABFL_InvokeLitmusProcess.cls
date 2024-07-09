@@ -91,6 +91,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeLitmusProcess.evaluateCasesForLitmus');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
@@ -159,6 +160,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeLitmusProcess.callLitmusAPI');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

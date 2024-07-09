@@ -98,6 +98,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_UserTeamDataUpdateBatch.execute');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

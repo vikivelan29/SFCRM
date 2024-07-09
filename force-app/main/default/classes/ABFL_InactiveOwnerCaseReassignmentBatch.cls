@@ -125,6 +125,7 @@ public without sharing class ABFL_InactiveOwnerCaseReassignmentBatch implements 
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InactiveOwnerCaseReassignmentBatch.execute');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
