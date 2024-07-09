@@ -1578,7 +1578,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Correct_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1943,7 +1943,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABHFL_Case_Detail__c.Priority1__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4485,6 +4485,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Customer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.DA_Transaction__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
