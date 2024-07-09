@@ -833,7 +833,7 @@
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
         <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
