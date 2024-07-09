@@ -2659,7 +2659,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Sanction_Amount__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2669,7 +2669,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Segment__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
