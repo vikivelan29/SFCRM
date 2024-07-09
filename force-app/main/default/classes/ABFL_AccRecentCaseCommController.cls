@@ -19,7 +19,7 @@ public With Sharing class ABFL_AccRecentCaseCommController{
             return [SELECT Id, CommentBody,Parent.CaseNumber,ParentId, LastModifiedDate, CreatedBy.Name FROM CaseComment WHERE ParentId IN (SELECT Id FROM Case WHERE AccountId = :accountId) WITH SECURITY_ENFORCED ORDER BY LastModifiedDate DESC LIMIT :queryRows];
         } catch (Exception e) {
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_AccRecentCaseCommController.getAccountCaseComments');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
