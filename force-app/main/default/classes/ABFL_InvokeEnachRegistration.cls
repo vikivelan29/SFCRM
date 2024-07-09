@@ -132,6 +132,8 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         enachData.return_url = 'http://localhost:8090/resultpage';
         payload.enach_data = enachData;
          
+        System.debug('@@@mobileN'+mobileNo);
+                System.debug('@@@emailId'+emailId);
         EventBus.publish(new Case_Integration_Outbound__e (
             Business_Unit__c  = caseRecord.Business_Unit__c,
             Case_Integration_ID__c = caseIntg[0]?.Name,
@@ -181,7 +183,7 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         }
         catch(Exception e) {
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
+            ABCL_Logger.push('ABFL_InvokeEnachRegistration.processResponse');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
