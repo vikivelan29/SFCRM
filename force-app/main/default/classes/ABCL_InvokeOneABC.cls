@@ -31,6 +31,7 @@ public without sharing class ABCL_InvokeOneABC {
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABCL_InvokeOneABC.evaluateCasesForOneABC');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     } 
@@ -98,6 +99,7 @@ public without sharing class ABCL_InvokeOneABC {
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABCL_InvokeOneABC.oneAbcCallout');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

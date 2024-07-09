@@ -183,8 +183,9 @@ public with sharing class ABFL_InvokeEnachRegistration implements ASF_Integratio
         }
         catch(Exception e) {
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
+            ABCL_Logger.push('ABFL_InvokeEnachRegistration.processResponse');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
         

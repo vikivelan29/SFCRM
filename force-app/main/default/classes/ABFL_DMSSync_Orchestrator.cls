@@ -93,8 +93,9 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         } catch (Exception e) {
             // Handle exceptions
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_DMSSync_Orchestrator.transferABFLCaseFilesToDMS');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
@@ -166,8 +167,9 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         } catch (Exception e) {
             // Handle exceptions
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_DMSSync_Orchestrator.syncDMSFilesManually');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
             return new ResponseWrapper(false, ABFL_Constants.DMS_GENERIC_ERROR);
         }
