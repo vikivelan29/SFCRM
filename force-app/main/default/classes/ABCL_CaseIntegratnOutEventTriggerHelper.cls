@@ -50,6 +50,7 @@ public without sharing class ABCL_CaseIntegratnOutEventTriggerHelper{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABCL_CaseIntegratnOutEventTriggerHelper.afterInsertMethod');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
