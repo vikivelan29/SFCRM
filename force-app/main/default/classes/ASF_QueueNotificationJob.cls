@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 04-24-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<AggregateResult>{ 
     global Iterable<AggregateResult> start(Database.batchableContext info){ 
         return new ASF_QueueNotificationIterable(); 
@@ -7,8 +17,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
         system.debug('coming here');
     	Map<Id,AggregateResult> mResults = new Map<Id,AggregateResult>(s);
         
-        List<Case> scope = [SELECT Id, caseNumber, ownerId,Sub_Type_Text__c,Type_Text__c, Owner.type, Last_Owner_Change_Date__c,BusinessHoursId FROM Case wHERE OwnerId =: mResults.keySet()];
-        //Business logic to send notification to Queue owner
+List<Case> scope = [SELECT Id, caseNumber, ownerId,Sub_Type_Text__c,Type_Text__c, Owner.type, Last_Owner_Change_Date__c,BusinessHoursId FROM Case WHERE OwnerId =: mResults.keySet() AND isClosed = false];        //Business logic to send notification to Queue owner
         Map<String,List<String>> queueVsCaseLst = new Map<String,List<String>>();
         map<string,case> caseNumberRecordMap = new map<string,case>();
         //DateTime d = system.now();
