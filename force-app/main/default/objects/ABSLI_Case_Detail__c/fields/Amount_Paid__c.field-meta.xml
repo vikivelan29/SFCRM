@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Requested_Loan_Amount__c</fullName>
-    <description>This is used in Loan Repayment Process</description>
+    <fullName>Amount_Paid__c</fullName>
     <externalId>false</externalId>
-    <label>Requested Loan Amount</label>
+    <label>Amount Paid</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
