@@ -129,9 +129,6 @@ public class ABSLI_Constants {
     public static final String LOANAPPROVAL_EVALUATION_ERROR = 'ABSLI_LOANAPPROVAL_EVALUATION_ERROR';
     public static final String LOANAPPROVAL_SUCCESS_MESSAGE = 'ABSLI_LOANAPPROVAL_SUCCESS_MESSAGE';
     public static final String LOANAPPROVAL_FAILURE_MESSAGE = 'ABSLI_LOANAPPROVAL_FAILURE_MESSAGE';
-    public static final String LOANAPPROVAL_DEFAULTCOMMENT_NONSTP = 'Case received as Non STP';
-    public static final String LOANAPPROVAL_DEFAULTCOMMENT_STP = 'Voucher not approved as amount is more than Rs. 1,00,000';
-    public static final Decimal LOANAPPROVAL_CUTOFFAMOUNT = 100000;
 
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
