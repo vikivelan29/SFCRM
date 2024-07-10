@@ -266,11 +266,12 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         //without query, owner.name will not come  . hence this query is needed 
         for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c,Case_Assigned_Team__c FROM Case WHERE Id IN: newCases.values()]){
             Case updatedCase = internalCaseUpdateMap.get(c.Id);
+            //Not coming from Omnichannel
             //pure insert and
             //(updatecase present and owner id is populated & stage is not changing - means assigment yet to happen during insert
             //or skipsla is populated)
             //then skip
-            if(oldCases == null &&
+            if(!ASF_CaseSLAHandlerV1.isFromOmniChannel && oldCases == null &&
             (
                 (updatedCase != null && updatedCase.OwnerId != null && updatedCase.Stage__c == null)
                 ||
@@ -488,7 +489,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
             allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
         }
-        for(Case caseRec : [Select Id, OwnerId from Case where Id IN : allCaseIds]){
+        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
             caseRec.Last_Owner_Change_Date__c = System.now();
             cases.add(caseRec);
         }
