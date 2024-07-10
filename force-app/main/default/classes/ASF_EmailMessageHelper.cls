@@ -51,8 +51,7 @@ public without sharing class ASF_EmailMessageHelper {
         if(existingCases == null){
             existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
                                         CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
-                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
-                                        (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
+                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c
                                         FROM Case 
                                         WHERE Id IN :caseIds AND RecordTypeId = :ASF_Constants.RT_FRAMEWORK];
         }
