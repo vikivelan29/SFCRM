@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Requested_Loan_Amount__c</fullName>
-    <description>This is used in Loan Repayment Process</description>
+    <fullName>Sub_Status__c</fullName>
     <externalId>false</externalId>
-    <label>Requested Loan Amount</label>
-    <precision>18</precision>
+    <label>Sub Status</label>
     <required>false</required>
-    <scale>2</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>TextArea</type>
 </CustomField>
