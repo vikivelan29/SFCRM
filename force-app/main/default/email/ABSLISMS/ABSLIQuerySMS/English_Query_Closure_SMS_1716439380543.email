@@ -2,6 +2,8 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Thank you for contacting us. We have responded to your query / request registered with us for policy number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} / reference number {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} Communication for the same has been sent across to you.Now access your policy on WhatsApp. Send 'Hi' on 8828800040 or click https://lifeinsurance.adityabirlacapital.com/ &nbsp;to avail services like Tax Certificate, Premium Receipt, Fund Value etc. instantly at your fingertips.Regards, Aditya Birla Sun Life Insurance.<br />
-&nbsp;</body>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Thank you for contacting us. We have responded to your query/request registered with us for policy number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}/ reference number {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. Communication for the same has been sent across to you.&nbsp;<br />
+Now access your policy on WhatsApp. Send 'Hi' on 8828800040 or click https://lifeinsurance.adityabirlacapital.com/ to avail services like Tax Certificate, Premium Receipt, Fund Value etc. instantly at your fingertips.&nbsp;<br />
+Regards<br />
+Aditya Birla Sun Life Insurance.</body>
 </html>
