@@ -9,7 +9,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -198,7 +198,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (selected[SOURCE_FIELD.fieldApiName] == "All") {
                 this.isAllSource = true;
             }
-            if (this.loggedInUserBusinessUnit === 'ABSLIG') {
+            if (this.loggedInUserBusinessUnit === ABSLIG_BU) {
                 this.boolAllChannelVisible = false;
                 this.boolNoAutoComm = false;
 
