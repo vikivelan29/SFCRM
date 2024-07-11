@@ -444,7 +444,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     
     handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
-        console.log('event.detail.value=='+event.detail.value);
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;
