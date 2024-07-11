@@ -1581,6 +1581,11 @@
         <field>ABSLI_Nominee__c.Sync_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Sync_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Nominee__c.Appointee_Birthdate__c</field>
