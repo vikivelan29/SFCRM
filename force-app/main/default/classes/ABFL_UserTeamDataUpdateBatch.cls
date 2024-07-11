@@ -2,17 +2,20 @@
  * @description       : Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
+ * @last modified on  : 07-12-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+ * 2.0   07-11-2024   udit.singhal@salesforce.com  Updated Assigned_Team__c on user records
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.EmptyStatementBlock')
 public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>, Database.Stateful {
     
-    Map<Id,Id> publicgrpVsQueue = new Map<Id,Id>();// Store corresponding Queue and it's Public group data 
-    Map<Id,List<Id>> userVsPublicgrp = new Map<Id,List<Id>>();// store USER vs Public Group data
+    Map<Id,Id> publicgrpVsQueueIdMap = new Map<Id,Id>();// Store corresponding Queue and it's Public group data
+    Map<Id,String> publicgrpVsQueueNameMap = new Map<Id,String>();
+    Map<Id,Set<Id>> userVsPublicgrp = new Map<Id,Set<Id>>();// store USER vs queueId
+    Map<Id,List<String>> userVslstQueueName = new Map<Id,List<String>>();// store USER vs queue name
     List<User> usersList = new List<User>();// List of Users to be updated/modified
     
     /**
@@ -21,10 +24,13 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     **/
     public ABFL_UserTeamDataUpdateBatch(){
                
-       for(GroupMember grp : [SELECT GroupId,UserOrGroupId FROM GroupMember WHERE Group.Type = 'Queue' AND Group.DeveloperName LIKE 'ABFL%'])
+       for(GroupMember grp : [SELECT GroupId,Group.Name,UserOrGroupId FROM GroupMember WHERE Group.Type = 'Queue' AND Group.DeveloperName LIKE 'ABFL%'])
         {
             // UserOrGroupId is Public Group ID & GroupId is Queue Id
-            publicgrpVsQueue.put(grp.UserOrGroupId,grp.GroupId);
+            if(!String.valueOf(grp.UserOrGroupId).startsWith('005')){
+                publicgrpVsQueueIdMap.put(grp.UserOrGroupId,grp.GroupId);
+                publicgrpVsQueueNameMap.put(grp.UserOrGroupId,grp.Group.Name);
+            }
         }
     }
     
@@ -51,53 +57,56 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     **/
     public void execute(Database.BatchableContext bc, List<User> scope) {
         try{
-            List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :scope order by SystemModstamp DESC];
-            
-            For(GroupMember grp : grpMemList){
+            Set<Id> userIds = new Set<Id>();
+            for (User u : scope) {
+                userIds.add(u.Id);
+            }
+            List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :userIds order by SystemModstamp DESC];
+            for(GroupMember grp : grpMemList){
                 if(grp.Group.type == 'Regular'){
                     if(!userVsPublicgrp.containsKey(grp.UserOrGroupId)){
-                        userVsPublicgrp.put(grp.UserOrGroupId, new List<String>{grp.GroupId});
-                    }else{
-                        userVsPublicgrp.get(grp.UserOrGroupId).add(grp.GroupId);
-                    }  
+                        userVsPublicgrp.put(grp.UserOrGroupId, new Set<Id>());
+                    }
+                    Id tempqueueId = publicgrpVsQueueIdMap.get(grp.GroupId);
+                    	userVsPublicgrp.get(grp.UserOrGroupId).add(tempqueueId); // creating map of User vs List of QueueIds
+                    if(!userVslstQueueName.containsKey(grp.UserOrGroupId)){
+                        userVslstQueueName.put(grp.UserOrGroupId, new List<String>());
+                    }
+                    String tempQueueName = publicgrpVsQueueNameMap.get(grp.GroupId);
+                    	userVslstQueueName.get(grp.UserOrGroupId).add(tempQueueName); // creating map of User vs List of queueNames
                 }
             }
-            
-            if(userVsPublicgrp.keySet() != NULL)
-            {               
-                List<Id> publicGrpId = new List<Id>();
-                String queueId;
-                
-                For(Id userId : userVsPublicgrp.KeySet())
-                {
-                    publicGrpId = userVsPublicgrp.get(userId); // fetch the Public group Id User is part of   
-                    Integer groupIndex = 0;
-                    for(Id groupId : publicGrpId){
-                        if(publicgrpVsQueue.get(groupId) != null){
-                            if(groupIndex == 0){
-                                queueId = publicgrpVsQueue.get(groupId); // fetch the Queue ID from the MAP publicgrpVsQueue by passing the key Public grp Id
-                            }else{
-                                queueId += ','+publicgrpVsQueue.get(groupId);
-                            }
-                            groupIndex ++;
-                        }
-                    }
-                    
-                    User u = new User();
-                    u.Id = userId;                
-                    u.managerGroupId__c = queueId;
-                    usersList.add(u);                
-                }  
-            }        
-            
-            if (!usersList.isEmpty()) {
-                Database.SaveResult[] saveResults = Database.update(usersList, false);
+            if(userVsPublicgrp.keySet() != null){                              
+                String commaSeparatedQueueIds;
+                String commaSeparatedQueueName;
+                Set<Id> setQueueIds = new Set<Id>();
+                List<String> lstQueueName  = new List<String>();
+                for(Id userId : userVsPublicgrp.KeySet()){      
+                    if(userVsPublicgrp.containsKey(userId)){
+                        setQueueIds =userVsPublicgrp.get(userId);
+                        lstQueueName = userVslstQueueName.get(userId);
+                        commaSeparatedQueueIds = String.join(new List<Id>(setQueueIds), ',');
+                        commaSeparatedQueueName = String.join(new List<String>(lstQueueName), ',');
+    				// Updating managerGroupId__c and Assigned_Team__c for users
+                        User u = new User();
+                        u.Id = userId;                
+                        u.managerGroupId__c = commaSeparatedQueueIds;
+                        u.Assigned_Team__c = commaSeparatedQueueName;
+                        usersList.add(u);
+                	}  
+				}
+            }    
+            Map<Id,User> userToUpdate = new Map<Id,User>();
+            userToUpdate.putall(usersList);// to avoid duplicate Id in list
+            if (!userToUpdate.isEmpty()) {
+                Database.SaveResult[] saveResults = Database.update(userToUpdate.values(), false);
             }
         } catch (Exception e) {
             // Handle exceptions
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_UserTeamDataUpdateBatch.execute');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
