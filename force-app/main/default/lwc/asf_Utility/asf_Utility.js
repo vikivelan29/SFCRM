@@ -20,10 +20,12 @@ import REJECTION_DETAILS from '@salesforce/schema/Case.Rejected_Reason__c';
 import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
+import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c';
+import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 //import CASE_PRODUCT_FIELD from '@salesforce/schema/Case.Product_Name__c';
 
 //import SR_CATEGORY from '@salesforce/schema/Case.SR_Category__c';
@@ -32,6 +34,8 @@ import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c';
 import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
+import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
@@ -46,12 +50,14 @@ export class asf_Utility {
             getCaseRelatedObjNameApex({cccId : selected.CCC_External_Id__c})
             .then(async result => {
                 var caseRelObjName = result;
-                console.log('##a##'+JSON.stringify(caseRelObjName));
+                console.log('##rel obj name##'+JSON.stringify(caseRelObjName)+'issue type-'+parentJS.issueTypeVal);
                 const fields = {};
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
-
+                if(parentJS.categoryTypeVal){
+                    fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
+                }
                 let cccRecToPass = {...selected};
                 cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
 
@@ -107,9 +113,11 @@ export class asf_Utility {
         if(parentJS.noAutoCommValue){
             fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
         }
-
-        if(parentJS.noAutoCommValue){
-            fields[NOAUTOCOMM_FIELD.fieldApiName] = parentJS.noAutoCommValue.join(';');
+        if(parentJS.ftrValue){
+            fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
+        }
+        if(parentJS.businessUnit === ABSLI_BU && parentJS.issueTypeVal != null){
+            fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;
         }
 
        if(!parentJS.rejectCase){
