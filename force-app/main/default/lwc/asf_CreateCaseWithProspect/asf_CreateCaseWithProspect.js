@@ -49,6 +49,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     strNoDataMessage = '';
     boolAllChannelVisible = false;
     boolAllSourceVisible = false;
+    boolSourceComboboxDisabled = false;
     createCaseWithAll = false;
     boolNoAutoComm = true;
     isNotSelected = true;
@@ -200,6 +201,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (this.loggedInUserBusinessUnit === 'ABSLIG') {
                 this.boolAllChannelVisible = false;
                 this.boolNoAutoComm = false;
+
+                if(this.sourceFldOptions.length === 1) {
+                    this.boolSourceComboboxDisabled = true;
+                }
             }
             this.disbleNextBtn = false;
         }
