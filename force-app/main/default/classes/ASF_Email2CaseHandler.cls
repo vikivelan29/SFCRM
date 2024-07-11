@@ -2,7 +2,7 @@
 * @description       : Class is having all the E2C Validation of Email Boxes logic.
 * @author            : virendra
 * @group             : 
-* @last modified on  : 06-23-2024
+* @last modified on  : 05-14-2024
 * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -179,9 +179,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         if(caseIds.IsEmpty()){
             return;
         }
-        
-        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Business_Unit__c FROM Case WHERE Id=:caseIds AND  
-                                                RecordTypeId = :ASF_Constants.RT_INTERACTION ]);
+        Map<Id,Case> mCases = new Map<Id,Case>([SELECT ID,Business_Unit__c FROM Case WHERE Id=:caseIds]);
         
         if(mCases.size() > 0) {
             // BELOW LINE OF CODE TO BE EXECUTED ONLY WHEN ATLEAST ONE MSGIDS PRESENT.
