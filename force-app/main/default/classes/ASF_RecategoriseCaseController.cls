@@ -103,7 +103,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                 WHERE id=:recId];
         String extensionObjecAPIname = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(currentRecord.CCC_External_Id__c);
         Set<String> uniqueStages = new Set<String>();
-        List<ASF_Case_Approv__c> approvalList = [select Id from ASF_Case_Approv__c where SR__c =: recId AND Is_Recategorization_Request__c = true
+        List<ASF_Case_Approv__c> approvalList = [select Id from ASF_Case_Approv__c where SR__c =: recId
                                                 and Approval_Status__c = 'Pending'];
         resultMap.put('recategorizeEnabled',false);
         resultMap.put('approvalPending',false);
