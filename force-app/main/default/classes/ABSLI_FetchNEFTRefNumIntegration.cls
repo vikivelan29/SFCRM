@@ -1,12 +1,11 @@
 /**
- * @description Tax Certificate Download Outbound Integration From Salesforce to Ingenium
- * Customer Portal Provides Tax Certification Download feature at Portal End because of the same reason, this case become FTR
- * Service Agent to Click on the button initiate the integration. On Successful response, case to be marked as Closed
+ * @description Fetch NEFT Reference Number Outbound from Salesforce to Ingenium
+ * This API is the last step of Loan Registration process. Create Assignee in Ingenium for given Loan registered base on Policy Number
  *
  * @author Abinash Panigrahi
  * @date 2024-05-17
  */
-public with sharing class ABSLI_TaxCertificateIntegration implements ASF_IntegrationInvocable {
+public with sharing class ABSLI_FetchNEFTRefNumIntegration implements ASF_IntegrationInvocable {
 	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
@@ -26,14 +25,11 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 			result.status = ABSLI_Constants.ERROR;
 			result.response = result.response = Custom_Messages__mdt.getInstance(
-					ABSLI_Constants.TAXCERTIFICATE_EVALUATION_ERROR
+					ABSLI_Constants.FETCHNEFTREF_EVALUATION_ERROR
 				)
 				.Message__c;
 
-			if (
-				(caseRecord.Technical_Source__c == 'API' && caseRecord.FTR__c) ||
-				caseRecord.Technical_Source__c == 'LWC'
-			) {
+			if (caseRecord.ABSLI_Case_Detail__r.Voucher_Number__c != null) {
 				result.status = ABSLI_Constants.SUCCESS;
 				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
 			}
@@ -72,17 +68,13 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 		for (Case caseRecord : caseRecords) {
 			string requestBody = JSON.serialize(
-				new TCDRequestWrapper(
-					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
-					ABCL_IntegrationCommonUtility.dateFormat(
-						caseRecord.ABSLI_Case_Detail__r?.From_Date__c,
-						'dd/MM/YYYY'
-					),
-					ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd/MM/YYYY')
+				new FNRNRequestWrapper(
+					caseRecord.LAN__c == null ? caseRecord.Asset?.Policy_No__c : caseRecord.LAN__c,
+					caseRecord.ABSLI_Case_Detail__r?.Voucher_Number__c
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-				if (intSpec.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
+				if (intSpec.Processing_Class__c == ABSLI_FetchNEFTRefNumIntegration.class.getName()) {
 					ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
 					caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
 					caseInteg.Case__c = caseRecord.Id;
@@ -95,8 +87,8 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
 					caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
 					caseIntOut.Request_Payload__c = requestBody;
-					caseIntOut.Integration_Name__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
-					caseIntOut.ServiceName__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
+					caseIntOut.Integration_Name__c = ABSLI_Constants.FETCHNEFTREF_SERVICE_NAME;
+					caseIntOut.ServiceName__c = ABSLI_Constants.FETCHNEFTREF_SERVICE_NAME;
 					peMap.put(index, caseIntOut);
 					indexToCaseId.put(index, caseRecord.Id);
 				}
@@ -131,13 +123,13 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.FETCHNEFTREF_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.FETCHNEFTREF_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
@@ -157,7 +149,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 		Set<String> intIds = new Set<String>();
 		for (Case caseRec : caseRecs) {
 			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
+				if (integ.Processing_Class__c == ABSLI_FetchNEFTRefNumIntegration.class.getName()) {
 					intIds.add(integ.External_Id__c);
 				}
 			}
@@ -190,56 +182,36 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
+			// Succesful Transaction
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
-				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
-
-				// TODO : Response Attribute Reference to determine
-				TCDResponseWrapper jsonMap = (TCDResponseWrapper) JSON.deserialize(
+				// Response Processing
+				FNRNResponseWrapper jsonMap = (FNRNResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
-					TCDResponseWrapper.class
+					FNRNResponseWrapper.class
 				);
 
-				// Transfer Attachment to Case
-				Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+				// Update NEFT Ref Number
+				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+				ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
+				caseDetail.NEFT_Reference_Number__c = jsonMap.NEFT_REF_NUM;
+				caseDetail.Next_Integration_Name__c = ABSLI_LoanAssignmentIntegration.class.getName();
+				Database.SaveResult result = Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
-				//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-				sendoutEmailSMSNotification(caseRecord);
-
-				caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+				if (result.isSuccess()) {
+					ASF_Integration__c loanAssignInt = ABSLI_IntegrationQueryHelper.getIntegrationInfo(
+							new Set<String>{ ABSLI_LoanAssignmentIntegration.class.getName() }
+						)
+						.get(ABSLI_LoanAssignmentIntegration.class.getName());
+					ASF_IntegrationsController.runIntegration(loanAssignInt, caseRecord);
+				}
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
-			ABCL_Logger.push('ABSLI_TaxCertificateIntegration.processResponse');
+			ABCL_Logger.push('ABSLI_FetchNEFTRefNumIntegration.processResponse');
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
-	}
-
-	/**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
 	}
 
 	/**
@@ -272,47 +244,24 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	}
 
 	/**
-	 * @description Tax Certificate Download (TCD) Wrapper Class to build Integration Request Body JSON
+	 * @description Fetch NEFT Reference Number (FNRN) Wrapper Class to build Integration Request Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class TCDRequestWrapper {
-		public RqReq RqReq { get; set; }
+	public class FNRNRequestWrapper {
+		public string MIR_POL_ID_BASE { get; set; }
+		public string CHQ_VCHR_NUM { get; set; }
 
-		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
-			this.RqReq = new RqReq();
-			RqReq.details = new Details(policyID, startDate, endDate);
-		}
-	}
-
-	public class RqReq {
-		public Details Details { get; set; }
-	}
-
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class Details {
-		public String POLICYID;
-		public String SOURCE;
-		public String STARTDATE;
-		public String ENDDATE;
-		public String AGENTCODE;
-		public String OutputFormat;
-
-		public Details(String policyID, String startDate, String endDate) {
-			this.POLICYID = policyID;
-			this.SOURCE = ABSLI_Constants.ESB_SOURCE_ID;
-			this.STARTDATE = startDate;
-			this.ENDDATE = endDate;
-			this.AGENTCODE = ABSLI_Constants.TAXCERTIFICATE_AGENT_CODE;
-			this.OutputFormat = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
+		public FNRNRequestWrapper(String policyNumber, String voucherNumber) {
+			this.MIR_POL_ID_BASE = policyNumber;
+			this.CHQ_VCHR_NUM = voucherNumber;
 		}
 	}
 
 	/**
-	 * @description Tax Certificate Download (TCD) Wrapper Class to follow through Response Body JSON
+	 * @description Fetch NEFT Reference Number (FNRN) Wrapper Class to follow through Response Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class TCDResponseWrapper {
-		public String URL;
-		public String outputFormat;
+	public class FNRNResponseWrapper {
+		public String NEFT_REF_NUM { get; set; }
+		public String MIR_POL_ID_BASE { get; set; }
+		public String CHQ_VCHR_NUM { get; set; }
 	}
 }
