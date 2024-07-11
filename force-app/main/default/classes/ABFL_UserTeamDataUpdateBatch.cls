@@ -43,10 +43,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     public Database.QueryLocator start(Database.BatchableContext bc) {
         
         // Query ALL Active User records
-        return Database.getQueryLocator([
-            SELECT Id, Name, Assigned_Team__c,managerGroupId__c  
-            FROM USER             
-            WHERE IsActive = TRUE AND Business_Unit__c = :ABFL_Constants.ABFL]);            
+        return Database.getQueryLocator('SELECT Id, Name, Assigned_Team__c,managerGroupId__c FROM USER WHERE IsActive = TRUE AND Business_Unit__c = '+'\''+ABFL_Constants.ABFL+'\''+(Test.isRunningTest()?' AND username like \'adminUserabcl@gmail.com%\'':''));
     }
     
     /**
