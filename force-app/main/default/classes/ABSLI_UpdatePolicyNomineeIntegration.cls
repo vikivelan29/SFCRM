@@ -3,8 +3,7 @@
 *  Service Agent to manually invoke STP by clicking on the Integration Button
 *  Customer Portal to create Cases by API. On Successful response, case to be marked as Closed
 *
-* @author Virendra Patil
-* @modified-by Aditya Mehrotra
+* @author Aditya Mehrotra
 * @date 2024-07-01
 */
 public with sharing class ABSLI_UpdatePolicyNomineeIntegration implements ASF_IntegrationInvocable {
