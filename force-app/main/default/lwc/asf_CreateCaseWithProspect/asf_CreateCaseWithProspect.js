@@ -205,7 +205,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }
     }
 
-    // Method Description - Deselect all checkbox from lightning datatable
+    // Method Description - Deselect all selection from lightning datatable
     removeSelection() {
         let dataTableRecords = this.template.querySelector('lightning-datatable');
         if(dataTableRecords) {
