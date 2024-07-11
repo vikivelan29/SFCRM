@@ -437,13 +437,13 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.showFromGlobalSearch = false;
         }
     }
-
     render() {
         return this.showFromGlobalSearch ? FROMGLOBALSEARCHPAGE : FROMPROSPECTPAGE;
       }
     
-    handleAutoCommChange(event){
+      handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
+        console.log('event.detail.value=='+event.detail.value);
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;
