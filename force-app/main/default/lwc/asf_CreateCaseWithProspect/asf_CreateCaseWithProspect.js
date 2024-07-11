@@ -50,6 +50,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     boolAllChannelVisible = false;
     boolAllSourceVisible = false;
     createCaseWithAll = false;
+    boolNoAutoComm = true;
     isNotSelected = true;
     isAllNature = false;
     isAllSource = false;
@@ -127,6 +128,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }, this.doneTypingInterval);
     }
     SearchAccountHandler() {
+
+        this.removeSelection();
+        
         getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
@@ -193,9 +197,22 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (selected[SOURCE_FIELD.fieldApiName] == "All") {
                 this.isAllSource = true;
             }
+            if (this.loggedInUserBusinessUnit === 'ABSLIG') {
+                this.boolAllChannelVisible = false;
+                this.boolNoAutoComm = false;
+            }
             this.disbleNextBtn = false;
         }
     }
+
+    // Method Description - Deselect all checkbox from lightning datatable
+    removeSelection() {
+        let dataTableRecords = this.template.querySelector('lightning-datatable');
+        if(dataTableRecords) {
+            dataTableRecords.selectedRows = [];
+        }
+     }
+
     async createCaseHandler(event) {
         this.handleLeadSubmit(event);
         //this.template.querySelector('lightning-record-edit-form[data-id="leadCreateForm"]').submit();
@@ -420,11 +437,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.showFromGlobalSearch = false;
         }
     }
+
     render() {
         return this.showFromGlobalSearch ? FROMGLOBALSEARCHPAGE : FROMPROSPECTPAGE;
       }
     
-      handleAutoCommChange(event){
+    handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
         console.log('event.detail.value=='+event.detail.value);
     }
