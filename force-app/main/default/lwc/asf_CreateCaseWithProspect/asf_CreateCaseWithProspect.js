@@ -9,7 +9,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+
 
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -49,7 +49,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     strNoDataMessage = '';
     boolAllChannelVisible = false;
     boolAllSourceVisible = false;
-    boolSourceComboboxDisabled = false;
     createCaseWithAll = false;
     boolNoAutoComm = true;
     isNotSelected = true;
@@ -198,19 +197,15 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (selected[SOURCE_FIELD.fieldApiName] == "All") {
                 this.isAllSource = true;
             }
-            if (this.loggedInUserBusinessUnit === ABSLIG_BU) {
+            if (this.loggedInUserBusinessUnit === 'ABSLIG') {
                 this.boolAllChannelVisible = false;
                 this.boolNoAutoComm = false;
-
-                if(this.sourceFldOptions.length === 1) {
-                    this.boolSourceComboboxDisabled = true;
-                }
             }
             this.disbleNextBtn = false;
         }
     }
 
-    // Method Description - Deselect all selection from lightning datatable
+    // Method Description - Deselect all checkbox from lightning datatable
     removeSelection() {
         let dataTableRecords = this.template.querySelector('lightning-datatable');
         if(dataTableRecords) {
@@ -442,11 +437,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.showFromGlobalSearch = false;
         }
     }
+
     render() {
         return this.showFromGlobalSearch ? FROMGLOBALSEARCHPAGE : FROMPROSPECTPAGE;
       }
     
-      handleAutoCommChange(event){
+    handleAutoCommChange(event){
         this.noAutoCommValue = event.detail.value;
         console.log('event.detail.value=='+event.detail.value);
     }
