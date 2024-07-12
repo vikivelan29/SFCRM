@@ -13,7 +13,9 @@ public with sharing class ABSLI_NomineeDetailController {
     public static nomineeResponse getNomineeFromCore(String policyId){
         nomineeResponse retVal = new nomineeResponse();
         
-        ObjRequest custSearchReqWrapper = new ObjRequest(policyId);
+        Asset policy = [SELECT ID,Policy_No__c FROM Asset WHERE Id =: policyId AND Business_Unit__c =: ABSLI_Constants.BUSINESS_UNIT LIMIT 1];
+        
+        ObjRequest custSearchReqWrapper = new ObjRequest(policy.Policy_No__c);
         
         string custSearchReqBody = JSON.serialize(custSearchReqWrapper);
         ABCL_IntegrationCallout.IntegrationResponseWrapper policyNomineeResp = 
@@ -73,6 +75,7 @@ public with sharing class ABSLI_NomineeDetailController {
         public string DOB_OF_NOMINEE{get;set;}
         public string RELATIONSHIP{get;set;}
         public string ALLOCATION{get;set;}
+        public string SEQUENCENO{get;set;}
     }
     public class nomineeResponse{
         @AuraEnabled 

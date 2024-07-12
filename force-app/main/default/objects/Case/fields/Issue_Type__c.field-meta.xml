@@ -504,6 +504,86 @@
                 <label>Mode change procedure</label>
             </value>
             <value>
+                <fullName>Discrepancy in claim value</fullName>
+                <default>false</default>
+                <label>Discrepancy in claim value</label>
+            </value>
+            <value>
+                <fullName>Pre existing illness not covered</fullName>
+                <default>false</default>
+                <label>Pre existing illness not covered</label>
+            </value>
+            <value>
+                <fullName>Partial withdrawal refund credited to wrong account number/ wrong policy</fullName>
+                <default>false</default>
+                <label>Partial withdrawal refund credited to wrong account number/ wrong policy</label>
+            </value>
+            <value>
+                <fullName>Partial withdrawal request delayed/ not received by customer</fullName>
+                <default>false</default>
+                <label>Partial withdrawal request delayed/ not received by customer</label>
+            </value>
+            <value>
+                <fullName>Renewal premium used incorrectly</fullName>
+                <default>false</default>
+                <label>Renewal premium used incorrectly</label>
+            </value>
+            <value>
+                <fullName>Transfer from old policy</fullName>
+                <default>false</default>
+                <label>Transfer from old policy</label>
+            </value>
+            <value>
+                <fullName>Commission pass backs</fullName>
+                <default>false</default>
+                <label>Commission pass backs</label>
+            </value>
+            <value>
+                <fullName>Bonus</fullName>
+                <default>false</default>
+                <label>Bonus</label>
+            </value>
+            <value>
+                <fullName>Loan</fullName>
+                <default>false</default>
+                <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Incomplete charges explained</fullName>
+                <default>false</default>
+                <label>Incomplete charges explained</label>
+            </value>
+            <value>
+                <fullName>Surrender lock-in period not explained\Incorrectly Projected</fullName>
+                <default>false</default>
+                <label>Surrender lock-in period not explained\Incorrectly Projected</label>
+            </value>
+            <value>
+                <fullName>Proposer&apos;s signature forged on proposal form,</fullName>
+                <default>false</default>
+                <label>Proposer&apos;s signature forged on proposal form,</label>
+            </value>
+            <value>
+                <fullName>Tampered/Forged/Fake Documents</fullName>
+                <default>false</default>
+                <label>Tampered/Forged/Fake Documents</label>
+            </value>
+            <value>
+                <fullName>Life assured&apos;s signature forged on proposal form</fullName>
+                <default>false</default>
+                <label>Life assured&apos;s signature forged on proposal form</label>
+            </value>
+            <value>
+                <fullName>Annuity option not clearly explained</fullName>
+                <default>false</default>
+                <label>Annuity option not clearly explained</label>
+            </value>
+            <value>
+                <fullName>Rider added/deleted without consent</fullName>
+                <default>false</default>
+                <label>Rider added/deleted without consent</label>
+            </value>
+            <value>
                 <fullName>Payout Related</fullName>
                 <default>false</default>
                 <label>Payout Related</label>

@@ -14,7 +14,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'PNFT008';
 		integ.Display_Name__c = 'Contact Detail Update';
-		integ.Query_Fields__c = 'Id, Status, OwnerId, CaseNumber, Client_Code_Text__c, Account.Client_Code__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, AccountId, ABSLI_Case_Detail__r.Mobile_Number__c, ABSLI_Case_Detail__r.Email_Id__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c';
+		integ.Query_Fields__c = 'Id, Status, OwnerId, CaseNumber, Client_Code_Text__c, Account.Client_Code__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Status_Valid_For_STP__c, AccountId, ABSLI_Case_Detail__r.Mobile_Number__c, ABSLI_Case_Detail__r.Email_Id__c, ABSLI_Case_Detail__r.Source_Request_submitted_by__c, ABSLI_Case_Detail__r.Country_Code__c, Technical_Source__c, Business_Unit__c, CCC_External_Id__c';
 		integ.Processing_Class__c = 'ABSLI_ContactDetailUpdateIntegration';
 		integ.When_to_Appear__c = 'Stage Entry';
 		integ.Type__c = 'Process';
@@ -33,6 +33,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 		detailRec.Mobile_Number__c = 'PAYTM123';
 		detailRec.Email_Id__c = 'panigrahi@abinash.com';
 		detailRec.Status_Valid_For_STP__c = true;
+		detailRec.Country_Code__c = '91';
+		detailRec.Source_Request_submitted_by__c = 'Customer';
 		insert detailRec;
 
 		Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
@@ -78,6 +80,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 				AccountId,
 				ABSLI_Case_Detail__r.Mobile_Number__c,
 				ABSLI_Case_Detail__r.Email_Id__c,
+				ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+				ABSLI_Case_Detail__r.Country_Code__c,
 				Technical_Source__c,
 				Business_Unit__c,
 				CCC_External_Id__c
@@ -113,6 +117,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 				AccountId,
 				ABSLI_Case_Detail__r.Mobile_Number__c,
 				ABSLI_Case_Detail__r.Email_Id__c,
+				ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+				ABSLI_Case_Detail__r.Country_Code__c,
 				Technical_Source__c,
 				Business_Unit__c,
 				CCC_External_Id__c
@@ -143,6 +149,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 				AccountId,
 				ABSLI_Case_Detail__r.Mobile_Number__c,
 				ABSLI_Case_Detail__r.Email_Id__c,
+				ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+				ABSLI_Case_Detail__r.Country_Code__c,
 				Technical_Source__c,
 				Business_Unit__c,
 				CCC_External_Id__c
@@ -181,6 +189,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 				AccountId,
 				ABSLI_Case_Detail__r.Mobile_Number__c,
 				ABSLI_Case_Detail__r.Email_Id__c,
+				ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+				ABSLI_Case_Detail__r.Country_Code__c,
 				Technical_Source__c,
 				Business_Unit__c,
 				CCC_External_Id__c
@@ -214,6 +224,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 				AccountId,
 				ABSLI_Case_Detail__r.Mobile_Number__c,
 				ABSLI_Case_Detail__r.Email_Id__c,
+				ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+				ABSLI_Case_Detail__r.Country_Code__c,
 				Technical_Source__c,
 				Business_Unit__c,
 				CCC_External_Id__c

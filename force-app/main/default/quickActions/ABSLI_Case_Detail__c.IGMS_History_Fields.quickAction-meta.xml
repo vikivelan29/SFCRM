@@ -65,11 +65,6 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>IGMS_Complaint_Against_Type__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Entity_Reference_No__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>

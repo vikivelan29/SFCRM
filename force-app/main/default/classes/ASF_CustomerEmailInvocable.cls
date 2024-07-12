@@ -61,8 +61,14 @@ public without sharing class ASF_CustomerEmailInvocable {
         
             List<EmailInputWrapper> ftrCaseList = new List<EmailInputWrapper>();
             List<EmailInputWrapper> regionalTemplateList = new List<EmailInputWrapper>();
+            List<EmailInputWrapper> unresolvedCaseList = new List<EmailInputWrapper>();
+            
             for(EmailInputWrapper inpWrap : absliList){
-                if(inpWrap.caseStatus == 'New'){
+                if(inpWrap.CaseStatus == 'Unresolved'){
+                    unresolvedCaseList.add(inpWrap);
+                    continue;
+                }
+                else if(inpWrap.caseStatus == 'New'){
                     ftrCaseList.add(inpWrap);
                 }
                 if(inpWrap.LanguagePreference != null && inpWrap.LanguagePreference != '' && inpWrap.LanguagePreference.toLowerCase() != 'english'){
@@ -74,6 +80,9 @@ public without sharing class ASF_CustomerEmailInvocable {
             }
             if(!regionalTemplateList.isEmpty()){
                 ABSLI_PopulateRegionalEmailSMS.getRegionalTemplate(absliList, allOutputs);
+            }
+            if(!unresolvedCaseList.isEmpty()){
+                ABSLI_EmailSMSSuppressionHandler.handleSuppressionLogic(absliList, allOutputs);
             }
         }
         
@@ -119,7 +128,7 @@ public without sharing class ASF_CustomerEmailInvocable {
         public String caseStatus;
         @InvocableVariable(label='Case Record' description='Case Record' required=false)
         public sObject caseRecord;
-        @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=false)
+        @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=true)
         public sObject cccRecord;
         @InvocableVariable(label='Email Template Name' description='Default Template name passed' required=false)
         public String templateName;

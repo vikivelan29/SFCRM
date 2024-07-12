@@ -58,6 +58,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -406,7 +407,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM') || (this.businessUnit === ABSLI_BU) || (this.businessUnit === ABSLIG_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -670,6 +671,22 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
         
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
+
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoing validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecord);
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
+                return;
+            }
+            console.log('ending validator');
+        }
+
         this.loaded = false;
         console.log('tst22557');
         createRecord(caseRecord)
