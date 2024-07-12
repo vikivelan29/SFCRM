@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Email_Addresses_Allowed__c</fullName>
+    <fullName>Policy_No_Text__c</fullName>
+    <description>This field to store the Policy No coming from IGMS to Salesforce Complaint Inbound API.</description>
     <externalId>false</externalId>
-    <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Email Addresses Allowed</label>
+    <label>Policy No</label>
     <length>255</length>
     <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

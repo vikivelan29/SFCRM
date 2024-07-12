@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Validation</label>
             </value>
+            <value>
+                <fullName>UI Action</fullName>
+                <default>false</default>
+                <label>UI Action</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

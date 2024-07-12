@@ -10,7 +10,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_CC ='CC';
     public static final String STRING_SEMI_COLON =';';
     public static final String STRING_COMMA =',';
-    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage;
+    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage; 
     
     /****************************************************************************************************************
     * @description  Gets the Source tagged to User and its Relavant Channel list.     
@@ -168,7 +168,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
@@ -199,6 +199,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
         
+        system.debug('query--'+dynamicQuery);
         searchResults =
             new Map<Id, ASF_Case_Category_Config__c>(
                 (List<ASF_Case_Category_Config__c>)Database.query(dynamicQuery));
@@ -207,6 +208,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strErrorMessage = STRING_NORECORDERROR;
         }
         objCaseDetailsWrapper.lstCCCrecords = searchResults.values();
+        system.debug('size--'+objCaseDetailsWrapper.lstCCCrecords.size());
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
@@ -214,12 +216,13 @@ public with sharing class ASF_CreateCaseWithTypeController {
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
                 if( String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
-                   && ccc.Business_Unit__c.contains(userBu)){
+                   && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
                    } 
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);
+            system.debug('final size--'+objCaseDetailsWrapper.lstCCCrecords.size());
             
         }
         
