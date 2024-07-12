@@ -58,9 +58,6 @@
         <field>Asset.Issue_Date__c</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Complaint_Details__c</field>
-    </columns>
-    <columns>
         <field>ASSET_ACCOUNT.NAME</field>
     </columns>
     <columns>
