@@ -62,13 +62,14 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                 }
                                 if (creationNotAllowed) {
+                                    // Throw error here - This will block further processing - Check for rule level message, then header level message
+                                    //emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
                                     String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
                                     // Log the error
                                     ABCL_Logger.enableExceptionLogging();
                                     ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
                                     ABCL_Logger.message(message);
                                     ABCL_Logger.emit();
-                                    // Throw error here - This will block further processing - Check for rule level message, then header level message
                                     emailMsg.addError(message);
                                 }
                             }
