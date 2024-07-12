@@ -62,7 +62,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -72,6 +72,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
@@ -506,10 +510,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -535,10 +535,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -585,6 +581,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -600,6 +607,10 @@
         </values>
         <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
         <values>
@@ -682,6 +693,10 @@
         </values>
         <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
         <values>
@@ -769,10 +784,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letter %2F Snail Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
@@ -782,10 +793,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -802,6 +809,10 @@
         </values>
         <values>
             <fullName>Outbound call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
@@ -873,7 +884,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

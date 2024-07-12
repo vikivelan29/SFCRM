@@ -882,16 +882,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abflENACHStatus</componentName>
-                <identifier>c_abflENACHStatus</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-8fc16974-cf2b-4b36-aec8-8ef135ff94a4</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>abfl_OutstandingCharges</componentName>
                 <identifier>c_abfl_OutstandingCharges</identifier>
             </componentInstance>
@@ -916,10 +906,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-8fc16974-cf2b-4b36-aec8-8ef135ff94a4</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>ENACH Status</value>

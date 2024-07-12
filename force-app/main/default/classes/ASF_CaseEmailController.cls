@@ -73,8 +73,10 @@ public without sharing class ASF_CaseEmailController {
         
         Pattern regex2 = Pattern.compile(regExpForSubQuery);
         Matcher matcher2 = regex2.matcher(inputText);
+        
+        String caseBusinessUnit = caseObject.Business_Unit__c;
 
-        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL')?true:false;
+        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL' || caseObject.Business_Unit__c == 'ABSLI')?true:false;
         
         List<String> dynamicFieldsToReplace = new List<String>();
         Map<String,String> resultMap = new Map<String, String>();
@@ -121,7 +123,7 @@ public without sharing class ASF_CaseEmailController {
             resultMap.put('Today',Date.today().format());
         }
 
-        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL);
+        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL,caseBusinessUnit);
         if (resultMap != null){
             for (String resKey : resultMap.keySet()) {
                 String resVal = resultMap.get(resKey);
@@ -189,6 +191,7 @@ public without sharing class ASF_CaseEmailController {
         Map<String,String> resultMap = new Map<String,String>();
 
         Map<String, String> subFieldWithQuery = ASF_CaseEmailControllerBUSpecificHandler.handleSubQueries(subQueriesToReplace);
+        System.debug('subFieldWithQuery --> '+subFieldWithQuery);
         Id recordId1 = Id.valueOf(recordId);
 
         set<String> fieldsToQueryUniqueset = new set<String>();
@@ -199,14 +202,15 @@ public without sharing class ASF_CaseEmailController {
         set<String> allfieldsToQueryUniqueset = new set<String>();
         allfieldsToQueryUniqueset.addAll(subFieldWithQuery.values());
         allfieldsToQueryUniqueset.addAll(fieldsToQuery);
-        List<String> allfieldsToQuerUiqueList = new List<String>();
-        allfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        List<String> AllfieldsToQuerUiqueList = new List<String>();
+        AllfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        System.debug('allfieldsToQueryUniqueset --> '+allfieldsToQueryUniqueset);
 
         String sobjectType = recordId1.getSObjectType().getDescribe().getName();
         String dynamicSOQL ;
         
-        dynamicSOQL = buildDynamicSOQL(sobjectType, allfieldsToQuerUiqueList, recordId1);
-
+        dynamicSOQL = buildDynamicSOQL(sobjectType, AllfieldsToQuerUiqueList, recordId1);
+		System.debug('dynamicSOQL --> '+dynamicSOQL);
         List<sObject> documentGenerationList = Database.query(dynamicSOQL);        
         sObject documentGenObject = documentGenerationList.get(0);
         map<string,Map<String,Schema.SObjectField>> objectSchemas = getObjectSchemas(objectNames);

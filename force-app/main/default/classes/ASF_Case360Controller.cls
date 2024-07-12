@@ -50,6 +50,8 @@ public with sharing class ASF_Case360Controller {
     @AuraEnabled
     public static void updateCaseWithCaseExtn(SObject caseRec, SObject caseExtn){
         try {
+                system.debug('casecaseRec '+caseRec);
+                system.debug('casecaseExtn '+caseExtn);
             List<SObject> recordsToUpdate = new List<SObject>();
             if(caseExtn != null){
                 recordsToUpdate.add(caseExtn);

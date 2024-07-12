@@ -9,11 +9,7 @@
     <columns>Business_Unit__c</columns>
     <columns>Custom_Segment__c</columns>
     <columns>is_FA_Mandatory__c</columns>
+    <columns>Nature__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Sub_Type__c</field>
-        <operation>startsWith</operation>
-        <value>Sant</value>
-    </filters>
     <label>All</label>
 </ListView>
