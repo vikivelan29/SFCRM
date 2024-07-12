@@ -8,6 +8,7 @@
             <publicGroup>ABFL_Institutional_Service_Desk_G</publicGroup>
         </publicGroups>
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

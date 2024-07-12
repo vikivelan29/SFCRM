@@ -17,7 +17,7 @@ global with sharing class ASF_CaseSLA2and3BrokenConsolidatedBatch implements Sch
         //Case fields
         query += 'Case__r.Id,Case__r.CaseNumber, Case__r.Status, Case__r.OwnerId, Case__r.Owner.Name,Case__r.Is_Approval_Stage__c, Case__r.SLA_Target_1__c, Case__r.SLA_Target_2__c, Case__r.SLA_Target_3__c, Case__r.Stage_SLA_1__c, Case__r.Stage_SLA_2__c, Case__r.Stage_SLA_3__c, Case__r.BusinessHoursId, Case__r.LastModifiedDate,Case__r.Nature__c,Case__r.Type_Text__c, Case__r.CreatedDate,Case__r.CreatedBy.Name, Case__r.Last_Owner_Change_Date__c,Case__r.Sub_Type_Text__c,Case__r.Business_Unit__c,Case__r.Stage__c';
         
-        query += ' FROM ASF_Case_SLA_History__c WHERE is_Running_Record__c = true AND Stage_End_Date__c = null';
+        query += ' FROM ASF_Case_SLA_History__c WHERE Case__r.Last_Owner_Change_Date__c != null AND is_Running_Record__c = true AND Stage_End_Date__c = null';
         query += ' AND Case__r.Recordtype.Name = \'Framework\' AND Case__r.isClosed = false';
         query += ' AND(';
         //Cases for which SLA 2 and 3 are breached, scheduled flow has updated the records, only email needs to be sent

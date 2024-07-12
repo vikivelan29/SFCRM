@@ -1,0 +1,10 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+Your EMI date has been changed to {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. If any query, please do write to us on care.housingfinance@adityabirlacapital.com&nbsp;and we will be happy to assist you.<br />
+Thank you.<br />
+Regards,<br />
+ABHFL - Aditya Birla Housing Finance Limited</body>
+</html>

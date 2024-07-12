@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Institutional_Service_Desk_Case</fullName>
+    <booleanFilter>1 or 2</booleanFilter>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>Source__c</columns>
+    <columns>Nature__c</columns>
+    <columns>Sub_Type_Text__c</columns>
+    <columns>Type_Text__c</columns>
+    <columns>NAME</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>Vertical__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>CREATEDBY_USER.ALIAS</columns>
+    <columns>Escalated_By__c</columns>
+    <columns>Escalated_Date_Time__c</columns>
+    <columns>Escalation_Comment__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assigned_Team__c</field>
+        <operation>equals</operation>
+        <value>ABFL Institutional Service Desk</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.ALIAS</field>
+        <operation>equals</operation>
+        <value>ABFL Institutional Service Desk</value>
+    </filters>
+    <label>ABFL Institutional Service Desk</label>
+    <sharedTo>
+        <group>ABFL_Institutional_Service_Desk_G</group>
+    </sharedTo>
+</ListView>
