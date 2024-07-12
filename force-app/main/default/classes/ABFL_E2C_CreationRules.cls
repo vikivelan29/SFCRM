@@ -5,9 +5,9 @@
  * @last modified on  : 05-06-2024
  * @last modified by  : aditya.mehrotra@salesforce.com
  * Modifications Log
- * Ver   Date         Author                            Modification
- * 1.0   01-02-2024   achuriwala@salesforce.com         Initial Version
- * 2.0   02-04-2024   rajender.kumar@manras.com         areAllWordsPresent function created
+ * Ver   Date         Author                       Modification
+ * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
+ * 2.0   02-04-2024   rajender.kumar@manras.com   areAllWordsPresent function created
  * 3.0   05-06-2024   aditya.mehrotra@salesforce.com    Included ABSLI BU
 **/
 // supressing this as the code is meant as a mini framework and thus might have below PMD issues
@@ -62,14 +62,8 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                 }
                                 if (creationNotAllowed) {
-                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
-                                    // Log the error
-                                    ABCL_Logger.enableExceptionLogging();
-                                    ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
-                                    ABCL_Logger.message(message);
-                                    ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
-                                    emailMsg.addError(message);
+                                    emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
                                 }
                             }
                         }
@@ -83,7 +77,8 @@ public with sharing class ABFL_E2C_CreationRules {
     private static Map<String, List<E2C_Creation_Rules__mdt>> buildMetadataMap() {
 
         Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
-        List<String> allowedBuList = System.Label.ABCL_BU_for_E2C_Rules.split(',');
+		List<String> allowedBuList = System.Label.ABCL_BU_for_E2C_Rules.split(',');
+        
         for (E2C_Creation_Rules__mdt metadata : [SELECT Id, Field__c, Operator__c, Value__c, Error_Message__c,
                                                     E2C_Creation_Scenarios__r.ToAddress__c, E2C_Creation_Scenarios__r.Error_Message__c
                                                     FROM E2C_Creation_Rules__mdt WHERE 
