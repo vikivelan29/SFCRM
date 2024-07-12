@@ -271,8 +271,8 @@ public class ABSLI_RegisterIGMSComplaint_Test {
             req.Trans_Login_Id = 'bslicadmin';
             req.Option = '1';
             req.Mode = '1';
-        	req.First_Name = 'test';
-        req.Last_Name = 'test';
+        	//req.First_Name = 'test';
+        //req.Last_Name = 'test';
         req.Sex = 'male';
         req.Address1 = 'address';
         req.Entity_Complaint_Ref_Number= '123';
