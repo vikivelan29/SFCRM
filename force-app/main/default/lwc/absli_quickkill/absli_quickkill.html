@@ -1,5 +1,8 @@
 <template>
-    <template if:false={showPolicy}>
+    <template if:true={noMobileNum}>
+        <div class="slds-text-heading_small slds-text-color_error slds-text-align_center">Mobile number is not present for this record.</div>
+    </template>
+    <template if:false={showPolicyTable}>
         <div class="slds-form_large" role="list">
             <div class="slds-form__row">
                 <div class="slds-form__item" role="listitem">

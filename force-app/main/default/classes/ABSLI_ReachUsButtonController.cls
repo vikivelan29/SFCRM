@@ -89,6 +89,9 @@ public without sharing class ABSLI_ReachUsButtonController {
             List<Database.SaveResult> results = EventBus.publish(eventList);
             System.debug(LoggingLevel.INFO,results);
         }
+        else{
+            throw new AuraException('Mobile number is not present for this record.');
+        }
         
         
     }
