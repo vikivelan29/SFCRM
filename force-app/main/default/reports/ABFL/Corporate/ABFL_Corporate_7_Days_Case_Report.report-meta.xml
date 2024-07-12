@@ -312,13 +312,7 @@
         <field>Asset.Account_no__c</field>
     </columns>
     <filter>
-        <criteriaItems>
-            <column>Case.LOB__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Corporate</value>
-        </criteriaItems>
+        <booleanFilter>1 AND 2 AND ((3 OR 4) OR ((5 OR 6) AND 7))</booleanFilter>
         <criteriaItems>
             <column>Case.Source__c</column>
             <columnToColumn>false</columnToColumn>
@@ -332,6 +326,41 @@
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Closed,Closed Duplicate,Resolved,Unresolved</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OWNER</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ABFL Institutional Service Desk,ABFL CS Supply Chain</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ABFL Institutional Service Desk,ABFL CS Supply Chain</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OWNER</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ABFL Secured Servicing Ops,ABFL TDS Ops</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ABFL Secured Servicing Ops,ABFL TDS Ops</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.LOB__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Corporate</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>

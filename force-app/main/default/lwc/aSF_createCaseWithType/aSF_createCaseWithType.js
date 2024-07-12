@@ -256,7 +256,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         CASE_ASSET,
         ACOUNNTRECORDTYPE, 
         CASE_ASSET_LOB,
-        CASE_PROSPECT_ID] })
+        CASE_PROSPECT_ID,
+        NOAUTOCOMM_FIELD] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -292,8 +293,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             if(this.customerId != null && this.customerId != undefined && this.customerId != ''){
                 this.showOnCustomerTagging = true;
             }
-            
-
+            let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
+            this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
             if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
@@ -307,6 +308,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 }
             }
         }
+    }
+
+    get displayRejectionReason(){
+        return this.showRejetedReason && this.businessUnit != 'ABSLI';
     }
 
 
@@ -379,13 +384,11 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
-
             getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
                     this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
-                    this.closeCaseWithoutCusButton = 'false';
                 })
                 .catch(error => {
                     this.accounts = null;
@@ -428,8 +431,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         // Reset isTransaction Related Every time selection changes. - Virendra
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
-        this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+        if(selected){
+            this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+        }
 
         let cccExternalId = '';
 
@@ -443,13 +447,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
 
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
-
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         } 
         if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
@@ -521,6 +524,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isTransactionRelated = selected.Is_Transaction_Related__c;
             console.log('isTransactionRelated ---> ' + this.isTransactionRelated);
         }
+
     }
     async createCaseHandler() {
         this.loaded = false;
@@ -798,7 +802,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -806,7 +810,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     variant: 'Error',
                 }),
             );
-        } else if (this.selectedReason == '') {
+        } else if (this.selectedReason == '' && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -854,6 +858,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showIssueType = false;
         this.issueTypeVal = '';
         this.categoryTypeVal = '';
+        this.isNotSelectedReject = true;
+        this.showCategoryType = false;
+        this.closeCaseWithoutCusButton = '';
         this.cancelReject();
     }
 

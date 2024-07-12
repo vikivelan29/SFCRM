@@ -10,12 +10,12 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     public override void beforeInsert(List<SObject> newItems){
         //ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItems);
         //ABCL_SendEmailValidation.validateUsersTeam(newItems);
-        
-        
-        ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
+        ASF_EmailMessageHelper.checkIsReplyToCloseCase(newItems);
         
         // VIRENDRA - CODE TO SET WINNING EMAIL ADDRESS.
         ASF_Email2CaseHandler.setPriorityEmailAddress(newItems);
+        
+        ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
       //  for(EmailMessage em : (List<EmailMessage>)newItems){
             //System.debug('ASF - emailmessage before'+em);

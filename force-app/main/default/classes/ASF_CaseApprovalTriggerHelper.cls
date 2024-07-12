@@ -142,7 +142,7 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
         }  
         if(!caseIds.isEmpty()){
             Map<Id, Case> caseMap = new Map<Id, Case>([SELECT Id, CCC_External_Id__c, Requested_Recat_Json__c, Type_Text__c, Sub_Type_Text__c from Case where ID IN: caseIds]);
-            ASF_RecategoriseCaseController.updateCCCIdBulk(caseMap);
+            ASF_ApprovalRecatController.updateCCCIdBulk(caseMap);
         } 
         else if(!rejectedCaseIds.isEmpty()){
             Map<Id, Case> caseMap = new Map<Id, Case>();
