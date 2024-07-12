@@ -5,7 +5,7 @@
     <alertText>Use one of these records?</alertText>
     <description xsi:nil="true"/>
     <duplicateRuleFilter>
-        <booleanFilter xsi:nil="true"/>
+        <booleanFilter>1 AND 2</booleanFilter>
         <duplicateRuleFilterItems>
             <field>Prospect_Type__c</field>
             <operation>equals</operation>
