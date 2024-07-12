@@ -3,6 +3,46 @@
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
+    <columns>
+        <field>LAST_UPDATE_BY</field>
+    </columns>
+    <columns>
+        <field>Case.Is_STP__c</field>
+    </columns>
+    <columns>
+        <field>Case.Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case.Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case.Nature__c</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Case.LOB__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Wealth,ABFL,ABWM,Digital,Retail - Secured,Reatil - Unsecured,Corporate</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Source__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Email</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
@@ -14,7 +54,7 @@
         <field>Case.Source__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Retail Case Summary</name>
+    <name>Retail - DO NOT USE</name>
     <params>
         <name>units</name>
         <value>h</value>
@@ -25,7 +65,7 @@
     </params>
     <reportType>CaseList</reportType>
     <scope>organization</scope>
-    <showDetails>false</showDetails>
+    <showDetails>true</showDetails>
     <showGrandTotal>false</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
