@@ -907,6 +907,16 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>title</name>
+                    <value>ENACH Status</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-ddf6a3f2-78bd-475c-b7ed-a67f133eafa5</value>
                 </componentInstanceProperties>

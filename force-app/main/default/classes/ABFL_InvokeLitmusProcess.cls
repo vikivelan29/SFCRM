@@ -64,7 +64,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
              
                     
                         
-                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)){
+                    if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c != 'Yes' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)) {
                         casesToFurtherProcessSet.add(caseRecord.Id);
                         cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
                     }
@@ -91,6 +91,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeLitmusProcess.evaluateCasesForLitmus');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
@@ -159,6 +160,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeLitmusProcess.callLitmusAPI');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

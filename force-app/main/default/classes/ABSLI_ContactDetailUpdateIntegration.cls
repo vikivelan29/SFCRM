@@ -6,9 +6,8 @@
  * @author Abinash Panigrahi
  * @date 2024-05-28
  */
-public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_IntegrationInvocable{
-
-    /**
+public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_IntegrationInvocable {
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRecs - List of Case record from the framework
@@ -22,21 +21,36 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
 		}
 
+		Set<Id> skipcaseIds = new Set<Id>();
+		for (ASF_Checklist__c filteredChecklist : [
+			SELECT Id, Case__c
+			FROM ASF_Checklist__c
+			WHERE Status__c NOT IN ('Yes', 'Signature Matched')
+		]) {
+			skipcaseIds.add(filteredChecklist.Case__c);
+		}
+
 		for (Case caseRecord : caseRecords) {
 			ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 
 			result.status = ABSLI_Constants.ERROR;
-            String evaluationErrorMetadataName = '';
-            if(ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.containsKey(caseRecord.CCC_External_Id__c)){
-                evaluationErrorMetadataName = ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.get(caseRecord.CCC_External_Id__c);
-            }
-			result.response = Custom_Messages__mdt.getInstance(
-					evaluationErrorMetadataName
-				)
-				.Message__c;
+			String evaluationErrorMetadataName = '';
+			if (ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.containsKey(caseRecord.CCC_External_Id__c)) {
+				evaluationErrorMetadataName = ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.get(
+					caseRecord.CCC_External_Id__c
+				);
+			}
+			result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
 
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
+			if (
+				(caseRecord.Technical_Source__c == 'API' && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c) ||
+				(caseRecord.Technical_Source__c == 'LWC' &&
+				caseRecord.ABSLI_Case_Detail__r.Source_Request_submitted_by__c == 'Customer' &&
+				caseRecord.ABSLI_Case_Detail__r.Country_Code__c == '91' &&
+				!skipcaseIds.contains(caseRecord.Id))
+			) {
 				result.status = ABSLI_Constants.SUCCESS;
+				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
 			}
 
 			resultMap.put(caseRecord.Id, result);
@@ -45,7 +59,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
 	 * @param caseIntegs - List of ASF_Integration record
@@ -58,7 +72,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-        //Before Initiating new Integration callout, cancel existing running request
+		//Before Initiating new Integration callout, cancel existing running request
 		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
@@ -72,17 +86,21 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
 
 		for (Case caseRecord : caseRecords) {
-            String caseClientCodeText = '';
-            if(caseRecord.Technical_Source__c == 'API'){
-                caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c : caseRecord.Client_Code_Text__c;
-            }
+			String caseClientCodeText = '';
+			if (caseRecord.Technical_Source__c == 'API') {
+				caseClientCodeText = caseRecord.AccountId != null
+					? caseRecord.Account.Client_Code__c
+					: caseRecord.Client_Code_Text__c;
+			} else {
+				caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c : '';
+			}
 			string requestBody = JSON.serialize(
 				new ContactDetailRequestWrapper(
 					caseRecord.CaseNumber,
 					caseClientCodeText,
-					caseRecord.ABSLI_Case_Detail__r?.Mobile_Number__c ,
+					caseRecord.ABSLI_Case_Detail__r?.Mobile_Number__c,
 					caseRecord.ABSLI_Case_Detail__r?.Email_Id__c
-                )
+				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
 				if (intSpec.Processing_Class__c == ABSLI_ContactDetailUpdateIntegration.class.getName()) {
@@ -92,7 +110,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                    caseInteg.Is_Validation_Success__c = true;
+					caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -150,7 +168,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return resultMap;
 	}
 
-    /**
+	/**
 	 * @description Before Initiating new Integration callout, cancel existing running request
 	 *
 	 * @param integs - List of Integration configs
@@ -204,14 +222,12 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 				);
 
 				if (jsonMap.ProcessCode == '00') {
-                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-                    sendoutEmailSMSNotification(caseRecord);
+					//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+					sendoutEmailSMSNotification(caseRecord);
 
-                    caseRecord.MoveToNext__c = true;
-				    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+					caseRecord.MoveToNext__c = true;
+					Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
-
-
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -222,7 +238,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		}
 	}
 
-    /**
+	/**
 	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
 	 *
 	 * @param caseRecord - Case record from the framework
@@ -247,7 +263,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		);
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRec - Case record from the framework
@@ -259,7 +275,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		return result;
 	}
 
-    /**
+	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method runs the integration and creates Case Integration record
 	 *
 	 * @param caseInteg - ASF_Integration record
@@ -285,44 +301,31 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		public service service { get; set; }
 
 		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public ContactDetailRequestWrapper(
-			String caseNumber,
-			String clientCode,
-			String phoneNum,
-			String emailAddr
-		) {
+		public ContactDetailRequestWrapper(String caseNumber, String clientCode, String phoneNum, String emailAddr) {
 			this.TRANS_NO = caseNumber;
-			this.service = new service(
-				clientCode,
-				phoneNum,
-				emailAddr
-			);
+			this.service = new service(clientCode, phoneNum, emailAddr);
 		}
 	}
 
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class service {
 		public string source { get; set; }
-        public string strClientId{get;set;}
+		public string strClientId { get; set; }
 		public string strBusiness { get; set; }
-        public string strCellularPhone{get;set;}
-        public string strEmail{get;set;}
-        public string strPager{get;set;}
-        public string strResidence{get;set;}
+		public string strCellularPhone { get; set; }
+		public string strEmail { get; set; }
+		public string strPager { get; set; }
+		public string strResidence { get; set; }
 
 		@SuppressWarnings('PMD.ExcessiveParameterList')
-		public service(
-            String clientCode,
-            String phoneNum,
-			String emailAddr
-		) {
+		public service(String clientCode, String phoneNum, String emailAddr) {
 			this.source = ABSLI_Constants.ESB_SOURCE_ID;
-            this.strClientId = clientCode;
-            this.strBusiness = '';
-            this.strCellularPhone = phoneNum;
-            this.strEmail = emailAddr;
-            this.strPager ='';
-            this.strResidence = 'Thane';
+			this.strClientId = clientCode;
+			this.strBusiness = '';
+			this.strCellularPhone = phoneNum;
+			this.strEmail = emailAddr;
+			this.strPager = '';
+			this.strResidence = 'Thane';
 		}
 	}
 
@@ -331,10 +334,10 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 	 */
 	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
 	public class ContactDetailResponseWrapper {
-		public String TRANS_NO  { get; set; }
+		public String TRANS_NO { get; set; }
 		public String ProcessMessage { get; set; }
 		public String ProcessCode { get; set; }
-        public String FaultCode{get;set;}
-        public String FaultMessage{get;set;}
+		public String FaultCode { get; set; }
+		public String FaultMessage { get; set; }
 	}
 }
