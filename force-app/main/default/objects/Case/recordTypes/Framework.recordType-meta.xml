@@ -89,6 +89,130 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
+            <fullName>Application not logged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejection not communicated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requirements not informed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hold refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Releasing hold refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annuity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maturity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survival Benefit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Termination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party Premium Refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reconciliation Refunds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Contractual Payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stop payment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal Refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misselling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan repayment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal GST</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Intimation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misselling payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Disclosure payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cheque Cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stale cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stop Payment- cheque not received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Fund Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Renewal Fund Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NEFT Rejections/Cheque Payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Early Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Early Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change of beneficiary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change of Bank Details</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Query from Chatbot</fullName>
             <default>false</default>
         </values>
