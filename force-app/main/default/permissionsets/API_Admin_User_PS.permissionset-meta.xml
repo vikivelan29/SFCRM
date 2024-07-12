@@ -7307,6 +7307,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Entity_Reference_No__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Auto_Rejected__c</field>
         <readable>true</readable>
     </fieldPermissions>

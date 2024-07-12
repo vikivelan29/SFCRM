@@ -1,5 +1,7 @@
 public class ABSLI_Constants {
 
+    public static final String RESOLVED_TEAM_RES_STATUS = 'Resolved';
+    public static final String UNRESOLVED_TEAM_RES_STATUS = 'Unresolved';
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
@@ -16,7 +18,7 @@ public class ABSLI_Constants {
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
-
+    public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
 
     /* Bitly Link REAL TIME API
      */
@@ -49,6 +51,7 @@ public class ABSLI_Constants {
 
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
+    public static final String UIN_API_SOURCE = '4170703233';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
@@ -61,8 +64,8 @@ public class ABSLI_Constants {
     public static final String POLICYSTATEMENT_FAILURE_MESSAGE = 'ABSLI_POLICYSTATEMENT_FAILURE_MESSAGE';
 
     /* TAX CERTIFICATE DOWNLOAD INTEGRATION **/
-    public static final String TAXCERTIFICATE_SERVICE_NAME = 'PPCApi';
-    public static final String TAXCERTIFICATE_OUTPUT_FORMAT = 'EPDF';
+    public static final String TAXCERTIFICATE_SERVICE_NAME = 'TaxCertificateApi';
+    public static final String TAXCERTIFICATE_OUTPUT_FORMAT = 'ePDF';
     public static final String TAXCERTIFICATE_AGENT_CODE = 'a2p9i9';
     public static final String TAXCERTIFICATE_EVALUATION_ERROR = 'ABSLI_TAXCERTIFICATE_EVALUATION_ERROR';
     public static final String TAXCERTIFICATE_SUCCESS_MESSAGE = 'ABSLI_TAXCERTIFICATE_SUCCESS_MESSAGE';
@@ -97,7 +100,11 @@ public class ABSLI_Constants {
     public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
     public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
     public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
-    public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Fetch NEFT Ref Num Schedulde Job';
+
+    public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Loan NEFT Ref Num Schedulde Job';
+    public static final String FETCHNEFTREF_EVALUATION_ERROR = 'ABSLI_FETCHNEFTREF_EVALUATION_ERROR';
+    public static final String FETCHNEFTREF_SUCCESS_MESSAGE = 'ABSLI_FETCHNEFTREF_SUCCESS_MESSAGE';
+    public static final String FETCHNEFTREF_FAILURE_MESSAGE = 'ABSLI_FETCHNEFTREF_FAILURE_MESSAGE';
 
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANASSIGNMENT_SERVICE_NAME = 'LoanAssignment';
@@ -108,7 +115,26 @@ public class ABSLI_Constants {
     public static final String LOANASSIGNMENT_EVALUATION_ERROR = 'ABSLI_LOANASSIGNMENT_EVALUATION_ERROR';
     public static final String LOANASSIGNMENT_SUCCESS_MESSAGE = 'ABSLI_LOANASSIGNMENT_SUCCESS_MESSAGE';
     public static final String LOANASSIGNMENT_FAILURE_MESSAGE = 'ABSLI_LOANASSIGNMENT_FAILURE_MESSAGE';
-    
+
+    /* LOAN REGISTER INTEGRATION **/
+    public static final String LOANREGISTER_SERVICE_NAME = 'registerLoan';
+    public static final String LOANREGISTER_STATE_CD = '1';
+    public static final String LOANREGISTER_EVALUATION_ERROR = 'ABSLI_LOANREGISTER_EVALUATION_ERROR';
+    public static final String LOANREGISTER_SUCCESS_MESSAGE = 'ABSLI_LOANREGISTER_SUCCESS_MESSAGE';
+    public static final String LOANREGISTER_FAILURE_MESSAGE = 'ABSLI_LOANREGISTER_FAILURE_MESSAGE';
+
+    /* LOAN APPROVAL INTEGRATION **/
+    public static final String LOANAPPROVAL_SERVICE_NAME = 'ApproveVoucherUpdate';
+    public static final String LOANAPPROVAL_USER_ID = 'MMSING1';
+    public static final String LOANAPPROVAL_ACTION = 'A';
+    public static final String LOANAPPROVAL_EVALUATION_ERROR = 'ABSLI_LOANAPPROVAL_EVALUATION_ERROR';
+    public static final String LOANAPPROVAL_SUCCESS_MESSAGE = 'ABSLI_LOANAPPROVAL_SUCCESS_MESSAGE';
+    public static final String LOANAPPROVAL_FAILURE_MESSAGE = 'ABSLI_LOANAPPROVAL_FAILURE_MESSAGE';
+
+    /* LOAN ASSIGNMENT INTEGRATION **/
+    public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
+    public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
+
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'NomineeDeleteApi';
     public static final String DELETENOMINEE_EVALUATION_ERROR = 'ABSLI_DELETENOMINEE_EVALUTION_ERROR';
@@ -116,21 +142,46 @@ public class ABSLI_Constants {
     public static final String UPDATENOMINEE_EVALUATION_ERROR = 'ABSLI_UPDATENOMINEE_EVALUTION_ERROR';
     public static final String CREATENOMINEE_SRV_NAME = 'NomineeCreateApi';
     public static final String CREATENOMINEE_EVALUATION_ERROR = 'ABSLI_CREATENOMINEE_EVALUTION_ERROR';
-	  /* REAL TIME INTEGRATION METADATA NAME */
 
+	/* REAL TIME INTEGRATION METADATA NAME */
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
     public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
     public static final String FETCHPOLICY_ESB_INTEGRATION_METADATA = 'ABSLI_FETCH_POLICY_ESB';
-    
+    public static final String POLICY_GEN_FUND_INTEGRATION_METADATA = 'ABSLI_Gen_Fund_Integration';
+    public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
+    public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
+
     /* IGMS OUTBOUND API */
-    public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'}; 
+    public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};
         public static final List<String> validGenders = new List<String>{'Male','Female','M','F'};
             public static final List<String> RECEIPT_NO_REQ_COMP_TYPE_CD = new List<String>{'1','7'};
     public static final String IGMS_REGCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSREGCOMPLAINT_EVAL_ERROR';
+    public static final String IGMS_ATTCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSATTCOMPLAINT_EVAL_ERROR';
+    public static final String IGMS_ATTESCCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSATTESCCOMPLAINT_EVAL_ERROR';
+    public static final String IGMS_REOPENEDCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSREOPCOMPLAINT_EVAL_ERROR';
+    public static final String IGMS_ESCALATECOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSESCCOMPLAINT_EVAL_ERROR';
     public static final String IGMS_REGCOMLPAINT_NEXT_INT  = 'ABSLI_AckIGMSComplaintIntegration';
+    public static final String IGMS_ACKCOMLPAINT_NEXT_INT  = 'ABSLI_PendingIGMSComplaintIntegration';
+    public static final String IGMS_REOPENEDCOMLPAINT_NEXT_INT  = 'ABSLI_ReopenedIGMSComplaintIntegration';
     public static final String IGMS_REGCOMPLAINT_SRV_NAME = 'RegisterComplaints';
+    public static final String IGMS_ACKCOMPLAINT_SRV_NAME = 'UpdateComplaintsAck';
+    public static final String IGMS_PENDINGCOMPLAINT_SRV_NAME = 'UpdateComplaintsPending';
+    public static final String IGMS_ATTENDEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsAttended';
+    public static final String IGMS_REOPENEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsReopened';
+    public static final String IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME = 'UpdateComplaintsAttendedEsc';
+    public static final String IGMS_CLOSEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsClosed';
+    public static final String IGMS_ESCALATEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsEscalated';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
-    public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';    
-
+    public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_ESCALATEDCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_REOPENEDCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_CLOSEDCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_ATTENDEDCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String IGMS_ATTENDEDESCCOMPLAINT_SUCCESS_RET_CD = '1';
+    public static final String[] IGMS_REGACKPEN_STATUS_CDS = new List<String>{'1','2','3'};
+    public static final String CLOSED_COMPLAINT_SCHEDULE_JOB = 'IGMS Closed Complaints Outbound Schedulde Job';
+    public static final String ABSLI_IGMSSYNC_SUCCESS_MESSAGE = 'ABSLI_IGMSSYNC_SUCCESS_MESSAGE';
+    public static final String ABSLI_IGMSSYNC_FAILURE_MESSAGE = 'ABSLI_IGMSSYNC_FAILURE_MESSAGE';
 
 }
