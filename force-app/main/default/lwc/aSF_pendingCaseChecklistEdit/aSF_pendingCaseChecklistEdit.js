@@ -1,4 +1,4 @@
-import { api, LightningElement, wire } from 'lwc';
+import { api,track, LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Case_Owner from '@salesforce/schema/Case.OwnerId';
@@ -22,7 +22,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     ownerIdCase = userId;
     wiredAccountsResult;
     listRecords = {};
-    hasRecord = false;
+    @track hasRecord = false;
     isDisabled = true;
     get isAnyStageMatchChecklistPresent(){
         let output = false;
@@ -58,13 +58,12 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         this.wiredAccountsResult = result;
         this.realFormData = { ... this.wiredAccountsResult.data };
         if (result.data) {
-            if (result.data.length != 0) {
-                this.hasRecord = true;
-            }
             this.accData = result.data;
+            this.hasRecord = this.accData && this.accData.length > 0;
         }
         else if (result.error) {
             this.error = result.error;
+            this.hasRecord = false;
             this.accounts = undefined;
         }
     }
@@ -100,6 +99,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);
+            this.listRecords = {};
             const event = new ShowToastEvent({
                 title: 'Success',
                 message: 'Records are updated sucessfully',
