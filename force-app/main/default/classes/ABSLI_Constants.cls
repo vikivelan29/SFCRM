@@ -38,6 +38,7 @@ public class ABSLI_Constants {
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
     public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
+    public static final String InstaIssuranceAPI = 'InstaIssuranceApi';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
     public static final String AddressUpdateSrvName = 'Address Update';
@@ -83,7 +84,7 @@ public class ABSLI_Constants {
     public static final String BANKACCOUNTUPDATE_FAILURE_MESSAGE = 'ABSLI_BANKACCOUNTUPDATE_FAILURE_MESSAGE';
 
     /* PURPOSE OF ISSUANCE INTEGRATION **/
-    public static final String PURPOSEISSUANCE_SERVICE_NAME = 'poiUpdate';
+    public static final String PURPOSEISSUANCE_SERVICE_NAME = 'PurposeOfInsuanceApi';
     public static final String PURPOSEISSUANCE_EVALUATION_ERROR = 'ABSLI_PURPOSEISSUANCE_EVALUATION_ERROR';
     public static final String PURPOSEISSUANCE_SUCCESS_MESSAGE = 'ABSLI_PURPOSEISSUANCE_SUCCESS_MESSAGE';
     public static final String PURPOSEISSUANCE_FAILURE_MESSAGE = 'ABSLI_PURPOSEISSUANCE_FAILURE_MESSAGE';
@@ -129,10 +130,14 @@ public class ABSLI_Constants {
     public static final String LOANAPPROVAL_EVALUATION_ERROR = 'ABSLI_LOANAPPROVAL_EVALUATION_ERROR';
     public static final String LOANAPPROVAL_SUCCESS_MESSAGE = 'ABSLI_LOANAPPROVAL_SUCCESS_MESSAGE';
     public static final String LOANAPPROVAL_FAILURE_MESSAGE = 'ABSLI_LOANAPPROVAL_FAILURE_MESSAGE';
+    public static final String LOANAPPROVAL_DEFAULTCOMMENT_NONSTP = 'Case received as Non STP';
+    public static final String LOANAPPROVAL_DEFAULTCOMMENT_STP = 'Voucher not approved as amount is more than Rs. 1,00,000';
+    public static final Decimal LOANAPPROVAL_CUTOFFAMOUNT = 100000;
 
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
+    public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
 
     /* NOMINEE UPDATE INTEGRATION */
@@ -171,6 +176,8 @@ public class ABSLI_Constants {
     public static final String IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME = 'UpdateComplaintsAttendedEsc';
     public static final String IGMS_CLOSEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsClosed';
     public static final String IGMS_ESCALATEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsEscalated';
+    public static final String IGMS_DOWNLOADCOMPLAINT_SRV_NAME = 'UpdateComplaintsDownload';
+    public static final String IGMS_UPLOADCOMPLAINT_SRV_NAME = 'UpdateComplaintsUpload';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
