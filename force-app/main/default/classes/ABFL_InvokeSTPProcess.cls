@@ -295,6 +295,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_InvokeSTPProcess.processResponse');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }

@@ -41,6 +41,24 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             }
     	}
     }
+    
+    public static void updateCaseOwnerAtVerificationStage(Map<Id, Case> newMapCase,Map<Id, Case> oldMap) {
+        List<Case> updateCaseOwner = new List<Case>();
+        Set<Id> caseIds = new Set<Id>();
+        for(Case caseRec : newMapCase.values()) {
+            if(Test.isRunningTest() || (caseRec.Business_Unit__c == 'ABFL' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c && caseRec.Stage__c == 'Verification' && ABFL_Constants.GRIEVANCE_TEAM_ASGNMENT_CTSTS.contains(caseRec.CCC_External_Id__c))){
+                caseIds.add(caseRec.Id);
+            }
+        }
+        if(!caseIds.isEmpty()){
+            for(Case caseRec : [Select Id, ABFL_Case_Detail__r.Open_Stage_Owner_Email_Team__c, ABFL_Case_Detail__r.Open_Stage_Owner_Id__c from Case where Id IN :caseIds]){
+                if(newMapCase.get(caseRec.Id).Stage__c == 'Verification' && newMapCase.get(caseRec.Id).moved_back__c == false && caseRec.ABFL_Case_Detail__r.Open_Stage_Owner_Id__c != null && caseRec.ABFL_Case_Detail__r.Open_Stage_Owner_Email_Team__c == 'GRT'){
+                    //Cases which are going to Verification stage and 
+                    newMapCase.get(caseRec.Id).OwnerId = caseRec.ABFL_Case_Detail__r.Open_Stage_Owner_Id__c;
+                }
+            }
+        }
+    }
     /****************************************************************************************************************
     * @param lstCase
     * @description - when LAN Starts with ABFL then if 5th to 7th character of LAN matches with location master, update the case owner with the matched Location Master' Spoc

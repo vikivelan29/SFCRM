@@ -125,7 +125,7 @@ public class ASF_CaseUIController_Test{
         Test.setFixedSearchResults(fixedSearchResults);
         
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
-        Asset ass = [SELECT Id, AccountId FROM Asset];
+        //Asset asst = [SELECT Id, AccountId FROM Asset];
         Lead testLead = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
@@ -136,8 +136,58 @@ public class ASF_CaseUIController_Test{
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
-        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
+        //ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
+        //ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
+        
+        ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
+        
+        Map<string,string> fieldsData = new Map<string,string>();
+        fieldsData.put('Id', cs.Id);
+        fieldsData.put('CCC_External_Id__c', cc.CCC_External_Id__c);
+        fieldsData.put('Type_Text__c', 'test');
+        fieldsData.put('Sub_Type_Text__c', 'test');
+        fieldsData.put('ContactId', cs.ContactId);
+        fieldsData.put('AccountId', cs.AccountId);
+        fieldsData.put('AssetId', cs.AssetId);
+        
+        //ASF_Case_Category_Config__c ccc = [select id from ASF_Case_Category_Config__c limit 1];
+        string assetTest = 'closeCRN';
+        ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
+        //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
+        string relObjName = ASF_CaseUIController.getCaseRelatedObjName(cc.id);
+        Lead testLead2 = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
+        System.assertEquals(null, relObjName, 'not equal to null');
+        //}
+        
+    }
+    @isTest
+    public static void getMatchingContactsTest2(){
+        Account acc = [select id from account limit 1];
+        Id [] fixedSearchResults= new Id[1];
+        fixedSearchResults[0] = acc.Id;
+        Test.setFixedSearchResults(fixedSearchResults);
+        
+        List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
+        //Asset asst = [SELECT Id, AccountId FROM Asset];
+        Lead testLead = new Lead(
+            FirstName = 'Test',
+            LastName = 'Lead',
+            Company = 'Test Company',
+            mobilephone = '1234567890'
+        );
+        insert testLead;
+        Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
+        Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
+        //ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
+        //ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         
         ASF_Case_Category_Config__c cc =[select id,CCC_External_Id__c from ASF_Case_Category_Config__c limit 1];
@@ -151,23 +201,21 @@ public class ASF_CaseUIController_Test{
         fieldsData.put('AccountId', cs.AccountId);
         fieldsData.put('AssetId', cs.AssetId);
         
-        ASF_Case_Category_Config__c ccc = [select id from ASF_Case_Category_Config__c limit 1];
-        string assetTest = 'closeCRN';
-        ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
+        //string assetTest = 'closeCRN';
+        //ASF_CaseUIController.updateCase(JSON.serialize(fieldsData),assetTest);
         //ASF_CaseUIController.fetchNatureMetadata('L2','Complaint');
-        string relObjName = ASF_CaseUIController.getCaseRelatedObjName(ccc.id);
+        string relObjName = ASF_CaseUIController.getCaseRelatedObjName(cc.id);
         Lead testLead2 = new Lead(
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
             mobilephone = '1234567890'
         );
-        ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
+        //ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName, 'not equal to null');
         //}
         
     }
-    
     @isTest
     public static void CreateProspectAndUpdateOnCaseTest(){
 		Case caseRecord = new Case();
