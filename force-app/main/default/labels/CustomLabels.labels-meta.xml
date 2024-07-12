@@ -929,10 +929,23 @@
         <value>1</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
+        <value>5000</value>
+    </labels>
         <fullName>ABSLI_Complaint_Closure_CRON</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
         <value>0 30 23 1/1 * ? *</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>60</value>
     </labels>
 </CustomLabels>
