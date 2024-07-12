@@ -18,7 +18,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
                                     managerGroupId__c=SLAGroup.Id);
         insert userRecord;
         System.runAs(userRecord) {
@@ -66,7 +66,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
       @isTest
     static void getNpsScoreTest(){
         List<Account> objAcc = [Select Id,FirstName From Account WHERE FirstName = 'Test FName' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         Survey_Response__c resp = [SELECT Id,Client_Code__c,Primary_Question_NPS__c FROM Survey_Response__c WHERE Client_Code__c =: objAcc[0].Id LIMIT 1];
      system.runAs(usr)
         { 
@@ -79,7 +79,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
        @isTest
     static void getNpsScoreTestNeg(){
         List<Account> objAcc = [Select Id,FirstName From Account WHERE FirstName = 'Test1 FName' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         List<Survey_Response__c> resp = [SELECT Id,Client_Code__c,Primary_Question_NPS__c FROM Survey_Response__c WHERE Client_Code__c =: objAcc[0].Id LIMIT 1];
      system.runAs(usr)
         { 

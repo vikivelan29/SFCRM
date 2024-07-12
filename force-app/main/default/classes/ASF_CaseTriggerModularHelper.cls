@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -511,6 +511,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
+                                            system.debug('as-error3');
+
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
                     }
@@ -531,6 +533,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                             caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
+                            system.debug('as-error2');
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
                     }
@@ -577,7 +580,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                        triggerEncounteredError.put(caseRec.Id, true);
                     }else{
-                        caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                    system.debug('as-error1');
+                       caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                     }
                 }
             }
@@ -661,7 +665,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 }else{
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
-                    }else{
+                    }else{                    system.debug('as-error6');
+
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                     }
                 }
@@ -732,7 +737,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
                     //Error scenario
-                    newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                                        system.debug('as-error5');
+
+                   newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                 }
             }
         }
@@ -760,6 +767,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
                 else{
+                                    system.debug('as-error4');
+
                     //Error scenario
                     ASF_CaseMovementHelper.StageWrapper wrapToReturn = wrapToReturnMap.get(caseRec.Id);
                     newMap.get(caseRec.Id).addError(wrapToReturn.errorMessage != null?wrapToReturn.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
@@ -860,7 +869,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
-                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+  			if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
+                    		checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                    	}
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
@@ -1562,7 +1573,7 @@ else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueI
         for(Case caseRec : newList){
             //AM-Removed the null check for CCC External ID
             if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
-                || caseRec.assetId != oldMap.get(caseRec.Id).assetId 
+                || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
                 || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
                     modifiedCases.add(caseRec);  
                     cccIds.add(caseRec.CCC_External_Id__c);

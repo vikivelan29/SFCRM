@@ -61,7 +61,7 @@ public class ABSLI_BeforeInsertTriggerLogicTest {
             }
         }
     }
-    
+
     @IsTest
     public static void checkCreateCaseValidationsTest(){
         String errorMessage = '';
