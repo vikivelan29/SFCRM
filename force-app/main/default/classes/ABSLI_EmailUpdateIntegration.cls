@@ -27,6 +27,7 @@ public without sharing class ABSLI_EmailUpdateIntegration implements ASF_Integra
 			SELECT Id, Case__c
 			FROM ASF_Checklist__c
 			WHERE Status__c NOT IN ('Yes', 'Signature Matched')
+            AND Case__c IN: caseRecords
 		]) {
 			skipcaseIds.add(filteredChecklist.Case__c);
 		}
