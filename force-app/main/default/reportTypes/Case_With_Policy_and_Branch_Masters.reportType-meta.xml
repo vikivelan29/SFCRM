@@ -918,11 +918,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Acknoldgement_call_Done__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Acknowledged_Date__c</field>
             <table>Case</table>
         </columns>
@@ -1143,11 +1138,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Complaint_Details__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Correct_tagging__c</field>
             <table>Case</table>
         </columns>
@@ -1203,11 +1193,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Department_Dependency__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Document_Url__c</field>
             <table>Case</table>
         </columns>
@@ -1244,11 +1229,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Eligibility__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Email_Body__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -1373,11 +1353,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.IGMS_Resolution__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.IGMS_Source_of_Complaint__c</field>
             <table>Case</table>
         </columns>
@@ -1463,11 +1438,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Is_Closure_Accepted__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Is_Complainant_Informed__c</field>
             <table>Case</table>
         </columns>
@@ -1484,11 +1454,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.IS_Does_Not_Pertain_Remark__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Is_IRDAI_Status_Closed__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -1813,11 +1778,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Sync_Status__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.TAT_Crossed_Remark__c</field>
             <table>Case</table>
         </columns>
@@ -1849,11 +1809,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.User_Type__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -2913,11 +2868,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account.Partner_Branch_Code__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account.Permanent_Addr_Flag__c</field>
             <table>Case</table>
         </columns>
@@ -3054,16 +3004,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Account.Street_Address_3__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account.Supervisor_Email__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account.Supervisor_Mobile_Number__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -3553,11 +3493,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Account.Owner.Account.Partner_Branch_Code__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account.Owner.Account.Permanent_Addr_Flag__c</field>
             <table>Case</table>
         </columns>
@@ -3694,16 +3629,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Account.Owner.Account.Street_Address_3__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account.Owner.Account.Supervisor_Email__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account.Owner.Account.Supervisor_Mobile_Number__c</field>
             <table>Case</table>
         </columns>
         <columns>
