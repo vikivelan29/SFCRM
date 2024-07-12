@@ -74,6 +74,8 @@ export default class Absli_fetchPANDetails extends LightningElement {
 
     handleFetchDetails(event){
         event.preventDefault();
+        this.record = JSON.parse(JSON.stringify(this.record));
+        this.record.pan = this.confirmTextValue;
         this.invokeFetchPANDetailCallout();
     }
     
@@ -123,7 +125,7 @@ export default class Absli_fetchPANDetails extends LightningElement {
         let arr_fieldDetails = [];
         let propPAN = {};
         propPAN.FieldAPINAme = PAN_FLD.fieldApiName;
-        propPAN.fieldValue = this.PAN_Number;
+        propPAN.fieldValue = this.confirmTextValue;//this.PAN_Number;
         propPAN.status = 'Success';
         arr_fieldDetails.push(propPAN);
         debugger;
