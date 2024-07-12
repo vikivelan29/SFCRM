@@ -96,7 +96,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Set<Id> setOfCaseIds = new Set<Id>();
 
         for(Case caseRec : caseRecs){
-            setOfCaseIds.add(caseRec.Id); 
+            setOfCaseIds.add(caseRec.Id);
         }
         List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds WITH SYSTEM_MODE];
 
@@ -267,15 +267,15 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 if(response != null && response.returnCode != null && response.returnMessage != null && caseInt.Error_Message__c == null && response.returnCode != '1' ){
                     if(response.returnCode != '1' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.returnMessage;
-                        update caseInt; 
+                        update caseInt;
                     }
-                } 
+                }
             }else {
                 stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
                 if(response != null && response.operationStatus != null && response.operationMessage != null && caseInt.Error_Message__c == null && response.operationStatus != '1' ){
                     if(response.operationStatus == '0' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.operationMessage;
-                        update caseInt; 
+                        update caseInt;
                     }
                 }
             }
