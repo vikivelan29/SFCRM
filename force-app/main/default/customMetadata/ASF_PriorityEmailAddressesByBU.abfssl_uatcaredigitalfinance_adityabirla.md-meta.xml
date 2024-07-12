@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Active__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
-        <value xsi:type="xsd:string">abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">care.digitalfinance@adityabirlacapital.com</value>
     </values>
     <values>
         <field>Priority_Index__c</field>

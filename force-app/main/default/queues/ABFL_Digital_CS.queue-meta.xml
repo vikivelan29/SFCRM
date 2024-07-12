@@ -7,7 +7,11 @@
         <publicGroups>
             <publicGroup>ABFL_Digital_CS_G</publicGroup>
         </publicGroups>
+        <users>
+            <user>rsinghnagar@salesforce.com.abcl</user>
+        </users>
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

@@ -239,6 +239,7 @@
                                                                 <lightning-input-field field-name={ccfield.FieldAPINAme}
                                                                     value={ccfield.value} onkeydown={handlePreventInput}
                                                                     data-field-name={ccfield.FieldAPINAme}
+                                                                    data-field-lwc-name = {ccfield.confirmationLWCName}
                                                                     required={ccfield.Required} autocomplete="off">
                                                                 </lightning-input-field><!--class={ccfield.editClassString}-->
                                                                 <lightning-button-icon icon-name="utility:success"
@@ -255,7 +256,6 @@
                                                                                 record-id={recordId} field-name-to-search = {fieldNameToSearch} oncase360fieldextn={handleCase360FieldExtn}></lwc:component>
                                                                                 <div class="slds-backdrop slds-backdrop_open"
                                                                                 role="presentation"></div>
-                                                                    <!--<c-asf_case360fieldextension field-name-to-search = {fieldNameToSearch} record-id={recordId} oncase360fieldextn={handleCase360FieldExtn} onclosepopup = {cancelConfirmFieldPopup}></c-asf_case360fieldextension>-->
                                                                 </template>
 
                                                                 <!-- CONFIRM FIELD POP UP CLOSES HERE-->
@@ -315,24 +315,28 @@
                                     <lightning-radio-group name="closureType" label="Closure Type"
                                         options={closureTypeOptions} value={closureTypeSelected} type="button"
                                         onchange={handleClosureTypeChange}></lightning-radio-group>
-                                    <template lwc:if={showRejectPanel}>
-                                        <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
-                                            label="Close Unresolved Details" variant="label-stacked"
-                                            value={rejectedReason} onchange={setRejectedReason}
-                                            placeholder="type here..."></lightning-textarea>
-                                        <lightning-combobox
-                                            class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
-                                            value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
-                                            placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
-                                            required>
-                                        </lightning-combobox>
+                                    <!-- VIRENDRA - ADDED CHECK FOR BU SPECIFIC VISIBILITY OF FIELDS.-->
+                                    <template lwc:if={eligibleForBU}>
+                                        <template lwc:if={showRejectPanel}>
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
+                                                label="Close Unresolved Details" variant="label-stacked"
+                                                value={rejectedReason} onchange={setRejectedReason}
+                                                placeholder="type here..."></lightning-textarea>
+                                            <lightning-combobox
+                                                class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                                value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
+                                                placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
+                                                required>
+                                            </lightning-combobox>
+                                        </template>
+                                        <template lwc:else>
+                                            <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
+                                                label="Resolution Remarks" variant="label-stacked"
+                                                value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
+                                                placeholder="type here..."></lightning-textarea>
+                                        </template>
                                     </template>
-                                    <template lwc:else>
-                                        <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
-                                            label="Resolution Remarks" variant="label-stacked"
-                                            value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
-                                            placeholder="type here..."></lightning-textarea>
-                                    </template>
+                                    
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
@@ -362,7 +366,7 @@
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelBackCaseStage}></lightning-button>
                                     <lightning-button class="slds-m-around_small" label="Save"
-                                        onclick={saveBackCaseStage}></lightning-button>
+                                        onclick={saveBackCaseStage} disabled={disableBackSave}></lightning-button>
                                 </div>
                             </div>
                         </section>
@@ -387,7 +391,7 @@
                                     <lightning-button class="slds-m-around_small" label="Cancel"
                                         onclick={cancelForwardCaseStage}></lightning-button>
                                     <lightning-button class="slds-m-around_small" label="Save"
-                                        onclick={saveManualCaseStage}></lightning-button>
+                                        onclick={saveManualCaseStage} disabled={disableSkipSave}></lightning-button>
                                 </div>
                             </div>
                         </section>

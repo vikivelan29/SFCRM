@@ -139,11 +139,6 @@
                                                             onchange={handleAutoCommChange}>
                                             </lightning-checkbox-group>
                                         </template>
-                                        <!--<div class="slds-p-top_x-small slds-p-bottom_x-small">
-                                            <template if:true={showFtr}>
-                                                <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
-                                            </template>
-                                        </div>-->
                                         <div class="slds-grid slds-grid_vertical">
                                             <div class="slds-col slds-size_2-of-8">
                                                 <template if:true={showIssueType}>
@@ -158,6 +153,11 @@
                                                     options={categoryTypeOptions}
                                                     onchange={handleCatTypeChange} required>
                                                     </lightning-combobox> 
+                                                </template>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                                <template if:true={showFtr}>
+                                                    <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
                                                 </template>
                                             </div>
                                         </div>
@@ -184,16 +184,18 @@
                                     <template if:true={showRejetedReason}>
                                         <lightning-layout-item padding="around-small" size="12">
                                             <lightning-layout-item padding="around-small" size="6">
-                                                <lightning-textarea name="rejectedDetails" required
-                                                    label="Close Unresolved Details" variant="label-stacked"
-                                                    value={rejectedDetails} onchange={setRejectedDetails}
-                                                    placeholder="type here..."></lightning-textarea>
+                                                <template if:true={displayRejectionReason}>
+                                                    <lightning-textarea name="rejectedDetails" required
+                                                        label="Close Unresolved Details" variant="label-stacked"
+                                                        value={rejectedDetails} onchange={setRejectedDetails}
+                                                        placeholder="type here..."></lightning-textarea>
 
-                                                <lightning-combobox class="slds-m-left_xx-small slds-m-right_xx-small"
-                                                    value={selectedReason} label="Rejection Reason" options={reasonLOV}
-                                                    placeholder='Close Unresolved Reason'
-                                                    onchange={handleRejReasonChange} required>
-                                                </lightning-combobox>
+                                                    <lightning-combobox class="slds-m-left_xx-small slds-m-right_xx-small"
+                                                        value={selectedReason} label="Rejection Reason" options={reasonLOV}
+                                                        placeholder='Close Unresolved Reason'
+                                                        onchange={handleRejReasonChange} required>
+                                                    </lightning-combobox>
+                                                </template>
                                                 <div class="slds-align_absolute-center">
                                                     <lightning-button class="slds-m-around_small" label="Save"
                                                         onclick={saveRejection}></lightning-button>

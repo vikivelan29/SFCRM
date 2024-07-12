@@ -48,6 +48,7 @@ import CUSTOMERPROSPECTSEARCH from "./reparentingCase.html";
 
 import { getCurrentCustomer,setSelectedAccount,setSelectedAsset,updateAccountAndAssetOnCase } from './reparentinghelper.js';
 import { getConstants } from './constants.js';
+import { lanLabels } from 'c/asf_ConstantUtility';
 //import getMatchingAccount from '@salesforce/apex/ASF_CaseUIController.getMatchingAccount';
 //import getMatchingContacts from '@salesforce/apex/ASF_CaseUIController.getMatchingContacts';
 
@@ -155,7 +156,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     @track allCustomerRelatedAssets;
     @track showLANForCustomer = false;
     accCols = getConstants.ACCOUNT_COLUMNS;
-    asstCols = getConstants.ASSET_COLUMNS;
+    asstCols;
+    cols;
     caseAccountClientCode = '';
     showWhenCCCEligible = false;
     showWhenCCCNotEligible = false;
@@ -165,8 +167,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     recategorisationOptions = getConstants.RECATEGORISATION_OPTIONS;
     recategorisationBtn1Lable = getConstants.RECATEGORISATION_UPD_ACC;
     recategorisationBtn2Lable = getConstants.RECATEGORISATION_PROCEED;
-    eligibleWithNewCustomerCSTSMsg = getConstants.CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
-    noneligibleWithNewCustomerCSTMsg  = getConstants.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
+    eligibleWithNewCustomerCSTSMsg;
+    noneligibleWithNewCustomerCSTMsg;
     //Added for approval
     showApproval = false;
     isTrue = true;
@@ -182,8 +184,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     issueTypeVal;
     issueTypeOptions = [];
     originalIssueType = '';
-    selectLan = getConstants.SELECT_LAN;
-    assetSearchPlaceholder = getConstants.ASSET_SEARCH_PLACEHOLDER;
+    selectLan;
+    assetSearchPlaceholder;
     currentIssueType = '';
 
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
@@ -205,16 +207,18 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
             if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
                 this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_POLICY_NUMBER);
-                this.asstCols = getConstants.ABSLI_ASSET_COLUMNS;
-                this.selectLan = getConstants.SELECT_ASSET;
-                this.assetSearchPlaceholder = getConstants.ABSLI_ASSET_SEARCH_PLACEHOLDER;
-                this.eligibleWithNewCustomerCSTSMsg = getConstants.ABSLI_CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
-                this.noneligibleWithNewCustomerCSTMsg  = getConstants.ABSLI_CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
             }
+            this.selectLan = lanLabels[this.businessUnit].SELECT_PRODUCT != null? lanLabels[this.businessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.businessUnit].ASSET_COLUMNS != null? lanLabels[this.businessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.assetSearchPlaceholder = lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG != null? lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG : lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
+            this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG != null? lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
+            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            
         } else if (error) {
             console.error('Error loading record', error);
         }
-    }
+    } 
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
@@ -809,13 +813,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
     }
-
-    cols = [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ]
 
     handleNatureVal(event) {
         this.natureVal = event.target.value;

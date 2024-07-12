@@ -12,6 +12,7 @@ import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
@@ -34,8 +35,8 @@ export default class Asf_CRNTagging extends LightningElement {
     @api recordId;
     initialRecords;
     inpValueA;
-    preSelectedRows = [];
-    preSelectedAsset = [];
+    @track preSelectedRows = undefined;
+    @track preSelectedAsset = undefined;
     prestdAcctId;
     noUpdate = noUpdate;
     @track showLANForCustomer = false;
@@ -49,91 +50,11 @@ export default class Asf_CRNTagging extends LightningElement {
     accountCrn;
     FAId;
     caseSuppliedEmail;
-
-    asstCols = [{
-        label: 'Id',
-        fieldName: 'Id',
-        type: 'text',
-        fixedWidth: 1,
-        hideLabel: true,
-        hideDefaultActions: true
-    },
-    {
-        label: 'Name',
-        fieldName: 'Name',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'LAN Number',
-        fieldName: 'LAN__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Disbursal Amount',
-        fieldName: 'Disbursed_Amount__c',
-        type: 'currency',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Disbursement Status',
-        fieldName: 'Loan_Disbursement_Status__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Start Date',
-        fieldName: 'Loan_Start_Date__c',
-        type: 'date',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan End Date',
-        fieldName: 'Loan_End_Date__c',
-        type: 'date',
-        initialWidth: 180
-    }
-    ]
-    ABSLI_ASSET_COLUMNS = [{
-        label: 'Id',
-        fieldName: 'Id',
-        type: 'text',
-        fixedWidth: 1,
-        hideLabel: true,
-        hideDefaultActions: true
-    },
-    {
-        label: 'Name',
-        fieldName: 'Name',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Policy No',
-        fieldName: 'Policy_No__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Policy Status',
-        fieldName: 'Status',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Policy Type',
-        fieldName: 'Type__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Application No.',
-        fieldName: 'Application_Number__c',
-        type: 'text',
-        initialWidth: 180
-    }
-    ]
+    productSearchPlaceholder;
+    cardTitle;
+    selectLan;
+    asstCols;
+    
     accCols = [{
         label: 'Id',
         fieldName: 'recordId',
@@ -193,9 +114,10 @@ export default class Asf_CRNTagging extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            if(this.loggedInUserBusinessUnit === ABSLI_BU){
-                this.asstCols = this.ABSLI_ASSET_COLUMNS;
-            }
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
         } else if (error) {
             //this.error = error ;
         }
@@ -252,7 +174,6 @@ export default class Asf_CRNTagging extends LightningElement {
         data
     }) {
         if (data) {
-            console.log('con data--'+JSON.stringify(data));
             this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
@@ -260,6 +181,7 @@ export default class Asf_CRNTagging extends LightningElement {
             let my_ids1 = [];
             my_ids1.push(this.FAId);
             this.preSelectedAsset = my_ids1;
+            console.log('con data--'+JSON.stringify(data));
         } else if (error) {
             this.error = error;
             console.log('error--'+JSON.stringify(error));
@@ -293,7 +215,7 @@ export default class Asf_CRNTagging extends LightningElement {
             })
             .catch(error => {
             });
-    }
+    } 
 
     handleAccAction(event) {
         const row = event.detail.selectedRows;
