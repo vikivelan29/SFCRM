@@ -218,7 +218,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error('Error loading record', error);
         }
-    }
+    } 
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */

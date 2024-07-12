@@ -47,7 +47,6 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         Set<Id> caseIds = new Set<Id>();
         for(Case caseRec : newMapCase.values()) {
             if(Test.isRunningTest() || (caseRec.Business_Unit__c == 'ABFL' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c && caseRec.Stage__c == 'Verification' && ABFL_Constants.GRIEVANCE_TEAM_ASGNMENT_CTSTS.contains(caseRec.CCC_External_Id__c))){
-
                 caseIds.add(caseRec.Id);
             }
         }

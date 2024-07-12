@@ -131,6 +131,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Validation_method_during_creation__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Is_FTR_Journey__c</field>
             </layoutItems>
             <layoutItems>

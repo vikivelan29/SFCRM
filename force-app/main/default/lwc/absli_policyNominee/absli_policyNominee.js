@@ -4,7 +4,7 @@ import fetchNomineeDetails from '@salesforce/apex/ABSLI_NomineeDetailController.
 
 const columns = [
     { label: 'Nominee Name', fieldName: 'name' },
-    { label: 'Allocation', fieldName: 'allocation' },
+    { label: 'Nominee Share %', fieldName: 'allocation' },
     { label: 'Appointee', fieldName: 'appointee'},
     { label: 'DOB of Nominee', fieldName: 'nomineeDob', type: 'date' },
     { label: 'Relationship', fieldName: 'relationship' }    
@@ -18,6 +18,7 @@ export default class Absli_policyNominee extends LightningElement {
     @track processApexReturnValue;
     @track errorMessage = '';
     @track showErrorMsg = false;
+    @track loaded = false;
 
     connectedCallback() {
         //this.data = generateData({ amountOfRecords: 25 });
@@ -32,6 +33,7 @@ export default class Absli_policyNominee extends LightningElement {
         debugger;
         if(this.processApexReturnValue.bSuccess == true){
             this.data = this.processApexReturnValue.nominees;
+            this.loaded = true; 
             debugger;
         }
         else{
@@ -39,6 +41,7 @@ export default class Absli_policyNominee extends LightningElement {
             debugger;
             this.errorMessage = this.processApexReturnValue.errorMessage;
             this.showErrorMsg = true;
+            this.loaded = true;
         }
         console.log(this.processApexReturnValue);
     }

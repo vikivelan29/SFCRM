@@ -6,7 +6,6 @@
         <publicGroups>
             <publicGroup>ABFL_Mortgage_Central_Sales_G</publicGroup>
         </publicGroups>
-        
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
