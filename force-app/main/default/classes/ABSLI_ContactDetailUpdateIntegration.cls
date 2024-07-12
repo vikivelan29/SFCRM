@@ -25,7 +25,8 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 		for (ASF_Checklist__c filteredChecklist : [
 			SELECT Id, Case__c
 			FROM ASF_Checklist__c
-			WHERE Status__c NOT IN ('Yes', 'Signature Matched')
+			WHERE Status__c NOT IN ('Yes', 'Signature Matched', 'Completed')
+            AND Case__c IN: caseRecords
 		]) {
 			skipcaseIds.add(filteredChecklist.Case__c);
 		}
