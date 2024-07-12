@@ -22,7 +22,6 @@ export default class absli_reconfirminput extends LightningElement {
         }
         this.options = countryCodeOptions;
     }
-    
     mobileNumberValidation(){
         if (this.selectedCountryCode === '91' && this.originalTextValue && this.originalTextValue.length != 10) {
             this.isMobileNumberError = true;
@@ -72,7 +71,7 @@ export default class absli_reconfirminput extends LightningElement {
         }
     }
     confirmationCheck() {
-        if (this.originalTextValue == this.confirmTextValue && !this.isMobileNumberError) {
+        if ((this.originalTextValue == this.confirmTextValue) && !this.isMobileNumberError && this.selectedCountryCode != null) {
             this.bConfirmationTextNotMatching = false;
             this.iconClass = 'successBtn';
         }
@@ -94,6 +93,7 @@ export default class absli_reconfirminput extends LightningElement {
     handleCountryCodeOptionChange(event){
         let val = event.target.value;
         this.selectedCountryCode = val;
+        this.confirmationCheck();
         this.mobileNumberValidation();
     }
 }

@@ -1,3 +1,10 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 06-27-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <template>
     <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
         class="slds-modal slds-fade-in-open">
@@ -25,7 +32,7 @@
                     onchange={handleConfirmTextChange}></lightning-input>
                 <template if:true={isMobileNumberError}>
                     <div class="slds-text-color_error slds-m-top_small">Invalid Mobile Number for selected Country Code. India - 10 digits, Other - 15 digits</div>
-                 </template>            
+                </template>              
             </div>
             <div class="slds-modal__footer">
                 <lightning-button class="slds-m-around_small" label="Cancel"

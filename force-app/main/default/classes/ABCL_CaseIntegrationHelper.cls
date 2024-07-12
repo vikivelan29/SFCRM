@@ -1,6 +1,6 @@
 /*********************************************************
 *Class        :  ABCL_CaseIntegrationHelper
-*Author       :  Shubham Sinha
+*Author       :  Shubham Sinha 
 *Created Date :  12/12/2023
 *Last Modified:  12/12/2023
 *@description  :  Case Integration Trigger Helper for ABHFL and ABFL according to the case Business Unit
@@ -21,9 +21,9 @@ public with sharing class ABCL_CaseIntegrationHelper {
         for(ASF_Case_Integration__c recordAfter : (List<ASF_Case_Integration__c>)newItems.values()){
             ASF_Case_Integration__c recordBefore = (ASF_Case_Integration__c)oldItems.get(recordAfter.Id);
             if(
-                recordAfter.Status__c == 'Success' &&
-                String.isNotBlank(recordAfter.Case__c) &&
-                String.isNotBlank(recordAfter.Response__c) &&
+                recordAfter.Status__c == 'Success' && 
+                String.isNotBlank(recordAfter.Case__c) && 
+                String.isNotBlank(recordAfter.Response__c) &&  
                 String.isBlank(recordBefore.Response__c)
             ){
                 caseIds.add(recordAfter.Case__c);
@@ -47,9 +47,13 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
                     }
+                    else if(integrationCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
+                        ABSLI_EBotWrapper.EbotResponseWrapper ebotResponse = (ABSLI_EBotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABSLI_EBotWrapper.EbotResponseWrapper.class);
+                        ABSLI_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse,recordAfter);
+                    }
                 }
-            }
+            }     
         }
-
+        
     }
 }
