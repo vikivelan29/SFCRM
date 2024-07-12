@@ -856,7 +856,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
-            <conditionLogic>(1 AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
+            <conditionLogic>((1 OR 6)AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -890,6 +890,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <elementReference>$Record__Prior.Lead__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.RecordTypeId</elementReference>
                 </rightValue>
             </conditions>
             <connector>

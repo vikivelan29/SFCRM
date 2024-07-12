@@ -7,12 +7,12 @@
 
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
-public with sharing class ABCL_CaseIntegrationHelper {
+public with sharing class ABCL_CaseIntegrationHelper {    
     /**
     * @description Processing Ebot Response for ABHFL and ABFL according to the case Business Unit
     * @author Shubham Sinha
-    * @param newItems
-    * @param oldItems
+    * @param newItems 
+    * @param oldItems 
     **/
     public static void eBotHandler(map<Id, sObject> newItems,map<Id, sObject> oldItems){
         // Find eligible records
@@ -28,8 +28,8 @@ public with sharing class ABCL_CaseIntegrationHelper {
             ){
                 caseIds.add(recordAfter.Case__c);
                 caseIntegrationIds.add(recordAfter.Id);
-            }
-        }
+            } 
+        }         
         // If we have eligible records then run below
         if(caseIntegrationIds.size() >  0) {
             Map<Id, Case> caseIdMap = new Map<Id, Case>([Select id,Type,Business_Unit__c , CCC_External_Id__c,Status,Source__c,Origin from Case where id in: caseIds]);
@@ -42,7 +42,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABHFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABHFL_EbotWrapper.EbotResponseWrapper.class);
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
                         //Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(recordAfter);
-                    }
+                    }   
                     else if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(integrationCase.Business_Unit__c) ){
                         ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
