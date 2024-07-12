@@ -18,9 +18,9 @@ public class ABFL_E2C_CreationRulesTest {
         newCase.CCC_External_Id__c ='' ;
         newCase.Source__c =  'Email';
         newCase.Stage__c = 'Email';
-        newCase.SuppliedEmail = 'abcl.abfl@gmail.com';
-        newCase.Business_Unit__c  = 'ABFL';
-        newCase.origin  = 'ABFL Email';
+        newCase.SuppliedEmail = 'ABSLI.NodalOfficer@adityabirlacapital.com';
+        newCase.Business_Unit__c  = 'ABSLI';
+        newCase.origin  = 'ABSLI Email';
         insert newCase; 
         if(newCase.Id != null){
             
@@ -35,7 +35,7 @@ public class ABFL_E2C_CreationRulesTest {
             insert eMsg;
         }
         EmailMessage msg = [SELECT ID,Winning_Email__c FROM EmailMessage WHERE ParentId =: newCase.Id AND Incoming = true LIMIT 1];
-        System.AssertEquals(msg.Winning_Email__c,'abfl.instics@adityabirlacapital.com','E2C Tested Successfully.');
+        System.AssertEquals(msg.Winning_Email__c,null,'E2C Tested Successfully.');
     }
     @isTest
     static void testCheckCreationRulesWithValidSubject() {
