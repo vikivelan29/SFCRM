@@ -52,6 +52,7 @@ public with sharing class ATFCaseService implements Callable {
             ABCL_Logger.enableExceptionLogging();
             ABCL_Logger.push('ABFL_EmailCase_Logic.updateIncomingEmailCount');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
         

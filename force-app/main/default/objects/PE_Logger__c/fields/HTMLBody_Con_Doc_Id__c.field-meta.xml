@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Email_Addresses_Allowed__c</fullName>
+    <fullName>HTMLBody_Con_Doc_Id__c</fullName>
+    <description>This is used when HTML body to be read from Content Document and send via email.</description>
     <externalId>false</externalId>
-    <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Email Addresses Allowed</label>
+    <label>HTMLBody Con Doc Id</label>
     <length>255</length>
     <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

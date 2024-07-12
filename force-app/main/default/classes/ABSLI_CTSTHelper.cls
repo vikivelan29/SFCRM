@@ -87,8 +87,12 @@ public with sharing class ABSLI_CTSTHelper {
                 validation.blankFields.add(caseResolutionField.getLabel());
                 validation.result = true;
             }
+            System.debug(caseR.ABSLI_Case_Detail__r.Outcome__c);
+            if (caseR.ABSLI_Case_Detail__r.Outcome__c == 'Unresolved') {
+            	validation.result = true;
+            	validation.message = 'Team Resolution Status cannot be "Unresolved" to resolve a Case.';
+        	}
             
-        
             // Set the message within the wrapper
             if(validation.result && !validation.blankFields.isEmpty()) {
                 String message = 'The following fields are mandatory to Resolve Requests : ';
@@ -97,7 +101,7 @@ public with sharing class ABSLI_CTSTHelper {
                 }
                 message = message.removeEnd(', ');
                 validation.message = message;
-            }	
+            }
             resultsMap.put(caseR.Id, validation);
         }
         
@@ -142,7 +146,14 @@ public with sharing class ABSLI_CTSTHelper {
             if(String.isBlank(caseR.ABSLI_Case_Detail__r.Acknowledgement_contacted__c)) {
                 validation.blankFields.add(acknowledgementConField.getLabel());
                 validation.result = true;
-            }  
+            }
+            List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseR.Id];
+            for(Task relatedtask : openTasks){
+                if(relatedtask.Status != 'Completed'){
+                  	validation.result = true;
+            		validation.message = 'Please complete required tasks to resolve the case.';  
+                }
+            }
             // Set the message within the wrapper
             if(validation.result && !validation.blankFields.isEmpty()) {
                 String message = 'Below Resolution Fields are mandatory to close Complaints : ';

@@ -192,6 +192,13 @@
         <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
+        <fullName>ABFL_UTR_AUTO_CLOSE_ELIGIBLE_CCC</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL UTR AUTO CLOSE ELIGIBLE CCC</shortDescription>
+        <value>CFGREQDISBLOC01,CMGREQDISBLOC01</value>
+    </labels>
+    <labels>
         <fullName>ABFL_UTR_Auto_Close_Case_User</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -826,15 +833,15 @@
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
         <fullName>ABSLI_STATICURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/</value>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
     </labels>
     <labels>
         <fullName>ABSLI_key</fullName>
@@ -969,5 +976,33 @@
         <protected>false</protected>
         <shortDescription>ABSLI BU</shortDescription>
         <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
 </CustomLabels>

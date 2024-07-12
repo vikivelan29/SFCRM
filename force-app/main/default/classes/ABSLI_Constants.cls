@@ -6,6 +6,7 @@ public class ABSLI_Constants {
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
     public static final String PENDING = 'Pending';
+    public static final String FAILURE = 'Failure';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String QUERY = 'Query';
     public static final string REQUEST = 'Request';
@@ -99,6 +100,7 @@ public class ABSLI_Constants {
     public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
     public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
     public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
+
     public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Loan NEFT Ref Num Schedulde Job';
     public static final String FETCHNEFTREF_EVALUATION_ERROR = 'ABSLI_FETCHNEFTREF_EVALUATION_ERROR';
     public static final String FETCHNEFTREF_SUCCESS_MESSAGE = 'ABSLI_FETCHNEFTREF_SUCCESS_MESSAGE';
@@ -132,7 +134,6 @@ public class ABSLI_Constants {
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
-
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'NomineeDeleteApi';

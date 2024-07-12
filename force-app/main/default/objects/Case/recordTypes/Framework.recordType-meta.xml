@@ -23,6 +23,10 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
+            <fullName>Change as per Customer Issue Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -35,7 +39,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Multiple Cases%2FDuplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Multiple Intent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -59,10 +75,6 @@
         </values>
         <values>
             <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -881,10 +893,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
