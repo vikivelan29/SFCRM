@@ -449,6 +449,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 fileRec.Next_Retry__c = System.now().addMinutes(15);
                 if(String.isBlank(leadId)){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
+                    fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
                 } else {
                     fileRec.Status__c = ABHFL_Constants.PENDING;
                 }
