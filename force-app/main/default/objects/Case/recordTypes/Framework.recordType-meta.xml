@@ -65,10 +65,6 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
