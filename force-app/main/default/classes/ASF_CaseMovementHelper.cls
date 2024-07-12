@@ -1036,7 +1036,6 @@ public class ASF_CaseMovementHelper {
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
                 // VIRENDRA - 9 JUNE 2024 - ADDED DEFAULTOWNERNAME to store the QUEUE NAME ON CASE.
-                System.debug('currentStageConfig.Default_Queue__c '+currentStageConfig.Default_Queue__c+ 'currentStageConfig.Default_Queue_user_Name__c -'+currentStageConfig.Default_Queue_user_Name__c);
                 resultWrapper.defaultOwnerName = currentStageConfig != null ? currentStageConfig.Default_Queue_user_Name__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){

@@ -62,7 +62,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -72,6 +72,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
@@ -577,6 +581,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -678,6 +693,10 @@
         </values>
         <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
         <values>
@@ -793,6 +812,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -858,6 +881,10 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

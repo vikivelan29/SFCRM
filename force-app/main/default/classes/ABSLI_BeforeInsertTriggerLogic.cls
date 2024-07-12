@@ -87,7 +87,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
         }
     }
-
+  
     //AM-PR970457-2039-Method to validate case creation for specific CTSTs based on certain conditions
     public static void checkCreateCaseValidations(List<Case> cases){
         Set<String> issueCodes = new Set<String>();
