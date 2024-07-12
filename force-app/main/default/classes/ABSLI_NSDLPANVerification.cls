@@ -6,13 +6,13 @@ public with sharing class ABSLI_NSDLPANVerification {
             PANVerificationWrapper panWrapper = new PANVerificationWrapper();
 
             Case caseRecord = [Select id,AccountId,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Account.Name,
-                               Account.IsPersonAccount,Account.PAN__c,Account.PersonBirthdate 
+                               Account.IsPersonAccount,Account.PAN__c,Account.PersonBirthdate,ABSLI_Case_Detail__r.PAN_Number__c	
                                from Case where id =: caseId limit 1];
             
             if(caseRecord.Account.IsPersonAccount){
                 panWrapper.name = caseRecord.Account.Name;
                 String panFromCaseExt = caseRecord.ABSLI_Case_Detail__r.PAN_Number__c;
-                panWrapper.pan = panFromCaseExt != null  && panFromCaseExt != '' ? panFromCaseExt : caseRecord.Account?.PAN__c;
+                panWrapper.pan = panFromCaseExt != null  && panFromCaseExt != '' ? panFromCaseExt : '';
                 panWrapper.dob = caseRecord.Account.PersonBirthdate;
                 panWrapper.panValidationStatus = caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c;
                 panWrapper.caseExtId = caseRecord.ABSLI_Case_Detail__c;
@@ -108,13 +108,14 @@ public with sharing class ABSLI_NSDLPANVerification {
             Date dob = Date.valueof(panInputWrapper.dob);
             DateTime dobDateTime = DateTime.newInstance(dob.year(), dob.month(),dob.day());
             panInputWrapper.dob =  dobDateTime.Format('dd/MM/yyyy');
+            panInputWrapper.fathername = '';
             panRequest.inputData = new List<PANInputWrapper>{panInputWrapper};
             ABCL_IntegrationCallout.IntegrationResponseWrapper nsdlResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.PAN_VERIFICATION_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(panRequest),
                                                                                                                     null);
-            if(nsdlResponse.statusCode == 200 && String.isNotBlank(nsdlResponse.responseBody)){
+            if(String.isNotBlank(nsdlResponse.responseBody)){
                 PANResponseWrapper responseWrapper = (PANResponseWrapper)JSON.deserialize(nsdlResponse.responseBody,PANResponseWrapper.class);
-                if(responseWrapper.FaultCode != ''){
+                if(nsdlResponse.statusCode == 200){
                     Case caseRecord = [Select ABSLI_Case_Detail__c from Case where id =: caseId limit 1];
                     ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
                     caseDetail.Id = caseRecord.ABSLI_Case_Detail__c;
@@ -125,7 +126,9 @@ public with sharing class ABSLI_NSDLPANVerification {
                     panResponseWrapper.isSuccess = true;
                     panResponseWrapper.responseStr = nsdlResponse.responseBody;
                 }else {
-                    panResponseWrapper.errorMessage = responseWrapper.resposne_Message;
+                    if(responseWrapper.Fault != null && responseWrapper.Fault.FaultMessage != null){
+                        panResponseWrapper.errorMessage = responseWrapper.Fault.FaultMessage.resposne_Message;
+                    }
                 }
             }
             string status = '';
@@ -150,12 +153,18 @@ public with sharing class ABSLI_NSDLPANVerification {
     public static PANVerificationResponseWrapper updatePAN(string caseId){
         try {
             PANVerificationResponseWrapper responseWrapper = new PANVerificationResponseWrapper();
-            responseWrapper.isSuccess = false;
+            responseWrapper.isSuccess = true;
             Case caseRecord = [Select ABSLI_Case_Detail__c,CCC_External_Id__c from Case where id =: caseId limit 1];
             ABSLI_PanUpdateIntegration panUpdateInt = new ABSLI_PanUpdateIntegration();
+            ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+            caseDetail.Id = caseRecord.ABSLI_Case_Detail__c;
+            caseDetail.Status_Valid_For_STP__c = true;
+            if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable()){
+                update caseDetail;
+            }
             //ASF_IntegrationsController.IntegrationWrapper evaluationResponseWrapper = panUpdateInt.evaluate(caseRecord);
             //if(evaluationResponseWrapper.status == ABSLI_Constants.SUCCESS){
-                List<ASF_Integration__c> integrationSpec = [SELECT Id, OwnerId, IsDeleted, Name, CreatedDate, CreatedById, 
+            /*    List<ASF_Integration__c> integrationSpec = [SELECT Id, OwnerId, IsDeleted, Name, CreatedDate, CreatedById, 
                                                       LastModifiedDate, LastModifiedById, SystemModstamp, Auto_Run_on_Load__c, 
                                                       Case_Stage_Config__c, Display_Name__c, Display_Order__c, External_Id__c, 
                                                       Mandatory_At_Stage_Movement__c, Processing_Class__c, STP_Processing_Class__c, 
@@ -172,7 +181,7 @@ public with sharing class ABSLI_NSDLPANVerification {
                 }else{
                     responseWrapper.errorMessage = intResponse.response;
                 }               
-            }
+            }*/
 
                 /*ASF_IntegrationsController.IntegrationWrapper runResponseWrapper = panUpdateInt.run(integrationSpec,caseRecord);
                 if(runResponseWrapper.status == ABSLI_Constants.SUCCESS){
@@ -218,7 +227,7 @@ public with sharing class ABSLI_NSDLPANVerification {
     public class PANResponseWrapper{
         public String response_Code;
         public PANOutputWrapper[] outputData;
-        public String FaultCode;
+        public FaultWrapper Fault;
         public String resposne_Message;
     }
 
