@@ -22,9 +22,17 @@ public with sharing class ASF_RecategoriseCaseController {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB);
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
-            if (ccc.CCC_External_Id__c != currentCCCId ||
-               (ccc.Business_Unit__c == ASF_Constants.ABSLI_BU && ccc.CCC_External_Id__c == currentCCCId && ccc.Allowed_Issue_Types__c != null)){
-                filteredCCCList.add(ccc);
+            if(ccc.Business_Unit__c == ASF_Constants.ABSLI_BU){
+                if(ccc.CCC_External_Id__c != currentCCCId && (ccc.Nature__c == 'Complaint' || ccc.Nature__c == 'Query')){
+                    filteredCCCList.add(ccc);
+                }
+                else if(ccc.CCC_External_Id__c == currentCCCId && ccc.Allowed_Issue_Types__c != null && (ccc.Nature__c == 'Complaint' || ccc.Nature__c == 'Query')){
+                    filteredCCCList.add(ccc);
+                }
+            }else{
+                if(ccc.CCC_External_Id__c != currentCCCId){
+                    filteredCCCList.add(ccc);
+                }
             }
         }
         /* IF Filtered List is not having any record, show the ErrorMessage e.g. No Records found for the selected search.
