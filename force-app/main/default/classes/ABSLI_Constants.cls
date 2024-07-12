@@ -17,6 +17,7 @@ public class ABSLI_Constants {
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
 
+
     /* Bitly Link REAL TIME API
      */
     public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
