@@ -62,10 +62,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
@@ -581,6 +577,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -682,6 +689,10 @@
         </values>
         <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
         <values>
@@ -794,6 +805,10 @@
         </values>
         <values>
             <fullName>Outbound call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>

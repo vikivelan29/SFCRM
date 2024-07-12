@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Policy #:LAN__c:url,Plan Name:Plan_Name__c,Policy Status:Status,Policy Type:Type__c,Mode:Mode__c,Servicing Agent:Advisor__r.Name:url</value>
+        <value xsi:type="xsd:string">Policy #:Policy_No__c:url,Plan Name:Plan_Name__c,Policy Status:Status,Policy Type:Type__c,Mode:Mode__c,Servicing Agent:Advisor__r.Name:url</value>
     </values>
     <values>
         <field>Line_Of_Business__c</field>

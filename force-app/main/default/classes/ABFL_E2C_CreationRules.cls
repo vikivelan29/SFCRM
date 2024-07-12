@@ -44,9 +44,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
-                        if (metadataMap.containsKey(emailMsg.ToAddress)) {
+                        if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             // Get creation rules for the mailbox and check conditions
-                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.ToAddress)) {
+                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
@@ -62,8 +62,14 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                 }
                                 if (creationNotAllowed) {
+                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
+                                    // Log the error
+                                    ABCL_Logger.enableExceptionLogging();
+                                    ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
+                                    ABCL_Logger.message(message);
+                                    ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
-                                    emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
+                                    emailMsg.addError(message);
                                 }
                             }
                         }

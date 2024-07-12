@@ -158,8 +158,9 @@ public with sharing class ABFL_InvokePaymentLink implements ASF_IntegrationInvoc
         }
         catch(Exception e) {
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_InvokeBREProcess.processResponse');
+            ABCL_Logger.push('ABFL_InvokePaymentLink.processResponse');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
         
