@@ -118,6 +118,5 @@ public without sharing class ABSLI_ReachUsButtonController {
                                                                         );
         
         return event;
-    }
-    
+    }    
 }
