@@ -157,7 +157,10 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             return cLog.Id;
             
         }
-        return null;
+        else{
+            throw new AuraException('Trying to send SMS to Customer without mobile number.');
+        }
+        
     }
     
     /* THIS METHOD IS USE FOR GETTING THE TEMPLATE HTML BODY BASED ON THE FUNCTION CODE AND WHAT ID.
