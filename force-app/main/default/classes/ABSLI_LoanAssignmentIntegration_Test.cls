@@ -208,7 +208,7 @@ public with sharing class ABSLI_LoanAssignmentIntegration_Test {
 		];
 
 		ABSLI_LoanAssignmentIntegration.LAResponseWrapper responseObj = new ABSLI_LoanAssignmentIntegration.LAResponseWrapper();
-		responseObj.output = 'AbinashPanigrahi';
+		responseObj.LSIR_RETURN_CD = '00';
 
 		caseIntegRec.Response__c = JSON.serialize(responseObj);
 		caseIntegRec.Status__c = 'Success';
