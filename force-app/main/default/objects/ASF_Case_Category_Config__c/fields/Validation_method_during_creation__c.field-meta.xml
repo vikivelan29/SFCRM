@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Validation_method_during_creation__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>Mention the method name from asf_CreateCaseValidations LWC which is to be evaluated during case creation using this config. New methods can be added in the mentioned LWC.</inlineHelpText>
+    <inlineHelpText>Mention the method name from asf_CreateCaseValidations LWC which is to be evaluated during case creation using this config. New methods can be added in the mentioned LWC</inlineHelpText>
     <label>Validation method during creation</label>
     <length>100</length>
     <required>false</required>
