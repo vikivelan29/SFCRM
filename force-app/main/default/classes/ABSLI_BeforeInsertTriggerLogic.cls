@@ -87,7 +87,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
         }
     }
-
+  
     //AM-PR970457-2039-Method to validate case creation for specific CTSTs based on certain conditions
     public static void checkCreateCaseValidations(List<Case> cases){
         Set<String> issueCodes = new Set<String>();
@@ -101,12 +101,10 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                 policyIdVsCase.put(c.AssetId,c);
             }
         }
-        
         for(Asset policy: [SELECT Id, Status FROM Asset WHERE Id IN:policyIdVsCase.keySet()]){
             caseVsAsset.put(policyIdVsCase.get(policy.Id),policy);
         }
-        
-        if(issueCodes.size()>0 && !caseVsAsset.isEmpty()){
+        if(issueCodes.size()>0){
             Map<String, ABSLI_Create_Case_Validations__mdt> issueCodeVsMdt = new Map<String, ABSLI_Create_Case_Validations__mdt>();
             List<ABSLI_Create_Case_Validations__mdt> validationMdtList = [SELECT Label,Business_Unit__c,Issue_Code__c,
                                              							   Operator__c,Asset_Values__c,Error_Message__c
