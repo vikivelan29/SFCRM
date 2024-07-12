@@ -3,7 +3,7 @@
     <script> 
     window.onload = function() { 
          
-        alert('loading...'); 
+        //alert('loading...'); 
         window.location.replace('https://www.google.com');
     } 
     </script>
