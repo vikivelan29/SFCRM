@@ -108,7 +108,7 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
                                 }
                                 else {
                                     var controllingField = caseFieldsMetadata.find(item1 => item1.FieldAPINAme == caseFieldsMetadata[item].ControllingField);
-                                    if (caseExtensionObj) {
+                                    if (caseExtensionObj && controllingField) {
                                         if (caseExtensionObj[controllingField.FieldAPINAme] == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula) {
                                             field.callSetAsDisabledField(false);
                                             //check for mandatory
@@ -219,91 +219,6 @@ const renderingPicklistOnStageAdjustment = (templ, caseFieldsMetadata, currentSt
                     }
                 });
             }
-            else {
-                /*for (var item in caseFieldsMetadata) {
-                    templ.querySelectorAll('lightning-input-field').forEach((field) => {
-                        if (field.fieldName == caseFieldsMetadata[item].FieldAPINAme) {
-                            if (caseFieldsMetadata[item].UpdateAt) {
-                                if (caseFieldsMetadata[item].UpdateAt.includes(currentStep)) {
-                                    if (caseFieldsMetadata[item].ControllingField == null && !caseFieldsMetadata[item].useControllingFormula) {
-                                        // field.disabled = false;
-                                        // hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                    }
-                                    else{
-                                        var controllingField = caseFieldsMetadata.find(item1 => item1.FieldAPINAme == caseFieldsMetadata[item].ControllingField);
-                                        if(controllingField != undefined && controllingField != null){
-                                            templ.querySelectorAll('[fieldName = "'+controllingField.FieldAPINAme+'"]').forEach(ele =>{
-                                                if(ele.value == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula){
-                                                    field.disabled = false;
-                                                    hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                                }
-                                            })
-                                        }
-                                        
-                                        if (caseExtensionObj) {
-                                            if (controllingField != null && controllingField != undefined && caseExtensionObj[controllingField.FieldAPINAme] == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula) {
-                                                field.disabled = false;
-                                                hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                                //check for mandatory
-                                                if (caseFieldsMetadata[item].RequiredAt) {
-                                                    if (caseFieldsMetadata[item].RequiredAt.toString().includes(currentStep)) {
-                                                        field.required = true;
-                                                    }
-                                                    else {
-                                                        field.required = false;
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                if (!caseFieldsMetadata[item].useControllingFormula) {
-                                                    field.disabled = true;
-                                                    hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                                }
-        
-                                            }
-                                        }
-                                        else{
-                                            templ.querySelectorAll('lightning-input-field').forEach((field1) => {
-                                                if (controllingField) {
-                                                    if (field1.fieldName == controllingField.FieldAPINAme) {
-        
-                                                        if (field1.value == caseFieldsMetadata[item].ControllingExpression && !caseFieldsMetadata[item].useControllingFormula) {
-                                                            field.disabled = false;
-                                                            hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-        
-                                                            if (caseFieldsMetadata[item].RequiredAt) {
-                                                                if (caseFieldsMetadata[item].RequiredAt.toString().includes(currentStep)) {
-                                                                    field.required = true;
-                                                                }
-                                                                else {
-                                                                    field.required = false;
-                                                                }
-                                                            }
-                                                        }
-                                                        else {
-                                                            if (!caseFieldsMetadata[item].useControllingFormula) {
-                                                                field.disabled = true;
-                                                                field.value = "";
-                                                                hideReadOnlyFields(field);//Virendra : hide/show field if disabled true
-                                                            }
-                                                        }
-        
-                                                    }
-                                                }
-        
-                                            });
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    });
-                }*/
-
-
-            }
-
         }
     }
 }

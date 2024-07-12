@@ -160,6 +160,11 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>LAN Mappings</pluralLabel>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>LAN__c</fields>
+        <profileName>System Administrator</profileName>
+    </profileSearchLayouts>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

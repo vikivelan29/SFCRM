@@ -5,6 +5,7 @@
     <description>Yes or No value . Mandatory for Issue Type Code rrkre01</description>
     <externalId>false</externalId>
     <label>ISREKYC</label>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

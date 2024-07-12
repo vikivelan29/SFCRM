@@ -114,6 +114,16 @@
                                 <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
                             </template>
                         </div>
+                        <div class="slds-col slds-size_2-of-8">
+                            <template if:true={showCategoryType}>
+                                <lightning-combobox data-id="Category_Type"
+                                label="Category Type"
+                                class="validate" 
+                                options={categoryTypeOptions}
+                                required>
+                                </lightning-combobox> 
+                            </template>
+                        </div>
                     </div>
                     <template if:true={isTransactionRelated}>
                         <lightning-input type="text" label="Transaction Number" value={transactionNumber} onchange={handleTransactionChange} required class="validate"></lightning-input>
@@ -130,7 +140,7 @@
                             </lightning-input-field>
                         </lightning-record-edit-form>
                         <lightning-input type="text" disabled value={selectedSRCategory} label="SR Category"></lightning-input>
-                </template>
+                    </template>
                 
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small">

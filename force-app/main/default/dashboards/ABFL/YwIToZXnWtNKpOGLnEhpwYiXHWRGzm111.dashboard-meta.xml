@@ -39,7 +39,7 @@
                 </groupingSortProperties>
                 <header>ABFL Ageing Active Cases</header>
                 <legendPosition>Right</legendPosition>
-                <report>Wealth/ABFL_Ageing_Active_Cases_nGj</report>
+                <report>ABFL/Wealth/ABFL_Ageing_Active_Cases_nGj</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -80,7 +80,7 @@
                 </groupingSortProperties>
                 <header>ABFL Closed Cases Owner Count</header>
                 <legendPosition>Right</legendPosition>
-                <report>Wealth/ABFL_Closed_Cases_Owner_Count_lIt</report>
+                <report>ABFL/Wealth/ABFL_Closed_Cases_Owner_Count_lIt</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -156,7 +156,7 @@
                 </groupingSortProperties>
                 <header>ABFL Source Specific Case Count</header>
                 <legendPosition>Right</legendPosition>
-                <report>Wealth/ABFL_Source_Specific_Case_Count_s8v</report>
+                <report>ABFL/Wealth/ABFL_Source_Specific_Case_Count_s8v</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -170,8 +170,7 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <owner>achuriwala@salesforce.com</owner>
-    <runningUser>achuriwala@salesforce.com</runningUser>
+    <runningUser>rsinghnagar@salesforce.com.abcl</runningUser>
     <textColor>#000000</textColor>
     <title>Wealth Cases Report</title>
     <titleColor>#000000</titleColor>

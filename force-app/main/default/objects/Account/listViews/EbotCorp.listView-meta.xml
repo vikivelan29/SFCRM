@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EbotCorp</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Client_Code__c</columns>
+    <columns>Office_Email__c</columns>
+    <columns>Line_of_Business__c</columns>
+    <columns>Business_Unit__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>contains</operation>
+        <value>Ebot</value>
+    </filters>
+    <label>Ebot Organization</label>
+</ListView>

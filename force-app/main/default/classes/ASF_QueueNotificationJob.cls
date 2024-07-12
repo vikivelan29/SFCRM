@@ -17,7 +17,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
         system.debug('coming here');
     	Map<Id,AggregateResult> mResults = new Map<Id,AggregateResult>(s);
         
-        List<Case> scope = [SELECT Id, caseNumber, ownerId,Sub_Type_Text__c,Type_Text__c, Owner.type, Last_Owner_Change_Date__c,BusinessHoursId FROM Case wHERE OwnerId =: mResults.keySet()];
+	List<Case> scope = [SELECT Id, caseNumber, ownerId,Sub_Type_Text__c,Type_Text__c, Owner.type, Last_Owner_Change_Date__c,BusinessHoursId FROM Case WHERE OwnerId =: mResults.keySet() AND isClosed = false];
         //Business logic to send notification to Queue owner
         Map<String,List<String>> queueVsCaseLst = new Map<String,List<String>>();
         map<string,case> caseNumberRecordMap = new map<string,case>();
@@ -78,7 +78,7 @@ global class ASF_QueueNotificationJob implements Schedulable,Database.batchable<
             String qEmail = queueVsEmail.get(qId);
             String htmlBody = getTableEmailBody(caseLst,caseNumberRecordMap);
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            mail.setSubject('Unassigned cases beyond TAT in Queue - '+queueIdQueueObject.get(qId));
+            mail.setSubject('Unassigned cases in Queue - '+queueIdQueueObject.get(qId));
             String templateBody = emailTemp.htmlvalue;
             templateBody = templateBody.replaceall('<Queue name>',queueIdQueueObject.get(qId));
             templateBody = templateBody.replaceall('ListofcasestoBeReplaced',htmlBody);
