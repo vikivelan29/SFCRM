@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-28-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-28-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ABCL_SendEmailValidation_Test {
      @isTest
@@ -6,7 +16,7 @@ public class ABCL_SendEmailValidation_Test {
             User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABFL',
-                                    TimeZoneSidKey='America/Los_Angeles',Team__c = 'GRT', UserName='cdefghijk567@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles',Team__c = 'GRT', UserName='cdefghijk5657123456@gmail.com'
                                     );
         insert userRecord;
         System.runAs(userRecord) {
