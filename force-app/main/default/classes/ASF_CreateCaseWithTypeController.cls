@@ -216,7 +216,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
                 if( String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
-                   && ccc.Business_Unit__c.contains(userBu)){
+                   && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
                    } 
                 
