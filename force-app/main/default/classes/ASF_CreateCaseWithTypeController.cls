@@ -10,7 +10,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_CC ='CC';
     public static final String STRING_SEMI_COLON =';';
     public static final String STRING_COMMA =',';
-    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage;
+    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage; 
     
     /****************************************************************************************************************
     * @description  Gets the Source tagged to User and its Relavant Channel list.     
