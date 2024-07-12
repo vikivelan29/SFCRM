@@ -12,6 +12,10 @@
             <targetReference>Send_Holding_Response</targetReference>
         </connector>
         <dataTypeMappings>
+            <typeName>T__caseRecord</typeName>
+            <typeValue>Case</typeValue>
+        </dataTypeMappings>
+        <dataTypeMappings>
             <typeName>T__cccRecord</typeName>
             <typeValue>ASF_Case_Category_Config__c</typeValue>
         </dataTypeMappings>
@@ -20,6 +24,12 @@
             <name>caseId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>caseRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -261,7 +271,9 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>When case SLA is broken or Stage SLA is broken , this is executed</description>
+    <description>When case SLA is broken or Stage SLA is broken , this is executed
+Passing Case record Id to invocable class</description>
+    <environments>Default</environments>
     <interviewLabel>Case Stage SLA and Over all SLA Broken Reminders {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case Over all SLA Broken Reminders</label>
     <processMetadataValues>
