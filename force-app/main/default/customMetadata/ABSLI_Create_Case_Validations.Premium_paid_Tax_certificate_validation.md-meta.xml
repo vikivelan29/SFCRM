@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Premium paid/Tax certificate validation</label>
+    <protected>false</protected>
+    <values>
+        <field>Asset_Values__c</field>
+        <value xsi:type="xsd:string">WAIVER:PAID-UP ANNUITY/EXTENDED TERM:RPU ULIP:PREMIUM PAYING:LAPSED:DISCONTINUED - PAYOUT PENDING</value>
+    </values>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABSLI</value>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">The issue &apos;Premium paid certificate / Tax certificate&apos; isn&apos;t valid for this policy.</value>
+    </values>
+    <values>
+        <field>Issue_Code__c</field>
+        <value xsi:type="xsd:string">PEMT024</value>
+    </values>
+    <values>
+        <field>Operator__c</field>
+        <value xsi:type="xsd:string">IN</value>
+    </values>
+</CustomMetadata>

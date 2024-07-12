@@ -2,18 +2,19 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 03-27-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 05-06-2024
+ * @last modified by  : aditya.mehrotra@salesforce.com
  * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
- * 2.0 	 02-04-2024	  rajender.kumar@manras.com   areAllWordsPresent function created
+ * Ver   Date         Author                            Modification
+ * 1.0   01-02-2024   achuriwala@salesforce.com         Initial Version
+ * 2.0   02-04-2024   rajender.kumar@manras.com         areAllWordsPresent function created
+ * 3.0   05-06-2024   aditya.mehrotra@salesforce.com    Included ABSLI BU
 **/
 // supressing this as the code is meant as a mini framework and thus might have below PMD issues
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_E2C_CreationRules {
     /****************************************************************************
-     * @Origin - ABFL
+     * @Origin - ABFL/ABSLI
      * @Function - checkCreationRules
      * @param emailMessages - contains all incoming message.
      * @description - Main method for checking all creation rules
@@ -29,23 +30,23 @@ public with sharing class ABFL_E2C_CreationRules {
 
             if (!caseIds.isEmpty()){
                 // Set to store Case Ids related to ABFL Email
-                Set<Id> abflCaseIds = new Set<Id>();
+                Set<Id> qualifiedCaseIds = new Set<Id>();
                 //for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
                     for (Case c : ASF_EmailMessageQueryHandler.getCaseRecords(caseIds)) {
                     // Check if the case origin is 'ABFL Email'
-                    if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
-                        abflCaseIds.add(c.Id);
+                    if (System.Label.ABCL_Case_Origin_for_E2C_Rules.split(',').contains(c.origin)) {
+                        qualifiedCaseIds.add(c.Id);
                     }
                 }  
 
-                if (!abflCaseIds.isEmpty()) {
+                if (!qualifiedCaseIds.isEmpty()) {
                     // Get rules from E2C_Creation_Rules__mdt records - Entity => List<CreationRules>
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
-                        if (metadataMap.containsKey(emailMsg.ToAddress)) {
+                        if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             // Get creation rules for the mailbox and check conditions
-                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.ToAddress)) {
+                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
@@ -54,15 +55,21 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                     when  'Subject'{
                                         if(emailMsg.Subject != null){
-                                        	creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Subject);    
+                                            creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Subject);    
 
                                         }
                                         
                                     }
                                 }
                                 if (creationNotAllowed) {
+                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
+                                    // Log the error
+                                    ABCL_Logger.enableExceptionLogging();
+                                    ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
+                                    ABCL_Logger.message(message);
+                                    ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
-                                    emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
+                                    emailMsg.addError(message);
                                 }
                             }
                         }
@@ -76,11 +83,11 @@ public with sharing class ABFL_E2C_CreationRules {
     private static Map<String, List<E2C_Creation_Rules__mdt>> buildMetadataMap() {
 
         Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
-
+        List<String> allowedBuList = System.Label.ABCL_BU_for_E2C_Rules.split(',');
         for (E2C_Creation_Rules__mdt metadata : [SELECT Id, Field__c, Operator__c, Value__c, Error_Message__c,
                                                     E2C_Creation_Scenarios__r.ToAddress__c, E2C_Creation_Scenarios__r.Error_Message__c
                                                     FROM E2C_Creation_Rules__mdt WHERE 
-                                                    E2C_Creation_Scenarios__r.Business_Unit__c = :ABFL_Constants.ABFL]) {
+                                                    E2C_Creation_Scenarios__r.Business_Unit__c IN :allowedBuList]) {
             if (!metadataMap.containsKey(metadata.E2C_Creation_Scenarios__r.ToAddress__c)) {
                 metadataMap.put(metadata.E2C_Creation_Scenarios__r.ToAddress__c, new List<E2C_Creation_Rules__mdt>{metadata});
             }else{
@@ -136,7 +143,7 @@ public with sharing class ABFL_E2C_CreationRules {
                     expectedIndex++;
                 } 
                 // If all words from expectedValue are found in actualValue, return true
-                else if (word.contains(expectedWords[expectedIndex])) {
+                else if (expectedIndex < expectedWords.size() && !word.contains(expectedWords[expectedIndex])) {
                     return false;
                 }
             }

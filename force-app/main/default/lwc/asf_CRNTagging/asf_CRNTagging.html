@@ -1,5 +1,5 @@
 <template>
-   <lightning-card title="Customer/Prospect/LAN Tagging" class="slds-p-bottom_medium">
+   <lightning-card title={cardTitle} class="slds-p-bottom_medium">
       <!-- Virendra : BELOW ALERT ADDED FOR PROSPECT TAGGING REQUIREMENT FOR PREFRAMEWORK - PR970457-426 -->
       <div class="slds-notify slds-notify_alert slds-alert_offline" role="alert">
          <h2>If you're not finding expected record, please click on Create Prospect Button.
@@ -11,7 +11,7 @@
       <div class="slds-grid slds-gutters">
          <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
             <lightning-input type="text" label="" onchange={valChange}
-               placeholder="Enter Customer Name/ Client Code/ Email/ Mobile/ LAN#/ PAN#/ Prospect Name"></lightning-input>
+               placeholder={productSearchPlaceholder}></lightning-input>
          </div>
          <div class="slds-col slds-size_1-of-3 slds-m-left_medium slds-p-top_medium">
             <lightning-button variant="brand" label="Create Prospect" title="Primary action"
@@ -35,7 +35,7 @@
                <br /><br />
                <lightning-layout>
                   <lightning-layout-item class="slds-p-top_small">
-                     <strong>Select LAN </strong> &nbsp;
+                     <strong> {selectLan} </strong> &nbsp;
                   </lightning-layout-item>
                   <lightning-layout-item class="">
                      <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
