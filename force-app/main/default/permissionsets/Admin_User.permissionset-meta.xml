@@ -7054,7 +7054,7 @@
     </fieldPermissions>
       <fieldPermissions>
         <editable>false</editable>
-        <field>ABSLI_Case_Detail__c.Auto_Create_Case_Extension__c</field>
+        <field>ABSLIG_Case_Detail__c.Auto_Create_Case_Extension__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
