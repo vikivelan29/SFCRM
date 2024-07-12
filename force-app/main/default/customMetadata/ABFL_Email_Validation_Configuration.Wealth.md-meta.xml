@@ -3,7 +3,7 @@
     <label>Wealth</label>
     <protected>false</protected>
     <values>
-        <field>Email_Addresses_Allowed__c</field>
-        <value xsi:type="xsd:string">care.wealth@adityabirlacapital.com,ABFSSL.Uatcarewealth@adityabirlacapital.com</value>
+        <field>Email_Addresses_Allowed_Long__c</field>
+        <value xsi:type="xsd:string">care.wealth@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>

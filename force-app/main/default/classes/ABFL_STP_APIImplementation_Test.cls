@@ -30,7 +30,7 @@ public class ABFL_STP_APIImplementation_Test{
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -68,7 +68,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetDemandAdviceCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -105,7 +105,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetDemandAdviceCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -155,7 +155,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetInterestResetLetterCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -192,7 +192,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetInterestResetLetterCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -243,7 +243,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetRepaymentScheduleCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -280,7 +280,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetRepaymentScheduleCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -330,7 +330,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetWelcomeLetterCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -367,7 +367,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testGetWelcomeLetterCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -417,7 +417,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testInterestDebitNoteCorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -473,7 +473,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testInterestDebitNoteCorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -516,7 +516,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testSOACorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -572,7 +572,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testBulkifiedSOACorpBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -631,7 +631,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testSOACorpRMNoEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -674,7 +674,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testSOACorpException(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c
@@ -704,7 +704,7 @@ public class ABFL_STP_APIImplementation_Test{
     static void testcloseSTPCaseFromFlow(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case

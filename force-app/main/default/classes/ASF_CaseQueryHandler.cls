@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
+ * @last modified on  : 07-01-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseQueryHandler {
@@ -55,7 +55,7 @@ public without sharing class ASF_CaseQueryHandler {
                                         FROM ASF_Checklist__c
                                         WHERE
                                         Mandatory__c = TRUE
-                                        AND Status__c NOT IN ('Completed','Rejected')
+                                        AND Status__c NOT IN : ASF_Constants.completeChecklistStatus
                                         AND Case__c = :caseIds
                                         AND Stage_Name__c = :caseStages WITH SYSTEM_MODE];
         }

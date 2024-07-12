@@ -33,6 +33,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     lanErrorMessage;
     @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD, BUSINESS_UNIT_FIELD, IS_DUPLICATE_FIELD];
     
+    //wire to get the current case details
     @wire(getRecord, { recordId: '$recordId', fields: '$caseFields' })
     wiredRecord({ error, data }) {
         if (data) {
@@ -54,6 +55,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             console.error('Error loading record', error);
         }
     }  
+    //wire to get the parent case details
     @wire(getRecord, { recordId: '$parentCaseId', fields: '$caseFields' })
     wiredParentRecord({ error, data }) {
         if (data) {
@@ -69,7 +71,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
         } else if (error) {
             console.error('Error loading parent record', error);
         }
-    }  
+    }
     ownerValidation(){
         this.loaded = true;
         if(this.wiredCurrentRec.Owner === this.userId){

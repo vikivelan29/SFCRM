@@ -216,18 +216,12 @@
                                     onchange={handleChangeNature} required>
                                 </lightning-combobox>
                             </template>
-
-                            <!--<template if:true={boolAllSourceVisible}>
-                                <lightning-combobox value="" label="Source" options="" onchange={handleSource}
-                                    placeholder={strSource} read-only required>
-                                </lightning-combobox>
+                            <template if:true={showIssueType}>
+                                <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                                    <lightning-combobox class="validate slds-size_1-of-1" name="issueType" label="Issue Type" data-id="issueType"
+                                    value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                                </div>
                             </template>
-
-                            <template if:true={boolAllChannelVisible}>
-                                <lightning-combobox value={strChannelValue} label="Channel" options={lstChannelValues}
-                                    onchange={handleChangeChannel} placeholder={strDefaultChannel} required>
-                                </lightning-combobox>
-                            </template> -->
 
                             <template if:true={showBotFeedback}>
                                 <lightning-layout-item size="8" padding="around-small">

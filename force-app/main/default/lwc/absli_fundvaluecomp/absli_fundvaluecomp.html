@@ -12,7 +12,7 @@
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="searchInput">Search Policy</label>
                                 <div class="slds-form-element__control">
-                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy Number" oninput={handleSearchInputChange}/>
+                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy" oninput={handleSearchInputChange}/>
                                 </div>
                             </div>
                         </template>
@@ -31,7 +31,7 @@
                                 </template>
                             </div>
                             <!--PAGE NAVIGATION-->
-                            <template if:true={showSearchInput}>
+                            <template if:true={showPagination}>
                                 <div class="slds-align_absolute-center" style="height:5rem">
                                     <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
                                     <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={previousPage}></lightning-button>
@@ -77,5 +77,4 @@
         </template>
 
     </div>
-
 </template>

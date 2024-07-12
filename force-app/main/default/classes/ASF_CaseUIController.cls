@@ -81,7 +81,7 @@ public with sharing class  ASF_CaseUIController {
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -156,7 +156,6 @@ public with sharing class  ASF_CaseUIController {
         if(accountId!=''){
             Set<Id> assetIds = new Set<Id>();
             List<Asset> asstList = new List<Asset>();
-            
             for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
                 if(mapping.LAN__c != null){
                     assetIds.add(mapping.LAN__c);
@@ -169,8 +168,6 @@ public with sharing class  ASF_CaseUIController {
                             Policy_No__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }
-            
-            
             conAssetWrapper wrapper = new conAssetWrapper(asstList);
             return wrapper;
         }
@@ -210,10 +207,13 @@ public with sharing class  ASF_CaseUIController {
             
         }
         
-        if(assetId != '')
-            cs.AssetId  = assetId ;
-        if(faNumber != '')
+        if(assetId != ''){
+            cs.AssetId  = assetId;
+        }
+        if(faNumber != ''){
             cs.LAN__c = faNumber;
+        }
+            
         if(reqFromRecat){
             cs.Recategorisation_Date__c = system.now();
         }
@@ -324,7 +324,6 @@ public with sharing class  ASF_CaseUIController {
             this.mobile = mobile;
             this.pan = pan;
             this.objectRecordType = objRecordType;
-        }
-        
+        }        
     }
 }

@@ -18,7 +18,11 @@ import OLDCCCIDFIELDS from '@salesforce/schema/Case.oldCCCIdFields__c';
 import CASE_ACCOUNT_ID from '@salesforce/schema/Case.AccountId';
 import CASE_ASSET_ID from '@salesforce/schema/Case.AssetId';
 import CASE_ASSET_LAN_NUMBER from '@salesforce/schema/Case.Asset.LAN__c';
+import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c';
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
+import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
@@ -186,7 +190,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
 
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
     */
-    @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER] })
+    @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER,BSLI_ISSUE_TYPE,CASE_ASSET_POLICY_NUMBER] })
     wiredRecord({ error, data }) {
         if (data) {
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
@@ -197,7 +201,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            if(getFieldValue(data, CASE_BU_FIELD) === 'ABSLIG'){
+            if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
@@ -214,7 +218,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error('Error loading record', error);
         }
-    }
+    } 
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
@@ -271,11 +275,13 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         //this.boolAllSourceVisible = false;
         this.boolChannelVisible = false;
         this.isNotSelected = true;
+        this.showIssueType = false;
         let isthisNotAssetRelated = this.getIsAssetValue();
  
         getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
+                    console.log('result--'+JSON.stringify(result.lstCCCrecords));
                     this.accounts = result.lstCCCrecords;
                     //this.strSource = result.strSource;
                     //this.strSource = JSON.parse(result.caseDetails).Source__c //JSON.parse(this.oldCaseDetails.caseDetails).Source__c;
@@ -329,6 +335,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.natureVal = '';
         this.sourceVal = '';
         this.sourceValues = [];
+        this.showIssueType = false;
+        this.issueTypeVal = '';
      
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         /* if (selected) {
@@ -442,7 +450,18 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+            
+            if(!selected.Allowed_Issue_Types__c.includes(';')){
+                this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
+            }else{
+                this.issueTypeOptions = selected.Allowed_Issue_Types__c.split(';').map(item => ({
+                    label: item,
+                    value: item
+                }));
+            }
+            this.showIssueType = true;
+        }  
         //Making Disabled button false in case the Nature Field is not visible. 
         if (this.isAllNature == false && this.isRequestAndQuery == false) {
             this.isNotSelected = false;
@@ -531,11 +550,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         fields[CCC_FIELD.fieldApiName] = this.selectedCCC.CCC_External_Id__c;
         console.log('new Type__c--'+this.selectedCCC.Type__c+this.selectedCCC.Sub_Type__c);
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
+        fields[CASE_BU_FIELD.fieldApiName] = this.businessUnit;
        // fields[SOURCE_FIELD.fieldApiName] = this.strSource;
        // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.recatReason;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.botFeedbackReason;
+        if(this.issueTypeVal && this.issueTypeVal != null){
+            fields[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
+        }
         let currentDateVal = new Date();
         let formattingOptions = {
             year: 'numeric',
@@ -595,7 +618,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-        
+
+        const issueType = this.template.querySelector('[data-id="issueType"]');
+        if(issueType){
+            issueType.setCustomValidity("");
+        } 
         if(!this.isInputValid()) {
             return;
         }
@@ -614,6 +641,11 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         if(!await this.validateNewCCC(selected.CCC_External_Id__c)){
             return;
         }
+        if(issueType && selected && selected.CCC_External_Id__c === this.originalCCCValue && this.issueTypeVal === this.originalIssueType){
+            issueType.setCustomValidity("Please select a different Issue Type");
+            issueType.reportValidity();
+            return;
+        } 
         const fields = {};
         for(let fldToStamp in this.fieldToBeStampedOnCase) {
             fields[fldToStamp] = this.fieldToBeStampedOnCase[fldToStamp];
@@ -634,11 +666,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
        
         fields[CCC_FIELD.fieldApiName] = selected.CCC_External_Id__c;
         fields[NATURE_FIELD.fieldApiName] = this.natureVal;
+        fields[CASE_BU_FIELD.fieldApiName] = this.businessUnit;
        // fields[SOURCE_FIELD.fieldApiName] = this.strSource;
        // fields[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
         //jay
         fields[RECATEGORISATION_REASON_FIELD.fieldApiName] = this.template.querySelector('[data-id="rejectReason"]').value;
         fields[BOT_FEEDBACK_FIELD.fieldApiName] = this.botFeedbackVal;
+        if(this.issueTypeVal && this.issueTypeVal != null){
+            fields[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
+        }
         let currentDateVal = new Date();
         let formattingOptions = {
             year: 'numeric',
@@ -652,6 +688,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions);
         let typeSubTypeText = this.selectedType + ' - ' + this.selectedSubType;
         let updatedOldCCCIdFields = this.oldCCCIdFields + '\n' + currentDateLocale + ' - ' + this.currentUserFullName + ' - ' + this.currentNature + ' - ' + typeSubTypeText;
+        if(this.businessUnit === ABSLI_BU && this.currentIssueType){
+            updatedOldCCCIdFields = updatedOldCCCIdFields +' - '+this.currentIssueType;
+        }
         fields[OLDCCCIDFIELDS.fieldApiName] = updatedOldCCCIdFields;
         // VIRENDRA - ADDED BELOW CHECKS FOR REPARENTING - 
         //console.log('this.accountId --> '+this.accountId);
@@ -703,7 +742,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.showError('error', 'Oops! Error occured', error);
             });
     }
-
+    handleIssueTypeChange(event){
+        this.issueTypeVal = event.detail.value;
+    }
     async validateNewCCC(newCCCExtId){
         let configuredCurrentCCC = await fetchCCCDetails({
             cccExtId : newCCCExtId
@@ -915,7 +956,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(this.assetId != '' && this.assetId != undefined && this.assetId != undefined){
                 this.preselectedLoanAccountNumber = caseparsedObject.Asset.LAN__c;
             }
-            
+            if((this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU) && this.assetId){
+                this.preselectedLoanAccountNumber = caseparsedObject.Asset.Policy_No__c;
+            }
             this.currentPriority = caseparsedObject.Priority;
             this.currentCCCId = caseparsedObject.CCC_External_Id__c;
             this.oldCCCIdFields = (caseparsedObject.oldCCCIdFields__c == undefined || caseparsedObject.oldCCCIdFields__c == null)?'':caseparsedObject.oldCCCIdFields__c;
@@ -923,6 +966,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.selectedType = caseparsedObject.Type_Text__c;
             this.selectedSubType = caseparsedObject.Sub_Type_Text__c;
             this.currentUserFullName = this.oldCaseDetails.currentUserName;
+            this.currentIssueType = caseparsedObject.Issue_Type__c;
             if(caseparsedObject.Account != null && caseparsedObject.Account != undefined){
                 if(caseparsedObject.Account.Client_Code__c != undefined && caseparsedObject.Account.Client_Code__c != null){
                     this.caseAccountClientCode = caseparsedObject.Account.Client_Code__c;
