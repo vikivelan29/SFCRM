@@ -361,23 +361,53 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
                 }
             }
         })
-        if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
+        /*if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
+            console.log('Inside approvers comp',fdName);
+            console.log(JSON.stringify(allApprovers));
             if (val == currentUserId) {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = errorCodes.LOGGEDINUSERAPPROVER;
+                    console.log(ele);
                 });
             }
+            
             else if (allApprovers.indexOf(val) > -1 && val != null && val != undefined && val != "") {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = errorCodes.APPROVERALREADYSELECTED;
+                    console.log(ele);
                 });
             }
             else {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = '';
+                    console.log('3',ele);
                 });
             }
+        }*/
+        
+        let errorMessage = '';
+        if (val == currentUserId) {
+            errorMessage = errorCodes.LOGGEDINUSERAPPROVER;
+        } else if (allApprovers.indexOf(val) > -1 && val) {
+            errorMessage = errorCodes.APPROVERALREADYSELECTED;
+            console.log('1',errorMessage);
         }
+
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if ([this.approver1, this.approver2, this.approver3, this.approver4, this.approver5].includes(ele.fieldName)) {
+                this.template.querySelectorAll(`[data-error-help-for-field="${ele.fieldName}"]`).forEach(errorEle => {
+                    errorEle.innerText = '';
+                    console.log('Cleared:', errorEle);
+                });
+            }
+        });
+    
+        // Set the error message for the specific field
+        this.template.querySelectorAll(`[data-error-help-for-field="${fdName}"]`).forEach(errorEle => {
+            errorEle.innerText = errorMessage;
+            console.log('Set Error:', errorEle);
+        });
+    
         if (fdName == APPROVALTYPE.fieldApiName) {
 
             this.template.querySelectorAll('lightning-input-field').forEach(ele => {
