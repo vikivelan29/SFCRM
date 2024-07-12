@@ -255,6 +255,138 @@
                 <default>false</default>
                 <label>Creditvidya</label>
             </value>
+            <value>
+                <fullName>Arogya finance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Arogya finance</label>
+            </value>
+            <value>
+                <fullName>BharatPe</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BharatPe</label>
+            </value>
+            <value>
+                <fullName>Byju (Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Byju (Halted)</label>
+            </value>
+            <value>
+                <fullName>Credilio</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Credilio</label>
+            </value>
+            <value>
+                <fullName>Arogya</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Creditap</label>
+            </value>
+            <value>
+                <fullName>Creditfair (K.M GLOBEL)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Creditfair (K.M GLOBEL)</label>
+            </value>
+            <value>
+                <fullName>Eduvanz (Eduvanz Financing Private Limited) -</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Eduvanz (Eduvanz Financing Private Limited) -</label>
+            </value>
+            <value>
+                <fullName>Fibe (Early salary) (Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Fibe (Early salary) (Halted)</label>
+            </value>
+            <value>
+                <fullName>FinAGG Technologies Private Limited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FinAGG Technologies Private Limited</label>
+            </value>
+            <value>
+                <fullName>FinancePeer (Gajju Technologies Private Limited)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FinancePeer (Gajju Technologies Private Limited)</label>
+            </value>
+            <value>
+                <fullName>GROW</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>GROW</label>
+            </value>
+            <value>
+                <fullName>Juspay Technologies Private Limited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Juspay Technologies Private Limited</label>
+            </value>
+            <value>
+                <fullName>MINTWALK FINTECH (GETCLARITY)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MINTWALK FINTECH (GETCLARITY)</label>
+            </value>
+            <value>
+                <fullName>Money view</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Money view</label>
+            </value>
+            <value>
+                <fullName>NAVI</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NAVI</label>
+            </value>
+            <value>
+                <fullName>Paytm(personal)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Paytm(personal)</label>
+            </value>
+            <value>
+                <fullName>Paytm(post-paid)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Paytm(post-paid)</label>
+            </value>
+            <value>
+                <fullName>Propelld ( Bluebear Technology Private Limited)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Propelld ( Bluebear Technology Private Limited)</label>
+            </value>
+            <value>
+                <fullName>Uno Finance (loan tap)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Uno Finance (loan tap)</label>
+            </value>
+            <value>
+                <fullName>Upwards(Halted)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Upwards(Halted)</label>
+            </value>
+            <value>
+                <fullName>VALOR INNOVATIONS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>VALOR INNOVATIONS</label>
+            </value>
+            <value>
+                <fullName>Zest Money</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Zest Money</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

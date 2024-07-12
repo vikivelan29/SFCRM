@@ -220,7 +220,7 @@ public class ASF_RecategoriseCaseControllerTest {
         Assert.areNotEqual('Error - ', result, 'Result should not be error');
         Map<Id, Case> caseMap = new Map<Id, Case>();
         caseMap.put(caseRec.Id,caseRec);
-        ASF_RecategoriseCaseController.updateCCCIdBulk(caseMap);
+        ASF_ApprovalRecatController.updateCCCIdBulk(caseMap);
         Test.stopTest();
     }
 }

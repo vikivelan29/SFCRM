@@ -28,6 +28,7 @@ export default class Absli_quickkill extends LightningElement {
     @track selectedRows =[];
     @track showSearchInput = true;
     @track showGenerateLink = false;
+    @track bErrored = false;
 	
 	 totalNoOfRecordsInDatatable = 0;
     pageSize = 10; //No.of records to be displayed per page
@@ -312,11 +313,18 @@ export default class Absli_quickkill extends LightningElement {
             this.templateBody = result;
             this.showPreview = true;
             this.showLoading = false;
+            this.bErrored = false;
         })
         .catch((error)=>{
-            this.showPreview = false;
+            let errMsg = reduceErrors(error);
+            this.templateBody = errMsg;
+            this.showPreview = true;
             this.showLoading = false;
+            this.bErrored = true;
         })
+    }
+    get showSendButton(){
+        return this.showPreview && !this.bErrored;
     }
     handleSend(event){
         this.sendCommunication(this.recordId);

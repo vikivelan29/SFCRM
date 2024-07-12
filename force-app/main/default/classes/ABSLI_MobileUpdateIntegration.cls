@@ -3,16 +3,16 @@
 *@Author       :  Virendra Patil
 *@Created Date :  05/22/2024
 *@Last Modified:  06/03/2024
-*@description  :  Class for Mobile Update integration. 
+*@description  :  Class for Mobile Update integration.
 *********************************************************/
 public without sharing class ABSLI_MobileUpdateIntegration implements ASF_IntegrationInvocable{
     /****************************************************************************************************************
-    * @LOB - ABSLI
-    * @Function - evaluate
-    * @param caseRec - Case record from the framework.
-    * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Amortization integration should be fired or not.
-    *****************************************************************************************************************/
+* @LOB - ABSLI
+* @Function - evaluate
+* @param caseRec - Case record from the framework.
+* @return - ASF_IntegrationsController.IntegrationWrapper.
+* @description - Invoked from the ASF_IntegrationsController class, this method evaluates whether Amortization integration should be fired or not.
+*****************************************************************************************************************/
 
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
 
@@ -30,43 +30,43 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
             System.debug(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-        
+
         System.debug('@@caseRecords --> '+caseRecords);
-        
+
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.ERROR;
             result.response = result.response = Custom_Messages__mdt.getInstance('ABSLI_MobileUpdateIntegration_ERR1').Message__c;
-            
+
             if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true){
                 result.status = ABSLI_Constants.SUCCESS;
             }
             resultMap.put(caseRecord.Id, result);
             System.debug('@@@resultMap VP---> '+resultMap);
         }
-        
+
         return resultMap;
     }
 
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        result = run(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRec}).get(caseRec.Id);   
+        result = run(new Map<Id, List<ASF_Integration__c>>{caseRec.Id => new List<ASF_Integration__c>{integ}}, new List<Case>{caseRec}).get(caseRec.Id);
 
         return result;
     }
-	/****************************************************************************************************************
-    * @LOB - ABSLI
-    * @Function - run
-    * @param intSpec - Integration record from the framework.
-    * @param caseRec - Case record from the framework.
-    * @return - ASF_IntegrationsController.IntegrationWrapper.
-    * @description - Invoked from the ASF_IntegrationsController class, this method runs the Amortization integration and creates Case Integration record.
-    *****************************************************************************************************************/
-    
+    /****************************************************************************************************************
+* @LOB - ABSLI
+* @Function - run
+* @param intSpec - Integration record from the framework.
+* @param caseRec - Case record from the framework.
+* @return - ASF_IntegrationsController.IntegrationWrapper.
+* @description - Invoked from the ASF_IntegrationsController class, this method runs the Amortization integration and creates Case Integration record.
+*****************************************************************************************************************/
+
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-        
+
         Set<String> intIds = new Set<String>();
         for(Case caseRec : caseRecs){
             for(ASF_Integration__c integ : integs.get(caseRec.Id)){
@@ -75,10 +75,10 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                 }
             }
         }
-        
+
         List<ASF_Case_Integration__c> existingCaseIntegrations = new List<ASF_Case_Integration__c>();
         for(ASF_Case_Integration__c caseInt : [SELECT Id, Status__c, Case__c, Integration_Ext_Id__c FROM ASF_Case_Integration__c
-                                               WHERE Case__c IN :caseRecs 
+                                               WHERE Case__c IN :caseRecs
                                                AND Integration_Ext_Id__c IN :intIds])
         {
             if(integs.containsKey(caseInt.Case__c)){
@@ -91,17 +91,17 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                 }
             }
         }
-        
+
         ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
         update existingCaseIntegrations;
         ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
-        
-        
+
+
         List<Case> caseRecords = new List<Case>();
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-        
+
         List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
         Map<Integer, Case_Integration_Outbound__e> peMap = new Map<Integer, Case_Integration_Outbound__e>();
         Integer index = 0;
@@ -118,7 +118,7 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                     }
                     String strBusiness = '';
                     String strCellularPhone = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Mobile_Number__c );
-                    
+
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
@@ -128,7 +128,7 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                                                                                   'Thane'));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
-                    
+
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
                     caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
                     //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
@@ -143,9 +143,9 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                 }
             }
         }
-        
+
         index = 0;
-        
+
         if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false);
             Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>([SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ]);
@@ -164,7 +164,7 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                 index++;
             }
         }
-        
+
         List<Database.SaveResult> publishResults = EventBus.publish(peMap.values());
         index = 0;
         for(Database.SaveResult publishResult : publishResults){
@@ -180,31 +180,31 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
             }
             index++;
         }
-        
+
         return resultMap;
     }
     /****************************************************************************************************************
-    * @LOB - ABSLI
-    * @Function - processResponse
-    * @param caseInteg - ASF_Case_Integration record.
-    * @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
-    *****************************************************************************************************************/
-    
+* @LOB - ABSLI
+* @Function - processResponse
+* @param caseInteg - ASF_Case_Integration record.
+* @description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
+*****************************************************************************************************************/
+
     public void processResponse(ASF_Case_Integration__c caseInteg){
         // 1. CHECK IF THE PROCESSCODE IS 00. IF 00, THAT MEANS SUCCESSFUL.
         // 2. UPDATE THE CASE TO RESOLVE STAGE.
-        // 3. IF FTR COMMUNICATION 
+        // 3. IF FTR COMMUNICATION
         try {
             if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
-                Case caseRecord = ASF_IntegrationsController.queriedCasesForIntegration.get(caseInteg.Case__c);
-                
+                Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+
                 MobileUpdateResponse jsonMap = (MobileUpdateResponse) JSON.deserialize(
                     caseInteg.Response__c,
                     MobileUpdateResponse.class
                 );
                 if(jsonMap.ProcessCode == '00'){
                     // TODO : Response Attribute Reference to determine
-                    
+
                     Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
                     if (isTransferred || Test.isRunningTest()) {
                         List<ASF_Case_Category_Config__c> cccRecord = [
@@ -221,27 +221,27 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
                             WITH SECURITY_ENFORCED
                         ];
                         if(cccRecord[0].Send_FTR_communications__c == true){
-                        Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-                            cccRecord[0].Additional_Email_Templates__c
-                        );
-                        Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-                            cccRecord[0].Additional_SMS_Metadata__c
-                        );
-                        
-                        Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-                            caseRecord,
-                            emailTemplateMap.get('Resolved'),
-                            smsMetadataMap.get('Resolved'),
-                            true
-                        );
-                        
+                            Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+                                cccRecord[0].Additional_Email_Templates__c
+                            );
+                            Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+                                cccRecord[0].Additional_SMS_Metadata__c
+                            );
+
+                            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
+                                caseRecord,
+                                emailTemplateMap.get('Resolved'),
+                                smsMetadataMap.get('Resolved'),
+                                true
+                            );
+
+                        }
                     }
                     caseRecord.MoveToNext__c = true;
-                    Database.update(caseRecord, AccessLevel.USER_MODE);
-                } 
+                    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+                }
+
             }
-            
-        }
         } catch (Exception e) {
             System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
@@ -249,12 +249,12 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    }  
-    
+    }
+
     public class MobileUpdateRequest{
         public string TRANS_NO{get;set;}
         public service service{get;set;}
-        
+
         public MobileUpdateRequest(String caseNum,String src,
                                    String commonClientCd, String mobileNum,
                                    String res)
@@ -265,24 +265,24 @@ public without sharing class ABSLI_MobileUpdateIntegration implements ASF_Integr
             cls.strClientId = commonClientCd;
             cls.strCellularPhone = mobileNum;
             cls.strResidence = res;
-            
+
             this.service = cls;
         }
-        
+
     }
     public class service{
         public string source{get;set;}
         public string strClientId{get;set;}
         public string strBusiness{get;set;}
         public string strCellularPhone{get;set;}
-        public string strEmail{get;set;}    
-        public string strPager{get;set;}    
-        public string strResidence{get;set;}         
+        public string strEmail{get;set;}
+        public string strPager{get;set;}
+        public string strResidence{get;set;}
     }
     public class MobileUpdateResponse{
         public string TRANS_NO{get;set;}
         public string ProcessMessage{get;set;}
         public string ProcessCode{get;set;}
     }
-    
+
 }
