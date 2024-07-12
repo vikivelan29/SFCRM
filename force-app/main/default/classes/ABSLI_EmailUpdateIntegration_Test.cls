@@ -60,6 +60,9 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 		caseCatConfig.Source__c = 'CEC';
 		caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
 		insert caseCatConfig;
+    
+        ASF_Checklist__c chk1 = new ASF_Checklist__c(Case__c = caseRec.Id, Status__c ='Completed', Label__c= 'New Ceck Label');
+        insert chk1;
 	}
 
 	@isTest
