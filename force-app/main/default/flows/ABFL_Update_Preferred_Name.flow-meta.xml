@@ -17,7 +17,6 @@
             <targetReference>UpdateAccount</targetReference>
         </connector>
     </assignments>
-    <environments>Default</environments>
     <interviewLabel>ABFL Update Preferred Name {!$Flow.CurrentDateTime}</interviewLabel>
     <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
     <label>ABFL Update Preferred Name</label>

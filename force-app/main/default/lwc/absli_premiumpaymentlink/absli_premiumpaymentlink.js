@@ -315,5 +315,4 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         this.selectedRows = [];
         this.sendToUnregistered = false;
     }
-
 }

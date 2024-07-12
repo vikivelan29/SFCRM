@@ -5,6 +5,7 @@
     <description>Is Senior Management flag</description>
     <externalId>false</externalId>
     <label>SMT</label>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

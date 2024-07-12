@@ -112,7 +112,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         return [SELECT ID,Client_Code__c FROM Account WHERE Id =: accountId];
     }
     private static Asset getPolicyDetails(String policyId){
-        return [SELECT ID,Name,Type__c FROM Asset WHERE Id =: policyId];
+        return [SELECT ID,Name,Plan_Name__c FROM Asset WHERE Id =: policyId];
     }
     
     /* THIS METHOD IS USE FOR CREATING THE COMMUNICATION LOG RECORD. 
@@ -123,6 +123,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
                                                 FROM ASF_Quick_Link_Config__mdt WHERE FunctionCode__c =: funcCode];
         
         Contact c = [SELECT ID,MobilePhone,Name,Salutation FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
+
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c,
                                                     Email_Template_Name__c 
@@ -134,14 +135,14 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();
             cLog.Account__c = selectedCustomer.Id;
             cLog.Contact__c = c.Id;
-            cLog.Contact_Name__c = c.Salutation + ' ' + c.Name;
+            cLog.Contact_Name__c = c.Name;
             cLog.SMS_Entity_Id__c = commMdt.SMS_Entity_Id__c;
             cLog.SMS_Sender_Id__c = commMdt.SMS_Sender_Id__c;
             cLog.SMS_LT_Name__c = commMdt.SMS_Template_Name__c;
             cLog.External_Template_ID__c = commMdt.external_templateID__c;
             cLog.Status__c = ABSLI_Constants.COMM_LOG_DEFAULT_STATUS;
             cLog.Function_Name__c = qkCommMdt.FunctionName__c;
-            cLog.Loan_Type__c = selectedPolicy.Type__c;
+            cLog.Loan_Type__c = selectedPolicy.Plan_Name__c;
             cLog.Policy_No__c = selectedPolicy.Name;
             cLog.LOB__c = ABSLI_Constants.BUSINESS_UNIT;
             cLog.Phone__c = c.MobilePhone;
@@ -217,6 +218,7 @@ System.debug(decryptedString);*/
 */
     @AuraEnabled
     public static String generateBitlyLink(String cLogId,String funcCode){
+        String retVal = '';
         ASF_Communication_Log__c commLog = [SELECT ID,Encrypted_URL__c FROM ASF_Communication_Log__c WHERE Id=:cLogId];
         System.debug('commLog::::'+commLog);
         List<ASF_Communication_Log__c> updatecommLogList = new List<ASF_Communication_Log__c>();
@@ -230,12 +232,15 @@ System.debug(decryptedString);*/
             commLog.Tiny_URL__c = bitlyResp.URLReturned;
             updatecommLogList.add(commLog);
         }
+        else{
+            throw new AuraException('Error occured from BitlyApi please contact System Administrator.');
+        }
         
         if(!updatecommLogList.isEmpty()){
             update updatecommLogList;
+            retVal = getTemplateBody(cLogId,funcCode);
         }
         
-        String retVal = getTemplateBody(cLogId,funcCode);
         return retVal;
     }
     @AuraEnabled
@@ -309,7 +314,7 @@ System.debug(decryptedString);*/
             this.LongURL = longurl;
             this.LOB = ABSLI_Constants.BITLY_LOB_VAL;
             this.ExpiryDay = ABSLI_Constants.EXPIRY_DAY;
-            this.Source = ABSLI_Constants.ESB_SOURCE_ID;
+            this.Source = 'WYH';
             this.ClientIPAddress = ABSLI_Constants.BITLY_CLIENT_IP;
         }
     }

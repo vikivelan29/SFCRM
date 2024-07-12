@@ -30,7 +30,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -111,7 +111,7 @@ public class ABCL_CaseIntegratnOutEvntTriggerHelpTest{
     static void testafterInsertMethod(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             List<ASF_Case_Stage_Config__c> caseStageConfigList = [SELECT Id
                                                                   FROM ASF_Case_Stage_Config__c

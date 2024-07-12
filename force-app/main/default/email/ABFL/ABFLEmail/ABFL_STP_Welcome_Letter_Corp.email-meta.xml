@@ -6,6 +6,6 @@
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
     <subject>Welcome Letter for Loan Account no. {{{Case.LAN__c}}}.</subject>
-    <type>custom</type>   
+    <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
