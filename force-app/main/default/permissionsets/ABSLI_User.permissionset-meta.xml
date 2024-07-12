@@ -11,7 +11,7 @@
     <classAccesses>
         <apexClass>ABSLI_MobileUpdateIntegration</apexClass>
         <enabled>true</enabled>
-    </classAccesses>	
+    </classAccesses>
     <classAccesses>
         <apexClass>ABSLI_PremiumPaymentLinkController</apexClass>
         <enabled>true</enabled>
@@ -559,6 +559,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.RCA_department__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Approver_Remarks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.NEFT_Reference_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
