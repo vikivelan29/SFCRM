@@ -91,6 +91,12 @@
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Nature__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Complaint</rightValue>
+                                </criteria>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -99,10 +105,14 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Send_SMS</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Send_Canned_Email</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -756,6 +766,40 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>absli_caseEbotIndicator</componentName>
+                <identifier>c_absli_caseEbotIndicator</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Sent_to_EBOT__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.ABSLI_Case_Detail__r.Ebot_Email_in_Draft__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.IsClosed}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.ABSLI_Case_Detail__r.Draft_Email_Sent__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.AmIOwner__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

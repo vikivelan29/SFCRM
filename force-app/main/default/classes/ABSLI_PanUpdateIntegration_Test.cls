@@ -5,7 +5,7 @@ public class ABSLI_PanUpdateIntegration_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'PNFT007';
 		integ.Display_Name__c = 'PAN Update';
-		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,Account.Client_Code__c,ABSLI_Case_Detail__r.Mobile_Number__c,Business_Unit__c,Asset.Policy_No__c,Account.PAN__c';
+		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c,CaseNumber,Account.Client_Code__c,ABSLI_Case_Detail__r.Mobile_Number__c,Business_Unit__c,Asset.Policy_No__c,Account.PAN__c,ABSLI_Case_Detail__r.PAN_Number__c';
 		integ.Processing_Class__c = 'ABSLI_PanUpdateIntegration';
 		integ.When_to_Appear__c = 'Stage Entry';
 		integ.Type__c = 'Process';
@@ -35,6 +35,7 @@ public class ABSLI_PanUpdateIntegration_Test {
         
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         caseRecList[0].AssetId = assetRec.Id;
+        caseRecList[0].Technical_Source__c = 'LWC';
         caseRecList[0].ABSLI_Case_Detail__c = detailRec.Id;
         update caseRecList[0];
         
@@ -44,7 +45,7 @@ public class ABSLI_PanUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_PanUpdateIntegration panInt = new ABSLI_PanUpdateIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = panInt.evaluate(caseRecord);
@@ -56,7 +57,7 @@ public class ABSLI_PanUpdateIntegration_Test {
     static void testRun(){
         ABSLI_PanUpdateIntegration panInt = new ABSLI_PanUpdateIntegration();
        	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,
-                           Account.PAN__c,Business_Unit__c FROM Case LIMIT 1];
+                           Account.PAN__c,Business_Unit__c,ABSLI_Case_Detail__r.PAN_Number__c FROM Case LIMIT 1];
         ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

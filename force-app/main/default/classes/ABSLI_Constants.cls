@@ -1,9 +1,12 @@
 public class ABSLI_Constants {
 
+    public static final String RESOLVED_TEAM_RES_STATUS = 'Resolved';
+    public static final String UNRESOLVED_TEAM_RES_STATUS = 'Unresolved';
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
     public static final String CANCELED = 'Canceled';
     public static final String PENDING = 'Pending';
+    public static final String FAILURE = 'Failure';
     public static final String WAITING_API_RESPONSE = 'Waiting for API response';
     public static final String QUERY = 'Query';
     public static final string REQUEST = 'Request';
@@ -13,7 +16,10 @@ public class ABSLI_Constants {
     public static final String strResidence = 'Thane';
     public static final String BANK_ESB_FAILURE_RESPONSE = 'Unable to fetch Bank details. Please try again later.';
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
-    
+    public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
+    public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
+    public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
+
     /* Bitly Link REAL TIME API
      */
     public static final String BITLYLINK_INTEGRATION_METADATA = 'ABSLI_Bitly_Link';
@@ -46,6 +52,7 @@ public class ABSLI_Constants {
 
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
+    public static final String UIN_API_SOURCE = '4170703233';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
@@ -58,8 +65,8 @@ public class ABSLI_Constants {
     public static final String POLICYSTATEMENT_FAILURE_MESSAGE = 'ABSLI_POLICYSTATEMENT_FAILURE_MESSAGE';
 
     /* TAX CERTIFICATE DOWNLOAD INTEGRATION **/
-    public static final String TAXCERTIFICATE_SERVICE_NAME = 'PPCApi';
-    public static final String TAXCERTIFICATE_OUTPUT_FORMAT = 'EPDF';
+    public static final String TAXCERTIFICATE_SERVICE_NAME = 'TaxCertificateApi';
+    public static final String TAXCERTIFICATE_OUTPUT_FORMAT = 'ePDF';
     public static final String TAXCERTIFICATE_AGENT_CODE = 'a2p9i9';
     public static final String TAXCERTIFICATE_EVALUATION_ERROR = 'ABSLI_TAXCERTIFICATE_EVALUATION_ERROR';
     public static final String TAXCERTIFICATE_SUCCESS_MESSAGE = 'ABSLI_TAXCERTIFICATE_SUCCESS_MESSAGE';
@@ -90,7 +97,15 @@ public class ABSLI_Constants {
     public static final String CONTACTUPDATE_SUCCESS_MESSAGE = 'ABSLI_CONTACTUPDATE_SUCCESS_MESSAGE';
     public static final String CONTACTUPDATE_FAILURE_MESSAGE = 'ABSLI_CONTACTUPDATE_FAILURE_MESSAGE';
 
-	  /* REAL TIME INTEGRATION METADATA NAME */
+    /* FETCH NEFT REF NUMBER INTEGRATION ERROR **/
+    public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
+    public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
+    public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
+
+    public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Loan NEFT Ref Num Schedulde Job';
+    public static final String FETCHNEFTREF_EVALUATION_ERROR = 'ABSLI_FETCHNEFTREF_EVALUATION_ERROR';
+    public static final String FETCHNEFTREF_SUCCESS_MESSAGE = 'ABSLI_FETCHNEFTREF_SUCCESS_MESSAGE';
+    public static final String FETCHNEFTREF_FAILURE_MESSAGE = 'ABSLI_FETCHNEFTREF_FAILURE_MESSAGE';
 
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANASSIGNMENT_SERVICE_NAME = 'LoanAssignment';
@@ -116,15 +131,17 @@ public class ABSLI_Constants {
     public static final String LOANAPPROVAL_EVALUATION_ERROR = 'ABSLI_LOANAPPROVAL_EVALUATION_ERROR';
     public static final String LOANAPPROVAL_SUCCESS_MESSAGE = 'ABSLI_LOANAPPROVAL_SUCCESS_MESSAGE';
     public static final String LOANAPPROVAL_FAILURE_MESSAGE = 'ABSLI_LOANAPPROVAL_FAILURE_MESSAGE';
+
     public static final String LOANAPPROVAL_DEFAULTCOMMENT_NONSTP = 'Case received as Non STP';
     public static final String LOANAPPROVAL_DEFAULTCOMMENT_STP = 'Voucher not approved as amount is more than Rs. 1,00,000';
     public static final Decimal LOANAPPROVAL_CUTOFFAMOUNT = 100000;
 
+
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
-    public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
+    public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'NomineeDeleteApi';
@@ -138,6 +155,11 @@ public class ABSLI_Constants {
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
     public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
     public static final String FETCHPOLICY_ESB_INTEGRATION_METADATA = 'ABSLI_FETCH_POLICY_ESB';
+
+    public static final String POLICY_GEN_FUND_INTEGRATION_METADATA = 'ABSLI_Gen_Fund_Integration';
+    public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
+    public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
+
 
     /* IGMS OUTBOUND API */
     public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};

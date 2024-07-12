@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-19-2024
+ * @last modified on  : 06-27-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -84,6 +84,12 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
 							caseError.addError('To Date/From Date should be greater than or equal to the Policy Issued Date');
 							newMap.put(caseRec.Id,caseError);
                         }
+                        if (fromDate > toDate) {
+                            // Add an error message to the Case record
+							Case caseError = newMap.get(caseRec.Id);
+							caseError.addError('From Date should not be greater than To Date');
+							newMap.put(caseRec.Id,caseError);
+                        }
                     }
                 }
             }
@@ -109,7 +115,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!eligibleCases.isEmpty()){
             Map<Id,AggregateResult> mCountOfNotCompletedChecklistOnCase = new Map<Id,AggregateResult>(
                 [SELECT Case__c Id, COUNT(ID) FROM ASF_Checklist__c 
-                 WHERE Status__c = 'Signature Mismatched'
+                 WHERE Status__c IN: ABSLI_Constants.CHECKLIST_FAILURE_STATUS
                  AND Case__c =: eligibleCases.keySet()
                  AND Mandatory__c = TRUE
                  GROUP BY Case__c
@@ -156,6 +162,15 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                     caseRec.Technical_Source__c != 'API') {
                         Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Category Type of "Complaint" is not applicable for Non-IGMS cases');
+                        newMap.put(caseRec.Id,caseError);
+                }
+                if (config.IGMS_Code__c != '#N/A' &&
+                    caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null &&
+                    caseRec.Nature__c == 'Complaint' && 
+                    caseRec.Technical_Source__c != 'API') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Category type cannot be changed for IGMS Synced cases');
                         newMap.put(caseRec.Id,caseError);
                 }
             }

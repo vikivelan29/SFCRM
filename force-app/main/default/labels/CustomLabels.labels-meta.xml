@@ -833,7 +833,7 @@
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
         <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
@@ -976,5 +976,33 @@
         <protected>false</protected>
         <shortDescription>ABSLI BU</shortDescription>
         <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
 </CustomLabels>

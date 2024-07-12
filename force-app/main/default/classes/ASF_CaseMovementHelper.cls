@@ -1036,6 +1036,7 @@ public class ASF_CaseMovementHelper {
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
                 // VIRENDRA - 9 JUNE 2024 - ADDED DEFAULTOWNERNAME to store the QUEUE NAME ON CASE.
+                System.debug('currentStageConfig.Default_Queue__c '+currentStageConfig.Default_Queue__c+ 'currentStageConfig.Default_Queue_user_Name__c -'+currentStageConfig.Default_Queue_user_Name__c);
                 resultWrapper.defaultOwnerName = currentStageConfig != null ? currentStageConfig.Default_Queue_user_Name__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){
@@ -1266,7 +1267,9 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    system.debug('config---->'+config);
                     if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
                         caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -1343,10 +1346,10 @@ public class ASF_CaseMovementHelper {
                 if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null){
                         // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
-                       if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
-                        {
+                       //if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                       //{
                             updFrameworkCases.add(caseRec);
-                        }
+                       //}
                 }
             }
         }

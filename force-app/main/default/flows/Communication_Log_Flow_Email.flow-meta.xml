@@ -515,7 +515,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND (10 OR 13 OR 14)) OR (11 AND 12)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND (10 OR 13 OR 14 OR 15)) OR (11 AND 12)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -612,6 +612,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>ABHFL</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLI</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1174,6 +1181,9 @@ Added Condition on Decision box -Email Template Found</description>
         <label>Invoke PlatformEvent - Communication Log</label>
         <locationX>842</locationX>
         <locationY>2771</locationY>
+        <connector>
+            <targetReference>BU_Specific_Flow_Handler</targetReference>
+        </connector>
         <inputAssignments>
             <field>CCCExternalId__c</field>
             <value>
@@ -1268,6 +1278,37 @@ Added Condition on Decision box -Email Template Found</description>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>BU_Specific_Flow_Handler</name>
+        <label>BU Specific Flow Handler</label>
+        <locationX>842</locationX>
+        <locationY>2879</locationY>
+        <flowName>Communication_Log_Extension_Flow_BU_Specific_Handler</flowName>
+        <inputAssignments>
+            <name>cccRecord</name>
+            <value>
+                <elementReference>Get_case_config</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>CurrentRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>customMetadataName</name>
+            <value>
+                <elementReference>customMetadataName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>oldRecord</name>
+            <value>
+                <elementReference>$Record__Prior</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <subflows>
         <name>Pre_framework_flow</name>
         <label>Pre-framework flow</label>
