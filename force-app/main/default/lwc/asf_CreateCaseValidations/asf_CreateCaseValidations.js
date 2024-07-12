@@ -1,32 +1,33 @@
 import { LightningElement } from 'lwc';
-import dummyMethodForJSVal from '@salesforce/apex/ASF_Case360Controller.dummyMethodForJSVal';
+import nomineeChangeCaseCreationValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.nomineeChangeCaseCreationValidation';
 
 /**
- * Sample validation method with a sample Apex invocation
- * if nothing returned, its assumed validation passed
+ *
  * @param {*} input 
  * @returns instance of ValidationWrapper
  */
-const validateCase = async (input) => {
-    console.log('inside validateCase '+JSON.stringify(input));
+const nomineeChangeValidation = async (input) => {
     try{
-        let result = await dummyMethodForJSVal({caseId:null});
-        console.log('result'+JSON.stringify(result));
+        let result = await nomineeChangeCaseCreationValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
             //if result is as expected, then
-            console.log('returning success');
-            return new ValidationWrapper(true, undefined);//success response example
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
         }
     } catch(error){
-        console.log('dummyMethodForJSVal'+JSON.stringify(error));
-        return new ValidationWrapper(false, 'User is not eligble');//error response example
+        console.log('nomineeChangeValidation'+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
     }
 }
 
 
 //include new validation methods inside method export block
 export {
-    validateCase
+    nomineeChangeValidation
 }
 
 //---------------FRAMEWORK CODE - DO NOT TOUCH--------------//
