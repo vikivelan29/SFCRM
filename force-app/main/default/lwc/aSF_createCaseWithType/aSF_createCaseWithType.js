@@ -63,7 +63,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     searchKey;
     accounts;
     isNotSelected = true;
-    isNotSelectedReject = true;
+    isNotSelectedReject = true; 
     @api recordId;
     loaded = true;
     caseRelObjName;
