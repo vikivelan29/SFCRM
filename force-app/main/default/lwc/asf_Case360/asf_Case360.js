@@ -58,8 +58,6 @@ import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistO
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 
 
-
-
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
     caseFieldsMetadata = [];
@@ -248,6 +246,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     selectedStage;
     showErrors = false;
     errorMessage;
+    disableSkipSave = true;
+    disableBackSave = true;
     get closureTypeOptions() {
         return [
             { label: 'Close Resolved', value: 'resolved' },
@@ -1085,10 +1085,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     cancelBackCaseStage() {
         this.showPreviousStages = false;
         this.selectedStage = undefined;
+        this.disableBackSave = true;
     }
     cancelForwardCaseStage() {
         this.showForwardStages = false;
         this.selectedManualStage = undefined;
+        this.disableSkipSave = true;
     }
     handlePublishedMessage(payload) {
         console.log('in handlePublishedMessage!!!!!');
@@ -1252,7 +1254,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
 
     fetchAllManualStages() {
-        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c })
+        fetchAllManualStagesWithCase({ caseId: this.recordId, currentStage : this.caseObj.Stage__c, cccId: this.cccExternalId })
             .then(result => {
                 let stages = [];
                 // stages = [...result]
@@ -1997,6 +1999,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     handleStageChange(event) {
         this.selectedStage = event.detail.value;
+        this.disableBackSave = false;
         if (this.selectedStage) {
             this.isMoveToPrevStageButtonDisabled = false;
         }
@@ -2004,7 +2007,11 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     handleManualStageChange(event) {
         this.selectedManualStage = event.detail.value;
-
+        if(this.selectedManualStage && this.selectedManualStage != '' && this.selectedManualStage != 'None'){
+            this.disableSkipSave = false;
+        }else{
+            this.disableSkipSave = true;
+        }
         if (this.selectedManualStage == 'None') {
 
             this.isMoveToStageButtonDisabled = true;

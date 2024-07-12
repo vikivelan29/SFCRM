@@ -4,7 +4,6 @@
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
-    <excludeButtons>Delete</excludeButtons>
     <excludeButtons>PrintableView</excludeButtons>
     <excludeButtons>RecordShareHierarchy</excludeButtons>
     <excludeButtons>Share</excludeButtons>
@@ -25,10 +24,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>City__c</field>
             </layoutItems>
             <layoutItems>
@@ -46,7 +41,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>UniqueKey__c</field>
             </layoutItems>
             <layoutItems>

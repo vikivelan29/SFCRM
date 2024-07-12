@@ -68,7 +68,7 @@
                 <template if:true={sendToUnregistered}>
                     <div class="slds-form__item" role="listitem">
                         <div class="slds-form-element slds-form-element_stacked slds-is-editing">
-                            <span class="slds-form-element__label slds-m-bottom_none slds-text-heading_small">Unregistered Phone Number</span>
+                            <span class="slds-form-element__label slds-m-bottom_none slds-text-heading_small"><abbr class="slds-required" title="required">*</abbr>Unregistered Phone Number</span>
                               <!--  <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_small">Unregistered Phone Number</legend>-->
                                 <lightning-input lwc:ref="unregisterednumber" type="tel" variant="label-hidden"
                                     pattern="[0-9]{10}" name="phone2" required class="validate"

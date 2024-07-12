@@ -25,9 +25,15 @@
         </div>
         <template if:false={showErrorMsg}>
             <div style="height: 300px;">
-                <lightning-datatable key-field="id" data={data} show-row-number-column hide-checkbox-column
+                <template if:true={loaded}>
+                    <lightning-datatable key-field="id" data={data} show-row-number-column hide-checkbox-column
                     columns={columns}>
-                </lightning-datatable>
+                    </lightning-datatable>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+                
             </div>
         </template>
         <template if:true={showErrorMsg}>

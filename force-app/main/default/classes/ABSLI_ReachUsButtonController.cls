@@ -60,7 +60,7 @@ public without sharing class ABSLI_ReachUsButtonController {
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c
                                                     FROM Customer_Notification_Config__mdt 
                                              WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
-        if(c.MobilePhone != null && c.MobilePhone != ''){
+        if((c.MobilePhone != null && c.MobilePhone != '') || (unregisteredNumber != null && unregisteredNumber != '')){
             List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
             String templateBody = getTemplateBody(accountId);
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();

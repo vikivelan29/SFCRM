@@ -8,7 +8,9 @@
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
+
 global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable {  
+
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - start function of batch 
@@ -16,7 +18,7 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
      * @return Database.getQueryLocator
      * @description - Method to get the satsifying asset records that VRM Role have access to    
      *****************************************************************************************************************/
-    global Database.QueryLocator start(Database.BatchableContext bC) {
+    global Database.QueryLocator start(Database.BatchableContext bC) {   
     return Database.getQueryLocator([
         SELECT Id, Name, Assign_to_DM__c, Channel__c, Loyalty_Service_Agent_Name__c, AccountId 
         FROM Asset 

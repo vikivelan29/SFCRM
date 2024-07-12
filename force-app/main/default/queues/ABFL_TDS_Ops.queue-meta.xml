@@ -6,7 +6,6 @@
         <publicGroups>
             <publicGroup>ABFL_TDS_Ops_G</publicGroup>
         </publicGroups>
-        
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>

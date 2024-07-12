@@ -87,6 +87,59 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
         }
     }
+  
+    //AM-PR970457-2039-Method to validate case creation for specific CTSTs based on certain conditions
+    public static void checkCreateCaseValidations(List<Case> cases){
+        Set<String> issueCodes = new Set<String>();
+        List<Case> validCases = new List<Case>();
+        Map<Id,Case> policyIdVsCase = new Map<Id,Case>();
+        Map<Case,Asset> caseVsAsset = new Map<Case,Asset>();
+        for(Case c: cases){
+            if(c.Business_Unit__c=='ABSLI' && c.Technical_Source__c=='LWC'){
+            	issueCodes.add(c.CCC_External_Id__c);
+                validCases.add(c);
+                policyIdVsCase.put(c.AssetId,c);
+            }
+        }
+        
+        for(Asset policy: [SELECT Id, Status FROM Asset WHERE Id IN:policyIdVsCase.keySet()]){
+            caseVsAsset.put(policyIdVsCase.get(policy.Id),policy);
+        }
+        
+        if(issueCodes.size()>0 && !caseVsAsset.isEmpty()){
+            Map<String, ABSLI_Create_Case_Validations__mdt> issueCodeVsMdt = new Map<String, ABSLI_Create_Case_Validations__mdt>();
+            List<ABSLI_Create_Case_Validations__mdt> validationMdtList = [SELECT Label,Business_Unit__c,Issue_Code__c,
+                                             							   Operator__c,Asset_Values__c,Error_Message__c
+                                                                         FROM ABSLI_Create_Case_Validations__mdt
+                                                                         WHERE Business_Unit__c ='ABSLI'
+                                                                         AND Issue_Code__c IN :issueCodes];
+            for (ABSLI_Create_Case_Validations__mdt record : validationMdtList) {
+                issueCodeVsMdt.put(record.Issue_Code__c, record);
+            }
+            
+            for(Case cs: validCases){
+                if(issueCodeVsMdt.containsKey(cs.CCC_External_Id__c) &&
+                   issueCodeVsMdt.get(cs.CCC_External_Id__c).Business_Unit__c=='ABSLI')
+                {
+                	List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c).Asset_Values__c.split(':');
+                    String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
+                    switch on oprtr{
+                        when 'IN'{
+                            if(!policyStatuses.contains(caseVsAsset.get(cs).Status)){
+                                cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }
+                        }
+                        when 'NOT IN'{
+                            if(policyStatuses.contains(caseVsAsset.get(cs).Status)){
+                                cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
     //custom exception class
     public class MyCustomException extends Exception {}
     
