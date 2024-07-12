@@ -215,7 +215,7 @@ export default class Asf_CRNTagging extends LightningElement {
             })
             .catch(error => {
             });
-    } 
+    }
 
     handleAccAction(event) {
         const row = event.detail.selectedRows;
