@@ -12,6 +12,6 @@
     </values>
     <values>
         <field>ABFL_Send_Notification__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">NO</value>
     </values>
 </CustomMetadata>

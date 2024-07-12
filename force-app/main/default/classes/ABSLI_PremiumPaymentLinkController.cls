@@ -8,8 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
-
-public without sharing class ABSLI_PremiumPaymentLinkController {
+public with sharing class ABSLI_PremiumPaymentLinkController {
 
     public static final string STR_METADATA_NAME = 'ABSLI_Premium_Payment_Link';
     
@@ -113,7 +112,7 @@ public without sharing class ABSLI_PremiumPaymentLinkController {
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c
                                                     FROM Customer_Notification_Config__mdt 
                                                     WHERE DeveloperName=: STR_METADATA_NAME WITH SECURITY_ENFORCED];
-        if(c.MobilePhone != null && c.MobilePhone != ''){
+        if((c.MobilePhone != null && c.MobilePhone != '') || (unregisteredNumber != null && unregisteredNumber != '')){
             List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
             String templateBody = getTemplateBody(accountId,policyId);
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();

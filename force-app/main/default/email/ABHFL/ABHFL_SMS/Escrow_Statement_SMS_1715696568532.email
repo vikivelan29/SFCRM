@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+Your Escrow statement for ABHFL Loan account no.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been shared on your registered Email ID. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you.<br />
+Thank you.<br />
+Regards - ABHFL</body>
+</html>

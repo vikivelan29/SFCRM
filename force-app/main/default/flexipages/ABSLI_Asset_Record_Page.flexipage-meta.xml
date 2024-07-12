@@ -122,6 +122,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>absli_policyNominee</componentName>
+                <identifier>c_absli_policyNominee2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-6511e17e-9fc0-4786-8501-acca20aa3ac2</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>relatedTabContent</value>
@@ -152,6 +162,20 @@
                 <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6511e17e-9fc0-4786-8501-acca20aa3ac2</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Nominee Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -170,6 +194,12 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>absli_fetchPolicyDetail</componentName>
+                <identifier>c_absli_fetchPolicyDetail</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>

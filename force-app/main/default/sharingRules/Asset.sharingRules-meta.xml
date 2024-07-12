@@ -15,6 +15,20 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABFL_Asset_Sharing_with_Service_Agent</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABFL Asset Sharing with Service Agent</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABHFL_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABHFL Asset Sharing</label>
@@ -64,6 +78,20 @@
             <field>Loyalty_Service_Agent_Name__c</field>
             <operation>notEqual</operation>
             <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLIG_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLIG Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLIG</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

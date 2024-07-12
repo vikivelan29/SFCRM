@@ -204,7 +204,6 @@
     </decisions>
     <description>This flow is used to send the response to the customer when the case consumed 33% or 66% or it extends till 3 calendar days time
 Added no auto communication to PE logger creation</description>
-    <environments>Default</environments>
     <interviewLabel>ABFL Complaint Specific Holding Responses (33%,66%, 3Days) {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABFL Complaint Specific Holding Responses (33%,66%, 3Days)</label>
     <processMetadataValues>

@@ -73,6 +73,10 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
         </values>
@@ -577,6 +581,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Recat_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -616,6 +631,10 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -698,6 +717,10 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>

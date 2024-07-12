@@ -3,6 +3,7 @@ import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.ge
 import getAccountRec from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountRec';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
+import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
@@ -47,13 +48,16 @@ import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDupli
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
+import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -171,20 +175,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-            if(this.businessUnit === 'ABHFL' || this.businessUnit === ABSLI_BU){
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
-            }else{
-                this.cols = [
-                    { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-                    { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-                    { label: 'Type', fieldName: 'Type__c', type: 'text' },
-                    { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-                ];
-            }
+           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
@@ -304,6 +295,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.isNotSelected = true;
         this.isPhoneInbound = false;
         this.showAniNumber = false;
+        this.showCategoryType = false;
         this.showFtr = false;
         this.showIssueType = false;
         this.ftrValue = false;
@@ -385,13 +377,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         this.ftrValue = false;
         this.showFtr = false;
         this.showIssueType = false;
+        this.showCategoryType = false;
         this.issueTypeVal = '';
         this.aniNumber = '';
         this.trackId = '';
         // Reset isTransaction Related Every time selection changes. - Virendra
         this.isTransactionRelated = false;
         this.transactionNumber = '';
-
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
             this.boolAllChannelVisible = true;
@@ -404,14 +396,17 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
                 this.showAutoCommunication = false;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM') || (this.businessUnit === ABSLI_BU))) {
+        if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
+            this.showCategoryType = true;
+        }
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM') || (this.businessUnit === ABSLI_BU) || (this.businessUnit === ABSLIG_BU))) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -493,7 +488,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 };
                 if (this.sourceValues.length == 0) {
                     this.sourceValues.push(optionVal, optionVal1, emailVal);
-                }
+                } 
 
                 // this.sourceValues.push(optionVal1);
 
@@ -750,6 +745,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
         if(this.isTransactionRelated){
             fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
+        }
+        let categoryType = (this.template.querySelector("[data-id='Category_Type']") != undefined && this.template.querySelector("[data-id='Category_Type']") != null) ? this.template.querySelector("[data-id='Category_Type']").value : null;
+        if(categoryType && categoryType != null) {
+            fields[BSLI_CATEGORY_TYPE.fieldApiName] = categoryType;
         }
         console.log('rel object name--'+this.caseRelObjName+'BU--'+this.businessUnit);
         const caseRecord = { apiName: this.caseRelObjName, fields: fields };
