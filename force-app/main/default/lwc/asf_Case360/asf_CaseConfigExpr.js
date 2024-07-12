@@ -74,7 +74,67 @@ const getRequiredFieldExpr = (temp, caseFieldsMetadata, currentStep, profileName
                             }
                         }
                     });
+                    temp.querySelectorAll('c-asf_searchable-picklist').forEach(ele => {
+                        if (ele.fieldname === caseFieldsMetadata[i].FieldAPINAme) {
+                            if (caseFieldsMetadata[i].UpdateAt) {
+                                if (caseFieldsMetadata[i].UpdateAt.includes(currentStep)) {
+                                    ele.callSetAsDisabledField(bReadOnly);
+                                    if (bReadOnly) {
+                                        ele.callSetFieldValue('');
+                                    }
+                                    else {
+                                        ele.callSetFieldValue(caseRecord.get(ele.fieldname));
+                                    }
+                                    if (caseFieldsMetadata[i].RequiredAt) {
+                                        if (caseFieldsMetadata[i].RequiredAt.toString().includes(currentStep)) {
+                                            ele.callSetAsRequiredField(!bReadOnly);
+                                        }
+                                        else {
+                                            bRequired = false;
+                                            ele.callSetAsRequiredField(bRequired);
+                                        }
+                                    }
+                                    ele.callSetAsRequiredField(bRequired);
+                                }
+                                else {
+                                    // Fixes for Disable on Approval Stage.
+                                    if(caseRecord.get(ele.fieldname) != null && caseRecord.get(ele.fieldname) != undefined){
+                                        ele.callSetFieldValue(caseRecord.get(ele.fieldname));
+                                    }
+                                    ele.callSetAsDisabledField(true);
+                                }
+                            }
+                            else {
+                                // Fixes for Disable on Approval Stage.
+                                ele.callSetAsDisabledField(true);
+                            
+                            }
+
+
+                        }
+                    });
                 }
+                
+                temp.querySelectorAll('lightning-input-field').forEach(item => {
+                    if (item.fieldName === caseFieldsMetadata[i].FieldAPINAme) {
+                        if (caseFieldsMetadata[i].UpdateAt) {
+                            if (caseFieldsMetadata[i].UpdateAt.includes(currentStep)) {
+                                if(caseFieldsMetadata[i].dependentField){
+                                    let dependentFields = caseFieldsMetadata[i].dependentField.split(';');
+                                    dependentFields.forEach(fld =>{
+                                        temp.querySelectorAll('c-asf_searchable-picklist').forEach(searchItem => {
+                                            if(fld == searchItem.fieldname){
+                                                let val = item.value;
+                                                searchItem.callDependentPicklistChanges(val);
+                                            }
+                                        });
+                                    })
+                                }
+                            }
+                        }
+                    }
+                });
+                
             }
 
         }

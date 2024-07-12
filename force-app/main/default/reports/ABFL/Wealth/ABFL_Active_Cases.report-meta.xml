@@ -68,10 +68,13 @@
         <field>Case.Stage__c</field>
     </columns>
     <columns>
+        <field>Case.Stage_SLA_3__c</field>
+    </columns>
+    <columns>
         <field>Case.Overall_Case_Closure_SLA__c</field>
     </columns>
     <columns>
-        <field>Case.Stage_SLA_3__c</field>
+        <field>CLOSED_DATE</field>
     </columns>
     <columns>
         <field>WEBEMAIL</field>
@@ -92,32 +95,34 @@
     <columns>
         <field>Account.ABWM_RM_Name__c</field>
     </columns>
+    <columns>
+        <field>Case.oldCCCIdFields__c</field>
+    </columns>
+    <columns>
+        <field>Case.Recategorisation_Reason__c</field>
+    </columns>
+    <columns>
+        <field>Case.Bot_Feedback__c</field>
+    </columns>
     <filter>
-        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
-        <criteriaItems>
-            <column>STATUS</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notContain</operator>
-            <value>Closed,Closed Duplicate,Resolved,Unresolved</value>
-        </criteriaItems>
+        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <column>Case.Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
-            <operator>equals</operator>
-            <value>ABFL ABWM Customer Service</value>
+            <operator>contains</operator>
+            <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
         </criteriaItems>
         <criteriaItems>
             <column>OWNER</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
-            <operator>equals</operator>
-            <value>ABFL ABWM Customer Service</value>
+            <operator>contains</operator>
+            <value>ABFL ABWM Brokerage Team,ABFL ABWM Customer Service,ABFL ABWM Onboarding &amp; KYC,ABFL ABWM Transactions</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Wealth - Active Cases</name>
+    <name>Wealth - All Cases</name>
     <params>
         <name>units</name>
         <value>h</value>
@@ -133,6 +138,6 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <interval>INTERVAL_LAST60</interval>
     </timeFrameFilter>
 </Report>

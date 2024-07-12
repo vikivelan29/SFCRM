@@ -10,7 +10,8 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
 
     public Case getCaseRec(String caseId){
         Case caseRecord = [
-            SELECT CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Bot_Feedback__c
+            SELECT CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, 
+            Source__c, Business_Unit__c, Bot_Feedback__c, Issue_Type__c
             FROM Case
             WHERE Id =:caseId
         ];
@@ -116,7 +117,10 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         ebotFeedbackWrappObj.SUB_TYPE = caseRecord.Sub_Type_Text__c;
         ebotFeedbackWrappObj.DESCRIPTION = String.isNotBlank(caseRecord.Recategorisation_Reason__c) ? caseRecord.Recategorisation_Reason__c : '';
         ebotFeedbackWrappObj.COMMENTS = caseRecord.Bot_Feedback__c;
-
+        if(caseRecord.Business_Unit__c == ASF_Constants.ABSLI_BU){
+            ebotFeedbackWrappObj.ISSUE_TYPE = caseRecord.Issue_Type__c;
+            ebotFeedbackWrappObj.SOURCE = ABSLI_Constants.ESB_SOURCE_ID;
+        }
         String reqBody = JSON.serialize(ebotFeedbackWrappObj);
         String actualReqBody = reqBody.replace('"Case_X":', '"case":');
 
@@ -144,7 +148,9 @@ public with sharing class ABCL_EBotFeedback implements ASF_IntegrationInvocable{
         public String SUB_TYPE;
         public String DESCRIPTION;
         public String COMMENTS;
-
+        public String ISSUE_TYPE;
+        public String SOURCE;
+        
     }
 
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){return null;}

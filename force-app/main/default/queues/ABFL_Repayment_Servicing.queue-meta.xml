@@ -6,6 +6,9 @@
         <publicGroups>
             <publicGroup>ABFL_Repayment_Servicing_G</publicGroup>
         </publicGroups>
+        <users>
+            <user>rsinghnagar@salesforce.com.abcl</user>
+        </users>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>

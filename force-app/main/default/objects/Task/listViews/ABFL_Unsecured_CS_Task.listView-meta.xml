@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Unsecured_CS_Task</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL Unsecured CS</label>
+    <queue>ABFL_Unsecured_CS</queue>
+    <sharedTo>
+        <group>ABFL_Unsecured_CS_G</group>
+    </sharedTo>
+</ListView>
