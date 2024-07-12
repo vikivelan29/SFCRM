@@ -309,6 +309,110 @@
                 <label>Call Centre</label>
             </value>
             <value>
+                <fullName>Customer
+Portal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer
+Portal</label>
+            </value>
+            <value>
+                <fullName>CustomerPortal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CustomerPortal</label>
+            </value>
+            <value>
+                <fullName>Disbursement Related</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Disbursement Related</label>
+            </value>
+            <value>
+                <fullName>GEmail</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>GEmail</label>
+            </value>
+            <value>
+                <fullName>Gmail</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Gmail</label>
+            </value>
+            <value>
+                <fullName>IVR - No Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IVR - No Email</label>
+            </value>
+            <value>
+                <fullName>IVR-Inbound</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IVR-Inbound</label>
+            </value>
+            <value>
+                <fullName>Not IVR-No Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not IVR-No Email</label>
+            </value>
+            <value>
+                <fullName>Not RM-No Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not RM-No Email</label>
+            </value>
+            <value>
+                <fullName>Payment Lounge</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Payment Lounge</label>
+            </value>
+            <value>
+                <fullName>Payment Portal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Payment Portal</label>
+            </value>
+            <value>
+                <fullName>Phone Inbound</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Phone Inbound</label>
+            </value>
+            <value>
+                <fullName>Pre-Closure/Closure</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pre-Closure/Closure</label>
+            </value>
+            <value>
+                <fullName>RM - No Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RM - No Email</label>
+            </value>
+            <value>
+                <fullName>Repayment Related</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Repayment Related</label>
+            </value>
+            <value>
+                <fullName>Source</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>Waiver / Refund</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Waiver / Refund</label>
+            </value>
+            <value>
                 <fullName>Walk-In</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

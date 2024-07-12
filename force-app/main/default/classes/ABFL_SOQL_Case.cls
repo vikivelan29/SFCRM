@@ -20,7 +20,7 @@ public with sharing class ABFL_SOQL_Case {
      *****************************************************************************************************************/
     public static Case getCaseInfo(string caseid){
         if(caseRec==null){
-            caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
+            caseRec = [SELECT Id, Winning_Email__c, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Autoclosure_IN_RR__c, ABFL_Case_Detail__r.IsRegisteredCustomer__c,
             ABFL_Case_Detail__r.Autoclosed__c, ABFL_Case_Detail__r.Closure_Time__c,CCC_External_Id__c,ContactId,No_Auto_Communication__c,
             ABFL_Case_Detail__r.Document_URL__c ,LAN__c, Account.IsPersonAccount,Asset.Loan_Start_Date__c,
              Account.PersonEmail, Account.Office_Email__c, Account.PersonMobilePhone,
@@ -37,6 +37,26 @@ public with sharing class ABFL_SOQL_Case {
              WHERE Id =: caseid];
         }
         return caseRec;
+    }
+
+    /****************************************************************************************************************
+     * @function - getCasesFromCaseDetailIds
+     * @description - SOQL method for getting case details from set of abflCaseDetailId
+     * @param abflCaseDetailIdSet
+     * @return Map<Id, Case>
+     *****************************************************************************************************************/
+    public static Map<Id, Case> getCasesFromCaseDetailIds(Set<Id> abflCaseDetailIdSet){
+        Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
+
+        if(abflCaseDetailIdSet?.size() > 0) {
+            Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, RecordTypeId, Status, IsClosed, CaseNumber, AccountId, CreatedDate, ClosedDate, Business_Unit__c, Stage__c, Nature__c, Type_Text__c, Sub_Type_Text__c, CCC_External_Id__c, LOB__c, Source__c, Owner.Name, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Lock_in_Period__c, Account.RecordType.Name, Account.IsPersonAccount, Account.Name, Account.Full_Name__pc, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.City__c, Account.Client_Code__c, Asset.Product2.Name, Asset.LAN__c
+                       FROM Case 
+                       WHERE ABFL_Case_Detail__c 
+                       IN :abflCaseDetailIdSet
+                       WITH SYSTEM_MODE]);
+            caseMapToReturn = caseIdToRecordMap;
+        }
+        return caseMapToReturn;
     }
     
     /****************************************************************************************************************

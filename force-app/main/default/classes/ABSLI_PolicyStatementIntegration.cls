@@ -77,9 +77,9 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 			string requestBody = JSON.serialize(
 				new PASRequestWrapper(
 					caseRecord.Asset?.Policy_No__c,
-					caseRecord.ABSLI_Case_Detail__r?.From_Date__c?.toString(),
-					caseRecord.ABSLI_Case_Detail__r?.To_Date__c?.toString(),
-					caseRecord.Account?.PersonBirthdate?.toString()
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.From_Date__c, 'dd-MM-YYYY'),
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd-MM-YYYY'),
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.Asset?.LI_DOB__c, 'dd-MM-YYYY') 
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
@@ -90,6 +90,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -106,7 +107,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 
 		index = 0;
 
-		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.USER_MODE);
+		List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.SYSTEM_MODE);
 		Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>(
 			ABSLI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
 		);
@@ -179,7 +180,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 		}
 
 		ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-		Database.update(existingCaseIntegrations, AccessLevel.USER_MODE);
+		Database.update(existingCaseIntegrations, AccessLevel.SYSTEM_MODE);
 		ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 	}
 
@@ -200,13 +201,13 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 				);
 
                 // Transfer Attachment to Case
-				Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+				//Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
 
                 //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-                sendoutEmailSMSNotification(caseRecord);
+                //sendoutEmailSMSNotification(caseRecord);
 
 				caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.USER_MODE);
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -284,7 +285,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 		public String OutputFormat;
 		public String StatmentFormat;
 		public String AgentCode;
-		public String InsuredDOB;
+		public String InsureDOB;
 
 		@SuppressWarnings('PMD.ExcessiveParameterList')
 		public PASRequestWrapper(String policyID, String startDate, String endDate, String insuredDOB) {
@@ -296,7 +297,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 			this.OutputFormat = ABSLI_Constants.POLICYSTATEMENT_OUTPUT_FORMAT;
 			this.StatmentFormat = ABSLI_Constants.POLICYSTATEMENT_STATEMENT_FORMAT;
 			this.AgentCode = ABSLI_Constants.POLICYSTATEMENT_AGENT_CODE;
-			this.InsuredDOB = insuredDOB;
+			this.InsureDOB = insuredDOB;
 		}
 	}
 

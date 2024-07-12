@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Case_Origin__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Email</value>
     </values>
     <values>
         <field>Default_Queue_Dev_Name__c</field>

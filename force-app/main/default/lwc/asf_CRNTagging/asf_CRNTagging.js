@@ -7,9 +7,12 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { getRecord, getFieldValue, getRecordNotifyChange } from 'lightning/uiRecordApi';
 import ACCOUNT_CRN_FIELD from '@salesforce/schema/Case.Client_Code__c';
 import ASSET_FIELD from '@salesforce/schema/Case.AssetId';
+import Case_SUPPLIEDEMAIL from '@salesforce/schema/Case.SuppliedEmail';
 import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
-
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
@@ -32,8 +35,8 @@ export default class Asf_CRNTagging extends LightningElement {
     @api recordId;
     initialRecords;
     inpValueA;
-    preSelectedRows = [];
-    preSelectedAsset = [];
+    @track preSelectedRows = undefined;
+    @track preSelectedAsset = undefined;
     prestdAcctId;
     noUpdate = noUpdate;
     @track showLANForCustomer = false;
@@ -46,53 +49,12 @@ export default class Asf_CRNTagging extends LightningElement {
     disableCreateBtn = false;
     accountCrn;
     FAId;
-
-    asstCols = [{
-        label: 'Id',
-        fieldName: 'Id',
-        type: 'text',
-        fixedWidth: 1,
-        hideLabel: true,
-        hideDefaultActions: true
-    },
-    {
-        label: 'Name',
-        fieldName: 'Name',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'LAN Number',
-        fieldName: 'LAN__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Disbursal Amount',
-        fieldName: 'Disbursed_Amount__c',
-        type: 'currency',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Disbursement Status',
-        fieldName: 'Loan_Disbursement_Status__c',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan Start Date',
-        fieldName: 'Loan_Start_Date__c',
-        type: 'date',
-        initialWidth: 180
-    },
-    {
-        label: 'Loan End Date',
-        fieldName: 'Loan_End_Date__c',
-        type: 'date',
-        initialWidth: 180
-    }
-    ]
-
+    caseSuppliedEmail;
+    productSearchPlaceholder;
+    cardTitle;
+    selectLan;
+    asstCols;
+    
     accCols = [{
         label: 'Id',
         fieldName: 'recordId',
@@ -152,6 +114,10 @@ export default class Asf_CRNTagging extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
         } else if (error) {
             //this.error = error ;
         }
@@ -159,12 +125,13 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, {
         recordId: "$recordId",
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD]
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL]
     })
     CaseData({error, data}){
         if(data){
             this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
             this.FAId = getFieldValue(data, ASSET_FIELD);
+            this.caseSuppliedEmail = getFieldValue(data, Case_SUPPLIEDEMAIL);
             console.log('acc id--'+this.accountCrn);
         } else if(error){
             console.log(error);
@@ -207,7 +174,6 @@ export default class Asf_CRNTagging extends LightningElement {
         data
     }) {
         if (data) {
-            console.log('con data--'+JSON.stringify(data));
             this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
@@ -215,6 +181,7 @@ export default class Asf_CRNTagging extends LightningElement {
             let my_ids1 = [];
             my_ids1.push(this.FAId);
             this.preSelectedAsset = my_ids1;
+            console.log('con data--'+JSON.stringify(data));
         } else if (error) {
             this.error = error;
             console.log('error--'+JSON.stringify(error));
@@ -248,7 +215,7 @@ export default class Asf_CRNTagging extends LightningElement {
             })
             .catch(error => {
             });
-    }
+    } 
 
     handleAccAction(event) {
         const row = event.detail.selectedRows;
@@ -290,7 +257,11 @@ export default class Asf_CRNTagging extends LightningElement {
         let selectedFANum = 'NA';
         if (this.selectedAsset != undefined) {
             selectedAsstId = this.selectedAsset.Id;
-            selectedFANum = this.selectedAsset.LAN__c;
+            if(this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit === ABSLIG_BU){
+                selectedFANum = this.selectedAsset.Policy_No__c;
+            }else{
+                selectedFANum = this.selectedAsset.LAN__c;
+            }
         }
 
         if (this.selectedCustomer) {
@@ -382,12 +353,26 @@ export default class Asf_CRNTagging extends LightningElement {
                 if (result) {
                     this.fields = result.Fields;
                     this.error = undefined;
+                    this.prePopulateEmailFieldOfLead();
                 }
             }).catch(error => {
                 console.log(error);
                 this.error = error;
             });
     }
+
+    prePopulateEmailFieldOfLead() {
+        
+        if(this.loggedInUserBusinessUnit === ABSLIG_BU) {
+
+            for(let fld of this.fields) {
+                if(fld.FieldName === "Email") {
+                    fld.value = this.caseSuppliedEmail ?? "";
+                }
+            }
+        }
+    }
+
     /* ADDED BY - VIRENDRA
        REQUIREMENT - TO RENDER THE PROSPECT CREATION FORM WHEN USER CLICKS ON CREATE PROSPECT BUTTON.
     */
@@ -411,6 +396,10 @@ export default class Asf_CRNTagging extends LightningElement {
         leadRecord[PROSPECT_BUSINESS_UNIT.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
         caseRecord["Id"] = this.recordId;
+
+        if(this.loggedInUserBusinessUnit === "ABSLIG") {
+            leadRecord["LastName"] = leadRecord?.Company ?? "default last name";
+        }
 
         /* PASS CASERECORD WITH ID AND PROSPECTRECORD TO BE CREATED.
            IF THERE IS A DUPLICATE SERVICE PROSPECT ALREADY FOUND IN THE SYSTEM, IT WILL BE RETURNED
