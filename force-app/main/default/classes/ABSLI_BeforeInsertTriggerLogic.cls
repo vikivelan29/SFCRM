@@ -125,12 +125,12 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                     String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
                     switch on oprtr{
                         when 'IN'{
-                            if(!policyStatuses.contains(caseVsAsset.get(cs).Status)){
+                            if(!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ','))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
                             }
                         }
                         when 'NOT IN'{
-                            if(policyStatuses.contains(caseVsAsset.get(cs).Status)){
+                            if(policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ','))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
                             }
                         }
