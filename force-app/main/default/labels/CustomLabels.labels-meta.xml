@@ -1005,4 +1005,18 @@
         <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
+        <value>0 30 23 1/1 * ? *</value>
+    </labels>
 </CustomLabels>

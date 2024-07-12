@@ -29,7 +29,8 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				OwnerId,
 				Source__c,
 				CreatedById,
-				ABSLI_Case_Detail__c
+				ABSLI_Case_Detail__c,
+				Stage__c
 			FROM Case
 			WHERE Id = :caseId
 			WITH SECURITY_ENFORCED
@@ -71,7 +72,7 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 	 */
 	public static List<ASF_Case_Integration__c> getCaseIntegrations(List<Case> caseRecs, Set<String> intgIds) {
 		return [
-			SELECT Id, Status__c, Case__c, Integration_Ext_Id__c
+			SELECT Id, Name, Status__c, Case__c, Integration_Ext_Id__c
 			FROM ASF_Case_Integration__c
 			WHERE Case__c IN :caseRecs AND Integration_Ext_Id__c IN :intgIds
 			WITH SECURITY_ENFORCED
@@ -97,26 +98,33 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 	}
 
 	/**
-	 * @description Query method to fetch Case Integration records based on ExternalId
+	 * @description Query method to fetch Case Integration records based on ClassName
 	 *
 	 * @author Abinash Panigrahi
 	 * @date 2024-05-28
 	 *
-	 * @param externalId
-	 * @return ASF_Integration__c
+	 * @param Set<String> className
+	 * @return Map<String, ASF_Integration__c>
 	 */
-	public static ASF_Integration__c getIntegrationInfo(String externalId) {
-		return [
+	public static Map<String, ASF_Integration__c> getIntegrationInfo(Set<String> className) {
+		Map<String, ASF_Integration__c> integrationInfo = new Map<String, ASF_Integration__c>();
+		for (ASF_Integration__c integration : [
 			SELECT
 				Id,
 				STP_API_Identifier__c,
 				STP_Processing_Class__c,
+				Processing_Class__c,
 				External_Id__c,
 				STP_Config_External_Id__c,
-				STP_Template__c
+				STP_Template__c,
+                Query_Fields__c,
+                Priority__c
 			FROM ASF_Integration__c
-			WHERE External_Id__c = :externalId
+			WHERE Processing_Class__c = :className
 			WITH SECURITY_ENFORCED
-		];
+		]) {
+			integrationInfo.put(integration.Processing_Class__c, integration);
+		}
+		return integrationInfo;
 	}
 }
