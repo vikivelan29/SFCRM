@@ -295,7 +295,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 		public String STARTDATE;
 		public String ENDDATE;
 		public String AGENTCODE;
-		public String OUTPUTFORMAT;
+		public String OutputFormat;
 
 		public Details(String policyID, String startDate, String endDate) {
 			this.POLICYID = policyID;
@@ -303,7 +303,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			this.STARTDATE = startDate;
 			this.ENDDATE = endDate;
 			this.AGENTCODE = ABSLI_Constants.TAXCERTIFICATE_AGENT_CODE;
-			this.OUTPUTFORMAT = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
+			this.OutputFormat = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
 		}
 	}
 
