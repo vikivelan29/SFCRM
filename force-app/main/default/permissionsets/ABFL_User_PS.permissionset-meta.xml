@@ -664,7 +664,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABFL_Case_Detail__c.Open_Stage_Owner_Email_Team__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6493,6 +6493,10 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-Asset</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>
