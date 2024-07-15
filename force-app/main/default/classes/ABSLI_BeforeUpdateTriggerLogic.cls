@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-27-2024
+ * @last modified on  : 07-15-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -149,7 +149,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         for (ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, IGMS_Code__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :externalIds]) {
             configMap.put(config.CCC_External_Id__c, config);
         }
-
+        Map<String,Map<String,Set<String>>> mClassificationIGMS = ABSLI_IGMSClassificationUtility.getIGMSClassification();
         for (Case caseRec : absliCasesAdditionalFields.values()) {
             if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
@@ -173,6 +173,17 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         caseError.addError('Category type cannot be changed for IGMS Synced cases');
                         newMap.put(caseRec.Id,caseError);
                 }
+                if(caseRec.IGMS_Complaint_Type_Code__c != null &&
+                  	caseRec.Nature__c == 'Complaint' && 
+                    caseRec.Technical_Source__c != 'API'){
+                	ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
+                	if(returnWrapper.bErrorOccured){
+                        Case caseError = newMap.get(caseRec.Id);
+                    	String errorMessage = returnWrapper.errorMessage;
+                    	caseError.addError(errorMessage);
+                	}
+                
+            	}
             }
         }
     }
