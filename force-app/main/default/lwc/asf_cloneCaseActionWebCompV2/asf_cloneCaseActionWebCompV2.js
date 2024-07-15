@@ -43,7 +43,6 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     initialValue;
     filter = {}; 
     newAssetSelected = 'NA';
-
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
         additionalFields: [{ fieldPath: "LAN__c"}],

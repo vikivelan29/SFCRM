@@ -40,7 +40,6 @@
                 <elementReference>EmailTempDevName</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -49,7 +48,6 @@
             <assignToReference>EmailTempDevName</assignToReference>
             <name>templateName</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
@@ -68,8 +66,6 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>Case.Case_creator_when_the_case_is_closed</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
@@ -88,8 +84,6 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>Case.Case_owner_when_the_case_is_assigned</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -297,7 +291,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Send_email_to_creator_case_closed</name>
-            <conditionLogic>1 AND 2 AND 4 AND (3 OR 5)</conditionLogic>
+            <conditionLogic>1 AND 2 AND 4 AND 6 AND (3 OR 5)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>NotEqualTo</operator>
@@ -331,6 +325,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Resolved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreatedBy.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -377,6 +378,13 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>ABFSGSFDC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -720,7 +728,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Open_Stage</name>
-            <conditionLogic>(1 AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
+            <conditionLogic>((1 OR 6)AND 2) OR (2 AND 3 AND (4 OR 5))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -754,6 +762,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <elementReference>$Record__Prior.Lead__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.RecordTypeId</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -895,7 +910,6 @@
     <description>added condition to send an email for ABFL when case is categorized .
 Added condition to send email/sms when case status is Closed Duplicate
 Added logic to send welcome email on account recat</description>
-    <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>

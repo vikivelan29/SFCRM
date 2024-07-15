@@ -3,9 +3,15 @@
 *Author       :  Salesforce 
 *Created Date :  23/02/2024
 *Last Modified:  28/02/2024
-*Description  :  To update the Email Id and mobile on the Case.SuppliedEmail & Case.SuppliedPhone and then send and acknowledgement Email and SMS to Customer
+*description  :  To update the Email Id and mobile on the Case.SuppliedEmail & Case.SuppliedPhone and then send and acknowledgement Email and SMS to Customer
 *********************************************************/
+
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts, PMD.NcssMethodCount, PMD.StdCyclomaticComplexity')
 public with sharing class ABFL_WealthChatGeneratedCases {
+    /**
+    * @param emailMessageList - list of EmailMessage records 
+    * @description - this method extracts the Email & mobile from the Email Body & assign these to the Case.suppliedEmail & case.SuppliedPhone to send an Acknowledgment Email & SMS to the provided Email & Phone when the Case.Origin is ABWM Email
+    */
     public static void execute(list<EmailMessage> emailMessageList){
         Map<Id,String> mapCaseIdToEmailId = new  Map<Id,String>(); // Map to hold Case Ids with the EmailId
         Map<Id,String> mapCaseIdToMobile = new  Map<Id,String>(); // Map to hold Case Ids with the EmailId
@@ -13,10 +19,11 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         for(EmailMessage msg : emailMessageList){
             if( msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType ){
                 boolean bEligible = false;
-                if(msg.Headers != null){
-                    if(!msg.Headers.contains('In-Reply-To:')){
-                        bEligible = true;
-                    }
+                if((msg.Headers != null && msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null )){
+                    bEligible = true;
+                }
+                else if(msg.Headers != null && msg.Headers.contains('In-Reply-To:')){
+                    bEligible = false;
                 }
                 else{
                     bEligible = true;
@@ -28,7 +35,6 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                     if(inputText != null && inputText != ''){
                         extractedEmail = extractEmail(inputText);
                         extractedMobile = extractMobile(inputText);
-                        System.debug('Extracted Email => '+extractedEmail);
                     }
                     if(extractedEmail != null || extractedEmail !=''){
                         mapCaseIdToEmailId.put(msg.ParentId, extractedEmail);
@@ -45,7 +51,6 @@ public with sharing class ABFL_WealthChatGeneratedCases {
 
         List<Case> casesToUpdate = new List<Case>();
         for(Case c : ASF_EmailMessageQueryHandler.getCaseRecords(mapCaseIdToEmailId.Keyset())){
-            System.debug('inside case=> '+c+'   ABFL_Constants.WMCHATCASEORIGIN ==> '+ABFL_Constants.WMCHATCASEORIGIN);
             if(c.Origin == ABFL_Constants.WMCHATCASEORIGIN){
                 c.SuppliedEmail = mapCaseIdToEmailId.get(c.Id) !=null ? mapCaseIdToEmailId.get(c.Id) : c.SuppliedEmail ;
                 c.SuppliedPhone = mapCaseIdToMobile.get(c.Id) !=null ? mapCaseIdToMobile.get(c.Id) : c.SuppliedPhone;
@@ -57,25 +62,37 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         if(caseIdsToSendAcknowledgement.size()>0){
             for(case caseobj: ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendAcknowledgement)){
                 if(caseobj.Origin == ABFL_Constants.ABWMEMAIL){
-                	ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseobj, ABFL_Constants.WMEMAILTEMPLATENAME, caseobj.SuppliedEmail, '', '');
+                    ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseobj, ABFL_Constants.WMEMAILTEMPLATENAME, caseobj.SuppliedEmail, '', '');
                 }
             }
         }
             
-            
-        //Check if the casesToUpdate list is empty or not
-        if(!casesToUpdate.isEmpty() && casesToUpdate.size()>0){
-            ASF_TriggerSkipperUtility.markTriggerRun('Case'); // to disable the trigger
-            System.debug('CasesToUpdate =>'+casesToUpdate);
-            update casesToUpdate;
-            for(Case c: casesToUpdate){
-                // Platform Event trigger to send Email and SMS to the Supplied Email & Phone
-                ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(c, ABFL_Constants.WMEMAILTEMPLATENAME, c.SuppliedEmail, ABFL_Constants.WMSMSTEMPLATENAME, c.SuppliedPhone);
-                System.debug('after PELogandinvoe &&&&&&&&&&&&& => ');
+        //try{-- Commented as email address validation should happen at chatbot end
+            //Check if the casesToUpdate list is empty or not
+            if(!casesToUpdate.isEmpty() && casesToUpdate.size()>0){
+                ASF_TriggerSkipperUtility.markTriggerRun('Case'); // to disable the trigger
+                if(Schema.sObjectType.Case.isUpdateable()){ 
+                    update casesToUpdate;
+                }
+                for(Case c: casesToUpdate){
+                    // Platform Event trigger to send Email and SMS to the Supplied Email & Phone
+                    ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(c, ABFL_Constants.WMEMAILTEMPLATENAME, c.SuppliedEmail, ABFL_Constants.WMSMSTEMPLATENAME, c.SuppliedPhone);
+                } 
             } 
-        }    
+        /*
+        }catch(Exception e) {
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABFL_WealthChatGeneratedCases: Case Generation failed');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
+        }*/
     }
     
+    /**
+    * @param inputText - String text (Email body)
+    * @return - String - Email Id if found in body.
+    * @description - this method extracts the Email Id and return the same 
+    */
     public static String extractEmail(String inputText) {
         String patternString = 'Email ID: (\\S+@\\S+)';
         Pattern pattern = Pattern.compile(patternString);
@@ -88,7 +105,11 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         }
     }
     
-       
+    /**
+    * @param inputText - String text (Email body)
+    * @return - String - Mobile if found in body.
+    * @description - this method extracts the Mobile and return the same 
+    */  
     public static String extractMobile(String inputText) {
         String patternString = 'Mobile No\\.\\s*:\\s*(\\d{10})';
         Pattern pattern = Pattern.compile(patternString);

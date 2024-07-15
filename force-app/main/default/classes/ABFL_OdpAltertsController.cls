@@ -1,7 +1,7 @@
 /**
  * @description       : Class to handle Odp Alerts
  * @group             : ABFL
- * @last modified on  : 04-04-2024
+ * @last modified on  : 06-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * 
  * Modifications Log
@@ -12,31 +12,28 @@
 public with sharing class ABFL_OdpAltertsController {
 
     /****************************************************************************************************************
-    * @LOB - ABHFL
+    * @LOB - ABFL
     * @Function - getOdpAlerts
-    * @param AccountId - Account Id getting from ABFL_OdpAltertsController Lwc Component.
+    * @param accountId - Account Id getting from ABFL_OdpAltertsController Lwc Component.
     * @return - List<ODPAlertResponse>
     * @description - Invoked from the ABFL_OdpAltertsController Lwc components to get ODP Alerts
     *****************************************************************************************************************/
 
     @auraEnabled
-    public static List<ODPAlertResponse> getOdpAlerts(Id AccountId){
+    public static List<ODPAlertResponse> getOdpAlerts(Id accountId){
         List<ODPAlertResponse> odpAlertResponseList = new List<ODPAlertResponse>();
         String integrationName = ABFL_Constants.ODP_ALERTS;
-        Account accObj = [SELECT Id,Client_Code__c FROM Account WHERE Id =: AccountId];
+        Account accObj = [SELECT Id,Client_Code__c FROM Account WHERE Id =: accountId WITH SECURITY_ENFORCED];
         //New
         if(accObj.Client_Code__c != null){
-            String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c)); //New 
-            
+            String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c));
             ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
-            
             if(odpResponseWrp.responseBody == '[]'){
                 odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
             }else{
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
             }
         }else{
-            System.debug('coming here ** '+label.ODP_Client_Code_Msg);
             throw new AuraHandledException(label.ODP_Client_Code_Msg);
         }
         return odpAlertResponseList;
@@ -48,7 +45,7 @@ public with sharing class ABFL_OdpAltertsController {
         
         payloadWrapper(string clientId){
             this.clientId = clientId;
-            this.channelId = ABFL_Constants.CHANNEL_ID; //New
+            this.channelId = ABFL_Constants.CHANNEL_ID;
         }
     }
 }

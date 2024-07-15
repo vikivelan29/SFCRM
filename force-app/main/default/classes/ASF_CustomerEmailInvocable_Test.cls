@@ -15,9 +15,9 @@ Ver   Date         Author                               Modification
 public class ASF_CustomerEmailInvocable_Test {
     @TestSetup
     static void makeData(){
-        List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+        Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
-        List<Case> cases = ASF_TestDataFactory.createCaseRecords(3);
+        ASF_TestDataFactory.createCaseRecords(3);
     }
     @isTest
     public static void getEmailTemplateNameTest(){
@@ -34,7 +34,7 @@ public class ASF_CustomerEmailInvocable_Test {
             wrapper.templateName = 'Generic_SR_Created';
             wrappers.add(wrapper);
             
-            List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
+            ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
         }
     }
     

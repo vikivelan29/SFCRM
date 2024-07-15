@@ -6,6 +6,9 @@
 *****************************************************************************************************************/
 public without sharing class ASF_EmailMessageHelper {
     public static boolean bNewCaseByReplyToCloseCase = false;
+    private static Map<String, String> queueDevNameToEmail = new Map<String, String>();
+    private static Map<String,Id> mQueueDevNameVsId = new Map<String,Id>();
+    private static List<Case> existingCases = null;
     
     /* Validate if the email going out is from OrgWideDefaultOnly.
 */
@@ -43,6 +46,38 @@ public without sharing class ASF_EmailMessageHelper {
             }
         }
     }
+    //Query the case record based on caseIds
+    public static List<Case> fetchCaseDetails(Set<Id> caseIds){
+        if(existingCases == null){
+            existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
+                                        CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
+                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c
+                                        FROM Case 
+                                        WHERE Id IN :caseIds AND RecordTypeId = :ASF_Constants.RT_FRAMEWORK];
+        }
+        return existingCases;
+    }
+
+    //Set static boolean variable to true if the reply is sent to a closed case
+    public static void checkIsReplyToCloseCase(List<EmailMessage> newEmails) {
+        Set<Id> caseIds = new Set<Id>();
+        for(EmailMessage emRec : newEmails){
+            if(emRec.Headers != null && emRec.ParentId.getSObjectType() == Case.getSObjectType()){
+                //Its a reply, so evaluate
+                caseIds.add(emRec.ParentId);
+            }
+        }
+        if(!caseIds.isEmpty()){
+            existingCases = fetchCaseDetails(caseIds);
+            for(Case caseRec : existingCases){
+                if(caseRec.IsClosed && (caseRec.Is_Reopen_Allowed__c == false || (caseRec.Is_Reopen_Allowed__c == true && 
+                 !(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
+                  && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c)))){
+                    bNewCaseByReplyToCloseCase = true;
+                }
+            }
+        }
+    }
     
     /**
 * When customer replies to an existing email2case email thread for which the original case was closed, 
@@ -55,26 +90,40 @@ public without sharing class ASF_EmailMessageHelper {
     public static void checkAndReopenClosedCases(List<EmailMessage> newEmails) {
         Set<Id> caseIds = new Set<Id>();
         Map<Id, EmailMessage> caseIdToEmailMessageMap = new Map<Id, EmailMessage>();
+        Set<String> winningEmailAddr = new Set<String>();
         
         for(EmailMessage emRec : newEmails){
-            System.debug('checkAndReopenClosedCases'+emRec.ParentId+emRec.Headers);
+            System.debug('checkAndReopenClosedCases'+emRec.ParentId+emRec.Headers+emRec.Winning_Email__c);
             if(emRec.Headers != null && emRec.ParentId.getSObjectType() == Case.getSObjectType()){
                 //Its a reply, so evaluate
                 caseIds.add(emRec.ParentId);
                 caseIdToEmailMessageMap.put(emRec.ParentId, emRec);
+                winningEmailAddr.add(emRec.Winning_Email__c);
             }
         }
         if(!caseIds.isEmpty()){
             Map<Id, Case> oldCaseIdToNewCaseMap = new Map<Id, Case>();
             List<Case> casesToReopen = new List<Case>();
             Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
-            List<Case> existingCases = [SELECT Id, IsClosed, Is_Reopen_Allowed__c, Reopen_Days__c, ClosedDate,
-                                        CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
-                                        Technical_Source__c, Nature__c, ContactId, Business_Unit__c,
-                                        (SELECT Id, Current_Owner__c FROM SR_SLA_Histories__r ORDER BY CreatedDate LIMIT 1)
-                                        FROM Case 
-                                        WHERE Id IN :caseIds];
+
+            for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
+                                                                  Business_Unit__c, Email2CaseAddress__c, 
+                                                                  Default_Queue_Dev_Name__c, Send_to_EBOT__c,
+                                                                  Case_Business_Unit__c, Case_Origin__c
+                                                                  FROM ASF_PriorityEmailAddressesByBU__mdt
+                                                                  WHERE Email2CaseAddress__c =: winningEmailAddr])
+            {
+                queueDevNameToEmail.put(winningRec.Email2CaseAddress__c,winningRec.Default_Queue_Dev_Name__c);
+            }
             
+            for(Group grp : [SELECT ID,DeveloperName FROM Group WHERE DeveloperName =: queueDevNameToEmail.values() AND Type ='Queue']){
+                if(!mQueueDevNameVsId.containsKey(grp.DeveloperName)){
+                    mQueueDevNameVsId.put(grp.DeveloperName,grp.Id);
+                }
+            }
+            
+            existingCases = fetchCaseDetails(caseIds);
+
             for(Case caseRec : existingCases){
                 //check if closed or not
                 //if(caseRec.IsClosed && caseRec.Origin != null && caseRec.Origin.contains('Email') 
@@ -132,7 +181,7 @@ public without sharing class ASF_EmailMessageHelper {
                     EmailMessage em = caseIdToEmailMessageMap.get(oldCaseId);
                     em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
                 }
-                // added logic to send acknowledgment email for new case creatd after email comes to closed case for ABWM Email
+                // sending acknowledgment email if it is  Wealth cases
                 for(Case newCase : oldCaseIdToNewCaseMap.values()){
                     if(newCase.Origin == ABFL_Constants.ABWMEMAIL){
                         ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(newCase, ABFL_Constants.WMEMAILTEMPLATENAME, newCase.SuppliedEmail, '', '');
@@ -142,7 +191,7 @@ public without sharing class ASF_EmailMessageHelper {
         }
     }
     
-    private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
+   /* private static Map<String, Set<Id>> populateMap(Case caseRec, Map<String, Set<Id>> theMap){
         String firstOwner;
         if(caseRec.SR_SLA_Histories__r != null && !caseRec.SR_SLA_Histories__r.isEmpty()){
             firstOwner = caseRec.SR_SLA_Histories__r[0].Current_Owner__c;
@@ -152,10 +201,15 @@ public without sharing class ASF_EmailMessageHelper {
             theMap.get(firstOwner).add(caseRec.Id);
         }
         return theMap;
-    }
+    } */
     
     private static Case createNewCaseInstance(Case closedCase, Map<Id, EmailMessage> caseIdToEmailMessageMap) {
         Case newCase = new Case();
+        //assign the winning email's queue ID as the owner of the case
+        if(caseIdToEmailMessageMap.containsKey(closedCase.Id) && caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c != null
+          && queueDevNameToEmail.get(caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c) != null){
+            newCase.OwnerId = mQueueDevNameVsId.get(queueDevNameToEmail.get(caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c));
+        }
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
         newCase.Description = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
         newCase.AccountId = closedCase.AccountId;

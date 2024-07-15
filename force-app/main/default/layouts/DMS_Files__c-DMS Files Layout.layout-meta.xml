@@ -31,6 +31,10 @@
                 <behavior>Readonly</behavior>
                 <field>Version_Number__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>LOB__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

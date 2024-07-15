@@ -4,7 +4,6 @@ public class ABFL_ENACH_Status_Controller_Test {
     static void testgetENACHStatus(){
         test.StartTest();
         ABFL_ENACH_Status_Controller.ResponseWrapper res = ABFL_ENACH_Status_Controller.getENACHStatus('19531');
-        System.assertNotEquals(null, res);
-        test.StopTest();
+        System.assertNotEquals(null, res, 'response should not be null');
     }
 }

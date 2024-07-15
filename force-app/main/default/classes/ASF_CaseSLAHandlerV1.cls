@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 04-24-2024
+* @last modified on  : 07-01-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -95,7 +95,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if(externalIdStageNameCaseStageConfigMap != null)
-                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                        sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA2Override') != null){
@@ -103,7 +103,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if (externalIdStageNameCaseStageConfigMap != null)
-                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                        sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA3Override') != null){
@@ -111,7 +111,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                        sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
@@ -262,9 +262,24 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             caseBackStageMovementCheck = getMovedBackCases(oldCases,newCases);
         }
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
-        // for(Case c : newCases.values()){
+        Map<Id, Case> internalCaseUpdateMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
         //without query, owner.name will not come  . hence this query is needed 
         for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
+            Case updatedCase = internalCaseUpdateMap.get(c.Id);
+            //Not coming from Omnichannel
+            //pure insert and
+            //(updatecase present and owner id is populated & stage is not changing - means assigment yet to happen during insert
+            //or skipsla is populated)
+            //then skip
+            if(!ASF_CaseSLAHandlerV1.isFromOmniChannel && oldCases == null &&
+            (
+                (updatedCase != null && updatedCase.OwnerId != null && updatedCase.Stage__c == null)
+                ||
+                newCases.get(c.Id).SkipModifyingSLAHistory__c != null
+            )
+            ){
+                continue;
+            }
             ASF_Case_SLA_History__c slaHistory = new ASF_Case_SLA_History__c();
             slaHistory.Current_Owner__c = c.Owner.Name;
             slaHistory.Current_Owner_Id__c = c.OwnerId;
@@ -398,29 +413,29 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                      AND is_Running_Record__c = TRUE
                                                      ORDER BY CreatedDate DESC]){
                                                          
-                                                         if(slaHistory.Stage_End_Date__c == null){
-                                                             slaHistory.Stage_End_Date__c = System.now();
-                                                             slaHistory.is_Running_Record__c = false;
-                                                             slaHistory.Actual_Time_Taken__c = ((slaHistory.Stage_End_Date__c).getTime() - (slaHistory.Stage_Start_Date__c).getTime())/3600000 ;
-                                                             if(slaHistory.BusinessHoursId__c != null){
-                                                                 if(slaHistory.Stage_Violation_Start_Date__c != null){
-                                                                     slaHistory.Overdue__c = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Violation_Start_Date__c, System.now())/(1000*60*60);
-                                                                 }
-                                                                 slaHistory.Time_Taken_In_Business_Hour__c = (BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c));
-                                                                 Long milliseconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
-                                                                 
-                                                                 long seconds = milliseconds / 1000;
-                                                                 long minutes = seconds / 60;
-                                                                 long hours = minutes / 60;
-                                                                 long days = hours / 24;
-                                                                 if(days < 1){
-                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
-                                                                 }else{
-                                                                     slaHistory.Time_Taken__c = (days + 'days ' + Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60) + 's '  ); 
-                                                                 }
-                                                             }
-                                                             slaHistoryList.add(slaHistory);
-                                                         }
+                                                        if(slaHistory.Stage_End_Date__c == null){
+                                                            slaHistory.Stage_End_Date__c = System.now();
+                                                            slaHistory.is_Running_Record__c = false;
+                                                            slaHistory.Actual_Time_Taken__c = ((slaHistory.Stage_End_Date__c).getTime() - (slaHistory.Stage_Start_Date__c).getTime())/3600000 ;
+                                                            if(slaHistory.BusinessHoursId__c != null){
+                                                                if(slaHistory.Stage_Violation_Start_Date__c != null){
+                                                                    slaHistory.Overdue__c = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Violation_Start_Date__c, System.now())/(1000*60*60);
+                                                                }
+                                                                slaHistory.Time_Taken_In_Business_Hour__c = (BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c));
+                                                                Long milliseconds = BusinessHours.diff(slaHistory.BusinessHoursId__c, slaHistory.Stage_Start_Date__c, slaHistory.Stage_End_Date__c);
+                                                                
+                                                                long seconds = milliseconds / 1000;
+                                                                long minutes = seconds / 60;
+                                                                long hours = minutes / 60;
+                                                                long days = hours / 24;
+                                                                if(days < 1){
+                                                                    slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
+                                                                }else{
+                                                                    slaHistory.Time_Taken__c = (days + 'days ' + Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60) + 's '  ); 
+                                                                }
+                                                            }
+                                                            slaHistoryList.add(slaHistory);
+                                                        }
                                                      }
         }
         if (!slaHistoryList.isEmpty()) {
@@ -454,14 +469,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         }
         //send only cases which are modified with owners and Stages
         if(modifiedCases != null && modifiedCases.size() > 0 ){
-            //If the updateOldCaseSLAHistory didnt find any existing record to update,
-            // that means its actually an insert happening and its internal Case after update happening
-            // assignment rules are assigning ownerid
-            // so skip creating new SLA history, 
-            // the after insert will call insertSLAHistory and will create one entry.
-            if(updateOldCaseSLAHistory(modifiedCases)){ 
-                insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap); 
-            }
+            updateOldCaseSLAHistory(modifiedCases);
+            insertSLAHistory(modifiedoldCasesMap,modifiednewCasesMap);
         }
     }
 
@@ -472,16 +481,46 @@ public without sharing class ASF_CaseSLAHandlerV1 {
      */
     public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
         List<Case> cases = new List<Case>();
+        Set<Id> allCaseIds = new Set<Id>();
+
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
-            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
-                Case caseRec = new Case(Id=caseId);
-                cases.add(caseRec);
+            allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
+        }
+        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
+            caseRec.Last_Owner_Change_Date__c = System.now();
+            cases.add(caseRec);
+        }
+        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap = getCaseOwnerBusinessHours(null,cases);
+        if(resultMap != null){
+            Integer index = 0;
+            for(Case updatedCase : cases){
+                updatedCase.SLA_Target_1__c = null;
+                updatedCase.SLA_Target_2__c = null;
+                updatedCase.SLA_Target_3__c = null;
+                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
+                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
+                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
+                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
+                    }
+                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
+                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
+                    }
+                }
+                index++;
             }
         }
         updateOldCaseSLAHistory(cases);
         ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
         ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
+
+        //update cases
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        update cases;
+
     }
 
     /*
@@ -609,14 +648,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<String> ownerEmailList = new List<String>();
         
         for(case c: newCases){
-            //owner change loop    
-            if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
+            //owner change loop
+            //Removed the below if conditions code to accomodate SLA Target stamping 
+            //when converting from Interaction to framework    
+            //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
                 }else if(string.valueOf(c.OwnerId).startsWith('00G')){
                     ownerQueueList.add(c.OwnerId);
                 }
-            }
+            //}
         }  
         Integer index = 0;
         for(Case c: newCases){

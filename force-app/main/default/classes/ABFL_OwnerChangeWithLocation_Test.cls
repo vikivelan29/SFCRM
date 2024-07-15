@@ -1,32 +1,32 @@
 /*********************************************************
 *Class        :  ABFL_OwnerChangeWithLocation
 *Author       :  Shubham Sinha 
-*Created Date :  010/01/2024
-*Description  :  Test Class
+*Created Date :  10/01/2024
+*@description  :  Test Class
 *********************************************************/
 @isTest
 public class ABFL_OwnerChangeWithLocation_Test {
 private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-        Group SLAGroup = new Group();        
-        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-            insert SLAGroup;
+        Group slaGroup = new Group();        
+        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
+            insert slaGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
             insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
-                                    managerGroupId__c=SLAGroup.Id);
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
+                                    managerGroupId__c=slaGroup.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABFL',
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk565712345@gmail.com'
                                     );
         insert userRecord1;
-        System.runAs(userRecord) {
+        System.runAs(userRecord) { 
             ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
                 ccc.Type__c = 'tes';
                 ccc.First_Stage__c = 'New';
@@ -42,7 +42,6 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             stage1.StageName__c = 'New';
             stage1.Stage_SLA_1__c = 1;
             stage1.Status_Mapping__c = 'New';
-            // stage1.Stage_SLA_3__c = 3;
             stage1.SLA_Target_1_Type__c = 'Manager';
             stage1.Query_Fields__c = 'Id,Stage__c';
             stage1.Manual_Stage__c = false;
@@ -119,30 +118,31 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
      @isTest
     static void beforeUpdateContainsABFLTest(){
         List<Case> objCase = [Select Id,OwnerId,AssetId From Case WHERE LAN__c = 'ABFLJOD1234' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
-        ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JOD' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
+        //ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JOD' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
         system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
             update objCase[0]; 
-            System.assertEquals(1, objCase.size());          
+            System.assertEquals(1, objCase.size(),'record found');          
              Test.stopTest();            
             }
         }
     @isTest
     static void beforeUpdateContainsNotABFLTest(){
-        List<Case> objCase = [Select Id,OwnerId,AssetId From Case WHERE LAN__c = 'ABJAI1234' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
-        ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JAI' LIMIT 1];
+        List<Case> objCase = [Select Id, LAN__c ,OwnerId,AssetId From Case WHERE LAN__c = 'ABJAI1234' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
+       // ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JAI' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
         system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
             update objCase[0]; 
-             System.assertEquals(1, objCase.size());          
+            ABFL_OwnerChangeWithLocation.updateSpocNotAbflLANAfter(objCase);
+             System.assertEquals(1, objCase.size(),'records found');          
              Test.stopTest();            
          }
     }

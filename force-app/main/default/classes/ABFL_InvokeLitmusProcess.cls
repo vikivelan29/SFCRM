@@ -4,45 +4,65 @@
 *Created Date :  07/02/2024
 *Last Modified:
 *Test Class   :  ABFL_InvokeLitmusProcess_Test
-*Description  :  Helper class to invoke Litmus integration
+*@description  :  Helper class to invoke Litmus integration
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity')
 public without sharing class ABFL_InvokeLitmusProcess{
+    public static Map<Id, List<String>> mapCaseIdEmail = new Map<Id, List<String>>();
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - evaluateCasesForLitmus
-     * @param Map<Id, Case> newCaseMap - new case map from trigger
-     * @param Map<Id, Case> oldCaseMap - old case map from trigger
-     * @return - void
-     * @Description - Method to evaludate and filter case records for which Litmus integration needs to be fired
+     * @param newCaseMap - new case map from trigger
+     * @param oldCaseMap - old case map from trigger
+     * @description - Method to evaludate and filter case records for which Litmus integration needs to be fired
      *****************************************************************************************************************/
     public void evaluateCasesForLitmus(Map<Id, Case> newCaseMap, Map<Id, Case> oldCaseMap){
         try{
-            System.debug('In evaluateCasesForLitmus');
-            Set<Id> caseIdSet = new Set<Id>();
             Set<Id> casesToFurtherProcessSet = new Set<Id>();
             Set<String> cccExternalIdSet = new Set<String>();
             SET<ID> setExpectedLogic = new SET<ID>();
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case>();
             Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
+            Set<Id> accountIds = new Set<Id>();
+            Map<Id, List<String>> mapAccIdEmail = new Map<Id, List<String>>();
             
             List<Case> litmusApiCasesList = new List<Case>();
             for (Case caseRec : newCaseMap.values()){
                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c)){
                 	setExpectedLogic.add(caseRec.Id); 
+                    accountIds.add(caseRec.AccountId);
                 } 
             }
+
+            String userEmail = '';
+            String userPhone = '';
+            for(Contact con : [SELECT Id, Email, AccountId, MobilePhone FROM Contact WHERE AccountId IN :accountIds AND AccountId != null]) {
+                mapAccIdEmail.put(con.AccountId, new List<String>{con.Email, con.MobilePhone});
+            }
+                    
             if(!setExpectedLogic.isEmpty()){
                 caseIdToRecordMap = ABFL_SOQL_Case.getCases(setExpectedLogic);
                 
                 for (Case caseRecord : caseIdToRecordMap.values()){
+                    if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount && !mapAccIdEmail.isEmpty() &&  mapAccIdEmail.containsKey(caseRecord.AccountId)) {
+                        userEmail = mapAccIdEmail.get(caseRecord.AccountId)[0] != null? mapAccIdEmail.get(caseRecord.AccountId)[0] : caseRecord.Account.Office_Email__c; 
+                        userPhone = mapAccIdEmail.get(caseRecord.AccountId)[1] != null? mapAccIdEmail.get(caseRecord.AccountId)[1] : caseRecord.Account.Phone; 
+                        //userEmail = con.size() > 0 ? con[0]?.Email : caseRecord.Account.Office_Email__c; 
+                    }
+                    else if(caseRecord.AccountId != NULL && !caseRecord.Account.IsPersonAccount) {
+                        userEmail = caseRecord.Account.Office_Email__c;
+                        userPhone = caseRecord.Account.Phone;
+                    }
+                    else if(caseRecord.AccountId != NULL) {
+                        userEmail = caseRecord.Account.PersonEmail;
+                        userPhone = caseRecord.Account.PersonMobilePhone;
+                    }
+                    mapCaseIdEmail.put(caseRecord.Id, new List<String>{userEmail, userPhone});
                     
-                    String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-                    String userEmail = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+                   // String userPhone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
                     
              
                     
-                        
                     if (caseRecord.Source__c != 'SystemIntegration' && (caseRecord.IsClosed == true && (oldCaseMap.get(caseRecord.Id).IsClosed != true)) && (caseRecord.Status == ABFL_Constants.RESOLVED && (oldCaseMap.get(caseRecord.Id).Status != ABFL_Constants.RESOLVED)) && caseRecord.ABFL_Case_Detail__r.Lock_in_Period__c == 'No' && String.isNotBlank(caseRecord.Asset.LAN__c) && String.isNotBlank(userPhone) && String.isNotBlank(userEmail)){
                         casesToFurtherProcessSet.add(caseRecord.Id);
                         cccExternalIdSet.add(caseRecord.CCC_External_Id__c);
@@ -51,7 +71,6 @@ public without sharing class ABFL_InvokeLitmusProcess{
                 
                 if (cccExternalIdSet.size() > 0){
                     cccIdToRecordsMap = ABFL_SOQL_Util.getCccIdToRecordMap(cccExternalIdSet);
-                    System.debug('cccIdToRecordsMap: ' + cccIdToRecordsMap);
                     
                     for (Id caseId : casesToFurtherProcessSet){
                         Case caseRecord = caseIdToRecordMap.get(caseId);
@@ -78,10 +97,9 @@ public without sharing class ABFL_InvokeLitmusProcess{
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - callLitmusAPI
-     * @param List<Case> caseList - List of case records that are eligible for litmus integration
-     * @param Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap - Map of case category config external Id to case category config record
-     * @return - void
-     * @Description - Method to fire litmus integration
+     * @param  caseList - List of case records that are eligible for litmus integration
+     * @param cccIdToRecordsMap - Map of case category config external Id to case category config record
+     * @description - Method to fire litmus integration
      *****************************************************************************************************************/
     public void callLitmusAPI(List<Case> caseList, Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap){
         try{
@@ -134,7 +152,7 @@ public without sharing class ABFL_InvokeLitmusProcess{
             }
             
             if (caseOutEvntList.size() > 0){
-                List<Database.SaveResult> results = EventBus.publish(caseOutEvntList);
+                EventBus.publish(caseOutEvntList);
             }
         } catch (Exception e){
             ABCL_Logger.enableExceptionLogging();
@@ -145,7 +163,10 @@ public without sharing class ABFL_InvokeLitmusProcess{
     }
     
     @SuppressWarnings('PMD.FieldNamingConventions')
-    // Wrapper to send data
+    
+    /****************************************************************************************************************
+    *@description Wrapper to send data
+    *****************************************************************************************************************/
     public class ABFL_LITMUS_Wrapper{
         //Mandatory attributes
         public String app_id;
@@ -172,11 +193,17 @@ public without sharing class ABFL_InvokeLitmusProcess{
         public String tag_lan;
         public String tag_business_unit;
         
+        /****************************************************************************************************************
+         * @description Custom constructor of ABFL_LITMUS_Wrapper class
+         * @param caseRecord
+        *****************************************************************************************************************/
         public ABFL_LITMUS_Wrapper(Case caseRecord){
             this.app_id = System.Label.ABFL_LITMUS_PROJECT_ID;
             this.tag_business_unit = caseRecord.Business_Unit__c;
-            this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
-            this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+           // this.user_phone = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : caseRecord.Account.Phone;
+            this.user_phone = !mapCaseIdEmail.isEmpty() && mapCaseIdEmail.containsKey(caseRecord.Id) ? mapCaseIdEmail.get(caseRecord.Id)[1] : '';
+            //this.user_email = caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : caseRecord.Account.Office_Email__c;
+            this.user_email = !mapCaseIdEmail.isEmpty() && mapCaseIdEmail.containsKey(caseRecord.Id) ? mapCaseIdEmail.get(caseRecord.Id)[0] : '';
             this.customer_id = caseRecord.AccountId;
             
             this.name = caseRecord.Account.IsPersonAccount ? caseRecord.Account.Full_Name__pc : caseRecord.Account.Name;

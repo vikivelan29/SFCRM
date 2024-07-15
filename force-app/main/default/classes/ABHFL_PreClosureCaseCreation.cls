@@ -81,7 +81,9 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         }
 
         ASF_TriggerSkipperUtility.resetTriggerRun('Case');
+        ASF_CaseQueryHandler.refreshRecords = true;
         ABHFL_CTSTHelper.insertCases(newCaseList);
+        ASF_CaseQueryHandler.refreshRecords = true;
         return returnWrapper;
     }
 }

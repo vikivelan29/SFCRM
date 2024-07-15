@@ -25,8 +25,8 @@ public with sharing class ASF_CaseStageSLA2TimeBasedActionTest {
         update hist;
 
         Test.startTest();
-
-        ASF_CaseStageSLA2TimeBasedAction.sendEmailSLA2Broke(new List<String>{caseRecord.Id});
+        ASF_CaseStageSLA2TimeBasedAction.handleSLA2Broke(new List<String>{caseRecord.Id});
+        //ASF_CaseStageSLA2TimeBasedAction.sendEmailSLA2Broke(new List<String>{caseRecord.Id});
 
 
         Test.stopTest();

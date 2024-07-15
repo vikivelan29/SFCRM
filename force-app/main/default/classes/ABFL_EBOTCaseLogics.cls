@@ -3,13 +3,14 @@
 *Author       :  Shubham Sinha 
 *Created Date :  19/12/2023
 *Last Modified:  19/12/2023
-*Description  :  ABFL_EBOTCaseLogics updates case and Case details field and ebot flow logic related to story no PR970457-132 
+*@description  :  ABFL_EBOTCaseLogics updates case and Case details field and ebot flow logic related to story no PR970457-132 
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_EBOTCaseLogics {
     /****************************************************************************************************************
-    * @param  - Case id and response wrapper.
-    * @return - void .
-    * @Description - Updates the fields of ABFL Case Detail and Case object.
+    * @param  caseId
+    * @param  objResponseBody
+    * @description - Updates the fields of ABFL Case Detail and Case object.
     *****************************************************************************************************************/ 
     public static void updateCaseDetailExtension(String caseId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
        // try {
@@ -34,12 +35,9 @@ public with sharing class ABFL_EBOTCaseLogics {
             }  
               if(lstInsertAbflCaseDetail.size() > 0){
                     Database.SaveResult[] updateResult = Database.insert(lstInsertAbflCaseDetail,false); 
-                    System.debug('updateResultcasedetailext'+updateResult);      
-                    System.debug('updateResultcasedetailexterr'+updateResult[0].getErrors()); 
                     for (Database.SaveResult sr : updateResult) {
                     if (sr.isSuccess()) {
                         insertedId = sr.getId();
-                     System.debug('case_detailId '+insertedId);
                     }
                   }
                   updateCase(caseId,insertedId,objResponseBody);
@@ -50,16 +48,17 @@ public with sharing class ABFL_EBOTCaseLogics {
        // }
     }
     /****************************************************************************************************************
-    * @param  - Case id and response wrapper.
-    * @return - void .
-    * @Description - Updates the fields of  Case object according to ebot response.
+    * @param   caseId 
+   * @param   caseDetailId 
+   * @param   objResponseBody
+    * @description - Updates the fields of  Case object according to ebot response.
     *****************************************************************************************************************/ 
     public static void updateCase(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         List<Case>lstCase = new List<Case>();
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             LIST<Asset> recAsset;
             if(String.isNotBlank(objResponseBody.LAN)){
-                recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN LIMIT 1];
+                recAsset = [SELECT ID,LAN__c  FROM ASSET WHERE LAN__c =:objResponseBody.LAN WITH SYSTEM_MODE LIMIT 1];
             }
            Case objCase = new Case();
            //Case objCase = [SELECT ID FROM CASE WHERE ID =: caseId  LIMIT 1 FOR UPDATE];
@@ -87,45 +86,45 @@ public with sharing class ABFL_EBOTCaseLogics {
         }
     }
     /****************************************************************************************************************
-    * @param  - Case id and response wrapper.
-    * @return - void .
-    * @Description - Sends email and close the case according to flow mentioned on user story PR970457-132
+    * @param  caseId
+    * @param  caseDetailId
+    * @param  objResponseBody
+    * @description - Sends email and close the case according to flow mentioned on user story PR970457-132
     *****************************************************************************************************************/ 
     public static void sendEmailAndCaseUpdate(String caseId, String caseDetailId ,ABFL_EbotWrapper.EbotResponseWrapper objResponseBody){
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition'); 
-            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c ,No_Auto_Communication__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId LIMIT 1 ];
+            List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c ,No_Auto_Communication__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId WITH SYSTEM_MODE LIMIT 1 ];
             if(objResponseBody.ISSMT == 'YES'){
                 sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
             }
             else if (objResponseBody.ISSMT == 'NO'){
-                system.debug('mdtPEFrameworkvalues '+mdtEbotCase);
-                system.debug('recCasecase '+recCase[0].SuppliedEmail);
-                List<EmailMessage> emailMessages = [SELECT Id, ToAddress, Winning_Email__c FROM EmailMessage WHERE ParentId =: caseId LIMIT 1];
-                system.debug('emailMessagescase '+emailMessages[0].ToAddress);
-                List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c ,EBOT_Registered_Template__c ,EBOT_Unregistered_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c LIMIT 1];
+                List<EmailMessage> emailMessages = [SELECT Id, ToAddress, Winning_Email__c FROM EmailMessage WHERE ParentId =: caseId WITH SYSTEM_MODE LIMIT 1];
+                List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c ,EBOT_Registered_Template__c ,EBOT_Unregistered_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c  WITH SYSTEM_MODE LIMIT 1];
+                //system.debug('emailMessagesfound '+ emailMessages);
+                //system.debug('cseCatConfigfound '+ cseCatConfig);
                 if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],objResponseBody, mdtEbotCase)){
-                    system.debug('multipleLAn');
+                    //system.debug('multipleLAn');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True,false,false,false);
                 }
                 else if(checkPaytmInteractionNotNull(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    system.debug('paytmfired');
+                    //system.debug('paytmfired');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,true);
                 }
                 else if(checkLeadSubtype(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    system.debug('multipleLead');
+                   // system.debug('multipleLead');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,true,false);
                 }
                 else if(checkIsRegisteredCustomerNo(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    system.debug('RegisteredCustomerNo');
+                    //system.debug('RegisteredCustomerNo');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,false);
                 }
                  else if(checkIsRegisteredCustomerYes(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    system.debug('RegisteredCustomeryes');
+                    //system.debug('RegisteredCustomeryes');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false);
                 }
                 else if(ConfidenceScoreAndSubtypeCheck(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
-                    system.debug('ConfidenceScore');
+                    //system.debug('ConfidenceScore');
                     genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false);
                 }
             }
@@ -133,49 +132,61 @@ public with sharing class ABFL_EBOTCaseLogics {
 
     }
     /****************************************************************************************************************
-    * @param  - Email address.
-    * @return - void .
-    * @Description - Sends an email to contact if ISSMT response from ebot comes as YES
+    * @param  recCase
+    * @param  emailToAddress
+    * @description - Sends an email to contact if ISSMT response from ebot comes as YES
     *****************************************************************************************************************/ 
     public static void sendSmtFlagYes(Case recCase,String emailToAddress){
         createPELogAndinvokeCommPEevent(recCase,'ABFL_SMT_Escalation_Template',emailToAddress);
     }  
     /****************************************************************************************************************
-    * @param  - ASF_Case_Category_Config__c,Case,Boolean, Case ext Id
-    * @return - void .
-    * @Description - Sends an email to contact and closes the case according to the flow  mentioned on user story PR970457-132
+    * @param caseCategConfig
+    * @param recCase
+    * @param closed
+    * @param abflCaseExtId
+    *  @param templateName
+    * @param isRegistered
+    * @param isLead
+    * @param isPaytm
+    * @description - Sends an email to contact and closes the case according to the flow  mentioned on user story PR970457-132
     *****************************************************************************************************************/
-       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String ABFLCaseExtId,Boolean templateName,Boolean isRegistered,Boolean isLead,Boolean isPaytm){
+       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String abflCaseExtId,Boolean templateName,Boolean isRegistered,Boolean isLead,Boolean isPaytm){
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         List<ASF_Checklist__c> lstUpdateChecklist = new List<ASF_Checklist__c>();
+        List<ABFL_Case_Detail__c> lstUpdateAbflExtension = new List<ABFL_Case_Detail__c>();
         List<Task> lstUpdateTask = new List<Task>();
         if(closed){
-            //List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id LIMIT 1];
-            //commenting the below line as we need to send the closure email
-           /* ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
-            objUpdateCaseExt.Id = ABFLCaseExtId;
-            objUpdateCaseExt.Resolution_Comments__c = 'ebotclosed';
-            update objUpdateCaseExt;*/
-            List<ASF_Checklist__c > objCheckList = [SELECT ID, Status__c ,Case__c from ASF_Checklist__c WHERE Case__c =:recCase.ID AND Status__c !='Completed'];
-            List<Task > objTask = [SELECT ID,Status,WhatId from Task WHERE WhatId =:recCase.ID AND Status !='Completed'];
+           // List<ABFL_Case_Detail__c> objABFL = [Select ID,Resolution_Comments__c,Resolved_Email_Sent__c FROM ABFL_Case_Detail__c WHERE Case__c =:recCase.Id  WITH SYSTEM_MODE LIMIT 1];
+            ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
+            objUpdateCaseExt.Id = abflCaseExtId;
+            objUpdateCaseExt.Resolution_Comments__c = 'Auto closed by EBOT';
+            lstUpdateAbflExtension.add(objUpdateCaseExt);
+            List<ASF_Checklist__c > objCheckList = [SELECT ID, Status__c ,Case__c from ASF_Checklist__c WHERE Case__c =:recCase.ID AND Status__c !='Completed' WITH SYSTEM_MODE];
+            List<Task > objTask = [SELECT ID,Status,WhatId from Task WHERE WhatId =:recCase.ID AND Status !='Completed' WITH SYSTEM_MODE];
             if(!objCheckList.isEmpty()){
                 for(ASF_Checklist__c checklist : objCheckList){
                     checklist.Status__c= 'Completed';
-                	lstUpdateChecklist.add(checklist);   
+                    lstUpdateChecklist.add(checklist);   
                 }
             }
               if(!objTask.isEmpty()){
                 for(Task tsk : objTask){
                     tsk.Status= 'Completed';
-                	lstUpdateTask.add(tsk);   
+                    lstUpdateTask.add(tsk);   
                 }
             }
             Case objCase = new Case();
             objCase.Id = recCase.Id;
             objCase.OwnerId  = Userinfo.getuserId();
+            objcase.typeSubTypeMismatch__c  = false;
+            objcase.Type_Sub_Type_Mismatch_Reason__c = null;
             objCase.Stage__c = 'Resolved';
             lstUpdateCase.add(objCase);
+            //system.debug('lstUpdateCaseasas '+lstUpdateCase);
+            if(!lstUpdateAbflExtension.isEmpty()){
+                Database.SaveResult[] updateResultAbflExt = Database.update(lstUpdateAbflExtension,false); 
+            }
             if(!lstUpdateChecklist.isEmpty()){
                 Database.SaveResult[] updateResultCheck = Database.update(lstUpdateChecklist,false); 
             }
@@ -184,10 +195,7 @@ public with sharing class ABFL_EBOTCaseLogics {
             }
              if(!lstUpdateCase.isEmpty()){
                 Database.SaveResult[] updateResult = Database.update(lstUpdateCase,false); 
-                  System.debug('updatedcase'+updateResult);      
-                  System.debug('notUpdatedCase'+updateResult[0].getErrors());
                  if(updateResult[0].getId() != null){
-                    system.debug('enteredClosed');
                     //createPELoggerRecords(recCase,caseCategConfig);
                      //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
                      if(templateName){
@@ -210,17 +218,17 @@ public with sharing class ABFL_EBOTCaseLogics {
          }
            else{
                 ABFL_Case_Detail__c objUpdateCaseExt = new ABFL_Case_Detail__c();
-                objUpdateCaseExt.Id = ABFLCaseExtId;
+                objUpdateCaseExt.Id = abflCaseExtId;
                 //objUpdateCaseExt.Resolved_Email_Sent__c = TRUE;
                 lstUpdateCaseExt.add(objUpdateCaseExt) ;
                 if(!lstUpdateCaseExt.isEmpty()){
                     Database.SaveResult[] updateResult = Database.update(lstUpdateCaseExt,false); 
                     if(updateResult[0].getId() != null){
                         if(isRegistered){
-                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c,null,false);
+                            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c,null,false);
                         }
                         else if(!isRegistered){
-                        	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
+                            ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
 
                         }
                      }
@@ -228,14 +236,18 @@ public with sharing class ABFL_EBOTCaseLogics {
            }   
      }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
+    * @param  emailMessage
+    * @param  recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
     * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
         public static Boolean checkIsSmtAndMultipleLAN(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             List<String> allowedToAddress = condition.ToAddress__c.split(',');
-            system.debug('SuppliedEmail == '+ recCase.SuppliedEmail);
+            //system.debug('SuppliedEmail == '+ recCase.SuppliedEmail);
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String domain : allowedDomain) {
@@ -258,14 +270,18 @@ public with sharing class ABFL_EBOTCaseLogics {
                objResponseBody.ISMULTIPLELAN == condition.ISMULTIPLELAN__c;            
         }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
+   * @param  emailMessage
+    * @param  recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
     * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
         public static Boolean checkPaytmInteractionNotNull(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             List<String> allowedToAddress = condition.ToAddress__c.split(',');
-           system.debug('allowed domain '+ !allowedDomain.contains(recCase.SuppliedEmail));
+           //system.debug('allowed domain '+ !allowedDomain.contains(recCase.SuppliedEmail));
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
              for (String toAdd : allowedToAddress) {
@@ -288,14 +304,18 @@ public with sharing class ABFL_EBOTCaseLogics {
                objResponseBody.PAYTMINTERACTIONID == '';            
         }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
+   * @param  emailMessage
+    * @param  recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
     * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
         public static Boolean checkLeadSubtype(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             List<String> allowedToAddress = condition.ToAddress__c.split(',');
-            system.debug('allowed domains '+ !allowedDomain.contains(recCase.SuppliedEmail));
+           // system.debug('allowed domains '+ !allowedDomain.contains(recCase.SuppliedEmail));
             Boolean isExcludedDomain = false;
             Boolean isallowedToAddress = false;
             for (String toAdd : allowedToAddress) {
@@ -320,12 +340,16 @@ public with sharing class ABFL_EBOTCaseLogics {
 
         }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
+   * @param  emailMessage
+    * @param  recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
     * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
         public static Boolean checkIsRegisteredCustomerNo(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-            List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
+            //List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             List<String> allowedToAddress = condition.ToAddress__c.split(',');
             Boolean isExcludedDomain = false;
@@ -352,9 +376,13 @@ public with sharing class ABFL_EBOTCaseLogics {
                 objResponseBody.ISREGISTEREDCUSTOMER == condition.ISREGISTEREDCUSTOMER__c ;
         }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
+    * @param  emailMessage
+    * @param  recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
     * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
         public static Boolean checkIsRegisteredCustomerYes(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
@@ -387,11 +415,16 @@ public with sharing class ABFL_EBOTCaseLogics {
                objResponseBody.CONFIDENCESCORE >= condition.CONFIDENCESCORE__c ;
         }
       /****************************************************************************************************************
-    * @param  - EmailMessage,Case,ASF_Case_Category_Config__c, objResponseBody,ABFL_EBOT_Case_Email__mdt
-    * @return - Boolean .
-    * @Description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
+    * @Function - confidenceScoreAndSubtypeCheck
+    * @param emailMessage
+    * @param recCase
+    * @param  recCaseCatConfig
+    * @param  objResponseBody
+    * @param  condition
+    * @return  Boolean .
+    * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
     *****************************************************************************************************************/
-        public static Boolean ConfidenceScoreAndSubtypeCheck(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        public static Boolean confidenceScoreAndSubtypeCheck(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_EbotWrapper.EbotResponseWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
             List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
             List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
             List<String> allowedToAddress = condition.ToAddress__c.split(',');
@@ -422,11 +455,13 @@ public with sharing class ABFL_EBOTCaseLogics {
         }
      /****************************************************************************************************************
     * @LOB - ABFL
+    * @param caseRec
+    * @param emailTemplate
+    * @param specificEmailId
     * @Function - createPELogAndinvokeCommPEevent to send an email to specific email 
-    * @return - Database.SaveResult.
     * @description - Function to create a PE_Logger__c record and invoke ASF_CommnunicationLog__e for email communication.
     *****************************************************************************************************************/
-    public static void createPELogAndinvokeCommPEevent(Case caseRec, String emailTemplate, String SpecificEmailId){
+    public static void createPELogAndinvokeCommPEevent(Case caseRec, String emailTemplate, String specificEmailId){
         PE_Logger__c peLogger = new PE_Logger__c();
         peLogger.AccountId__c = caseRec.AccountId;
         peLogger.CCCExternalId__c = caseRec.CCC_External_Id__c;
@@ -439,7 +474,7 @@ public with sharing class ABFL_EBOTCaseLogics {
         peLogger.LOB__c = 'ABFL';
         peLogger.Send_To_Specific_Emails__c = True;
         peLogger.No_Auto_Communication__c = caseRec.No_Auto_Communication__c;
-        peLogger.Specific_To_Address__c = SpecificEmailId;
+        peLogger.Specific_To_Address__c = specificEmailId;
         peLogger.Email_Template_Name__c = emailTemplate;
         if(Schema.sObjectType.PE_Logger__c.isCreateable())
         {
@@ -467,13 +502,13 @@ public with sharing class ABFL_EBOTCaseLogics {
     private static Database.SaveResult invokeCommunicationLogPlatformEvent(Case caseRec, PE_Logger__c peLogger){
         ASF_CommnunicationLog__e commEvent = new ASF_CommnunicationLog__e();
         commEvent.CCCExternalId__c = caseRec.CCC_External_Id__c;
-        system.debug('entered here--');
+        //system.debug('entered here--');
         commEvent.PELoggerId__c = peLogger.Id;
         commEvent.RecordID__c = caseRec.Id;
-        DateTime dt = DateTime.now();
+        //DateTime dt = DateTime.now();
         commEvent.Unique_Id__c = 'CommunicationLog-'+UserInfo.getUserId()+'-'+System.currentTimeMillis();
         Database.SaveResult eventResult = EventBus.publish(commEvent);
-        system.debug('eventResult--- '+eventResult );
+       // system.debug('eventResult--- '+eventResult );
         return eventResult;
     }
 }

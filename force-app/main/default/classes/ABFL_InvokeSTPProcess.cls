@@ -1,7 +1,7 @@
 /*********************************************************
  *Class        :  ABFL_InvokeSTPProcess
  *Author       :  Udit Singhal
- *Description  :  Update STP Flow
+ *@description  :  Update STP Flow
  *********************************************************/
 public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInvocable{
     public enum Response{
@@ -16,7 +16,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
      * @Function - evaluate
      * @param caseRec - Case record from the framework.
      * @return - ASF_IntegrationsController.IntegrationWrapper.
-     * @Description - Invoked from the ASF_IntegrationsController class
+     * @description - Invoked from the ASF_IntegrationsController class
      *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -25,6 +25,13 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         return result;
     }
+    /****************************************************************************************************************
+     * @LOB - ABFL
+     * @Function - evaluate
+     * @param caseRecs - Case record from the framework.
+     * @return - Map<Id, ASF_IntegrationsController.IntegrationWrapper>
+     * @description - Bulkified evaluate method invoked from the ASF_IntegrationsController class
+     *****************************************************************************************************************/
      public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         for(Case caseRecord : caseRecs){
@@ -42,7 +49,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
      * @param integ - ASF_Integration record.
      * @param caseRec - Case record from the framework.
      * @return - ASF_IntegrationsController.IntegrationWrapper.
-     * @Description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+     * @description - Invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
      *****************************************************************************************************************/
     public ASF_IntegrationsController.IntegrationWrapper run(ASF_Integration__c integ, Case caseRec){
 
@@ -78,6 +85,15 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
         }
         return result;
     }
+
+    /****************************************************************************************************************
+     * @LOB - ABFL
+     * @Function - run
+     * @param integs - ASF_Integration record.
+     * @param caseRecs - Case record from the framework.
+     * @return - ASF_IntegrationsController.IntegrationWrapper.
+     * @description - Bulkified run method invoked from the ASF_IntegrationsController class, this method runs the STP integration and creates Case Integration record.
+     *****************************************************************************************************************/
      public Map<Id, ASF_IntegrationsController.IntegrationWrapper> run(Map<Id, List<ASF_Integration__c>> integs, List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
@@ -101,7 +117,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
         }
         if(!addlCheckPassedCases.isEmpty()){
             // i.e. Additional check were successful
-            Set<Id> intIds = new Set<Id>();
+            Set<String> intIds = new Set<String>();
             for(Case caseRec : addlCheckPassedCases){
                 for(ASF_Integration__c integ : integs.get(caseRec.Id)){
                     intIds.add(integ.External_Id__c);
@@ -127,7 +143,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             //Cancel existing records in ASF_Case_Integration__c - Canceling will call the trigger
             //ASF_IntegrationsController.cancelPendingCaseIntegrations(caseRec.Id, integ.External_Id__c);
             ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-            update existingCaseIntegrations;
+            if(Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()) {
+                update existingCaseIntegrations;
+            }
             ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
 
             List<ASF_Case_Integration__c> newCaseIntegrations = new List<ASF_Case_Integration__c>();
@@ -149,7 +167,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             insert newCaseIntegrations;
 
             Map<Id, List<ASF_Case_Integration__c>> caseIdToCaseInts = new Map<Id, List<ASF_Case_Integration__c>>();
-            for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
+            for(ASF_Case_Integration__c caseInt : [SELECT Name, Case__c, Status__c, Type__c FROM ASF_Case_Integration__c WHERE Id IN :newCaseIntegrations ])
             {
                 if(!caseIdToCaseInts.containsKey(caseInt.Case__c)){
                     caseIdToCaseInts.put(caseInt.Case__c, new List<ASF_Case_Integration__c>());
@@ -173,7 +191,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
             }
 
             if(!peList.isEmpty()){
-                List<Database.SaveResult> publishResults = EventBus.publish(peList);
+                EventBus.publish(peList);
             }
         }
         return resultMap;
@@ -185,7 +203,7 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
      * @param integ - ASF_Integration record.
      * @param caseRecord - Case record from the framework.
      * @return - ASF_IntegrationsController.IntegrationWrapper.
-     * @Description - Invoked from the run method, this method is used to perform additional checks before creating the case integration record
+     * @description - Invoked from the run method, this method is used to perform additional checks before creating the case integration record
      *****************************************************************************************************************/
     private ASF_IntegrationsController.IntegrationWrapper doAdditionalChecks(ASF_Integration__c integ, Case caseRecord){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -202,11 +220,9 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
      * @LOB - ABFL
      * @Function - processResponse
      * @param caseInteg - ASF_Case_Integration record.
-     * @return - void.
-     * @Description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
+     * @description - Invoked when status Case Intg is updated to success, it processes the response of the integration received.
      *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
-        System.debug('***processResponse invoked.');
         try{
             if (caseInteg.Status__c == ABFL_Constants.SUCCESS){
                 Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
@@ -231,7 +247,6 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                     //If source of case is not "RM-no email" then send the PDF in an email to the customer and auto close the Case immediately
                 } else if (isTransferred){
                     // Get template stored on asf_integration record
-                    System.debug('***Integration_Ext_Id__c' + caseInteg.Integration_Ext_Id__c);
                     ASF_Integration__c intRec = [SELECT Id, STP_Template__c
                                                  FROM ASF_Integration__c
                                                  WHERE External_Id__c = :caseInteg.Integration_Ext_Id__c
@@ -242,12 +257,14 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
                     //                                                WHERE CCC_External_Id__c = :caseRecord.CCC_External_Id__c
                     //                                                WITH SECURITY_ENFORCED];
                     if (String.isNotBlank(intRec.STP_Template__c)){
-                        Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, isTransferred);
-
                         Boolean isEmailSentToCustomer = true;
+                        
+                        if(caseRecord.Winning_Email__c != System.label.Restrict_Email_Address) {
+                            Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseRecord, intRec.STP_Template__c, null, isTransferred);
 
-                        if (!platformEventResult.isSuccess()){
-                            isEmailSentToCustomer = false;
+                            if (!platformEventResult.isSuccess()){
+                                isEmailSentToCustomer = false;
+                            }
                         }
 
                         if (isEmailSentToCustomer){
@@ -258,11 +275,10 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
                             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
-                            System.debug('@@@resultWrap'+resultWrap);
                             if(String.isBlank(resultWrap.get(caseRecord.Id).errorMessage)){
                                 if(caseInteg.CreatedById == userInfo.getUserId() && resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId != userInfo.getUserId()) {
-                       				 resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
-                    			}
+                                     resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
+                                }
                                 //if(caseInteg.CreatedBy.Name == Label.ABCL_Integration_User_Nickname) resultWrap.get(caseRecord.Id).caseToBeUpdated.OwnerId = userInfo.getUserId();
                                 update resultWrap.get(caseRecord.Id).caseToBeUpdated;
                             }else{
@@ -286,9 +302,8 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
     /****************************************************************************************************************
      * @LOB - ABFL
      * @Function - closeSTPCaseFromFlow
-     * @param caseInteg - List of ABFL_Case_Detail__c Ids
-     * @return - void.
-     * @Description - Invoked from flow to close the case
+     * @param caseDetailList - List of ABFL_Case_Detail__c Ids
+     * @description - Invoked from flow to close the case
      *****************************************************************************************************************/
     @InvocableMethod(label = 'Close Related Cases')
     public static void closeSTPCaseFromFlow(List<Id> caseDetailList){
@@ -301,16 +316,14 @@ public without sharing class ABFL_InvokeSTPProcess implements ASF_IntegrationInv
 
         Map<Id, ASF_Case_Integration__c> mapCaseIdCreatedId = new Map<Id, ASF_Case_Integration__c>();
         for(ASF_Case_Integration__c caseIntg: [SELECT Name, CreatedById, CreatedBy.Name FROM ASF_Case_Integration__c WHERE Case__c IN :caseList 
-                                             AND Status__c = :ABFL_Constants.PENDING AND Type__c = 'BRE']) {
+                                             AND Status__c = :ABFL_Constants.PENDING]) {
                                             mapCaseIdCreatedId.put(caseIntg.Case__c, caseIntg);
                                              }
-        //List<User> userList = ABFL_SOQL_Util.getUserInfo(System.label.ABCL_Integration_User_Nickname);
 
         for (Case caseRecord : caseList){
             Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(new List<Case> {caseRecord}, new Map<Id, String>{caseRecord.Id => 'Resolved'}, 
                                                                            new Map<Id, String>{caseRecord.Id => 'Open'});
-            System.debug('@@@resultWrap'+resultWrap);
           
             if(mapCaseIdCreatedId != null && mapCaseIdCreatedId.containsKey(caseRecord.Id) &&
                mapCaseIdCreatedId.get(caseRecord.Id).CreatedById == userInfo.getUserId() && 

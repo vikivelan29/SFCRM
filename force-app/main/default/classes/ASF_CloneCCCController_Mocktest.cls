@@ -1,0 +1,9 @@
+global class ASF_CloneCCCController_Mocktest implements HttpCalloutMock {
+	global HTTPResponse respond(HTTPRequest req) {
+        HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody('{"graphs":[{"graphId":"1","graphResponse":{"compositeResponse":[{"body":[{"message":"duplicate value found: CCC_External_Id__c duplicates value on record with id: a009I000009mDPDQA2","errorCode":"DUPLICATE_VALUE","fields":[]}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refCategoryConfig"},{"body":[{"errorCode":"PROCESSING_HALTED","message":"The transaction was rolled back since another operation in the same transaction failed."}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refStageConfiga029I000001t31VQAQ"},{"body":[{"errorCode":"PROCESSING_HALTED","message":"The transaction was rolled back since another operation in the same transaction failed."}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refRuleConfiga039I00000Apo0DQAR"},{"body":[{"errorCode":"PROCESSING_HALTED","message":"The transaction was rolled back since another operation in the same transaction failed."}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refWorkItemsConfiga079I000009dFelQAE"},{"body":[{"errorCode":"PROCESSING_HALTED","message":"The transaction was rolled back since another operation in the same transaction failed."}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refCheckListMastera069I000009bHw1QAE"},{"body":[{"errorCode":"PROCESSING_HALTED","message":"The transaction was rolled back since another operation in the same transaction failed."}],"httpHeaders":{},"httpStatusCode":400,"referenceId":"refRuleConfiga049I000000hPXpQAM"}]},"isSuccessful":false}]}');
+        res.setStatusCode(400);
+        return res;
+    }
+}

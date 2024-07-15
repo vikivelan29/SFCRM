@@ -2,17 +2,22 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 04-24-2024
+ * @last modified on  : 07-08-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
- * 2.0 	 02-04-2024	  rajender.kumar@manras.com   areAllWordsPresent function created
+ * 2.0   02-04-2024   rajender.kumar@manras.com   areAllWordsPresent function created
 **/
 // supressing this as the code is meant as a mini framework and thus might have below PMD issues
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_E2C_CreationRules {
-    // Main entry point to handle blocked email  messages
+    /****************************************************************************
+     * @Origin - ABFL
+     * @Function - checkCreationRules
+     * @param emailMessages - contains all incoming message.
+     * @description - Main method for checking all creation rules
+     ****************************************************************************/
     public static void checkCreationRules(List<EmailMessage> emailMessages) {
         if(!emailMessages.isEmpty()){
             // Find eligible records
@@ -38,9 +43,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
-                        if (metadataMap.containsKey(emailMsg.ToAddress)) {
+                        if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
                             // Get creation rules for the mailbox and check conditions
-                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.ToAddress)) {
+                            for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
@@ -49,15 +54,21 @@ public with sharing class ABFL_E2C_CreationRules {
                                     }
                                     when  'Subject'{
                                         if(emailMsg.Subject != null){
-                                        	creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Subject);    
+                                            creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.Subject);    
 
                                         }
                                         
                                     }
                                 }
                                 if (creationNotAllowed) {
+                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
+                                    // Log the error
+                                    ABCL_Logger.enableExceptionLogging();
+                                    ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
+                                    ABCL_Logger.message(message);
+                                    ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
-                                    emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
+                                    emailMsg.addError(message);
                                 }
                             }
                         }
@@ -69,6 +80,7 @@ public with sharing class ABFL_E2C_CreationRules {
 
     // Method to build a map of E2C_Creation_Rules__mdt records
     private static Map<String, List<E2C_Creation_Rules__mdt>> buildMetadataMap() {
+
         Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
 
         for (E2C_Creation_Rules__mdt metadata : [SELECT Id, Field__c, Operator__c, Value__c, Error_Message__c,
@@ -83,8 +95,14 @@ public with sharing class ABFL_E2C_CreationRules {
         }
         return metadataMap;
     }
-
-    // Method to check the condition based on the operator
+    /****************************************************************************
+     * @function - creationNotAllowed\
+     * @param operator - selected oprator.
+     * @param expectedValue - expected value from custom metadata.
+     * @param actualValue - actual value from email message.
+     * @return Boolean 
+     * @description -  Method to check the condition based on the operator
+     ****************************************************************************/
     private static Boolean creationNotAllowed(String operator, String expectedValue, String actualValue) {
         Boolean retVal=false;
         actualValue=actualValue.toLowerCase();
@@ -100,31 +118,40 @@ public with sharing class ABFL_E2C_CreationRules {
         return retVal;
     }
     
-    /**
-     * Check if all words from the expectedValue are present in the actualValue 
-     * in the same order and return true if matched, otherwise false.
-     */
+    /*********************************************************************************************************************************************************
+     * @function - areAllWordsPresent
+     * @param expectedValue - expected value from custom metadata.
+     * @param actualValue - actual value from email message.
+     * @return Boolean 
+     * @description -  Check if all words from the expectedValue are present in the actualValue in the same order and return true if matched, otherwise false.
+     *********************************************************************************************************************************************************/
     private static Boolean areAllWordsPresent(String expectedValue, String actualValue) {
         // Split strings into arrays of words
         List<String> expectedWords = new List<String>(expectedValue.toLowerCase().split(' '));
         List<String> actualWords = new List<String>(actualValue.toLowerCase().split(' '));
         
+        // Index to keep track of position in expectedWords
         Integer expectedIndex = 0;
-        Integer actualIndex = 0;
-    
-        // Iterate through actualWords
-        while (expectedIndex < expectedWords.size() && actualIndex < actualWords.size()) {
-            if (expectedWords[expectedIndex] == actualWords[actualIndex]) {
-                // If the current word in actualWords matches the next word in expectedWords,
-                // move to the next word in both lists
-                expectedIndex++;
+        
+        // Check if actualValue contains expectedValue
+        if (actualValue.contains(expectedValue)) {
+            // Iterate through words in actualValue
+            for (String word : actualWords) {
+                // Check if the current word matches the next word in expectedValue
+                if (expectedIndex < expectedWords.size() && expectedWords[expectedIndex] == word) {
+                    expectedIndex++;
+                } 
+                // If all words from expectedValue are found in actualValue, return true
+                else if (expectedIndex < expectedWords.size() && !word.contains(expectedWords[expectedIndex])) {
+                    return false;
+                }
             }
-            // Move to the next word in actualWords
-            actualIndex++;
+            
+            // If not all words from expectedValue were found in actualValue in the same order, return false
+            return expectedIndex == expectedWords.size();
         }
-    
-        // If all words from expectedWords were found in actualWords in the same order, return true
-        return expectedIndex == expectedWords.size();
-    }
-
+        
+        // If actualValue does not contain expectedValue, return false
+        return false;
+    } 
 }

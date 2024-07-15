@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>ASF_Case_SLA_History__c.Case__c.CaseNumber:UNIQUE</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>UniqueCase</masterLabel>
+        <scale>0</scale>
+    </aggregates>
+    <columns>
+        <field>ASF_Case_SLA_History__c$Case__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>ASF_Case_SLA_History__c$Current_Owner__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Namrata Ramachandran,Pravinchandra Yadav,Vaibhav More,Prachee Bhojane,Bhavika Bhasin,Shailendra Gudekar,Smital Dalvi,Sunil Salvi,Sushma Kotian,Yash MAHENDRA,Shivkumar Yadav,Ronak Shah,Mayur Suvare,Rahul Jha,Surekha Vishwakarma,Anagha Gole Anagha,Nilesh Mayekar,Conrad Pacheco</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>ASF_Case_SLA_History__c$Current_Owner__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Wealth–Cases worked by an agent Summ</name>
+    <params>
+        <name>co</name>
+        <value>0</value>
+    </params>
+    <reportType>Case_SLA_History__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <sortColumn>ASF_Case_SLA_History__c$Case__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>ASF_Case_SLA_History__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_LAST30</interval>
+    </timeFrameFilter>
+</Report>

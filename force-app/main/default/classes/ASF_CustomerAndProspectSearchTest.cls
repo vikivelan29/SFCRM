@@ -1,7 +1,21 @@
+/**
+ * @description       : 
+ * @author            : virendra.patil@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-14-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ASF_CustomerAndProspectSearchTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     
+    /**
+    * @description 
+    * @author rsinghnagar@salesforce.com | 05-14-2024 
+    **/
     @TestSetup
     public static void setupData(){
         insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
@@ -28,16 +42,15 @@ public class ASF_CustomerAndProspectSearchTest {
             insert psa2;
             
         }
-        String RecordTypeId = (String)Schema.SObjectType.Account.getRecordTypeInfosByName().get('Non-Individual').getRecordTypeId(); 
+        String recordTypeId = (String)Schema.SObjectType.Account.getRecordTypeInfosByName().get('Non-Individual').getRecordTypeId(); 
         Account acc= new Account(
             Name ='Test FName',
             Client_Code__c = '10110',
-            RecordTypeId=RecordTypeId,
+            RecordTypeId= recordTypeId,
             Business_Unit__c = 'ABHFL',
             Line_Of_Business__c = 'ABHFL'
         );
         insert acc;
-        System.debug('AccountId --> '+acc.Id);
         
         Contact con = new Contact();
         con.Lastname ='Test con';

@@ -42,11 +42,6 @@
                 <label>In Progress with Repayment Ops</label>
             </value>
             <value>
-                <fullName>In Progress with Retention</fullName>
-                <default>false</default>
-                <label>In Progress with Retention</label>
-            </value>
-            <value>
                 <fullName>In Progress with TDS</fullName>
                 <default>false</default>
                 <label>In Progress with TDS</label>
@@ -82,11 +77,6 @@
                 <label>In Progress with Partner</label>
             </value>
             <value>
-                <fullName>In Progress with Receipts</fullName>
-                <default>false</default>
-                <label>In Progress with Receipts</label>
-            </value>
-            <value>
                 <fullName>In Progress with Receipt Ops</fullName>
                 <default>false</default>
                 <label>In Progress with Receipt Ops</label>
@@ -95,11 +85,6 @@
                 <fullName>In Progress with Sales</fullName>
                 <default>false</default>
                 <label>In Progress with Sales</label>
-            </value>
-            <value>
-                <fullName>In Progress with Servicing Desk</fullName>
-                <default>false</default>
-                <label>In Progress with Servicing Desk</label>
             </value>
             <value>
                 <fullName>In Progress with Servicing Ops</fullName>
@@ -187,11 +172,6 @@
                 <label>In Progress with Credit</label>
             </value>
             <value>
-                <fullName>In Progress with Retention Team</fullName>
-                <default>false</default>
-                <label>In Progress with Retention Team</label>
-            </value>
-            <value>
                 <fullName>In Progress with RM</fullName>
                 <default>false</default>
                 <label>In Progress with RM</label>
@@ -230,6 +210,21 @@
                 <fullName>In Progress with IT</fullName>
                 <default>false</default>
                 <label>In Progress with IT</label>
+            </value>
+            <value>
+                <fullName>In Progress with Retention</fullName>
+                <default>false</default>
+                <label>In Progress with Retention</label>
+            </value>
+            <value>
+                <fullName>Under Review</fullName>
+                <default>false</default>
+                <label>Under Review</label>
+            </value>
+            <value>
+                <fullName>Final Closure</fullName>
+                <default>false</default>
+                <label>Final Closure</label>
             </value>
         </valueSetDefinition>
     </valueSet>

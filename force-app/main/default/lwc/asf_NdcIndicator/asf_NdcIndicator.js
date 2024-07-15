@@ -1,7 +1,7 @@
 import { LightningElement, wire, api, track } from 'lwc';
 import { createRecord, notifyRecordUpdateAvailable, getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Days_For_Repeated_Indicator from '@salesforce/label/c.Repeated_Indicator';
-import getRecords from '@salesforce/apex/Asf_NpsIndicatiorController.genericFetchQuery';
+// import getRecords from '@salesforce/apex/Asf_NpsIndicatiorController.genericFetchQuery';
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
 
 

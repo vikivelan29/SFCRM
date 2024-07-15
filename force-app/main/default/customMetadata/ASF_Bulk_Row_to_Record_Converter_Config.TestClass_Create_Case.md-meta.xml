@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">ABFL</value>
     </values>
     <values>
+        <field>Custom_Permission_for_Access__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Display_Label__c</field>
         <value xsi:nil="true"/>
     </values>

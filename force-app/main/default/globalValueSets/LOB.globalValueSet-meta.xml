@@ -50,6 +50,11 @@
         <default>false</default>
         <label>ABWM</label>
     </customValue>
+    <customValue>
+        <fullName>ABFL</fullName>
+        <default>false</default>
+        <label>ABFL</label>
+    </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

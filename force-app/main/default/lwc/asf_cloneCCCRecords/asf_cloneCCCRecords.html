@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Clone Case Category Config and all the Related Records">
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="4" padding="around-medium">
+                <lightning-input type="text" label="Type" value={searchTypeKey} onchange={handleTypeSearchKey} required> </lightning-input>
+
+                <lightning-input type="text" label="Sub Type" value={searchSubTypeKey} onchange={handleSubTypeSearchKey} required> </lightning-input>
+            </lightning-layout-item >
+
+            <lightning-layout-item size="1" padding="around-medium">
+                <lightning-button label="Search" variant="brand" onclick={searchConfigHandler}></lightning-button>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1" padding="around-medium">
+                <lightning-button label="Clone" variant="brand" class="slds-p-left_small" onclick={cloneConfigHandler} disabled={hideClone}></lightning-button>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="12" padding="around-small">
+                <!--List Of Account Using data Table-->
+                <lightning-datatable key-field="id"  data={errorList} columns ={cols} onrowaction={handleRowAction}> </lightning-datatable>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

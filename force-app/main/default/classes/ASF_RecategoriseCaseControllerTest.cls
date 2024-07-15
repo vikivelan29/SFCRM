@@ -98,8 +98,9 @@ public class ASF_RecategoriseCaseControllerTest {
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
         casesList[0].Technical_Source__c = 'LWC';
         insert casesList;
+        Id accId = [select Id from account].Id;
         Test.startTest();
-        String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}';
+        String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in","Is_send_Bot_Feedback":true,"AccountId":"'+String.valueOf(accId)+'"}}';
         ASF_RecategoriseCaseController.updateCaseWithNewCCCId(casesList[0].Id, casesList[0].CCC_External_Id__c, jsonString, '');
         Test.stopTest();
         
@@ -202,6 +203,24 @@ public class ASF_RecategoriseCaseControllerTest {
         config.Custom_Segment__c = 'Individual';
         update config;
         ASF_RecategoriseCaseController.validateIfCurrentCTSTForAccountAndPropect(testLead.Id,config.CCC_External_Id__c);
+        Test.stopTest();
+    }
+    @isTest
+    static void updateRequestedCCCTest(){
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
+        casesList[0].Technical_Source__c = 'LWC';
+        insert casesList;
+        Id accId = [select Id from account].Id;
+        Test.startTest();
+        String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in","Is_send_Bot_Feedback":true,"AccountId":"'+String.valueOf(accId)+'"}}';
+        String result = ASF_RecategoriseCaseController.updateRequestedCCC(casesList[0].Id, jsonString, 'Type', 'SubType', 'Query');
+        Case caseRec = [Select id, Type_Text__c, CCC_External_Id__c,Requested_Recat_Json__c, Sub_Type_Text__c from case where id=: casesList[0].Id];
+        system.debug('Requested_Recat_Json__c--'+caseRec.Requested_Recat_Json__c);
+        Assert.areNotEqual('Error - ', result, 'Result should not be error');
+        Map<Id, Case> caseMap = new Map<Id, Case>();
+        caseMap.put(caseRec.Id,caseRec);
+        ASF_ApprovalRecatController.updateCCCIdBulk(caseMap);
         Test.stopTest();
     }
 }

@@ -3,7 +3,7 @@
 *@Author       :  Sai Rahul
 *@Created Date :  02/09/2024
 *@Last Modified:  03/15/2024 - APEX PMD fixes - Code Refactored - Sankashu
-*@description  :  Class for Complaints Case Validation for ABFL
+*@description    Class for Complaints Case Validation for ABFL
 *********************************************************/
 public with sharing class ABFL_ComplaintsValidateOnResolvedStage {
     
@@ -11,8 +11,8 @@ public with sharing class ABFL_ComplaintsValidateOnResolvedStage {
 * @BusinessUnit - ABFL
 * @LOBs - 'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'
 * @Function - RCA Fields validation on Verification Stage for Complaints Cases except Wealth LOB
-* @param  - Case record 
-* @description - invoked when tried to Close case without filling RCA fields on Verification Stage
+* @param  caseIds
+* @description invoked when tried to Close case without filling RCA fields on Verification Stage
 *****************************************************************************************************************/
     public static Map<Id,Set<String>> validateRCAfields(Set<Id> caseIds)
     {   

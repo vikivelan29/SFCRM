@@ -74,6 +74,9 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
     
     public void handleApprovalActions(Map<Id,ASF_Case_Approv__c> oldApproveMap,Map<Id,ASF_Case_Approv__c> newApproveMap){ 
         checkIfApprovalProcessCommentPresent(oldApproveMap,newApproveMap);//Virendra - 8 Feb 2023.
+        Set<Id> caseIds = new Set<Id>();
+        Set<Id> rejectedCaseIds = new Set<Id>();
+        List<Case> rejectedCaseToUpdate = new List<Case>();
         for(ASF_Case_Approv__c  c: newApproveMap.values()){
             ASF_case_Approv__c newRecord = c;
             ASF_case_Approv__c oldRecord = oldApproveMap.get(c.id);
@@ -82,27 +85,30 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
 */ 
                 
                 if (c.Approval_Status__c == 'Approved'){
-                    
-                    if(String.isNotBlank(newRecord.Parent_Record_Id_For_Update__c)){
-                        Id recId = Id.valueOf(newRecord.Parent_Record_Id_For_Update__c);
-                        Schema.SObjectType token = recId.getSObjectType();
-                        Sobject s = token.newSobject();
-                        s.put('Id',newRecord.Parent_Record_Id_For_Update__c );
-                        //now decyper Fields and Make it happen
-                        List<String> FieldvaluesList = c.SuccessFieldsUpdate__c.split(',');
-                        for(String som : FieldvaluesList){
-                            String fieldAPIName = som.split('=')[0];
-                            String fieldValue = som.split('=')[1];
-                            s.put(fieldAPIName,fieldValue);
-                        }
+                    if(newRecord.Is_Recategorization_Request__c){
+                        caseIds.add(newRecord.SR__c);
+                    }else{
+                        if(String.isNotBlank(newRecord.Parent_Record_Id_For_Update__c)){
+                            Id recId = Id.valueOf(newRecord.Parent_Record_Id_For_Update__c);
+                            Schema.SObjectType token = recId.getSObjectType();
+                            Sobject s = token.newSobject();
+                            s.put('Id',newRecord.Parent_Record_Id_For_Update__c );
+                            //now decyper Fields and Make it happen
+                            List<String> FieldvaluesList = c.SuccessFieldsUpdate__c.split(',');
+                            for(String som : FieldvaluesList){
+                                String fieldAPIName = som.split('=')[0];
+                                String fieldValue = som.split('=')[1];
+                                s.put(fieldAPIName,fieldValue);
+                            }
+                            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+                            update s;
+                        } 
+                        
+                        Case cas = new Case(Id =newRecord.SR__c);
+                        
                         ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                        update s;
-                    } 
-
-                    Case cas = new Case(Id =newRecord.SR__c);
-
-                    ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                    update cas;
+                        update cas;
+                	}
                     
                 }
                 else if(c.Approval_Status__c == 'Rejected'){
@@ -127,13 +133,27 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
                     //Virendra : Commenting below code : 8th March 2023: On Rejetion, no case change is happening, hence no need to change Is_Approval_Stage__c.
                     //cas.Is_Approval_Stage__c = false;
                     ASF_TriggerSkipperUtility.markTriggerRun('Case');
-                    update cas;
-                    
-                    
+                    update cas;   
                 }
-                
+                if(c.Is_Recategorization_Request__c && (c.Approval_Status__c == 'Rejected' || c.Approval_Status__c == 'Recalled' || c.Approval_Status__c == 'Cancelled')){
+                    rejectedCaseIds.add(newRecord.SR__c);
+                }
             }
-        }    
+        }  
+        if(!caseIds.isEmpty()){
+            Map<Id, Case> caseMap = new Map<Id, Case>([SELECT Id, CCC_External_Id__c, Requested_Recat_Json__c, Type_Text__c, Sub_Type_Text__c from Case where ID IN: caseIds]);
+            ASF_ApprovalRecatController.updateCCCIdBulk(caseMap);
+        } 
+        else if(!rejectedCaseIds.isEmpty()){
+            Map<Id, Case> caseMap = new Map<Id, Case>();
+            for(Case caseRec : [SELECT Id, Requested_CCC_Details__c, Requested_Recat_Json__c from Case where ID IN: rejectedCaseIds]){
+                caseRec.Requested_CCC_Details__c = '';
+                caseRec.Requested_Recat_Json__c = '';
+                rejectedCaseToUpdate.add(caseRec);
+            }
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            update rejectedCaseToUpdate;
+        }
     }
     
     

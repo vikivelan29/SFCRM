@@ -1,14 +1,13 @@
-/*********************************************************
-*Name           :   ASF_Constants
-*Author         :   Megha Sahu
-*Since          :   1st Nov 2022   
-*Description    :   Constant class to store all the resable variables at one place
-*History        :
-
-Name                Date                  Change Description
-
-*********************************************************/
-
+/**
+ * @description       : Constant class to store all the resable variables at one place
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-13-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public with sharing class ASF_Constants {
 
     public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
@@ -114,7 +113,7 @@ public with sharing class ASF_Constants {
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
     public static final String ABFL_BU = 'ABFL';
-    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API','Email'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
@@ -133,5 +132,7 @@ public with sharing class ASF_Constants {
     public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
     public static final String DMS_FILE_TRANSFER_SOURCE = 'SFDC';
     public static Boolean bypassOwnerChangeValidation = false;
+    public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+
 
 }

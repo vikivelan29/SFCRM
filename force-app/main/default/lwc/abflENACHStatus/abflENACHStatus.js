@@ -19,13 +19,8 @@ export default class AbflENACHStatus extends LightningElement {
     enachStatusResult;
     apiName = 'ABFL_Enach_Status';
 
-    connectedCallback(){
-       
-    }
-
     @wire( getRecord,{ recordId: "$recordId", fields: FIELDS })
     wiredAssetRecord({error, data}){
-        console.log('from wire..')
         if (error) {
             let message = "Unknown error";
             if (Array.isArray(error.body)) {
@@ -36,9 +31,7 @@ export default class AbflENACHStatus extends LightningElement {
             this.showToast('Error', message, 'error');
         } 
         else if (data) {
-            console.log('from data ==> ', data)
             this.assetClientCode = data.fields.Client_Code__c? data.fields.Client_Code__c.value : '';
-            //this.callGetEnachStatus();
         }
     }
 
@@ -46,7 +39,6 @@ export default class AbflENACHStatus extends LightningElement {
         if(this.assetClientCode){
             getEnachStatus({'customerId':this.assetClientCode}).then(result=>{
                 this.enachStatusResult = result;
-                console.log('Result1 ==> ', result);
                 this.isLoading = false;
                 if (this.enachStatusResult && this.enachStatusResult.statusCode == 200) {
                     this.showBaseViewScreen = true;
@@ -55,8 +47,11 @@ export default class AbflENACHStatus extends LightningElement {
                     this.showToast("Error", parsedjson.error_message, 'error');
                 }  
             }).catch(error=>{
-                console.log('error ==> ', error);
-                this.showToast("Error", this.label.errorMessage, 'error');
+                if(error.body.message){
+                    this.showToast("Error", error.body.message, 'error');
+                }else{
+                    this.showToast("Error", this.label.errorMessage, 'error');
+                }
                 this.isLoading = false;
             })
         }else{

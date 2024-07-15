@@ -188,7 +188,12 @@ public with sharing class  ASF_CaseUIController {
             if(entityId.getSObjectType() == Account.sObjectType){
             // fetch contact record to be updated/associated along with Account/Customer Tagging
                 List<Contact> cont = [SELECT Id from Contact where AccountId = :accountId AND Primary__c = TRUE LIMIT 1];
-                cs.AccountId = accountId;
+                List<Account> account = [SELECT id, Client_Code__c from Account where Id =: accountId];
+                if(!account.isEmpty()){
+                    cs.AccountId = accountId;
+                	cs.Client_Code_Text__c = account[0].Client_Code__c;
+                }
+                
                 if(cont.size() > 0){// If contact found
                 cs.ContactId = cont[0].Id;// UAT Bug fix Cases tagging to multiple Accounts
                 }

@@ -3,15 +3,15 @@
 *Author       :  Siddarth Jaitly
 *Created Date :  06/12/2023
 *Last Modified:  06/12/2023
-*Description  :  Trigger Helper for EBOT Internal Event
+*@description  :  Trigger Helper for EBOT Internal Event
 *********************************************************/
+@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.ApexSOQLInjection,PMD.AvoidDeeplyNestedIfStmts,PMD.OperationWithLimitsInLoop,PMD.AvoidSoqlInLoops')
 public with sharing class ABHFL_EbotTriggerHelper {
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - createExtEbotEvent
-    * @param newEmails - map of event from trigger.newMap()
-    * @return - void .
-    * @Description - Create CRM to EBOT Event 
+    * @param newEvent - map of event from trigger.newMap()
+    * @description - Create CRM to EBOT Event 
     *****************************************************************************************************************/     
     public static void createExtEbotEvent(map<Id, sObject> newEvent){
         Set<Id> emailMsgIds = new Set<Id>();
@@ -20,9 +20,9 @@ public with sharing class ABHFL_EbotTriggerHelper {
         }
 
         Map<Id,EmailMessage> emailMsgMap = new Map<Id,EmailMessage>([Select Contentdocumentids,HasAttachment,CCAddress,FromAddress,ToAddress,BCCAddress,ParentId,Parent.Description,
-        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c from EmailMessage where id in: emailMsgIds]);
+        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c,Winning_Email__c from EmailMessage where id in: emailMsgIds]);
 
-        system.debug('emailMsgMap'+emailMsgMap);
+        //system.debug('emailMsgMap'+emailMsgMap);
 
         List<Id> emailMsgContentDocumentIds = new List<Id>();
         for(EmailMessage eMsg : emailMsgMap.values()){
@@ -50,13 +50,13 @@ public with sharing class ABHFL_EbotTriggerHelper {
             }
         }
 
-        if(caseIntegrationList.size() > 0){
+        if(caseIntegrationList.size() > 0 && Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
             insert caseIntegrationList;   
             Set<Id> caseIntegrationIds = new Set<Id>();
             for(ASF_Case_Integration__c caseInt : caseIntegrationList){
                 caseIntegrationIds.add(caseInt.Id);
             }
-            List<ASF_Case_Integration__c> caseIntegrationInsertedList = [Select Id,Name,Case__c from ASF_Case_Integration__c where id =:caseIntegrationIds];
+            List<ASF_Case_Integration__c> caseIntegrationInsertedList = [Select Id,Name,Case__c from ASF_Case_Integration__c where id =:caseIntegrationIds WITH SYSTEM_MODE];
             Map<Id,ASF_Case_Integration__c> caseIdCaseIntegrationMap = new Map<Id,ASF_Case_Integration__c>();
             for(ASF_Case_Integration__c caseInt : caseIntegrationInsertedList){
                 caseIdCaseIntegrationMap.put(caseInt.Case__c,caseInt);
@@ -102,28 +102,28 @@ public with sharing class ABHFL_EbotTriggerHelper {
                         caseIntegrationId = caseIdCaseIntegrationMap.get(emailMsg.ParentId).Name;
                     }
                     string toAddress = emailMsg.ToAddress;
-                    system.debug('toAddress'+toAddress);
+                    //system.debug('toAddress'+toAddress);
                     if(emailMsg.Parent.Business_Unit__c == 'ABHFL'){
-                        List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true];
+                        List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             toAddress = emailAddressBU[0].Email2CaseAddress__c;
-                            system.debug('toAddress--->'+toAddress);
+                            //system.debug('toAddress--->'+toAddress);
                         }
                     }
                     
                     Map<String, String> fieldsMap = new Map<String, String>();
                     fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
-                    fieldsMap.put('Description__c',emailMsg.Parent.Description);
+                    fieldsMap.put('Description__c', emailMsg.Parent.Description);
                     fieldsMap.put('Line_of_Business__c',LOB);
                     fieldsMap.put('Business_Unit__c',LOB);
                     fieldsMap.put('Integration_Name__c','EBOT API');
                     fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
                     fieldsMap.put('From_Address__c',emailMsg.FromAddress);
-                    fieldsMap.put('To_Address__c',toAddress);
+                    fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
                     fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
                     fieldsMap.put('Additional_Emails__c',additionalEmails);
                     fieldsMap.put('File_Names__c',fileNames); 
-                    system.debug('fieldsMap'+fieldsMap);
+                    //system.debug('fieldsMap'+fieldsMap);
                     Database.SaveResult eventResult = ABHFL_CasePlatformEventHandler.publishPlatformEvent('CRM_to_EBOT_Event__e', fieldsMap);
                 }   
             }

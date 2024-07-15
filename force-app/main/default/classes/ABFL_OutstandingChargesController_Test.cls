@@ -11,7 +11,7 @@ public class ABFL_OutstandingChargesController_Test {
     static void testgetOutstandingCharges(){
         test.StartTest();
         ABFL_OutstandingChargesController.ResponseWrapper res = ABFL_OutstandingChargesController.getOutstandingCharges('ABRAILAP000000520505');
-        System.assertNotEquals(null, res);
+        System.assertNotEquals(null, res, 'response should not be null');
         test.StopTest();
     }
 }

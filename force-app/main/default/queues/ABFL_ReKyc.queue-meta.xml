@@ -6,7 +6,6 @@
         <publicGroups>
             <publicGroup>ABFL_ReKyc_G</publicGroup>
         </publicGroups>
-       
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>

@@ -57,11 +57,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -84,6 +84,45 @@
         <picklist>Constitution__c</picklist>
         <values>
             <fullName>%2E%2E%2E%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Customer_Category__c</picklist>
+        <values>
+            <fullName>BC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GENERAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INDIVIDUAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OBC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORGANIZATION</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ST</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -243,11 +282,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wealth</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
@@ -255,7 +290,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wealth</fullName>
             <default>false</default>
         </values>
     </picklistValues>

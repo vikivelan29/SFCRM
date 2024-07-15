@@ -1,22 +1,22 @@
-/**
-* This class is called by the Flow for Case Email 
+/*********************************************************
+*@description  :  This class is called by the Flow for Case Email 
 * for Customers. It can return a custom email template
 * in case of supression / exception scenarios
 * The BU classes will be called from here, and
-*/
+*********************************************************/
 public without sharing class ASF_CustomerEmailInvocable {
-    
-    /**
-* The Flow must pass the case record id,
+     /****************************************************************************************************************
+    * @Function - getEmailTemplateName
+    * @param cases 
+    * @return  List<EmailOutputWrapper>
+    * @description - The Flow must pass the case record id,
 * Based on the BU stamped, the BU class is called
 * If Blank or Null is returned, the Flow takes the usual route of finding the template
 * names from CC and sends email 
-*/
+   *****************************/
     @InvocableMethod(label='Customer Email Invocable' description='Returns Template names from BU')
     public static List<EmailOutputWrapper> getEmailTemplateName(List<EmailInputWrapper> cases) {
         List<EmailOutputWrapper> result = new List<EmailOutputWrapper>();
-        
-        
         List<EmailInputWrapper> abflList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> abhflList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> paymentsList = new List<EmailInputWrapper>();
@@ -55,7 +55,6 @@ public without sharing class ASF_CustomerEmailInvocable {
         }
         
         for(EmailInputWrapper wrap: cases){
-            
             EmailOutputWrapper resultWrap = new EmailOutputWrapper();
             if(allOutputs.containsKey(wrap.caseId)){
                 resultWrap = allOutputs.get(wrap.caseId);
@@ -68,17 +67,21 @@ public without sharing class ASF_CustomerEmailInvocable {
             result.add(resultWrap);
             
         }
-        system.debug('Invocable result:'+result);
+        //system.debug('Invocable result:'+result);
         return result;
     }
-    
-    public class EmailOutputWrapper {
+/*********************************************************
+*@description  :  wrapper class
+*********************************************************/  
+  public class EmailOutputWrapper {
         @InvocableVariable(label='Supress Email' description='Supress Email completely' required=true)
         public boolean supressEmail;
         @InvocableVariable(label='Template Name' description='Template Name' required=true)
         public String templateName;
     }
-    
+/*********************************************************
+*@description  :  wrapper class
+*********************************************************/
     public class EmailInputWrapper {
         @InvocableVariable(label='Case Id' description='Case Id' required=true)
         public Id caseId;

@@ -28,6 +28,9 @@ public class ASF_SMSCommunicationParser_Test {
         //a.CRN__c = '12344';
         insert a;
         
+        Lead leads = new Lead(FirstName = 'test', lastName = 'data', MobilePhone = '0000000000');
+        insert leads;
+        
         ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
         ccc.Type__c = 'tes';
         ccc.CCC_External_Id__c = '12345';
@@ -59,6 +62,7 @@ public class ASF_SMSCommunicationParser_Test {
         insert stage1;
         Case cs = new Case();
         cs.AccountId = a.Id;
+        cs.Lead__c = leads.Id;
         cs.CCC_External_Id__c = '12345';
         cs.contactId = con.Id;
         cs.Status = 'New';

@@ -9,6 +9,7 @@ public class ASF_CaseEmailController_Test {
     @TestSetup
     static void setUpData(){
         Case caseRecord = new Case(Status = 'In Progress', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Pending with Initiator', Business_Unit__c = 'ABHFL');
+        caseRecord.Case_SLA_Threshold_1__c = System.now();
         insert caseRecord;
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -43,7 +44,7 @@ public class ASF_CaseEmailController_Test {
         EmailTemplate lightningEmailTempalte = new EmailTemplate();
         lightningEmailTempalte.isActive = true;
         lightningEmailTempalte.Name = 'TestLightning';
-        lightningEmailTempalte.HtmlValue = '<html style="overflow-y: hidden;"> <body> <table> <tbody> <tr> <td> <div> $$ABHFL_Case_Detail__r.As_On_Date__c$$ -- $$Asset.Last_Disbursement_Date__c$$.  --- ##Asset_Details__r.case__c## --- @@ Test multiple lans ##Asset_Details__r.Lan__c## @@ </div> </td> </tr> </tbody> </table> </body> </html>';
+        lightningEmailTempalte.HtmlValue = '<html style="overflow-y: hidden;"> <body> <table> <tbody> <tr> <td> <div> $$ABHFL_Case_Detail__r.As_On_Date__c$$ -- $$Asset.Last_Disbursement_Date__c$$.  --- ##Asset_Details__r.case__c## --- @@ Test multiple lans ##Asset_Details__r.Lan__c## @@ </div> </td> <td>The foreclosure amount mentioned in the attached letter is valid for 5 calendar days i.e. till $$Today:cd:add:5$$ $$LAN__c$$ OR $$ABHFL_Case_Detail__r.As_On_Date__c:d:add:5$$ $$LAN__c$$ $$Case_SLA_Threshold_1__c$$ </td> </tr> </tbody> </table> </body> </html>';
         lightningEmailTempalte.DeveloperName = 'TestVf_un';
         lightningEmailTempalte.TemplateType = 'custom';
         lightningEmailTempalte.FolderId = UserInfo.getUserId();

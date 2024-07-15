@@ -91,11 +91,11 @@ export const getConstants={
     ],
     RECATEGORISATION_OPTIONS: [
         { label: 'Update Case with Account and Asset', value: 'updAccAsset' },
-        { label: 'Proceed to Recategorise Type and Subtype', value: 'recateCTST' },
+        { label: 'Proceed to Recategorize Type and Subtype', value: 'recateCTST' },
     ],
     RECATEGORISATION_UPD_ACC : 'Update Case with Account and Asset',
-    RECATEGORISATION_PROCEED : 'Proceed to Recategorise Type and Subtype',
-    CASE_ELIGIBLE_WITH_NEW_CTST_MSG : 'Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorise Type Subtype?',
+    RECATEGORISATION_PROCEED : 'Proceed to Recategorize Type and Subtype',
+    CASE_ELIGIBLE_WITH_NEW_CTST_MSG : 'Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?',
     CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
     INITIAL_OPTIONS:[
         {
