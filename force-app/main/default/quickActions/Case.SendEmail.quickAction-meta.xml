@@ -2,7 +2,7 @@
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldOverrides>
         <field>ToAddress</field>
-        <formula>Case.ContactEmail</formula>
+        <formula>If(Case.Account.IsPersonAccount,Case.Account.PersonContact.Email,Case.ContactEmail)</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>ValidatedFromAddress</field>
