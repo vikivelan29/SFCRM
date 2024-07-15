@@ -2,8 +2,8 @@
  * @description       : Class for Branch Address LWC
  * @author            : Viren, dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 07-15-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
@@ -101,7 +101,9 @@ public without sharing class ABSLI_BranchAddressButtonController {
             List<Database.SaveResult> results = EventBus.publish(eventList);
             System.debug(LoggingLevel.INFO,results);
         }
-        
+        else{
+            throw new AuraException('Mobile number is not present for this record.');
+        }
         
     }
     
