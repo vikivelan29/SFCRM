@@ -72,6 +72,10 @@
         <enabled>true</enabled>
         <name>ASF_Quick_Link_Config__mdt</name>
     </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ABSLI_Create_Case_Validations__mdt</name>
+    </customMetadataTypeAccesses>
     <flowAccesses>
         <enabled>true</enabled>
         <flow>ABFL_Update_Preferred_Name</flow>
@@ -3039,6 +3043,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Entity_Reference_No__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Winning_Email__c </field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
