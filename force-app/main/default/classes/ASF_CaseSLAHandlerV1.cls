@@ -889,6 +889,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                             updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
                             percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                         }
+                        updatedCase.Stage_SLA_1__c = null;
+                        updatedCase.Stage_SLA_2__c = null;
+                        updatedCase.Stage_SLA_3__c = null;
                         if(sla1Sec != null){
                             updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
                             percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
@@ -904,9 +907,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 //Loop to check if the Case Id + Stage__c consumed is more than SLA 1
                 else if(sla1Sec != null && caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent > sla1Sec){
                     if(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime != null){
+                        updatedCase.Stage_SLA_1__c = null;
                         //On SLA 1 get the Violation Date Time populated when SLA 1 is breached through flow
                         updatedCase.Stage_SLA_1__c = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.Stage_Violation_Start_Date__c ;
                         percntCls.setStagePercSLAFields(sla1Sec,caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c,newCases.get(i).Stage_SLA_1__c,updatedCase);
+                        if(sla2Sec == null){
+                            updatedCase.Stage_SLA_2__c = null;
+                        }
+                        if(sla3Sec == null){
+                            updatedCase.Stage_SLA_3__c = null;
+                        }
                         //To check if stage is same and owner is changed
                         if(sla2Sec != null && sla3Sec != null){
                             // string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
