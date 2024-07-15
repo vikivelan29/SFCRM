@@ -72,6 +72,10 @@
         <enabled>true</enabled>
         <name>ASF_Quick_Link_Config__mdt</name>
     </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>IGMS_Classification_Mapping__mdt</name>
+    </customMetadataTypeAccesses>
     <flowAccesses>
         <enabled>true</enabled>
         <flow>ABFL_Update_Preferred_Name</flow>
