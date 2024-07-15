@@ -182,11 +182,12 @@ public without sharing class ASF_EmailMessageHelper {
                     em.ParentId = oldCaseIdToNewCaseMap.get(oldCaseId).Id;
                 }
                 // sending acknowledgment email if it is  Wealth cases
-                for(Case newCase : oldCaseIdToNewCaseMap.values()){
+                // Commenting this as we're sending Ack email for wealth when we're reparenting in above loop (ABFL_WealthChatGeneratedCases)
+                /*for(Case newCase : oldCaseIdToNewCaseMap.values()){
                     if(newCase.Origin == ABFL_Constants.ABWMEMAIL){
                         ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(newCase, ABFL_Constants.WMEMAILTEMPLATENAME, newCase.SuppliedEmail, '', '');
                     }
-                }
+                }*/
             }
         }
     }
