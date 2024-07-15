@@ -22,15 +22,15 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
+                <name>Approver_02__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
                 <name>Approver_04__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
                 <name>Approver_01__c</name>
-                <type>relatedUserField</type>
-            </approver>
-            <approver>
-                <name>Approver_02__c</name>
                 <type>relatedUserField</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
@@ -77,11 +77,11 @@
         <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>Approver_02__c</name>
+                <name>Approver_01__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_01__c</name>
+                <name>Approver_04__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>
@@ -89,7 +89,7 @@
                 <type>relatedUserField</type>
             </approver>
             <approver>
-                <name>Approver_04__c</name>
+                <name>Approver_02__c</name>
                 <type>relatedUserField</type>
             </approver>
             <approver>

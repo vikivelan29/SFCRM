@@ -38,6 +38,26 @@ public with sharing class ABFL_SOQL_Case {
         }
         return caseRec;
     }
+
+    /****************************************************************************************************************
+     * @function - getCasesFromCaseDetailIds
+     * @description - SOQL method for getting case details from set of abflCaseDetailId
+     * @param abflCaseDetailIdSet
+     * @return Map<Id, Case>
+     *****************************************************************************************************************/
+    public static Map<Id, Case> getCasesFromCaseDetailIds(Set<Id> abflCaseDetailIdSet){
+        Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
+
+        if(abflCaseDetailIdSet?.size() > 0) {
+            Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, RecordTypeId, Status, IsClosed, CaseNumber, AccountId, CreatedDate, ClosedDate, Business_Unit__c, Stage__c, Nature__c, Type_Text__c, Sub_Type_Text__c, CCC_External_Id__c, LOB__c, Source__c, Owner.Name, ABFL_Case_Detail__c, ABFL_Case_Detail__r.Lock_in_Period__c, Account.RecordType.Name, Account.IsPersonAccount, Account.Name, Account.Full_Name__pc, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.City__c, Account.Client_Code__c, Asset.Product2.Name, Asset.LAN__c
+                       FROM Case 
+                       WHERE ABFL_Case_Detail__c 
+                       IN :abflCaseDetailIdSet
+                       WITH SYSTEM_MODE]);
+            caseMapToReturn = caseIdToRecordMap;
+        }
+        return caseMapToReturn;
+    }
     
     /****************************************************************************************************************
      * @function - getCases

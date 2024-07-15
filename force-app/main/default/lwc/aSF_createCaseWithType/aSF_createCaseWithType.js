@@ -206,7 +206,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         CASE_ASSET,
         ACOUNNTRECORDTYPE, 
         CASE_ASSET_LOB,
-        CASE_PROSPECT_ID] })
+        CASE_PROSPECT_ID,
+        NOAUTOCOMM_FIELD] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -227,6 +228,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.caseRec = data;
             this.showOnCustomerTagging = false;
             this.showOnProspectTagging = false;
+            this.isNotSelectedReject = true;
 
             this.flag = this.contactSelected = this.caseRec.fields.ContactId;
             
@@ -235,12 +237,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
-
-            if (this.caseRec.fields.AmIOwner__c.value == true) {
-                this.isNotSelectedReject = false;
-            } else {
-                this.isNotSelectedReject = true;
-            }
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -248,6 +244,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 this.showOnCustomerTagging = true;
             }
             
+            let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
+            this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
 
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
@@ -347,7 +345,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
-                    this.closeCaseWithoutCusButton = 'false';
                 })
                 .catch(error => {
                     this.accounts = null;
@@ -387,6 +384,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
         this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
 
+        let cccExternalId = '';
+
+        if (this.caseRec.fields.AmIOwner__c.value == true) {
+            this.isNotSelectedReject = false;
+        }
+
+        if(selected && selected.hasOwnProperty("CCC_External_Id__c")){
+            cccExternalId = selected.CCC_External_Id__c;
+            this.fetchRejectionReason(cccExternalId);
+        }
+        
         if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging)){
             this.showAutoComm = true;
         }
@@ -707,14 +715,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     async handleRejectBtn(event) {
-        var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
-        if(selected != null && selected != undefined){
-            let cccExtId = selected.CCC_External_Id__c;
-            if(cccExtId != null && cccExtId != undefined){
-                await this.fetchRejectionReason(cccExtId);
-            }
-        }
-        
         this.showRejetedReason = true;
         this.showSRDescription = false;
         this.rejectBtnCalled = true;
@@ -775,6 +775,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.accounts = [];
         this.createCaseWithAll = false;
         this.showAutoComm = false;
+        this.isNotSelectedReject = true;
+        this.closeCaseWithoutCusButton = '';
         this.cancelReject();
     }
 
@@ -873,7 +875,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 };
                 this.reasonLOV.push(optionVal);
             });
-            this.showRejetedReason = true;
+
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });

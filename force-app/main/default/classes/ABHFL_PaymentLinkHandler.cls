@@ -44,6 +44,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.response = 'Case is not Approved, cannot generate payment link';
         }
         //--Dhinesh ends
+        
         if(caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && String.isBlank(caseRecord.Account.PersonEmail)){
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_IndividualEmailMissing').Message__c;             
@@ -111,9 +112,13 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = ABHFL_Constants.ERROR;
 
-        
+        /*
+        Ticket: PR970457-1883
+        Modified By: Ishan Khichadia 
+        Description: Added ABHFL_Case_Detail__r.EMI_Tenure__c in the query as it will be used in Paytym Wrapper as requested by the IT Team
+        */
         Case caseRecord = [SELECT Id,AccountId, Account.PersonMobilePhone,CCC_External_Id__c,CaseNumber,Customer_name_formula__c,Asset.Loan_ID__c,Asset.LAN__c,Account.Office_Email__c ,Account.PersonEmail,Account.Phone,
-                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
+                           Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,ABHFL_Case_Detail__r.EMI_Tenure__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
         List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
@@ -240,7 +245,11 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){} 
-
+        /*
+        Ticket: PR970457-1883
+        Modified By: Ishan Khichadia 
+        Description: Added 2 new variables called as impactType and salesId and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c and caseRecord.Asset.Loan_Id__c respectively. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
+        */
     public class PaytmRequestWrapper{
         public string custname;
         public string LAN;
@@ -250,15 +259,28 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public string Amount;
         public string Paymentcode;
         public string ParentcaseID;
+        public Integer impactType;
+        public string salesId;
 
         public PaytmRequestWrapper(Case caseRecord){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
-            this.LAN = caseRecord.Asset.Loan_ID__c;
+            this.LAN = caseRecord.Asset.LAN__c;
+            this.salesId = caseRecord.Asset.Loan_ID__c;
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
             this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
+            
+            String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
+            System.debug('emiTenure: ' + emiTenure);
+            if(emiTenure == 'EMI'){
+                this.impactType = 1;    
+            } else if(emiTenure == 'Tenure'){
+                this.impactType = 2;
+            } else{
+                this.impactType = 0;
+            }
         }
 
         public PaytmRequestWrapper(){}

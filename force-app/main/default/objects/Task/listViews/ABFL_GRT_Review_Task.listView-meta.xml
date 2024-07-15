@@ -5,6 +5,6 @@
     <label>ABFL GRT Review</label>
     <queue>ABFL_GRT_Review</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABFL_GRT_Review_G</group>
     </sharedTo>
 </ListView>

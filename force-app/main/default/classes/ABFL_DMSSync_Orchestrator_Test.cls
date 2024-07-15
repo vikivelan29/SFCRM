@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 06-28-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-28-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ABFL_DMSSync_Orchestrator_Test {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id
@@ -23,7 +33,7 @@ public class ABFL_DMSSync_Orchestrator_Test {
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk5657123456@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -61,7 +71,7 @@ public class ABFL_DMSSync_Orchestrator_Test {
     static void testTransferABFLCaseFilesToDMS(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -100,7 +110,7 @@ public class ABFL_DMSSync_Orchestrator_Test {
     static void testsyncDMSFilesManually(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -149,7 +159,7 @@ public class ABFL_DMSSync_Orchestrator_Test {
     static void testsyncDMSFilesManuallyException2(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
