@@ -83,8 +83,9 @@ public without sharing class ABSLI_CasDeDupeCheck {
         * 		
        */
         
-        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false WITH SECURITY_ENFORCED]){
-            if(transactionRelatedCCC.contains(dupeCase.CCC_External_Id__c )){
+        for(Case dupeCase: [SELECT ID,CCC_External_Id__c,AccountId,Status,ABSLI_Case_Detail__c,Issue_Type__c,CaseNumber,Lead__c FROM Case WHERE AccountId =: mAccountIdVsCases.keySet() AND CCC_External_Id__c =: mCCCVsAccountIds.keySet() AND (AssetId IN :mlanVsCases.keySet()) AND isClosed = false WITH SECURITY_ENFORCED]){
+            if(dupeCase.AccountId != null && dupeCase.Lead__c == null){
+                if(transactionRelatedCCC.contains(dupeCase.CCC_External_Id__c )){
                 System.debug(LoggingLevel.INFO,'I am here....'+dupeCase.Id);
                 if(mAccountIdVsCases.containsKey(dupeCase.AccountId)){
                                     System.debug(LoggingLevel.INFO,'I am here....2'+dupeCase.Id);
@@ -93,21 +94,12 @@ public without sharing class ABSLI_CasDeDupeCheck {
                         for(Case c : mAccountIdVsCases.get(dupeCase.AccountId)){
                                                                 System.debug(LoggingLevel.INFO,'Finally here....4'+dupeCase.Id);
                              c.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);
-                            /*if(mABSLIExtension.containsKey(c.ABSLI_Case_Detail__c)){
-                                                                    System.debug('I am here....5');
-                                ABSLI_Case_Detail__c currentCasePaymentRecord = mABSLIExtension.get(c.ABSLI_Case_Detail__c);
-                                System.debug(dupeCase.ABSLI_Case_Detail__r.Issue_Type__c  +' == '+ currentCasePaymentRecord.Issue_Type__c );
-                                if(dupeCase.ABSLI_Case_Detail__r.Issue_Type__c  == currentCasePaymentRecord.Issue_Type__c ){
-                                    System.debug('Finally Here....');
-                                    // Coming here if the Current Case Transaction Id equals Existing Not Closed Service Request with same transaction Id with the same type and subtype.
-                                        c.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);
-                                }
-                            }*/
                         }
                     }
                 }
                 
             }
+          }
         }
     }
     
