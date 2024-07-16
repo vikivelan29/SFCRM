@@ -400,11 +400,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.IS_Does_Not_Pertain__c</field>
         <readable>true</readable>
     </fieldPermissions>
