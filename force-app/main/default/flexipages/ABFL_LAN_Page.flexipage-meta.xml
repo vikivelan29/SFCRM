@@ -816,28 +816,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Loan_EMI_Amount__c</fieldItem>
-                <identifier>RecordLoan_EMI_Amount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Account_no__c</fieldItem>
                 <identifier>RecordAccount_no_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ECS_Mandate_Registration_Status__c</fieldItem>
-                <identifier>RecordECS_Mandate_Registration_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d047ac04-1bec-41ed-afd5-39233e752874</name>
@@ -902,7 +882,18 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
-            </componentInstance>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Account_no__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Bank_name__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+                </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
