@@ -882,7 +882,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
-		<visibilityRule>
+                <visibilityRule>
                     <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Account_no__c}</leftValue>
@@ -893,8 +893,7 @@
                         <operator>NE</operator>
                     </criteria>
                 </visibilityRule>
-
-            </componentInstance>
+                </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
