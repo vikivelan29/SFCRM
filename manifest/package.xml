@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-  <types>
-		<members>Case.Rejection_Reason__c</members>
-		<name>CustomField</name>
+	<types>
+		<members>ABSLIG_Asset_Record_Page</members>
+		<name>FlexiPage</name>
 	</types>
 	<types>
-		<members>LOB_Rejection_Reason.ABSLIG_RejectionReason_1</members>
-		<members>LOB_Rejection_Reason.ABSLIG_RejectionReason_2</members>
-		<name>CustomMetadata</name>
+		<members>Asset-ABSLIG Asset Page</members>
+		<name>Layout</name>
 	</types>
 	<types>
-		<members>aSF_createCaseWithType</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>Case.Interaction</members>
-		<name>RecordType</name>
+		<members>ABSLIG_User</members>
+		<name>PermissionSet</name>
 	</types>
 	<version>60.0</version>
 </Package>
