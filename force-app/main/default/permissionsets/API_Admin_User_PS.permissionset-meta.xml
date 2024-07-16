@@ -5,6 +5,21 @@
         <name>Case_Ownership_Management</name>
     </customPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Supervisor_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Supervisor_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Partner_Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
 		<editable>false</editable>
 		<field>Account.Customer_Segment__c</field>
 		<readable>true</readable>
