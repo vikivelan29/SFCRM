@@ -95,11 +95,21 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Approval_Status__c</fieldItem>
-                <identifier>RecordApproval_Status_cField</identifier>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Recategorization_Request__c</fieldItem>
+                <identifier>RecordIs_Recategorization_Request_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-301bfe8c-0e70-46b9-818b-0b9385879d9a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
