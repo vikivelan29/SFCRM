@@ -17,7 +17,9 @@ public with sharing class ABSLIG_BusinessLogic_HelperClass {
     public void prePopulateFields(List<Lead> newLeadList) {
         
         for(Lead ld : newLeadList) {
-            ld.lastName = ld.company;
+            if(ld.Business_Unit__c == 'ABSLIG') {
+                ld.lastName = ld.company;
+            }
         }
     }
 }
