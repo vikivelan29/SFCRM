@@ -8,7 +8,8 @@
  * Ver   Date         Author                       Modification
  * 1.0   01-02-2024   achuriwala@salesforce.com   Initial Version
  * 2.0   02-04-2024   rajender.kumar@manras.com   areAllWordsPresent function created
- * 3.0   05-06-2024   aditya.mehrotra@salesforce.com    Included ABSLI BU
+ * 3.0   05-06-2024   aditya.mehrotra@salesforce.com    Included ABSLI BU and resolved defect in areAllWordsPresent()
+ * 4.0   05-06-2024   aditya.mehrotra@salesforce.com    Added CC functionality
 **/
 // supressing this as the code is meant as a mini framework and thus might have below PMD issues
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
@@ -45,13 +46,21 @@ public with sharing class ABFL_E2C_CreationRules {
                     // Process each email message
                     for (EmailMessage emailMsg : emailMessages) {
                         if (metadataMap.containsKey(emailMsg.Winning_Email__c)) {
+                            List<String> senderAndccList = new List<String>();
+                            senderAndccList.add(emailMsg.FromAddress);
+                            if(!String.isBlank(emailMsg.CcAddress)){
+                                senderAndccList.addAll(emailMsg.CcAddress.replaceAll('\\s', '').split(';'));
+                            }
                             // Get creation rules for the mailbox and check conditions
                             for (E2C_Creation_Rules__mdt metadata : metadataMap.get(emailMsg.Winning_Email__c)) {
                                 // Check conditions and throw an error if needed
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
                                     when  'Sender','To Recipients'{
-                                        creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.FromAddress);
+                                        for(String email : senderAndccList){
+											creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, email);
+                                            if(creationNotAllowed)break;
+                                        }
                                     }
                                     when  'Subject'{
                                         if(emailMsg.Subject != null){
