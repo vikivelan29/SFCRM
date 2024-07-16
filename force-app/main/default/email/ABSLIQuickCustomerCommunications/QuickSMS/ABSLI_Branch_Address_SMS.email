@@ -2,5 +2,6 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Aditya Birla Sun Life Insurance Branch Address :&nbsp;{{{Branch_Master__c.Address__c}}} Work Timing, Mon to Sat (excluding 2nd and 3rd Saturday) (9:30 AM to 6:00 PM)</body>
+<body style="height: auto; min-height: auto;">Aditya Birla Sun Life Insurance Branch Address{{{Branch_Master__c.Address__c}}}. Work Timing, Mon to Sat (excluding 2nd and 3rd Saturday) (9:30 AM to 6:00 PM).<br />
+Regards, ABSLI.</body>
 </html>
