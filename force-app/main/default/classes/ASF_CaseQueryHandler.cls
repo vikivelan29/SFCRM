@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 07-17-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseQueryHandler {
     private static List<Case> cases = null;
@@ -207,7 +207,7 @@ public without sharing class ASF_CaseQueryHandler {
                 ),
                 (
                     // VIRENDRA - 13 June 2024 - ADDED Picklist_Options__c in SOQL.
-                    SELECT Id, Name, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c, Picklist_Options__c 
+                    SELECT Id, Name, Label__c, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c, Picklist_Options__c 
                     FROM Case_Checklist_Masters__r
                 ),
                 Step_1_Approver_1__c,
