@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 07-17-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -264,14 +264,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         Map<Id, Case> internalCaseUpdateMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
         //without query, owner.name will not come  . hence this query is needed 
-        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c,Case_Assigned_Team__c FROM Case WHERE Id IN: newCases.values()]){
+        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
             Case updatedCase = internalCaseUpdateMap.get(c.Id);
-            //Not coming from Omnichannel
             //pure insert and
             //(updatecase present and owner id is populated & stage is not changing - means assigment yet to happen during insert
             //or skipsla is populated)
             //then skip
-            if(!ASF_CaseSLAHandlerV1.isFromOmniChannel && oldCases == null &&
+            if(oldCases == null &&
             (
                 (updatedCase != null && updatedCase.OwnerId != null && updatedCase.Stage__c == null)
                 ||
@@ -286,9 +285,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
-            // VIRENDRA - 11 June 2024 - To STAMP CASE ASSIGNED TEAM DURING THE SLA CREATION.
-            slaHistory.Case_Assigned_Team__c = c.Case_Assigned_Team__c;
-            // VIRENDRA - ENDS HERE.
             slaHistory.FromStage__c = (oldCases != null && c.Stage__c!=oldCases.get(c.Id).Stage__c)?oldCases.get(c.Id).Stage__c:'';
             slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
             slaHistory.Actioned_By__c = ASF_CaseSLAHandlerV1.isFromOmniChannel?Label.ASF_Omnichannel_ActionedBy_Username:slaHistory.Actioned_By__c;
@@ -484,46 +480,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
      */
     public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
         List<Case> cases = new List<Case>();
-        Set<Id> allCaseIds = new Set<Id>();
-
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
-            allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
-        }
-        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
-            caseRec.Last_Owner_Change_Date__c = System.now();
-            cases.add(caseRec);
-        }
-        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap = getCaseOwnerBusinessHours(null,cases);
-        if(resultMap != null){
-            Integer index = 0;
-            for(Case updatedCase : cases){
-                updatedCase.SLA_Target_1__c = null;
-                updatedCase.SLA_Target_2__c = null;
-                updatedCase.SLA_Target_3__c = null;
-                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
-                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
-                    }
-                }
-                index++;
+            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
+                Case caseRec = new Case(Id=caseId);
+                cases.add(caseRec);
             }
         }
         updateOldCaseSLAHistory(cases);
         ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
         ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
-
-        //update cases
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
-        update cases;
-
     }
 
     /*
@@ -651,9 +617,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<String> ownerEmailList = new List<String>();
         
         for(case c: newCases){
-            //owner change loop
-            //Removed the below if conditions code to accomodate SLA Target stamping 
-            //when converting from Interaction to framework    
+            //owner change loop    
             //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
@@ -892,9 +856,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                             updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
                             percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                         }
-                        updatedCase.Stage_SLA_1__c = null;
-                        updatedCase.Stage_SLA_2__c = null;
-                        updatedCase.Stage_SLA_3__c = null;
                         if(sla1Sec != null){
                             updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
                             percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
@@ -910,16 +871,9 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 //Loop to check if the Case Id + Stage__c consumed is more than SLA 1
                 else if(sla1Sec != null && caseStageSummarizedViewMap.containsKey(i + newCases.get(i).Stage__c) && caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).totalTimeSpent > sla1Sec){
                     if(caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime != null){
-                        updatedCase.Stage_SLA_1__c = null;
                         //On SLA 1 get the Violation Date Time populated when SLA 1 is breached through flow
                         updatedCase.Stage_SLA_1__c = caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.Stage_Violation_Start_Date__c ;
                         percntCls.setStagePercSLAFields(sla1Sec,caseStageSummarizedViewMap.get(i + newCases.get(i).Stage__c).violatedTime.BusinessHoursId__c,newCases.get(i).Stage_SLA_1__c,updatedCase);
-                        if(sla2Sec == null){
-                            updatedCase.Stage_SLA_2__c = null;
-                        }
-                        if(sla3Sec == null){
-                            updatedCase.Stage_SLA_3__c = null;
-                        }
                         //To check if stage is same and owner is changed
                         if(sla2Sec != null && sla3Sec != null){
                             // string businessHrsusedForcalcuation1 = resultMap.get(index).caseUserOwnerBusinessHoursMap;
