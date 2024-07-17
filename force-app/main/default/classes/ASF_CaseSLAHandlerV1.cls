@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 07-17-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -266,12 +266,11 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         //without query, owner.name will not come  . hence this query is needed 
         for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
             Case updatedCase = internalCaseUpdateMap.get(c.Id);
-            //Not coming from Omnichannel
             //pure insert and
             //(updatecase present and owner id is populated & stage is not changing - means assigment yet to happen during insert
             //or skipsla is populated)
             //then skip
-            if(!ASF_CaseSLAHandlerV1.isFromOmniChannel && oldCases == null &&
+            if(oldCases == null &&
             (
                 (updatedCase != null && updatedCase.OwnerId != null && updatedCase.Stage__c == null)
                 ||
@@ -481,46 +480,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
      */
     public static void modifySLAHistoryOnOmnichannelAssignment(Map<Id, List<Id>> assignedUserIdToCaseIdsMap) {
         List<Case> cases = new List<Case>();
-        Set<Id> allCaseIds = new Set<Id>();
-
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
-            allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
-        }
-        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
-            caseRec.Last_Owner_Change_Date__c = System.now();
-            cases.add(caseRec);
-        }
-        Map<Integer,ASF_SLABusinessHoursWrapper> resultMap = getCaseOwnerBusinessHours(null,cases);
-        if(resultMap != null){
-            Integer index = 0;
-            for(Case updatedCase : cases){
-                updatedCase.SLA_Target_1__c = null;
-                updatedCase.SLA_Target_2__c = null;
-                updatedCase.SLA_Target_3__c = null;
-                ASF_SLABusinessHoursWrapper wrapper = resultMap.get(index);
-                if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord != null){
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager != null){
-                        updatedCase.SLA_Target_1__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager != null){
-                        updatedCase.SLA_Target_2__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.email;
-                    }
-                    if(wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager != null){
-                        updatedCase.SLA_Target_3__c = wrapper.ownerUserRecordorQueueOwnerEmailUserRecord.manager.manager.manager.email;
-                    }
-                }
-                index++;
+            for(Id caseId : assignedUserIdToCaseIdsMap.get(userId)){
+                Case caseRec = new Case(Id=caseId);
+                cases.add(caseRec);
             }
         }
         updateOldCaseSLAHistory(cases);
         ASF_CaseSLAHandlerV1.isFromOmniChannel = true;
         insertSLAHistory(null,new Map<Id, Case>(cases));
         ASF_CaseSLAHandlerV1.isFromOmniChannel = false;
-
-        //update cases
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
-        update cases;
-
     }
 
     /*
@@ -648,9 +617,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<String> ownerEmailList = new List<String>();
         
         for(case c: newCases){
-            //owner change loop
-            //Removed the below if conditions code to accomodate SLA Target stamping 
-            //when converting from Interaction to framework    
+            //owner change loop    
             //if(oldCases == null || c.OwnerId != oldCases.get(c.id).OwnerId){
                 if(string.valueOf(c.OwnerId).startsWith('005')){
                     ownerUserList.add(c.OwnerId); 
