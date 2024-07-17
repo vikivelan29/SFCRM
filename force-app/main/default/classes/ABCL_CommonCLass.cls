@@ -64,6 +64,9 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('Payments')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('Payments', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABSLIG')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
+                }
             }
         
             for(Case csRec : newCaseLst) {  

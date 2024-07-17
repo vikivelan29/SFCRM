@@ -4287,6 +4287,11 @@
         <field>ASF_Communication_Log__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Am_I_Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Create Case</label>
     <objectPermissions>
