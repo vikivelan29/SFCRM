@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 07-17-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class ASF_CaseFrameworkHelper {
     
     /**
@@ -63,7 +70,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             for (ASF_Case_Checklist_Master__c chklistMaster : caseRule.Case_Checklist_Masters__r) {
                                 
                                 ASF_Checklist__c checklistRecord = new ASF_Checklist__c();
-                                checklistRecord.Label__c = chklistMaster.Name;
+                                checklistRecord.Label__c = chklistMaster.Label__c;
                                 checklistRecord.Mandatory__c = chklistMaster.Mandatory__c;
                                 checklistRecord.Description__c = chklistMaster.Description__c;
                                 checklistRecord.Type__c = chklistMaster.Type__c;

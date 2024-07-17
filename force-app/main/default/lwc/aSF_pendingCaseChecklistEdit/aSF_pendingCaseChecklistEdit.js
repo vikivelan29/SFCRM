@@ -67,11 +67,8 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         this.wiredAccountsResult = result;
         this.realFormData = { ... this.wiredAccountsResult.data };
         if (result.data) {
-            if (result.data.length != 0) {
-                this.hasRecord = true;
-            }
             let tempAccData = result.data
-
+            this.hasRecord = tempAccData && tempAccData.length > 0;
             let arr_tempProp = [];
 
             for(var i = 0;i<tempAccData.length;i++){
@@ -147,6 +144,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);
+            this.listRecords = {};
             const event = new ShowToastEvent({
                 title: 'Success',
                 message: 'Records are updated sucessfully',

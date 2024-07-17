@@ -61,6 +61,7 @@
                             <template if:true={boolAllSourceVisible}>
                                 <lightning-combobox data-id="Source Field" value={sourceFldValue} label="Source"
                                     options={sourceFldOptions} onchange={handleSource} placeholder={strSource}
+                                    disabled={boolSourceComboboxDisabled}
                                     required>
                                 </lightning-combobox>
                             </template>
