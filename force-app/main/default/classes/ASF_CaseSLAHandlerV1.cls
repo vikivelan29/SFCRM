@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 07-17-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -95,7 +95,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if(externalIdStageNameCaseStageConfigMap != null)
-                        sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA2Override') != null){
@@ -103,7 +103,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if (externalIdStageNameCaseStageConfigMap != null)
-                        sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA3Override') != null){
@@ -111,7 +111,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                        sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
@@ -264,7 +264,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         Map<Id, Case> internalCaseUpdateMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
         //without query, owner.name will not come  . hence this query is needed 
-        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c,Case_Assigned_Team__c FROM Case WHERE Id IN: newCases.values()]){
+        for(Case c : [SELECT Id, Owner.Name, BusinessHoursId,Status, Stage__c, PlatformEventInitiatedBy__c FROM Case WHERE Id IN: newCases.values()]){
             Case updatedCase = internalCaseUpdateMap.get(c.Id);
             //Not coming from Omnichannel
             //pure insert and
@@ -286,9 +286,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
             slaHistory.Case__c = c.Id;
             slaHistory.Stage__c = c.Stage__c;
             slaHistory.Status__c = c.Status;
-            // VIRENDRA - 11 June 2024 - To STAMP CASE ASSIGNED TEAM DURING THE SLA CREATION.
-            slaHistory.Case_Assigned_Team__c = c.Case_Assigned_Team__c;
-            // VIRENDRA - ENDS HERE.
             slaHistory.FromStage__c = (oldCases != null && c.Stage__c!=oldCases.get(c.Id).Stage__c)?oldCases.get(c.Id).Stage__c:'';
             slaHistory.Actioned_By__c = c.Stage__c == 'Resolved'?c.Owner.Name:UserInfo.getName();
             slaHistory.Actioned_By__c = ASF_CaseSLAHandlerV1.isFromOmniChannel?Label.ASF_Omnichannel_ActionedBy_Username:slaHistory.Actioned_By__c;
