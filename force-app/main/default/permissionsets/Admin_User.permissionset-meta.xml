@@ -2744,6 +2744,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Advisor_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Category_Config__c.Allowed_Issue_Types__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4325,6 +4330,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Website</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Partner_Branch_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6495,6 +6505,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PAY_Payment_Detail__c.Txn_ref_no__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Specific_Cc_Addresses__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
