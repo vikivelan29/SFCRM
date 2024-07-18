@@ -320,7 +320,7 @@ public with sharing class ASF_RecategoriseCaseController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        ASF_CaseUIController.searchResponse resp = new ASF_CaseUIController.searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'');
+                        ASF_CaseUIController.searchResponse resp = new ASF_CaseUIController.searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'','');
                         
                         lstResponse.add(resp);
                     }     
@@ -346,12 +346,12 @@ public with sharing class ASF_RecategoriseCaseController {
             for(Account customer : accList){
                 ASF_CaseUIController.searchResponse custResp;
                 if(customer.IsPersonAccount){
-                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name);
+                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name,'');
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
                     
-                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name);
+                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name,'');
                 }
                 
                 lstResponse.add(custResp);

@@ -78,14 +78,24 @@ public without sharing class ABSLI_WhatsAppOptOutandOptInIntegration implements 
         
         for (Case caseRecord : caseRecords) {
             String caseClientCodeText = '';
-            if(caseRecord.Technical_Source__c == 'API'){
+            String whatsAppoutIn = '';
                 caseClientCodeText = caseRecord.AccountId != null ? caseRecord.Account.Client_Code__c : caseRecord.Client_Code_Text__c;
+                System.debug('caseClientCodeText:::'+caseClientCodeText);
+            if(caseRecord.Issue_Type__c == 'Whatsapp Opt In'){
+                whatsAppoutIn = 'Y';
             }
+            else if(caseRecord.Issue_Type__c == 'Whatsapp Opt Out'){
+                whatsAppoutIn = 'N';
+            }
+           /* if(caseRecord.ABSLI_Case_Detail__r.WhatsApp_Opt_Out_Indicator__c != null && caseRecord.ABSLI_Case_Detail__r.WhatsApp_Opt_Out_Indicator__c != ''){
+                whatsAppoutIn = caseRecord.ABSLI_Case_Detail__r.WhatsApp_Opt_Out_Indicator__c;
+            }*/
+            
             string requestBody = JSON.serialize(
                 new WhatsAppOptOutOptInRequest(
                     ABSLI_Constants.ESB_SOURCE_ID,
                     caseRecord.CaseNumber,
-                    caseRecord.ABSLI_Case_Detail__r.WhatsApp_Opt_Out_Indicator__c,
+                    whatsAppoutIn,
                     caseClientCodeText
                 )
             );
@@ -209,26 +219,8 @@ public without sharing class ABSLI_WhatsAppOptOutandOptInIntegration implements 
                 );
                 
                 if (jsonMap.LSIR_RETURN_CD == '00') {
-                    List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-                        caseRecord.CCC_External_Id__c
-                    );
-                    
-                    Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-                        cccRecord[0].Additional_Email_Templates__c
-                    );
-                    Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-                        cccRecord[0].Additional_SMS_Metadata__c
-                    );
-                    
-                    Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-                        caseRecord,
-                        emailTemplateMap.get('Resolved'),
-                        smsMetadataMap.get('Resolved'),
-                        true
-                    );
-                    
                     caseRecord.MoveToNext__c = true;
-                    Database.update(caseRecord, AccessLevel.USER_MODE);
+                    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
                 }
                 
                 

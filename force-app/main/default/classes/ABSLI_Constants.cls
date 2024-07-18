@@ -169,15 +169,7 @@ public class ABSLI_Constants {
     public static final String IGMS_ACKCOMLPAINT_NEXT_INT  = 'ABSLI_PendingIGMSComplaintIntegration';
     public static final String IGMS_REOPENEDCOMLPAINT_NEXT_INT  = 'ABSLI_ReopenedIGMSComplaintIntegration';
     public static final String IGMS_REGCOMPLAINT_SRV_NAME = 'RegisterComplaints';
-    public static final String IGMS_ACKCOMPLAINT_SRV_NAME = 'UpdateComplaintsAck';
-    public static final String IGMS_PENDINGCOMPLAINT_SRV_NAME = 'UpdateComplaintsPending';
-    public static final String IGMS_ATTENDEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsAttended';
-    public static final String IGMS_REOPENEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsReopened';
-    public static final String IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME = 'UpdateComplaintsAttendedEsc';
-    public static final String IGMS_CLOSEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsClosed';
-    public static final String IGMS_ESCALATEDCOMPLAINT_SRV_NAME = 'UpdateComplaintsEscalated';
-    public static final String IGMS_DOWNLOADCOMPLAINT_SRV_NAME = 'UpdateComplaintsDownload';
-    public static final String IGMS_UPLOADCOMPLAINT_SRV_NAME = 'UpdateComplaintsUpload';
+    public static final String IGMS_UPDATECOMPLAINT_SRV_NAME = 'UpdateComplaints';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
@@ -190,5 +182,7 @@ public class ABSLI_Constants {
     public static final String CLOSED_COMPLAINT_SCHEDULE_JOB = 'IGMS Closed Complaints Outbound Schedulde Job';
     public static final String ABSLI_IGMSSYNC_SUCCESS_MESSAGE = 'ABSLI_IGMSSYNC_SUCCESS_MESSAGE';
     public static final String ABSLI_IGMSSYNC_FAILURE_MESSAGE = 'ABSLI_IGMSSYNC_FAILURE_MESSAGE';
+    public static final String ABSLI_IGMS_TRANS_LOGIN_ID = 'bslicadmin';
+    public static final String ABSLI_IGMS_ADDRESS_TO_INSURER_Y = 'Y';
 
 }
