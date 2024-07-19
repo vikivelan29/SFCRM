@@ -70,7 +70,7 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 			string requestBody = JSON.serialize(
 				new LRRequestWrapper(
 					caseRecord.LAN__c == null ? caseRecord.Asset?.Policy_No__c : caseRecord.LAN__c,
-					ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd/MM/YYYY'),
+					'11/07/2024',
 					String.valueOf(caseRecord.ABSLI_Case_Detail__r?.Requested_Loan_Amount__c)
 				)
 			);
