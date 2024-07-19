@@ -81,10 +81,6 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
@@ -605,7 +601,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>post call- complain</fullName>
+            <fullName>post call- complaint</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1029,14 +1025,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
