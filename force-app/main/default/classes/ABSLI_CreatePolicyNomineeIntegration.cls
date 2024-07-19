@@ -384,9 +384,9 @@ public with sharing class ABSLI_CreatePolicyNomineeIntegration implements ASF_In
             if(birthDate != null){
                 this.MIR_CLI_BTH_DT = ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY');
             }
-            this.MIR_BNFY_REL_INSRD_CD = insuredRelationCd;
-            this.MIR_BNFY_APPTE_REL_CD = appointeeRelationCd;
-            this.MIR_BNFY_APPTE_NM = appointeeName;
+            this.MIR_BNFY_REL_INSRD_CD = insuredRelationCd!=null?insuredRelationCd:'';
+            this.MIR_BNFY_APPTE_REL_CD = appointeeRelationCd!=null?appointeeRelationCd:'';
+            this.MIR_BNFY_APPTE_NM = appointeeName!=null?appointeeName:'';
             this.MIR_BNFY_APPTE_BTH_DT = '';
             if(appointeeBirthDate != null){
               this.MIR_BNFY_APPTE_BTH_DT = ABCL_IntegrationCommonUtility.dateFormat(appointeeBirthDate, 'dd-MM-YYYY');   
