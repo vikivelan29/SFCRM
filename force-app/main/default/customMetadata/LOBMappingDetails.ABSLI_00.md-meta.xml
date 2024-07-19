@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:type="xsd:string">Advisor Portal,Anywhere Service,Branch (walk-in / phone),Bulk Upload from HO,CAMS FO,Email,EMT CNX,EMT HO,Fax,HO Back office,Inbound ABC,Inbound call,Inbound CNX,Inbound ConnectQ,Insurance Repositary website,Insurance Repository,Letters and Faxes,Outbound Altruist,Outbound call,Outbound CNX,Outbound ConnectQ,Social Media,Telephone,Web</value>
+        <value xsi:type="xsd:string">Advisor Portal,Anywhere Service,Branch (walk-in / phone),Bulk Upload from HO,CAMS FO,Email,EMT CNX,EMT HO,Fax,HO Back office,Inbound ABC,Inbound call,Inbound CNX,Inbound ConnectQ,Insurance Repository website,Insurance Repository,Letters and Faxes,Outbound Altruist,Outbound call,Outbound CNX,Outbound ConnectQ,Social Media,Telephone,Web</value>
     </values>
     <values>
         <field>Source_Code__c</field>
