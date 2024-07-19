@@ -531,7 +531,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Stage__c|EQUALS|[&quot;Open&quot;,&quot;In Progress&quot;]</value>
+                            <value>Stage__c|EQUALS|[&quot;Open&quot;]</value>   
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c|EQUALS|[&quot;Complaint&quot;]</value>
