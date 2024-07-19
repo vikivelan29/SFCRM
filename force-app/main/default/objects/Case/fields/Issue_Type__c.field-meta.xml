@@ -104,9 +104,9 @@
                 <label>Nomination Related</label>
             </value>
             <value>
-                <fullName>post call- complain</fullName>
+                <fullName>post call- complaint</fullName>
                 <default>false</default>
-                <label>post call- complain</label>
+                <label>post call- complaint</label>
             </value>
             <value>
                 <fullName>Premium paid certificate / Policy Statement from Chatbot</fullName>
