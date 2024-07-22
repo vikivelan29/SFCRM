@@ -141,11 +141,11 @@ public class ABSLI_Constants {
 
 
     /* NOMINEE UPDATE INTEGRATION */
-    public static final String DELETENOMINEE_SRV_NAME = 'NomineeDeleteApi';
+    public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
     public static final String DELETENOMINEE_EVALUATION_ERROR = 'ABSLI_DELETENOMINEE_EVALUTION_ERROR';
-    public static final String UPDATENOMINEE_SRV_NAME = 'NomineeUpdateApi';
+    public static final String UPDATENOMINEE_SRV_NAME = 'UpdateNominee';
     public static final String UPDATENOMINEE_EVALUATION_ERROR = 'ABSLI_UPDATENOMINEE_EVALUTION_ERROR';
-    public static final String CREATENOMINEE_SRV_NAME = 'NomineeCreateApi';
+    public static final String CREATENOMINEE_SRV_NAME = 'CreateNominee';
     public static final String CREATENOMINEE_EVALUATION_ERROR = 'ABSLI_CREATENOMINEE_EVALUTION_ERROR';
 
 	/* REAL TIME INTEGRATION METADATA NAME */

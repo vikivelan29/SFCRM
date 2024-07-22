@@ -938,6 +938,8 @@ public class ASF_CaseMovementHelper {
                 if(infos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseRec.Id);
                     resultWrapper.ownerId = info.defaultOwnerId;
+                    // VIRENDRA - 21 JUL 2024 - Added for SIT BUG FIX.
+                    resultWrapper.ownerName = info.defaultOwnerName != null? info.defaultOwnerName : '';
                     resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                     resultWrapper.status = 'Success';
                 }

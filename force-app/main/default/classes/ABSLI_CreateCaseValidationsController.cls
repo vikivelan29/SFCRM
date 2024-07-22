@@ -17,9 +17,12 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
-               	requestWrap.policy_id = policy.Name;
-                DateTime effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());
-               	requestWrap.effective_date = (effectiveDateTime.format('dd-MM-yyyy'));
+                requestWrap.policy_id = policy.Name;
+                DateTime effectiveDateTime;
+                if(policy.Effective_Date__c!=null){
+                	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
+                }
+               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
                                                                                                                     null);
