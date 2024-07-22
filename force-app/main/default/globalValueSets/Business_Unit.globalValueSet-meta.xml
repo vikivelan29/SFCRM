@@ -30,6 +30,11 @@
         <default>false</default>
         <label>ABSLIG</label>
     </customValue>
+    <customValue>
+        <fullName>ABHIL</fullName>
+        <default>false</default>
+        <label>ABHIL</label>
+    </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
