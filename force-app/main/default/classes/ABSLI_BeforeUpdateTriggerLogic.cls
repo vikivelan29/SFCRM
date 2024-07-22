@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-27-2024
+ * @last modified on  : 07-16-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -259,13 +259,14 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         newMap.put(caseRec.Id,caseError);
                 }
                 if(caseRec.IGMS_Complaint_Type_Code__c != null &&
-                  	caseRec.Nature__c == 'Complaint' && 
+                  	caseRec.Nature__c == 'Complaint' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null && 
                     caseRec.Technical_Source__c != 'API'){
-                	//ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
-                        if(true){//returnWrapper.bErrorOccured){
+                	ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
+                	if(returnWrapper.bErrorOccured){
                         Case caseError = newMap.get(caseRec.Id);
-                    	//String errorMessage = returnWrapper.errorMessage;
-                    	//caseError.addError(errorMessage);
+                    	String errorMessage = returnWrapper.errorMessage;
+                    	caseError.addError(errorMessage);
                 	}
                 
             	}
