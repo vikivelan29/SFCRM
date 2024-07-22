@@ -68,7 +68,6 @@ public with sharing class ABFL_E2C_CreationRules {
                                     ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
                                     ABCL_Logger.message(message);
                                     ABCL_Logger.emit();
-                                    // Throw error here - This will block further processing - Check for rule level message, then header level message
                                     emailMsg.addError(message);
                                 }
                             }

@@ -1,7 +1,7 @@
 /**
  * @description Unit Test Class for Policy Account Statement Integration
  *
- * @author Abinash Panigrahi
+ * @author Abinash Panigrahi, Salesforce
  * @date 2024-05-17
  */
 @isTest
@@ -14,7 +14,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'ABSLI_PAS';
 		integ.Display_Name__c = 'Policy Account Statement';
-		integ.Query_Fields__c = 'Id, Status, OwnerId, AssetId, Asset.Policy_No__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.From_Date__c, ABSLI_Case_Detail__r.To_Date__c, AccountId, Account.PersonBirthdate, Business_Unit__c, CCC_External_Id__c';
+		integ.Query_Fields__c = 'Id, Status, OwnerId, AssetId, Asset.Policy_No__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.From_Date__c, ABSLI_Case_Detail__r.To_Date__c, AccountId, Account.PersonBirthdate, Asset.LI_DOB__c Business_Unit__c, CCC_External_Id__c';
 		integ.Processing_Class__c = 'ABSLI_PolicyStatementIntegration';
 		integ.When_to_Appear__c = 'Stage Entry';
 		integ.Type__c = 'Process';

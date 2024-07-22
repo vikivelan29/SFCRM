@@ -481,7 +481,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>post call- complain</fullName>
+            <fullName>post call- complaint</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -804,10 +804,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letter %2F Snail Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
@@ -905,14 +901,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

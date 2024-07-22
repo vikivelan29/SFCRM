@@ -69,7 +69,7 @@ private class ABSLI_AssignAccountTeamBatch_Test {
         Test.startTest();
         
         ABSLI_AssignAccountTeamBatch batch = new ABSLI_AssignAccountTeamBatch();
-        
+        system.debug('');
         Database.executeBatch(batch);
         
         Test.stopTest();

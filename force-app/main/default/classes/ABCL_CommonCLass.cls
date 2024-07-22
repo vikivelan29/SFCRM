@@ -64,6 +64,12 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('Payments')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('Payments', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABSLIG')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABSLI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
+                }
             }
         
             for(Case csRec : newCaseLst) {  
@@ -73,7 +79,7 @@ public with sharing class ABCL_CommonCLass {
                     	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
                 }

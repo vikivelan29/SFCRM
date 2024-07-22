@@ -130,6 +130,7 @@ public with sharing class ASF_Constants {
     public static final String ABFL_BU = 'ABFL';
     public static final String ABSLI_BU = 'ABSLI';
     public static final String ABSLIG_BU = 'ABSLIG';
+
     public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    

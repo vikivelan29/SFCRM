@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ABHFL Team
  * @group             : 
- * @last modified on  : 06-30-2024
+ * @last modified on  : 07-01-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -120,7 +120,7 @@ public class ABHFL_CTSTHelper_Test {
         system.debug('test class debug Aditya:'+caseList[1].isClosed);
         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
         ABFL_Constants consts = ABFL_Constants.getAllConstants();
-        String failure = ABFL_Constants.BREFAILURE;
+        String failure = ABFL_Constants.BREFAILURE; 
         String success = ABFL_Constants.BRESUCCESS;
         //update caseList[0];
     }

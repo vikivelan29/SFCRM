@@ -9,16 +9,17 @@ public class ABCL_AssetTriggerHelper_Test {
 private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-    	Group slaGroup = new Group();        
+
+        Group slaGroup = new Group();        
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-        	insert slaGroup;
+            insert slaGroup;
+
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
             insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
-                                    managerGroupId__c=slaGroup.Id);
+                        TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',                                    managerGroupId__c=slaGroup.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
@@ -51,8 +52,8 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
       @isTest
     static void beforeUpdateContainsABFLTest(){
         List<Asset> objAsset = [Select Id,Business_Unit__c,RM_Code__c From Asset WHERE Business_Unit__c = 'ABFL' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
- 		system.runAs(usr)
+        User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
+        system.runAs(usr)
         { 
             Test.startTest(); 
             objAsset[0].RM_Code__c= '12345';

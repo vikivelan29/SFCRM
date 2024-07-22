@@ -123,6 +123,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
                                                 FROM ASF_Quick_Link_Config__mdt WHERE FunctionCode__c =: funcCode];
         
         Contact c = [SELECT ID,MobilePhone,Name,Salutation FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
+
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c,
                                                     Email_Template_Name__c 
@@ -156,7 +157,10 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             return cLog.Id;
             
         }
-        return null;
+        else{
+            throw new AuraException('Trying to send SMS to Customer without mobile number.');
+        }
+        
     }
     
     /* THIS METHOD IS USE FOR GETTING THE TEMPLATE HTML BODY BASED ON THE FUNCTION CODE AND WHAT ID.

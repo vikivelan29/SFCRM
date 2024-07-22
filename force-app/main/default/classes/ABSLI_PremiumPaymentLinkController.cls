@@ -2,13 +2,14 @@
  * @description       : Class for premium Payment LWC
  * @author            : Viren, dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 07-15-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
 public with sharing class ABSLI_PremiumPaymentLinkController {
+
     public static final string STR_METADATA_NAME = 'ABSLI_Premium_Payment_Link';
     
     /****************************************************************************************************************
@@ -140,7 +141,9 @@ public with sharing class ABSLI_PremiumPaymentLinkController {
             List<Database.SaveResult> results = EventBus.publish(eventList);
             System.debug(results);
         }
-        
+        else{
+            throw new AuraException('Mobile number is not present for this record.');
+        }
         
     }
     

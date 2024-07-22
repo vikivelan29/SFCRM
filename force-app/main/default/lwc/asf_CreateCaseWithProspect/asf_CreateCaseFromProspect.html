@@ -61,6 +61,7 @@
                             <template if:true={boolAllSourceVisible}>
                                 <lightning-combobox data-id="Source Field" value={sourceFldValue} label="Source"
                                     options={sourceFldOptions} onchange={handleSource} placeholder={strSource}
+                                    disabled={boolSourceComboboxDisabled}
                                     required>
                                 </lightning-combobox>
                             </template>
@@ -71,10 +72,12 @@
                                 </lightning-combobox>
                             </template>
 
-                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
-                                label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
-                                onchange={handleAutoCommChange}>
-                            </lightning-checkbox-group>
+                            <template if:true={boolNoAutoComm}>
+                                <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                    label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
+                                    onchange={handleAutoCommChange}>
+                                </lightning-checkbox-group>
+                            </template>
                         </template>
 
 

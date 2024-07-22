@@ -36,11 +36,18 @@ export default class Absli_fetchPANDetails extends LightningElement {
     @track PAN_Number = '';
     @track clientName = '';
     @track clientDOB = '';
+    @track apifetchError = false;
+    @track apiFetchErroText = 'External Service is not responding. Please proceed manully entering data.'
+    
 
     @wire(CurrentPageReference) pageRef;
 
     showToast(e){
         this.dispatchEvent(new ShowToastEvent(e));        
+    }
+
+    handleDOBChange(event){
+        this.clientDOB = event.detail.value;
     }
 
     connectedCallback(){
@@ -76,12 +83,27 @@ export default class Absli_fetchPANDetails extends LightningElement {
         event.preventDefault();
         this.record = JSON.parse(JSON.stringify(this.record));
         this.record.pan = this.confirmTextValue;
+        this.record.dob = this.clientDOB;
         this.invokeFetchPANDetailCallout();
+    }
+
+    get showAcceptBtn(){
+        return this.showFetchResponse || this.apifetchError;
+    }
+
+    validateFields() {
+        return [...this.template.querySelectorAll("lightning-input")].reduce((validSoFar, field) => {
+
+            return (validSoFar && field.reportValidity());
+        }, true);
     }
     
     async invokeFetchPANDetailCallout() {
         debugger;
-        await panVerification({ panInputWrapperStr : JSON.stringify(this.record), caseId: this.recordId})
+        let bValid = this.validateFields();
+
+        if(bValid){
+            await panVerification({ panInputWrapperStr : JSON.stringify(this.record), caseId: this.recordId})
             .then((result) => {
                 debugger;
                 if (result.isSuccess) {
@@ -98,6 +120,10 @@ export default class Absli_fetchPANDetails extends LightningElement {
                 }
                 else{
                     debugger;
+<<<<<<< HEAD
+=======
+                    this.apifetchError =true;
+>>>>>>> UAT_V4
                     this.showToast({
                         title: "Error",
                         message: result.errorMessage,
@@ -109,6 +135,12 @@ export default class Absli_fetchPANDetails extends LightningElement {
                 debugger;
                 console.log(error);
             })
+<<<<<<< HEAD
+=======
+        }
+
+        
+>>>>>>> UAT_V4
     }
     get showResponse() {
         if (this.loaded && !this.showErrorMsg) {

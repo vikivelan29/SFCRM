@@ -6,7 +6,11 @@
         <label>ABFL Cases to ABFL Users</label>
         <sharedTo>
             <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+<<<<<<< HEAD
         </sharedTo>
+=======
+</sharedTo>
+>>>>>>> UAT_V4
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <field>Business_Unit__c</field>

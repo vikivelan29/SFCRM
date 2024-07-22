@@ -17,6 +17,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>AccountId</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Application_Number__c</field>
             </layoutItems>
             <layoutItems>
@@ -34,10 +38,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Rider_Sum_Assured__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Owner_Client_Code__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

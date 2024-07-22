@@ -1,12 +1,12 @@
 /**
 * @description       : 
-* @author            : Salesforce
+ * @author            : rsinghnagar@salesforce.com
 * @group             : 
-* @last modified on  : 04-24-2024
-* @last modified by  : Salesforce 
+ * @last modified on  : 06-30-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
-* 1.0   04-24-2024   Salesforce   Initial Version
+ * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {

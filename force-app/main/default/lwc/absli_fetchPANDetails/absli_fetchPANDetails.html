@@ -31,8 +31,11 @@
                                 </lightning-layout-item>
                                 <lightning-layout-item padding="around-small" size="12">
                                     <lightning-input type="date" label="Date of Birth" max={todayDt} required
-                                        value={clientDOB} disabled={showFetchResponse}></lightning-input>
+                                        value={clientDOB} disabled={showFetchResponse} onchange={handleDOBChange}></lightning-input>
                                 </lightning-layout-item>
+                                <template if:true={apifetchError}>
+                                    <div class="slds-text-color_error">{apiFetchErroText}</div>
+                                </template>
                                 <template if:true={showFetchResponse}>
                                     <lightning-layout-item padding="around-small" size="12">
                                         <b><lightning-formatted-text value="NSDL Service Response"></lightning-formatted-text></b>
@@ -89,7 +92,7 @@
                     <button class="slds-button slds-button_neutral" onclick={handleFetchDetails}
                         title="Verify PAN Details" disabled={bConfirmationTextNotMatching}>Verify PAN Details</button>
                 </template>
-                <template if:true={showFetchResponse}>
+                <template if:true={showAcceptBtn}>
                     <button class="slds-button slds-button_neutral" onclick={handleUpdateFromFieldPopUp}
                         title="Accept">Accept</button>
                 </template>

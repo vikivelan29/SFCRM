@@ -411,7 +411,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -489,7 +489,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 };
                 if (this.sourceValues.length == 0) {
                     this.sourceValues.push(optionVal, optionVal1, emailVal);
-                }
+                } 
 
                 // this.sourceValues.push(optionVal1);
 

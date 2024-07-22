@@ -64,7 +64,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     searchKey;
     accounts;
     isNotSelected = true;
-    isNotSelectedReject = true;
+    isNotSelectedReject = true; 
     @api recordId;
     loaded = true;
     caseRelObjName;
@@ -295,7 +295,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
             let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
             this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
-
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
             if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
@@ -385,13 +384,11 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
-
             getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
                     this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
-                    this.closeCaseWithoutCusButton = 'false';
                 })
                 .catch(error => {
                     this.accounts = null;
@@ -458,7 +455,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         } 
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
             }else{
@@ -863,6 +860,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.categoryTypeVal = '';
         this.isNotSelectedReject = true;
         this.showCategoryType = false;
+<<<<<<< HEAD
+=======
+        this.closeCaseWithoutCusButton = '';
+>>>>>>> UAT_V4
         this.cancelReject();
     }
 

@@ -2,5 +2,6 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Dear Customer,Please click on Link - https://abcap.co.in/XFmyRRi for hassle free premium payment for Policy No:&nbsp;{{{Asset.Name}}}</body>
+<body style="height: auto; min-height: auto;">Dear Customer, Please click on Link - https://abcap.co.in/XFmyRRi for hassle free premium payment for Policy No{{{Asset.Name}}}.&nbsp;<br />
+Regards, ABSLI.</body>
 </html>
