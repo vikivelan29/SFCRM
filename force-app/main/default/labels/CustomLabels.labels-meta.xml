@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
-        <fullName>ABFL_Manual_Sync_Threshold</fullName>
-        <categories>ABFL DMS</categories>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Business_Unit</shortDescription>
+        <value>ABHFL,ABFL,Payments,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Integration_UserName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration UserName</shortDescription>
+        <value>ABCL AWS API User</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Integration_User_Nickname</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration User Nickname</shortDescription>
+        <value>ABFSGSFDC User</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_CRMUAT_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL CRM UAT EMAI</shortDescription>
+        <value>abfl.crmuat01@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DIGITAL_FINANCE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL DIGITAL FINANCE</shortDescription>
+        <value>abfssl.uatcaredigitalfinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMSPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMSPageSize</shortDescription>
         <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Track_Sources</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Track_Sources</shortDescription>
-        <value>Inbound CNX,Inbound ConnectQ,Outbound CNX,Outbound ConnectQ</value>
     </labels>
     <labels>
         <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
@@ -51,98 +85,14 @@
         <value>1205</value>
     </labels>
     <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
-    </labels>
-    <labels>
-        <fullName>DMS_File_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DMS_File_Name</shortDescription>
-        <value>File Name</value>
-    </labels>
-    <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>Sync_Canceled</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Sync_Canceled</shortDescription>
-        <value>Sync Canceled</value>
-    </labels>
-    <labels>
-        <fullName>Sync_Manually</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Sync_Manually</shortDescription>
-        <value>Sync Manually</value>
-    </labels>
-    <labels>
-        <fullName>Synched_Already</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Synched Already</shortDescription>
-        <value>Synched already</value>
-    </labels>
-    <labels>
-        <fullName>Synching_initiated</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Synching_initiated</shortDescription>
-        <value>Synching initiated</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Business_Unit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_Business_Unit</shortDescription>
-        <value>ABHFL,ABFL,Payments,ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Integration_UserName</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL Integration UserName</shortDescription>
-        <value>ABCL AWS API User</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Integration_User_Nickname</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL Integration User Nickname</shortDescription>
-        <value>ABFSGSFDC User</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_CRMUAT_EMAIL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL CRM UAT EMAI</shortDescription>
-        <value>abfl.crmuat01@adityabirlacapital.com</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LegacyPageSize</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_LegacyPageSize</shortDescription>
@@ -155,13 +105,6 @@
         <protected>false</protected>
         <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
         <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_LegacyPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_LegacyPageSize</shortDescription>
-        <value>10</value>
     </labels>
     <labels>
         <fullName>ABFL_RESOLVED_STP</fullName>
@@ -213,7 +156,7 @@
         <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
     </labels>
     <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <fullName>ABHFL_Case_Dedupe_Active</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL Case Dedupe Active</shortDescription>
@@ -239,6 +182,98 @@
         <protected>false</protected>
         <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
         <value>200</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_ROI_HIstory_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL ROI HIstory Fields</shortDescription>
+        <value>Reschedule ID:RESCH_ID,Reschedule Type:RESCH_TYPE,Request Date:REQUEST_DATE,Reschedule Date:RESCH_DATE,Reschedule Effective Date:RESCH_EFF_DATE,Old Rate:OLD_RATE,New Rate:new_rate</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_Acknowledgement_Email</fullName>
+        <categories>ABSLIG</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
+        <value>4170703839</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ivkey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ivkey</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_STATICURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Track_Sources</shortDescription>
+        <value>Inbound CNX,Inbound ConnectQ,Outbound CNX,Outbound ConnectQ</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_key</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
     </labels>
     <labels>
         <fullName>ASF_BulkDownloadLimit_Msg</fullName>
@@ -606,18 +641,32 @@
         <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
-        <fullName>DMS_File_Name</fullName>
+        <fullName>ASF_default_no_reply_email_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>DMS_File_Name</shortDescription>
-        <value>File Name</value>
+        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
+        <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
-        <fullName>EmailRelayThreshold</fullName>
+        <fullName>Allowed_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Allowed_Domain</shortDescription>
+        <value>gmail.com</value>
+    </labels>
+    <labels>
+        <fullName>Base_URL_for_bitly</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Base URL For Bitly</shortDescription>
         <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
+        <fullName>CCC_External_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCC External Id</shortDescription>
+        <value>hfl060</value>
     </labels>
     <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
@@ -669,6 +718,13 @@
         <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority</value>
     </labels>
     <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
         <fullName>DMS_URL</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -679,8 +735,8 @@
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
+        <shortDescription>Base URL For Bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
     </labels>
     <labels>
         <fullName>EndUserProfiles</fullName>
@@ -711,11 +767,18 @@
         <value>You are not allowed to send email as you are not part of any team.</value>
     </labels>
     <labels>
-        <fullName>Impact_Field_Error</fullName>
+        <fullName>ExpiryDay_For_Bitly_URL</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+        <shortDescription>ExpiryDay For Bitly URL</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
+        <fullName>FA_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FA_Mandatory</shortDescription>
+        <value>Please select Financial Account first to create a case with FA.</value>
     </labels>
     <labels>
         <fullName>Impact_Field_Error</fullName>
@@ -760,11 +823,25 @@
         <value>Manual Synching</value>
     </labels>
     <labels>
+        <fullName>Masked_Subject_Email_Template_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Masked Subject Email Template Ids</shortDescription>
+        <value>00X9I000000A8VlUAK</value>
+    </labels>
+    <labels>
         <fullName>No_DMS_File</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>No DMS File</shortDescription>
         <value>No file available for syncing.</value>
+    </labels>
+    <labels>
+        <fullName>ODP_Client_Code_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ODP_Client_Code_Msg</shortDescription>
+        <value>Customer&apos;s Client Code is blank.</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -779,6 +856,20 @@
         <protected>false</protected>
         <shortDescription>Ownership Change Validation Message</shortDescription>
         <value>You can not change owner as you are not part of the queue.</value>
+    </labels>
+    <labels>
+        <fullName>PAY_SkipCustomerCreationOnCaseCreationAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PAY_SkipCustomerCreationOnCaseCreationAPI</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
+        <fullName>Prevent_deletion_post</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prevent_deletion_post</shortDescription>
+        <value>You don&apos;t have an access to delete post</value>
     </labels>
     <labels>
         <fullName>Re_Kyc_Month</fullName>
@@ -816,193 +907,31 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>ABSLI_BU</fullName>
+        <fullName>Sync_Canceled</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
+        <shortDescription>Sync_Canceled</shortDescription>
+        <value>Sync Canceled</value>
     </labels>
     <labels>
-        <fullName>ABSLIG_BU</fullName>
+        <fullName>Sync_Manually</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
+        <shortDescription>Sync_Manually</shortDescription>
+        <value>Sync Manually</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <fullName>Synched_Already</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+        <shortDescription>Synched Already</shortDescription>
+        <value>Synched already</value>
     </labels>
     <labels>
-        <fullName>ABSLI_STATICURL</fullName>
+        <fullName>Synching_initiated</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_key</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_key</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8549708501325472</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
-        <value>4170703839</value>
-    </labels>
-    <labels>
-        <fullName>Prevent_deletion_post</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Prevent_deletion_post</shortDescription>
-        <value>You don&apos;t have an access to delete post</value>
-    </labels>
-    <labels>
-        <fullName>CCC_External_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CCC External Id</shortDescription>
-        <value>hfl060</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
-        <value>No Canned Response Available.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_Acknowledgement_Email</fullName>
-        <categories>ABSLIG</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
-        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_STATICURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_key</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_key</shortDescription>
-        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
-        <value>4170703839</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_STATICURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_key</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_key</shortDescription>
-        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_BU_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
+        <shortDescription>Synching_initiated</shortDescription>
+        <value>Synching initiated</value>
     </labels>
 </CustomLabels>
