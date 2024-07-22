@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-27-2024
+ * @last modified on  : 07-16-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -29,7 +29,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c 
+                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IGMS_Complaint_Type_Code__c 
                                        FROM Case 
                                        WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
@@ -192,7 +192,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         for (ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, IGMS_Code__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :externalIds]) {
             configMap.put(config.CCC_External_Id__c, config);
         }
-
+        Map<String,Map<String,Set<String>>> mClassificationIGMS = ABSLI_IGMSClassificationUtility.getIGMSClassification();
         for (Case caseRec : absliCasesAdditionalFields.values()) {
             if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
@@ -217,13 +217,14 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         newMap.put(caseRec.Id,caseError);
                 }
                 if(caseRec.IGMS_Complaint_Type_Code__c != null &&
-                  	caseRec.Nature__c == 'Complaint' && 
+                  	caseRec.Nature__c == 'Complaint' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null && 
                     caseRec.Technical_Source__c != 'API'){
-                	//ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
-                        if(true){//returnWrapper.bErrorOccured){
+                	ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
+                	if(returnWrapper.bErrorOccured){
                         Case caseError = newMap.get(caseRec.Id);
-                    	//String errorMessage = returnWrapper.errorMessage;
-                    	//caseError.addError(errorMessage);
+                    	String errorMessage = returnWrapper.errorMessage;
+                    	caseError.addError(errorMessage);
                 	}
                 
             	}
