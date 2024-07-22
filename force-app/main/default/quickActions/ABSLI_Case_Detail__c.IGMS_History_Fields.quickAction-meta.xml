@@ -69,11 +69,6 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Entity_Reference_No__c</field>
-                <uiBehavior>Readonly</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>User_Type__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
