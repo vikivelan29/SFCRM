@@ -9,25 +9,33 @@
 public without sharing class ABSLI_CreateCaseValidationsController {
     
     @AuraEnabled
-    public static String penalInterestPayoutSaralHealthValidation(String caseRecord){
-        try {
-            Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
-            if(policy!=null){
-                if(policy.Plan_Name__c==ABSLI_Constants.SARAL_HEALTH_PLAN_NAME){
-                    return 'Success';
-                }else{
-                    return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
+    public static Map<String,String> redirectToCustomerPortalValidation(String caseId){
+        Case c = [SELECT Id, ABSLI_Case_Detail__c FROM Case WHERE Id=:caseId];
+        if(c.ABSLI_Case_Detail__c!=null){
+        	ABSLI_Case_Detail__c caseExt = [SELECT Id, Reinstatement_Amount__c, COI_Covid_Quest__c, Medicals__c, Remarks__c, COI_Signed_Date__c
+                                           FROM ABSLI_Case_Detail__c WHERE Id=:c.ABSLI_Case_Detail__c];
+            Map<String,String> fieldNamesAndTypes = ABSLI_Constants.FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION;
+            List<String> blankFields = new List<String>();
+            
+            for(String field : fieldNamesAndTypes.keySet()){
+              	Object fieldValue = caseExt.get(field);
+            	String fieldType = fieldNamesAndTypes.get(field);
+                if (fieldType == 'String' && String.isBlank((String)fieldValue)) {
+                    blankFields.add(field);
+                } else if (fieldType == 'Decimal' && (fieldValue == null || ((Decimal)fieldValue) == 0)) {
+                    blankFields.add(field);
+                } else if (fieldType == 'Date' && fieldValue == null) {
+                    blankFields.add(field);
                 }
             }
-            return 'User is not eligible';
             
-        } catch (Exception e) {
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABSLI_Penal Interest Payout - Saral Health Reimbursement Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
-            throw new AuraHandledException(e.getMessage());
+            if (!blankFields.isEmpty()) {
+                return new Map<String,String>{'error'=>'The following fields are blank: ' + String.join(blankFields, ', ')};
+            }else{
+                return new Map<String,String>{'success'=>'Validation pass'};
+            }
+        }else{
+            return new Map<String,String>{'error'=>'Not eligible'};
         }
     }
     

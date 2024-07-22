@@ -25,6 +25,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 }
             }
         }
+        
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
@@ -35,8 +36,9 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             System.debug(absliCasesAdditionalFields);
             //ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
-            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
         }  
     }
     /**
@@ -57,6 +59,47 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             }
         }   
     } */
+    
+    /**
+     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+     * moved to next stage. It validates if any open checklist is pending and throws validation error
+     * @param newMap
+     * @param oldMap
+     */
+    public static void validateTasks(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
+        Map<Id, Case> eligibleCases = new Map<Id, Case>();
+        if(!absliCases.isEmpty()){
+            for(Case caseRec : absliCases){
+                if((caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == true) 
+                   || (caseRec.MoveToNext__c == oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == false
+                      && caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c
+                      && caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c
+                      && caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c
+                      && caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c
+                      && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c
+                      && caseRec.pending_clarification__c == false)){
+                       
+                       eligibleCases.put(caseRec.Id, caseRec);
+                }
+            }
+            Map<Id,AggregateResult> mCountOfNotCompletedTaskOnCase = new Map<Id,AggregateResult>(
+                [SELECT WhatId Id, COUNT(ID) FROM Task 
+                 WHERE Status NOT IN ('Completed','Rejected')
+                 AND WhatId =: eligibleCases.keySet()
+                 GROUP BY WhatId
+                 HAVING COUNT(ID) > 0]);
+            
+            for(Case caseRec : eligibleCases.values()){
+                Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
+                if(mCountOfNotCompletedTaskOnCase.containsKey(caseRec.Id) && 
+                   !(skipperFlagMap.containsKey(caseRec.Id) && skipperFlagMap.get(caseRec.Id).contains(ASF_Constants.SKIP_VALIDATE_TASKS))){
+                    Case caseError = newMap.get(caseRec.Id);
+                    caseError.addError(System.Label.Incomplete_Tasks_Error_Message);
+                    newMap.put(caseRec.Id,caseError);
+                }
+            }
+        }   
+    }
     
     /**
      * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is

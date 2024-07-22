@@ -45,6 +45,7 @@ public class ABSLI_Constants {
     public static final String AddressUpdateSrvName = 'Address Update';
     public static final String ModeChangeSrvName = 'ModeChangeApi';
     public static final String SurvivalUpdateSrvName = 'survivalUpdateApi';
+    public static final String RQApiSrvName = 'RQServiceApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
@@ -163,6 +164,7 @@ public class ABSLI_Constants {
     /* IGMS OUTBOUND API */
     public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};
         public static final List<String> validGenders = new List<String>{'Male','Female','M','F'};
+            public static final Map<String,String> mapOfGender= new Map<String,String>{'Male' =>'M', 'Female'=>'F'};
             public static final List<String> RECEIPT_NO_REQ_COMP_TYPE_CD = new List<String>{'1','7'};
     public static final String IGMS_REGCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSREGCOMPLAINT_EVAL_ERROR';
     public static final String IGMS_ATTCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSATTCOMPLAINT_EVAL_ERROR';
