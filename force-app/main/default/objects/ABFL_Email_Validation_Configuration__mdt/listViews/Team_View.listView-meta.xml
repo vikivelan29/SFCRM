@@ -4,7 +4,7 @@
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
     <columns>NamespacePrefix</columns>
-    <columns>Email_Addresses_Allowed__c</columns>
+    <columns>Email_Addresses_Allowed_Long__c</columns>
     <filterScope>Everything</filterScope>
     <label>Team View</label>
 </ListView>
