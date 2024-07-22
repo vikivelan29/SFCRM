@@ -7,9 +7,10 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
+        - ABHILDev-sandbox
         ##- Preprod-sandbox
         ##- prodution-org
-        default: 'Preprod-sandbox'
+        default: 'ABHILDev-sandbox'
         required: true
       validateOnly:
         description: 'Run the deployment as validation only'
@@ -18,12 +19,12 @@ on:
 
 jobs:
   
-  deploy-sit1-sandbox:
+  deploy-ABHILDev-sandbox:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'sit1-sandbox' }}
+    if: ${{ github.event.inputs.environment == 'ABHILDev-sandbox' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy to sit1 sandbox
+      - name: Deploy to ABHILDev-sandbox
         uses: ./.github/actions/deploy-environment
         with:
           sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_1 }}
