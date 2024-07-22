@@ -120,10 +120,7 @@ export default class Absli_fetchPANDetails extends LightningElement {
                 }
                 else{
                     debugger;
-<<<<<<< HEAD
-=======
                     this.apifetchError =true;
->>>>>>> UAT_V4
                     this.showToast({
                         title: "Error",
                         message: result.errorMessage,
@@ -135,12 +132,9 @@ export default class Absli_fetchPANDetails extends LightningElement {
                 debugger;
                 console.log(error);
             })
-<<<<<<< HEAD
-=======
         }
 
         
->>>>>>> UAT_V4
     }
     get showResponse() {
         if (this.loaded && !this.showErrorMsg) {
