@@ -35,7 +35,11 @@ public with sharing class ABHFL_LeadCreationAPI {
             ResponseWrapper responseWrapperObj = new ResponseWrapper();
             ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
             if(!Test.isRunningTest()){
+                if(String.isNotBlank(leadCreationWrp.responseBody)){                      // check added by Vikas Kore to restrict the null values, as part of INC000000034556 ticket.
+ 
                 responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
+				}
+               // responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
             }
             leadObj.API_Response_Message__c = '';
             leadObj.Create_Lead_To_CRM_Status__c = '';
