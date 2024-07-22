@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Error_Message__c</field>
-        <value xsi:type="xsd:string">The issue &apos;Email ID Update&apos; isn&apos;t valid for this policy.</value>
+        <value xsi:type="xsd:string">Policy is not eligible for &apos;Email ID Update&apos;</value>
     </values>
     <values>
         <field>Issue_Code__c</field>
