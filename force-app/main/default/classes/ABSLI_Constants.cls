@@ -158,7 +158,6 @@ public class ABSLI_Constants {
     public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
     public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
 
-    public static final String POLICY_GEN_FUND_INTEGRATION_METADATA = 'ABSLI_Gen_Fund_Integration';
     public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
     public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
 
