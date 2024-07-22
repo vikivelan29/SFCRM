@@ -27,7 +27,7 @@ jobs:
       - name: Deploy to ABHILDev-sandbox
         uses: ./.github/actions/deploy-environment
         with:
-          sfdx_auth_url: ${{ secrets.SFDX_ABCL_SIT_1 }}
+          sfdx_auth_url: ${{ secrets.SFDX_ABHIL_DEV}}
           environmentName: ${{ github.event.inputs.environment }}
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
