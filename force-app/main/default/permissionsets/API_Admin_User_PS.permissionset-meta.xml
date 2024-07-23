@@ -9128,8 +9128,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.Responded_on__c</field>
-<<<<<<< HEAD
-=======
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9200,7 +9198,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Survey_Response__c.Responded_on__c</field>
->>>>>>> UAT_V4
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10557,15 +10554,7 @@
         <object>ABSLI_IGMS_Document__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>ABSLI_IGMS_Document__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
+    
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
