@@ -12,7 +12,6 @@
     <sendSecretInApis>true</sendSecretInApis>
     <tokenUrl>https://adityabirlafinancialsharedservices.my.salesforce.com/services/oauth2/token</tokenUrl>
     <isPkceEnabled>false</isPkceEnabled>
-    <providerType>Salesforce</providerType>
     <requireMfa>false</requireMfa>
     <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
     <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
