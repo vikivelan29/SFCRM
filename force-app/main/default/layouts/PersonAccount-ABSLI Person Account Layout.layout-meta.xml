@@ -317,13 +317,6 @@
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>Phone__c</fields>
-        <fields>Status__c</fields>
-        <fields>SMS_Msg_Body__c</fields>
-        <relatedList>ASF_Communication_Log__c.Account__c</relatedList>
-    </relatedLists>
-    <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
