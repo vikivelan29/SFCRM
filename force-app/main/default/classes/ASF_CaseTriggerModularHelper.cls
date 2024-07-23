@@ -11,6 +11,29 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
     public static Boolean preClosureStageAlreadyStamped = false;
+    private static Map<Id, Set<String>> skipperFlagMap = new Map<Id, Set<String>>();
+    public static Map<Id, Set<String>> getSkipperFlagMap() {
+        return skipperFlagMap;
+    }
+    /**
+* @Function - setSkipperFlags
+* @Description - method to be invoked at the beginning and end of the BEFORE triggers
+* This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+*/
+    public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
+        skipperFlagMap = new Map<Id, Set<String>>();
+        for(Case caseRec : newList){
+            system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
+            if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
+               && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
+                   //if insert or the flag field is updated
+                   Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
+                   skipperFlagMap.put(caseRec.Id, skippedItems);
+                   caseRec.Feature_Skipper_Flag__c = '';
+               }
+            system.debug('set flag end--'+skipperFlagMap);
+        }
+    }
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
@@ -228,8 +251,14 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);
-                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+						caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
+                        // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
+                        if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                        {
+                             caseRecFromMap.OwnerId = caseRec.OwnerId;
+                        }
+                       	caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
+                            caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }
@@ -813,9 +842,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
-                    if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
-                        checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
-                    }  
+                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
