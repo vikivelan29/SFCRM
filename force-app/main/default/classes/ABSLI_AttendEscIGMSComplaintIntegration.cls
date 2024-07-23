@@ -90,6 +90,9 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
+				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+            }
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != 'Rejected' && 
             (caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '3' || caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '4')){
                 requestJSON.Insurer_Resolution_Letter_date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c);
@@ -107,6 +110,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             if(caseRecord.ABSLI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABSLI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
+            requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             
             string requestBody = JSON.serialize(requestJSON);
             
@@ -241,7 +245,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.Final_Resolution_Date__c = System.Today();
-                        caseExt.IGMS_Complaint_Status__c = '5';
+                        caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
                         
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
@@ -282,12 +286,21 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
         public string Final_Resolution_Date {get;set;}
         public string TAT_Crossed_Remark {get;set;}
         public string Date_Of_Honoring {get;set;}
+        public String Addressed_To_Insurer { get; set; }
+        public String Trans_Login_Id { get; set; }
+        public string Option{get;set;}
+        public string Mode{get;set;}
+        public string Original_IRDA_Token_num{get;set;}
 
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
-            this.Complaint_Status_Id = '5';
+            this.Complaint_Status_Id = '4';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Date_Of_Honoring_Service  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Option = '1';
+            this.Mode = '2';
         }
     }
     /**

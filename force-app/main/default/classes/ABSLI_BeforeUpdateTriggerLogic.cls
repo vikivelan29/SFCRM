@@ -28,7 +28,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c 
+                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IGMS_Complaint_Type_Code__c,ABSLI_Case_Detail__r.IGMS_type_of_policy__c 
                                        FROM Case 
                                        WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
