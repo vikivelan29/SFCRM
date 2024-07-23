@@ -199,7 +199,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         endPoint += 'ClientID='+clientCode+'&';
         endPoint += 'PolicyNumber='+polNumber+'&';
         endPoint += 'FunctionCode='+funcCode+'&';  
-        endPoint += 'Source='+sourceVal+'&';
+        endPoint += 'Source=CRM&';
         endPoint += 'TimeStamp='+ currentDateTime.Day()+currentDateTime.Month()+currentDateTime.Year()+currentDateTime.Hour()+currentDateTime.Minute()+currentDateTime.Second()+'000';
         Blob exampleIv = Blob.valueOf(Label.ABSLI_Ivkey);
         Blob key = Blob.ValueOf(Label.ABSLI_key);
