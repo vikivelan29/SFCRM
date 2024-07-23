@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">ABSLI</value>
     </values>
     <values>
+        <field>CTST_Query_Fields__c</field>
+        <value xsi:type="xsd:string">Issue Code,Case Type,Sub Type,Nature,Issue Type</value>
+    </values>
+    <values>
         <field>Custom_Permission_for_Access__c</field>
         <value xsi:type="xsd:string">Bulk_Case_Create</value>
     </values>
