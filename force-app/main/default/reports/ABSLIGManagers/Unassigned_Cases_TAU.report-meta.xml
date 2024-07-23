@@ -19,9 +19,6 @@
         <field>Case$Source__c</field>
     </columns>
     <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
         <field>Case$Stage__c</field>
     </columns>
     <columns>
@@ -36,7 +33,7 @@
     <columns>
         <field>Case$ABSLIG_Case_Detail__c.Delay_Reason__c</field>
     </columns>
-    <description>Report showing number of open ABSLIG Cases - with custom report type</description>
+    <description>All cases not assigned to a user</description>
     <filter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
@@ -52,9 +49,21 @@
             <operator>equals</operator>
             <value>0</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case$Owner</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLIG Email Team,ABSLIG Credit Life,ABSLIG Funds,ABSLIG Term,ABSLIG UW - Group Ops</value>
+        </criteriaItems>
     </filter>
-    <format>Tabular</format>
-    <name>Assigned Active Cases</name>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$Owner</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Unassigned Cases</name>
     <params>
         <name>co</name>
         <value>1</value>

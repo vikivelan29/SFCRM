@@ -4,13 +4,13 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
+        <field>Case$Owner</field>
+    </columns>
+    <columns>
         <field>Case$Subject</field>
     </columns>
     <columns>
         <field>Case$Customer_name_formula__c</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedDate</field>
     </columns>
     <columns>
         <field>Case$Asset</field>
@@ -19,13 +19,7 @@
         <field>Case$Source__c</field>
     </columns>
     <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
         <field>Case$Stage__c</field>
-    </columns>
-    <columns>
-        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
         <field>Case$Sub_Type_Text__c</field>
@@ -36,7 +30,7 @@
     <columns>
         <field>Case$ABSLIG_Case_Detail__c.Delay_Reason__c</field>
     </columns>
-    <description>Report showing number of open ABSLIG Cases - with custom report type</description>
+    <description>Case closure grouped by created month</description>
     <filter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
@@ -45,27 +39,30 @@
             <operator>equals</operator>
             <value>ABSLIG</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>Case$IsClosed</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>0</value>
-        </criteriaItems>
     </filter>
-    <format>Tabular</format>
-    <name>Assigned Active Cases</name>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$IsClosed</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$CreatedDate</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>Daily Case Closure Report</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
     <reportType>ABSLIG_Case_Report__c</reportType>
     <scope>organization</scope>
-    <showDetails>true</showDetails>
+    <showDetails>false</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <interval>INTERVAL_CURFY</interval>
     </timeFrameFilter>
 </Report>

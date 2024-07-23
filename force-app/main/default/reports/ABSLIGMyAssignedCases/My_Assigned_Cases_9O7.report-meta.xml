@@ -7,22 +7,13 @@
         <field>Case$Subject</field>
     </columns>
     <columns>
-        <field>Case$Customer_name_formula__c</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedDate</field>
+        <field>Case$ABSLIG_Case_Detail__c.Policy_ID__c</field>
     </columns>
     <columns>
         <field>Case$Asset</field>
     </columns>
     <columns>
-        <field>Case$Source__c</field>
-    </columns>
-    <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
-        <field>Case$Stage__c</field>
+        <field>Case$Nature__c</field>
     </columns>
     <columns>
         <field>Case$Type_Text__c</field>
@@ -31,12 +22,36 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLIG_Case_Detail__c.Financial_Non_Financial__c</field>
+        <field>Case$Stage__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Case$Owner</field>
+    </columns>
+    <columns>
+        <field>Case$Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
         <field>Case$ABSLIG_Case_Detail__c.Delay_Reason__c</field>
     </columns>
-    <description>Report showing number of open ABSLIG Cases - with custom report type</description>
+    <columns>
+        <field>Case$ABSLIG_Case_Detail__c.Maker_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLIG_Case_Detail__c.Maker_Comment__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$IsClosed</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
@@ -54,13 +69,13 @@
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Assigned Active Cases</name>
+    <name>My Assigned Cases</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
     <reportType>ABSLIG_Case_Report__c</reportType>
-    <scope>organization</scope>
+    <scope>user</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>

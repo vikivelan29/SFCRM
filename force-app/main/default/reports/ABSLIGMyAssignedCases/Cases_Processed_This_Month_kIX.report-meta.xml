@@ -7,36 +7,49 @@
         <field>Case$Subject</field>
     </columns>
     <columns>
-        <field>Case$Customer_name_formula__c</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedDate</field>
+        <field>Case$ABSLIG_Case_Detail__c.Policy_ID__c</field>
     </columns>
     <columns>
         <field>Case$Asset</field>
     </columns>
     <columns>
-        <field>Case$Source__c</field>
-    </columns>
-    <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
-        <field>Case$Stage__c</field>
-    </columns>
-    <columns>
-        <field>Case$Type_Text__c</field>
+        <field>Case$Nature__c</field>
     </columns>
     <columns>
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLIG_Case_Detail__c.Financial_Non_Financial__c</field>
+        <field>Case$Stage__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Case$Owner</field>
+    </columns>
+    <columns>
+        <field>Case$Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
         <field>Case$ABSLIG_Case_Detail__c.Delay_Reason__c</field>
     </columns>
-    <description>Report showing number of open ABSLIG Cases - with custom report type</description>
+    <columns>
+        <field>Case$ABSLIG_Case_Detail__c.Maker_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLIG_Case_Detail__c.Maker_Comment__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$IsClosed</field>
+    </columns>
+    <description>A report of all cases closed by the user each month by type</description>
     <filter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
@@ -50,22 +63,31 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>0</value>
+            <value>1</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
-    <name>Assigned Active Cases</name>
+    <format>Summary</format>
+    <groupingsDown>
+        <field>Case$ClosedDate</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$Type_Text__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Cases Processed This Month</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
     <reportType>ABSLIG_Case_Report__c</reportType>
-    <scope>organization</scope>
+    <scope>user</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$CreatedDate</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>Case$ClosedDate</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
     </timeFrameFilter>
 </Report>
