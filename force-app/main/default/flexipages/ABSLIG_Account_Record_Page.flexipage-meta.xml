@@ -371,12 +371,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aSF_DynamicButtons</componentName>
-                <identifier>c_aSF_DynamicButtons</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-3b32e510-d499-4a24-b963-16ce57a61424</value>
