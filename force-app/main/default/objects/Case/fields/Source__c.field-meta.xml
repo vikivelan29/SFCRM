@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <label>Source</label>
     <externalId>false</externalId>
+    <label>Source</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
@@ -325,58 +325,9 @@ Portal</label>
                 <label>Walk-In</label>
             </value>
             <value>
-                <fullName>Webfo</fullName>
+                <fullName>Branch (walk-in / phone)</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Webfo</label>
-            </value>
-            <value>
-                <fullName>^%$#@#$GHBJHjyg99886</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>^%$#@#$GHBJHjyg99886</label>
-            </value>
-            <value>
-                <fullName>eBOT</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>eBOT</label>
-            </value>
-            <value>
-                <fullName>hgj$125</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>hgj$125</label>
-            </value>
-            <value>
-                <fullName>hgj*125</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>hgj*125</label>
-            </value>
-            <value>
-                <fullName>hgj125</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>hgj125</label>
-            </value>
-            <value>
-                <fullName>hgju125</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>hgju125</label>
-            </value>
-            <value>
-                <fullName>hgy6765</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>hgy6765</label>
-            </value>
-            <value>
-                <fullName>kjkh</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>kjkh</label>
+                <label>Branch (walk-in / phone)</label>
             </value>
         </valueSetDefinition>
     </valueSet>
