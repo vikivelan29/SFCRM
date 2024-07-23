@@ -177,6 +177,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABFL_AccountTeamMemberBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_AccountTeamMemberBatch_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABFL_BRE_APIImplementation</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1781,6 +1789,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DEMO</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DevOpsClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1866,6 +1878,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>RAHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SampleClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
