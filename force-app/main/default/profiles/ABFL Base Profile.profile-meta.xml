@@ -2099,7 +2099,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABFL_Email_Validation_Configuration__mdt.Email_Addresses_Allowed__c</field>
+        <field>ABFL_Email_Validation_Configuration__mdt.Email_Addresses_Allowed_Long__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
