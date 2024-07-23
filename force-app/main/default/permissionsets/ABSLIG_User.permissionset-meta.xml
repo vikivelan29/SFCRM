@@ -1916,18 +1916,6 @@
         <apexClass>listedit__CommList_RelatedListEditorCCTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>smon__GenericEventPostMock</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>smon__StreamingMonitorController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>smon__StreamingMonitorControllerTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ASF_Asset_Metadata__mdt</name>
