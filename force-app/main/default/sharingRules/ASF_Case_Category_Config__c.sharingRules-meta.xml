@@ -58,7 +58,7 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-   <!-- <sharingCriteriaRules>
+       <sharingCriteriaRules>
         <fullName>ABSLIG_CCC_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLIG CCC Sharing</label>
@@ -71,7 +71,7 @@
             <value>ABSLIG</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>-->
+    </sharingCriteriaRules>
     <sharingCriteriaRules>
         <fullName>ABSLI_CCC_Sharing</fullName>
         <accessLevel>Read</accessLevel>
