@@ -14,7 +14,6 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
 	public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','Team Resolution Status':'', 'Resolution Comments':'Unresolved', 'Reason for Delay':'Others', 'RCA Comments If any':'Sample text'}
-		system.debug('inside');
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
         resultWrapper.resultJSONRows = new Map<Id, String>();
@@ -192,8 +191,11 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
-        }
+        } 
 
         return listOfRecordsAsMap;
+    }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
     }
 }

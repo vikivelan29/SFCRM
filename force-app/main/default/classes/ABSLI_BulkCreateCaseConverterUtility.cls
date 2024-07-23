@@ -198,4 +198,56 @@ public with sharing class ABSLI_BulkCreateCaseConverterUtility implements ASF_Bu
 
         return listOfRecordsAsMap;
     }
+
+    /**
+     * @description This method is called from the ASF_BulkCsvController while performing bulk download of ctst data
+     * for create operation
+     * @param jsonRows
+     * @param allOutputs - outputMap with key as field and value as the record value
+     */
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
+        Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
+            'CCC_External_Id__c'=>'Issue Code',
+            'Type__c'=>'Case Type',
+            'Sub_Type__c'=>'Sub Type',
+            'Nature__c'=>'Nature',
+            'Allowed_Issue_Types__c'=>'Issue Type'
+        };
+        Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
+            'Issue Code'=>'CCC_External_Id__c',
+            'Case Type'=>'Type__c',
+            'Sub Type'=>'Sub_Type__c',
+            'Nature'=>'Nature__c',
+            'Issue Type'=>'Allowed_Issue_Types__c'
+        };
+        List<String> fieldNames = new List<String>();
+        for(String columnName : columnNames){
+            if(mapOfColumnNameToFieldApi.containsKey(columnName)){
+                fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
+            }
+        }
+
+        String strFinalQuery;
+        String strFields = String.join(fieldNames, ',');
+        String strWhereClause = ' WHERE Business_Unit__c =: businessUnit';
+        strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ASF_Case_Category_Config__c'+ String.escapeSingleQuotes(strWhereClause);
+        
+        if(String.isNotBlank(strFinalQuery)){
+            strFinalQuery = strFinalQuery + ' LIMIT 50000';
+            System.debug('strFinalQuery'+strFinalQuery);
+            List<SObject> recordsList = Database.query(strFinalQuery);
+            for(SObject obj : recordsList){
+                Map<String,String> fieldMap = new Map<String,String>();
+                for(String fieldName : mapOfFieldApiToColumnName.keySet()){
+                    String fieldValue = (String)obj.get(fieldName);
+                    fieldValue = fieldValue==null?' ':fieldValue;
+                    fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
+                }
+                listOfRecordsAsMap.add(fieldMap);
+            }
+        }
+
+        return listOfRecordsAsMap;
+    }
 }
