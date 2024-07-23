@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 06-30-2024
+ * @last modified on  : 05-20-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -36,6 +36,7 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Set<Id> markForDeletion = new Set<Id>();
     public static Set<Id> caseProspectIds = new Set<Id>();
     public static Map<Id,Lead> mLeads = new Map<Id,Lead>();
+  
     
     
     // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
@@ -136,6 +137,7 @@ public without sharing class ASF_CommPETriggerHelper {
         
         if(setTemplates.size()>0 && peLogBodyInCV.size() == 0){
             emailTemplates = ASF_CommPETriggerQueryHandler.getEmailTemplates(setTemplates); 
+            System.debug('emailTemplates --> '+emailTemplates);
             getEmailTempDevNameVsId();
         }
         /* SMS And WhatsApp Related Template Information from Custom Metadata Related Operations */
@@ -295,9 +297,17 @@ public without sharing class ASF_CommPETriggerHelper {
                         // LOGIC TO SEND EMAIL BY READING CONTENTDOCUMENT BODY.
                         if(pLog.Specific_To_Address__c != null){
                             List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
+                            List<String> ccSpecificAddresses = new List<String>();
+                            if(pLog.Specific_Cc_Addresses__c != null){
+                                ccSpecificAddresses = pLog.Specific_Cc_Addresses__c.deleteWhitespace().split(';');
+                            }
                             List<Id> attachmentIds = String.isNotBlank(pLog.Content_Version_Ids__c)?(List<Id>)pLog.Content_Version_Ids__c.split(','): new List<Id>();
+                            system.debug('attachmentIds---->'+attachmentIds);
                             Messaging.SingleEmailMessage msg = getMessageGeneratedFromCV(pLog.HTMLBody_Con_Doc_Id__c,null,cRec, attachmentIds, owAddress.Id, pLog.Is_Attachment__c,null);
                             msg.setToAddresses(toSpecificAddresses);
+                            if(ccSpecificAddresses.size()>0){
+                                msg.setCcAddresses(ccSpecificAddresses);
+                            }
                             msg.setSubject(pLog.Subject__c);
                             emails.add(msg); 
                             mIdxVsPELoggerId.put(iCounter,pLog.Id);
@@ -305,6 +315,8 @@ public without sharing class ASF_CommPETriggerHelper {
                         }
                     }
                     
+                    System.debug('pLog.Email_Template_Name__c --> '+pLog.Email_Template_Name__c);
+                    System.debug('pLog.Email_Template_Name__c --> '+templateIDMap.keySet());
                     if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
                         Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
                         
@@ -312,8 +324,15 @@ public without sharing class ASF_CommPETriggerHelper {
                         if(pLog.Send_To_Specific_Emails__c){
                             if(pLog.Specific_To_Address__c != null){
                                 List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
+                                List<String> ccSpecificAddresses = new List<String>();
+                                if(pLog.Specific_Cc_Addresses__c  != null){
+                                    ccSpecificAddresses = pLog.Specific_Cc_Addresses__c.deleteWhitespace().split(';');
+                                }
                                 Messaging.SingleEmailMessage msg = getMessageGenerated(null,cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
                                 msg.setToAddresses(toSpecificAddresses);
+                                if(ccSpecificAddresses.size()>0){
+                                    msg.setCcAddresses(ccSpecificAddresses);
+                                }
                                 emails.add(msg); 
                                 mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                 iCounter++;
