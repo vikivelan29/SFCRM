@@ -93,8 +93,19 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;
             requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
-				        requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+				requestJSON.Original_IRDA_Token_Num = caseRecord.ABSLI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
+            //Recategorization Changes
+            /*requestJSON.IsComplaint_Change_By_Insurer = '1';
+            requestJSON.Insurer_Policy_Number = '111111';
+            requestJSON.Insurer_Policy_Type_Id = '13';
+            requestJSON.Insurer_Complaint_Type_Id = '1';
+            requestJSON.Insurer_Complaint_Desc_Type_Id = '2';*/
+            /*requestJSON.Policy_Number = '111111';
+            requestJSON.Policy_Type_Id = '13';
+            requestJSON.Complaint_Type_Id = '1';
+            requestJSON.Complaint_Description_Id  = '2';*/
+            
             
             string requestBody = JSON.serialize(requestJSON);
             System.debug('requestBody--> '+requestBody);
@@ -268,6 +279,16 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
         public string Type_of_disposal {get;set;}
         // VIRENDRA - 19 JULY 2024 
         public string Original_IRDA_Token_Num{get;set;}
+        // Testing Recategorization
+        /*public string IsComplaint_Change_By_Insurer{get;set;}
+        public string Insurer_Policy_Number{get;set;}
+        public string Insurer_Policy_Type_Id{get;set;}
+        public string Insurer_Complaint_Type_Id{get;set;}
+        public string Insurer_Complaint_Desc_Type_Id{get;set;}*/
+        /*public string Policy_Number{get;set;}
+        public string Policy_Type_Id{get;set;}
+        public string Complaint_Type_Id{get;set;}
+        public string Complaint_Description_Id{get;set;}*/
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
