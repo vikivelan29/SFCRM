@@ -31,7 +31,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
                    skipperFlagMap.put(caseRec.Id, skippedItems);
                    caseRec.Feature_Skipper_Flag__c = '';
                }
-            system.debug('set flag end--'+skipperFlagMap);
         }
     }
     /****************************************************************************************************************
@@ -251,7 +250,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-						caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
+						            caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
                         // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
                         if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
                         {
@@ -842,7 +841,9 @@ public without sharing class ASF_CaseTriggerModularHelper {
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
+                    if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
                     checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                    }
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
