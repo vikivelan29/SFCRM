@@ -43,12 +43,6 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aBSLI_FetchAssestsRelatedToAccount</componentName>
-                <identifier>c_aBSLI_FetchAssestsRelatedToAccount</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</name>
         <type>Facet</type>
     </flexiPageRegions>
