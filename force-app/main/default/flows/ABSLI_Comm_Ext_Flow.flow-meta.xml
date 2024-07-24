@@ -312,13 +312,13 @@
         <inputAssignments>
             <field>Specific_To_Address__c</field>
             <value>
-                <elementReference>currentRecord.Asset.Advisor__r.Supervisor_Email__c</elementReference>
+                <elementReference>currentRecord.Asset.Advisor__r.PersonEmail</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Specific_To_MobilePhone__c</field>
             <value>
-                <elementReference>currentRecord.Asset.Advisor__r.Supervisor_Mobile_Number__c</elementReference>
+                <elementReference>currentRecord.Asset.Advisor__r.PersonMobilePhone</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
