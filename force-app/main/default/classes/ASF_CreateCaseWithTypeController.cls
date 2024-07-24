@@ -10,7 +10,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_CC ='CC';
     public static final String STRING_SEMI_COLON =';';
     public static final String STRING_COMMA =',';
-    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage;
+    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage; 
     
     /****************************************************************************************************************
     * @description  Gets the Source tagged to User and its Relavant Channel list.     
@@ -208,7 +208,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
                 if( String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
-                   && ccc.Business_Unit__c.contains(userBu)){
+                   && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
                    } 
                 
