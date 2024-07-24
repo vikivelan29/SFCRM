@@ -245,6 +245,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Disbursed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Disqualified</fullName>
             <default>false</default>
         </values>
@@ -258,6 +262,10 @@
         </values>
         <values>
             <fullName>Sanctioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unattended</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -296,6 +304,10 @@
         </values>
         <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>

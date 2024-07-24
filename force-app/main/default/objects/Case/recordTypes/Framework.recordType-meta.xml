@@ -54,7 +54,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>ABSLI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
         <values>
@@ -249,6 +253,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Bureau</fullName>
             <default>false</default>
         </values>
@@ -313,10 +321,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -370,10 +374,6 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
