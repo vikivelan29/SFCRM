@@ -84,18 +84,47 @@
                                             required>
                                 </lightning-combobox> 
                         </template>
-                        <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
-                                        label="No Auto Communication"
-                                        options={noAutoCommOptions}
-                                        value={noAutoCommValue}
-                                        onchange={handleAutoCommChange}>
-                        </lightning-checkbox-group>
+                        <template if:true={showAutoCommunication}>
+                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                            label="No Auto Communication"
+                                            options={noAutoCommOptions}
+                                            value={noAutoCommValue}
+                                            onchange={handleAutoCommChange}>
+                            </lightning-checkbox-group>
+                        </template>
                     </template>  
-
-                    <template if:true={isPhoneInbound}>
-                        <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
-                    </template>
-
+                    <div class="slds-grid slds-grid_vertical">
+                        <div class="slds-col slds-size_2-of-8">
+                            <template if:true={isPhoneInbound}>
+                                <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_2-of-8">
+                            <template if:true={showAniNumber}>
+                                <lightning-input class="validate" type="text" label="ANI Number" value={aniNumber} onchange={handleAniNumber} pattern="[0-9]*" required ></lightning-input>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_2-of-8">
+                            <template if:true={showIssueType}>
+                                <lightning-combobox class="validate" name="issueType" label="Issue Type" value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_2-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                            <template if:true={showFtr}>
+                                <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_2-of-8">
+                            <template if:true={showCategoryType}>
+                                <lightning-combobox data-id="Category_Type"
+                                label="Category Type"
+                                class="validate" 
+                                options={categoryTypeOptions}
+                                required>
+                                </lightning-combobox> 
+                            </template>
+                        </div>
+                    </div>
                     <template if:true={isTransactionRelated}>
                         <lightning-input type="text" label="Transaction Number" value={transactionNumber} onchange={handleTransactionChange} required class="validate"></lightning-input>
                     </template>
@@ -111,7 +140,7 @@
                             </lightning-input-field>
                         </lightning-record-edit-form>
                         <lightning-input type="text" disabled value={selectedSRCategory} label="SR Category"></lightning-input>
-                </template>
+                    </template>
                 
                     </lightning-layout-item>
                     <lightning-layout-item padding="around-small">
