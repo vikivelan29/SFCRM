@@ -309,14 +309,14 @@ blankSourcePresent = true;
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-						            caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
-                        // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
-                        if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
+                            // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
+                            if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
                         {
-                             caseRecFromMap.OwnerId = caseRec.OwnerId;
+                            caseRecFromMap.OwnerId = caseRec.OwnerId;
                         }
-                       	caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
-                            caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
+                        caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
+                        caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }
@@ -587,8 +587,8 @@ blankSourcePresent = true;
                             caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                                 caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                         }else{
-                                            system.debug('as-error3');
-
+                            system.debug('as-error3');
+                            
                             caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                         }
                     }
@@ -656,7 +656,7 @@ blankSourcePresent = true;
                     if(supressErrors.containsKey(caseRec.Id) && supressErrors.get(caseRec.Id)){
                         triggerEncounteredError.put(caseRec.Id, true);
                     }else{
-                    system.debug('as-error1');
+                        system.debug('as-error1');
                         caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                     }
                 }
@@ -742,9 +742,9 @@ blankSourcePresent = true;
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
                     }else{                    system.debug('as-error6');
-
-                        caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
-                    }
+                          
+                          caseRec.addError(resultWrap.errorMessage != null?resultWrap.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
+                         }
                 }
             }
             
@@ -813,8 +813,8 @@ blankSourcePresent = true;
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }else{
                     //Error scenario
-                                        system.debug('as-error5');
-
+                    system.debug('as-error5');
+                    
                     newMap.get(caseRec.Id).addError(wrapToReturn.get(caseRec.Id).errorMessage != null?wrapToReturn.get(caseRec.Id).errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
                 }
             }
@@ -843,8 +843,8 @@ blankSourcePresent = true;
                     caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                 }
                 else{
-                                    system.debug('as-error4');
-
+                    system.debug('as-error4');
+                    
                     //Error scenario
                     ASF_CaseMovementHelper.StageWrapper wrapToReturn = wrapToReturnMap.get(caseRec.Id);
                     newMap.get(caseRec.Id).addError(wrapToReturn.errorMessage != null?wrapToReturn.errorMessage:ASF_Constants.GENERIC_ERROR_MESSAGE);
@@ -958,7 +958,7 @@ blankSourcePresent = true;
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
                     if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
                     checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
-                    }
+                }
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
@@ -1651,6 +1651,17 @@ blankSourcePresent = true;
         }
     }
     
+    public static boolean runvalidateCCCOnUpdateFromEBOT(Case caseRec, case oldCaseRec){
+        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && 
+           oldCaseRec.CCC_External_Id__c == null && 
+           caseRec.Preframework_to_Framework_FromUI__c == false)
+        {
+            return false;
+        }
+        return true;
+        
+    }
+    
     /*
 Bot stamps account , type and sub type. but for given account , 
 type sub type may not be valid. we cannot block bot and STOP transaction.
@@ -1666,13 +1677,16 @@ User will now be forced to go recategorize.
         for(Case caseRec : newList){
             //AM-Removed the null check for CCC External ID
             if(oldMap != null && (caseRec.accountId != oldMap.get(caseRec.Id).accountId 
-                || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
+                                  || caseRec.assetId != oldMap.get(caseRec.Id).assetId ||caseRec.Lead__c != oldMap.get(caseRec.Id).Lead__c 
                                   || caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
-                                      modifiedCases.add(caseRec);  
-                                      cccIds.add(caseRec.CCC_External_Id__c);
-                                      if(caseRec.accountId != oldMap.get(caseRec.Id).accountId){
-                                          accountIds.add(caseRec.accountId);
+                                      if(runvalidateCCCOnUpdateFromEBOT(caseRec , oldMap.get(caseRec.Id))){
+                                          modifiedCases.add(caseRec);  
+                                          cccIds.add(caseRec.CCC_External_Id__c);
+                                          if(caseRec.accountId != oldMap.get(caseRec.Id).accountId){
+                                              accountIds.add(caseRec.accountId);
+                                          } 
                                       }
+                                       
                                   }
         }
         if(!cccIds.isEmpty()){ 
