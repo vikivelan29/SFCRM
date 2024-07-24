@@ -538,7 +538,7 @@
         <inputAssignments>
             <field>Specific_To_Address__c</field>
             <value>
-                <elementReference>SupervisorEmail</elementReference>
+                <elementReference>ToEmailAddress</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
