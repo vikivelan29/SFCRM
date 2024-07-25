@@ -6,7 +6,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
     * @description - created to build the query and fetch the records for datatable
     *****************************************************************************************************************/ 
     @AuraEnabled
-    public static List<IGMSDocumentWrapper> executeQuery(String caseId) {
+    public static List<IGMSDocumentWrapper> executeQuery(String caseId, List<String> clickedIds) {
         List<IGMSDocumentWrapper> igmsDocumentList = new List<IGMSDocumentWrapper>();
         List<ContentDocumentLink> contentLinks = [Select ContentDocumentId from ContentDocumentLink where LinkedEntityId =: caseId];
         if(contentLinks.size() > 0){
@@ -20,6 +20,8 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             List<ABSLI_IGMS_Document__c> igmsDocuments = [Select id,ContentDocumentId__c,Status__c
                                                          from ABSLI_IGMS_Document__c where Case__c =: caseId order by createddate asc];
 
+            List<Case> caseRecords = [Select id,IsClosed from case where id =: caseId];
+
             Map<String,ABSLI_IGMS_Document__c> contentDocumentIdIGMSDocumentMap = new Map<String,ABSLI_IGMS_Document__c>();
             for(ABSLI_IGMS_Document__c doc : igmsDocuments){
                  contentDocumentIdIGMSDocumentMap.put(doc.ContentDocumentId__c, doc);
@@ -30,7 +32,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
                 docWrapper.fileName = content.Title +'.' + content.FileExtension;
                 docWrapper.contentDocumentId = content.ContentDocumentId;
                 docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
-                if(docWrapper.Status == ABSLI_Constants.SUCCESS){
+                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
                     docWrapper.allowUpload = true;
                 }
                 docWrapper.contentVersionID = content.Id;
@@ -46,7 +48,8 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             Boolean isSuccess = true;
             String errorResponse = '';
             IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
-            List<Case> caseRecord = [Select id,CaseNumber,IRDAI_Token_Number__c,Business_Unit__c,Asset.Policy_No__c
+            List<Case> caseRecord = [Select id,CaseNumber,IRDAI_Token_Number__c,Business_Unit__c,Asset.Policy_No__c,
+                                     ABSLI_Case_Detail__r.Resolved_Date__c
                                     from Case where id =: recId limit 1];
 
             if(String.isNotBlank(rowWrapper)){
@@ -68,7 +71,11 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
                     downloadWrapper.caseId = caseRecord[0].CaseNumber;
                     downloadWrapper.IRDA_Token_Number = caseRecord[0].IRDAI_Token_Number__c;
                     downloadWrapper.fileName = docWrapper.fileName;
-                    downloadWrapper.isFRRDoc = true;
+                    if(caseRecord[0].ABSLI_Case_Detail__r.Resolved_Date__c != null){
+                        downloadWrapper.isFRRDoc = true;
+                    }else{
+                        downloadWrapper.isFRRDoc = false;
+                    }
                     downloadWrapper.contentVersionID = docWrapper.contentVersionId;
 
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -88,7 +95,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
                 }
             }
 
-            return new ResponseWrapper(isSuccess,errorResponse);
+            return new ResponseWrapper(isSuccess,errorResponse,docWrapper.contentDocumentId);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -126,15 +133,17 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
         public Boolean isSuccess;
         @AuraEnabled
         public String errorMsg;
-
+        @AuraEnabled
+        public String contentDocumentId;
         /**
          * @description Custom constructor for the wrapper class
          * @param isSuccess
          * @param errorMsg
          **/
-        public ResponseWrapper(Boolean isSuccess, String errorMsg){
+        public ResponseWrapper(Boolean isSuccess, String errorMsg, String contentDocumentId){
             this.isSuccess = isSuccess;
             this.errorMsg = errorMsg;
+            this.contentDocumentId = contentDocumentId;
         }
     }
 }
