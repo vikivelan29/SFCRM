@@ -147,7 +147,7 @@ public with sharing class ASF_RecategoriseCaseController {
     @AuraEnabled
     public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson, String typeSubTypeText){
         /*
-        newCaseJson looks like below
+        newCaseJson looks like below 
         '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
         */
         List<ASF_Checklist__c> openCheckLists = [SELECT ID 
