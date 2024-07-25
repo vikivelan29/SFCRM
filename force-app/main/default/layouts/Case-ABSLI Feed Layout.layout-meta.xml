@@ -635,10 +635,18 @@
         <fields>Status__c</fields>
         <fields>SMS_Msg_Body__c</fields>
         <fields>CREATED_DATE</fields>
+        <fields>Phone__c</fields>
         <relatedList>ASF_Communication_Log__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>First_Name__c</fields>
+        <fields>Last_Name__c</fields>
+        <fields>Relation__c</fields>
+        <fields>Percentage__c</fields>
+        <fields>Sequence_No__c</fields>
+        <fields>Action_Item__c</fields>
         <relatedList>ABSLI_Nominee__c.Case__c</relatedList>
     </relatedLists>
     <relatedObjects>ContactId</relatedObjects>
@@ -651,7 +659,7 @@
     <showRunAssignmentRulesCheckbox>true</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>true</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBi000000McY5</masterLabel>
+        <masterLabel>00hBl000000P4DJ</masterLabel>
         <sizeX>3</sizeX>
         <sizeY>4</sizeY>
         <summaryLayoutItems>

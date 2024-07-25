@@ -163,9 +163,7 @@
 												Service Request: {{{Case.Sub_Type_Text__c}}}<br />
 												Reason:&nbsp;&nbsp;</div>
 
-												<div style="margin-right: 4px; margin-left: 4px; text-align: justify;">@@ul$$ABSLI_Case_Detail__r.Resolution__c$$ul@@<br />
-												<br />
-												Request you to get in touch with the person who helped you raise the request to help in resolution.<br />
+												<div style="margin-right: 4px; margin-left: 4px; text-align: justify;">@@ul$$ABSLI_Case_Detail__r.Resolution__c$$ul@@Request you to get in touch with the person who helped you raise the request to help in resolution.<br />
 												<br />
 												Warm Regards,<br />
 												Team ABSLI</div>

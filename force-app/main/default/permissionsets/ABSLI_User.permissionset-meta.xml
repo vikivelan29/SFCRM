@@ -1254,6 +1254,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_IGMS_Document__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Email_Config__c.Duplicate_Case_SMS_Metadata__c</field>
         <readable>true</readable>
@@ -3738,6 +3743,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Lead.Service</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <pageAccesses>

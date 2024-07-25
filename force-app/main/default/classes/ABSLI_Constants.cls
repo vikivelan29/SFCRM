@@ -19,6 +19,7 @@ public class ABSLI_Constants {
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
 
     /* Bitly Link REAL TIME API
      */
@@ -170,6 +171,8 @@ public class ABSLI_Constants {
     public static final String IGMS_REOPENEDCOMLPAINT_NEXT_INT  = 'ABSLI_ReopenedIGMSComplaintIntegration';
     public static final String IGMS_REGCOMPLAINT_SRV_NAME = 'RegisterComplaints';
     public static final String IGMS_UPDATECOMPLAINT_SRV_NAME = 'UpdateComplaints';
+    public static final String IGMS_UPDATECOMPLAINT_DOWNLOAD_SRV_NAME = 'UpdateComplaintsDownload';
+    public static final String IGMS_UPDATECOMPLAINT_UPLOAD_SRV_NAME = 'UpdateComplaintsUpload';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
@@ -184,5 +187,7 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMSSYNC_FAILURE_MESSAGE = 'ABSLI_IGMSSYNC_FAILURE_MESSAGE';
     public static final String ABSLI_IGMS_TRANS_LOGIN_ID = 'bslicadmin';
     public static final String ABSLI_IGMS_ADDRESS_TO_INSURER_Y = 'Y';
+    public static final String ABSLI_IGMS_OPTION = '1';
+    public static final String ABSLI_IGMS_MODE = '2';
 
 }

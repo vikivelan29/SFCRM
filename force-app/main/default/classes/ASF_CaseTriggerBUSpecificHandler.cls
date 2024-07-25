@@ -12,8 +12,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
-            //AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
-            ABSLI_BeforeInsertTriggerLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
         }
@@ -57,6 +55,13 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     public override void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.populateFieldsInAfterContext((List<Case>)newItems.values());
+        
+        Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
+        Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
+        if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
+        	//AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
+        	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId));    
+        }
     }
 
     /**

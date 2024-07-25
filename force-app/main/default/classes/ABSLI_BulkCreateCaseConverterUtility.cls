@@ -107,6 +107,13 @@ public with sharing class ABSLI_BulkCreateCaseConverterUtility implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(!cccIdToIssueTypeMap.containsKey(issueTypeCode) && issueType != null && issueType.trim() != ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Selected Issue Type Code does not have an Issue Type');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!lanToAccountIdMap.containsKey(lan)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Policy Number is not found');
