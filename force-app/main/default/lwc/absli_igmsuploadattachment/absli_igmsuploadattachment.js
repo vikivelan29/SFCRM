@@ -45,6 +45,7 @@ export default class Absli_igmsuploadattachment extends LightningElement {
     relatedListTitle = 'IGMS Documents(TO IRDAI)';
     relatedListTitleWithCount;
     totalNoOfRecordsInDatatable = 0;
+    clickedRecords = [];
 
     connectedCallback() {
         this.retrieveDataTable();
@@ -52,7 +53,7 @@ export default class Absli_igmsuploadattachment extends LightningElement {
     }
 
     retrieveDataTable() {
-        executeQuery({ caseId: this.recordId})
+        executeQuery({ caseId: this.recordId,clickedIds:this.clickedRecords})
             .then(result => {
                 // Check if result exists and has data
                 if (result) {
@@ -157,6 +158,7 @@ export default class Absli_igmsuploadattachment extends LightningElement {
                     console.log('***result:'+JSON.stringify(result));
                     if(result.isSuccess === true) {
                         this.showToast('Success','The synchronization process has been successfully initiated.','Success');
+                        this.clickedRecords.push(result.contentDocumentId);
                         this.retrieveDataTable();
                     } else {
                         if(result?.errorMsg) {
