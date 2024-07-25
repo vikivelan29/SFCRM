@@ -68,7 +68,7 @@ public class ABSLI_UploadIGMSComplaints_Test {
 
         // Call the uploadAttachment method
         Test.startTest();
-        List<ABSLI_UploadIGMSComplaintsIntegration.IGMSDocumentWrapper> result = ABSLI_UploadIGMSComplaintsIntegration.executeQuery(caseobj.Id);
+        List<ABSLI_UploadIGMSComplaintsIntegration.IGMSDocumentWrapper> result = ABSLI_UploadIGMSComplaintsIntegration.executeQuery(caseobj.Id,new List<String>());
         ABSLI_UploadIGMSComplaintsIntegration.ResponseWrapper response = ABSLI_UploadIGMSComplaintsIntegration.uploadAttachment(caseobj.Id, docWrapperJson);
         Test.stopTest();
         
