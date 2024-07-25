@@ -1032,4 +1032,11 @@
         <shortDescription>Business Unit Check For SLA Override</shortDescription>
         <value>ABSLIG</value>
     </labels>
+    <labels>
+        <fullName>ASF_UIActionDelay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
+        <value>2000</value>
+    </labels>
 </CustomLabels>

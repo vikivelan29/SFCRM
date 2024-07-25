@@ -174,6 +174,8 @@ public class ABSLI_Constants {
     public static final String IGMS_REOPENEDCOMLPAINT_NEXT_INT  = 'ABSLI_ReopenedIGMSComplaintIntegration';
     public static final String IGMS_REGCOMPLAINT_SRV_NAME = 'RegisterComplaints';
     public static final String IGMS_UPDATECOMPLAINT_SRV_NAME = 'UpdateComplaints';
+    public static final String IGMS_UPDATECOMPLAINT_DOWNLOAD_SRV_NAME = 'UpdateComplaintsDownload';
+    public static final String IGMS_UPDATECOMPLAINT_UPLOAD_SRV_NAME = 'UpdateComplaintsUpload';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
