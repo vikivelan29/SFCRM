@@ -68,7 +68,7 @@ public with sharing class  ASF_CaseUIController {
                 userInp = '%'+userInp+'%';
                 
                 System.debug('userInp-'+userInp);
-              /*  List<List<SObject>> searchList = 
+              /*  List<List<SObject>> searchList =  
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
