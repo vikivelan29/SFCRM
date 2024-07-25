@@ -7059,6 +7059,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_IGMS_Document__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.ABWM_RM_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8373,6 +8378,14 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>PersonAccount.Individual</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

@@ -308,11 +308,34 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>absli_igmsuploadattachment</componentName>
+                <identifier>c_absli_igmsuploadattachment</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABSLI</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RECORDTYPE|EQUALS|[&quot;Download&quot;]</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
