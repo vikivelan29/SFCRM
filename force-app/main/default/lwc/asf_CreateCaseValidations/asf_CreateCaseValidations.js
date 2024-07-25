@@ -3,6 +3,7 @@ import genFundApiValidationCallout from '@salesforce/apex/ABSLI_CreateCaseValida
 import nomineeChangeCaseCreationValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.nomineeChangeCaseCreationValidation';
 import duplicatePolicyPrintingValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.duplicatePolicyPrintingValidation';
 import performUINapiCalloutValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.performUINapiCallout';
+import penalInterestPayoutSaralHealthValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.penalInterestPayoutSaralHealthValidation';
 /**
  * Gen Fund validation method with Apex invocation
  * @param {*} input 
@@ -75,6 +76,25 @@ const performUINapiCallout = async (input) => {
            //success response
         }
     } catch(error){
+        console.log('performUINapiCalloutValidation'+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
+    }
+}
+
+const penalInterestPayoutSaralHealth = async (input) => {
+    try{
+        let result = await penalInterestPayoutSaralHealthValidation({caseRecord:JSON.stringify(input.fields)});
+        if(result){
+            //if result is as expected, then
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
+        }
+    } catch(error){
+        console.log('penalInterestPayoutSaralHealthValidation'+JSON.stringify(error));
         return new ValidationWrapper(false, error.message.body);//error response
     }
 }
@@ -82,7 +102,7 @@ const performUINapiCallout = async (input) => {
 
 //include new validation methods inside method export block
 export {
-    genFundApiValidation,nomineeChangeValidation,duplicatePolicyPrinting,performUINapiCallout
+    genFundApiValidation,nomineeChangeValidation,duplicatePolicyPrinting,performUINapiCallout,penalInterestPayoutSaralHealth
 }
 
 //---------------FRAMEWORK CODE - DO NOT TOUCH--------------//
