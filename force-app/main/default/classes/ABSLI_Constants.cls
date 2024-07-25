@@ -187,5 +187,7 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMSSYNC_FAILURE_MESSAGE = 'ABSLI_IGMSSYNC_FAILURE_MESSAGE';
     public static final String ABSLI_IGMS_TRANS_LOGIN_ID = 'bslicadmin';
     public static final String ABSLI_IGMS_ADDRESS_TO_INSURER_Y = 'Y';
+    public static final String ABSLI_IGMS_OPTION = '1';
+    public static final String ABSLI_IGMS_MODE = '2';
 
 }
