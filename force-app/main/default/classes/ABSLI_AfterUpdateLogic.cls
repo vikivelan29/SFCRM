@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : Salesforce
 * @group             : 
-* @last modified on  : 07-07-2024
-* @last modified by  : Salesforce 
+* @last modified on  : 07-25-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   04-24-2024   Salesforce   Initial Version
@@ -57,11 +57,23 @@ public with sharing class ABSLI_AfterUpdateLogic {
             for(Case currentCase : newCases){
                 if(mCaseExtn.containsKey(currentCase.ABSLI_Case_Detail__c)){
                     ABSLI_Case_Detail__c absliCaseExtn = mCaseExtn.get(currentCase.ABSLI_Case_Detail__c);
+                    System.debug('before trim: ' + absliCaseExtn.Resolution__c);
                     absliCaseExtn.Outcome__c = ASF_Constants.RESOLVEDSTAGES.contains(currentCase.Stage__c) ? ABSLI_Constants.RESOLVED_TEAM_RES_STATUS : (ASF_Constants.REJECTIONSTATUSES.contains(currentCase.Stage__c) ? ABSLI_Constants.UNRESOLVED_TEAM_RES_STATUS : '');
                     if(mControlValVsDependentVal.containsKey(absliCaseExtn.Outcome__c)){
-                        String allResolutions = String.JOIN(mControlValVsDependentVal.get(absliCaseExtn.Outcome__c),';');
+                        String allResolutions = String.join(mControlValVsDependentVal.get(absliCaseExtn.Outcome__c), ';');
+                        System.debug('All Resolutions: ' + allResolutions);
+    
                         if(allResolutions != null && allResolutions != '' && absliCaseExtn.Resolution__c != null && absliCaseExtn.Resolution__c != ''){
-                            if(!allResolutions.contains(absliCaseExtn.Resolution__c)){
+                            List<String> resolutionValues = absliCaseExtn.Resolution__c.split(';');
+                            Boolean allValuesValid = true;
+                            for(String resolutionValue : resolutionValues){
+                                resolutionValue = resolutionValue.trim();
+                                if(!allResolutions.contains(resolutionValue)){
+                                    allValuesValid = false;
+                                    break;
+                                }
+                            }
+                            if(!allValuesValid){
                                 absliCaseExtn.Resolution__c = '';
                             }
                         }
