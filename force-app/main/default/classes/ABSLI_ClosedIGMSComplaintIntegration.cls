@@ -254,8 +254,8 @@ public with sharing class ABSLI_ClosedIGMSComplaintIntegration implements ASF_In
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
-            this.Option = '1';
-            this.Mode = '2';
+            this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_OPTION;
         }
     }
     /**
