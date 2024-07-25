@@ -27,12 +27,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             String evaluationErrorMetadataName = ABSLI_Constants.IGMS_ATTESCCOMPLAINT_EVAL_ERROR;
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-            
-            if (caseRecord.ABSLI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '6')
-            {
-                result.status = ABSLI_Constants.SUCCESS;
-                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-            }
+
+            ABSLI_AttendedToValidationHandler.validateAttendedToEscalated(caseRecord, result);
             
             resultMap.put(caseRecord.Id, result);
         }
@@ -247,7 +243,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                         caseExt.Final_Resolution_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
-                        
+                        caseRecord.Stage__c = 'Resolved';
+                        dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
                     
@@ -300,7 +297,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
-            this.Mode = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
         }
     }
     /**

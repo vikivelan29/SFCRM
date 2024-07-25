@@ -29,7 +29,27 @@ public with sharing class ABSLI_AttendedToValidationHandler {
                 }
                 
             }
+
+            if(String.isNotBlank(errorText)){
+                errorText = errorText.removeEnd(', ');
+                errorText += ' fields are mandatory in the Attended to section.';
+            }
             fieldSpecificValidation(caseRecord);
+
+            Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
+            if(wrapperResultMap.containsKey(caseRecord.Id)){
+                ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
+                if(wrapperResult.result){
+                    result.status = ABSLI_Constants.ERROR;
+                    result.response = wrapperResult.message; 
+                }
+            }
+
+
+            if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != '3'){
+                errorText = 'To Attend to IGMS, Successful Sync To IGMS is needed';
+            }
+
             if(bErrored){
                 result.status = ABSLI_Constants.ERROR;
                 result.response = errorText;
@@ -40,6 +60,56 @@ public with sharing class ABSLI_AttendedToValidationHandler {
         if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == 'Duplicate'){
             
         }
+    }
+
+    public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark',
+    'Re_Open_Comments__c'=>'Re-Open Comments',
+    'Date_of_Honoring_Service__c'=>'Date of Honoring Service',
+    'TAT_Crossed_Remark__c'=>'TAT Crossed Remark'};
+
+    public static void validateAttendedToEscalated(Case caseRecord,ASF_IntegrationsController.IntegrationWrapper result){
+        if (caseRecord.ABSLI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
+            result.status = ABSLI_Constants.SUCCESS;
+            result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+        }
+        
+        String errorText = '';
+        boolean bErrored = false;
+        for(String fieldName : caseExtFieldsEscalated.keySet()){
+            if(caseRecord.ABSLI_Case_Detail__r.get(fieldName) == null || caseRecord.ABSLI_Case_Detail__r.get(fieldName) == '')
+            {
+                if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
+                    // do nothing.
+                }
+                else{
+                    errorText += caseExtFieldsEscalated.get(fieldName)+', ';
+                    bErrored = true;
+                }
+                
+            }
+            
+        }
+
+        if(String.isNotBlank(errorText)){
+            errorText = errorText.removeEnd(', ');
+            errorText += ' fields are mandatory in the Attended to Escalated section.';
+        }
+        fieldSpecificValidation(caseRecord);
+
+        /*Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
+        if(wrapperResultMap.containsKey(caseRecord.Id)){
+            ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
+            if(wrapperResult.result){
+                result.status = ABSLI_Constants.ERROR;
+                result.response = wrapperResult.message; 
+            }
+        }*/
+
+        if(bErrored){
+            result.status = ABSLI_Constants.ERROR;
+            result.response = errorText;
+        }
+            
     }
     
 }
