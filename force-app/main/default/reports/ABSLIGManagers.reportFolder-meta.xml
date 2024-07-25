@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>deep.bordia@adityabirlacapital.com.abcl.uat</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>diana.dsouza@adityabirlacapital.com.abcl.uat</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>sachin.kallolkar@adityabirlacapital.com.abcl.uat</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>santosh.devle@adityabirlacapital.com.abcl.uat</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>smonteiro@salesforce</sharedTo>
+        <sharedToType>User</sharedToType>
+    </folderShares>
+    <name>ABSLIG Managers</name>
+</ReportFolder>
