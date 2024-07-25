@@ -19,6 +19,7 @@ public class ABSLI_Constants {
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
 
     /* Bitly Link REAL TIME API
      */

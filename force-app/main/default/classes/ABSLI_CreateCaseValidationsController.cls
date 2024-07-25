@@ -7,6 +7,33 @@
 *********************************************************/
 public without sharing class ABSLI_CreateCaseValidationsController {
     
+    @AuraEnabled
+    public static String penalInterestPayoutSaralHealthValidation(String caseRecord){
+        try {
+            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+            Asset policy = [SELECT Id, Name, Plan_Name__c 
+                            FROM Asset 
+                            WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
+            if(policy!=null){
+                if(policy.Plan_Name__c==ABSLI_Constants.SARAL_HEALTH_PLAN_NAME){
+                    return 'Success';
+                }else{
+                    return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
+                }
+            }
+            return 'User is not eligible';
+            
+        } catch (Exception e) {
+            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('ABSLI_Penal Interest Payout - Saral Health Reimbursement Case creation validation');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    
     //AM-PR970457-2001 - Loan payout validation before case creation. Call Gen Fund API to check loan eligibility.
     @AuraEnabled 
     public static String genFundApiValidationCallout(String caseRecord){
@@ -17,7 +44,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
-                requestWrap.policy_id = policy.Name;
+               	requestWrap.policy_id = policy.Name;
                 DateTime effectiveDateTime;
                 if(policy.Effective_Date__c!=null){
                 	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
