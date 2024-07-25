@@ -19,23 +19,7 @@ public class ABSLI_Constants {
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
-    public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
     public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
-    public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
-    {'Reinstatement_Amount__c'=>'Decimal',
-     'COI_Covid_Quest__c' => 'String',
-     'Medicals__c'=> 'String',
-     'Remarks__c' => 'String',
-     'COI_Signed_Date__c' => 'Date'};
-    public static final Map<String,String> CCC_AND_FUNCTION_CODE = new Map<String,String>
-     {
-         'PREI001' => 'STPRI',
-         'PNFT042' => 'STPFS',
-         'PPCT027' => 'STPMC'
-     };
-     
-     public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
-    
 
     /* Bitly Link REAL TIME API
      */
@@ -61,7 +45,6 @@ public class ABSLI_Constants {
     public static final String AddressUpdateSrvName = 'Address Update';
     public static final String ModeChangeSrvName = 'ModeChangeApi';
     public static final String SurvivalUpdateSrvName = 'survivalUpdateApi';
-    public static final String RQApiSrvName = 'RQServiceApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
@@ -180,7 +163,6 @@ public class ABSLI_Constants {
     /* IGMS OUTBOUND API */
     public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};
         public static final List<String> validGenders = new List<String>{'Male','Female','M','F'};
-            public static final Map<String,String> mapOfGender= new Map<String,String>{'Male' =>'M', 'Female'=>'F'};
             public static final List<String> RECEIPT_NO_REQ_COMP_TYPE_CD = new List<String>{'1','7'};
     public static final String IGMS_REGCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSREGCOMPLAINT_EVAL_ERROR';
     public static final String IGMS_ATTCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSATTCOMPLAINT_EVAL_ERROR';
@@ -192,8 +174,6 @@ public class ABSLI_Constants {
     public static final String IGMS_REOPENEDCOMLPAINT_NEXT_INT  = 'ABSLI_ReopenedIGMSComplaintIntegration';
     public static final String IGMS_REGCOMPLAINT_SRV_NAME = 'RegisterComplaints';
     public static final String IGMS_UPDATECOMPLAINT_SRV_NAME = 'UpdateComplaints';
-    public static final String IGMS_UPDATECOMPLAINT_DOWNLOAD_SRV_NAME = 'UpdateComplaintsDownload';
-    public static final String IGMS_UPDATECOMPLAINT_UPLOAD_SRV_NAME = 'UpdateComplaintsUpload';
     public static final String IGMS_REGCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_ACKCOMPLAINT_SUCCESS_RET_CD = '1';
     public static final String IGMS_PENDCOMPLAINT_SUCCESS_RET_CD = '1';
@@ -208,19 +188,5 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMSSYNC_FAILURE_MESSAGE = 'ABSLI_IGMSSYNC_FAILURE_MESSAGE';
     public static final String ABSLI_IGMS_TRANS_LOGIN_ID = 'bslicadmin';
     public static final String ABSLI_IGMS_ADDRESS_TO_INSURER_Y = 'Y';
-    /* LOAN REPAYMENTS INTEGRATION */
-    public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
-    public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
-    
-    
-    /* LITMUS API */
-    public static final String LITMUS_SOURCE_REQ_BY = 'Customer';
-    public static final String LITMUS = 'Litmus';
-    public static final String COMPLAINT_NATURE = 'Complaint';
-    
-    /* REINSTATEMENT API */
-    public static final String REINSTATEMENT_EVAL_ERROR = 'ABSLI_REINSTATEMENT_EVAL_ERROR';
-    public static final String KARVY_QUEUE_DEVELOPER_NAME = 'ABSLI_KARVY_TEAM';
-    public static final String COVID_19_QUE_STRING = 'COVID 19 Questionnaire';
 
 }
