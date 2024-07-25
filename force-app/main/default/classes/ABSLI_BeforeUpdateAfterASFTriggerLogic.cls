@@ -87,7 +87,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
         }
         //Case Detail 
 		Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
-        for (ABSLI_Case_Detail__c detail : [SELECT Id, Complaint_Category__c,Resolved_Date__c,Pending_Date__c,Final_Resolution_Date__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+        for (ABSLI_Case_Detail__c detail : [SELECT Id, Complaint_Category__c,Resolved_Date__c,Pending_Date__c,Final_Resolution_Date__c,IGMS_Complaint_Status__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
             caseDetailMap.put(detail.Id, detail);
         }
         for (Case caseRec : newMap.values()) {
@@ -125,7 +125,8 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
                     caseDetail.Resolved_Date__c != null &&
                     caseDetail.Pending_Date__c != null &&
                     caseDetail.Final_Resolution_Date__c == null &&
-                    caseRec.Stage__c == 'Resolved') {
+                    caseRec.Stage__c == 'Resolved' &&
+                    caseDetail.IGMS_Complaint_Status__c == '6') {
                         Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Attended to IGMS Esc API needs to be successful in order to close this case');
                         newMap.put(caseRec.Id,caseError);
