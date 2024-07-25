@@ -217,31 +217,6 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 	}
 
 	/**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
-	}
-
-	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
 	 * @param caseRec - Case record from the framework
