@@ -7,6 +7,7 @@
  */
 public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts, Schedulable {
 	public string strQuery = '';
+    public String subType = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
 
 	public ABSLI_LoanVoucherProcessIntegrationBatch(String strQuery) {
 		this.strQuery = strQuery;
@@ -17,8 +18,8 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
 			'SELECT Id, ABSLI_Case_Detail__r.Voucher_Number__c, ABSLI_Case_Detail__r.Voucher_Approval_Date__c, ' +
 			'ABSLI_Case_Detail__r.Requested_Loan_Amount__c FROM Case ' +
 			'WHERE (ABSLI_Case_Detail__r.Voucher_Number__c = null OR ABSLI_Case_Detail__r.Voucher_Approval_Date__c = null) ' +
-            'AND CreatedDate = LAST_N_DAYS:10 AND Is_STP__c = true AND IsClosed = false' +
-            'AND Sub_Type_Text__c =: ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE';
+            'AND CreatedDate = LAST_N_DAYS:10 AND Is_STP__c = true AND IsClosed = false ' +
+            'AND Sub_Type_Text__c =: subType';
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext bc) {

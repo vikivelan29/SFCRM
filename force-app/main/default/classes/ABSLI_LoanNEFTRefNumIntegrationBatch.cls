@@ -7,6 +7,7 @@
  */
 public with sharing class ABSLI_LoanNEFTRefNumIntegrationBatch implements Database.Batchable<SObject>, Database.Stateful, Schedulable {
 	public string strQuery = '';
+    public String subType = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
 
 	public ABSLI_LoanNEFTRefNumIntegrationBatch(String strQuery) {
 		this.strQuery = strQuery;
@@ -17,7 +18,7 @@ public with sharing class ABSLI_LoanNEFTRefNumIntegrationBatch implements Databa
 			'SELECT Id, ABSLI_Case_Detail__r.NEFT_Reference_Number__c ' +
 			'FROM Case WHERE ABSLI_Case_Detail__r.Voucher_Number__c != null ' +
 			'AND IsClosed = false AND CreatedDate = LAST_N_DAYS:10' +
-            'AND Sub_Type_Text__c =: ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE';
+            'AND Sub_Type_Text__c =:subType';
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext bc) {
