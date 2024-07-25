@@ -264,7 +264,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public Integer impactType;
         public string salesId;
 
-        public PaytmRequestWrapper(Case caseRecord,Decimal GST){
+        public PaytmRequestWrapper(Case caseRecord,Integer GST){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;
