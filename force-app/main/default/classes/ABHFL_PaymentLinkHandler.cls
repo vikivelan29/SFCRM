@@ -127,13 +127,13 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         string smsTemplate = '';    
         String emailTemplate = '';   
         String paymentCode = '';
-        Integer GST;
+        Decimal GST;
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
             paymentCode = docChargeMdtLst[0].Payment_Code__c;
-            GST=integer.valueof(docChargeMdtLst[0].GST__c);
+            GST= docChargeMdtLst[0].GST__c;
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
@@ -264,7 +264,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public Integer impactType;
         public string salesId;
 
-        public PaytmRequestWrapper(Case caseRecord,Integer GST){
+        public PaytmRequestWrapper(Case caseRecord,Decimal GST){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;
@@ -272,7 +272,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
-            this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c*(1+(GST/100)));
+            Decimal amountWithGST = caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c * (1 + (GST / 100));
+            Decimal formattedAmount = amountWithGST.setScale(2, System.RoundingMode.HALF_UP);
+            this.Amount = String.valueof(formattedAmount);
+            //this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c*(1+(GST/100)));
             String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
             System.debug('emiTenure: ' + emiTenure);
             if(emiTenure == 'EMI'){
