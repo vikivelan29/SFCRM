@@ -126,12 +126,14 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
         String emailTemplate = '';   
-        String paymentCode = '';           
+        String paymentCode = '';
+        Integer GST;
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
             paymentCode = docChargeMdtLst[0].Payment_Code__c;
+            GST=integer.valueof(docChargeMdtLst[0].GST__c);
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
