@@ -10,11 +10,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     @AuraEnabled
     public static String penalInterestPayoutSaralHealthValidation(String caseRecord){
         try {
-            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Plan_Name__c 
-                            FROM Asset 
-                            WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
-                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
+            Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
                 if(policy.Plan_Name__c==ABSLI_Constants.SARAL_HEALTH_PLAN_NAME){
                     return 'Success';
@@ -89,12 +85,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     @AuraEnabled
     public static String nomineeChangeCaseCreationValidation(String caseRecord){
         try {
-
-            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Policy_Identification__c 
-                            FROM Asset 
-                            WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
-                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
+			Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
                 if((!ABSLI_Constants.NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION.contains(policy.Policy_Identification__c))){
                     return 'Success';
@@ -118,14 +109,10 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     @AuraEnabled
     public static String duplicatePolicyPrintingValidation(String caseRecord){
         try {
-            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Issue_Date__c
-                            FROM Asset 
-                            WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
-                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
+            Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
-                Date oneYearAgo = issueDate.addYears(-1);
+                Date oneYearAgo = Date.today().addYears(-1);
                 if(issueDate >= oneYearAgo){
                     return 'Success';
                 }else{
@@ -147,11 +134,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     @AuraEnabled
     public static String performUINapiCallout(String caseRecord){
         try{
-            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Policy_No__c, Effective_Date__c
-                            FROM Asset 
-                            WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
-                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
+            Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
                 UINapiRequestWrapper request = new UINapiRequestWrapper();
                 request.POLICY_ID = policy.Policy_No__c;
@@ -185,6 +168,24 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }
+    }
+    
+    public static Asset getPolicyDetails(String caseRecord){
+        Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+        String assetId = '';
+        if(jsonMap.get('AssetId')==null){
+            Case cs = [SELECT Id, AssetId FROM Case WHERE Id=:String.valueOf(jsonMap.get('Id'))];
+            assetId = cs.AssetId;
+        }else{
+            assetId = String.valueOf(jsonMap.get('AssetId'));
+        }
+        Asset policy = [SELECT Id, Name, Policy_No__c, Effective_Date__c, Issue_Date__c, Type__c, Payment_Term__c, 
+                            Policy_Identification__c, Plan_Name__c
+                        FROM Asset 
+                        WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+                        AND Id=:assetId];
+
+        return policy;
     }
 
     public class UINapiRequestWrapper{
