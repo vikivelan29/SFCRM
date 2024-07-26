@@ -214,13 +214,5 @@
         <objectApiName>Entitlement</objectApiName>
         <searchable>false</searchable>
     </objectOverride>
-    <objectOverride>
-        <objectApiName>datadetect__Scan_Log__c</objectApiName>
-        <searchable>false</searchable>
-    </objectOverride>
-    <objectOverride>
-        <objectApiName>datadetect__Run_Log__c</objectApiName>
-        <searchable>false</searchable>
-    </objectOverride>
     <profile>abslig base profile</profile>
 </SearchCustomization>
