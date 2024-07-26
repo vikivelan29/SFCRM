@@ -18,11 +18,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ABSLIG_Case_Detail__c</field>
             <table>Case</table>
         </columns>

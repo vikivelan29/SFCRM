@@ -952,6 +952,7 @@
     <tabs>Payment_Customer_Search</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-Lead</tabs>
+    <tabs>standard-Asset</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
