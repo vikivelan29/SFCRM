@@ -2045,11 +2045,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.Annual_Premium__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.Annuity_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
