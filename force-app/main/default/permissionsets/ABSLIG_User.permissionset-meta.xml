@@ -2045,11 +2045,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.Amount_outstanding_in_DOP_ULIP__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.Annual_Premium__c</field>
         <readable>true</readable>
     </fieldPermissions>
