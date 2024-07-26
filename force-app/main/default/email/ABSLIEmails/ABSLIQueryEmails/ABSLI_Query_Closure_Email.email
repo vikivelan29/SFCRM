@@ -156,7 +156,7 @@
 											</tr>
 											<tr>
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="line-height: 28px; font-family: 'Public Sans', Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 400; letter-spacing: -0.2px; color: #7c7c7b; text-align: center" valign="top">
-												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify"><span style="font-size:16px;"><span style="font-family: &quot;Fira Sans&quot;, Helvetica, Arial, sans-serif; font-weight: 500; color: rgb(199, 34, 42); letter-spacing: -0.4px; line-height: 34px; text-align: left;">Dear&nbsp;<strong>{{{Case.Customer_name_formula__c}}}</strong></span></span><br />
+												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify"><span style="font-size:16px;"><span style="font-family: &quot;Fira Sans&quot;, Helvetica, Arial, sans-serif; font-weight: 500; color: rgb(199, 34, 42); letter-spacing: -0.4px; line-height: 34px; text-align: left;">Dear&nbsp;<strong>{{{Case.Customer_name_formula__c}}},</strong></span></span><br />
 												<br />
 												This is with reference to your policy number  $$Asset.Policy_No__c$$<br />
 												<br />

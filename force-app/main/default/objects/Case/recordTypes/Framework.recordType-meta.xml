@@ -85,10 +85,6 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
-            <fullName>Query from Chatbot</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
         </values>
@@ -105,6 +101,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Annuity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Annuity option not clearly explained</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application not logged</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Assignment Related</fullName>
             <default>false</default>
         </values>
@@ -117,7 +125,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bonus</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ChQ Reissuance%2FStop Payment Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change of Bank Details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Change of beneficiary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cheque Cancellation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -141,6 +165,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Commission pass backs</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>D2C Lead</fullName>
             <default>false</default>
         </values>
@@ -157,6 +185,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Discrepancy in claim value</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Documentation related</fullName>
             <default>false</default>
         </values>
@@ -170,6 +202,10 @@
         </values>
         <values>
             <fullName>EIA Account Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Early Claim</fullName>
             <default>false</default>
         </values>
         <values>
@@ -197,6 +233,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Hold refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incomplete charges explained</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Investigation related</fullName>
             <default>false</default>
         </values>
@@ -213,7 +257,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Life assured%27s signature forged on proposal form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Fund Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Loan Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Renewal Fund Transfer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan repayment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maturity</fullName>
             <default>false</default>
         </values>
         <values>
@@ -233,11 +301,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Misselling</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Misselling payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Mode change procedure</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>NACH Auto Payment Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NEFT Rejections%2FCheque Payout</fullName>
             <default>false</default>
         </values>
         <values>
@@ -265,6 +345,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Non Contractual Payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Disclosure payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Early Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Online Payment Related</fullName>
             <default>false</default>
         </values>
@@ -285,6 +377,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partial withdrawal request delayed%2F not received by customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payout Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -294,6 +398,10 @@
         </values>
         <values>
             <fullName>Policy Dispatch %2F Delivery Details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre existing illness not covered</fullName>
             <default>false</default>
         </values>
         <values>
@@ -309,7 +417,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Proposer%27s signature forged on proposal form%2C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reconciliation Refunds</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Refund Cheque RTGS Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refund Intimation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -361,7 +485,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Rejection not communicated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Releasing hold refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Renewal Due Date%2FAmount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal GST</fullName>
             <default>false</default>
         </values>
         <values>
@@ -393,7 +529,35 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Renewal Refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal premium used incorrectly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requirements not informed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rider added%2Fdeleted without consent</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Riders Related%2FFace Amount Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stale cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stop Payment- cheque not received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stop payment</fullName>
             <default>false</default>
         </values>
         <values>
@@ -417,11 +581,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Surrender query post lock-in</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Surrender query within lock-in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survival Benefit</fullName>
             <default>false</default>
         </values>
         <values>
@@ -441,6 +613,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Tampered%2FForged%2FFake Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Taxation</fullName>
             <default>false</default>
         </values>
@@ -457,6 +633,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Termination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party Premium Refund</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Top Up Related</fullName>
             <default>false</default>
         </values>
@@ -465,11 +649,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Transfer from old policy</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>User ID Creation Process%2FForgot password</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Website Premium paid certificate %2F Policy Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawal</fullName>
             <default>false</default>
         </values>
         <values>

@@ -593,6 +593,167 @@
                 <default>false</default>
                 <label>Query from Chatbot</label>
             </value>
+            <value>
+                <fullName>Application not logged</fullName>
+                <default>false</default>
+                <label>Application not logged</label>
+            </value>
+            <value>
+                <fullName>Rejection not communicated</fullName>
+                <default>false</default>
+                <label>Rejection not communicated</label>
+            </value>
+            <value>
+                <fullName>Requirements not informed</fullName>
+                <default>false</default>
+                <label>Requirements not informed</label>
+            </value>
+            <value>
+                <fullName>Hold refund</fullName>
+                <default>false</default>
+                <label>Hold refund</label>
+            </value>
+            <value>
+                <fullName>Releasing hold refund</fullName>
+                <default>false</default>
+                <label>Releasing hold refund</label>
+            </value>
+            <value>
+                <fullName>Withdrawal</fullName>
+                <default>false</default>
+                <label>Withdrawal</label>
+            </value>
+            <value>
+                <fullName>Annuity</fullName>
+                <default>false</default>
+                <label>Annuity</label>
+            </value>
+            <value>
+                <fullName>Maturity</fullName>
+                <default>false</default>
+                <label>Maturity</label>
+            </value>
+            <value>
+                <fullName>Survival Benefit</fullName>
+                <default>false</default>
+                <label>Survival Benefit</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Third Party Premium Refund</fullName>
+                <default>false</default>
+                <label>Third Party Premium Refund</label>
+            </value>
+            <value>
+                <fullName>Reconciliation Refunds</fullName>
+                <default>false</default>
+                <label>Reconciliation Refunds</label>
+            </value>
+            <value>
+                <fullName>Non Contractual Payout</fullName>
+                <default>false</default>
+                <label>Non Contractual Payout</label>
+            </value>
+            <value>
+                <fullName>Stop payment</fullName>
+                <default>false</default>
+                <label>Stop payment</label>
+            </value>
+            <value>
+                <fullName>Renewal Refund</fullName>
+                <default>false</default>
+                <label>Renewal Refund</label>
+            </value>
+            <value>
+                <fullName>Misselling</fullName>
+                <default>false</default>
+                <label>Misselling</label>
+            </value>
+            <value>
+                <fullName>Loan repayment</fullName>
+                <default>false</default>
+                <label>Loan repayment</label>
+            </value>
+            <value>
+                <fullName>Renewal GST</fullName>
+                <default>false</default>
+                <label>Renewal GST</label>
+            </value>
+            <value>
+                <fullName>Refund Intimation</fullName>
+                <default>false</default>
+                <label>Refund Intimation</label>
+            </value>
+            <value>
+                <fullName>Misselling payout</fullName>
+                <default>false</default>
+                <label>Misselling payout</label>
+            </value>
+            <value>
+                <fullName>Non Disclosure payout</fullName>
+                <default>false</default>
+                <label>Non Disclosure payout</label>
+            </value>
+            <value>
+                <fullName>Cheque Cancellation</fullName>
+                <default>false</default>
+                <label>Cheque Cancellation</label>
+            </value>
+            <value>
+                <fullName>Stale cheque</fullName>
+                <default>false</default>
+                <label>Stale cheque</label>
+            </value>
+            <value>
+                <fullName>Stop Payment- cheque not received</fullName>
+                <default>false</default>
+                <label>Stop Payment- cheque not received</label>
+            </value>
+            <value>
+                <fullName>Loan Fund Transfer</fullName>
+                <default>false</default>
+                <label>Loan Fund Transfer</label>
+            </value>
+            <value>
+                <fullName>Loan Renewal Fund Transfer</fullName>
+                <default>false</default>
+                <label>Loan Renewal Fund Transfer</label>
+            </value>
+            <value>
+                <fullName>NEFT Rejections/Cheque Payout</fullName>
+                <default>false</default>
+                <label>NEFT Rejections/Cheque Payout</label>
+            </value>
+            <value>
+                <fullName>Early Claim</fullName>
+                <default>false</default>
+                <label>Early Claim</label>
+            </value>
+            <value>
+                <fullName>Non Early Claim</fullName>
+                <default>false</default>
+                <label>Non Early Claim</label>
+            </value>
+            <value>
+                <fullName>Change of beneficiary</fullName>
+                <default>false</default>
+                <label>Change of beneficiary</label>
+            </value>
+            <value>
+                <fullName>Change of Bank Details</fullName>
+                <default>false</default>
+                <label>Change of Bank Details</label>
+            </value>
+            <value>
+                <fullName>post call- complain</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>post call- complain</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
