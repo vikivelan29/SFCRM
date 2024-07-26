@@ -234,7 +234,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                         caseExt.Resolved_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
-                        
+                        caseRecord.MoveToNext__c = true;
+                        dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
                     
@@ -277,7 +278,7 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
-            this.Mode = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             
         }
     }
