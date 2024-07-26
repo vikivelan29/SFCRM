@@ -4,9 +4,8 @@ import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
-import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -33,7 +32,6 @@ import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Busines
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
-import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -204,49 +202,18 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-   //To get No Auto Communication and category picklist values
-   @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
-   objectInfos({ error, data}) {
-       if(data){
-           for (const [key, value] of Object.entries(data.results)) {
-               if(value.result.apiName === CASE_OBJECT.objectApiName){
-                   this.currentObj = CASE_OBJECT.objectApiName;
-                   this.defaultRecTypeId = value.result.defaultRecordTypeId;
-                   this.picklistApiName = NOAUTOCOMM_FIELD;
-               }
-               if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
-                   this.bsliRecTypeId = value.result.defaultRecordTypeId;
-               } 
-           }
-       }else if(error){
-           console.log('error in get objectInfos--'+JSON.stringify(error));
-       }
-   }
-
-   @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
+   @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
    wiredPicklistValues({ error, data}) {
        if (data){
-           if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
                this.noAutoCommOptions = data.values.map(item => ({
                    label: item.label,
                    value: item.value
                }));
-
-               this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
-               this.defaultRecTypeId = this.bsliRecTypeId;
-               this.picklistApiName = BSLI_CATEGORY_TYPE;
-               
-           }else if(this.currentObj === ABSLI_CASE_DETAIL_OBJECT.objectApiName && this.picklistApiName === BSLI_CATEGORY_TYPE){
-               this.categoryTypeOptions = data.values.map(item => ({
-                   label: item.label,
-                   value: item.value
-               }));
-           }   
-           console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
        } else if (error){
            console.log('error in get picklist--'+JSON.stringify(error));
        }
    }
+
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
