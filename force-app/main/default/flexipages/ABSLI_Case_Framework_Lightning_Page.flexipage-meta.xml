@@ -285,21 +285,175 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.IRDAI_Token_Number__c</fieldItem>
+                <identifier>RecordIRDAI_Token_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIGMS_Complaint_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIGMS_Complaint_Against_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.User_Type__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rUser_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Is_Auto_Escalated__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIs_Auto_Escalated_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Acknowledged_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rAcknowledged_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Pending_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rPending_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Escalated_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rEscalated_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Reopened_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rReopened_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Branch__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIGMS_Branch_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-43bc9a6c-f087-4e9c-b447-cd455236207c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Entity_Reference_No__c</fieldItem>
+                <identifier>RecordEntity_Reference_No_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Type_of_Insurance__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIGMS_Type_of_Insurance_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Identifier_Type__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIdentifier_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Addressed_to_Insurer__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rAddressed_to_Insurer_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Complaint_Registration_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rIGMS_Complaint_Registration_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.New_Registration_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rNew_Registration_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Resolved_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rResolved_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Final_Resolution_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rFinal_Resolution_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLI_Case_Detail__r.Closed_Date__c</fieldItem>
+                <identifier>RecordABSLI_Case_Detail_rClosed_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-76c18da3-dfb0-4e22-a4cf-b149d0be1520</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Case.ABSLI_Case_Detail__c</value>
+                    <name>body</name>
+                    <value>Facet-43bc9a6c-f087-4e9c-b447-cd455236207c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-76c18da3-dfb0-4e22-a4cf-b149d0be1520</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-341e4f47-f037-4c7e-91b6-42fbafa83952</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-341e4f47-f037-4c7e-91b6-42fbafa83952</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>IGMS History Fields</value>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>ABSLI_Case_Detail__c.IGMS_History_Fields</value>
+                    <name>label</name>
+                    <value>IGMS History</value>
                 </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord</identifier>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-70a19946-2f60-4213-a142-ba8815751e08</name>
@@ -1026,6 +1180,12 @@
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

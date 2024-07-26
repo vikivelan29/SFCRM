@@ -76,7 +76,7 @@ export default class Asf_CRNTagging extends LightningElement {
             this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
             this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
-            //this.error = error ; 
+            //this.error = error; 
         }
     }
 

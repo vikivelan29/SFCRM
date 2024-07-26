@@ -75,7 +75,7 @@ public with sharing class  ASF_CaseUIController {
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
                     Asset (Id, AccountId WHERE Name  LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
-                    ]; */
+                    ];  */
                 List<List<SObject>> searchList = 
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
