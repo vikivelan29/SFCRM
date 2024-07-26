@@ -80,7 +80,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
                                 checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
-                                                                checklistList.add(checklistRecord);
+                                checklistList.add(checklistRecord);
                             }
                             break;
                         }
@@ -248,7 +248,7 @@ public without sharing class ASF_CaseFrameworkHelper {
             for(ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseId)){
                 if(history.Stage__c == caseStageMap.get(caseId)){
                     lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
-                    	break;
+                    break;
                 }
         	}
         }
