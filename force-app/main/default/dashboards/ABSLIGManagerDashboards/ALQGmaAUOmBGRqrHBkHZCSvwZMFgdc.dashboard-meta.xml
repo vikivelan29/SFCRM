@@ -164,7 +164,6 @@
     <dashboardType>SpecifiedUser</dashboardType>
     <description>Test Dashboard to check for ABSLIG Requirements</description>
     <isGridLayout>true</isGridLayout>
-    <owner>smonteiro@salesforce</owner>
     <runningUser>abcl.automation@adityabirlacapital.com</runningUser>
     <textColor>#000000</textColor>
     <title>ABSLIG Dashboard</title>

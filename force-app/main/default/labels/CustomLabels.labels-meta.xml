@@ -963,4 +963,11 @@
         <shortDescription>Business Unit Check For SLA Override</shortDescription>
         <value>ABSLIG</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
 </CustomLabels>
