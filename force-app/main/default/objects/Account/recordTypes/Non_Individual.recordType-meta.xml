@@ -64,6 +64,10 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Constitution__c</picklist>
@@ -280,6 +284,10 @@
         </values>
         <values>
             <fullName>Wealth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
     </picklistValues>
