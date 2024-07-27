@@ -1013,10 +1013,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>DevOpsClass</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EbotBatchClass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
