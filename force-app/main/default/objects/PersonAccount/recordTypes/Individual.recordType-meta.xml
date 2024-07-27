@@ -302,6 +302,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
