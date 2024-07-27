@@ -705,10 +705,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_DynamicButtonsController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_Email2CaseHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
