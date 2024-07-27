@@ -353,7 +353,8 @@
 											<tr>
 												<td class="pc-fb-font" style="padding: 0 5px; font-family: 'Fira Sans', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 300; line-height: 28px; letter-spacing: -0.2px; color: #7c7c7b; text-align: center" valign="top">
 												<div style="text-align: left;">Greetings from Aditya Birla Sun Life Insurance.<br />
-												We have received your request dated {{{Case.CreatedDate}}} and it is registered with service request number {{{Case.CaseNumber}}}&thinsp;.</div>
+												We have received your request dated {{{Case.Created_Date__c}}}<br />
+												and it is registered with service request number {{{Case.CaseNumber}}}&thinsp;.</div>
 												</td>
 											</tr>
 											<tr>
