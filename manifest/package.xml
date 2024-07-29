@@ -35,8 +35,6 @@
         <members>ASF_RecategoriseCaseController</members>
         <members>ASF_CaseQueryHandler</members>
         <members>ABSLIG_BulkCreateCaseConverterUtility</members>
-        <members>ABHFL_BulkCreateCaseConverterUtility</members>
-        <members>ABFL_BulkCreateCaseConverterUtility</members>
         <members>ABSLIG_BulkCloseCaseConverterUtility</members>
         <members>ASF_CloneCCCController</members>
 
