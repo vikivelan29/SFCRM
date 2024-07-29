@@ -749,6 +749,36 @@
                 <label>Change of Bank Details</label>
             </value>
             <value>
+                <fullName>Dishonored charges deducted by bank</fullName>
+                <default>false</default>
+                <label>Dishonored charges deducted by bank</label>
+            </value>
+            <value>
+                <fullName>Loan Not processed</fullName>
+                <default>false</default>
+                <label>Loan Not processed</label>
+            </value>
+            <value>
+                <fullName>Surrender value not process</fullName>
+                <default>false</default>
+                <label>Surrender value not process</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not proceed/ Delay</fullName>
+                <default>false</default>
+                <label>Survival benefit not proceed/ Delay</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+                <default>false</default>
+                <label>Customer unable to deposit maturity  benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Mode altered without consent</fullName>
+                <default>false</default>
+                <label>Mode altered without consent</label>
+            </value>
+            <value>
                 <fullName>post call- complain</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
