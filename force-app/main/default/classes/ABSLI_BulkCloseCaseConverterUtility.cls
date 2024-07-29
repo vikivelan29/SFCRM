@@ -32,7 +32,7 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, Nature__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -58,7 +58,7 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(resolutionComments == null || resolutionComments.trim() == ''){
+            if(caseNumberToCaseMap.get(caseNumber).Nature__c == 'Request' && (resolutionComments == null || resolutionComments.trim() == '')){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Resolution Comments is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
