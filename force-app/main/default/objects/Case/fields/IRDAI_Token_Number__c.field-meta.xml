@@ -3,7 +3,7 @@
     <fullName>IRDAI_Token_Number__c</fullName>
     <description>This field is used in ABSLI Complaint Creation Flow from RegisterComplaintIGMSToCRM Inbound call
 This field is used in ABSLI Complaint Creation Flow from UpdateComplaintIGMSToCRM Inbound call</description>
-    <externalId>false</externalId>
+    <externalId>true</externalId>
     <label>IRDAI Token Number</label>
     <length>255</length>
     <required>false</required>
