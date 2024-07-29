@@ -6,7 +6,7 @@
     <name>ABSLIG Group UW Acknowledgement Email</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Acknowledgement of your Service Request</subject>
+    <subject>Case Number {{{Case.CaseNumber}}} has been Registered - {{{Case.Subject}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
