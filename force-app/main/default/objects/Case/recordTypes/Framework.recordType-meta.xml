@@ -169,6 +169,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>D2C Lead</fullName>
             <default>false</default>
         </values>
@@ -186,6 +190,10 @@
         </values>
         <values>
             <fullName>Discrepancy in claim value</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dishonored charges deducted by bank</fullName>
             <default>false</default>
         </values>
         <values>
@@ -269,6 +277,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Loan Not processed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Loan Related</fullName>
             <default>false</default>
         </values>
@@ -306,6 +318,10 @@
         </values>
         <values>
             <fullName>Misselling payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mode altered without consent</fullName>
             <default>false</default>
         </values>
         <values>
@@ -593,7 +609,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Surrender value not process</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Survival Benefit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survival benefit not proceed%2F Delay</fullName>
             <default>false</default>
         </values>
         <values>
