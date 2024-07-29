@@ -21,10 +21,16 @@
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>Case.Assigned_Team__c</field>
+        <field>Case.Case_Assigned_Team__c</field>
     </columns>
     <columns>
         <field>Case.Nature__c</field>
+    </columns>
+    <columns>
+        <field>DESCRIPTION</field>
+    </columns>
+    <columns>
+        <field>Case.Winning_Email__c</field>
     </columns>
     <columns>
         <field>Case.Type_Text__c</field>
@@ -51,6 +57,9 @@
         <field>Asset.Issue_Date__c</field>
     </columns>
     <columns>
+        <field>Account.Customer_Segment__c</field>
+    </columns>
+    <columns>
         <field>ASSET.STATUS</field>
     </columns>
     <columns>
@@ -60,16 +69,10 @@
         <field>Asset.Type__c</field>
     </columns>
     <columns>
-        <field>Asset.Segment__c</field>
-    </columns>
-    <columns>
         <field>Asset.Advisor__c</field>
     </columns>
     <columns>
         <field>ASSET.CREATED</field>
-    </columns>
-    <columns>
-        <field>ASSET.DESCRIPTION</field>
     </columns>
     <columns>
         <field>Asset.Mode__c</field>
@@ -77,11 +80,18 @@
     <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
     <filter>
         <criteriaItems>
-            <column>Case.Assigned_Team__c</column>
+            <column>Case.Case_Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>contains</operator>
+            <value>ABSLI Email management HO,ABSLI Email Management</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CLOSED</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value></value>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
@@ -101,6 +111,6 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <interval>INTERVAL_LAST30</interval>
     </timeFrameFilter>
 </Report>
