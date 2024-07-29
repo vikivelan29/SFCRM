@@ -72,6 +72,10 @@
         <apexClass>ABSLI_UploadIGMSComplaintsIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABSLI_IGMSLWCController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ASF_Asset_Metadata__mdt</name>
