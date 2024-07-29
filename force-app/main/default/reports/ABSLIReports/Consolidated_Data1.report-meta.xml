@@ -55,13 +55,16 @@
         <field>Case$Description</field>
     </columns>
     <columns>
+        <field>Case$Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
+        <field>Case$Entity_Reference_No__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
