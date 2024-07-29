@@ -75,7 +75,7 @@ public with sharing class ABSLIG_CaseDetailHelperClass {
             Map<Id, ASF_Case_Category_Config__c> cccIdToCCCRecMap = new Map<Id, ASF_Case_Category_Config__c>([
                 SELECT Id, Fins_Non_Fins__c, CCC_External_Id__c
                 FROM ASF_Case_Category_Config__c
-                WHERE CCC_External_Id__c IN :mapOfCCCExtIdIdsToCase.keySet() WITH SECURITY_ENFORCED
+                WHERE CCC_External_Id__c IN :mapOfCCCExtIdIdsToCase.keySet()
             ]);
 
             Map<Id, ABSLIG_Case_Detail__c> caseDetailIdToCaseDetRecMap = new Map<Id, ABSLIG_Case_Detail__c>([
