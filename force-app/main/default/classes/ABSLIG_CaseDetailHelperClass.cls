@@ -81,7 +81,7 @@ public with sharing class ABSLIG_CaseDetailHelperClass {
             Map<Id, ABSLIG_Case_Detail__c> caseDetailIdToCaseDetRecMap = new Map<Id, ABSLIG_Case_Detail__c>([
                 SELECT Id, Financial_Non_Financial__c
                 FROM ABSLIG_Case_Detail__c
-                WHERE Id IN :mapOfCsDetailIdsToCase.keySet() WITH SECURITY_ENFORCED
+                WHERE Id IN :mapOfCsDetailIdsToCase.keySet()
             ]);
 
             for (ASF_Case_Category_Config__c cccRecord : cccIdToCCCRecMap.values()) {
