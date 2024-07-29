@@ -6917,7 +6917,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Asset.Interested_Party__c</field>
+        <field>Asset.Interested_Party__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
