@@ -317,6 +317,11 @@
 		<members>Business_Unit</members>
 		<name>GlobalValueSet</name>
 	</types>
+	<types>
+
+		<members>By_Pass_Trigger</members>
+		<name>CustomPermission</name>
+	</types>
 	
 	<version>61.0</version>
 </Package>
