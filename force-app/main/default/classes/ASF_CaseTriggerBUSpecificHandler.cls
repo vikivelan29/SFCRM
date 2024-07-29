@@ -60,7 +60,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
         	//AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
-        	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId));    
+        	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
+            ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());   
         }
     }
 
