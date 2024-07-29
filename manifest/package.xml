@@ -222,6 +222,7 @@
 		<members>ABSLIG_User</members>
 		<members>Admin_User</members>
 		<members>Create_Case</members>
+		<members>Admin_User</members>
 		<name>PermissionSet</name>
 	</types>
 	<types>
