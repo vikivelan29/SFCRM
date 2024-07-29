@@ -40,6 +40,7 @@
 
         <members>ABSLI_FetchAssetController</members>
 		<members>ABSLI_FetchAssetController_Test</members>
+		<members>ABHFL_LeadCreationAPI_Test</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
