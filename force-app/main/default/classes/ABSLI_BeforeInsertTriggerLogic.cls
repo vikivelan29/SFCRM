@@ -82,9 +82,9 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         // Loan Journey - Internal Comments added : Abinash Panigrahi
                         if(caseRec.Sub_Type_Text__c == ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE){
                             if(!caseRec.Is_STP__c && (caseDetail.Requested_Loan_Amount__c < ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT || caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT)){
-                                caseRec.Comments += ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_NONSTP;
+                                caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_NONSTP;
                             } else if(caseRec.Is_STP__c && caseDetail.Requested_Loan_Amount__c >= ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
-                                caseRec.Comments += ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
+                                caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
                             }
                         }
                 }
