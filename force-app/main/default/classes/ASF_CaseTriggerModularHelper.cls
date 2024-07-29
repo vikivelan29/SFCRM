@@ -780,6 +780,59 @@ public without sharing class ASF_CaseTriggerModularHelper {
             triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
+    public static void populateOverrideSLA(List<Case> currentCases, Map<Id, String> caseIdToNextStageMap){
+        Set<String> externalIds = new Set<String>();
+        Set<Id> caseIds = new Set<Id>();
+        for(Case caseRec : currentCases){
+            externalIds.add(caseRec.CCC_External_Id__c);
+            caseIds.add(caseRec.Id);
+        }
+        
+        List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
+
+        // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+            if(config.Query_Fields__c != null){
+                allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
+            }
+        }
+        List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
+        
+        // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
+        List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(externalIds);
+        Map<String, List<ASF_Case_Rule__c>> externalIdToCaseRulesMap = new Map<String, List<ASF_Case_Rule__c>>();
+        Map<Id, List<ASF_Case_Rule__c>> caseIdToCaseRuleMap = new Map<Id, List<ASF_Case_Rule__c>>();
+        
+        for(ASF_Case_Rule__c rule : allCaseRules){
+            if(!externalIdToCaseRulesMap.containsKey(rule.C3ExternalId__c+rule.Stage_Name__c)){
+                externalIdToCaseRulesMap.put(rule.C3ExternalId__c+rule.Stage_Name__c, new List<ASF_Case_Rule__c>());
+            }
+            externalIdToCaseRulesMap.get(rule.C3ExternalId__c+rule.Stage_Name__c).add(rule);
+        }
+        
+        for(Case caseRec : currentCases){
+            String nextStage = caseIdToNextStageMap.get(caseRec.Id);
+            if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
+                if(!caseIdToCaseRuleMap.containsKey(caseRec.Id)){
+                    caseIdToCaseRuleMap.put(caseRec.Id, new List<ASF_Case_Rule__c>());
+                }
+                caseIdToCaseRuleMap.get(caseRec.Id).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
+            }
+        }
+        //Get override sla values and store it in a map
+        Map<Id, Map<string,long>> slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(queriedCaseRecords, caseIdToCaseRuleMap);
+       
+        for(Case caseRec : currentCases){
+            if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+            }
+            addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
+            system.debug('sla value check--'+ addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues);
+            system.debug('checklist null check--'+addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert);
+        }
+        
+    }
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
     //to fetch the tasks, checklists, approvals and integrations and
     //stores them in static variable for after context trigger to insert them
@@ -787,21 +840,31 @@ public without sharing class ASF_CaseTriggerModularHelper {
     //Runs on new case creation and recategorisation and forward stage movement
     public static void checkAndStorePeripheralRecordsInAfterContext(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
+        List<Case> caseListForSla = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
+        Map<Id, String> caseStageMapForSla = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
         Map<Id, case> newMap = new Map<Id, case>();
         
         for(Case caseRec : newList){
             //Insert case
             if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null
-                && (!isUpdate 
-                || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
-                && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
-                (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
-                eligibleRecords.add(caseRec);
-                newMap.put(caseRec.Id, caseRec);
-                caseStageMap.put(caseRec.Id, caseRec.Stage__c);
-            }
+               && (!isUpdate 
+                   || (caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
+                       && oldMap.get(caseRec.Id).CCC_External_Id__c != null) || 
+                   (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==false))){
+                       eligibleRecords.add(caseRec);
+                       newMap.put(caseRec.Id, caseRec);
+                       caseStageMap.put(caseRec.Id, caseRec.Stage__c);
+                   }
+            else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
+       				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
+                       caseListForSla.add(caseRec);
+                       caseStageMapForSla.put(caseRec.Id, caseRec.Stage__c);
+                   }
+        }
+        if(!caseStageMapForSla.isEmpty()){
+            populateOverrideSLA(caseListForSla, caseStageMapForSla);
         }
         if(!caseStageMap.isEmpty()){
             Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
