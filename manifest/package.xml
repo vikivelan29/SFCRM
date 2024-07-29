@@ -265,10 +265,10 @@
 		<members>ABSLIG_Leadership</members>
 		<name>Role</name>
 	</types>
-	<!--<types>
+	<types>
 		<members>ABSLIG_Search</members>
 		<name>SearchCustomization</name>
-	</types> -->
+	</types>
 	<types>
 		<members>BusinessHours</members>
 		<name>Settings</name>
