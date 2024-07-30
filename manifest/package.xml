@@ -218,6 +218,8 @@
 		<members>Case.ABSLIG_UW_Group_Ops_Case</members>
 		<members>Case.All_ABSLIG</members>
 		<members>Case.All_Open_ABSLIG</members>
+		<members>Case.MyCases</members>
+		<members>Case.MyOpenCases</members>
 		<name>ListView</name>
 	</types>
 	<types>
