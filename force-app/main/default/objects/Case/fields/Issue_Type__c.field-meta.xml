@@ -749,29 +749,29 @@
                 <label>Change of Bank Details</label>
             </value>
             <value>
-                <fullName>Dishonored charges deducted by bank</fullName>
+                <fullName>Dishonor charges deducted by bank / dishonor communication recd</fullName>
                 <default>false</default>
-                <label>Dishonored charges deducted by bank</label>
+                <label>Dishonor charges deducted by bank / dishonor communication recd</label>
             </value>
             <value>
-                <fullName>Loan Not processed</fullName>
+                <fullName>Loan not processed /delayed</fullName>
                 <default>false</default>
-                <label>Loan Not processed</label>
+                <label>Loan not processed /delayed</label>
             </value>
             <value>
-                <fullName>Surrender value not process</fullName>
+                <fullName>Surrender not processed or delayed</fullName>
                 <default>false</default>
-                <label>Surrender value not process</label>
+                <label>Surrender not processed or delayed</label>
             </value>
             <value>
-                <fullName>Survival benefit not proceed/ Delay</fullName>
+                <fullName>Survival benefit not processed or delayed</fullName>
                 <default>false</default>
-                <label>Survival benefit not proceed/ Delay</label>
+                <label>Survival benefit not processed or delayed</label>
             </value>
             <value>
-                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+                <fullName>Customer unable to deposit maturity benefit cheque</fullName>
                 <default>false</default>
-                <label>Customer unable to deposit maturity  benefit cheque</label>
+                <label>Customer unable to deposit maturity benefit cheque</label>
             </value>
             <value>
                 <fullName>Mode altered without consent</fullName>
