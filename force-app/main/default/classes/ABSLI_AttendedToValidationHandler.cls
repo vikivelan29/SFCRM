@@ -46,7 +46,7 @@ public with sharing class ABSLI_AttendedToValidationHandler {
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                //errorText += ' fields are mandatory in the Attended to section.';
             }
             fieldSpecificValidation(caseRecord);
 
