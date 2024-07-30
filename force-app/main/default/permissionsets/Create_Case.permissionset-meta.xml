@@ -6948,6 +6948,11 @@
         <field>ASF_Case_Category_Config__c.Fins_Non_Fins__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Created_Date_Range__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Create Case</label>
     <objectPermissions>
