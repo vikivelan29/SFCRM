@@ -90,7 +90,7 @@ public with sharing class ABSLI_EscalatedIGMSComplaintIntegration implements ASF
         }
         
         
-        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseRecs, caseStageMap);
+        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseRecs, caseStageMap,null);
         Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
         for(Id caseId : dataWrapper.keySet()){
             if(!runIntegrationMap.containsKey(caseId)){
@@ -146,7 +146,7 @@ public with sharing class ABSLI_EscalatedIGMSComplaintIntegration implements ASF
                         List<Case> eligibleRecords = new List<Case>();
                         eligibleRecords.add(caseRecord);
                         caseStageMap.put(caseRecord.Id, caseRecord.Stage__c);
-                        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+                        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap,null);
                         Map<Id, ASF_Integration__c> runIntegrationMap = new Map<Id, ASF_Integration__c>();
                         for(ASF_Integration__c intRec : dataWrapper.get(caseRecord.Id).allIntegrations){
                             if(intRec.Processing_Class__c == ABSLI_Constants.IGMS_REOPENEDCOMLPAINT_NEXT_INT){
