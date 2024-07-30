@@ -89,19 +89,19 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
 				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
             }
-            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != 'Rejected' && 
-            (caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '3' || caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '4')){
-                requestJSON.Insurer_Resolution_Letter_date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c);
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && 
+            (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
+                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
                 requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
-                requestJSON.Claim_Payment_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c);
-                requestJSON.Claim_Payment_Cheque_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c);
-                requestJSON.Cheque_Number = caseRecord.ABSLI_Case_Detail__r.Cheque_No__c;
+                requestJSON.Claim_Payment_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Claim_Payment_Cheque_Number = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Number__c;
                 requestJSON.Claim_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Claim_Clsr_Additional_Info__c;
                 requestJSON.Others_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Others_Clsr_Additional_Info__c;
             }
             if(caseRecord.ABSLI_Case_Detail__r.Escalated__c){
                 requestJSON.Final_Resolution_Remark = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Remark__c;
-                requestJSON.Final_Resolution_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c);
+                requestJSON.Final_Resolution_Date = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c, 'dd-MM-YYYY') : null;
             }
             if(caseRecord.ABSLI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABSLI_Case_Detail__r.TAT_Crossed_Remark__c;
@@ -276,7 +276,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
         public string Claim_Received_Amount {get;set;}
         public string Claim_Payment_Date {get;set;}
         public string Claim_Payment_Cheque_Date {get;set;}
-        public string Cheque_Number {get;set;}
+        public string Claim_Payment_Cheque_Number {get;set;}
         public string Claim_Clsr_Additional_Info {get;set;}
         public string Others_Clsr_Additional_Info {get;set;}
         public string Final_Resolution_Remark {get;set;}

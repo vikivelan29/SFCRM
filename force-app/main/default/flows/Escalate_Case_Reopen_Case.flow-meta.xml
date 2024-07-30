@@ -23,11 +23,32 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_ABSLI_Case_DEtail</name>
+        <label>Get ABSLI Case  DEtail</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Case_Detail</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>458</locationY>
         <faultConnector>
             <targetReference>ErrorScreen</targetReference>
         </faultConnector>
@@ -83,12 +104,42 @@
         </inputAssignments>
         <object>Case</object>
     </recordUpdates>
+    <recordUpdates>
+        <name>Update_Case_Detail</name>
+        <label>Update Case Detail</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <connector>
+            <targetReference>Update_Case</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ABSLI_Case_DEtail.ABSLI_Case_Detail__r.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Escalated_Remark__c</field>
+            <value>
+                <elementReference>Escalation_comments</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Escalated__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>ABSLI_Case_Detail__c</object>
+    </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>ErrorScreen</name>
         <label>ErrorScreen</label>
         <locationX>440</locationX>
-        <locationY>350</locationY>
+        <locationY>566</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -109,7 +160,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Update_Case</targetReference>
+            <targetReference>Get_ABSLI_Case_DEtail</targetReference>
         </connector>
         <fields>
             <name>Escalate_Case_Section1</name>
