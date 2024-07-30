@@ -87,7 +87,7 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
-            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3'){
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
                 requestJSON.Claim_Received_Amount = String.valueof(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
             }
             requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;

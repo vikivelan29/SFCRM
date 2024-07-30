@@ -4,7 +4,7 @@ public with sharing class ABSLI_IGMSLWCController {
     
     @AuraEnabled (cacheable = false)
     public static returnResponse getRegistrationComplaintStatuses(String asfIntExtId,String caseId){
-        Set<String> asfIntExtIdSet = new Set<String>();
+        Map<String,ASF_Integration__c> asfIntExtIdMap = new Map<String,ASF_Integration__c>();
         
         ASF_Integration__c asfIntg = [SELECT ID,Case_Stage_Config__c
                                                           FROM ASF_Integration__c 
@@ -15,20 +15,20 @@ public with sharing class ABSLI_IGMSLWCController {
                                                           WHERE STP_API_Identifier__c =:processName
                                                           AND Case_Stage_Config__c =: asfIntg.Case_Stage_Config__c])
         {
-            asfIntExtIdSet.add(registrationProcessFlow.External_Id__c);          
+            asfIntExtIdMap.put(registrationProcessFlow.External_Id__c,registrationProcessFlow);          
         }
         returnResponse cls = new returnResponse();
         for(ASF_Case_Integration__c caseInt : [SELECT ID,Status__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE
-                                               Integration_Ext_Id__c =: asfIntExtIdSet AND Case__c =: caseId ORDER BY CreatedDate DESC])
+                                               Integration_Ext_Id__c =: asfIntExtIdMap.keySet() AND Case__c =: caseId ORDER BY CreatedDate DESC])
         {
-            for(String key : asfIntExtIdSet){
-                if(cls.registrationStatus == '' && key == caseInt.Integration_Ext_Id__c){
+            for(String key : asfIntExtIdMap.keySet()){
+                if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_RegisterIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
                     cls.registrationStatus = caseInt.Status__c;
                 }
-                else if(cls.acknowledgeStatus == '' && key == caseInt.Integration_Ext_Id__c){
+                else if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_AckIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
                     cls.acknowledgeStatus = caseInt.Status__c;
                 }
-                else if(cls.pendingStatus == '' && key == caseInt.Integration_Ext_Id__c){
+                else{
                     cls.pendingStatus = caseInt.Status__c;
                 }
             }
