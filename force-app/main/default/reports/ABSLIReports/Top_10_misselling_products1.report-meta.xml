@@ -43,6 +43,9 @@
         <field>Case$Source__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Advisor__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.Advisor_Code__c</field>
     </columns>
     <columns>
