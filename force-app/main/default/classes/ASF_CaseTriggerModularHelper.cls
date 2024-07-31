@@ -966,8 +966,12 @@ blankSourcePresent = true;
             Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap, caseListForSla);
             //addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
             //addlDataFromStageMovementMethods = dataWrapper;
+            List<Case> casesWithPeripheralRecords = new List<Case>();
             
-            List<Case> casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(caseStageMap.keySet());
+            if(!eligibleRecords.isEmpty()){
+                casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(caseStageMap.keySet());
+            }
+  
             Map<String, Boolean> checklistMap = new Map<String, Boolean>();
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
@@ -1059,6 +1063,12 @@ blankSourcePresent = true;
                         }
                     }
                 }
+            }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+                }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
         }
     }
