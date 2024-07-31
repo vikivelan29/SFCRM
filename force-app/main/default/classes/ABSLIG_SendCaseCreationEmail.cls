@@ -49,7 +49,7 @@ public class ABSLIG_SendCaseCreationEmail {
         }
         if(caseIdsToSendAcknowledgement.size()>0){
             for(case caseobj: ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendAcknowledgement)){
-                if(caseobj.Origin == ASF_Constants.CASE_ORIGIN){
+                if(caseobj.Origin == 'ABSLIG Email' && caseobj.Business_unit__c == 'ABSLIG'){
                     String templateDevName = '';
                     if(mCaseEmailTemplateName.containsKey(caseobj.Id)){
                         templateDevName = mCaseEmailTemplateName.get(caseobj.Id);
