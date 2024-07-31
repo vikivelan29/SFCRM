@@ -185,7 +185,7 @@
             <value>Fax</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Assigned_Team__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notContain</operator>
