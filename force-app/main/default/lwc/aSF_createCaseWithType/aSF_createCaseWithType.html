@@ -141,6 +141,18 @@
                                         </template>
                                         <div class="slds-grid slds-grid_vertical">
                                             <div class="slds-col slds-size_2-of-8">
+                                                <template if:true={boolAllChannelVisible}>
+                                                    <lightning-combobox
+                                                                value={strChannelValue}
+                                                                label="Channel"
+                                                                options={lstChannelValues}
+                                                                onchange={handleChangeChannel}
+                                                                placeholder={strDefaultChannel}
+                                                                required>
+                                                    </lightning-combobox> 
+                                                </template>
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-8">
                                                 <template if:true={showIssueType}>
                                                     <lightning-combobox class="validate" name="issueType" label="Issue Type" value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
                                                 </template>
