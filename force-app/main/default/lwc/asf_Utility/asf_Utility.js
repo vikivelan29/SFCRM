@@ -22,6 +22,7 @@ import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -36,6 +37,7 @@ import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
+import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
@@ -59,6 +61,9 @@ export class asf_Utility {
                 }
                 if(parentJS.categoryTypeVal){
                     fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
+                }
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
                 }
                 let cccRecToPass = {...selected};
                 cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
@@ -117,6 +122,9 @@ export class asf_Utility {
         }
         if(parentJS.ftrValue){
             fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
+        }
+        if(parentJS.businessUnit === ABSLI_BU && parentJS.strChannelValue){
+            fields[CHANNEL_FIELD.fieldApiName] = parentJS.strChannelValue;
         }
         if(parentJS.businessUnit === ABSLI_BU && parentJS.issueTypeVal != null){
             fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;

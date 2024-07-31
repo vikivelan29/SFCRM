@@ -25,6 +25,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, Set<String>> getSkipperFlagMap() {
         return skipperFlagMap;
     }
+    public static String relObjName = '';
     /**
 * @Function - setSkipperFlags
 * @Description - method to be invoked at the beginning and end of the BEFORE triggers
@@ -32,15 +33,34 @@ public without sharing class ASF_CaseTriggerModularHelper {
 */
     public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
         skipperFlagMap = new Map<Id, Set<String>>();
+        Boolean isInsert = oldMap == null ? true : false;
+        String cccId = '';
+        if(isInsert){
+            for(Case caseRec : newList){
+                if(caseRec.CCC_External_Id__c != null && caseRec.CCC_External_Id__c != ''){
+                   cccId = caseRec.CCC_External_Id__c;
+                   break; 
+                }
+            }
+            if(String.isNotBlank(cccId)){
+                relObjName = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(cccId);
+            }
+        }
         for(Case caseRec : newList){
             system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
             if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
                && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
                    //if insert or the flag field is updated
                    Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
-                   skipperFlagMap.put(caseRec.Id, skippedItems);
+                   if(oldMap != null){
+                       skipperFlagMap.put(caseRec.Id, skippedItems);
+                   }else if(String.isNotBlank(relObjName)){
+                       Id fieldValue = (Id)caseRec.get(relObjName);
+            		   skipperFlagMap.put(fieldValue, skippedItems);
+                   }
                    caseRec.Feature_Skipper_Flag__c = '';
                }
+            system.debug('set skipperFlagMap--'+skipperFlagMap);
         }
     }
     /****************************************************************************************************************
@@ -912,6 +932,7 @@ blankSourcePresent = true;
             triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
+
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
     //to fetch the tasks, checklists, approvals and integrations and
     //stores them in static variable for after context trigger to insert them
@@ -919,6 +940,7 @@ blankSourcePresent = true;
     //Runs on new case creation and recategorisation and forward stage movement
     public static void checkAndStorePeripheralRecordsInAfterContext(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
+        List<Case> caseListForSla = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
         Map<Id, case> newMap = new Map<Id, case>();
@@ -934,9 +956,14 @@ blankSourcePresent = true;
                        newMap.put(caseRec.Id, caseRec);
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
+            else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
+       				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
+                       caseListForSla.add(caseRec);
+                       caseStageMap.put(caseRec.Id, caseRec.Stage__c);
+                   }
         }
         if(!caseStageMap.isEmpty()){
-            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap, caseListForSla);
             //addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
             //addlDataFromStageMovementMethods = dataWrapper;
             
