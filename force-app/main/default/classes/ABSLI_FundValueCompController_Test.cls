@@ -26,7 +26,8 @@ public class ABSLI_FundValueCompController_Test {
                 Phone__c = '123-456-7890',
                 City__c = 'Test City',
                 State__c = 'Test State',
-                Pincode__c = '123456'
+                Pincode__c = '123456',
+                UniqueKey__c = '324234'
             );
             insert testBranch;
             // Insert Account
@@ -42,8 +43,8 @@ public class ABSLI_FundValueCompController_Test {
         	insert testContact;
             
             // Create test assets
-        	Asset asset1 = new Asset(Name = 'Asset 1', AccountId = testAccount.Id);
-        	Asset asset2 = new Asset(Name = 'Asset 2', AccountId = testAccount.Id);
+        	Asset asset1 = new Asset(Name = 'Asset 1', AccountId = testAccount.Id,Type__c = 'ULIP');
+        	Asset asset2 = new Asset(Name = 'Asset 2', AccountId = testAccount.Id,Type__c = 'ULIP');
         	insert new List<Asset>{ asset1, asset2 };
 		}
         

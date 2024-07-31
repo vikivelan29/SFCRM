@@ -76,6 +76,9 @@ export default class Absli_RegisterComplaint extends LightningElement {
                 this.pendingIcon = this.completedIcon;
                 this.submitDisabled = true;
             }
+            if(result.registrationStatus == 'Pending' || result.acknowledgeStatus == 'Pending' || result.pendingStatus == 'Pending'){
+                this.submitDisabled = true;
+            }
             this.loading = false;
             
 
@@ -156,7 +159,7 @@ export default class Absli_RegisterComplaint extends LightningElement {
         
              await pollIntegrationStatus({asfIntExtId : this.selectedAction.id ,caseId : this.recordId})
             .then((result)=>{
-                debugger;
+                //debugger;
                 console.log(result);
                 if(result.registrationStatus == 'Success' && this.registrationStatus != this.completedClass){
                     this.successCount++;
@@ -182,6 +185,10 @@ export default class Absli_RegisterComplaint extends LightningElement {
                     this.preloaderPending = '';
                     this.submitDisabled = true;
                     
+                }
+
+                if(result.registrationStatus == 'Pending' || result.acknowledgeStatus == 'Pending' || result.pendingStatus == 'Pending'){
+                    this.submitDisabled = true;
                 }
                 
 

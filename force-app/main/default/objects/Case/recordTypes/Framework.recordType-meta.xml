@@ -81,6 +81,10 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
@@ -169,6 +173,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer unable to deposit maturity benefit cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>D2C Lead</fullName>
             <default>false</default>
         </values>
@@ -186,6 +194,10 @@
         </values>
         <values>
             <fullName>Discrepancy in claim value</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dishonor charges deducted by bank %2F dishonor communication recd</fullName>
             <default>false</default>
         </values>
         <values>
@@ -277,6 +289,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Loan not processed %2Fdelayed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Loan repayment</fullName>
             <default>false</default>
         </values>
@@ -306,6 +322,10 @@
         </values>
         <values>
             <fullName>Misselling payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mode altered without consent</fullName>
             <default>false</default>
         </values>
         <values>
@@ -585,6 +605,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Surrender not processed or delayed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Surrender query post lock-in</fullName>
             <default>false</default>
         </values>
@@ -594,6 +618,10 @@
         </values>
         <values>
             <fullName>Survival Benefit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survival benefit not processed or delayed</fullName>
             <default>false</default>
         </values>
         <values>
