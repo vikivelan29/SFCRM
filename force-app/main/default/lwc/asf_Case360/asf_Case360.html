@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-07-2023
+  @last modified on  : 07-31-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -142,7 +142,8 @@
                                                 <c-asf_searchable-picklist multiselect=false objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
                                                     object-record-id={recordId}
-                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                    onsetfieldvalueevt={handleSetFieldValue}
+                                                    max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                 </c-asf_searchable-picklist>
                                             </template>
                                             <template if:true={ccfield.bMultiSelectSearchablePicklist}>
@@ -154,7 +155,8 @@
                                                 <c-asf_searchable-picklist multiselect=true objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
                                                     object-record-id={recordId}
-                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                    onsetfieldvalueevt={handleSetFieldValue}
+                                                    max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                 </c-asf_searchable-picklist>
                                             </template>
                                             <template if:false={ccfield.bSearchablePicklist}>
@@ -208,7 +210,8 @@
                                                     <c-asf_searchable-picklist multiselect=false
                                                         objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
                                                         fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
-                                                        onsetfieldvalueevt={handleSetFieldValue}>
+                                                        onsetfieldvalueevt={handleSetFieldValue}
+                                                        max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                     </c-asf_searchable-picklist>
                                                 </template>
                                                 <template if:true={ccfield.bMultiSelectSearchablePicklist}>
@@ -222,7 +225,8 @@
                                                         objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
                                                         fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
                                                         onsetfieldvalueevt={handleSetFieldValue}
-                                                        required="false"></c-asf_searchable-picklist>
+                                                        required="false"
+                                                        max-multi-select-allowed={ccfield.maxValuesAllowed}></c-asf_searchable-picklist>
                                                 </template>
                                                 <template if:false={ccfield.bSearchablePicklist}>
                                                     <template if:false={ccfield.bMultiSelectSearchablePicklist}>

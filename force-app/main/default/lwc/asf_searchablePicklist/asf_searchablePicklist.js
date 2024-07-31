@@ -19,6 +19,10 @@ export default class Asf_searchablePicklist extends LightningElement {
     formElementClasses = "slds-form-element slds-form-element_horizontal";
     bshowErrorHelpText = false;
     selectedValues = [];
+    @track mapReturnVal = new Map();
+    @track dependentPicklist = false;
+    @api maxMultiSelectAllowed;
+    @track bmaxMultipleSelected = false;
 
 
     connectedCallback() {
@@ -221,12 +225,18 @@ export default class Asf_searchablePicklist extends LightningElement {
             this.serverSidePiclistVal.forEach(entry => {
                 if (entry.value.toLowerCase().trim() == optionVal.trim().toLowerCase()) {
                     if (this.multiselect == "true" || this.multiselect == true) {
-                        if (this.selectedValues.includes(entry.value)) {
-                            this.selectedValues.splice(this.selectedValues.indexOf(entry.value), 1);
+                        if(this.selectedValues.length >= this.maxMultiSelectAllowed){
+                            // do nothing.
                         }
-                        else {
-                            this.selectedValues.push(entry.value);
+                        else{
+                            if (this.selectedValues.includes(entry.value)) {
+                                this.selectedValues.splice(this.selectedValues.indexOf(entry.value), 1);
+                            }
+                            else {
+                                this.selectedValues.push(entry.value);
+                            }
                         }
+                        
                     }
                     else {
                         this.selectedValue = optionVal;
@@ -327,7 +337,7 @@ export default class Asf_searchablePicklist extends LightningElement {
         }
     }
     get showHideRequired() {
-        return this.required;
+        return this.required && !this.bDisabled;
     }
 
     @api validateCustomPicklistField() {
