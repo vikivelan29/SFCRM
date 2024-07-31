@@ -130,8 +130,8 @@
             <column>Case$Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
+            <operator>notContain</operator>
+            <value>Retention</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Account.Owner.Email</column>
@@ -153,7 +153,9 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
-        <interval>INTERVAL_CURRENT</interval>
+        <dateColumn>Case$ClosedDate</dateColumn>
+        <endDate>2024-08-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-06-01</startDate>
     </timeFrameFilter>
 </Report>
