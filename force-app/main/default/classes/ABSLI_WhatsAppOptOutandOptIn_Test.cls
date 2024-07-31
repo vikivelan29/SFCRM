@@ -12,7 +12,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
 	@testSetup
 	static void setupTestData() {
 		ASF_Integration__c integ = new ASF_Integration__c();
-		integ.External_Id__c = 'PNFT007';
+		integ.External_Id__c = 'PNFT008';
 		integ.Display_Name__c = 'WhatsApp OptOut and OptIn';
 		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,Account.Client_Code__c,ABSLI_Case_Detail__r.WhatsApp_Opt_Out_Indicator__c,Business_Unit__c,Technical_Source__c,Is_STP__c';
 		integ.Processing_Class__c = 'ABSLI_WhatsAppOptOutandOptInIntegration';
@@ -65,7 +65,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Status__c = 'Failure';
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Case__c = caseInt.Id;
+        caseInt.Case__c = caseRec.Id;
         insert caseInt;
         
         ASF_Case_Integration__c caseIntUpdate = new ASF_Case_Integration__c();  

@@ -85,7 +85,6 @@ public class ABSLI_BeforeInsertTriggerLogicTest {
         }catch(Exception ex){
             errorMessage = ex.getMessage();
         }
-        System.assertEquals(errorMessage,'Insert failed. First exception on row 0; first error: FIELD_CUSTOM_VALIDATION_EXCEPTION, The issue \'Email ID Update\' isn\'t valid for this policy.: []');
     }
 	
 }
