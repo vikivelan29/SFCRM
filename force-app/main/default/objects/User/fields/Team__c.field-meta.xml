@@ -45,6 +45,16 @@
                 <default>false</default>
                 <label>ABHFL Grievance Team</label>
             </value>
+            <value>
+                <fullName>ABSLIG_Group_UW</fullName>
+                <default>false</default>
+                <label>ABSLIG Group UW</label>
+            </value>
+            <value>
+                <fullName>ABSLIG_Group_Helpline</fullName>
+                <default>false</default>
+                <label>ABSLIG Group Helpline</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
