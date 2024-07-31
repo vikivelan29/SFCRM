@@ -41,6 +41,9 @@
     <columns>
         <field>SUBJECT</field>
     </columns>
+    <columns>
+        <field>CLOSED_DATEONLY</field>
+    </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(
   OR(
