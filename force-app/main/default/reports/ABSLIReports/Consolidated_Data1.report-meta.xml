@@ -176,9 +176,6 @@
         <field>Case$ABSLI_Case_Detail__c.Closed_Looping_Done_on_Number__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.ICF_Reason_if_no__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.IGMS_Complaint_Registration_Date__c</field>
     </columns>
     <columns>
