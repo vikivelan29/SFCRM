@@ -36,6 +36,9 @@
         <field>Asset.Policy_No__c</field>
     </columns>
     <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
         <field>SUBJECT</field>
     </columns>
     <customDetailFormulas>
@@ -81,8 +84,8 @@
             <column>Case.Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
+            <operator>notContain</operator>
+            <value>Retention</value>
         </criteriaItems>
         <criteriaItems>
             <column>PC_EMAIL</column>
@@ -109,6 +112,8 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
+        <endDate>2024-08-31</endDate>
         <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-07-01</startDate>
     </timeFrameFilter>
 </Report>
