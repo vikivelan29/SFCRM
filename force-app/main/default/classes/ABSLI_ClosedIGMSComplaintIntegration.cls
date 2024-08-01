@@ -100,8 +100,8 @@ public with sharing class ABSLI_ClosedIGMSComplaintIntegration implements ASF_In
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_CLOSEDCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_CLOSEDCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -243,11 +243,19 @@ public with sharing class ABSLI_ClosedIGMSComplaintIntegration implements ASF_In
         public string IRDA_Token_Number {get;set;}
         public string Entity_Complaint_Ref_Number {get;set;}
         public string Complaint_Status_Id {get;set;}
+        public String Addressed_To_Insurer { get; set; }
+        public String Trans_Login_Id { get; set; }
+        public string Option{get;set;}
+        public string Mode{get;set;}
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '7';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Option = '1';
+            this.Mode = '2';
         }
     }
     /**

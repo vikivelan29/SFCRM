@@ -65,6 +65,9 @@
                             </template>
                             <template lwc:if={boolShowDownloadButton}>  
                                 <lightning-button label={strDownloadTemplate} title="Download action" onclick={downloadTemplate} variant="brand"></lightning-button>
+                                <template if:true={boolShowCTST}>
+                                    <lightning-button label={strDownloadCtst} title="Download CTST" onclick={downloadCtst} variant="brand" class="slds-p-left_small"></lightning-button>
+                                </template>
                             </template>            
                         </lightning-button-group>
                         </div>

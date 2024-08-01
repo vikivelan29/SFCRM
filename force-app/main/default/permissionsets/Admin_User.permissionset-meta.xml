@@ -5449,6 +5449,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Feature_Skipper_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.First_Case_Closed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>

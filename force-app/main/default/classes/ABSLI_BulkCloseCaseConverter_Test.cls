@@ -97,6 +97,7 @@ public class ABSLI_BulkCloseCaseConverter_Test {
         Test.startTest();
         ABSLI_BulkCloseCaseConverterUtility utility = new ABSLI_BulkCloseCaseConverterUtility();
         utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        utility.prepareCtstData(new List<String>{'Id'},'ABSLI');
         Test.stopTest();
 
     }
