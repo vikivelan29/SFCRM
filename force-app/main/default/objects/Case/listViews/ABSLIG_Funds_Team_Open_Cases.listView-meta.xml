@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLIG_Funds_Team_Open_Cases</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>ASSET.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Lead__c</columns>
+    <columns>Assigned_Team__c</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>CASES.EMAIL</columns>
+    <columns>OWNER_NAME</columns>
+    <columns>Stage__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABSLIG</value>
+    </filters>
+    <filters>
+        <field>Assigned_Team__c</field>
+        <operation>equals</operation>
+        <value>ABSLIG Funds Team</value>
+    </filters>
+    <label>ABSLIG Funds Team Open Cases</label>
+    <sharedTo>
+        <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+    </sharedTo>
+</ListView>

@@ -54,10 +54,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
@@ -138,6 +134,10 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABSLIG Email</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -208,6 +208,10 @@
         </values>
         <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
         <values>

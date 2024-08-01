@@ -9,7 +9,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -49,7 +49,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     strNoDataMessage = '';
     boolAllChannelVisible = false;
     boolAllSourceVisible = false;
+    boolSourceComboboxDisabled = false;
     createCaseWithAll = false;
+    boolNoAutoComm = true;
     isNotSelected = true;
     isAllNature = false;
     isAllSource = false;
@@ -127,6 +129,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }, this.doneTypingInterval);
     }
     SearchAccountHandler() {
+
+        this.removeSelection();
+        
         getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
@@ -193,9 +198,26 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (selected[SOURCE_FIELD.fieldApiName] == "All") {
                 this.isAllSource = true;
             }
+            if (this.loggedInUserBusinessUnit === ABSLIG_BU) {
+                this.boolAllChannelVisible = false;
+                this.boolNoAutoComm = false;
+
+                if(this.sourceFldOptions.length === 1) {
+                    this.boolSourceComboboxDisabled = true;
+                }
+            }
             this.disbleNextBtn = false;
         }
     }
+
+    // Method Description - Deselect all selection from lightning datatable
+    removeSelection() {
+        let dataTableRecords = this.template.querySelector('lightning-datatable');
+        if(dataTableRecords) {
+            dataTableRecords.selectedRows = [];
+        }
+     }
+
     async createCaseHandler(event) {
         this.handleLeadSubmit(event);
         //this.template.querySelector('lightning-record-edit-form[data-id="leadCreateForm"]').submit();
