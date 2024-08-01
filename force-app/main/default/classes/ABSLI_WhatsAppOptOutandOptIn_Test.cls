@@ -130,6 +130,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
 				ABSLI_Case_Detail__r.Email_Id__c,
 				Technical_Source__c,
             	Is_STP__c,
+            	Issue_Type__c,
 				Business_Unit__c,
 				CCC_External_Id__c
 			FROM Case
@@ -200,6 +201,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
 				ABSLI_Case_Detail__r.Email_Id__c,
 				Technical_Source__c,
             	Is_STP__c,
+            	Issue_Type__c,
 				Business_Unit__c,
 				CCC_External_Id__c
 			FROM Case
