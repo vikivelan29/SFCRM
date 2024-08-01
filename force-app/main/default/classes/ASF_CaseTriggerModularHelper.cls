@@ -11,28 +11,6 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
     public static Boolean preClosureStageAlreadyStamped = false;
-    private static Map<Id, Set<String>> skipperFlagMap = new Map<Id, Set<String>>();
-    public static Map<Id, Set<String>> getSkipperFlagMap() {
-        return skipperFlagMap;
-    }
-    /**
-* @Function - setSkipperFlags
-* @Description - method to be invoked at the beginning and end of the BEFORE triggers
-* This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
-*/
-    public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
-        skipperFlagMap = new Map<Id, Set<String>>();
-        for(Case caseRec : newList){
-            system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
-            if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
-               && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
-                   //if insert or the flag field is updated
-                   Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
-                       skipperFlagMap.put(caseRec.Id, skippedItems);
-                   caseRec.Feature_Skipper_Flag__c = '';
-               }
-        }
-    }
     /****************************************************************************************************************
     * @Function - populateFrameworkFieldsForCase
     * @param newList -  list of cases from trigger.new.
