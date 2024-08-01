@@ -25,6 +25,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 }
             }
         }
+        
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
@@ -35,8 +36,9 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             System.debug(absliCasesAdditionalFields);
             ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
-            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
         }  
     }
     /**
@@ -54,6 +56,47 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                        caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
                        caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
                    }
+            }
+        }   
+    }
+    
+    /**
+     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+     * moved to next stage. It validates if any open checklist is pending and throws validation error
+     * @param newMap
+     * @param oldMap
+     */
+    public static void validateTasks(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
+        Map<Id, Case> eligibleCases = new Map<Id, Case>();
+        if(!absliCases.isEmpty()){
+            for(Case caseRec : absliCases){
+                if((caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == true) 
+                   || (caseRec.MoveToNext__c == oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == false
+                      && caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c
+                      && caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c
+                      && caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c
+                      && caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c
+                      && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c
+                      && caseRec.pending_clarification__c == false)){
+                       
+                       eligibleCases.put(caseRec.Id, caseRec);
+                }
+            }
+            Map<Id,AggregateResult> mCountOfNotCompletedTaskOnCase = new Map<Id,AggregateResult>(
+                [SELECT WhatId Id, COUNT(ID) FROM Task 
+                 WHERE Status NOT IN ('Completed','Rejected')
+                 AND WhatId =: eligibleCases.keySet()
+                 GROUP BY WhatId
+                 HAVING COUNT(ID) > 0]);
+            
+            for(Case caseRec : eligibleCases.values()){
+                Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
+                if(mCountOfNotCompletedTaskOnCase.containsKey(caseRec.Id) && 
+                   !(skipperFlagMap.containsKey(caseRec.Id) && skipperFlagMap.get(caseRec.Id).contains(ASF_Constants.SKIP_VALIDATE_TASKS))){
+                    Case caseError = newMap.get(caseRec.Id);
+                    caseError.addError(System.Label.Incomplete_Tasks_Error_Message);
+                    newMap.put(caseRec.Id,caseError);
+                }
             }
         }   
     }
@@ -186,6 +229,59 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 
             	}
             }
+        }
+    }
+    
+    public static void checkCreateCaseValidations(List<Case> absliCases, Map<Id, Case> oldMap){
+        Set<String> issueCodes = new Set<String>();
+        List<Case> validCases = new List<Case>();
+        Map<Id,Case> policyIdVsCase = new Map<Id,Case>();
+        Map<Case,Asset> caseVsAsset = new Map<Case,Asset>();
+        Id interactionRecTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
+        for(Case c: absliCases){
+            if(c.Business_Unit__c=='ABSLI' && c.Technical_Source__c=='LWC' && c.RecordTypeId==frameworkRecordTypeId && 
+              	oldMap.get(c.Id).RecordTypeId == interactionRecTypeId && c.Preframework_to_Framework_FromUI__c == true){
+            	issueCodes.add(c.CCC_External_Id__c);
+                validCases.add(c);
+                policyIdVsCase.put(c.AssetId,c);
+            }
+        }
+        for(Asset policy: [SELECT Id, Status FROM Asset WHERE Id IN:policyIdVsCase.keySet()]){
+            caseVsAsset.put(policyIdVsCase.get(policy.Id),policy);
+        }
+        if(issueCodes.size()>0 && !caseVsAsset.isEmpty()){
+            Map<String, ABSLI_Create_Case_Validations__mdt> issueCodeVsMdt = new Map<String, ABSLI_Create_Case_Validations__mdt>();
+            List<ABSLI_Create_Case_Validations__mdt> validationMdtList = [SELECT Label,Business_Unit__c,Issue_Code__c,
+                                             							   Operator__c,Asset_Values__c,Error_Message__c
+                                                                         FROM ABSLI_Create_Case_Validations__mdt
+                                                                         WHERE Business_Unit__c ='ABSLI'
+                                                                         AND Issue_Code__c IN :issueCodes];
+            for (ABSLI_Create_Case_Validations__mdt record : validationMdtList) {
+                issueCodeVsMdt.put(record.Issue_Code__c, record);
+            }
+
+            for(Case cs: validCases){
+                if(issueCodeVsMdt.containsKey(cs.CCC_External_Id__c) &&
+                   issueCodeVsMdt.get(cs.CCC_External_Id__c).Business_Unit__c=='ABSLI')
+                {
+                	List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c).Asset_Values__c.split(':');
+                    String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
+                    switch on oprtr{
+                        when 'IN'{
+                            if((caseVsAsset.get(cs).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
+                                cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }
+                        }
+                        when 'NOT IN'{
+                            if((caseVsAsset.get(cs).Status!=null) && (policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
+                                cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     }
     
