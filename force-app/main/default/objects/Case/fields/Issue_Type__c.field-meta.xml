@@ -104,9 +104,9 @@
                 <label>Nomination Related</label>
             </value>
             <value>
-                <fullName>post call- complain</fullName>
+                <fullName>post call- complaint</fullName>
                 <default>false</default>
-                <label>post call- complain</label>
+                <label>post call- complaint</label>
             </value>
             <value>
                 <fullName>Premium paid certificate / Policy Statement from Chatbot</fullName>
@@ -747,6 +747,42 @@
                 <fullName>Change of Bank Details</fullName>
                 <default>false</default>
                 <label>Change of Bank Details</label>
+            </value>
+            <value>
+                <fullName>Dishonor charges deducted by bank / dishonor communication recd</fullName>
+                <default>false</default>
+                <label>Dishonor charges deducted by bank / dishonor communication recd</label>
+            </value>
+            <value>
+                <fullName>Loan not processed /delayed</fullName>
+                <default>false</default>
+                <label>Loan not processed /delayed</label>
+            </value>
+            <value>
+                <fullName>Surrender not processed or delayed</fullName>
+                <default>false</default>
+                <label>Surrender not processed or delayed</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not processed or delayed</fullName>
+                <default>false</default>
+                <label>Survival benefit not processed or delayed</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity benefit cheque</fullName>
+                <default>false</default>
+                <label>Customer unable to deposit maturity benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Mode altered without consent</fullName>
+                <default>false</default>
+                <label>Mode altered without consent</label>
+            </value>
+            <value>
+                <fullName>post call- complain</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>post call- complain</label>
             </value>
         </valueSetDefinition>
     </valueSet>

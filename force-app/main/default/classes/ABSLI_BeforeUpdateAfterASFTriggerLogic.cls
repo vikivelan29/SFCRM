@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-19-2024
+ * @last modified on  : 07-12-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -34,6 +34,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
             ABSLI_BeforeUpdateAfterASFTriggerLogic.restrictComplaintsRejection(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateAfterASFTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
         }  
     }
     
@@ -66,4 +67,54 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
             }
         }
 	}
+    
+    public static void checkComplaintApplicability(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap) {
+        Set<String> externalIds = new Set<String>();
+        Set<String> caseDetailIds = new Set<String>();
+        for (Case caseRec : newMap.values()) {
+            if (caseRec.CCC_External_Id__c != null) {
+                externalIds.add(caseRec.CCC_External_Id__c);
+            }
+            if (caseRec.ABSLI_Case_Detail__c != null) {
+                caseDetailIds.add(caseRec.ABSLI_Case_Detail__c);
+            }
+        }
+
+        // Query ASF_Case_Category_Config__c using the external IDs
+         Map<String, ASF_Case_Category_Config__c> configMap = new Map<String, ASF_Case_Category_Config__c>();
+        for (ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, IGMS_Code__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :externalIds]) {
+            configMap.put(config.CCC_External_Id__c, config);
+        }
+        //Case Detail 
+		Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
+        for (ABSLI_Case_Detail__c detail : [SELECT Id, Complaint_Category__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+            caseDetailMap.put(detail.Id, detail);
+        }
+        for (Case caseRec : newMap.values()) {
+            if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
+                ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
+                ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
+                System.debug(caseDetail.Complaint_Category__c);
+				System.debug(config.IGMS_Code__c);
+                System.debug(caseDetail.Complaint_Category__c);
+                if (config.IGMS_Code__c == '#N/A' &&
+                    caseDetail.Complaint_Category__c == 'Complaint' &&
+                    caseRec.Nature__c == 'Complaint' && 
+                    caseRec.Technical_Source__c != 'API') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Category Type of "Complaint" is not applicable for Non-IGMS cases');
+                        newMap.put(caseRec.Id,caseError);
+                }
+                if (config.IGMS_Code__c != '#N/A' &&
+                    caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
+                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null &&
+                    caseRec.Nature__c == 'Complaint' && 
+                    caseRec.Technical_Source__c != 'API') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Category type cannot be changed for IGMS Synced cases');
+                        newMap.put(caseRec.Id,caseError);
+                }
+            }
+        }
+    }
 }

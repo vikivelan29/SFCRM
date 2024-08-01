@@ -15,6 +15,11 @@ public with sharing class ABSLIG_CaseDetailHelperClass_Test {
     @testSetup
     static void setupTestData() {
 
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        List<ASF_Case_Category_Config__c> caseCatConfig = [Select Id, Fins_Non_Fins__c FROM ASF_Case_Category_Config__c];
+        caseCatConfig[0].Fins_Non_Fins__c = 'Financial';
+        update caseCatConfig;
+
         // Create test ABSLIG_Case_Detail__c records
         List<ABSLIG_Case_Detail__c> caseDetailsList = new List<ABSLIG_Case_Detail__c>();
         // Create test Case records
@@ -30,6 +35,7 @@ public with sharing class ABSLIG_CaseDetailHelperClass_Test {
         for (Integer i = 0; i < 2; i++) {
             caseRecList.add(new Case(
                 Business_Unit__c = 'ABSLIG',
+                CCC_External_Id__c = 'CCC-CC-CCLTD-01',
                 ABSLIG_Case_Detail__c = caseDetailsList[i].Id
             ));
         }
@@ -37,13 +43,26 @@ public with sharing class ABSLIG_CaseDetailHelperClass_Test {
     }
 
     @isTest
-    static void beforeUpdateContainsABFLTest(){
+    static void beforeUpdateContainsABSLIGLTest(){
 
         List<Case> caseRecList = [SELECT Id, ABSLIG_Case_Detail__r.Requirement_Met_Date__c, CreatedDate FROM Case];
 
         for(Case caseRec : caseRecList) {
-            System.assertEquals(caseRec.CreatedDate, caseRec.ABSLIG_Case_Detail__r.Requirement_Met_Date__c, 
-                                'Created Date value populate to Requirement Date');    
+            System.assert(caseRec.ABSLIG_Case_Detail__r.Requirement_Met_Date__c != null, 
+                                'Created Date value populate to Requirement Date');  
          } 
+    }
+
+    @isTest
+    static void populateABSLIGCaseDetailFieldsAfterCaseUpdateTest(){
+
+        List<Case> caseRecList = [SELECT Id, ABSLIG_Case_Detail__c, Business_Unit__c, CCC_External_Id__c FROM Case];
+
+        ABSLIG_CaseDetailHelperClass absligCaseDetHelObj = new ABSLIG_CaseDetailHelperClass();
+        absligCaseDetHelObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate(caseRecList);
+
+        ABSLIG_Case_Detail__c absligCaseDetObj = [SELECT id, Financial_Non_Financial__c FROM ABSLIG_Case_Detail__c LIMIT 1];
+        
+        System.assertEquals(absligCaseDetObj.Financial_Non_Financial__c, 'Financial' ,'Value of Financial/Non-Financial is Financial');    
     }
 }

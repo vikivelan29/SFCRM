@@ -14,6 +14,7 @@ export default class absli_reconfirminput extends LightningElement {
     options = [];
     @track isMobileNumberError = false;
     @track selectedCountryCode;
+    @track isInvalidMobileNumberError = false;
 
     connectedCallback(){
         console.log('this in connectedcallback',JSON.stringify(this.recordId));
@@ -22,7 +23,18 @@ export default class absli_reconfirminput extends LightningElement {
         }
         this.options = countryCodeOptions;
     }
+    validateMobileNumberCharacters(number) {
+        const regex = /^[0-9]+$/;
+        return regex.test(number);
+    }
     mobileNumberValidation(){
+        if (this.originalTextValue && !this.validateMobileNumberCharacters(this.originalTextValue)) {
+            this.isInvalidMobileNumberError = true;
+        }else if (this.confirmTextValue && !this.validateMobileNumberCharacters(this.confirmTextValue)) {
+            this.isInvalidMobileNumberError = true;
+        }else{
+            this.isInvalidMobileNumberError = false;
+        }      
         if (this.selectedCountryCode === '91' && this.originalTextValue && this.originalTextValue.length != 10) {
             this.isMobileNumberError = true;
         } else if(this.selectedCountryCode !== '91' && this.originalTextValue && this.originalTextValue.length != 15){
@@ -40,6 +52,7 @@ export default class absli_reconfirminput extends LightningElement {
     handleConfirmTextChange(event) {
         let val = event.target.value;
         this.confirmTextValue = val;
+        this.mobileNumberValidation();
         this.confirmationCheck();
     }
     varifyConfirmFieldPopup(event) {
@@ -71,7 +84,7 @@ export default class absli_reconfirminput extends LightningElement {
         }
     }
     confirmationCheck() {
-        if ((this.originalTextValue == this.confirmTextValue) && !this.isMobileNumberError && this.selectedCountryCode != null) {
+        if ((this.originalTextValue == this.confirmTextValue) && !this.isMobileNumberError && this.selectedCountryCode != null && !this.isInvalidMobileNumberError) {
             this.bConfirmationTextNotMatching = false;
             this.iconClass = 'successBtn';
         }
