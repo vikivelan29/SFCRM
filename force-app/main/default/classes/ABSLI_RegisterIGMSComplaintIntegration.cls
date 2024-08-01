@@ -125,7 +125,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
         }
         
         
-        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseRecords, caseStageMap);
+        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseRecords, caseStageMap,null);
         Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
         for(Id caseId : dataWrapper.keySet()){
             if(!runIntegrationMap.containsKey(caseId)){
@@ -190,7 +190,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                     List<Case> eligibleRecords = new List<Case>();
                     eligibleRecords.add(caseRecord);
                     caseStageMap.put(caseRecord.Id, caseRecord.Stage__c);
-                    Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+                    Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap,null);
                     Map<Id, ASF_Integration__c> runIntegrationMap = new Map<Id, ASF_Integration__c>();
                     system.debug('dataWrapper---->'+dataWrapper);
                     system.debug(' dataWrapper.get(caseRecord.Id).allIntegrations---->'+ dataWrapper.get(caseRecord.Id).allIntegrations);
