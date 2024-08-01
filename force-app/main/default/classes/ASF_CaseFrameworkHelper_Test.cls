@@ -270,7 +270,7 @@ public class ASF_CaseFrameworkHelper_Test {
         List<ASF_Integration__c> caseIntList =[Select Id, External_Id__c, Case_Stage_Config__c, Type__c, When_to_Appear__c, Display_Name__c, 
                                                Auto_Run_on_Load__c, Processing_Class__c, Query_Fields__c, Priority__c
                                                FROM ASF_Integration__c];
-        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c from case];
+        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c,Technical_Source__c from case];
         Map<Id, List<ASF_Integration__c>> allIntegrations = new Map<Id, List<ASF_Integration__c>>();
         for(Case caseRec : caseList){
             allIntegrations.put(caseRec.Id, caseIntList);
@@ -301,10 +301,10 @@ public class ASF_CaseFrameworkHelper_Test {
         
         return [Select Id, Case_Stage_Config__c, Logical_Condition__c, Order__c, Type__c, Assign_to_Initiator__c, Step_1_Approver_1__c,
                 Step_1_Approver_2__c, Step_2_Approver_1__c, Step_2_Approver_2__c, Approval_Style__c,Assigned_Queue_Id__c,
-                Assigned_Error_Queue_Id__c,
+                Assigned_Error_Queue_Id__c,Assignment_Queue_Name__c,
                 (select Id, Number__c, Field_Api_Name__c, Operator__c, Data_Type__c, 
                  Value__c, External_ID__c from Case_Rule_Entries__r),
-                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c, Checklist_External_Id__c from Case_Checklist_Masters__r),
+                (select id, Case_Rule__c, name, Mandatory__c, Description__c, Type__c, Checklist_External_Id__c,Label__c,Picklist_Options__c from Case_Checklist_Masters__r),
                 (select Id, Task_Title__c, Task_Description__c, Completion_Time__c, Case_Rule__c,
                  Assigned_Queue__c, Work_Item_External_ID__c from Work_Items__r)
                 FROM ASF_Case_Rule__c where Type__c =: TypeVal];
