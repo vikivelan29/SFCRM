@@ -1,12 +1,11 @@
 /**
- * @description Tax Certificate Download Outbound Integration From Salesforce to Ingenium
- * Customer Portal Provides Tax Certification Download feature at Portal End because of the same reason, this case become FTR
- * Service Agent to Click on the button initiate the integration. On Successful response, case to be marked as Closed
+ * @description Loan Assignment API Outbound from Salesforce to Ingenium
+ * This API is the last step of Loan Registration process. Create Assignee in Ingenium for given Loan registered base on Policy Number
  *
  * @author Abinash Panigrahi
  * @date 2024-05-17
  */
-public with sharing class ABSLI_TaxCertificateIntegration implements ASF_IntegrationInvocable {
+public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_IntegrationInvocable {
 	/**
 	 * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
 	 *
@@ -26,13 +25,14 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 			result.status = ABSLI_Constants.ERROR;
 			result.response = result.response = Custom_Messages__mdt.getInstance(
-					ABSLI_Constants.TAXCERTIFICATE_EVALUATION_ERROR
+					ABSLI_Constants.LOANASSIGNMENT_EVALUATION_ERROR
 				)
 				.Message__c;
 
 			if (
-				(caseRecord.Technical_Source__c == 'API' && caseRecord.FTR__c) ||
-				caseRecord.Technical_Source__c == 'LWC'
+				caseRecord.ABSLI_Case_Detail__r.NEFT_Reference_Number__c != null &&
+				caseRecord.ABSLI_Case_Detail__r.Voucher_Number__c != null &&
+                caseRecord.ABSLI_Case_Detail__r.Voucher_Approval_Date__c != null
 			) {
 				result.status = ABSLI_Constants.SUCCESS;
 				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
@@ -57,7 +57,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	) {
 		Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
 
-		//Before Initiating new Integration callout, cancel existing running request
+        //Before Initiating new Integration callout, cancel existing running request
 		cancelPendingCaseIntegrationRequests(integs, caseRecs);
 
 		List<Case> caseRecords = new List<Case>();
@@ -72,31 +72,27 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 
 		for (Case caseRecord : caseRecords) {
 			string requestBody = JSON.serialize(
-				new TCDRequestWrapper(
-					caseRecord.Asset?.Policy_No__c == null ? caseRecord.LAN__c : caseRecord.Asset?.Policy_No__c,
-					ABCL_IntegrationCommonUtility.dateFormat(
-						caseRecord.ABSLI_Case_Detail__r?.From_Date__c,
-						'dd/MM/YYYY'
-					),
-					ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.To_Date__c, 'dd/MM/YYYY')
+				new LARequestWrapper(
+					caseRecord.LAN__c == null ? caseRecord.Asset?.Policy_No__c : caseRecord.LAN__c,
+                    ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r?.Voucher_Approval_Date__c, 'dd-MM-YYYY')
 				)
 			);
 			for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-				if (intSpec.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
+				if (intSpec.Processing_Class__c == ABSLI_LoanAssignmentIntegration.class.getName()) {
 					ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
 					caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
 					caseInteg.Case__c = caseRecord.Id;
 					caseInteg.Status__c = ABSLI_Constants.PENDING;
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-					caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Is_Validation_Success__c = true;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
 					caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
 					caseIntOut.Request_Payload__c = requestBody;
-					caseIntOut.Integration_Name__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
-					caseIntOut.ServiceName__c = ABSLI_Constants.TAXCERTIFICATE_SERVICE_NAME;
+					caseIntOut.Integration_Name__c = ABSLI_Constants.LOANASSIGNMENT_SERVICE_NAME;
+					caseIntOut.ServiceName__c = ABSLI_Constants.LOANASSIGNMENT_SERVICE_NAME;
 					peMap.put(index, caseIntOut);
 					indexToCaseId.put(index, caseRecord.Id);
 				}
@@ -131,13 +127,13 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 			if (publishResult.isSuccess()) {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.SUCCESS;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_SUCCESS_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.LOANASSIGNMENT_SUCCESS_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			} else {
 				ASF_IntegrationsController.IntegrationWrapper wrap = new ASF_IntegrationsController.IntegrationWrapper();
 				wrap.status = ABSLI_Constants.ERROR;
-				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.TAXCERTIFICATE_FAILURE_MESSAGE)
+				wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.LOANASSIGNMENT_FAILURE_MESSAGE)
 					.Message__c;
 				resultMap.put(indexToCaseId.values()[index], wrap);
 			}
@@ -157,7 +153,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 		Set<String> intIds = new Set<String>();
 		for (Case caseRec : caseRecs) {
 			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_TaxCertificateIntegration.class.getName()) {
+				if (integ.Processing_Class__c == ABSLI_LoanAssignmentIntegration.class.getName()) {
 					intIds.add(integ.External_Id__c);
 				}
 			}
@@ -191,27 +187,25 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
-				Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
-
-				// TODO : Response Attribute Reference to determine
-				TCDResponseWrapper jsonMap = (TCDResponseWrapper) JSON.deserialize(
+				LAResponseWrapper jsonMap = (LAResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
-					TCDResponseWrapper.class
+					LAResponseWrapper.class
 				);
 
-				// Transfer Attachment to Case
-				Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(caseInteg);
+                if(jsonMap.LSIR_RETURN_CD == '00'){
+                    Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+                    
+                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+                    sendoutEmailSMSNotification(caseRecord);
 
-				//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-				sendoutEmailSMSNotification(caseRecord);
-
-				caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+                    caseRecord.MoveToNext__c = true;
+                    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+                }
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
-			ABCL_Logger.push('ABSLI_TaxCertificateIntegration.processResponse');
+			ABCL_Logger.push('ABSLI_LoanAssignmentIntegration.processResponse');
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
@@ -272,47 +266,34 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
 	}
 
 	/**
-	 * @description Tax Certificate Download (TCD) Wrapper Class to build Integration Request Body JSON
+	 * @description Loan Assignment (LA) Wrapper Class to build Integration Request Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class TCDRequestWrapper {
-		public RqReq RqReq { get; set; }
+	public class LARequestWrapper {
+		public String MIR_POL_ID_BASE;
+		public String MIR_DV_ASIGN_CLI_ID;
+		public String MIR_DV_ASIGN_SUB_CD;
+		public String MIR_DV_ASIGN_ADDR_CD;
+		public String MIR_POL_CLI_ASIGN_DT;
+		public String MIR_DEL_ASIGN_IND;
 
-		public TCDRequestWrapper(String policyID, String startDate, String endDate) {
-			this.RqReq = new RqReq();
-			RqReq.details = new Details(policyID, startDate, endDate);
-		}
-	}
-
-	public class RqReq {
-		public Details Details { get; set; }
-	}
-
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class Details {
-		public String POLICYID;
-		public String SOURCE;
-		public String STARTDATE;
-		public String ENDDATE;
-		public String AGENTCODE;
-		public String OutputFormat;
-
-		public Details(String policyID, String startDate, String endDate) {
-			this.POLICYID = policyID;
-			this.SOURCE = ABSLI_Constants.ESB_SOURCE_ID;
-			this.STARTDATE = startDate;
-			this.ENDDATE = endDate;
-			this.AGENTCODE = ABSLI_Constants.TAXCERTIFICATE_AGENT_CODE;
-			this.OutputFormat = ABSLI_Constants.TAXCERTIFICATE_OUTPUT_FORMAT;
+		public LARequestWrapper(String policyID, String voucherApprovaldate) {
+			this.MIR_POL_ID_BASE = policyID;
+			this.MIR_DV_ASIGN_CLI_ID = ABSLI_Constants.LOANASSIGNMENT_CLI_ID;
+			this.MIR_DV_ASIGN_SUB_CD = ABSLI_Constants.LOANASSIGNMENT_SUB_CD;
+			this.MIR_DV_ASIGN_ADDR_CD = ABSLI_Constants.LOANASSIGNMENT_ADDR_CD;
+			this.MIR_POL_CLI_ASIGN_DT = voucherApprovaldate;
+			this.MIR_DEL_ASIGN_IND = ABSLI_Constants.LOANASSIGNMENT_CREATE_ASSIGNEE;
 		}
 	}
 
 	/**
-	 * @description Tax Certificate Download (TCD) Wrapper Class to follow through Response Body JSON
+	 * @description Loan Assignment(LA) Wrapper Class to follow through Response Body JSON
 	 */
-	@SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-	public class TCDResponseWrapper {
-		public String URL;
-		public String outputFormat;
+	public class LAResponseWrapper {
+		public String LSIR_RETURN_CD { get; set; }
+        public String MESSAGES { get; set; }
+        public String MORE_MESSAGES_IND { get; set; }
+        public String MIR_RETRN_CD { get; set; }
+        public String Page { get; set; }
 	}
 }

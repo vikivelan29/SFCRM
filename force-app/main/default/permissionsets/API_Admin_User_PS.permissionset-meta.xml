@@ -1701,6 +1701,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Approver_Remarks__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.NEFT_Reference_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.IGMS_Complaint_Registration_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5898,7 +5913,7 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Account.TAN_Number__c</field>
-        <readable>true</readable>   
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6349,7 +6364,7 @@
         <editable>true</editable>
         <field>Asset.EMI_Start_Date__c</field>
         <readable>true</readable>
-    </fieldPermissions>   
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ASF_Card_or_Account_Number__c</field>
