@@ -173,6 +173,8 @@ private class ASF_PreFrameworkSLATest {
         List<Id> caseList = new List<Id>();
         List<Case> caseToUpdate = new List<Case>();
         List<Group> groupList = [SELECT id From Group where type = 'Queue'];
+        groupList[0].Email = 'stanrduserEmails@testorg.com';
+        update groupList[0];
         List<Account> accountList = [SELECT id From Account];
         
         QueueSobject mappingObject = new QueueSobject(QueueId = groupList[0].Id, SobjectType = 'Case');
