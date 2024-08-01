@@ -14,7 +14,6 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
 	public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','Team Resolution Status':'', 'Resolution Comments':'Unresolved', 'Reason for Delay':'Others', 'RCA Comments If any':'Sample text'}
-		system.debug('inside');
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
         resultWrapper.resultJSONRows = new Map<Id, String>();
@@ -33,7 +32,7 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, Nature__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -59,7 +58,7 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(resolutionComments == null || resolutionComments.trim() == ''){
+            if(caseNumberToCaseMap.get(caseNumber).Nature__c == 'Request' && (resolutionComments == null || resolutionComments.trim() == '')){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Resolution Comments is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
@@ -171,7 +170,7 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
             if(listViewQuery.contains('USING SCOPE')){
                 strScope = ' USING SCOPE ' + listViewQuery.substringBetween('SCOPE ',' ') + ' ';
             }
-            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + String.escapeSingleQuotes(strWhere);     
+            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + strWhere;     
         }
 
         if(String.isNotBlank(strFinalQuery)){
@@ -192,8 +191,11 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
-        }
+        } 
 
         return listOfRecordsAsMap;
+    }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
     }
 }

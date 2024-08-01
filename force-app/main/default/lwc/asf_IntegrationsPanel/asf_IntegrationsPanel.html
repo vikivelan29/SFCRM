@@ -43,7 +43,15 @@
                             <h3 id="modal-heading-01" class="slds-text-heading_small slds-hyphenate">{selectedAction.label}</h3>
                         </header>
                         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                            <lwc:component lwc:is={componentConstructor} onclosepopup={closeModal} record-id={recordId} case-int-id={selectedAction.caseIntId} int-ext-id={selectedAction.intExtId}></lwc:component>
+                            <lwc:component 
+                            lwc:is={componentConstructor} 
+                            onclosepopup={closeModal} 
+                            record-id={recordId} 
+                            case-int-id={selectedAction.caseIntId} 
+                            int-ext-id={selectedAction.intExtId} 
+                            selected-action={selectedAction}
+                            all-integrations={allIntegrations}
+                            case-record={caseRecord}></lwc:component>
                             <!--<div class="slds-backdrop slds-backdrop_open" role="presentation"></div>-->
                         </div>
                         <!--<footer class="slds-grid slds-modal__footer slds-grid_align-center">

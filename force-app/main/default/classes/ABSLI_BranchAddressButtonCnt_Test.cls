@@ -26,7 +26,8 @@ public class ABSLI_BranchAddressButtonCnt_Test {
                 Phone__c = '123-456-7890',
                 City__c = 'Test City',
                 State__c = 'Test State',
-                Pincode__c = '123456'
+                Pincode__c = '123456',
+                UniqueKey__c = '123123'
             );
             insert testBranch;
             // Insert Account

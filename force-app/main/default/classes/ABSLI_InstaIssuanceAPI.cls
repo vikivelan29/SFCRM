@@ -124,25 +124,34 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
             {
                 if(integ.Processing_Class__c == ABSLI_InstaIssuanceAPI.class.getName()){
                     String case_no = String.valueOf(caseRecord.CaseNumber);
-                    String source = System.label.ABSLI_ESB_SOURCE_VAL ;
-                    String applicationnumber;
-                    if(caseRecord.AssetId != null || caseRecord.AssetId != ''){
+                    String source = caseRecord.Source__c;//System.label.ABSLI_ESB_SOURCE_VAL ;
+                    String applicationnumber = '';
+                    String caseRemarks = '';
+                    String caseOwner = '';
+                    if(caseRecord.AssetId != null && caseRecord.AssetId != ''){
                          applicationnumber = String.valueOf(caseRecord.Asset.Application_Number__c);
                     }
                     String policynumber;
-                    if(caseRecord.LAN__c != null || caseRecord.LAN__c != ''){
-                         policynumber = String.valueOf(caseRecord.LAN__c);
-                    }else if(caseRecord.AssetId != null || caseRecord.AssetId != ''){
+                    if(caseRecord.AssetId != null && caseRecord.AssetId != ''){
                          policynumber = String.valueOf(caseRecord.Asset.Policy_No__c);
                     }
+                    else if(caseRecord.LAN__c != null && caseRecord.LAN__c != '' && caseRecord.LAN__c != 'NA'){
+                         policynumber = String.valueOf(caseRecord.LAN__c);
+                    }
+                    
+                    if(caseRecord.ABSLI_Case_Detail__r.RCA_Comments__c != null){
+                        caseRemarks = caseRecord.ABSLI_Case_Detail__r.RCA_Comments__c;
+                    }
+                    caseOwner = caseRecord.Owner.Name;
                     
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABSLI_Constants.PENDING;
-                    caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(case_no,source,
+                    caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
+
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
 
@@ -151,9 +160,9 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
                     caseIntOut.ServiceName__c = ABSLI_Constants.InstaIssuranceAPI;
                     caseIntOut.Integration_Name__c  = ABSLI_Constants.InstaIssuranceAPI;
-                    caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(case_no,source,
+                    caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -230,14 +239,18 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
         public InstaIssuanceRequest instaIssuanceReq;
         
         public InstaIssuanceRequestWrapper(String Source, String Casenumber, String Applicationnumber, String PolicyNo,
-                                           String ChangeType, String SubType) {
+                                           String ChangeType, String SubType, String caseRemarks,String caseOwner) {
                                                InstaIssuanceRequest req = new InstaIssuanceRequest();
                                                req.Source = Source;
                                                req.CRM_Case_Id = Casenumber;
                                                req.Application_No = Applicationnumber;
-                                               req.Policy_No = PolicyNo;
+                                               if(PolicyNo != null && PolicyNo != ''){
+                                                 req.Policy_No = PolicyNo;  
+                                               }
                                                req.PPC_Change_Type = ChangeType;
                                                req.PPC_Case_Sub_TYPE = SubType;
+                                               req.Remarks = caseRemarks;
+                                               req.Case_Owner = caseOwner;
                                                
                                                this.instaIssuanceReq = req;
                                            }
@@ -246,17 +259,17 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
     public class InstaIssuanceRequest {
         public String Source;            // Emails
         public String CRM_Case_Id;       // CAS-30406222-D9K4C4
-        public String Application_No;    // BAP0062543
-        public String Policy_No;         // 009465256
+        public String Application_No='';    // BAP0062543
+        public String Policy_No = '';         // 009465256
         public String PPC_Change_Type;   // Change_In_Owner
         public String PPC_Case_Sub_TYPE; // PPC_CLIENT_LEVEL
         public String Case_Owner;        // IN462273
         public String Remarks;           // Hi Team, As per client consent please process for Address update for Applicate Number - 009465256/BAP0062543
-        public String URL1;              //
-        public String URL2;              //
-        public String URL3;              //
-        public String URL4;              //
-        public Cls_Case_Addl_Info[] Case_Addl_Info;
+        public String URL1 = '';              //
+        public String URL2 ='';              //
+        public String URL3 = '';              //
+        public String URL4 = '';              //
+        public Cls_Case_Addl_Info[] Case_Addl_Info = new List<Cls_Case_Addl_Info>();
     }
     
     public class Cls_Case_Addl_Info {

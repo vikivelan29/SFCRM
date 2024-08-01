@@ -31,9 +31,6 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
     </columns>
     <columns>
@@ -41,6 +38,9 @@
     </columns>
     <columns>
         <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
         <field>Case$Account.Advisor_Code__c</field>
@@ -127,7 +127,7 @@
             <value>Fax</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Assigned_Team__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notContain</operator>

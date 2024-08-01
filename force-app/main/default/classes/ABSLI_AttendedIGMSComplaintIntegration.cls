@@ -28,11 +28,7 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
 
-            if (caseRecord.Stage__c == 'Resolved' && caseRecord.ABSLI_Case_Detail__r.Reopened_Date__c == null && caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '3')
-            {
-                result.status = ABSLI_Constants.SUCCESS;
-                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-            }
+            ABSLI_AttendedToValidationHandler.validateAttendedToNonEscalated(caseRecord, result);
             
             resultMap.put(caseRecord.Id, result);
         }
@@ -91,8 +87,13 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
-            if(caseRecord.ABSLI_Case_Detail__r.Resolved_settled_status__c != 'Rejected'){
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
                 requestJSON.Claim_Received_Amount = String.valueof(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
+            }
+            requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;
+            requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
+				        requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
             }
             
             string requestBody = JSON.serialize(requestJSON);
@@ -114,8 +115,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -232,7 +233,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                         caseExt.Resolved_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
-                        
+                        caseRecord.MoveToNext__c = true;
+                        dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
                     
@@ -258,12 +260,25 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
         public string Entity_Complaint_Ref_Number {get;set;}
         public string Complaint_Status_Id {get;set;}
         public string Claim_Received_Amount{get;set;}
+        public String Addressed_To_Insurer { get; set; }
+        public String Trans_Login_Id { get; set; }
+        public string Option{get;set;}
+        public string Mode{get;set;}
+        public string Remarks{get;set;}
+        public string Type_of_disposal {get;set;}
+        // VIRENDRA - 19 JULY 2024 
+        public string Original_IRDA_Token_Num{get;set;}
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '4';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Claim_Received_Amount = '0';
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
+            
         }
     }
     /**

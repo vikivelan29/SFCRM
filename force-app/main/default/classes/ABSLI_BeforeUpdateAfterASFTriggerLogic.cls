@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 07-12-2024
+ * @last modified on  : 07-25-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -87,16 +87,13 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
         }
         //Case Detail 
 		Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
-        for (ABSLI_Case_Detail__c detail : [SELECT Id, Complaint_Category__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+        for (ABSLI_Case_Detail__c detail : [SELECT Id, Complaint_Category__c,Resolved_Date__c,Pending_Date__c,Final_Resolution_Date__c,IGMS_Complaint_Status__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
             caseDetailMap.put(detail.Id, detail);
         }
         for (Case caseRec : newMap.values()) {
             if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
                 ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
-                System.debug(caseDetail.Complaint_Category__c);
-				System.debug(config.IGMS_Code__c);
-                System.debug(caseDetail.Complaint_Category__c);
                 if (config.IGMS_Code__c == '#N/A' &&
                     caseDetail.Complaint_Category__c == 'Complaint' &&
                     caseRec.Nature__c == 'Complaint' && 
@@ -106,12 +103,32 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
                         newMap.put(caseRec.Id,caseError);
                 }
                 if (config.IGMS_Code__c != '#N/A' &&
-                    caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
-                    caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null &&
+                    caseDetail.Complaint_Category__c != 'Complaint' &&
+                    caseRec.IRDAI_Token_Number__c != null &&
                     caseRec.Nature__c == 'Complaint' && 
                     caseRec.Technical_Source__c != 'API') {
                         Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Category type cannot be changed for IGMS Synced cases');
+                        newMap.put(caseRec.Id,caseError);
+                }
+                if (caseRec.IRDAI_Token_Number__c != null &&
+                    caseRec.Nature__c == 'Complaint' &&
+                    caseDetail.Resolved_Date__c == null &&
+                    caseDetail.Pending_Date__c != null &&
+                    caseRec.Stage__c == 'Resolved') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Attended to IGMS API needs to be successful in order to close this case');
+                        newMap.put(caseRec.Id,caseError);
+                }
+                if (caseRec.IRDAI_Token_Number__c != null &&
+                    caseRec.Nature__c == 'Complaint' &&
+                    caseDetail.Resolved_Date__c != null &&
+                    caseDetail.Pending_Date__c != null &&
+                    caseDetail.Final_Resolution_Date__c == null &&
+                    caseRec.Stage__c == 'Resolved' &&
+                    caseDetail.IGMS_Complaint_Status__c == '6') {
+                        Case caseError = newMap.get(caseRec.Id);
+                        caseError.addError('Attended to IGMS Esc API needs to be successful in order to close this case');
                         newMap.put(caseRec.Id,caseError);
                 }
             }

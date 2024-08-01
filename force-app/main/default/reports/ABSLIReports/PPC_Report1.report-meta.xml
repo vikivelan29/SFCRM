@@ -48,9 +48,6 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
     </columns>
     <columns>
@@ -185,7 +182,7 @@
             <value>Fax</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Assigned_Team__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notContain</operator>

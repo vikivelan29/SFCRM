@@ -27,12 +27,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             String evaluationErrorMetadataName = ABSLI_Constants.IGMS_ATTESCCOMPLAINT_EVAL_ERROR;
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-            
-            if (caseRecord.ABSLI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '6')
-            {
-                result.status = ABSLI_Constants.SUCCESS;
-                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-            }
+
+            ABSLI_AttendedToValidationHandler.validateAttendedToEscalated(caseRecord, result);
             
             resultMap.put(caseRecord.Id, result);
         }
@@ -90,23 +86,27 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
-            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != 'Rejected' && 
-            (caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '3' || caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Against_Type__c == '4')){
-                requestJSON.Insurer_Resolution_Letter_date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c);
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
+				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+            }
+            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && 
+            (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
+                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
                 requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
-                requestJSON.Claim_Payment_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c);
-                requestJSON.Claim_Payment_Cheque_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c);
-                requestJSON.Cheque_Number = caseRecord.ABSLI_Case_Detail__r.Cheque_No__c;
+                requestJSON.Claim_Payment_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Claim_Payment_Cheque_Number = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Number__c;
                 requestJSON.Claim_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Claim_Clsr_Additional_Info__c;
                 requestJSON.Others_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Others_Clsr_Additional_Info__c;
             }
             if(caseRecord.ABSLI_Case_Detail__r.Escalated__c){
                 requestJSON.Final_Resolution_Remark = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Remark__c;
-                requestJSON.Final_Resolution_Date = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c);
+                requestJSON.Final_Resolution_Date = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c, 'dd-MM-YYYY') : null;
             }
             if(caseRecord.ABSLI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABSLI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
+            requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             
             string requestBody = JSON.serialize(requestJSON);
             
@@ -125,8 +125,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -241,9 +241,10 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.Final_Resolution_Date__c = System.Today();
-                        caseExt.IGMS_Complaint_Status__c = '5';
+                        caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
-                        
+                        caseRecord.Stage__c = 'Resolved';
+                        dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
                     
@@ -275,19 +276,28 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
         public string Claim_Received_Amount {get;set;}
         public string Claim_Payment_Date {get;set;}
         public string Claim_Payment_Cheque_Date {get;set;}
-        public string Cheque_Number {get;set;}
+        public string Claim_Payment_Cheque_Number {get;set;}
         public string Claim_Clsr_Additional_Info {get;set;}
         public string Others_Clsr_Additional_Info {get;set;}
         public string Final_Resolution_Remark {get;set;}
         public string Final_Resolution_Date {get;set;}
         public string TAT_Crossed_Remark {get;set;}
         public string Date_Of_Honoring {get;set;}
+        public String Addressed_To_Insurer { get; set; }
+        public String Trans_Login_Id { get; set; }
+        public string Option{get;set;}
+        public string Mode{get;set;}
+        public string Original_IRDA_Token_num{get;set;}
 
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
-            this.Complaint_Status_Id = '5';
+            this.Complaint_Status_Id = '4';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Date_Of_Honoring_Service  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
         }
     }
     /**

@@ -27,6 +27,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 
 		Asset assetRec = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
 		assetRec.Policy_No__c = '1234';
+        assetRec.LI_DOB__c = Date.today();
 		update assetRec;
 
 		ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
@@ -72,6 +73,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 				ABSLI_Case_Detail__r.To_Date__c,
 				Business_Unit__c,
 				Account.PersonBirthdate,
+                Asset.LI_DOB__c,
                 AssetId,
                 AccountId,
                 ABSLI_Case_Detail__c
@@ -103,7 +105,8 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 				ABSLI_Case_Detail__r.From_Date__c,
 				ABSLI_Case_Detail__r.To_Date__c,
 				Business_Unit__c,
-				Account.PersonBirthdate
+				Account.PersonBirthdate,
+                Asset.LI_DOB__c
 			FROM Case
 			LIMIT 1
 		];
@@ -128,6 +131,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 				ABSLI_Case_Detail__r.To_Date__c,
 				Business_Unit__c,
 				Account.PersonBirthdate,
+                Asset.LI_DOB__c,
                 AssetId,
                 AccountId,
                 ABSLI_Case_Detail__c
@@ -162,7 +166,8 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 				ABSLI_Case_Detail__r.From_Date__c,
 				ABSLI_Case_Detail__r.To_Date__c,
 				Business_Unit__c,
-				Account.PersonBirthdate
+				Account.PersonBirthdate,
+                Asset.LI_DOB__c
 			FROM Case
 			LIMIT 1
 		];
@@ -190,6 +195,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 				ABSLI_Case_Detail__r.To_Date__c,
 				Business_Unit__c,
 				Account.PersonBirthdate,
+                Asset.LI_DOB__c,
                 CCC_External_Id__c,
                 ContactId,
                 AccountId, No_Auto_Communication__c

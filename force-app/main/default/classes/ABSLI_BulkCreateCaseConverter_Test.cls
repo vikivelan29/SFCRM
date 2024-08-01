@@ -134,7 +134,21 @@ public class ABSLI_BulkCreateCaseConverter_Test {
         Case caserec = [Select Id from Case LIMIT 1];
         Test.startTest();
         ABSLI_BulkCreateCaseConverterUtility utility = new ABSLI_BulkCreateCaseConverterUtility();
-        utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        List<Map<String,String>> result = utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        Assert.isNotNull(result);
+        Test.stopTest();
+
+    }
+    @IsTest
+    static void testprepareDownloadCtst() {        
+        List<String> columnNames = new List<String>{'Issue Code', 'Case Type', 'Sub Type', 'Nature','Issue Type'};
+        ASF_Case_Category_Config__c ccccrec = [Select Id, Business_Unit__c from ASF_Case_Category_Config__c LIMIT 1];
+        ccccrec.Business_Unit__c = 'ABSLI';
+        update ccccrec;
+        Test.startTest();
+        ABSLI_BulkCreateCaseConverterUtility utility = new ABSLI_BulkCreateCaseConverterUtility();
+        List<Map<String,String>> result = utility.prepareCtstData(columnNames, 'ABSLI');
+        Assert.isNotNull(result);
         Test.stopTest();
 
     }
