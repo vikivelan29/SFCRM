@@ -125,8 +125,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ATTENDEDESCCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;

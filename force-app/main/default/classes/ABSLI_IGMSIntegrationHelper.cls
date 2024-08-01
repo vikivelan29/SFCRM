@@ -35,7 +35,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             requestJSON.Address1 = (addr != null && addr != '')?addr : 'Not Available';
             
             Date birthDate = caseRecord.Account?.PersonBirthdate;
-            requestJSON.Date_Of_Birth = ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY');
+            requestJSON.Date_Of_Birth = birthDate != null ? ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY') : null;
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.Complaint_Details = caseRecord.Description;
             requestJSON.Complaint_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
@@ -166,8 +166,8 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ACKCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ACKCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -256,8 +256,8 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_PENDINGCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_PENDINGCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -348,8 +348,8 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
                         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                         caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                         caseIntOut.Request_Payload__c = requestBody;
-                        caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ESCALATEDCOMPLAINT_SRV_NAME;
-                        caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ESCALATEDCOMPLAINT_SRV_NAME;
+                        caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                        caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                         peMap.put(index, caseIntOut);
                         indexToCaseId.put(index, caseRecord.Id);
                         index++;
@@ -440,8 +440,8 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
                         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                         caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                         caseIntOut.Request_Payload__c = requestBody;
-                        caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_REOPENEDCOMPLAINT_SRV_NAME;
-                        caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_REOPENEDCOMPLAINT_SRV_NAME;
+                        caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                        caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                         peMap.put(index, caseIntOut);
                         indexToCaseId.put(index, caseRecord.Id);
                         index++;

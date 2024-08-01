@@ -18,6 +18,9 @@
                     <stringValue>ABSLI</stringValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>ABSLI_Extn_Flow</targetReference>
+            </connector>
             <label>ABSLI</label>
         </rules>
     </decisions>
@@ -52,6 +55,37 @@
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>ABSLI_Extn_Flow</name>
+        <label>ABSLI Extn Flow</label>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
+        <flowName>ABSLI_Comm_Ext_Flow</flowName>
+        <inputAssignments>
+            <name>cccRecord</name>
+            <value>
+                <elementReference>cccRecord</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>currentRecord</name>
+            <value>
+                <elementReference>CurrentRecord</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>customMetadataName</name>
+            <value>
+                <elementReference>customMetadataName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>oldRecord</name>
+            <value>
+                <elementReference>oldRecord</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <variables>
         <name>cccRecord</name>
         <dataType>SObject</dataType>

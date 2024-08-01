@@ -14,13 +14,14 @@ public class ABSLI_InstaIssuanceAPI_Test {
 
         ASF_Integration__c integ = new ASF_Integration__c();
         integ.Processing_Class__c = 'ABSLI_InstaIssuanceAPI';
-        integ.Query_Fields__c = 'CaseNumber,LAN__c,AssetId,Asset.Application_Number__c,Asset.Policy_No__c,Business_Unit__c';
+        integ.Query_Fields__c = 'CaseNumber,Source__c,LAN__c,AssetId,Asset.Application_Number__c,Asset.Policy_No__c,Business_Unit__c,ABSLI_Case_Detail__r.RCA_Comments__c,Owner.Name';
         integ.External_Id__c = 'ABSLI_ASF_INT_24_02';
         insert integ;
 
         Case testCase = new Case();
         testCase.CCC_External_Id__c = 'PNFT007';
         testCase.Business_Unit__c = 'ABSLI';
+        testCase.Source__c = 'Email';
         testCase.Client_Code_Text__c = 'ABSLI001';
         testCase.AccountId = objAccount.Id;
         insert testCase;

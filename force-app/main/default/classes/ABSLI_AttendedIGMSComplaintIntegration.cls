@@ -94,6 +94,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             if(caseRecord.ABSLI_Case_Detail__r.Resolved_settled_status__c != 'Rejected'){
                 requestJSON.Claim_Received_Amount = String.valueof(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
             }
+            requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;
+            requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             
             string requestBody = JSON.serialize(requestJSON);
             System.debug('requestBody--> '+requestBody);
@@ -114,8 +116,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -258,12 +260,22 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
         public string Entity_Complaint_Ref_Number {get;set;}
         public string Complaint_Status_Id {get;set;}
         public string Claim_Received_Amount{get;set;}
+        public String Addressed_To_Insurer { get; set; }
+        public String Trans_Login_Id { get; set; }
+        public string Option{get;set;}
+        public string Mode{get;set;}
+        public string Remarks{get;set;}
+        public string Type_of_disposal {get;set;}
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '4';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Claim_Received_Amount = '0';
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Option = '1';
+            this.Mode = '2';
         }
     }
     /**
