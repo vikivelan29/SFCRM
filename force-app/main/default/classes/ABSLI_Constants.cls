@@ -141,8 +141,6 @@ public class ABSLI_Constants {
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
-    public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
-
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'NomineeDeleteApi';
     public static final String DELETENOMINEE_EVALUATION_ERROR = 'ABSLI_DELETENOMINEE_EVALUTION_ERROR';
