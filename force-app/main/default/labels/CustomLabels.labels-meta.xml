@@ -1006,13 +1006,6 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>1</value>
-    </labels>
-    <labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
