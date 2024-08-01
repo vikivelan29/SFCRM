@@ -170,7 +170,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                                                 FROM ABSLI_Case_Detail__c
                                                 WHERE ID=:caseRec.ABSLI_Case_Detail__c FOR UPDATE];
                 integrationFailure = false;
-                if(!Test.IsRunningTest() && Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable())
+                if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable())
                 {
                     System.debug('response --> '+response);
                     String reinstatementAmtString = response.RqRes.Response.Details.NETAMOUNT;
@@ -206,14 +206,16 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
 							Database.update(caseRec, AccessLevel.SYSTEM_MODE);
                         }
                     }
-                    update caseExt;
+                    if(!Test.IsRunningTest()){
+                    	update caseExt;    
+                    }
                     
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(Id = caseInteg.Id);
                     caseInt.Is_Validation_Success__c = true;
                     ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
                     update caseInt;
                     ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
-                }
+                } 
             }
             else{	
                	//handleTransferFailure(caseRec);

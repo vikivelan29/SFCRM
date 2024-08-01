@@ -44,7 +44,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         List<RedirectToPortalResponse> returnList = new List<RedirectToPortalResponse>();
         Case c = [SELECT Id, ABSLI_Case_Detail__c,CCC_External_Id__c FROM Case WHERE Id=:caseId];
         if(c.ABSLI_Case_Detail__c!=null){
-        	ABSLI_Case_Detail__c caseExt = [SELECT Id, Reinstatement_Amount__c, COI_Covid_Quest__c, Medicals__c, COI_Signed_Date__c
+        	ABSLI_Case_Detail__c caseExt = [SELECT Id, Reinstatement_Amount__c, COI_Covid_Quest__c, Medicals__c, COI_Signed_Date__c,Remarks__c
                                            FROM ABSLI_Case_Detail__c WHERE Id=:c.ABSLI_Case_Detail__c];
             Map<String,String> fieldNamesAndTypes = ABSLI_Constants.FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION;
             List<String> blankFields = new List<String>();
