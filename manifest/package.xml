@@ -111,10 +111,13 @@
 		<members>Asset.Mode__c</members>
 		<members>Asset.Interested_Party__c</members>
 		<members>LOBMappingDetails__mdt.New_Source__c</members>
+		<members>ASF_Asset_Metadata.ABSLI</members>
+		<members>ASF_Asset_Metadata.ABSLIG</members>
 		<name>CustomField</name>
 	</types>
 
 	<types>
+        <members>ABSLIG_Case_Detail__c</members>
         <members>ASF_Bulk_Row_to_Record_Converter_Config__mdt</members>
         <name>CustomObject</name>
     </types>
