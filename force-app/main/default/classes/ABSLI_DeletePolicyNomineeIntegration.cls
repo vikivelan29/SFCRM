@@ -189,7 +189,7 @@ public with sharing class ABSLI_DeletePolicyNomineeIntegration implements ASF_In
             }
             Database.SaveResult[] results = Database.update(dmlRecords, true);
  
-            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap,null);
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             for(Case cs: caseRecords){
                	if(dataWrapper.get(cs.Id).allIntegrations!=null){
@@ -306,7 +306,7 @@ public with sharing class ABSLI_DeletePolicyNomineeIntegration implements ASF_In
         List<Case> eligibleRecords = new List<Case>();
        	eligibleRecords.add(caseRecord);
         caseStageMap.put(caseRecord.Id, caseRecord.Stage__c);
-        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap,null);
         Map<Id, ASF_Integration__c> runIntegrationMap = new Map<Id, ASF_Integration__c>();
         if(dataWrapper.get(caseRecord.Id).allIntegrations!=null){
             for(ASF_Integration__c intRec : dataWrapper.get(caseRecord.Id).allIntegrations){
