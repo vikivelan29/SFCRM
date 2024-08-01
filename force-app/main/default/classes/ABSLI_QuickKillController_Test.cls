@@ -72,16 +72,14 @@ public class ABSLI_QuickKillController_Test {
             System.debug('record Inserted...'+cLog.Id);
 		}
         
-        EmailTemplate testTemplate = new EmailTemplate(
-            Name = 'Test Template',
-            DeveloperName = 'Test_Template',
-            Body = '<html><body>Hello, {!(User.FirstName)},</body></html>',
-            HtmlValue = '<html><body>Hello, {!(User.FirstName)},</body></html>',
-            Subject = 'Test Subject',
-            FolderId = UserInfo.getUserId(),
-            TemplateType = 'Custom'
-        );
-        insert testTemplate;
+        EmailTemplate lightningEmailTempalte = new EmailTemplate();
+        lightningEmailTempalte.isActive = true;
+        lightningEmailTempalte.Name = 'TestLightning';
+        lightningEmailTempalte.HtmlValue = '<html><body>$$ABHFL_Case_Detail__r.As_On_Date__c$$ -- $$Asset.Last_Disbursement_Date__c$$.</body></html>';
+        lightningEmailTempalte.DeveloperName = 'TestVf_un';
+        lightningEmailTempalte.TemplateType = 'custom';
+        lightningEmailTempalte.FolderId = UserInfo.getUserId();
+        insert lightningEmailTempalte;
         
     } 
     @isTest
@@ -90,7 +88,7 @@ public class ABSLI_QuickKillController_Test {
         Account testAccount = [SELECT Id FROM Account WHERE Name = 'Test Account' LIMIT 1];
         Asset testAsset = [SELECT Id FROM Asset LIMIT 1];
         Contact testContact = [SELECT Id, MobilePhone FROM Contact WHERE AccountId = :testAccount.Id LIMIT 1];
-
+		EmailTemplate template = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'TestVf_un' LIMIT 1];
         // Verify that the ASF_Communication_Log__c was created
         ASF_Communication_Log__c[] logs = [SELECT Id, Account__c, Contact__c, Phone__c, Status__c FROM ASF_Communication_Log__c WHERE Account__c = :testAccount.Id];
         System.assertEquals(1, logs.size(), 'One communication log should be created.');
@@ -100,14 +98,27 @@ public class ABSLI_QuickKillController_Test {
         
         // Call the method and verify the results
         Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new BitlyApiMock());
         ABSLI_QuickKillController.generateLink('ADDRU',testAccount.Id,testAsset.Id);
         ABSLI_QuickKillController.sendCommunication(log.Id,'text','123456');
         ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
         ABSLI_QuickKillController.deleteDraftLogs(log.Id);
         ABSLI_QuickKillController.getPolicyColumns();
         ABSLI_QuickKillController.getAllRelatedAssets(testAccount.Id);
+        //ABSLI_QuickKillController.getTemplateBody(null,'ADDRU');
+        //String retVal = ABSLI_QuickKillController.generateMessageBody(template.Id,UserInfo.getUserId(),null,false);
         Test.stopTest();
         
 	}
+    public class BitlyApiMock implements HttpCalloutMock {
+    public HTTPResponse respond(HTTPRequest req) {
+        // Create a fake response
+        HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody('{"URLReturned": "http://bit.ly/mockurl"}');
+        res.setStatusCode(200);
+        return res;
+    }
+}
   
 }
