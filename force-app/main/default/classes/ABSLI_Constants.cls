@@ -19,7 +19,22 @@ public class ABSLI_Constants {
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
+    public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
     public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
+    public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
+    {'Reinstatement_Amount__c'=>'Decimal',
+     'COI_Covid_Quest__c' => 'String',
+     'Medicals__c'=> 'String',
+     'Remarks__c' => 'String',
+     'COI_Signed_Date__c' => 'Date'};
+    public static final Map<String,String> CCC_AND_FUNCTION_CODE = new Map<String,String>
+    {
+         'PREI001' => 'STPRI',
+         'PNFT042' => 'STPFS',
+         'PPCT027' => 'STPMC'
+    };
+
+    public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
 
     /* Bitly Link REAL TIME API
      */
@@ -45,6 +60,7 @@ public class ABSLI_Constants {
     public static final String AddressUpdateSrvName = 'Address Update';
     public static final String ModeChangeSrvName = 'ModeChangeApi';
     public static final String SurvivalUpdateSrvName = 'survivalUpdateApi';
+    public static final String RQApiSrvName = 'RQServiceApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';

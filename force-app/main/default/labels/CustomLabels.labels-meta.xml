@@ -969,4 +969,11 @@
         <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
         <value>2000</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
+    </labels>
 </CustomLabels>
