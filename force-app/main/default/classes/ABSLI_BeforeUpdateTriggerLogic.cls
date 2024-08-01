@@ -33,7 +33,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                        WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
-            ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
+            //ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(mAbsliCases.values(), oldMap, newMap);
@@ -44,7 +44,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
      * updated. If the case is marked as FTR, the case status is updated to 'Resolved'
      * @param absliCases
      * @param oldMap
-     */
+     
     public static void autoResolveFtrCases(List<Case> absliCases, Map<Id, Case> oldMap){
         if(!absliCases.isEmpty()){
             for(Case caseRec : absliCases){
@@ -56,7 +56,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                    }
             }
         }   
-    }
+    } */
     
     /**
      * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
