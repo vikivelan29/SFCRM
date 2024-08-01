@@ -23,6 +23,7 @@ public class ABSLI_BulkCloseCaseConverter_Test {
         ASF_TestDataFactory.createCaseRecords(0);
         Case caseRec = [Select CaseNumber from Case LIMIT 1];
         caseRec.ABSLI_Case_Detail__c = [Select Id from ABSLI_Case_Detail__c LIMIT 1].Id;
+        caseRec.Nature__c = 'Request';
         update caseRec;
     }
 
@@ -61,7 +62,7 @@ public class ABSLI_BulkCloseCaseConverter_Test {
         ABSLI_BulkCloseCaseConverterUtility utility = new ABSLI_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
-        jsonRows.put(lineitem.Id, '{"Case number":"09890","Team Resolution Status":"Resolved", "Resolution Comments":"Email sent to Customer", "Reason for Delay":"Delay reason", "RCA Comments If any":"Sample text"}');
+        jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Team Resolution Status":"Resolved", "Resolution Comments":"Email sent to Customer", "Reason for Delay":"Delay reason", "RCA Comments If any":"Sample text"}');
         utility.convertJSONRows(jsonRows);
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","Team Resolution Status":"test", "Resolution Comments":"Email sent to Customer", "Reason for Delay":"Delay reason", "RCA Comments If any":"Sample text"}');
         utility.convertJSONRows(jsonRows);
