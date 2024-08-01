@@ -13,6 +13,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
         for (Case caseRec : caseRecs) {
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
+        Map<String,Map<String,Set<String>>> mClassificationIGMS = ABSLI_IGMSClassificationUtility.getIGMSClassification();
         
         for (Case caseRecord : caseRecords) {
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -56,6 +57,14 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != null){
                 errorMessage = 'Case is already sync with IGMS., ';
                 //bErrorOccured = true;
+            }
+            if(caseRecord.IGMS_Complaint_Type_Code__c != null){
+                ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRecord);
+                if(returnWrapper.bErrorOccured){
+                    errorMessage = returnWrapper.errorMessage;
+                    bErrorOccured = returnWrapper.bErrorOccured;
+                }
+                
             }
             if(bErrorOccured){
                 errorMessage = errorMessage.removeEnd(', ');
@@ -282,16 +291,16 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
         public objReq() {
             this.User_Type = 'I';
             this.Complaint_Against_Type_Id = '1';
-            this.Addressed_To_Insurer = 'Y';
             this.State_Id = '1';
             this.Complaint_Status_Id = '1';
             this.Insurance_Type_Id = '1';
             this.Status_Change_Date = '';
             this.District_Id = '1';
             this.Identifier_Type = '1';
-            this.Trans_Login_Id = 'bslicadmin';
-            this.Option = '1';
-            this.Mode = '1';
+            this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_REGISTER;
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
         }
     }
     /**

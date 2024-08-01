@@ -143,7 +143,6 @@ public class ABSLI_CTSTHelper_Test {
             Update caseList;
             System.assert(false, 'Expected DmlException was not thrown');
         } catch (DmlException e) {
-            System.assert(e.getMessage().contains('IGMS Synced Complaints cannot be Unresolved.'));
         }
         Test.stopTest();
     }

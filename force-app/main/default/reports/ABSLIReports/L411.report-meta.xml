@@ -31,9 +31,6 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
     </columns>
     <columns>
@@ -136,11 +133,11 @@
             <value>Fax</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Assigned_Team__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
+            <operator>notContain</operator>
+            <value>Retention</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Account.Owner.Email</column>
@@ -162,7 +159,9 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
-        <interval>INTERVAL_CURRENT</interval>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-07-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-06-01</startDate>
     </timeFrameFilter>
 </Report>

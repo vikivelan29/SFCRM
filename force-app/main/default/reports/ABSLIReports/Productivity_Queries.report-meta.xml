@@ -28,9 +28,6 @@
         <field>Case.Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case.Categorization_Date__c</field>
-    </columns>
-    <columns>
         <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>

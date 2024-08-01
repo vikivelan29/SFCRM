@@ -19,9 +19,6 @@
         <field>Case$Issue_Type__c</field>
     </columns>
     <columns>
-        <field>Case$ASF_Issue_Code__c</field>
-    </columns>
-    <columns>
         <field>Case$Channel__c</field>
     </columns>
     <columns>
@@ -32,6 +29,9 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Resolved_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Overall_Case_Closure_SLA__c</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
@@ -48,9 +48,6 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
     </columns>
     <columns>
@@ -58,6 +55,9 @@
     </columns>
     <columns>
         <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
         <field>Case$Account.Advisor_Code__c</field>
@@ -147,6 +147,9 @@
     <columns>
         <field>Case$Account.Owner.MobilePhone</field>
     </columns>
+    <columns>
+        <field>Case$Account.Phone</field>
+    </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(CONTAINS(Case.Type_Text__c, &quot;Sales&quot;), &quot;Misselling&quot;, &quot;Non Misselling&quot;)</calculatedFormula>
         <dataType>Text</dataType>
@@ -179,11 +182,11 @@
             <value>Fax</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Assigned_Team__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value></value>
+            <operator>notContain</operator>
+            <value>Retention</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Account.Owner.Email</column>
@@ -204,8 +207,12 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>Case$Issue_Type__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
-        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
-        <interval>INTERVAL_CURRENT</interval>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-08-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-07-01</startDate>
     </timeFrameFilter>
 </Report>
