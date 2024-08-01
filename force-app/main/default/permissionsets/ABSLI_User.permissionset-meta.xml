@@ -78,7 +78,7 @@
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
-        <name>ABSLI_Create_Case_Validations__mdt</name>
+        <name>IGMS_Classification_Mapping__mdt</name>
     </customMetadataTypeAccesses>
     <flowAccesses>
         <enabled>true</enabled>
