@@ -233,12 +233,18 @@ public class ABSLI_CaseIntegrationHelper {
             if(customerList.size() > 0){
                 caseRecord.AccountId = customerList[0].Id;
             }
+        }else{
+            caseRecord.AccountId = NULL;
+            caseRecord.ContactId = NULL;
+            caseRecord.Client_Code_Text__c = NULL;
         }
         if(String.isNotBlank(ebotResponse.PolicyNo)){
             List<Asset> policyList = [Select Id from Asset where Policy_No__c =: ebotResponse.PolicyNo];
             if(policyList.size() > 0){
                 caseRecord.AssetId = policyList[0].Id;
             }
+        }else{
+            caseRecord.AssetId = NULL;
         }
 
         if(Schema.sObjectType.Case.isUpdateable()){

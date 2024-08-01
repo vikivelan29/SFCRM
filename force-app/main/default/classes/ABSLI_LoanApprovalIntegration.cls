@@ -186,6 +186,8 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
+            Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+            ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				LAResponseWrapper jsonMap = (LAResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
@@ -193,17 +195,18 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 				);
 
 				if (jsonMap.lsir_return_cd == '00') {
-					Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
-					ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
-
-					//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-					sendoutEmailSMSNotification(caseRecord);
-
 					caseDetail.Approver_Remarks__c = jsonMap.messages;
                     caseDetail.Voucher_Approval_Date__c = System.today();
 					Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 				}
 			}
+            if(caseInteg.Status__c == ABSLI_Constants.FAILURE){
+                caseDetail.Status_Valid_For_STP__c = False;
+                Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+
+                caseRecord.MoveToNext__c = true;
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+            }
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
@@ -211,31 +214,6 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
-	}
-
-	/**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
 	}
 
 	/**

@@ -291,16 +291,16 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
         public objReq() {
             this.User_Type = 'I';
             this.Complaint_Against_Type_Id = '1';
-            this.Addressed_To_Insurer = 'Y';
             this.State_Id = '1';
             this.Complaint_Status_Id = '1';
             this.Insurance_Type_Id = '1';
             this.Status_Change_Date = '';
             this.District_Id = '1';
             this.Identifier_Type = '1';
-            this.Trans_Login_Id = 'bslicadmin';
-            this.Option = '1';
-            this.Mode = '1';
+            this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Mode = ABSLI_Constants.ABSLI_IGMS_OPTION;
+            this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
         }
     }
     /**
