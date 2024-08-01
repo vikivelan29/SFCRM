@@ -75,7 +75,7 @@ const performUINapiCallout = async (input) => {
            //success response
         }
     } catch(error){
-        console.log('performUINapiCalloutValidation'+JSON.stringify(error));
+        console.log('nomineeChangeValidation'+JSON.stringify(error));
         return new ValidationWrapper(false, error.message.body);//error response
     }
 }
