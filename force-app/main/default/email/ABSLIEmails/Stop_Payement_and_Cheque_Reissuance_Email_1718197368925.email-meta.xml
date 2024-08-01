@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
-    <description>Stop Payement and Cheque Reissuance</description>
+    <description>Stop Payment and Cheque Reissuance</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Stop Payement and Cheque Reissuance Email</name>
+    <name>Stop Payment and Cheque Reissuance Email</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Stop Payement and Cheque Reissuance</subject>
+    <subject>Stop Payment and Cheque Reissuance</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

@@ -5,12 +5,12 @@
     <displayedFields>
         <field>Company</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
         <field>Email</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <label>ABSLIG_Prospect_FieldSet</label>
 </FieldSet>

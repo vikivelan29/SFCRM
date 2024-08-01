@@ -25,8 +25,8 @@
         <label>Contact Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Name</field>
+                <behavior>Edit</behavior>
+                <field>Full_Name__pc</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -238,6 +238,10 @@
         <label>System Information</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Name</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CreatedById</field>
             </layoutItems>
@@ -323,6 +327,7 @@
         <fields>Phone__c</fields>
         <fields>Status__c</fields>
         <fields>SMS_Msg_Body__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>ASF_Communication_Log__c.Account__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -332,6 +337,7 @@
         <fields>Phone__c</fields>
         <fields>Status__c</fields>
         <fields>SMS_Msg_Body__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>ASF_Communication_Log__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -361,7 +367,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hBl000000JerN</masterLabel>
+        <masterLabel>00hBi000000M35i</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

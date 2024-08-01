@@ -65,7 +65,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     loaded = false;
     caseRelObjName;
     caseExtensionRecordId;
-    //TBD . load this 
+    //TBD . load this
     caseRecordId;
 
     //tst strt
@@ -125,7 +125,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     businessUnit = '';
 
     accountRecordType = '';
-    leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
+    leadRecordType = ''; // Virendra - Added as part of Prospect Requirement.
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;

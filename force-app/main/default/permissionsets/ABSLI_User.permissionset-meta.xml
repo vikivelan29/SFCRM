@@ -49,6 +49,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABSLI_NomineeDetailController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABSLI_CannedResponse_Controller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -71,6 +75,10 @@
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ASF_Quick_Link_Config__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ABSLI_Create_Case_Validations__mdt</name>
     </customMetadataTypeAccesses>
     <flowAccesses>
         <enabled>true</enabled>
@@ -384,11 +392,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Claim_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3039,6 +3042,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Entity_Reference_No__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Winning_Email__c </field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -110,7 +110,8 @@ public without sharing class ASF_RetryIntegrations {
                         ASF_Integration__c integ = mIntegrationRecords.get(cInt.Integration_Ext_Id__c);
                         
                         // CHECK IF THE NUMBER OF ATTEMPTS COMPLETED FOR INTEGRATION OF TYPE PROCESS OR PREPOPULATED                        
-                        if(integ.Type__c == ASF_Constants.RETRY_PROCESSTYPEINTEG || integ.Type__c == ASF_Constants.RETRY_PREPOPULATEDTYPEINTEG){
+                        if(integ.Type__c == ASF_Constants.RETRY_PROCESSTYPEINTEG || integ.Type__c == ASF_Constants.RETRY_PREPOPULATEDTYPEINTEG || 
+                          integ.Type__c == ASF_Constants.RETRY_PROCESS_SEQUENTIALTYPEINTEG){
                             String tempKey = cInt.Case__c+'_'+cInt.Integration_Ext_Id__c;
                             integer ihashKey = tempKey.hashCode();
                             

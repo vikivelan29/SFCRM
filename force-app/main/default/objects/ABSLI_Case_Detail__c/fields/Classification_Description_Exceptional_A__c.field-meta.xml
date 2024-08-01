@@ -3,7 +3,7 @@
     <fullName>Classification_Description_Exceptional_A__c</fullName>
     <description>Complaints Resolution Field</description>
     <externalId>false</externalId>
-    <label>Classification Description/Exceptional A</label>
+    <label>Classification Desc/Exceptional Approval</label>
     <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
