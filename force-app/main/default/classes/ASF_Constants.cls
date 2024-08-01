@@ -130,6 +130,7 @@ public with sharing class ASF_Constants {
     /* RETRY MECHANISM RELATED CONSTANTS. */
     public static final String RETRY_PROCESSTYPEINTEG = 'Process';
     public static final String RETRY_PREPOPULATEDTYPEINTEG = 'Pre Populate';
+    public static final String RETRY_PROCESS_SEQUENTIALTYPEINTEG = 'Process Sequential';
     public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
     
     public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};

@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:type="xsd:string">Bulk Upload from HO, EMT CNX, Inbound ABC, Inbound call, Inbound CNX, Inbound ConnectQ, Outbound Altruist, Outbound call, Outbound CNX, Outbound ConnectQ, Social Media, Insurance Repositary website, Insurance Repository</value>
+        <value xsi:type="xsd:string">Bulk Upload from HO, EMT CNX, Inbound ABC, Inbound call, Inbound CNX, Inbound ConnectQ, Outbound Altruist, Outbound call, Outbound CNX, Outbound ConnectQ, Social Media, Insurance Repository website, Insurance Repository</value>
     </values>
     <values>
         <field>Source_Code__c</field>
@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Source__c</field>
-        <value xsi:type="xsd:string">Bulk Upload from HO, EMT CNX, Inbound ABC, Inbound call, Inbound CNX, Inbound ConnectQ, Outbound Altruist, Outbound call, Outbound CNX, Outbound ConnectQ, Social Media, Insurance Repositary website, Insurance Repository</value>
+        <value xsi:type="xsd:string">Bulk Upload from HO, EMT CNX, Inbound ABC, Inbound call, Inbound CNX, Inbound ConnectQ, Outbound Altruist, Outbound call, Outbound CNX, Outbound ConnectQ, Social Media, Insurance Repository website, Insurance Repository</value>
     </values>
     <values>
         <field>Sub_Source__c</field>

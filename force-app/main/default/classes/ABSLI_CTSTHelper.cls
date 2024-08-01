@@ -2,52 +2,13 @@
  * @description       : ABSLI CTST Helper
  * @author            : dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 07-11-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-05-2024   dhinesh.t@salesforce.com   Initial Version
 **/
 public with sharing class ABSLI_CTSTHelper {
-	 /****************************************************************************************************************
-     * @LOB - ABSLI
-     * @Function 
-     * @param   
-     * @param 
-     * @return 
-     * @description - 
-     *****************************************************************************************************************/
-   /*public static Boolean areIGMSPopulated(List<Case> cases) {
-        // List of field API names of ABSLI to be checked
-        List<String> fieldApiNames = new List<String>{
-            'Is_IRDAI_Status_Closed__c',
-            'Complaint_Details__c',
-            'Type_of_Disposal__c'
-        };
-
-        Set<Id> parentIds = new Set<Id>();
-        
-        for (Case c : cases) {
-            if (c.ABSLI_Case_Detail__c != null) {
-                parentIds.add(c.ABSLI_Case_Detail__c);
-            }
-        }
-        
-       
-        String queryString = 'SELECT ' + String.join(fieldApiNames, ', ') + ' FROM ABSLI_Case_Detail__c WHERE Id IN :parentIds';
-        List<ABSLI_Case_Detail__c> parentRecords = Database.query(queryString);
-        
-        for (ABSLI_Case_Detail__c parentRecord : parentRecords) {
-            for (String fieldName : fieldApiNames) {
-                Object fieldValue = parentRecord.get(fieldName);
-                if (fieldValue == null) {
-                    return true; // Return true if any field is not populated
-                }
-            }
-        }
-        
-        return false; // Return false if all fields are populated
-    }*/
     /****************************************************************************************************************
      * @LOB - ABSLI
      * @class - WrapperClass
@@ -129,6 +90,20 @@ public with sharing class ABSLI_CTSTHelper {
         Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
         Schema.DescribeFieldResult investigationCommentsField = caseDetailFields.get('Investigation_Comment__c').getDescribe();
         Schema.DescribeFieldResult acknowledgementConField = caseDetailFields.get('Acknowledgement_contacted__c').getDescribe();
+        
+        //IGMS Documents 
+        Map<Id, List<ABSLI_IGMS_Document__c>> documentMap = new Map<Id, List<ABSLI_IGMS_Document__c>>();
+        for (ABSLI_IGMS_Document__c doc : [
+            SELECT Id, Case__c, RecordType.Name, Status__c 
+            FROM ABSLI_IGMS_Document__c 
+            WHERE Case__c IN :caseRecs
+        ]) {
+            if (!documentMap.containsKey(doc.Case__c)) {
+                documentMap.put(doc.Case__c, new List<ABSLI_IGMS_Document__c>());
+            }
+            documentMap.get(doc.Case__c).add(doc);
+        }
+        
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
             if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolve_case__c)) {
@@ -162,7 +137,27 @@ public with sharing class ABSLI_CTSTHelper {
                 }
                 message = message.removeEnd(', ');
                 validation.message = message;
-            }	
+            }
+            
+            Boolean showDocError = false;
+            if (caseR.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '5' || caseR.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '6') {
+                showDocError = true;
+                if(documentMap.containsKey(caseR.Id)){
+                    for (ABSLI_IGMS_Document__c doc : documentMap.get(caseR.Id)) {
+                    System.debug('hasValidDoc'+doc.RecordType.Name);
+                    System.debug('prevStage'+caseR.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c);
+                    if (doc.RecordType.Name == 'Upload' && doc.Status__c == 'Success') {
+                        showDocError = false;
+                        break;
+                    	}
+                	}
+                 }
+            }
+            if (showDocError) {
+                validation.result = true;
+                validation.message = 'Please upload at least one document to IGMS to resolve an escalated case.';
+            }
+            
             resultsMap.put(caseR.Id, validation);
         }
         

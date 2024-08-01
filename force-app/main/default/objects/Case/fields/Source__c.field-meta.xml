@@ -83,9 +83,9 @@
                 <label>Inbound ConnectQ</label>
             </value>
             <value>
-                <fullName>Insurance Repositary website</fullName>
+                <fullName>Insurance Repository website</fullName>
                 <default>false</default>
-                <label>Insurance Repositary website</label>
+                <label>Insurance Repository website</label>
             </value>
             <value>
                 <fullName>Insurance Repository</fullName>

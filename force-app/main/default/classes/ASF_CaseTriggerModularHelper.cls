@@ -38,7 +38,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
                && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
                    //if insert or the flag field is updated
                    Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
-                   skipperFlagMap.put(caseRec.Id, skippedItems);
+                       skipperFlagMap.put(caseRec.Id, skippedItems);
                    caseRec.Feature_Skipper_Flag__c = '';
                }
         }
@@ -912,6 +912,7 @@ blankSourcePresent = true;
             triggerEncounteredError = new Map<Id, Boolean>();
         }
     }
+
     //Runs the ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage method
     //to fetch the tasks, checklists, approvals and integrations and
     //stores them in static variable for after context trigger to insert them
@@ -919,6 +920,7 @@ blankSourcePresent = true;
     //Runs on new case creation and recategorisation and forward stage movement
     public static void checkAndStorePeripheralRecordsInAfterContext(List<Case> newList, Map<Id, Case> oldMap) {
         List<Case> eligibleRecords = new List<Case>();
+        List<Case> caseListForSla = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         Boolean isUpdate = oldMap!=null?true:false;
         Map<Id, case> newMap = new Map<Id, case>();
@@ -934,13 +936,22 @@ blankSourcePresent = true;
                        newMap.put(caseRec.Id, caseRec);
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
+            else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
+       				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
+                       caseListForSla.add(caseRec);
+                       caseStageMap.put(caseRec.Id, caseRec.Stage__c);
+                   }
         }
         if(!caseStageMap.isEmpty()){
-            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+            Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap, caseListForSla);
             //addlDataFromStageMovementMethods = new Map<Id, ASF_CaseMovementHelper.CaseAdditionalData>();
             //addlDataFromStageMovementMethods = dataWrapper;
+            List<Case> casesWithPeripheralRecords = new List<Case>();
             
-            List<Case> casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(caseStageMap.keySet());
+            if(!eligibleRecords.isEmpty()){
+                casesWithPeripheralRecords = ASF_CaseQueryHandler.getCases(caseStageMap.keySet());
+            }
+  
             Map<String, Boolean> checklistMap = new Map<String, Boolean>();
             Map<String, Boolean> taskMap = new Map<String, Boolean>();
             for(Case caseRec : casesWithPeripheralRecords){
@@ -1032,6 +1043,12 @@ blankSourcePresent = true;
                         }
                     }
                 }
+            }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+                }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
         }
     }
@@ -1679,7 +1696,7 @@ User will now be forced to go recategorize.
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
-                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null ){
+                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  

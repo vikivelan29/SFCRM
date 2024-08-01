@@ -89,13 +89,27 @@ public without sharing class ABSLI_CasDeDupeCheck {
                 System.debug(LoggingLevel.INFO,'I am here....'+dupeCase.Id);
                 if(mAccountIdVsCases.containsKey(dupeCase.AccountId)){
                                     System.debug(LoggingLevel.INFO,'I am here....2'+dupeCase.Id);
-                    if(mIssueTypeVsCases.containsKey(dupeCase.Issue_Type__c)){
-                                                            System.debug(LoggingLevel.INFO,'I am here....3'+dupeCase.Id);
-                        for(Case c : mAccountIdVsCases.get(dupeCase.AccountId)){
-                                                                System.debug(LoggingLevel.INFO,'Finally here....4'+dupeCase.Id);
-                             c.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);
+                    for(Case accountCase : mAccountIdVsCases.get(dupeCase.AccountId)){
+                        if(dupeCase.CCC_External_Id__c == accountCase.CCC_External_Id__c){
+                            if(mIssueTypeVsCases.containsKey(dupeCase.Issue_Type__c)){
+                                if(accountCase.Issue_Type__c == dupeCase.Issue_Type__c){
+                                    accountCase.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);   
+                                }
+                            }
                         }
                     }
+
+                    /*if(mIssueTypeVsCases.containsKey(dupeCase.Issue_Type__c)){
+                                                            System.debug(LoggingLevel.INFO,'I am here....3'+dupeCase.Id);
+                        for(Case c : mIssueTypeVsCases.get(dupeCase.Issue_Type__c)){// mAccountIdVsCases.get(dupeCase.AccountId)){
+                            system.debug('DUplicate case acc id:'+dupeCase.AccountId);
+                                                                System.debug(LoggingLevel.INFO,'Finally here....4'+dupeCase.Id);
+                            if(c.Issue_Type__c == dupeCase.Issue_Type__c){
+                             	c.addError('Duplicate Case found. Case # '+dupeCase.CaseNumber);   
+                            }
+                             
+                        }
+                    }*/
                 }
                 
             }

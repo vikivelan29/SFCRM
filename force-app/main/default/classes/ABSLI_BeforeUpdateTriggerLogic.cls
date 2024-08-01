@@ -149,7 +149,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         for (ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, IGMS_Code__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :externalIds]) {
             configMap.put(config.CCC_External_Id__c, config);
         }
-
+        Map<String,Map<String,Set<String>>> mClassificationIGMS = ABSLI_IGMSClassificationUtility.getIGMSClassification();
         for (Case caseRec : absliCasesAdditionalFields.values()) {
             if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
