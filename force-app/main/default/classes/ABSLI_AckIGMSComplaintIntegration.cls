@@ -131,7 +131,7 @@ public with sharing class ABSLI_AckIGMSComplaintIntegration implements ASF_Integ
                         List<Case> eligibleRecords = new List<Case>();
                         eligibleRecords.add(caseRecord);
                         caseStageMap.put(caseRecord.Id, caseRecord.Stage__c);
-                        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap);
+                        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> dataWrapper = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(eligibleRecords, caseStageMap,null);
                         Map<Id, ASF_Integration__c> runIntegrationMap = new Map<Id, ASF_Integration__c>();
                         for(ASF_Integration__c intRec : dataWrapper.get(caseRecord.Id).allIntegrations){
                             if(intRec.Processing_Class__c == ABSLI_Constants.IGMS_ACKCOMLPAINT_NEXT_INT){
