@@ -15,11 +15,25 @@ public with sharing class ABSLI_AttendedToValidationHandler {
             
             String errorText = '';
             boolean bErrored = false;
+
+            Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
+            if(wrapperResultMap.containsKey(caseRecord.Id)){
+                ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
+                if(wrapperResult.result){
+                    result.status = ABSLI_Constants.ERROR;
+                    result.response = wrapperResult.message; 
+                    errorText = wrapperResult.message + ', '; 
+                    bErrored = true;
+                }
+            }
+
             for(String fieldName : caseExtFields.keySet()){
                 if(caseRecord.ABSLI_Case_Detail__r.get(fieldName) == null || caseRecord.ABSLI_Case_Detail__r.get(fieldName) == '')
                 {
-                    if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
-                        // do nothing.
+                    if(!(caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4') && fieldName == 'Claim_Received_Amount__c'){
+                        //
+                    } else if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
+
                     }
                     else{
                         errorText += caseExtFields.get(fieldName)+', ';
@@ -32,19 +46,9 @@ public with sharing class ABSLI_AttendedToValidationHandler {
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                //errorText += ' fields are mandatory in the Attended to section.';
             }
             fieldSpecificValidation(caseRecord);
-
-            Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
-            if(wrapperResultMap.containsKey(caseRecord.Id)){
-                ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
-                if(wrapperResult.result){
-                    result.status = ABSLI_Constants.ERROR;
-                    result.response = wrapperResult.message; 
-                }
-            }
-
 
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != '3'){
                 errorText = 'To Attend to IGMS, Successful Sync To IGMS is needed';
@@ -73,6 +77,15 @@ public with sharing class ABSLI_AttendedToValidationHandler {
             result.response = ABSLI_Constants.EVALUATION_SUCCESS;
         }
         
+        Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
+        if(wrapperResultMap.containsKey(caseRecord.Id)){
+            ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
+            if(wrapperResult.result){
+                result.status = ABSLI_Constants.ERROR;
+                result.response = wrapperResult.message; 
+            }
+        }
+
         String errorText = '';
         boolean bErrored = false;
         for(String fieldName : caseExtFieldsEscalated.keySet()){
@@ -96,14 +109,14 @@ public with sharing class ABSLI_AttendedToValidationHandler {
         }
         fieldSpecificValidation(caseRecord);
 
-        /*Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
+        Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfieldComplaints(new List<Case>{caseRecord});
         if(wrapperResultMap.containsKey(caseRecord.Id)){
             ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseRecord.Id);
             if(wrapperResult.result){
                 result.status = ABSLI_Constants.ERROR;
                 result.response = wrapperResult.message; 
             }
-        }*/
+        }
 
         if(bErrored){
             result.status = ABSLI_Constants.ERROR;

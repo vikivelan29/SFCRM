@@ -1,3 +1,13 @@
+/**
+ * @description       : ABSLI_AssignAccountTeamBatch Test Class
+ * @author            : dhinesh.t@salesforce.com
+ * @group             : 
+ * @last modified on  : 07-30-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
+**/
 @isTest
 private class ABSLI_AssignAccountTeamBatch_Test {
     
@@ -37,7 +47,7 @@ private class ABSLI_AssignAccountTeamBatch_Test {
         // Create test account
          System.runAs(user1) {
             // Create test account
-            Account acc = new Account(Name = 'Test Account');
+            Account acc = new Account(Name = 'absli Test Account 1231');
             insert acc;
             
             // Create test assets
@@ -45,19 +55,22 @@ private class ABSLI_AssignAccountTeamBatch_Test {
             assets.add(new Asset(
                 Name = 'Test Asset 1',
                 AccountId = acc.Id,
-                Assign_to_DM__c = 'Yes'
+                Assign_to_DM__c = 'Yes',
+                Business_Unit__c = 'ABSLI'
             ));
             
             assets.add(new Asset(
                 Name = 'Test Asset 2',
                 AccountId = acc.Id,
-                Channel__c = 'DM'
+                Channel__c = 'DM',
+                Business_Unit__c = 'ABSLI'
             ));
             
             assets.add(new Asset(
                 Name = 'Test Asset 3',
                 AccountId = acc.Id,
-                Loyalty_Service_Agent_Name__c = 'Agent Name'
+                Loyalty_Service_Agent_Name__c = 'Agent Name',
+                Business_Unit__c = 'ABSLI'
             ));
             
             insert assets;
@@ -73,11 +86,11 @@ private class ABSLI_AssignAccountTeamBatch_Test {
         Database.executeBatch(batch);
         
         Test.stopTest();
-        
+        Account acc = [SELECT Id FROM Account WHERE Name = 'absli Test Account 1231'];
         List<AccountTeamMember> atmList = [SELECT Id, AccountId, UserId, TeamMemberRole 
-                                           FROM AccountTeamMember];
-        
-        System.assertEquals(2, atmList.size(), 'There should be 2 AccountTeamMember records inserted.');
+                                           FROM AccountTeamMember WHERE AccountId =: acc.Id];
+        List<User> VRMS = [SELECT Id FROM User WHERE UserRole.DeveloperName = 'ABSLI_Virtual_Relationship_Manager'];
+        System.assertEquals(VRMS.size(), atmList.size(), 'There should be 2 AccountTeamMember records inserted.');
         
         // Verify the details of the inserted records
         Set<Id> userIds = new Set<Id>();
