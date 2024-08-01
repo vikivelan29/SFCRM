@@ -559,9 +559,9 @@
                 <label>Surrender lock-in period not explained\Incorrectly Projected</label>
             </value>
             <value>
-                <fullName>Proposer&apos;s signature forged on proposal form,</fullName>
+                <fullName>Proposer&apos;s signature forged on proposal form</fullName>
                 <default>false</default>
-                <label>Proposer&apos;s signature forged on proposal form,</label>
+                <label>Proposer&apos;s signature forged on proposal form</label>
             </value>
             <value>
                 <fullName>Tampered/Forged/Fake Documents</fullName>
