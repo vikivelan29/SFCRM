@@ -111,7 +111,7 @@
 		<members>Asset.Mode__c</members>
 		<members>Asset.Interested_Party__c</members>
 		<members>LOBMappingDetails__mdt.New_Source__c</members>
-		<members>ASF_Asset_Metadata.Line_Of_Business__c</members>
+		<members>ASF_Asset_Metadata__mdt.Line_Of_Business__c</members>
 		<name>CustomField</name>
 	</types>
 
