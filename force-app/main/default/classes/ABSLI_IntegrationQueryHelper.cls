@@ -34,6 +34,7 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 			FROM Case
 			WHERE Id = :caseId
 			WITH SECURITY_ENFORCED
+			FOR UPDATE
 		];
 	}
 

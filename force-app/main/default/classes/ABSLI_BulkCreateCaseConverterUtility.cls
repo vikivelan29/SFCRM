@@ -178,7 +178,7 @@ public with sharing class ABSLI_BulkCreateCaseConverterUtility implements ASF_Bu
             if(listViewQuery.contains('USING SCOPE')){
                 strScope = ' USING SCOPE ' + listViewQuery.substringBetween('SCOPE ',' ') + ' ';
             }
-            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + String.escapeSingleQuotes(strWhere);     
+            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + strWhere;     
         }
 
         if(String.isNotBlank(strFinalQuery)){

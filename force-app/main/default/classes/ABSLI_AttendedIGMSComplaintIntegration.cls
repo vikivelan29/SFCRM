@@ -93,9 +93,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;
             requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
-				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+				        requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
             }
-            
             
             string requestBody = JSON.serialize(requestJSON);
             System.debug('requestBody--> '+requestBody);
@@ -116,8 +115,8 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
                     caseIntOut.Request_Payload__c = requestBody;
-                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
-                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SRV_NAME;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -278,7 +277,6 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
             this.Option = '1';
             this.Mode = '2';
-            
         }
     }
     /**
