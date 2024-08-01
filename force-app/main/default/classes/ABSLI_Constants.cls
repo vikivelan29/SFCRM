@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 07-31-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class ABSLI_Constants {
 
     public static final String RESOLVED_TEAM_RES_STATUS = 'Resolved';
@@ -18,8 +25,25 @@ public class ABSLI_Constants {
     public static final String COMM_LOG_DEFAULT_STATUS = 'In Progress';
     public static final String CHECKLIST_PASS_STATUS = 'Signature Matched,Yes';
     public static final List<String> CHECKLIST_FAILURE_STATUS = new List<String>{'Signature Mismatched', 'No'};
+	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
+    public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
     public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
+    public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
+    {'Reinstatement_Amount__c'=>'Decimal',
+     'COI_Covid_Quest__c' => 'String',
+     'Medicals__c'=> 'String',
+     'Remarks__c' => 'String',
+     'COI_Signed_Date__c' => 'Date'};
+    public static final Map<String,String> CCC_AND_FUNCTION_CODE = new Map<String,String>
+     {
+         'PREI001' => 'STPRI',
+         'PNFT042' => 'STPFS',
+         'PPCT027' => 'STPMC'
+     };
+     
+     public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
+    
 
     /* Bitly Link REAL TIME API
      */
@@ -38,7 +62,7 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
-    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WhatappOptoutUpdateApi';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
     public static final String InstaIssuranceAPI = 'InstaIssuranceApi';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
@@ -103,7 +127,6 @@ public class ABSLI_Constants {
     public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
     public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
     public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
-
     public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Loan NEFT Ref Num Schedulde Job';
     public static final String FETCHNEFTREF_EVALUATION_ERROR = 'ABSLI_FETCHNEFTREF_EVALUATION_ERROR';
     public static final String FETCHNEFTREF_SUCCESS_MESSAGE = 'ABSLI_FETCHNEFTREF_SUCCESS_MESSAGE';
@@ -137,11 +160,11 @@ public class ABSLI_Constants {
     public static final String LOANAPPROVAL_DEFAULTCOMMENT_STP = 'Voucher not approved as amount is more than Rs. 1,00,000';
     public static final Decimal LOANAPPROVAL_CUTOFFAMOUNT = 100000;
 
-
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
+
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
@@ -155,11 +178,9 @@ public class ABSLI_Constants {
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
     public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
     public static final String FETCHPOLICY_ESB_INTEGRATION_METADATA = 'ABSLI_FETCH_POLICY_ESB';
-
     public static final String POLICY_GEN_FUND_INTEGRATION_METADATA = 'ABSLI_Gen_Fund_Integration';
     public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
     public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
-
 
     /* IGMS OUTBOUND API */
     public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};
@@ -195,5 +216,23 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMS_OPTION = '1';
     public static final String ABSLI_IGMS_MODE_REGISTER = '1';
     public static final String ABSLI_IGMS_MODE_UPDATE = '2';
+    /* LOAN REPAYMENTS INTEGRATION */
+    public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
+    public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
+    
+    
+    /* LITMUS API */
+    public static final String LITMUS_SOURCE_REQ_BY = 'Customer';
+    public static final String LITMUS = 'Litmus';
+    public static final String COMPLAINT_NATURE = 'Complaint';
+    
+    /* REINSTATEMENT API */
+    public static final String REINSTATEMENT_EVAL_ERROR = 'ABSLI_REINSTATEMENT_EVAL_ERROR';
+    public static final String KARVY_QUEUE_DEVELOPER_NAME = 'ABSLI_Auto_Processing_Queue';//ABSLI_KARVY_TEAM';
+    public static final String COVID_19_QUE_STRING = 'COVID 19 Questionnaire';
+    public static final String REINSTATEMENT_SERVICE_NAME = 'reinstatementApi';
+    
+    /* SURVIVAL API */
+    public static final String SURVIVALCTST = 'PCPT017';
 
 }
