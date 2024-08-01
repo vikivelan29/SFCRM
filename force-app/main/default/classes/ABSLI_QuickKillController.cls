@@ -122,8 +122,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         ASF_Quick_Link_Config__mdt qkCommMdt = [SELECT ID, FunctionName__c ,FunctionCode__c,SMSMetadataName__c 
                                                 FROM ASF_Quick_Link_Config__mdt WHERE FunctionCode__c =: funcCode];
         
-        Contact c = [SELECT ID,MobilePhone,Name,Salutation FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
-
+        Contact c = [SELECT ID,MobilePhone,Name,Salutation,Full_Name__c FROM Contact WHERE AccountId = : selectedCustomer.Id LIMIT 1];
         Customer_Notification_Config__mdt commMdt= [SELECT ID,SMS_Entity_Id__c,
                                                     SMS_Sender_Id__c,SMS_Template_Name__c,external_templateID__c,
                                                     Email_Template_Name__c 
@@ -135,7 +134,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             ASF_Communication_Log__c cLog = new ASF_Communication_Log__c();
             cLog.Account__c = selectedCustomer.Id;
             cLog.Contact__c = c.Id;
-            cLog.Contact_Name__c = c.Name;
+            cLog.Contact_Name__c = (c.Salutation != null ? c.Salutation : '') + c.Full_Name__c;
             cLog.SMS_Entity_Id__c = commMdt.SMS_Entity_Id__c;
             cLog.SMS_Sender_Id__c = commMdt.SMS_Sender_Id__c;
             cLog.SMS_LT_Name__c = commMdt.SMS_Template_Name__c;
@@ -157,7 +156,10 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
             return cLog.Id;
             
         }
-        return null;
+        else{
+            throw new AuraException('Trying to send SMS to Customer without mobile number.');
+        }
+        
     }
     
     /* THIS METHOD IS USE FOR GETTING THE TEMPLATE HTML BODY BASED ON THE FUNCTION CODE AND WHAT ID.
@@ -197,7 +199,7 @@ CLICKING ON CANCEL BUTTON. THAT MEANS NOT ACTUALLY SENDING THE MESSAGE BUT CANCE
         endPoint += 'ClientID='+clientCode+'&';
         endPoint += 'PolicyNumber='+polNumber+'&';
         endPoint += 'FunctionCode='+funcCode+'&';  
-        endPoint += 'Source='+sourceVal+'&';
+        endPoint += 'Source=CRM&';
         endPoint += 'TimeStamp='+ currentDateTime.Day()+currentDateTime.Month()+currentDateTime.Year()+currentDateTime.Hour()+currentDateTime.Minute()+currentDateTime.Second()+'000';
         Blob exampleIv = Blob.valueOf(Label.ABSLI_Ivkey);
         Blob key = Blob.ValueOf(Label.ABSLI_key);

@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import generateLink from "@salesforce/apex/ABSLI_QuickKillController.generateLink";
 import generateBitlyLink from "@salesforce/apex/ABSLI_QuickKillController.generateBitlyLink";
 import sendCommunication from "@salesforce/apex/ABSLI_QuickKillController.sendCommunication";
@@ -7,6 +7,15 @@ import getPolicyColumns from '@salesforce/apex/ABSLI_QuickKillController.getPoli
 import deleteDraftLogs from '@salesforce/apex/ABSLI_QuickKillController.deleteDraftLogs';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+
+
+
+import MOBILE_FIELD from "@salesforce/schema/Account.PersonMobilePhone";
+
+
+const fields = [MOBILE_FIELD];
+
 
 
 export default class Absli_quickkill extends LightningElement {
@@ -29,6 +38,9 @@ export default class Absli_quickkill extends LightningElement {
     @track showSearchInput = true;
     @track showGenerateLink = false;
     @track bErrored = false;
+    @track noMobileNum = false;
+    @track loaded = false;
+    @track accountRecord;
 	
 	 totalNoOfRecordsInDatatable = 0;
     pageSize = 10; //No.of records to be displayed per page
@@ -37,7 +49,7 @@ export default class Absli_quickkill extends LightningElement {
     @track recordsToDisplay = []; //Records to be displayed on the page
 
 
-
+    
     displayInfo = {
         primaryField: 'LAN__c',
         additionalFields: ['Name'],
@@ -49,10 +61,38 @@ export default class Absli_quickkill extends LightningElement {
 
     filter = {};
 
+
+    @wire(getRecord, { recordId: "$recordId", fields })
+    async wiredRecord({ error, data }) {
+        if (error) {
+          console.log(JSON.stringify(error));
+        } else if (data) {
+            this.accountRecord = data;
+
+            let mobVal = this.accountRecord.fields.PersonMobilePhone.value;
+            if(mobVal != null && mobVal != ""){
+                await this.loadColumns();
+                await this.loadRelatedAssets();
+                this.noMobileNum = false;
+                this.loaded = true;
+            }
+            else{
+                this.noMobileNum = true;
+                this.loaded = true;
+            }
+        }
+      }
+    
+    
+    
+    get showPolicyTable(){
+        return !(!this.noMobileNum && this.loaded && !this.showPolicy);
+    }
+
     async connectedCallback() {
         // Dhinesh - to load columns of policy
-        await this.loadColumns();
-        await this.loadRelatedAssets();
+        //this.loadColumns();
+        //this.loadRelatedAssets();
     }
     
 
