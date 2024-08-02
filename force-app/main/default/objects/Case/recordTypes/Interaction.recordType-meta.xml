@@ -726,10 +726,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -941,6 +937,10 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>

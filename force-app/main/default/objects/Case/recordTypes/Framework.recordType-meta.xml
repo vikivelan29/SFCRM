@@ -78,11 +78,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -742,10 +742,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1032,10 +1028,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>OneABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Outbound Altruist</fullName>
             <default>false</default>
         </values>
@@ -1049,6 +1041,10 @@
         </values>
         <values>
             <fullName>Outbound call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1120,7 +1116,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName>
+            <fullName>ONEABC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
