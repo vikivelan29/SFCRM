@@ -138,6 +138,7 @@
         <members>ASF_Bulk_Row_to_Record_Converter_Config.ASLIG_Close_Case</members>
 		<members>ASF_Asset_Metadata.ABSLI_Columns</members>
 		<members>LOBMappingDetails.ABSLIG_01</members>
+        <members>BUSpecificAutoEmailMapping.ABSLIG</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
