@@ -40,9 +40,6 @@
         <field>Case$Asset.Channel__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Complaint_Details__c</field>
-    </columns>
-    <columns>
         <field>Case$Account</field>
     </columns>
     <columns>
