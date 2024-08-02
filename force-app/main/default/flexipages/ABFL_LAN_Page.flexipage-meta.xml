@@ -893,7 +893,7 @@
                         <operator>NE</operator>
                     </criteria>
                 </visibilityRule>
-            </componentInstance>
+                </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>

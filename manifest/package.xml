@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>ABSLIG_Asset_Record_Page</members>
-		<name>FlexiPage</name>
+    <types>
+		<members>asf_Case360</members>
+		<members>aSF_pendingCaseChecklistEdit</members>
+		<members>aSF_createCaseWithType</members>
+		<name>LightningComponentBundle</name>
 	</types>
-	<types>
-		<members>Asset-ABSLIG Asset Page</members>
-		<name>Layout</name>
+    <types>
+		<members>ASF_CaseTriggerModularHelper</members>
+		<members>ASF_Constants</members>
+		<members>ABFL_DMSSync_Orchestrator</members>
+		<members>ABFL_E2C_CreationRules</members>
+		<members>ABFL_WealthChatGeneratedCases</members>
+		<members>ASF_CaseManualStageController</members>
+		<members>ASF_CaseManualStageController_Test</members>
+		<members>ASF_CaseSLAHandlerV1</members>
+		<name>ApexClass</name>
 	</types>
-	<types>
-		<members>ABSLIG_User</members>
-		<name>PermissionSet</name>
+    <types>
+		<members>ABFL_DMS_Aadhaar_Flag</members>
+		<members>ABFL_DMS_Documents_Of</members>
+		<members>ABFL_DMS_Masking_Status</members>
+		<members>ABFL_DMS_Subcontentcode_Desc_Index_Id</members>
+		<name>CustomLabel</name>
 	</types>
-	<version>60.0</version>
+    <version>61.0</version>
 </Package>

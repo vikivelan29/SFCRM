@@ -5404,6 +5404,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.EMI_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Asset.EMI_Percent__c</field>
         <readable>true</readable>
     </fieldPermissions>

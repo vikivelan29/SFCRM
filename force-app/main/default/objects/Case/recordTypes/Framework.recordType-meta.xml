@@ -1036,10 +1036,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -1109,6 +1105,10 @@
         </values>
         <values>
             <fullName>ONEABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>
