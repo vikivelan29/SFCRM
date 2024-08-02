@@ -1053,4 +1053,11 @@
         <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
         <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
+        <value>cnwf_touchpoint</value>
+    </labels>
 </CustomLabels>
