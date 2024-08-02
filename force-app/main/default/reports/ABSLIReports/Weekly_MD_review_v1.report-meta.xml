@@ -1,100 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>SUBJECT</field>
+        <field>Case$Subject</field>
     </columns>
     <columns>
-        <field>CREATED_DATE</field>
+        <field>Case$CreatedDate</field>
     </columns>
     <columns>
-        <field>CASE_NUMBER</field>
+        <field>Case$CaseNumber</field>
     </columns>
     <columns>
-        <field>OWNER</field>
+        <field>Case$Owner</field>
     </columns>
     <columns>
-        <field>LAST_UPDATE</field>
+        <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
-        <field>ACCOUNT.NAME</field>
+        <field>Case$Account</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
+        <field>Case$IRDAI_Token_Number__c</field>
     </columns>
     <columns>
-        <field>Asset.Policy_No__c</field>
+        <field>Case$Asset.Policy_No__c</field>
     </columns>
     <columns>
-        <field>STATUS</field>
+        <field>Case$Status</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
-        <field>Case.Channel__c</field>
+        <field>Case$Channel__c</field>
     </columns>
     <columns>
-        <field>Asset.Advisor__c</field>
+        <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case.Source__c</field>
+        <field>Case$Source__c</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
     </columns>
     <columns>
-        <field>Asset.ASF_Type__c</field>
+        <field>Case$Asset.Type__c</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Resolved_Date__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolved_Date__c</field>
     </columns>
     <columns>
-        <field>Asset.Issue_Date__c</field>
+        <field>Case$Asset.Issue_Date__c</field>
     </columns>
     <columns>
-        <field>Asset.Product_Code__c</field>
+        <field>Case$Asset.Product_Code__c</field>
     </columns>
     <columns>
-        <field>Asset.Channel__c</field>
+        <field>Case$Asset.Channel__c</field>
     </columns>
     <columns>
-        <field>Asset.PIVC_Status__c</field>
+        <field>Case$Asset.PIVC_Status__c</field>
     </columns>
     <columns>
-        <field>FK_$ABSLI_Case_Detail__c.Branch_Name__c</field>
+        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
-        <field>Asset.Plan_Name__c</field>
+        <field>Case$Asset.Plan_Name__c</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case.Sub_Type_Text__c</field>
+        <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case.Assigned_Team__c</field>
+        <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>PC_SALUTATION</field>
+        <field>Case$Account.Salutation</field>
     </columns>
     <columns>
-        <field>Account.Agent_Sub_Category__c</field>
+        <field>Case$Account.Agent_Sub_Category__c</field>
     </columns>
-    <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
     <filter>
         <criteriaItems>
-            <column>STATUS</column>
+            <column>Case$Status</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Resolved</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case.Nature__c</column>
+            <column>Case$Nature__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
@@ -104,20 +103,18 @@
     <format>Tabular</format>
     <name>Weekly MD review</name>
     <params>
-        <name>units</name>
-        <value>h</value>
-    </params>
-    <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CaseAsset@Case.ABSLI_Case_Detail__c</reportType>
+    <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>CREATED_DATEONLY</dateColumn>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-08-31</endDate>
         <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-07-01</startDate>
     </timeFrameFilter>
 </Report>

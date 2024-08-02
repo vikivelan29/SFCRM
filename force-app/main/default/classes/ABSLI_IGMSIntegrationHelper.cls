@@ -37,7 +37,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             Date birthDate = caseRecord.Account?.PersonBirthdate;
             requestJSON.Date_Of_Birth = birthDate != null ? ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY') : null;
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
-            requestJSON.Complaint_Details = caseRecord.Description;
+            requestJSON.Complaint_Details = caseRecord.Description.left(4000);
             requestJSON.Complaint_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             requestJSON.Complaint_Receipt_Date = ABCL_IntegrationCommonUtility.dateFormat(Date.ValueOf(caseRecord.CreatedDate), 'dd-MM-YYYY');
             requestJSON.Policy_Type_Id = caseRecord.ABSLI_Case_Detail__r.IGMS_type_of_policy__c;
