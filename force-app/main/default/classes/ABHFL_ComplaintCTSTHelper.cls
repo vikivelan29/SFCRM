@@ -19,7 +19,10 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
 
         Map<String, Id> externalIdToCase = new Map<String, Id>();
         for(Case caseRec : caseRecs){
-            externalIdToCase.put(caseRec.CCC_External_Id__c, caseRec.Id);
+            if(caseRec.moved_back__c == false){
+                externalIdToCase.put(caseRec.CCC_External_Id__c, caseRec.Id);
+            }
+            
         }
         Map<Id, ASF_Case_Category_Config__c> caseIdToCCCMap = new Map<Id,ASF_Case_Category_Config__c>();
     	for(ASF_Case_Category_Config__c ccc : [SELECT Id, New_Case_Email_Template__c,New_Case_SMS_Metadata__c, CCC_External_Id__c FROM ASF_Case_Category_Config__c 
@@ -35,26 +38,29 @@ public with sharing class ABHFL_ComplaintCTSTHelper {
         List<Case> typeOneCases = new List<Case>();
         List<Case> typeTwoCases = new List<Case>();
         for(Case caseRec : caseRecs){
-            List<String> emailTemplates = new List<String>();
-            List<String> smsMetadata = new List<String>();
-            ASF_Case_Category_Config__c ccc = caseIdToCCCMap.get(caseRec.Id);
-            if(String.isNotBlank(ccc.New_Case_Email_Template__c)){
-                emailTemplates = (ccc.New_Case_Email_Template__c).split(',');            
+            if(caseRec.moved_back__c == false){
+            	List<String> emailTemplates = new List<String>();
+                List<String> smsMetadata = new List<String>();
+                ASF_Case_Category_Config__c ccc = caseIdToCCCMap.get(caseRec.Id);
+                if(String.isNotBlank(ccc.New_Case_Email_Template__c)){
+                    emailTemplates = (ccc.New_Case_Email_Template__c).split(',');            
+                }
+                if(String.isNotBlank(ccc.New_Case_SMS_Metadata__c)){
+                    smsMetadata = (ccc.New_Case_SMS_Metadata__c).split(',');            
+                }
+                if(caseRec.Short_URL__c == NULL){
+                    typeOneCases.add(caseRec);
+                    emailTemplateMap.put(caseRec.Id, emailTemplates[1]);
+                    smsMetadataMap.put(caseRec.Id, smsMetadata[1]);
+                    isTransferredMap.put(caseRec.Id, false);
+                }else{
+                    typeTwoCases.add(caseRec);
+                    emailTemplateMap.put(caseRec.Id, emailTemplates[0]);
+                    smsMetadataMap.put(caseRec.Id, smsMetadata[0]);
+                    isTransferredMap.put(caseRec.Id, false);
+                }    
             }
-            if(String.isNotBlank(ccc.New_Case_SMS_Metadata__c)){
-                smsMetadata = (ccc.New_Case_SMS_Metadata__c).split(',');            
-            }
-            if(caseRec.Short_URL__c == NULL){
-                typeOneCases.add(caseRec);
-                emailTemplateMap.put(caseRec.Id, emailTemplates[1]);
-                smsMetadataMap.put(caseRec.Id, smsMetadata[1]);
-                isTransferredMap.put(caseRec.Id, false);
-            }else{
-                typeTwoCases.add(caseRec);
-                emailTemplateMap.put(caseRec.Id, emailTemplates[0]);
-                smsMetadataMap.put(caseRec.Id, smsMetadata[0]);
-                isTransferredMap.put(caseRec.Id, false);
-            }
+            
         }
         if(!typeOneCases.isEmpty()){
             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(typeOneCases, emailTemplateMap, smsMetadataMap, isTransferredMap);
