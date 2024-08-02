@@ -1,5 +1,5 @@
 public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
-
+    public static Set<String> allowedFileTypeForIGMS = new Set<String>{'jpeg', 'pdf', 'jpg', 'png'};
     /****************************************************************************************************************
     * @param caseId
     * @return List<IGMSDocumentWrapper> 
@@ -14,7 +14,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             for(ContentDocumentLink conLink : contentLinks){
                  contentDocumentIds.add(conLink.ContentDocumentId);
             }
-            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension
+            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension,PathonClient
                                                     from ContentVersion where ContentDocumentId in: contentDocumentIds];
 
             List<ABSLI_IGMS_Document__c> igmsDocuments = [Select id,ContentDocumentId__c,Status__c
@@ -28,15 +28,17 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             }
             
             for(ContentVersion content : contentVersion){
-                IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
-                docWrapper.fileName = content.Title +'.' + content.FileExtension;
-                docWrapper.contentDocumentId = content.ContentDocumentId;
-                docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
-                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
-                    docWrapper.allowUpload = true;
+                if(allowedFileTypeForIGMS.contains(content.FileExtension)){
+                    IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
+                    docWrapper.fileName = content.Title +'.' + content.FileExtension;
+                    docWrapper.contentDocumentId = content.ContentDocumentId;
+                    docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
+                    if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
+                        docWrapper.allowUpload = true;
+                    }
+                    docWrapper.contentVersionID = content.Id;
+                    igmsDocumentList.add(docWrapper);
                 }
-                docWrapper.contentVersionID = content.Id;
-                igmsDocumentList.add(docWrapper);
             }
         }
         return igmsDocumentList;
