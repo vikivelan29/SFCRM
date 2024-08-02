@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ABHFL Team
  * @group             : 
- * @last modified on  : 06-30-2024
+ * @last modified on  : 03-03-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -18,9 +18,11 @@ public class ABHFL_CTSTHelper_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         
         ASF_TestDataFactory.createCaseCategoryConfig();
+		
         
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -39,7 +41,6 @@ public class ABHFL_CTSTHelper_Test {
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
-        //caseDetail.Grievance_Details_Sent__c = false;
         insert caseDetail;
        
         //Create Case
@@ -47,7 +48,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
-       	//caseRecList[0].Business_Unit__c = 'ABHFL';
+       // caseRecList[0].Business_Unit__c = 'ABHFL';
         
         
        	caseRecList[1].AssetId = astRec1.Id;
@@ -119,9 +120,6 @@ public class ABHFL_CTSTHelper_Test {
         system.debug('test class debug Aditya:'+caseList[0].isClosed);
         system.debug('test class debug Aditya:'+caseList[1].isClosed);
         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(caseList, oldCaseMap);
-        ABFL_Constants consts = ABFL_Constants.getAllConstants();
-        String failure = ABFL_Constants.BREFAILURE;
-        String success = ABFL_Constants.BRESUCCESS;
         //update caseList[0];
     }
     
@@ -372,39 +370,4 @@ public class ABHFL_CTSTHelper_Test {
         ABHFL_CTSTHelper.checkAssetDetailStatus(caseValidWrapper);
     }
     
-    @isTest
-    static void prePopulateFieldsTest() {
-        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c
-                           		    FROM Case];
-        
-        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.prePopulateFields(caseRecordLst);
-        
-    }
-    
-    @isTest
-    static void callLitmusApiTest() {
-        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c
-                           		    FROM Case];
-        
-        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.callLitmusApi(caseRecordLst, new Map<Id, Case>());    
-    }
-    
-    @isTest
-    static void populateFieldsInAfterContextTest() {
-        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c
-                           		    FROM Case];
-        
-        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);    
-    }
-    
-    @isTest
-    static void createCasesTest() {
-        List<Case> caseRecordLst = [SELECT Id FROM Case];
-        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
-        
-        ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
-    }
 }

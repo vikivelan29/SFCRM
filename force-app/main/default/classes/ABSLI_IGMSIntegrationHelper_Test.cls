@@ -114,6 +114,7 @@ public class ABSLI_IGMSIntegrationHelper_Test {
     caseRec.Technical_Source__c = 'API';
     caseRec.Is_STP__c = true;
     caseRec.IGMS_Complaint_Type_Code__c = '1';
+    caseRec.Description = 'Test';
     update caseRec;
 
     Case caseRec1 = ASF_TestDataFactory.createInteractionCaseRecords()[0];
@@ -129,6 +130,7 @@ public class ABSLI_IGMSIntegrationHelper_Test {
     caseRec1.Technical_Source__c = 'API';
     caseRec1.Is_STP__c = true;
     caseRec1.IGMS_Complaint_Type_Code__c = '1';
+    caseRec1.Description = 'Test';
     update caseRec1;
 
 		ASF_TestDataFactory.createCaseIntegration(caseRec.Id, 'PNFT008');

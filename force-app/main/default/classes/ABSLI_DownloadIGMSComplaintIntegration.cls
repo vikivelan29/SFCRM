@@ -15,8 +15,9 @@ public with sharing class ABSLI_DownloadIGMSComplaintIntegration {
             if(igmsDocument.size() > 0){
                 DownloadAttachmentWrapper downloadWrapper = new DownloadAttachmentWrapper();
                 downloadWrapper.caseId = igmsDocument[0].Case__r.CaseNumber;
-                downloadWrapper.IRDA_Token_Number = igmsDocument[0].IRDA_Token_Number__c;
+                downloadWrapper.IRDA_Token_no = igmsDocument[0].IRDA_Token_Number__c;
                 downloadWrapper.DocID = igmsDocument[0].Document_Id__c;
+                downloadWrapper.fileName = igmsDocument[0].File_Name__c;
 
                 Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                 caseIntOut.Business_Unit__c = igmsDocument[0].Case__r.Business_Unit__c;
@@ -34,7 +35,8 @@ public with sharing class ABSLI_DownloadIGMSComplaintIntegration {
 
     public class DownloadAttachmentWrapper{
         public string caseId;
-        public string IRDA_Token_Number;
+        public string IRDA_Token_no;
         public string DocID;
+        public string fileName;
     }
 }

@@ -31,6 +31,11 @@
                 <default>false</default>
                 <label>Unit Linked Insurance Policy</label>
             </value>
+            <value>
+                <fullName>3</fullName>
+                <default>false</default>
+                <label>Pension Policy (other than Unit Linked)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
