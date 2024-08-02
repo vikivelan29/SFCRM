@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Issue_Type__c</fullName>
+    <description>ABSLI Sub SubType</description>
+    <label>Issue Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Accrued Bonus Additions Value Related</fullName>
+                <default>false</default>
+                <label>Accrued Bonus Additions Value Related</label>
+            </value>
+            <value>
+                <fullName>HOLD Refund- Maturity/ Termination</fullName>
+                <default>false</default>
+                <label>HOLD Refund- Maturity/ Termination</label>
+            </value>
+            <value>
+                <fullName>Leakage Salvage</fullName>
+                <default>false</default>
+                <label>Leakage Salvage</label>
+            </value>
+            <value>
+                <fullName>Leakage Winback</fullName>
+                <default>false</default>
+                <label>Leakage Winback</label>
+            </value>
+            <value>
+                <fullName>Address/Contact/Email ID Related</fullName>
+                <default>false</default>
+                <label>Address/Contact/Email ID Related</label>
+            </value>
+            <value>
+                <fullName>Assignment Related</fullName>
+                <default>false</default>
+                <label>Assignment Related</label>
+            </value>
+            <value>
+                <fullName>Maturity Related</fullName>
+                <default>false</default>
+                <label>Maturity Related</label>
+            </value>
+            <value>
+                <fullName>Medical Center Not Available</fullName>
+                <default>false</default>
+                <label>Medical Center Not Available</label>
+            </value>
+            <value>
+                <fullName>Medical Center Service Feedback</fullName>
+                <default>false</default>
+                <label>Medical Center Service Feedback</label>
+            </value>
+            <value>
+                <fullName>Name Change/Correction Related</fullName>
+                <default>false</default>
+                <label>Name Change/Correction Related</label>
+            </value>
+            <value>
+                <fullName>DOB change procedure</fullName>
+                <default>false</default>
+                <label>DOB change procedure</label>
+            </value>
+            <value>
+                <fullName>Duplicate Policy Document Related</fullName>
+                <default>false</default>
+                <label>Duplicate Policy Document Related</label>
+            </value>
+            <value>
+                <fullName>EIA Account Related</fullName>
+                <default>false</default>
+                <label>EIA Account Related</label>
+            </value>
+            <value>
+                <fullName>Freelook Information</fullName>
+                <default>false</default>
+                <label>Freelook Information</label>
+            </value>
+            <value>
+                <fullName>Overseas Medical test Payment to customer</fullName>
+                <default>false</default>
+                <label>Overseas Medical test Payment to customer</label>
+            </value>
+            <value>
+                <fullName>Loan Related</fullName>
+                <default>false</default>
+                <label>Loan Related</label>
+            </value>
+            <value>
+                <fullName>Name Change Related</fullName>
+                <default>false</default>
+                <label>Name Change Related</label>
+            </value>
+            <value>
+                <fullName>Nomination Related</fullName>
+                <default>false</default>
+                <label>Nomination Related</label>
+            </value>
+            <value>
+                <fullName>post call- complaint</fullName>
+                <default>false</default>
+                <label>post call- complaint</label>
+            </value>
+            <value>
+                <fullName>Premium paid certificate / Policy Statement from Chatbot</fullName>
+                <default>false</default>
+                <label>Premium paid certificate / Policy Statement from Chatbot</label>
+            </value>
+            <value>
+                <fullName>Product related</fullName>
+                <default>false</default>
+                <label>Product related</label>
+            </value>
+            <value>
+                <fullName>Refund Cheque RTGS Related</fullName>
+                <default>false</default>
+                <label>Refund Cheque RTGS Related</label>
+            </value>
+            <value>
+                <fullName>Tele FMR Medical Report Tagging Status</fullName>
+                <default>false</default>
+                <label>Tele FMR Medical Report Tagging Status</label>
+            </value>
+            <value>
+                <fullName>TDS Related</fullName>
+                <default>false</default>
+                <label>TDS Related</label>
+            </value>
+            <value>
+                <fullName>Withdrawal/Survival Benefit Related</fullName>
+                <default>false</default>
+                <label>Withdrawal/Survival Benefit Related</label>
+            </value>
+            <value>
+                <fullName>Discontinued Payout Related</fullName>
+                <default>false</default>
+                <label>Discontinued Payout Related</label>
+            </value>
+            <value>
+                <fullName>DOB change related</fullName>
+                <default>false</default>
+                <label>DOB change related</label>
+            </value>
+            <value>
+                <fullName>Top Up Related</fullName>
+                <default>false</default>
+                <label>Top Up Related</label>
+            </value>
+            <value>
+                <fullName>Benefits related</fullName>
+                <default>false</default>
+                <label>Benefits related</label>
+            </value>
+            <value>
+                <fullName>Documentation related</fullName>
+                <default>false</default>
+                <label>Documentation related</label>
+            </value>
+            <value>
+                <fullName>Investigation related</fullName>
+                <default>false</default>
+                <label>Investigation related</label>
+            </value>
+            <value>
+                <fullName>Claim related</fullName>
+                <default>false</default>
+                <label>Claim related</label>
+            </value>
+            <value>
+                <fullName>Process related</fullName>
+                <default>false</default>
+                <label>Process related</label>
+            </value>
+            <value>
+                <fullName>Claim Status related</fullName>
+                <default>false</default>
+                <label>Claim Status related</label>
+            </value>
+            <value>
+                <fullName>NRI query</fullName>
+                <default>false</default>
+                <label>NRI query</label>
+            </value>
+            <value>
+                <fullName>Overseas Medicals Approval</fullName>
+                <default>false</default>
+                <label>Overseas Medicals Approval</label>
+            </value>
+            <value>
+                <fullName>NRI Unclaimed</fullName>
+                <default>false</default>
+                <label>NRI Unclaimed</label>
+            </value>
+            <value>
+                <fullName>Excess premium</fullName>
+                <default>false</default>
+                <label>Excess premium</label>
+            </value>
+            <value>
+                <fullName>Online Payment Related</fullName>
+                <default>false</default>
+                <label>Online Payment Related</label>
+            </value>
+            <value>
+                <fullName>NACH Auto Payment Related</fullName>
+                <default>false</default>
+                <label>NACH Auto Payment Related</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium Related</fullName>
+                <default>false</default>
+                <label>Renewal Premium Related</label>
+            </value>
+            <value>
+                <fullName>Outstanding premium amount/Due date</fullName>
+                <default>false</default>
+                <label>Outstanding premium amount/Due date</label>
+            </value>
+            <value>
+                <fullName>Renewal Due Date/Amount</fullName>
+                <default>false</default>
+                <label>Renewal Due Date/Amount</label>
+            </value>
+            <value>
+                <fullName>Renewal Grace Period/ End Date</fullName>
+                <default>false</default>
+                <label>Renewal Grace Period/ End Date</label>
+            </value>
+            <value>
+                <fullName>Renewal Online Payment Issue</fullName>
+                <default>false</default>
+                <label>Renewal Online Payment Issue</label>
+            </value>
+            <value>
+                <fullName>Renewal Payment Process</fullName>
+                <default>false</default>
+                <label>Renewal Payment Process</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium Confirmation</fullName>
+                <default>false</default>
+                <label>Renewal Premium Confirmation</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium Paid Not Accounted/Invested</fullName>
+                <default>false</default>
+                <label>Renewal Premium Paid Not Accounted/Invested</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium Paid Not Receipted</fullName>
+                <default>false</default>
+                <label>Renewal Premium Paid Not Receipted</label>
+            </value>
+            <value>
+                <fullName>Total Premium Paid</fullName>
+                <default>false</default>
+                <label>Total Premium Paid</label>
+            </value>
+            <value>
+                <fullName>D2C Lead</fullName>
+                <default>false</default>
+                <label>D2C Lead</label>
+            </value>
+            <value>
+                <fullName>Policy Details</fullName>
+                <default>false</default>
+                <label>Policy Details</label>
+            </value>
+            <value>
+                <fullName>Policy Benefit &amp; Features</fullName>
+                <default>false</default>
+                <label>Policy Benefit &amp; Features</label>
+            </value>
+            <value>
+                <fullName>Policy Dispatch / Delivery Details</fullName>
+                <default>false</default>
+                <label>Policy Dispatch / Delivery Details</label>
+            </value>
+            <value>
+                <fullName>Riders Related/Face Amount Related</fullName>
+                <default>false</default>
+                <label>Riders Related/Face Amount Related</label>
+            </value>
+            <value>
+                <fullName>ChQ Reissuance/Stop Payment Related</fullName>
+                <default>false</default>
+                <label>ChQ Reissuance/Stop Payment Related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement &amp; Renewal Accounting</fullName>
+                <default>false</default>
+                <label>Reinstatement &amp; Renewal Accounting</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Quotation</fullName>
+                <default>false</default>
+                <label>Reinstatement Quotation</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Related</fullName>
+                <default>false</default>
+                <label>Reinstatement Related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Confirmation</fullName>
+                <default>false</default>
+                <label>Reinstatement Confirmation</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Interest Waiver Query</fullName>
+                <default>false</default>
+                <label>Reinstatement Interest Waiver Query</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Not Possible</fullName>
+                <default>false</default>
+                <label>Reinstatement Not Possible</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Online Payment Issue</fullName>
+                <default>false</default>
+                <label>Reinstatement Online Payment Issue</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Pending Requirement</fullName>
+                <default>false</default>
+                <label>Reinstatement Pending Requirement</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Premium Paid Not Receipted</fullName>
+                <default>false</default>
+                <label>Reinstatement Premium Paid Not Receipted</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Procedure</fullName>
+                <default>false</default>
+                <label>Reinstatement Procedure</label>
+            </value>
+            <value>
+                <fullName>Surrender Winback</fullName>
+                <default>false</default>
+                <label>Surrender Winback</label>
+            </value>
+            <value>
+                <fullName>Surrender Certificate Related</fullName>
+                <default>false</default>
+                <label>Surrender Certificate Related</label>
+            </value>
+            <value>
+                <fullName>Surrender Procedure Value Related</fullName>
+                <default>false</default>
+                <label>Surrender Procedure Value Related</label>
+            </value>
+            <value>
+                <fullName>Surrender query post lock-in</fullName>
+                <default>false</default>
+                <label>Surrender query post lock-in</label>
+            </value>
+            <value>
+                <fullName>Surrender query within lock-in</fullName>
+                <default>false</default>
+                <label>Surrender query within lock-in</label>
+            </value>
+            <value>
+                <fullName>Surrender Status</fullName>
+                <default>false</default>
+                <label>Surrender Status</label>
+            </value>
+            <value>
+                <fullName>Surrender Value</fullName>
+                <default>false</default>
+                <label>Surrender Value</label>
+            </value>
+            <value>
+                <fullName>Switch/Allocation Related</fullName>
+                <default>false</default>
+                <label>Switch/Allocation Related</label>
+            </value>
+            <value>
+                <fullName>Fund Value/NAV related</fullName>
+                <default>false</default>
+                <label>Fund Value/NAV related</label>
+            </value>
+            <value>
+                <fullName>Website Premium paid certificate / Policy Statement</fullName>
+                <default>false</default>
+                <label>Website Premium paid certificate / Policy Statement</label>
+            </value>
+            <value>
+                <fullName>User ID Creation Process/Forgot password</fullName>
+                <default>false</default>
+                <label>User ID Creation Process/Forgot password</label>
+            </value>
+            <value>
+                <fullName>Address related</fullName>
+                <default>false</default>
+                <label>Address related</label>
+            </value>
+            <value>
+                <fullName>Commission Not Generated</fullName>
+                <default>false</default>
+                <label>Commission Not Generated</label>
+            </value>
+            <value>
+                <fullName>Commission Rate</fullName>
+                <default>false</default>
+                <label>Commission Rate</label>
+            </value>
+            <value>
+                <fullName>License not received</fullName>
+                <default>false</default>
+                <label>License not received</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Reimbursement Benefit Not Received</fullName>
+                <default>false</default>
+                <label>Reimbursement Benefit Not Received</label>
+            </value>
+            <value>
+                <fullName>Reimbursement Amount</fullName>
+                <default>false</default>
+                <label>Reimbursement Amount</label>
+            </value>
+            <value>
+                <fullName>Taxation</fullName>
+                <default>false</default>
+                <label>Taxation</label>
+            </value>
+            <value>
+                <fullName>Terminated Code</fullName>
+                <default>false</default>
+                <label>Terminated Code</label>
+            </value>
+            <value>
+                <fullName>Terminated with Commission</fullName>
+                <default>false</default>
+                <label>Terminated with Commission</label>
+            </value>
+            <value>
+                <fullName>Advisor Query</fullName>
+                <default>false</default>
+                <label>Advisor Query</label>
+            </value>
+            <value>
+                <fullName>Bank mandate</fullName>
+                <default>false</default>
+                <label>Bank mandate</label>
+            </value>
+            <value>
+                <fullName>Commission Hold</fullName>
+                <default>false</default>
+                <label>Commission Hold</label>
+            </value>
+            <value>
+                <fullName>NOC Related</fullName>
+                <default>false</default>
+                <label>NOC Related</label>
+            </value>
+            <value>
+                <fullName>Email Id / mobile no</fullName>
+                <default>false</default>
+                <label>Email Id / mobile no</label>
+            </value>
+            <value>
+                <fullName>Explained On Call</fullName>
+                <default>false</default>
+                <label>Explained On Call</label>
+            </value>
+            <value>
+                <fullName>TPIN Not Recd Through SMS</fullName>
+                <default>false</default>
+                <label>TPIN Not Recd Through SMS</label>
+            </value>
+            <value>
+                <fullName>TDS / Service tax related</fullName>
+                <default>false</default>
+                <label>TDS / Service tax related</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Duplicate Policy Document Related - Undertaking form</fullName>
+                <default>false</default>
+                <label>Duplicate Policy Document Related - Undertaking form</label>
+            </value>
+            <value>
+                <fullName>Mode change procedure</fullName>
+                <default>false</default>
+                <label>Mode change procedure</label>
+            </value>
+            <value>
+                <fullName>Discrepancy in claim value</fullName>
+                <default>false</default>
+                <label>Discrepancy in claim value</label>
+            </value>
+            <value>
+                <fullName>Pre existing illness not covered</fullName>
+                <default>false</default>
+                <label>Pre existing illness not covered</label>
+            </value>
+            <value>
+                <fullName>Partial withdrawal refund credited to wrong account number/ wrong policy</fullName>
+                <default>false</default>
+                <label>Partial withdrawal refund credited to wrong account number/ wrong policy</label>
+            </value>
+            <value>
+                <fullName>Partial withdrawal request delayed/ not received by customer</fullName>
+                <default>false</default>
+                <label>Partial withdrawal request delayed/ not received by customer</label>
+            </value>
+            <value>
+                <fullName>Renewal premium used incorrectly</fullName>
+                <default>false</default>
+                <label>Renewal premium used incorrectly</label>
+            </value>
+            <value>
+                <fullName>Transfer from old policy</fullName>
+                <default>false</default>
+                <label>Transfer from old policy</label>
+            </value>
+            <value>
+                <fullName>Commission pass backs</fullName>
+                <default>false</default>
+                <label>Commission pass backs</label>
+            </value>
+            <value>
+                <fullName>Bonus</fullName>
+                <default>false</default>
+                <label>Bonus</label>
+            </value>
+            <value>
+                <fullName>Loan</fullName>
+                <default>false</default>
+                <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Incomplete charges explained</fullName>
+                <default>false</default>
+                <label>Incomplete charges explained</label>
+            </value>
+            <value>
+                <fullName>Surrender lock-in period not explained\Incorrectly Projected</fullName>
+                <default>false</default>
+                <label>Surrender lock-in period not explained\Incorrectly Projected</label>
+            </value>
+            <value>
+                <fullName>Proposer&apos;s signature forged on proposal form,</fullName>
+                <default>false</default>
+                <label>Proposer&apos;s signature forged on proposal form,</label>
+            </value>
+            <value>
+                <fullName>Tampered/Forged/Fake Documents</fullName>
+                <default>false</default>
+                <label>Tampered/Forged/Fake Documents</label>
+            </value>
+            <value>
+                <fullName>Life assured&apos;s signature forged on proposal form</fullName>
+                <default>false</default>
+                <label>Life assured&apos;s signature forged on proposal form</label>
+            </value>
+            <value>
+                <fullName>Annuity option not clearly explained</fullName>
+                <default>false</default>
+                <label>Annuity option not clearly explained</label>
+            </value>
+            <value>
+                <fullName>Rider added/deleted without consent</fullName>
+                <default>false</default>
+                <label>Rider added/deleted without consent</label>
+            </value>
+            <value>
+                <fullName>Payout Related</fullName>
+                <default>false</default>
+                <label>Payout Related</label>
+            </value>
+            <value>
+                <fullName>Query from Chatbot</fullName>
+                <default>false</default>
+                <label>Query from Chatbot</label>
+            </value>
+            <value>
+                <fullName>post call- complain</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>post call- complain</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

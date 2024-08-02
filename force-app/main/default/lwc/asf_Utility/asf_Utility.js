@@ -32,6 +32,7 @@ import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c';
 import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
+import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
@@ -51,7 +52,9 @@ export class asf_Utility {
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
-
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
+                }
                 let cccRecToPass = {...selected};
                 cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
 
