@@ -93,7 +93,7 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
             requestJSON.Remarks = caseRecord.ABSLI_Case_Detail__r.Resolution_Comments__c;
             requestJSON.Type_of_disposal = caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c;
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
-				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+				requestJSON.Original_IRDA_Token_Num = caseRecord.ABSLI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
             //Recategorization Changes
             /*requestJSON.IsComplaint_Change_By_Insurer = '1';
