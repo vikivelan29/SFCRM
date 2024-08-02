@@ -843,6 +843,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Case Type</displayNameOverride>
             <field>Type_Text__c</field>
             <table>Case</table>
         </columns>
@@ -1809,6 +1810,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.User_Type__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -3714,6 +3720,31 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Asset.Issue_Date__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Department</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.EmployeeNumber</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Amount_Paid__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Policy_Identification__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Owner</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>
