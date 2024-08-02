@@ -2,51 +2,20 @@
  * @description        Test Class for ABFL_InvokeEnachRegistration
  * @author            : Aditee Churiwala
  * @group             : 
- * @last modified on  : 07-01-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 18/03/2024
+ * @last modified by  : Aditee Churiwala
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   12-22-2023   achuriwala@salesforce.com   Initial Version
 **/
 @isTest
 public class ABFL_InvokeEnachRegistration_Test {
-    private static Map<String, Object> dummyInPayloadWrap = new Map<String, Object>{ 
-        'pl_merchant_id'=>'MRC8821',
-        'customer_Id'=>'7406498698',
-        'customer_mobile_no'=>'7498791441',
-        'customer_name'=>'Vaibhav',
-        'customer_email_id'=>'guest@phicommerce.com',
-        'customer_bank_ifsc'=>'UTIB0000305',
-        'customer_bank_acc_no'=>'921010038015673',
-        'amount'=>'10.00',
-        'start_date'=>'20240224',
-        'end_date'=>'20240816',
-        'frequency'=>'V',
-        'debit_type'=>'MAXAMOUNT',
-        'return_url'=>'http://localhost:8090/resultpage'
-    };
-    private static Map<String, Object> dummyPayloadWrap = new Map<String, Object>{ 
-        'enach_data' => dummyInPayloadWrap
-    };
-
-    private static Map<String, Object> dummyInResponseWrap = new Map<String, Object>{ 
-        'pl_enach_id'=>'7406498698',
-        'created_date'=>'20240205',
-        'registration_link'=>
-        'https://paymentloungeuat.adityabirlacapital.com/pg/portal/pay/enachRequest?requestID=7406498698&actionType=viewRequest&merchantid=T_88821',
-        'return_code'=>'0000',
-        'resp_description'=>'Request Processed Successfully'    
-    };
-    private static Map<String, Object> dummyResponseWrap = new Map<String, Object>{ 
-        'registration_data' => dummyInResponseWrap
-    };
-        
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
      /**
     * @description 
     * @author achuriwala@salesforce.com | 22-12-2023
     **/
-    @TestSetup
+	@TestSetup
     static void makeData(){
         Group slaGroup = new Group();
         
@@ -299,9 +268,6 @@ public class ABFL_InvokeEnachRegistration_Test {
                                     }
        
         update listCaseIntRec;
-        
-        ABFL_EnachRegistrationResponse req = ABFL_EnachRegistrationResponse.parse(JSON.serialize(dummyPayloadWrap));
-        ABFL_EnachRegistrationResponse res = ABFL_EnachRegistrationResponse.parse(JSON.serialize(dummyResponseWrap));
         
         Test.stopTest();
         List<ABCLLogRecording__c> abclLogsList = [SELECT Id

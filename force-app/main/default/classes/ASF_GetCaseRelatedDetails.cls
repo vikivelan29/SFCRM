@@ -122,16 +122,6 @@ public without sharing class ASF_GetCaseRelatedDetails {
             if(config.Confirmation_LWC__c != '' && config.Confirmation_LWC__c != null){
                 item.confirmationLWCName = 'c/'+config.Confirmation_LWC__c;
             }
-            else if(config.Field_Type__c == 'Link'){
-                item.bShowAsCustomLink = true;
-            }
-            
-            if(config.Confirmation_Required__c == true){
-                item.bConfirmationRequired = true;
-            }
-            if(config.Confirmation_LWC__c != '' && config.Confirmation_LWC__c != null){
-                item.confirmationLWCName = 'c/'+config.Confirmation_LWC__c;
-            }
 
             if (config.update__c != null)
                 item.UpdateAtList = config.update__c.split(',');
