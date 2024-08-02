@@ -102,7 +102,7 @@ public class ABSLI_CTSTHelper_Test {
        }
     @IsTest
     static void testABSLI_RequestResolutionBeforeStage(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case limit 1];
         //Assertion
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABSLI_RequestResolutionBeforeStage.beforeStageMovement(new List<Case>{caseRecord});
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABSLI_RequestResolutionBeforeStage.afterStageMovement(new List<Case>{caseRecord});
@@ -149,7 +149,7 @@ public class ABSLI_CTSTHelper_Test {
     
     @IsTest
     static void testABSLI_ComplaintsResolveStageBefore(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.Resolve_case__c,ABSLI_Case_Detail__r.Resolution_Comments__c,ABSLI_Case_Detail__r.Investigation_Comment__c,ABSLI_Case_Detail__r.Acknowledgement_contacted__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.IGMS_Complaint_Status__c,ABSLI_Case_Detail__r.Resolve_case__c,ABSLI_Case_Detail__r.Resolution_Comments__c,ABSLI_Case_Detail__r.Investigation_Comment__c,ABSLI_Case_Detail__r.Acknowledgement_contacted__c  from Case limit 1];
         //Assertion
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABSLI_ComplaintsResolveStageBefore.beforeStageMovement(new List<Case>{caseRecord});
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABSLI_ComplaintsResolveStageBefore.afterStageMovement(new List<Case>{caseRecord});

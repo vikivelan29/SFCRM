@@ -9,6 +9,7 @@ public class ABSLI_CaseDeDupeCheck_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '123123';
         insert branchMstr;
         
         ASF_TestDataFactory.createCaseCategoryConfig();
@@ -20,6 +21,7 @@ public class ABSLI_CaseDeDupeCheck_Test {
         astRec.Last_Disbursement_Date__c = Date.Today();
         astRec.Loan_Disbursement_Status__c = 'Complete';
         update astRec;
+        
         Asset astRec1 = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec1.LAN__c = 'Test1';
         astRec1.Branch__c = branchMstr.Id;
@@ -27,31 +29,24 @@ public class ABSLI_CaseDeDupeCheck_Test {
         astRec1.Loan_Disbursement_Status__c = 'Complete';
         update astRec1;
         
-        /*Create Case Extension record
-        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
-        caseDetail.STP_Request_Type__c = 'Email';
-        insert caseDetail;*/
-       
-        //Create Case
-        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
-        caseRecList[0].AssetId = astRec.Id;
-        //caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[0].Case_Stage_Change_Date__c = date.today();
-        
-        
-       	caseRecList[1].AssetId = astRec1.Id;
-        //caseRecList[1].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[1].AccountId = accRec.Id;
-        caseRecList[1].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
-        caseRecList[1].Business_Unit__c = 'ABSLI';
-        
-        caseRecList[2].AssetId = astRec1.Id;
-        //caseRecList[2].ABHFL_Case_Detail__c = caseDetail.Id;
-        caseRecList[2].AccountId = accRec.Id;
-        caseRecList[2].CCC_External_Id__c = 'CCC-CC-CCLTD-01';
-        caseRecList[2].Business_Unit__c = 'ABSLI';
-        
-        update caseRecList;
+        ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
+		detailRec.WhatsApp_Opt_Out_Indicator__c = 'true';
+		detailRec.Email_Id__c = 'panigrahi@abinash.com';
+		detailRec.Status_Valid_For_STP__c = true;
+		insert detailRec;
+
+		Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
+		caseRec.Source__c = 'Email';
+		caseRec.Business_Unit__c = 'ABSLI';
+		caseRec.Status = 'Open';
+		caseRec.AssetId = astRec.Id;
+		caseRec.ABSLI_Case_Detail__c = detailRec.Id;
+		caseRec.AccountId = accRec.Id;
+		caseRec.CCC_External_Id__c = 'PNFT008';
+		caseRec.Client_Code_Text__c = '8895335596';
+		caseRec.Technical_Source__c = 'API';
+        caseRec.Is_STP__c = true;
+		update caseRec;
 
         //create ASF Integration
         ASF_Integration__c integ = new ASF_Integration__c();
@@ -61,7 +56,7 @@ public class ABSLI_CaseDeDupeCheck_Test {
         
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Integration_Ext_Id__c = integ.External_Id__c;
-        caseInt.Case__c = caseRecList[0].Id;
+        caseInt.Case__c = caseRec.Id;
         insert caseInt;
         //Create document
         ContentVersion content = new ContentVersion();
