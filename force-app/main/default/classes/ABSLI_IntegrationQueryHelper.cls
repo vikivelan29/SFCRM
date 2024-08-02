@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 08-02-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public with sharing class ABSLI_IntegrationQueryHelper {
 	public static List<Case> getCaseForMobileUpdateIntegration(Id caseId) {
 		return [
@@ -128,4 +135,56 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 		}
 		return integrationInfo;
 	}
+
+	public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
+        Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
+        
+        if(caseIdSet?.size() > 0) {
+            Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, Status, IsClosed, 
+                                                                  CaseNumber, AccountId, AssetId, LAN__c,CreatedDate, 
+                                                                  ClosedDate, Business_Unit__c, Stage__c, 
+                                                                  Nature__c, Type_Text__c, Sub_Type_Text__c, 
+                                                                  CCC_External_Id__c, LOB__c, Source__c, 
+                                                                  Owner.Name, 
+                                                                  ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
+                                                                  Account.RecordType.Name, Account.IsPersonAccount, 
+                                                                  Account.Name, Account.Full_Name__pc, 
+                                                                  Account.PersonMobilePhone, Account.Phone, 
+                                                                  Account.PersonEmail, Account.Office_Email__c, 
+                                                                  Account.City__c, Account.Client_Code__c, 
+                                                                  Asset.Product2.Name, Asset.LAN__c
+                                                                  FROM Case 
+                                                                  WHERE Id 
+                                                                  IN :caseIdSet
+                                                                  WITH SYSTEM_MODE]);
+            caseMapToReturn = caseIdToRecordMap;
+        }
+        return caseMapToReturn;
+    }
+    public static Map<String, ASF_Case_Category_Config__c> getCccIdToRecordMap(Set<String> cccIdSet) {
+      Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap = new Map<String, ASF_Case_Category_Config__c>();
+
+      if(cccIdSet?.size() > 0) {
+        for (ASF_Case_Category_Config__c cccRecord :[SELECT Id, CCC_External_Id__c, Litmus_Trigger__c, Litmus_Project__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccIdSet WITH SYSTEM_MODE]) {
+          cccIdToRecordsMap.put(cccRecord.CCC_External_Id__c, cccRecord);
+        }
+      }
+      return cccIdToRecordsMap;
+    }
+    public static Map<Id, ASF_Case_Integration__c> getCaseIdsToIntegrationRecordsMap(Set<Id> caseIdSet, String type) {
+        Map<Id, ASF_Case_Integration__c> caseIdToCaseIntMap = new Map<Id, ASF_Case_Integration__c>();
+
+        List<ASF_Case_Integration__c> caseIntRecordsList = [SELECT Name, Case__c
+                                                            FROM ASF_Case_Integration__c 
+                                                            WHERE Case__c IN :caseIdSet 
+                                                            AND Status__c = :ABFL_Constants.PENDING
+                                                            AND Type__c = :type
+                                                            WITH SECURITY_ENFORCED];
+
+        for(ASF_Case_Integration__c caseIntRecord :caseIntRecordsList) {
+            caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
+        }
+
+        return caseIdToCaseIntMap;
+    }
 }
