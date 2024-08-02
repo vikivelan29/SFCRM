@@ -779,10 +779,139 @@
                 <label>Mode altered without consent</label>
             </value>
             <value>
-                <fullName>post call- complain</fullName>
+                <fullName>Whatsapp Opt In</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>post call- complain</label>
+                <label>Whatsapp Opt In</label>
+            </value>
+            <value>
+                <fullName>Whatsapp Opt Out</fullName>
+                <default>false</default>
+                <label>Whatsapp Opt Out</label>
+            </value>
+            <value>
+                <fullName>AWB number capture</fullName>
+                <default>false</default>
+                <label>AWB number capture</label>
+            </value>
+            <value>
+                <fullName>Dispatch requests from customer</fullName>
+                <default>false</default>
+                <label>Dispatch requests from customer</label>
+            </value>
+            <value>
+                <fullName>ORD from HO</fullName>
+                <default>false</default>
+                <label>ORD from HO</label>
+            </value>
+            <value>
+                <fullName>Conversion to Physical</fullName>
+                <default>false</default>
+                <label>Conversion to Physical</label>
+            </value>
+            <value>
+                <fullName>eIA opening</fullName>
+                <default>false</default>
+                <label>eIA opening</label>
+            </value>
+            <value>
+                <fullName>Loan Account Statement</fullName>
+                <default>false</default>
+                <label>Loan Account Statement</label>
+            </value>
+            <value>
+                <fullName>Premium due statement</fullName>
+                <default>false</default>
+                <label>Premium due statement</label>
+            </value>
+            <value>
+                <fullName>Premium Receipt</fullName>
+                <default>false</default>
+                <label>Premium Receipt</label>
+            </value>
+            <value>
+                <fullName>Tax Invoice</fullName>
+                <default>false</default>
+                <label>Tax Invoice</label>
+            </value>
+            <value>
+                <fullName>TDS Certificate</fullName>
+                <default>false</default>
+                <label>TDS Certificate</label>
+            </value>
+            <value>
+                <fullName>Extension of discontinue period - New ULIP</fullName>
+                <default>false</default>
+                <label>Extension of discontinue period - New ULIP</label>
+            </value>
+            <value>
+                <fullName>Reduced paid - New ULIP</fullName>
+                <default>false</default>
+                <label>Reduced paid - New ULIP</label>
+            </value>
+            <value>
+                <fullName>Surrender Retention by SM/ZM</fullName>
+                <default>false</default>
+                <label>Surrender Retention by SM/ZM</label>
+            </value>
+            <value>
+                <fullName>Surrender Retention by branch</fullName>
+                <default>false</default>
+                <label>Surrender Retention by branch</label>
+            </value>
+            <value>
+                <fullName>Cheque dishonor</fullName>
+                <default>false</default>
+                <label>Cheque dishonor</label>
+            </value>
+            <value>
+                <fullName>Receipt cancellation</fullName>
+                <default>false</default>
+                <label>Receipt cancellation</label>
+            </value>
+            <value>
+                <fullName>OR Cancellation</fullName>
+                <default>false</default>
+                <label>OR Cancellation</label>
+            </value>
+            <value>
+                <fullName>Reporting Related</fullName>
+                <default>false</default>
+                <label>Reporting Related</label>
+            </value>
+            <value>
+                <fullName>Nominee/ Appointee Related Rectification</fullName>
+                <default>false</default>
+                <label>Nominee/ Appointee Related Rectification</label>
+            </value>
+            <value>
+                <fullName>Rectification in Investment profile / Fund Related</fullName>
+                <default>false</default>
+                <label>Rectification in Investment profile / Fund Related</label>
+            </value>
+            <value>
+                <fullName>Rectification in policy level detail</fullName>
+                <default>false</default>
+                <label>Rectification in policy level detail</label>
+            </value>
+            <value>
+                <fullName>Rectification in Client Profile Detail</fullName>
+                <default>false</default>
+                <label>Rectification in Client Profile Detail</label>
+            </value>
+            <value>
+                <fullName>Accounted renewal premium reversal</fullName>
+                <default>false</default>
+                <label>Accounted renewal premium reversal</label>
+            </value>
+            <value>
+                <fullName>Excess renewal payment refund related</fullName>
+                <default>false</default>
+                <label>Excess renewal payment refund related</label>
+            </value>
+            <value>
+                <fullName>Shortage requirement completed/Revival with Loan excluded</fullName>
+                <default>false</default>
+                <label>Shortage requirement completed/Revival with Loan excluded</label>
             </value>
         </valueSetDefinition>
     </valueSet>
