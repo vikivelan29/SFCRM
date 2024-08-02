@@ -2,7 +2,7 @@
  * @description       : Test Class to validate ABFL_UserTeamDataUpdateBatch
  * @author            : SaiRahul
  * @group             : 
- * @last modified on  : 07-12-2024
+ * @last modified on  : 05-13-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -68,12 +68,7 @@ private class ABFL_UserTeamDataUpdateBatchTest {
         
         User updatedUser = [SELECT Id, managerGroupId__c, IsActive FROM User WHERE Name LIKE 'Testing%' LIMIT 1];
         
-        System.assert(!String.isBlank(updatedUser.managerGroupId__c), 'field is not empty');
-        
-    }
-
-    @isTest
-    static void checkUserQueueDataUpdate2() {
+        System.assertEquals(queue.Id, updatedUser.managerGroupId__c, 'User Queue data invalid');
 
         ABFL_UserTeamDataUpdateBatchScheduler scheduler = new ABFL_UserTeamDataUpdateBatchScheduler();
         scheduler.execute(null);

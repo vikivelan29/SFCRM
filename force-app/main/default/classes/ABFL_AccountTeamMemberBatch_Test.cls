@@ -1,29 +1,30 @@
 /*********************************************************
-*Class        :  ABCL_AssetTriggerHelper
-*Author       :  Shubham Sinha   
-*Created Date :  17/01/2024
-*@description  :  Test Class
+*Class        :  ABFL_AccountTeamMemberBatch_Test
+*Author       :  Shubham Sinha 
+*Created Date :  18/01/2024
+*@description  :  Test Class of ABFL_AccountTeamMemberBatch
 *********************************************************/
 @isTest
-public class ABCL_AssetTriggerHelper_Test {
-private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
+public class ABFL_AccountTeamMemberBatch_Test {
+    private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     @testSetup
     static void setUpData(){
-        Group slaGroup = new Group();        
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-            insert slaGroup;
+    	Group SLAGroup = new Group();        
+        SLAGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
+        	insert SLAGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
-            insert g1;
+        	insert g1;
+        UserRole role = [SELECT Id FROM UserRole WHERE DeveloperName = 'ABFL_Sales' LIMIT 1];
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id);
+                                    TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='FED12345', UserName='cdefghijk567@gmail.com',
+                                    managerGroupId__c=SLAGroup.Id,UserRoleId  = role.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABFL',
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk565712345@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles',FederationIdentifier='FED12346',UserRoleId  = role.Id, UserName='cdefghijk5657@gmail.com'
                                     );
         insert userRecord1;
         System.runAs(userRecord) {
@@ -43,22 +44,25 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             Asset assetObj = new Asset();
             assetObj.Name = '981726345';
             assetObj.AccountId = acc.Id;
-            assetObj.RM_Assignment__c = 'Processed';
+            assetObj.RM_Code__c = 'FED12346';
+            assetObj.RM_Assignment__c = 'Pending';
             assetObj.Business_Unit__c ='ABFL';
             insert assetObj;
         }
     }
-      @isTest
+     @isTest
     static void beforeUpdateContainsABFLTest(){
-        List<Asset> objAsset = [Select Id,Business_Unit__c,RM_Code__c From Asset WHERE Business_Unit__c = 'ABFL' LIMIT 1];
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk567@gmail.com' LIMIT 1];
-        system.runAs(usr)
+        Account acc = [SELECT Id FROM Account WHERE LastName = 'Test LName' LIMIT 1];
+ 		system.runAs(usr)
         { 
-            Test.startTest(); 
-            objAsset[0].RM_Code__c= '12345';
-            update objAsset[0]; 
-            System.assertEquals(1, objAsset.size(),'record found');          
-             Test.stopTest();            
-            }
-        }
+           Test.startTest(); 
+           ABFL_AccountTeamMemberBatch batch= new ABFL_AccountTeamMemberBatch();
+           	Id jobid= Database.executeBatch(batch,5);         
+           Test.stopTest();    
+           List<AccountTeamMember> insertedTeamMembers = [SELECT Id FROM AccountTeamMember Where AccountId =: acc.Id ];
+		   System.assertEquals( 1, insertedTeamMembers.size(), 'Account team member found');
+
+         }
+    }
 }

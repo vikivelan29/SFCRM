@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   07-01-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public without sharing class ASF_CaseFileUploadTriggerHelper {
 	
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
@@ -228,19 +238,16 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     }
                 }
             }
-            if(!isCustomDelete){
-                for(Id caseId : caseIdToTitlesMap.keySet()){
-                    for(String title : caseIdToTitlesMap.get(caseId)){
-                        FeedItem feedItem = new FeedItem();
-                        feedItem.ParentId = caseId;
-                        feedItem.Type = 'TextPost';
-                        feedItem.Body = 'The file \''+title+'\' has been deleted';
-                        feedItemList.add(FeedItem);
-                    }
+            for(Id caseId : caseIdToTitlesMap.keySet()){
+                for(String title : caseIdToTitlesMap.get(caseId)){
+                    FeedItem feedItem = new FeedItem();
+                    feedItem.ParentId = caseId;
+                    feedItem.Type = 'TextPost';
+                    feedItem.Body = 'The file \''+title+'\' has been deleted';
+                    feedItemList.add(FeedItem);
                 }
-                
-                insert feedItemList; 
-            }   
+            }
+            insert feedItemList;  
         }
     } 
 }

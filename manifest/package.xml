@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-		<members>asf_Case360</members>
-		<members>aSF_pendingCaseChecklistEdit</members>
+  <types>
+		<members>Case.Rejection_Reason__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>LOB_Rejection_Reason.ABSLIG_RejectionReason_1</members>
+		<members>LOB_Rejection_Reason.ABSLIG_RejectionReason_2</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
 		<members>aSF_createCaseWithType</members>
 		<name>LightningComponentBundle</name>
 	</types>
-    <types>
-		<members>ASF_CaseTriggerModularHelper</members>
-		<members>ASF_Constants</members>
-		<members>ABFL_DMSSync_Orchestrator</members>
-		<members>ABFL_E2C_CreationRules</members>
-		<members>ABFL_WealthChatGeneratedCases</members>
-		<members>ASF_CaseManualStageController</members>
-		<members>ASF_CaseManualStageController_Test</members>
-		<members>ASF_CaseSLAHandlerV1</members>
-		<name>ApexClass</name>
+	<types>
+		<members>Case.Interaction</members>
+		<name>RecordType</name>
 	</types>
-    <types>
-		<members>ABFL_DMS_Aadhaar_Flag</members>
-		<members>ABFL_DMS_Documents_Of</members>
-		<members>ABFL_DMS_Masking_Status</members>
-		<members>ABFL_DMS_Subcontentcode_Desc_Index_Id</members>
-		<name>CustomLabel</name>
-	</types>
-    <version>61.0</version>
+	<version>60.0</version>
 </Package>

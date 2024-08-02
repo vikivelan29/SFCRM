@@ -38,13 +38,14 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
-    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
-    public static final String InstaIssuranceAPI = 'InstaIssuance_Shared_API';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WhatappOptoutUpdateApi';
+    public static final String InstaIssuranceAPI = 'InstaIssuranceApi';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
     public static final String AddressUpdateSrvName = 'Address Update';
     public static final String ModeChangeSrvName = 'ModeChangeApi';
     public static final String SurvivalUpdateSrvName = 'survivalUpdateApi';
+    public static final String RQApiSrvName = 'RQServiceApi';
 
     /* BITLY INTEGRATION **/
     public static final String BITLY_LOB_VAL = '';
@@ -102,6 +103,7 @@ public class ABSLI_Constants {
     public static final String FETCHNEFTREF_SERVICE_NAME = 'fetchNEFTRefNum';
     public static final String FETCHNEFTREF_EXTERNALID = 'PNFT021';
     public static final Integer FETCHNEFTREF_BATCH_SIZE = 10;
+
     public static final String FETCHNEFTREF_SCHEDULDE_JOB = 'Loan NEFT Ref Num Schedulde Job';
     public static final String FETCHNEFTREF_EVALUATION_ERROR = 'ABSLI_FETCHNEFTREF_EVALUATION_ERROR';
     public static final String FETCHNEFTREF_SUCCESS_MESSAGE = 'ABSLI_FETCHNEFTREF_SUCCESS_MESSAGE';
@@ -135,11 +137,11 @@ public class ABSLI_Constants {
     public static final String LOANAPPROVAL_DEFAULTCOMMENT_STP = 'Voucher not approved as amount is more than Rs. 1,00,000';
     public static final Decimal LOANAPPROVAL_CUTOFFAMOUNT = 100000;
 
+
     /* LOAN ASSIGNMENT INTEGRATION **/
     public static final String LOANVOUCHERPROCESS_SCHEDULDE_JOB = 'Loan Voucher Process Schedulde Job';
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
-
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
@@ -153,13 +155,16 @@ public class ABSLI_Constants {
     public static final String PAN_VERIFICATION_INTEGRATION_METADATA = 'ABSLI_PAN_Verification';
     public static final String BANK_ESB_INTEGRATION_METADATA = 'ABSLI_Bank_ESB_Integration';
     public static final String FETCHPOLICY_ESB_INTEGRATION_METADATA = 'ABSLI_FETCH_POLICY_ESB';
+
     public static final String POLICY_GEN_FUND_INTEGRATION_METADATA = 'ABSLI_Gen_Fund_Integration';
     public static final String UIN_API_INTEGRATION_METADATA = 'UIN_Integration';
     public static final String FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA = 'ABSLI_Fetch_Ingenium_CurrentDate';
 
+
     /* IGMS OUTBOUND API */
     public static final List<String> IGMS_COMPLAINT_CATEGORIES = new List<String>{'Complaint'};
         public static final List<String> validGenders = new List<String>{'Male','Female','M','F'};
+            public static final Map<String,String> mapOfGender= new Map<String,String>{'Male' =>'M', 'Female'=>'F'};
             public static final List<String> RECEIPT_NO_REQ_COMP_TYPE_CD = new List<String>{'1','7'};
     public static final String IGMS_REGCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSREGCOMPLAINT_EVAL_ERROR';
     public static final String IGMS_ATTCOMPLAINT_EVAL_ERROR = 'ABSLI_IGMSATTCOMPLAINT_EVAL_ERROR';

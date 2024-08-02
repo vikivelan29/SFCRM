@@ -311,34 +311,6 @@
         <value>Closed,Resolved,Rejected</value>
     </labels>
     <labels>
-        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
-        <value>1214</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Documents_Of</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
-        <value>1202</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Masking_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
-        <value>1215</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
-        <value>1205</value>
-    </labels>
-    <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -861,7 +833,7 @@
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <shortDescription>ABSLI Policy Search Columns</shortDescription>
         <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
@@ -940,21 +912,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
+        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
     </labels>
     <labels>
         <fullName>ABSLI_key</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_key</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
     </labels>
     <labels>
         <fullName>ABSLI_Ivkey</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8549708501325472</value>
+        <value>8149208531345452</value>
     </labels>
     <labels>
         <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
@@ -1052,132 +1024,6 @@
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
         <value>60</value>
-    </labels>
-    <labels>
-        <fullName>Business_Unit_Check_For_SLA_Override</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Business Unit Check For SLA Override</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ASF_UIActionDelay</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
-        <value>2000</value>
-    </labels>
-    <labels>
-        <fullName>Business_Unit_Check_For_SLA_Override</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Business Unit Check For SLA Override</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
-        <value>4170703839</value>
-    </labels>
-    <labels>
-        <fullName>Prevent_deletion_post</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Prevent_deletion_post</shortDescription>
-        <value>You don&apos;t have an access to delete post</value>
-    </labels>
-    <labels>
-        <fullName>CCC_External_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CCC External Id</shortDescription>
-        <value>hfl060</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
-        <value>No Canned Response Available.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_Acknowledgement_Email</fullName>
-        <categories>ABSLIG</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
-        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_BU_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>1</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Min_Loan_Amount</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
-        <value>5000</value>
-    </labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>60</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
     </labels>
     <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>

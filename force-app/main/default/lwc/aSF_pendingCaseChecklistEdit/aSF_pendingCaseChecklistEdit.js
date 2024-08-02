@@ -156,7 +156,6 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         .catch(error => {
             //this.showError('error', 'Error occured', error);
             if(JSON.stringify(error).includes('max length=255')){
-                
                 console.log('what is therror' + JSON.stringify(error));
                 this.dispatchEvent(
                     new ShowToastEvent({
