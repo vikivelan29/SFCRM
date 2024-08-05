@@ -416,6 +416,21 @@
             <field>Owner.Name</field>
             <table>ASF_Communication_Log__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Error_Message__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.Business_Unit__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Department</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
         <masterLabel>Communication Logs</masterLabel>
     </sections>
 </ReportType>
