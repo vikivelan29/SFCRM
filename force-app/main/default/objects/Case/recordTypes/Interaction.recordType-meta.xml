@@ -684,6 +684,10 @@
             <fullName>post call- complaint</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Nature__c</picklist>
