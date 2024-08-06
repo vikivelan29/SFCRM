@@ -777,7 +777,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId == null && this.leadId == null){
             errorMsg = 'Neither Account nor Prospect is there. But type sub type is selected which require Customer or Prospect.'
             }
-            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null){
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null
+                && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId != null)){
             errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
             }
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == false && configuredCurrentCCC.is_FA_Mandatory__c == false){

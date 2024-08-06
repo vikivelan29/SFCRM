@@ -106,31 +106,33 @@ export const lanLabels = {
             label: 'Name',
             fieldName: 'Name',
             type: 'text',
-            initialWidth: 180
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
         },
         {
             label: 'Policy No',
             fieldName: 'Policy_No__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Status',
             fieldName: 'Status',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Type',
             fieldName: 'Type__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Application No.',
             fieldName: 'Application_Number__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         }
         ],
         CTST_COLS: [
@@ -230,5 +232,5 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
-    }
+    }  
   };
