@@ -298,7 +298,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			this.strCellularPhone = phoneNum;
 			this.strEmail = emailAddr;
 			this.strPager = '';
-			this.strResidence = 'Thane';
+			this.strResidence = '';//Thane
 		}
 	}
 
