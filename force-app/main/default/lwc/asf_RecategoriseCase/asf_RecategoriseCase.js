@@ -450,7 +450,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
