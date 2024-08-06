@@ -390,7 +390,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
-            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
+            getAccountData({ keyword: this.searchKey, asssetProductType: this.cccProductType, isasset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
                     this.accounts = result.lstCCCrecords;
                     console.log('result---'+JSON.stringify(result));
