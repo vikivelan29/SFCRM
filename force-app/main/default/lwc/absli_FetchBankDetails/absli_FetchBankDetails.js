@@ -35,6 +35,7 @@ export default class Absli_FetchBankDetails extends LightningElement {
     @track confirmTextValue ='';
     @track originalTextValue = '';
     @track nsdlResponse = undefined;
+    @track showSpinner = false;
 
     @wire(CurrentPageReference) pageRef;
 
@@ -56,6 +57,7 @@ export default class Absli_FetchBankDetails extends LightningElement {
         }
     }
     handleFetchDetails(event){
+        this.showSpinner = true;
         event.preventDefault();
         this.invokeFetchBankDetailCall();
     }
@@ -63,7 +65,10 @@ export default class Absli_FetchBankDetails extends LightningElement {
     async invokeFetchBankDetailCall() {
         try {
             const result = await fetchBankDetailDirectly({ caseId: this.recordId, IFSC_Code: this.IFSC_Code });
-            this.processApexReturnValue = result;
+            if(result){
+                this.showSpinner = false;
+                this.processApexReturnValue = result;
+            }
             console.log('Response:', JSON.stringify(this.processApexReturnValue));
             
             if (!this.processApexReturnValue || Object.keys(this.processApexReturnValue).length === 0) {
