@@ -120,11 +120,6 @@
         <members>ASF_Bulk_Row_to_Record_Converter_Config__mdt</members>
         <name>CustomObject</name>
     </types>
-
-	<types>
-		<members>*</members>
-		<name>CustomLabels</name>
-	</types>
 	<types>
 		<members>ABFL_Email_Validation_Configuration.ABSLIG_Group_Helpline</members>
 		<members>ABFL_Email_Validation_Configuration.ABSLIG_Group_UW</members>
