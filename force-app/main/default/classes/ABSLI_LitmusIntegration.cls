@@ -20,7 +20,8 @@ public class ABSLI_LitmusIntegration {
         // CONDITION 2 - CHECK IF CASE IS CLOSED AND CASE STATUS IS RESOLVED.
         for (Case caseRec : newCaseMap.values()){
             if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && 
-               caseRec.IsClosed == true && (oldCaseMap.get(caseRec.Id).IsClosed != true) && ASF_Constants.RESOLVEDSTAGES.contains(caseRec.Status)){
+               ((caseRec.IsClosed == true && (oldCaseMap.get(caseRec.Id).IsClosed != true) && ASF_Constants.RESOLVEDSTAGES.contains(caseRec.Status)) || 
+               ASF_Constants.RESOLVEDSTAGES.contains(caseRec.Stage__c)) ){
                    setExpectedLogic.add(caseRec.Id);
                    cccExternalIdSet.add(caseRec.CCC_External_Id__c);
                } 
@@ -56,7 +57,7 @@ public class ABSLI_LitmusIntegration {
                                                                              GROUP BY AccountId]);
             for(Case c : eligibleCases){
                 if(aggResults.containsKey(c.AccountId)){
-                    integer iCount = Integer.ValueOf(aggResults.get(c.AccountId).get('expr'));
+                    integer iCount = Integer.ValueOf(aggResults.get(c.AccountId).get('expr0'));
                     if(iCount < 1){
                         litmusApiCasesList.add(c);
                     }
@@ -207,21 +208,10 @@ public class ABSLI_LitmusIntegration {
         
  
         
-        //Optional attributes
-        public String tag_location;
-        public String tag_lob;
-
-        public String tag_created_on;
-        public String tag_resolved_on;
-        public String tag_status;
-
-        public String tag_ccc;
-        public String tag_lan;
-        public String tag_business_unit;
         
         public ABSLI_LITMUS_Wrapper(Case caseRecord){
             this.app_id = System.Label.ABSLI_LITMUS_PROJECT_ID;
-            this.tag_business_unit = caseRecord.Business_Unit__c;
+            //this.tag_business_unit = caseRecord.Business_Unit__c;
             this.tag_client_id = String.isNotBlank(caseRecord.Account.Client_Code__c) ? caseRecord.Account.Client_Code__c : '';
             this.tag_policy = String.isNotBlank(caseRecord.AssetId)?caseRecord.Asset.Policy_No__c : '';
             this.tag_policy_issue_date = String.isNotBlank(caseRecord.AssetId) ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.Asset.Issue_Date__c, 'dd-MM-YYYY') : '';
