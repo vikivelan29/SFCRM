@@ -153,7 +153,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                                                                                   //caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCSubType,caseconfigPPCChangeType,caseRemarks,caseOwner));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
 
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
@@ -168,7 +168,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     //                                                              caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCSubType,caseconfigPPCChangeType,caseRemarks,caseOwner));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
