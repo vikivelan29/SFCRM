@@ -546,13 +546,28 @@ public without sharing class ABHFL_CTSTHelper {
         }
         for(Case caseRec : caseRecords){
             returnMap.put(caseRec.Id, true);//default true; // All payment records have Realization_Status__c as 'Cleared'
-            if(paymentsMap.containsKey(caseRec.Id)){
+           String cccExternalId = system.Label.CCC_External_Id;
+            
+           if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
-                    if (payment.Realization_Status__c == null) {
-                        returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
-                        break;
-                    }
+                    
+                    /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
+                      Jira id-PR970457-2176
+                      Added By Ey-Nikhil  */
+                    if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
+                       ||(caseRec.CCC_External_Id__c != cccExternalId)){
+                              
+                           if (payment.Realization_Status__c == null) {
+                               system.debug('payment.Realization_Status__c'+payment.Realization_Status__c);
+                               returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
+                               system.debug('returnMap'+returnMap);
+                               break;
+                           }
+                       }
+                    
                 }
             }
         }
