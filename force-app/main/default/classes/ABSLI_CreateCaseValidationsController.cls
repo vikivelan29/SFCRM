@@ -235,10 +235,13 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             if(policy!=null){
                 UINapiRequestWrapper request = new UINapiRequestWrapper();
                 request.POLICY_ID = policy.Policy_No__c;
-                if(policy.Effective_Date__c!=null){
+                /*if(policy.Effective_Date__c!=null){
                     DateTime effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());
                     request.EFFECTIVE_DATE = (effectiveDateTime.format('ddMMyyyy'));
-                }
+                }*/
+                Date today = Date.today();
+                DateTime todayDateTime = DateTime.newInstance(today.year(),today.month(),today.day());
+                request.EFFECTIVE_DATE = (todayDateTime.format('ddMMyyyy'));
                 request.SOURCE = ABSLI_Constants.UIN_API_SOURCE;
 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper uinApiResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.UIN_API_INTEGRATION_METADATA,
