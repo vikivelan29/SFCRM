@@ -71,8 +71,7 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
         }
 
         for(Case caseRec : caseRecords){
-            system.debug('caseRec-->'+caseRec);
-            if(caseIdToAbhflCaseDetailMapSingle.containsKey(caseRec.Id)){
+          if(caseIdToAbhflCaseDetailMapSingle.containsKey(caseRec.Id)){
                 ABHFL_Case_Detail__c abhflCaseDetailList = caseIdToAbhflCaseDetailMapSingle.get(caseRec.Id);
                 Case newCase = ABHFL_CTSTHelper.createCases(caseRec.Account.Client_Code__c, null, 'hfl042', caseRec.Source__c, caseRec.Technical_Source__c, caseRec.Id, ASF_Constants.RT_FRAMEWORK);
                 newCase.AccountId = caseRec.AccountId;
@@ -81,7 +80,6 @@ public with sharing class ABHFL_PreClosureCaseCreation implements ASF_CaseStageC
                 newCase.AssetId = caseRec.AssetId;
                 if(caseRec.AssetId!=Null){
                   Id CRMSPOC=[select Branch__r.CRM_SPOC__c from asset WHERE Id =: caseRec.AssetId].Branch__r.CRM_SPOC__c;
-                    system.debug('CRMSPOC-->'+CRMSPOC);
                    if(activeuserlst.contains(CRMSPOC)){
                          newCase.OwnerId = CRMSPOC;     
                         }
