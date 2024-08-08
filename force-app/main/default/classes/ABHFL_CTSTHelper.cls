@@ -543,23 +543,18 @@ public without sharing class ABHFL_CTSTHelper {
         for(Case caseRec : caseRecords){
             returnMap.put(caseRec.Id, true);//default true; // All payment records have Realization_Status__c as 'Cleared'
            String cccExternalId = system.Label.CCC_External_Id;
-            system.debug('check external id-->'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
             
            if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
-                system.debug('paymentsMap'+paymentsMap);
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
-                    system.debug('inside ABHFL_Payment__c loop');
-                    //added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
-                   //Jira id-PR970457-1034
-                //Added By Ey-Vaishnavi
+                    
+                    /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
+                      Jira id-PR970457-2176
+                      Added By Ey-Nikhil */
                     if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
                        ||(caseRec.CCC_External_Id__c != cccExternalId)){
-                             system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c '+caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c );
-                             system.debug('caseRec.CCC_External_Id__c'+caseRec.CCC_External_Id__c);
-                            system.debug('cccExternalId'+cccExternalId);
                               
                            if (payment.Realization_Status__c == null) {
                                system.debug('payment.Realization_Status__c'+payment.Realization_Status__c);
