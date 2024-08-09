@@ -201,8 +201,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){
                 integrationFailure = false;
-                if(caseRec.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRec.Technical_Source__c=='API' 
-                  && !Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
+                if(Schema.sObjectType.Case.isUpdateable())
                 {
 					caseRec.MoveToNext__c = true;
                    	update caseRec;
