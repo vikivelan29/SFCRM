@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 07-30-2024
+  @last modified on  : 08-09-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -25,17 +25,13 @@
                         onchange={handleCountryCodeOptionChange}>
                     </lightning-combobox>
                 </template>
-                <lightning-input required type="password" class="slds-m-top_small confirmation" label="Enter Value"
+                <lightning-input data-id="originalInput" required type="password" class="slds-m-top_small confirmation" label="Enter Value"
                     data-field-name={fieldNameToSearch} onchange={handleOriginalTextChange}></lightning-input>
-                    
-                <lightning-input type={confirmFieldType} required class="slds-m-top_small" label="Re enter value"
+                <lightning-input data-id="confirmInput" type={confirmFieldType} required class="slds-m-top_small" label="Re enter value"
                     onchange={handleConfirmTextChange}></lightning-input>
                 <template if:true={isMobileNumberError}>
                     <div class="slds-text-color_error slds-m-top_small">Invalid Mobile Number for selected Country Code. India - 10 digits, Other - 15 digits</div>
-                </template>
-                <template if:true={isInvalidMobileNumberError}>
-                    <div class="slds-text-color_error slds-m-top_small">Invalid Mobile Number.</div>
-                </template>                
+                </template>         
             </div>
             <div class="slds-modal__footer">
                 <lightning-button class="slds-m-around_small" label="Cancel"
