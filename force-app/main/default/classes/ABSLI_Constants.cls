@@ -79,6 +79,7 @@ public class ABSLI_Constants {
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
     public static final String UIN_API_SOURCE = '4170703233';
+    public static final String GEN_FUND_SOURCE = '4170703531';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
