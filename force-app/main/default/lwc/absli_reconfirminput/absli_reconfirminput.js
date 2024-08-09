@@ -15,45 +15,94 @@ export default class absli_reconfirminput extends LightningElement {
     @track isMobileNumberError = false;
     @track selectedCountryCode;
     @track isInvalidMobileNumberError = false;
+    @track confirmMobileNumberError = false;
+    @track emailIDvalidation = false;
+    @track isOriginalEmailInvalid = false;
+    @track isConfirmEmailInvalid = false;
 
     connectedCallback(){
         console.log('this in connectedcallback',JSON.stringify(this.recordId));
         if(this.fieldNameToSearch === 'Mobile_Number__c'){
            this.countryCodeVisibilty = true;
         }
+        if(this.fieldNameToSearch === 'Email_Id__c'){
+            this.emailIDvalidation = true;
+         }
         this.options = countryCodeOptions;
     }
     validateMobileNumberCharacters(number) {
         const regex = /^[0-9]+$/;
         return regex.test(number);
     }
-    mobileNumberValidation(){
-        if (this.originalTextValue && !this.validateMobileNumberCharacters(this.originalTextValue)) {
-            this.isInvalidMobileNumberError = true;
-        }else if (this.confirmTextValue && !this.validateMobileNumberCharacters(this.confirmTextValue)) {
-            this.isInvalidMobileNumberError = true;
-        }else{
-            this.isInvalidMobileNumberError = false;
-        }      
-        if (this.selectedCountryCode === '91' && this.originalTextValue && this.originalTextValue.length != 10) {
-            this.isMobileNumberError = true;
-        } else if(this.selectedCountryCode !== '91' && this.originalTextValue && this.originalTextValue.length > 15){
-                this.isMobileNumberError = true;
-        }else {
-            this.isMobileNumberError = false;
+        mobileNumberValidation() {
+            const originalInput = this.template.querySelector('[data-id="originalInput"]');
+            const confirmInput = this.template.querySelector('[data-id="confirmInput"]');
+
+                originalInput.setCustomValidity('');
+                confirmInput.setCustomValidity('');
+
+                const setValidity = (inputElement, condition, message) => {
+                    if (inputElement.value) {
+                        if (condition) {
+                            inputElement.setCustomValidity(message);
+                        } else {
+                            inputElement.setCustomValidity(''); 
+                        }
+                        inputElement.reportValidity(); 
+                    } else {
+                        inputElement.setCustomValidity(''); 
+                        inputElement.reportValidity();
+                    }
+                };
+
+                setValidity(originalInput, this.originalTextValue && !this.validateMobileNumberCharacters(this.originalTextValue), 'Invalid Mobile Number');
+
+                setValidity(confirmInput, this.confirmTextValue && !this.validateMobileNumberCharacters(this.confirmTextValue), 'Invalid Mobile Number');
+                
+                if (this.selectedCountryCode === '91' && this.originalTextValue && this.originalTextValue.length != 10) {
+                    this.isMobileNumberError = true;
+                } else if(this.selectedCountryCode !== '91' && this.originalTextValue && this.originalTextValue.length > 15){
+                        this.isMobileNumberError = true;
+                }else {
+                    this.isMobileNumberError = false;
+                }
         }
-    }
     handleOriginalTextChange(event) {
         this.originalTextValue = event.target.value;
-        this.mobileNumberValidation();
-    
-        this.confirmationCheck();
+        const originalInput = this.template.querySelector('[data-id="originalInput"]');
+        if(this.countryCodeVisibilty){
+            this.mobileNumberValidation();
+            this.confirmationCheck(); 
+        }
+        if (this.originalTextValue === '') {
+            this.isOriginalEmailInvalid = false;
+            originalInput.setCustomValidity('');
+        } else if(this.emailIDvalidation){
+            this.isOriginalEmailInvalid = !this.validateEmail(this.originalTextValue);
+            this.isOriginalEmailInvalid?originalInput.setCustomValidity('Invalid Email ID.'):originalInput.setCustomValidity('');
+            this.confirmationCheck(); 
+        }
+        originalInput.reportValidity();
     }
     handleConfirmTextChange(event) {
         let val = event.target.value;
         this.confirmTextValue = val;
-        this.mobileNumberValidation();
-        this.confirmationCheck();
+        const confirmInput = this.template.querySelector('[data-id="confirmInput"]');
+        
+        if(this.countryCodeVisibilty){
+            this.mobileNumberValidation();
+            this.confirmationCheck(); 
+        }
+        
+        if (this.confirmTextValue === '') {
+            this.isConfirmEmailInvalid = false;
+            confirmInput.setCustomValidity('');
+        } else if(this.emailIDvalidation){
+            this.isConfirmEmailInvalid = !this.validateEmail(this.confirmTextValue);
+            this.isConfirmEmailInvalid?confirmInput.setCustomValidity('Invalid Email ID.'):confirmInput.setCustomValidity('');
+            this.confirmationCheck(); 
+        }
+        confirmInput.reportValidity();
     }
     varifyConfirmFieldPopup(event) {
         if (this.confirmTextValue == this.originalTextValue && !this.isMobileNumberError) {
@@ -87,6 +136,9 @@ export default class absli_reconfirminput extends LightningElement {
         if ((this.originalTextValue == this.confirmTextValue) && !this.isMobileNumberError && this.selectedCountryCode != null && !this.isInvalidMobileNumberError) {
             this.bConfirmationTextNotMatching = false;
             this.iconClass = 'successBtn';
+        }else if ((this.originalTextValue == this.confirmTextValue)){
+            this.bConfirmationTextNotMatching = false;
+            this.iconClass = 'successBtn';
         }
         else {
             this.bConfirmationTextNotMatching = true;
@@ -108,5 +160,9 @@ export default class absli_reconfirminput extends LightningElement {
         this.selectedCountryCode = val;
         this.confirmationCheck();
         this.mobileNumberValidation();
+    }
+    validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
     }
 }
