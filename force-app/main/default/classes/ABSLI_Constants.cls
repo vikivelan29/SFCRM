@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 08-08-2024
+ * @last modified on  : 07-31-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -41,7 +41,7 @@ public class ABSLI_Constants {
          'PNFT042' => 'STPFS',
          'PPCT027' => 'STPMC'
      };
-     
+     public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
     
 
@@ -79,6 +79,7 @@ public class ABSLI_Constants {
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
     public static final String UIN_API_SOURCE = '4170703233';
+    public static final String GEN_FUND_SOURCE = '4170703531';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
@@ -234,5 +235,9 @@ public class ABSLI_Constants {
     
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
+    
+    /* LSQLeadIntegration */
+    public static final List<String> leadLSQTypeArr = new List<String>{'One ABC','Branch walk in'};
+    public static final List<String> leadD2CTypeArr = new List<String>{'Contact Centre'};
 
 }
