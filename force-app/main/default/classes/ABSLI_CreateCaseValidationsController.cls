@@ -162,7 +162,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             }else{
                                 caseExt.Min_Loan_Amount__c = Decimal.valueOf(Label.ABSLI_Min_Loan_Amount);
                             }   
-                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008'){
+                        }/*else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008'){
                            	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)){
                                 caseExt.Minimum_Withdrawal_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT);
                             }
@@ -177,7 +177,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             }else{
                                 return 'Case Surrender Value should be more than 0.';
                             }
-                        }
+                        }*/
                         update caseExt;
                     	return 'Success';    
                     }else{
