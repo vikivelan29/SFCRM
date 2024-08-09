@@ -78,6 +78,8 @@ export default class Absli_FetchBankDetails extends LightningElement {
                 this.disableFields = false;
                 this.showToast('Unable to fetch Bank Details, please try again later.', 'error'); 
                 return;
+            } else if (this.processApexReturnValue.ReturnCode == "1") {
+                this.showToast(this.processApexReturnValue.ReturnMessage, 'warning');
             }
             if (this.processApexReturnValue.ReturnCode == "0") {
                 const nsdlData = this.processApexReturnValue.lstDetails;

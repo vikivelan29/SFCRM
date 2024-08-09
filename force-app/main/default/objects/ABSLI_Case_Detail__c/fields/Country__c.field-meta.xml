@@ -11,6 +11,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>IN</fullName>
+                <default>false</default>
+                <label>India</label>
+            </value>
+            <value>
                 <fullName>A1</fullName>
                 <default>false</default>
                 <label>Afghanistan</label>
@@ -774,11 +779,6 @@
                 <fullName>IK</fullName>
                 <default>false</default>
                 <label>Ivory Coast</label>
-            </value>
-            <value>
-                <fullName>IN</fullName>
-                <default>false</default>
-                <label>India</label>
             </value>
             <value>
                 <fullName>IT</fullName>
