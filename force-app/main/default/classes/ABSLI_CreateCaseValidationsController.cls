@@ -152,32 +152,32 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     if(responseWrapper.BFID_RESPONSE.ProcessCode=='00'){
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id=String.valueOf(jsonMap.get('ABSLI_Case_Detail__c')));
                         if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
-                         	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                         	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
                                 caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
                             }else{
                                 return 'Maximum loan amount should be more than 0.';
                             }
-                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)){
                                 caseExt.Min_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT);    
                             }else{
                                 caseExt.Min_Loan_Amount__c = Decimal.valueOf(Label.ABSLI_Min_Loan_Amount);
                             }   
-                        }/*else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008'){
-                           	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)){
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008'){
+                           	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)){
                                 caseExt.Minimum_Withdrawal_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT);
                             }
-                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)){
                                 caseExt.Withdrawal_Amount_Available__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE);    
                             }else{
                                 return 'Withdrawal amount available should be more than 0.';
                             } 
                         }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY001'){
-                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 || !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
                                 caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
                             }else{
                                 return 'Case Surrender Value should be more than 0.';
                             }
-                        }*/
+                        }
                         update caseExt;
                     	return 'Success';    
                     }else{

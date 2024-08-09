@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 08-09-2024
+ * @last modified on  : 07-31-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -41,7 +41,7 @@ public class ABSLI_Constants {
          'PNFT042' => 'STPFS',
          'PPCT027' => 'STPMC'
      };
-     
+     public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
     
 
@@ -62,7 +62,7 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
-    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WhatappOptoutUpdateApi';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
     public static final String InstaIssuranceAPI = 'InstaIssuance_Shared_API';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
@@ -217,7 +217,6 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMS_OPTION = '1';
     public static final String ABSLI_IGMS_MODE_REGISTER = '1';
     public static final String ABSLI_IGMS_MODE_UPDATE = '2';
-    public static final Integer IGMS_MAX_FILE_SIZE = 10;
     /* LOAN REPAYMENTS INTEGRATION */
     public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
     public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
@@ -236,5 +235,9 @@ public class ABSLI_Constants {
     
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
+    
+    /* LSQLeadIntegration */
+    public static final List<String> leadLSQTypeArr = new List<String>{'One ABC','Branch walk in'};
+    public static final List<String> leadD2CTypeArr = new List<String>{'Contact Centre'};
 
 }
