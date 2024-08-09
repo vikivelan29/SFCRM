@@ -38,6 +38,7 @@ export default class Absli_fetchPANDetails extends LightningElement {
     @track clientDOB = '';
     @track apifetchError = false;
     @track apiFetchErroText = 'External Service is not responding. Please proceed manully entering data.'
+    @track isVerificationSuccessful = false;
     
 
     @wire(CurrentPageReference) pageRef;
@@ -116,11 +117,13 @@ export default class Absli_fetchPANDetails extends LightningElement {
                     this.nsdlResponse = JSON.parse(result.responseStr).outputData[0];
                     this.showFetchResponse = true;
                     this.CancelBtnLbl = 'Deny';
+                    this.isVerificationSuccessful = true;
                     debugger;
                 }
                 else{
                     debugger;
                     this.apifetchError =true;
+                    this.isVerificationSuccessful = false;
                     this.showToast({
                         title: "Error",
                         message: result.errorMessage,
@@ -156,7 +159,9 @@ export default class Absli_fetchPANDetails extends LightningElement {
         arr_fieldDetails.push(propPAN);
         debugger;
 
-        this.handleUpdate();
+        if(this.isVerificationSuccessful){
+            this.handleUpdate();
+        }
 
         this.dispatchEvent(new CustomEvent("case360fieldextn", 
             {
