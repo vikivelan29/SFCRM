@@ -74,10 +74,9 @@ export default class Absli_FetchBankDetails extends LightningElement {
             if (!this.processApexReturnValue || Object.keys(this.processApexReturnValue).length === 0) {
                 this.showToast('Unable to fetch Bank Details, please try again later.', 'error'); 
                 return;
-            } else if (this.processApexReturnValue.ReturnMessage && 
-                this.processApexReturnValue.includes('No record found against given input.')) {
-                this.showToast('Invalid IFSC Code, No record found against given input.', 'warning');
-       }
+            } else if (this.processApexReturnValue.ReturnCode == "1") {
+                this.showToast(this.processApexReturnValue.ReturnMessage, 'warning');
+            }
             if (this.processApexReturnValue.ReturnCode == "0") {
                 const nsdlData = this.processApexReturnValue.lstDetails;
                 this.nsdlResponse = nsdlData;
