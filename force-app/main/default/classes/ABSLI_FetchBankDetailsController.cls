@@ -86,11 +86,11 @@ public with sharing class ABSLI_FetchBankDetailsController {
     @AuraEnabled(Cacheable = false)
     public static bankDetailResponseWrapper fetchBankDetailFromField(String CaseId,String IFSC_Code){
         bankDetailResponseWrapper respWrapper = new bankDetailResponseWrapper();
-        bankDetailRequest bitlyRequestWrapper = new bankDetailRequest();
+        //bankDetailRequest bitlyRequestWrapper = new bankDetailRequest();
         detail detailCls = new detail();
         detailCls.IFSC_CODE = IFSC_Code;
-        bitlyRequestWrapper.ObjRequest = detailCls;
-        string bankDetailRequestBody = JSON.serialize(bitlyRequestWrapper);
+        //bitlyRequestWrapper.ObjRequest = detailCls;
+        string bankDetailRequestBody = JSON.serialize(detailCls);
         system.debug('hre'+bankDetailRequestBody);
         
         ABCL_IntegrationCallout.IntegrationResponseWrapper bankDetailResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.FETCH_BANK_DETAIL_METADATA,bankDetailRequestBody,null);

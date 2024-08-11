@@ -278,6 +278,13 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList6</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.CCC_External_Id__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>PNFT027</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</name>

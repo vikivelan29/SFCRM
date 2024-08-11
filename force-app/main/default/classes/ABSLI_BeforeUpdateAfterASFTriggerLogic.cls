@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 07-25-2024
+ * @last modified on  : 08-05-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -91,7 +91,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
             caseDetailMap.put(detail.Id, detail);
         }
         for (Case caseRec : newMap.values()) {
-            if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
+            if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c) && ASF_BulkCaseProcessorUtility.isBulkProcessing == false) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
                 ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
                 if (config.IGMS_Code__c == '#N/A' &&

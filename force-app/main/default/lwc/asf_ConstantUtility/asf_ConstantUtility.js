@@ -154,31 +154,33 @@ export const lanLabels = {
             label: 'Name',
             fieldName: 'Name',
             type: 'text',
-            initialWidth: 180
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
         },
         {
             label: 'Policy No',
             fieldName: 'Policy_No__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Status',
             fieldName: 'Status',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Type',
             fieldName: 'Type__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Application No.',
             fieldName: 'Application_Number__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         }
         ],
         ACCOUNT_COLUMNS: [{

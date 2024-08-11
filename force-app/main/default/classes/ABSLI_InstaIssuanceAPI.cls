@@ -128,11 +128,11 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     String applicationnumber = '';
                     String caseRemarks = '';
                     String caseOwner = '';
-                    if(caseRecord.AssetId != null && caseRecord.AssetId != ''){
+                    if(String.isNotblank(caseRecord.AssetId)/*caseRecord.AssetId != null && caseRecord.AssetId != ''*/){
                          applicationnumber = String.valueOf(caseRecord.Asset.Application_Number__c);
                     }
                     String policynumber;
-                    if(caseRecord.AssetId != null && caseRecord.AssetId != ''){
+                    if(String.isNotblank(caseRecord.AssetId)/*caseRecord.AssetId != null && caseRecord.AssetId != ''*/){
                          policynumber = String.valueOf(caseRecord.Asset.Policy_No__c);
                     }
                     else if(caseRecord.LAN__c != null && caseRecord.LAN__c != '' && caseRecord.LAN__c != 'NA'){
@@ -148,6 +148,9 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABSLI_Constants.PENDING;
+                    //caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
+                                                                                  //applicationnumber, policynumber,
+                                                                                  //caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
                                                                                   caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
@@ -160,6 +163,9 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     //caseIntOut.Case_Integration_ID__c = caseInt1.Name;
                     caseIntOut.ServiceName__c = ABSLI_Constants.InstaIssuranceAPI;
                     caseIntOut.Integration_Name__c  = ABSLI_Constants.InstaIssuranceAPI;
+                    //caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
+                    //                                                              applicationnumber, policynumber,
+                    //                                                              caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
                                                                                   caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
