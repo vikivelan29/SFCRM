@@ -13,15 +13,28 @@
                     <div class="slds-text-color_error">{responseMsg}</div>
                 </template>
                 <template if:false={showLoader}>
-                    <div class="slds-form" role="list">
-                        <div class="slds-form__row">
-                            <div class="slds-form__item" role="listitem">
-                                <div
-                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
-                                    <span class="slds-form-element__label">Total Fund Value</span>
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            <p>{totalFundVal}</p>
+                    <div class="slds-box slds-p-bottom_large">
+                        <div class="slds-form" role="list">
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div
+                                        class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">Total Fund Value</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <p>{totalFundVal}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div
+                                        class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">Nav Date</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <p>{navDate}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
