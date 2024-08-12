@@ -282,13 +282,30 @@ public class ABSLI_CaseIntegrationHelper {
                 documentIds.add(docLink.ContentDocumentId);
             }
             if(documentIds.size() > 0){
-                ContentVersion contentVersion = [SELECT VersionData,ContentDocumentId FROM ContentVersion 
-                                                 WHERE ContentDocumentId in: documentIds and Is_Email_Body__c = true and For_Registered_Customer__c	= true Limit 1];
-                emailWrapper.emailBody = contentVersion.versionData.toString();
                 emailWrapper.emailSubject = caseRecord.ABSLI_Case_Detail__r.Draft_Subject__c;
                 emailWrapper.emailToAddress = caseRecord.ABSLI_Case_Detail__r.Draft_To_Address__c;
-                emailWrapper.emailTemplateId = contentVersion.ContentDocumentId;
                 emailWrapper.emailAttachmentIds = caseRecord.ABSLI_Case_Detail__r.Draft_AttachmentIds__c;
+                emailWrapper.caseDetailId = caseRecord.ABSLI_Case_Detail__c;
+                emailWrapper.emailTemplateId = documentLink[0].ContentDocumentId;
+                List<String> attachmentList = String.isNotBlank(emailWrapper.emailAttachmentIds)?emailWrapper.emailAttachmentIds.split(','):null;
+                List<ContentVersion> contentVersionList = [SELECT VersionData,ContentDocumentId,Is_Email_Body__c,For_Registered_Customer__c,Id,PathOnClient FROM ContentVersion 
+                                                     WHERE ContentDocumentId in: documentIds or id in: attachmentList];
+                List<EmailAttachmentWrapper> attachmentWrapperList = new List<EmailAttachmentWrapper>();
+                for(ContentVersion doc : contentVersionList){
+                    if(doc.Is_Email_Body__c && doc.For_Registered_Customer__c){
+                        emailWrapper.emailBody = doc.versionData.toString();
+                        emailWrapper.emailTemplateId = doc.ContentDocumentId;
+                    }else{
+                        if(attachmentList.contains(doc.Id)){
+                            EmailAttachmentWrapper attachmentWrapper = new EmailAttachmentWrapper();
+                            attachmentWrapper.contentDocumentId = doc.ContentDocumentId;
+                            attachmentWrapper.contentVersionId = doc.Id;
+                            attachmentWrapper.fileName = doc.PathOnClient;
+                            attachmentWrapperList.add(attachmentWrapper);
+                        }
+                    }
+                }
+                emailWrapper.emailAttachmentList = attachmentWrapperList;
             }
         }
         /*if(caseRecord.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && caseRecord.Technical_Source__c == 'Email' &&
@@ -352,6 +369,53 @@ public class ABSLI_CaseIntegrationHelper {
         }
         return isSuccess;
     }
+
+/****************************************************************************************************************
+    * @LOB - ABSLI
+    * @Function - changeAttachment
+    * @param recId - Case Record Id
+    * @param attachmentId - Attachment Id
+    * @param deleteAttachment - Add or Remove Attachment
+    * @return - EmailComposerWrapper
+    * @Description - Add or Remove Attachment
+    *****************************************************************************************************************/
+    @AuraEnabled
+    public static EmailComposerWrapper changeAttachments(String recId,String attachmentId,Boolean deleteAttachment){
+        ABSLI_Case_Detail__c caseDetail = [ Select id,Draft_AttachmentIds__c 
+                                            from ABSLI_Case_Detail__c 
+                                            where Id in (Select ABSLI_Case_Detail__c from Case where id =: recId) Limit 1];
+        if(deleteAttachment){
+            if(caseDetail != null){
+                if(String.isNotBlank(caseDetail.Draft_AttachmentIds__c)){
+                    List<String> attachmentIds = caseDetail.Draft_AttachmentIds__c.split(',');
+                    for(integer i=0;i < attachmentIds.size();i++){
+                        if(attachmentIds[i] == attachmentId){
+                            attachmentIds.remove(i);
+                            caseDetail.Draft_AttachmentIds__c = String.join(attachmentIds,',');
+                            if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable()){
+                                update caseDetail;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }else{
+            if(caseDetail != null){
+                if(String.isNotBlank(caseDetail.Draft_AttachmentIds__c)){
+                    List<String> attachmentIds = new List<String>();
+                    attachmentIds = caseDetail.Draft_AttachmentIds__c.split(',');
+                    attachmentIds.add(attachmentId);
+                    caseDetail.Draft_AttachmentIds__c = String.join(attachmentIds,',');
+                    if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable()){
+                        update caseDetail;
+                    }
+                }
+            }
+        }
+        return ebotEmailComposerHandler(recId);
+    }
+
     public class ContentRelationWrapper{
         public string registeredTemplateId;
         public string unregisteredTemplateId;
@@ -370,6 +434,19 @@ public class ABSLI_CaseIntegrationHelper {
         public String emailTemplateId;
         @AuraEnabled
         public String emailAttachmentIds;
+        @AuraEnabled
+        public List<EmailAttachmentWrapper> emailAttachmentList;
+        @AuraEnabled
+        public string caseDetailId;
+    }
+
+    public class EmailAttachmentWrapper{
+        @AuraEnabled
+        public String contentDocumentId;
+        @AuraEnabled
+        public String contentVersionId;
+        @AuraEnabled
+        public String fileName;
     }
 
 }

@@ -18,18 +18,20 @@ public with sharing class ABSLI_IGMSLWCController {
             asfIntExtIdMap.put(registrationProcessFlow.External_Id__c,registrationProcessFlow);          
         }
         returnResponse cls = new returnResponse();
-        for(ASF_Case_Integration__c caseInt : [SELECT ID,Status__c,Integration_Ext_Id__c FROM ASF_Case_Integration__c WHERE
+        for(ASF_Case_Integration__c caseInt : [SELECT ID,Status__c,Integration_Ext_Id__c,CreatedDate FROM ASF_Case_Integration__c WHERE
                                                Integration_Ext_Id__c =: asfIntExtIdMap.keySet() AND Case__c =: caseId ORDER BY CreatedDate DESC])
         {
-            for(String key : asfIntExtIdMap.keySet()){
-                if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_RegisterIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
-                    cls.registrationStatus = caseInt.Status__c;
-                }
-                else if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_AckIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
-                    cls.acknowledgeStatus = caseInt.Status__c;
-                }
-                else{
-                    cls.pendingStatus = caseInt.Status__c;
+            if((caseInt.Status__c == ABSLI_Constants.PENDING && System.now() < caseInt.CreatedDate.addMinutes(60)) || caseInt.Status__c != ABSLI_Constants.PENDING){
+                for(String key : asfIntExtIdMap.keySet()){
+                    if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_RegisterIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
+                        cls.registrationStatus = caseInt.Status__c;
+                    }
+                    else if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_AckIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
+                        cls.acknowledgeStatus = caseInt.Status__c;
+                    }
+                    else{
+                        cls.pendingStatus = caseInt.Status__c;
+                    }
                 }
             }
         }
