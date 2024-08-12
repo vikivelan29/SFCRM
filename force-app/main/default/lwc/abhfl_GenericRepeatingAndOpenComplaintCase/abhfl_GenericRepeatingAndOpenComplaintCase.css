@@ -1,50 +1,50 @@
-  .text-5xl{
-  font-size:1rem;
-  line-height:1;
-  padding: 10px;
-  text-align: center;
-  margin-top: -7px;
-}
-.text-6xl{
+.text-5xl{
     font-size:1rem;
     line-height:1;
     padding: 10px;
     text-align: center;
-    margin-top: 9px;
-}
-.text-8xl{
-  font-size:2rem;
-  line-height:1;
-  padding: 10px;
-  text-align: center;
-  margin-left: -8px;
-}
-h2{
+    margin-top: -7px;
+  }
+  .text-6xl{
+      font-size:1rem;
+      line-height:1;
+      padding: 10px;
+      text-align: center;
+      margin-top: 9px;
+  }
+  .text-8xl{
+    font-size:2rem;
+    line-height:1;
+    padding: 10px;
     text-align: center;
-}
-.col-container {
-    display: table;
-    width: 100%;
-    padding: 1px;
-    
+    margin-left: -8px;
   }
-  .col {
-    display: table-cell;
-    table-layout: fixed;
-    padding: 16px;
-    max-width: 100px;
-    max-height: 100px;
+  h2{
+      text-align: center;
   }
-  .custom-card{
-    border: 1px solid black;
-    display: block;
-    border-radius: 5%
+  .col-container {
+      display: table;
+      width: 100%;
+      padding: 1px;
+      
+    }
+    .col {
+      display: table-cell;
+      table-layout: fixed;
+      padding: 16px;
+      max-width: 100px;
+      max-height: 100px;
+    }
+    .custom-card{
+      border: 1px solid black;
+      display: block;
+      border-radius: 5%
+    }
+    .custom-box {
+      height: 100px; /* Set a custom height */
+      border: 1px solid #d8dde6; /* Example border style */
+      border-radius: 5%;
+      padding: 20px; /* Example padding */
+      box-sizing: border-box; /* Ensure padding is included in box size */
+      
   }
-  .custom-box {
-    height: 100px; /* Set a custom height */
-    border: 1px solid #d8dde6; /* Example border style */
-    border-radius: 5%;
-    padding: 20px; /* Example padding */
-    box-sizing: border-box; /* Ensure padding is included in box size */
-    
-}
