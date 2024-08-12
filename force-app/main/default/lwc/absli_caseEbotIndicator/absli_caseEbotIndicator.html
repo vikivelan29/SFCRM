@@ -9,7 +9,7 @@
             </lightning-button>
         </lightning-card>
         <!--</template>-->
-    <!--<template lwc:if={displayEmailComposer}>
-        <c-absli_emailcomposer></c-absli_emailcomposer>
-    </template>-->
+    <template lwc:if={displayEmailComposer}>
+        <c-absli_emailcomposer record={record} recid={recordId} onclosemodal={closeModal}></c-absli_emailcomposer>
+    </template>
 </template>
