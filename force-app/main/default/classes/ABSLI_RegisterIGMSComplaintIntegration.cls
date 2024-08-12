@@ -54,6 +54,10 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 errorMessage +='Receipt Number, ';
                 bErrorOccured = true;                
             }
+            if(String.isBlank(caseRecord.Account?.PersonMobilePhone)){
+                errorMessage = 'Customer Mobile Number is mandatory for IGMS Complaint Registration. Kindly reach out to your admin for further help., ';
+                bErrorOccured = true;
+            }
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != null){
                 errorMessage = 'Case is already sync with IGMS., ';
                 //bErrorOccured = true;
