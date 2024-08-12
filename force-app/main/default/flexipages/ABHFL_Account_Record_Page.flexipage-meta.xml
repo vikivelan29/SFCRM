@@ -541,9 +541,6 @@
                         <valueListItems>
                             <value>Stage__c|EQUALS|[&quot;Open&quot;]</value>   
                         </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;,&quot;Query&quot;]</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
