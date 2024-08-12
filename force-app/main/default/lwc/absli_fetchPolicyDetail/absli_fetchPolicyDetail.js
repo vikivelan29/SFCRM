@@ -3,8 +3,8 @@ import fetchAssets from "@salesforce/apex/ABSLI_FetchPolicyDetails.getPolicyDeta
 
 
 const columns = [
-    { label: 'Fund Id', fieldName: 'FND_ID' },
     { label: 'Fund Name', fieldName: 'FUND_NAME'},
+    { label: 'Fund Id', fieldName: 'FND_ID' },
     { label: 'NAV', fieldName: 'NAV',type: 'currency',
     typeAttributes: { currencyCode: 'INR', step: '0.01' }},
     { label: 'Fund Value', fieldName: 'FUND_VALUE',type: 'currency',
@@ -22,6 +22,7 @@ export default class Absli_fetchPolicyDetail extends LightningElement {
     @track showLoader = true;
     @track columns = columns;
     @track totalFundVal = '';
+    @track navDate = '';
 
     connectedCallback(){
         this.invokeIntegration();
@@ -35,15 +36,24 @@ export default class Absli_fetchPolicyDetail extends LightningElement {
             debugger;
             console.log(result);
             try{
-                if(result.statusCode == '200'){
-                    let tempProp = JSON.parse(JSON.stringify(result.FUND_DETAILS));
-                    this.data = tempProp;
-                    this.totalFundVal = tempProp.BFID_RESPONSE.TOTAL_FUND_VALUE;
-                    this.showLoader = false;
+                if(result != null && result != undefined){
+                    if(result.statusCode == '200'){
+                        let tempProp = JSON.parse(JSON.stringify(result.FUND_DETAILS));
+                        this.data = tempProp;
+                        this.totalFundVal = result.BFID_RESPONSE.TOTAL_FUND_VALUE;
+                        this.navDate = result.BFID_RESPONSE.navdate;
+                        this.showLoader = false;
+                    }
+                    else{
+                        this.showError = true;
+                        this.responseMsg = result.message;
+                        this.showLoader = false;
+                    }
+                    
                 }
                 else{
                     this.showError = true;
-                    this.responseMsg = result.message;
+                    this.responseMsg = 'API not returning any response.';
                     this.showLoader = false;
                 }
                 
