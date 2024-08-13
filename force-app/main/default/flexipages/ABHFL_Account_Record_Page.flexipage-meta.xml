@@ -41,6 +41,7 @@
         <mode>Replace</mode>
         <name>header</name>
         <type>Region</type>
+        <RegionName></RegionName>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
@@ -607,7 +608,6 @@
             </componentInstance>
         </itemInstances>
          <name></name>
-        <RegionName></RegionName>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
