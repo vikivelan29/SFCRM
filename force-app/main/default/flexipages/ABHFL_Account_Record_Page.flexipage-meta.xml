@@ -496,7 +496,6 @@
                         <valueListItems>
                             <value>Overall_Case_Closure_SLA__c</value>
                         </valueListItems>
-                       <RegionName></RegionName>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -511,6 +510,7 @@
                     <name>sortFieldAlias</name>
                     <value>__DEFAULT__</value>
                 </componentInstanceProperties>
+                <RegionName></RegionName>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
                     <value>Default</value>
