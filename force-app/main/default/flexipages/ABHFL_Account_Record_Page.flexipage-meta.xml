@@ -607,6 +607,7 @@
             </componentInstance>
         </itemInstances>
          <name></name>
+        <RegionName></RegionName>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
