@@ -653,7 +653,6 @@
                 <componentInstanceProperties>
                     <name>relatedListFieldAliases</name>
                     <valueList>
-                        <RegionName></RegionName>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
