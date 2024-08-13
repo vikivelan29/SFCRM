@@ -510,7 +510,6 @@
                     <name>sortFieldAlias</name>
                     <value>__DEFAULT__</value>
                 </componentInstanceProperties>
-                <RegionName></RegionName>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
                     <value>Default</value>
@@ -522,6 +521,7 @@
         <name>Facet-321712a5-dce4-4e27-bb27-4f0487b5b5fc</name>
         <type>Facet</type>
     </flexiPageRegions>
+    <RegionName></RegionName>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
