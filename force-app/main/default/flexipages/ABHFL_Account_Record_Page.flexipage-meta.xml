@@ -662,9 +662,6 @@
                         <valueListItems>
                             <value>Stage__c</value>
                         </valueListItems>
-                          <valueListItems>
-                            <value>RegionName</value>
-                        </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>
                         </valueListItems>
