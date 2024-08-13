@@ -41,7 +41,6 @@
         <mode>Replace</mode>
         <name>header</name>
         <type>Region</type>
-        <RegionName></RegionName>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
@@ -497,6 +496,7 @@
                         <valueListItems>
                             <value>Overall_Case_Closure_SLA__c</value>
                         </valueListItems>
+                       <RegionName></RegionName>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
