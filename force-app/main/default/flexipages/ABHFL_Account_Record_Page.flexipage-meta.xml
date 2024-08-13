@@ -666,6 +666,9 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>RegionName</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
