@@ -1060,7 +1060,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$User.Username</leftValueReference>
+                <leftValueReference>RunningUserName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>IntegrationUserName</elementReference>
@@ -1158,6 +1158,11 @@ Added Condition on Decision box -Email Template Found</description>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>
         <expression>&apos;CommnunicationLog-&apos; +{!$User.Id} +&apos;-&apos;+TEXT(UNIXTIMESTAMP(NOW()))</expression>
+    </formulas>
+    <formulas>
+        <name>RunningUserName</name>
+        <dataType>String</dataType>
+        <expression>{!$User.FirstName} &amp; &quot; &quot; &amp; {!$User.LastName}</expression>
     </formulas>
     <interviewLabel>Communication Log Flow - Email {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Communication Log Flow - Email</label>
