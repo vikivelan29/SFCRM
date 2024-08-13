@@ -16,6 +16,9 @@
         <field>Case$Account</field>
     </columns>
     <columns>
+        <field>Case$Asset.Advisor__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.Advisor_Code__c</field>
     </columns>
     <columns>
@@ -60,9 +63,6 @@
     </columns>
     <columns>
         <field>Case$Asset.Application_Number__c</field>
-    </columns>
-    <columns>
-        <field>Case$Account.Owner.Account</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Decision_Give_by__c</field>
@@ -200,6 +200,18 @@
     </columns>
     <columns>
         <field>Case$Account.Customer_Category__c</field>
+    </columns>
+    <columns>
+        <field>Case$Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <columns>
+        <field>Case$Reopened_DateTime__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Reason_for_noncontactability_Acknowledge__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Reopened_Date__c</field>
     </columns>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
     <filter>
