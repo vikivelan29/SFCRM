@@ -1284,7 +1284,7 @@ blankSourcePresent = true;
                 return;
             }
             
-            if (objNewCase.IsClosed == true && objNewCase.OnCreateCloseSR__c == false && UserInfo.getName() != System.Label.ABCL_Integration_UserName){
+            if (objNewCase.IsClosed == true && objNewCase.OnCreateCloseSR__c == false){
                 if(String.isNotBlank(objNewCase.Bulk_Action__c)){
                     objNewCase.addError('FIELD_CUSTOM_VALIDATION_EXCEPTION '+ System.label.Case_Closed_Validation_Message);
                 }
