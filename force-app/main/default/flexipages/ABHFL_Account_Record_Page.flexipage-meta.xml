@@ -685,9 +685,6 @@
                         <valueListItems>
                             <value>CASES.ESCALATION_STATE|EQUALS|true</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;,&quot;Query&quot;]</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
