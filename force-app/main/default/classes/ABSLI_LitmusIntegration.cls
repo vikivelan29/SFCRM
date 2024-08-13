@@ -69,6 +69,19 @@ public class ABSLI_LitmusIntegration {
         }
         if(litmusApiCasesList.size()>0){
             callLitmusAPI(litmusApiCasesList, cccIdToRecordsMap);
+            Set<Id> caseDetailIds = new Set<Id>();
+       
+            for (Case litmusCase : litmusApiCasesList) {
+                if (litmusCase.ABSLI_Case_Detail__c != null) {
+                    caseDetailIds.add(litmusCase.ABSLI_Case_Detail__c);
+                }
+            }
+   
+            List<ABSLI_Case_Detail__c> caseDetails = [SELECT Id,Litmus_Triggered__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds];
+            for(ABSLI_Case_Detail__c extension : caseDetails){
+                extension.Litmus_Triggered__c = 'Yes';
+            }
+            update caseDetails;
         }
     }
     
