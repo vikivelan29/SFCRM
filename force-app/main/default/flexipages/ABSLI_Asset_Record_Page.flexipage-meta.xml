@@ -132,6 +132,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>absli_fetchPolicyDetail</componentName>
+                <identifier>c_absli_fetchPolicyDetail</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-f5afb2b2-1657-4b7b-afd3-5c79257768f5</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>relatedTabContent</value>
@@ -176,6 +186,27 @@
                 <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f5afb2b2-1657-4b7b-afd3-5c79257768f5</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Fund Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ULIP</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -194,12 +225,6 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>absli_fetchPolicyDetail</componentName>
-                <identifier>c_absli_fetchPolicyDetail</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
