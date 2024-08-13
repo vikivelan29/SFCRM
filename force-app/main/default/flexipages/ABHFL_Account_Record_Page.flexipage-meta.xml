@@ -606,6 +606,7 @@
                 <identifier>lst_dynamicRelatedList4</identifier>
             </componentInstance>
         </itemInstances>
+         <name></name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
