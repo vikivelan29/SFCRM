@@ -23,6 +23,13 @@
             <operator>equals</operator>
             <value>Complaint</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>In Progress,New,Resolved</value>
+        </criteriaItems>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>

@@ -57,6 +57,9 @@
         <field>Case$Account</field>
     </columns>
     <columns>
+        <field>Case$Asset.Advisor__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.Advisor_Code__c</field>
     </columns>
     <columns>
@@ -103,7 +106,13 @@
         <field>Case$Asset.Application_Number__c</field>
     </columns>
     <columns>
+        <field>Case$Description</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Decision_Give_by__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
     </columns>
     <columns>
         <field>Case$Case_Assigned_Team__c</field>
@@ -149,6 +158,9 @@
     </columns>
     <columns>
         <field>Case$Account.Owner.MobilePhone</field>
+    </columns>
+    <columns>
+        <field>Case$Contact.GenderIdentity</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(CONTAINS(Case.Type_Text__c, &quot;Sales&quot;), &quot;Misselling&quot;, &quot;Non Misselling&quot;)</calculatedFormula>
