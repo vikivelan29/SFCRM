@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI_MC</label>
+    <protected>false</protected>
+    <values>
+        <field>ASF_ButtonCardConfig__c</field>
+        <value xsi:type="xsd:string">ABSLI_Quick_Kill_Links</value>
+    </values>
+    <values>
+        <field>FunctionCode__c</field>
+        <value xsi:type="xsd:string">MC</value>
+    </values>
+    <values>
+        <field>FunctionName__c</field>
+        <value xsi:type="xsd:string">Mode Change</value>
+    </values>
+    <values>
+        <field>SMSMetadataName__c</field>
+        <value xsi:type="xsd:string">ABSLI_Non_Retention_SMS</value>
+    </values>
+</CustomMetadata>

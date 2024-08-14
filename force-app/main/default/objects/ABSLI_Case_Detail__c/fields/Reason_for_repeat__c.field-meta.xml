@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_repeat__c</fullName>
+    <description>Complaints Resolution Field</description>
+    <externalId>false</externalId>
+    <label>Reason for repeat</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Acceptance of Offer</fullName>
+                <default>false</default>
+                <label>Acceptance of Offer</label>
+            </value>
+            <value>
+                <fullName>Incorrect Resolution</fullName>
+                <default>false</default>
+                <label>Incorrect Resolution</label>
+            </value>
+            <value>
+                <fullName>Complaint logged to multiple sources</fullName>
+                <default>false</default>
+                <label>Complaint logged to multiple sources</label>
+            </value>
+            <value>
+                <fullName>Incomplete resolution</fullName>
+                <default>false</default>
+                <label>Incomplete resolution</label>
+            </value>
+            <value>
+                <fullName>Reminders received within TAT</fullName>
+                <default>false</default>
+                <label>Reminders received within TAT</label>
+            </value>
+            <value>
+                <fullName>Not Satisfied with Resolution</fullName>
+                <default>false</default>
+                <label>Not Satisfied with Resolution</label>
+            </value>
+            <value>
+                <fullName>Communication not received</fullName>
+                <default>false</default>
+                <label>Communication not received</label>
+            </value>
+            <value>
+                <fullName>Delay in resolution</fullName>
+                <default>false</default>
+                <label>Delay in resolution</label>
+            </value>
+            <value>
+                <fullName>Penal Interest/ TDS</fullName>
+                <default>false</default>
+                <label>Penal Interest/ TDS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,49 @@
+<template>
+    <div class="slds-card slds-card_boundary slds-card_related-list-fix">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="custom:custom103"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate"
+                                            title="Nominee Details">Nominee
+                                            Details</span>
+                                    </h1>
+                                </div>
+                            </div>
+                            <p class="slds-page-header__name-meta"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <template if:false={showErrorMsg}>
+            <div style="height: 300px;">
+                <template if:true={loaded}>
+                    <lightning-datatable key-field="id" data={data} show-row-number-column hide-checkbox-column
+                    columns={columns}>
+                    </lightning-datatable>
+                </template>
+                <template if:false={loaded}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+                
+            </div>
+        </template>
+        <template if:true={showErrorMsg}>
+            <div class="slds-box">
+                <p class="slds-text-color_error slds-text-align_center">{errorMessage}</p>
+              </div>
+            
+        </template>
+        
+    </div>
+
+
+</template>

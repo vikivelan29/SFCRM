@@ -24,6 +24,10 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     listRecords = {};
     @track hasRecord = false;
     isDisabled = true;
+    checklistStatuses = new Map();
+    statusVal;
+    
+
     get isAnyStageMatchChecklistPresent(){
         let output = false;
         if(this.accData){
@@ -38,11 +42,16 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     }
     @api realFormData;
 
-    get options() {
+    defaultOptions(){
         return [
             { label: 'Pending', value: 'Pending' },
             { label: 'Completed', value: 'Completed' },
         ];
+    }
+
+    get options() {
+        return this.statusVal;
+        
     }
     @wire(getRecord, { recordId: '$recordId', fields })
     gAcc({ data, error }) {
@@ -66,6 +75,17 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
             this.hasRecord = false;
             this.accounts = undefined;
         }
+    }
+    handleOptionValues(event){
+        debugger;
+        let checklistId = event.target.getAttribute('data-id');
+        if(this.checklistStatuses[checklistId] != undefined){
+            this.statusVal =  this.checklistStatuses[checklistId];
+        }
+        else{
+            this.statusVal =  this.defaultOptions();
+        }
+
     }
     connectedCallback() {
 

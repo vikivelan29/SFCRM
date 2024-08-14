@@ -2,7 +2,7 @@
  * @description       : Logic to block creation of cases in certain scenerios
  * @author            : Rajender Kumar
  * @group             : 
- * @last modified on  : 07-08-2024
+ * @last modified on  : 08-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -13,7 +13,7 @@
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_E2C_CreationRules {
     /****************************************************************************
-     * @Origin - ABFL
+     * @Origin - ABFL/ABSLI
      * @Function - checkCreationRules
      * @param emailMessages - contains all incoming message.
      * @description - Main method for checking all creation rules
@@ -29,16 +29,16 @@ public with sharing class ABFL_E2C_CreationRules {
 
             if (!caseIds.isEmpty()){
                 // Set to store Case Ids related to ABFL Email
-                Set<Id> abflCaseIds = new Set<Id>();
+                Set<Id> qualifiedCaseIds = new Set<Id>();
                 //for (Case c : ABFL_SOQL_Case.getCaseOrginInfo(caseIds)) {
                     for (Case c : ASF_EmailMessageQueryHandler.getCaseRecords(caseIds)) {
                     // Check if the case origin is 'ABFL Email'
-                    if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
-                        abflCaseIds.add(c.Id);
+                    if (System.Label.ABCL_Case_Origin_for_E2C_Rules.split(',').contains(c.origin)) {
+                        qualifiedCaseIds.add(c.Id);
                     }
                 }  
 
-                if (!abflCaseIds.isEmpty()) {
+                if (!qualifiedCaseIds.isEmpty()) {
                     // Get rules from E2C_Creation_Rules__mdt records - Entity => List<CreationRules>
                     Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = buildMetadataMap();
                     // Process each email message
@@ -50,7 +50,10 @@ public with sharing class ABFL_E2C_CreationRules {
                                 Boolean creationNotAllowed = false;
                                 switch on metadata.Field__c {
                                     when  'Sender','To Recipients'{
-                                        creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, emailMsg.FromAddress);
+                                        for(String email : senderAndccList){
+											creationNotAllowed = creationNotAllowed(metadata.Operator__c, metadata.Value__c, email);
+                                            if(creationNotAllowed)break;
+                                        }
                                     }
                                     when  'Subject'{
                                         if(emailMsg.Subject != null){
@@ -82,11 +85,12 @@ public with sharing class ABFL_E2C_CreationRules {
     private static Map<String, List<E2C_Creation_Rules__mdt>> buildMetadataMap() {
 
         Map<String, List<E2C_Creation_Rules__mdt>> metadataMap = new Map<String, List<E2C_Creation_Rules__mdt>>();
-
+		List<String> allowedBuList = System.Label.ABCL_BU_for_E2C_Rules.split(',');
+        
         for (E2C_Creation_Rules__mdt metadata : [SELECT Id, Field__c, Operator__c, Value__c, Error_Message__c,
                                                     E2C_Creation_Scenarios__r.ToAddress__c, E2C_Creation_Scenarios__r.Error_Message__c
                                                     FROM E2C_Creation_Rules__mdt WHERE 
-                                                    E2C_Creation_Scenarios__r.Business_Unit__c = :ABFL_Constants.ABFL]) {
+                                                    E2C_Creation_Scenarios__r.Business_Unit__c IN :allowedBuList]) {
             if (!metadataMap.containsKey(metadata.E2C_Creation_Scenarios__r.ToAddress__c)) {
                 metadataMap.put(metadata.E2C_Creation_Scenarios__r.ToAddress__c, new List<E2C_Creation_Rules__mdt>{metadata});
             }else{
@@ -132,23 +136,19 @@ public with sharing class ABFL_E2C_CreationRules {
         
         // Index to keep track of position in expectedWords
         Integer expectedIndex = 0;
-        
-        // Check if actualValue contains expectedValue
-        if (actualValue.contains(expectedValue)) {
-            // Iterate through words in actualValue
-            for (String word : actualWords) {
-                // Check if the current word matches the next word in expectedValue
-                if (expectedIndex < expectedWords.size() && expectedWords[expectedIndex] == word) {
-                    expectedIndex++;
-                } 
-                // If all words from expectedValue are found in actualValue, return true
-                else if (expectedIndex < expectedWords.size() && !word.contains(expectedWords[expectedIndex])) {
-                    return false;
-                }
+
+        // Iterate through words in actualValue
+       	for (String word : actualWords) {
+          	// Check if the current word matches the next word in expectedValue
+            if (expectedIndex < expectedWords.size() && expectedWords.get(expectedIndex).equals(word)) {
+               	expectedIndex++;
+            }else{
+                expectedIndex = 0;
+            } 
+            // If all words from expectedValue are found in actualValue, return true
+            if (expectedIndex == expectedWords.size()) {
+                return true;
             }
-            
-            // If not all words from expectedValue were found in actualValue in the same order, return false
-            return expectedIndex == expectedWords.size();
         }
         
         // If actualValue does not contain expectedValue, return false

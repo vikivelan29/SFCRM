@@ -1,0 +1,56 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 class="slds-modal__title slds-hyphenate">
+                    Fetch Bank Details</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <div class="slds-m-top_medium slds-m-bottom_x-large">
+                    <!-- Default/basic -->
+                    <div class="slds-p-around_medium lgc-bg slds-grid">
+                        <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-input type="text" label="IFSC Code" value={IFSC_Code}
+                                        required disabled={showFetchResponse} onchange={handleOriginalAndConfirmationText}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-input type="text" label="MICR Code" value="000000000"
+                                        disabled></lightning-input>
+                                </lightning-layout-item>
+                                <template if:true={showFetchResponse}>
+                                    <lightning-layout-item padding="around-small" size="12">
+                                        <lightning-input type="text" label="Bank Name" value={BANK_NAME}
+                                            disabled></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small" size="12">
+                                        <lightning-input type="text" label="Bank Branch" value={BANK_BRANCH}
+                                            disabled></lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                                
+                            
+                            <template if:true={showErrorMsg}>
+                                <p>{errorMessage}</p>
+                            </template>
+
+
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-grid slds-modal__footer slds-grid_align-center">
+                <button class="slds-button slds-button_neutral" onclick={closeParentPopup}
+                    title="Cancel">Cancel</button>
+                <template if:false={showFetchResponse}>
+                    <button class="slds-button slds-button_neutral" onclick={handleFetchDetails} title="Fetch Details">Fetch Details</button>
+                </template>
+                <template if:true={showFetchResponse}>
+                    <button class="slds-button slds-button_neutral" onclick={handleUpdateFromFieldPopUp} title="Update">Update</button>
+                </template>
+            </footer>
+        </div>
+    </section>
+
+</template>

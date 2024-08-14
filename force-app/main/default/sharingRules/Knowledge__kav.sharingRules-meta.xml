@@ -15,13 +15,13 @@
     <sharingOwnerRules>
         <fullName>ABHFL_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Rule to share all articles owned by ABHFL role to other ABHFL users</description>
-        <label>ABHFL Sharing</label>
+        <description>Rule to share all articles owned by ABFL role to other ABFL users</description>
+        <label>ABFL Sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

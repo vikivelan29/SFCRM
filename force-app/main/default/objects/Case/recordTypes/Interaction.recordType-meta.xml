@@ -107,6 +107,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLIG Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -238,6 +242,10 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -258,6 +266,14 @@
         <picklist>Source__c</picklist>
         <values>
             <fullName>Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
             <default>false</default>
         </values>
         <values>
