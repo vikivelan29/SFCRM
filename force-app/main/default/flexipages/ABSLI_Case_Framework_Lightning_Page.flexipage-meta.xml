@@ -127,7 +127,7 @@
                         <valueListItems>
                             <value>Case.Escalate_Case_Reopen_Case</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND (4 AND 5)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -141,6 +141,11 @@
                                     <leftValue>{!Record.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>4</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ABSLI_Case_Detail__r.Escalated__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
