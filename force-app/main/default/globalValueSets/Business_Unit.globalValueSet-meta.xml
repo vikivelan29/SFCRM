@@ -21,9 +21,19 @@
         <label>ABWM</label>
     </customValue>
     <customValue>
+        <fullName>ABSLI</fullName>
+        <default>false</default>
+        <label>ABSLI</label>
+    </customValue>
+    <customValue>
         <fullName>ABSLIG</fullName>
         <default>false</default>
         <label>ABSLIG</label>
+    </customValue>
+    <customValue>
+        <fullName>ABSLAMC</fullName>
+        <default>false</default>
+        <label>ABSLAMC</label>
     </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
