@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Non_Individual</fullName>
+    <fullName>ABSLAMC_Non_Individual_Distributor</fullName>
     <active>true</active>
-    <label>Non-Individual</label>
+    <label>ABSLAMC Non-Individual Distributor</label>
     <picklistValues>
         <picklist>AccountSource</picklist>
         <values>
@@ -10,7 +10,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Branch Ops</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Service</fullName>
             <default>false</default>
         </values>
         <values>
@@ -69,14 +77,6 @@
         </values>
         <values>
             <fullName>ABSLAMC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
         <values>
@@ -352,15 +352,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
             <default>false</default>
         </values>
         <values>
@@ -369,10 +365,6 @@
         </values>
         <values>
             <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -509,6 +501,10 @@
         <picklist>Verticals__c</picklist>
         <values>
             <fullName>%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supply Chain</fullName>
             <default>false</default>
         </values>
     </picklistValues>
