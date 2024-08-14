@@ -3,6 +3,7 @@
     <fullName>Account__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Using ABHIL BU</description>
+    <externalId>false</externalId>
     <label>Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>ASF Case Integrations</relationshipLabel>
