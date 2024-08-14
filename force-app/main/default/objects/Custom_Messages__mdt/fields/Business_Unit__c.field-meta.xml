@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>ABFL</label>
             </value>
+            <value>
+                <fullName>ABSLI</fullName>
+                <default>false</default>
+                <label>ABSLI</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

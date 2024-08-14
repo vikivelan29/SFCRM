@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_Paytm_C_C_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL Paytm CC</label>
+    <queue>ABFL_Paytm_C_C</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

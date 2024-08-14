@@ -40,4 +40,16 @@ public class LeadTriggerHelper {
     ABSLIG_BusinessLogic_HelperClass absligBusinessLogicHelperClassObj = new ABSLIG_BusinessLogic_HelperClass();
     absligBusinessLogicHelperClassObj.prePopulateFields(newLeadList);
   }
+
+/****************************************************************************************************************
+  * @Function - populateLeadFields
+  * @param - newLeadList
+  * @return - void.
+  * @Description - Sending Lead to ABSLIG_BusinessLogic_HelperClass
+  ***********************************************************/
+  public void populateLeadFields(List<Lead> newLeadList){
+
+    ABSLIG_BusinessLogic_HelperClass absligBusinessLogicHelperClassObj = new ABSLIG_BusinessLogic_HelperClass();
+    absligBusinessLogicHelperClassObj.prePopulateFields(newLeadList);
+    }
 }

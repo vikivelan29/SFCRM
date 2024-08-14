@@ -103,7 +103,7 @@
     </actionOverrides>
     <compactLayoutAssignment>ABHFL_Asset_Compact_Layout</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <profileSearchLayouts>
         <fields>ASSET.NAME</fields>
         <fields>ACCOUNT.NAME</fields>
@@ -137,5 +137,5 @@
         <searchResultsAdditionalFields>Sanction_Amount__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ASSET.STATUS</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>Private</sharingModel>
 </CustomObject>

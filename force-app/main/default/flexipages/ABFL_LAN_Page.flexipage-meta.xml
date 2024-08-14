@@ -418,6 +418,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Name__c</fieldItem>
+                <identifier>RecordPartner_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Principal_Outstanding__c</fieldItem>
                 <identifier>RecordPrincipal_Outstanding_cField</identifier>
             </fieldInstance>
@@ -444,6 +454,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.EMI_Start_Date__c</fieldItem>
                 <identifier>RecordEMI_Start_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EMI_End_Date__c</fieldItem>
+                <identifier>RecordEMI_End_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -796,28 +816,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Loan_EMI_Amount__c</fieldItem>
-                <identifier>RecordLoan_EMI_Amount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Account_no__c</fieldItem>
                 <identifier>RecordAccount_no_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ECS_Mandate_Registration_Status__c</fieldItem>
-                <identifier>RecordECS_Mandate_Registration_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d047ac04-1bec-41ed-afd5-39233e752874</name>
