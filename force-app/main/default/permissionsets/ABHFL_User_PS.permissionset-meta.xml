@@ -1589,7 +1589,7 @@
         <editable>false</editable>
         <field>Asset.Branch__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>	
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Business_Unit__c</field>
@@ -1653,6 +1653,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Customer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.DA_Transaction__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
