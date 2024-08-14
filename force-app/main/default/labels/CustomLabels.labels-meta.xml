@@ -473,6 +473,13 @@
         <value>mulesoft@abcl.dev</value>
     </labels>
     <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ASF_No_DML_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
