@@ -99,10 +99,8 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                 requestJSON.Claim_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Claim_Clsr_Additional_Info__c;
                 requestJSON.Others_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Others_Clsr_Additional_Info__c;
             }
-            if(caseRecord.ABSLI_Case_Detail__r.Escalated__c){
                 requestJSON.Final_Resolution_Remark = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Remark__c;
                 requestJSON.Final_Resolution_Date = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c, 'dd-MM-YYYY') : null;
-            }
             if(caseRecord.ABSLI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABSLI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
