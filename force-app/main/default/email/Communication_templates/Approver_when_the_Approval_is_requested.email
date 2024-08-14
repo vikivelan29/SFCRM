@@ -8,6 +8,7 @@ SR nature: {!ASF_Case_Approv__c.Nature__c}
 SR type :{!ASF_Case_Approv__c.SR_type__c}
 Created Date/Time: {!ASF_Case_Approv__c.CreatedDate}
 Created By: {!ASF_Case_Approv__c.CreatedBy}
+Requestor Comments : {!ASF_Case_Approv__c.Requestor_Comments__c}
 =============================================================================
 Customer Details
 =============================================================================

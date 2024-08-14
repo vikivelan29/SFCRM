@@ -23,6 +23,10 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
+            <fullName>Change as per Customer Issue Type</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -35,7 +39,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Multiple Cases%2FDuplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Multiple Intent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -104,6 +120,10 @@
         </values>
         <values>
             <fullName>ABSLI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -257,11 +277,31 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>Advisor Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Anywhere Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Branch</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bulk Upload from HO</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Bureau</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CAMS FO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -277,11 +317,39 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Deadline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMT CNX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMT HO</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HO Back office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IGMS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -297,7 +365,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Inbound ABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound CNX</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound ConnectQ</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Inbound Nodal Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance Repository website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance Repository</fullName>
             <default>false</default>
         </values>
         <values>
@@ -314,6 +406,14 @@
         </values>
         <values>
             <fullName>Letter %2F Snail Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letters and Faxes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -353,11 +453,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Social Media</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SystemIntegration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Telephone</fullName>
             <default>false</default>
         </values>
         <values>
@@ -369,7 +477,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Webform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website Redressal</fullName>
             <default>false</default>
         </values>
         <values>

@@ -134,9 +134,12 @@ public without sharing class ASF_CaseRelatedDetailsUpdate {
     public static void removeAccountIdBuMissMatch(map<Id, Case> oldCases,map<Id, Case> newCases){
         Set<Id> caseIdsToUpdate = new Set<Id>();
         List<Case> recordsToUpdate = new List<Case>();
+        Map<Id,Id> mCaseIdAccountId = new Map<Id,Id>();
+        
         for(Case recCase : newCases.values()){
             if (recCase.AccountId != null) {
                 caseIdsToUpdate.add(recCase.AccountId);
+                mCaseIdAccountId.put(recCase.Id,recCase.AccountId);
             }
          }
          if (!caseIdsToUpdate.isEmpty()) {
@@ -149,19 +152,26 @@ public without sharing class ASF_CaseRelatedDetailsUpdate {
             for (Case cs :newCases.values()) {
             	String caseBu = cs.Business_Unit__c;
                 String accountBu = accountMap.get(cs.AccountId).Business_Unit__c;
+                Case objToUpdate = new Case();
+                objToUpdate.Id = cs.Id;
                 // Excluding logic if Case BU is ABFL or ABWM and Account BU is either ABFL or ABWM as both belong to same BU.
                 if (!((caseBu == 'ABFL' || caseBu == 'ABWM') && (accountBu == 'ABFL' || accountBu == 'ABWM'))) {
                     if (caseBu != null && accountBu != null && caseBu != accountBu) {
-                        Case objToUpdate = new Case();
-                        objToUpdate.Id = cs.Id;
                         objToUpdate.AccountId = null;
                         objToUpdate.ContactId = null;
-                        recordsToUpdate.add(objToUpdate);
+                        if(mCaseIdAccountId.containsKey(cs.Id)){
+                            mCaseIdAccountId.remove(cs.Id);
+                        }
                     }
                 }
+                recordsToUpdate.add(objToUpdate);
+
             }
          }
         if (!recordsToUpdate.isEmpty()) {
+            
+            ASF_CasePreFrameworkTriggerHelper.findAndAssociateAssetToCase(newCases.values(),mCaseIdAccountId,recordsToUpdate);
+            
             ASF_TriggerSkipperUtility.markTriggerRun('Case');
             update recordsToUpdate;
         }

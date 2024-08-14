@@ -1,6 +1,6 @@
 /*********************************************************
 *Class        :  ABCL_AssetTriggerHelper
-*Author       :  Shubham Sinha 
+*Author       :  Shubham Sinha   
 *Created Date :  17/01/2024
 *@description  :  Test Class
 *********************************************************/
@@ -13,7 +13,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
         	insert slaGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
-        	insert g1;
+            insert g1;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,

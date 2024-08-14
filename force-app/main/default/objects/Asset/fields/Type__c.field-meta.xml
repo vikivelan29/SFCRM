@@ -56,6 +56,11 @@
                 <default>false</default>
                 <label>Corporate Loans</label>
             </value>
+            <value>
+                <fullName>ULIP</fullName>
+                <default>false</default>
+                <label>ULIP</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

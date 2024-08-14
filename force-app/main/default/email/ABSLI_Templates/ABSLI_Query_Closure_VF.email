@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Confirmation of {!relatedTo.Sub_Type_Text__c} request regarding your Aditya Birla Sun Life Insurance Policy number {!relatedTo.Asset.Policy_No__c}" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ABSLI Query Closure"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

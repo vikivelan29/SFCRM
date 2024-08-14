@@ -40,7 +40,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
+                          Type__c, Channel__c,Source__c,New_Source__c , Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -55,13 +55,19 @@ public with sharing class ASF_CreateCaseWithTypeController {
         
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
-            source = choosenOneMTD.Source__c;
+            //source = choosenOneMTD.Source__c;
+            //AM-Updated the name of source__c to New_Source__c and 
+            //field type from text to long text to accommodate ABSLI sources
+            source = choosenOneMTD.New_Source__c;
             subSource = choosenOneMTD.Sub_Source__c;
             sourceToSubsource.put(source, subSource);
             objCaseDetailsWrapper.strSource = source;
             objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             objCaseDetailsWrapper.mapOfSourceToSubsource = sourceToSubsource;
-            List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
+            List<String> lstChannel = new List<String>();
+            if(choosenOneMTD.Channel__c != null){
+                lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
+            }
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
         
@@ -193,6 +199,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
         
+        system.debug('query--'+dynamicQuery);
         searchResults =
             new Map<Id, ASF_Case_Category_Config__c>(
                 (List<ASF_Case_Category_Config__c>)Database.query(dynamicQuery));
@@ -201,6 +208,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strErrorMessage = STRING_NORECORDERROR;
         }
         objCaseDetailsWrapper.lstCCCrecords = searchResults.values();
+        system.debug('size--'+objCaseDetailsWrapper.lstCCCrecords.size());
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
@@ -214,6 +222,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);
+            system.debug('final size--'+objCaseDetailsWrapper.lstCCCrecords.size());
             
         }
         

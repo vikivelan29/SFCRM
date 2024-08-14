@@ -121,21 +121,23 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,ABHFL_Case_Detail__r.EMI_Tenure__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
-        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
+        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c,GST__c 
                                                 FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
         String emailTemplate = '';   
-        String paymentCode = '';           
+        String paymentCode = '';
+        Decimal GST;
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
             paymentCode = docChargeMdtLst[0].Payment_Code__c;
+            GST= docChargeMdtLst[0].GST__c;
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
-        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
+        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord,GST);
         paytmRequestWrapper.paymentCode = paymentCode;
         paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
@@ -262,7 +264,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public Integer impactType;
         public string salesId;
 
-        public PaytmRequestWrapper(Case caseRecord){
+        public PaytmRequestWrapper(Case caseRecord,Decimal GST){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;

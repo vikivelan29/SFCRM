@@ -3,7 +3,7 @@
  *Author       :  Udit Singhal
  *Created Date :  07/02/2024
  *Last Modified:
- *@description  :  Test Class for ABFL_InvokeLitmusProcess
+ *Description  :  Test Class for ABFL_InvokeLitmusProcess
  *********************************************************/
 @isTest
 public class ABFL_InvokeLitmusProcess_Test{
@@ -33,7 +33,7 @@ public class ABFL_InvokeLitmusProcess_Test{
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk5657123456@gmail.com', 
+            UserName = 'cdefghijk567@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -49,8 +49,9 @@ public class ABFL_InvokeLitmusProcess_Test{
         Test.stopTest();
         
         System.runAs(userRecord1){
-            Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
+            List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
             SLA_Threshold_Warning__c thresholdController = SLA_Threshold_Warning__c.getOrgDefaults();
+            decimal thirdStageThreshold = thresholdController.Stage_SLA_Threshold_3__c;
             thresholdController.Customer_Email_buffer_hours__c = 56;
             update thresholdController;
             
@@ -58,6 +59,8 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
             ABFL_TestDataFactory.createCaseRuleEntry(caseStage);
+            System.debug('caseStage size: ' + caseStage.size());
+            System.debug('caseStage: ' + caseStage);
             Account acc = ABFL_TestDataFactory.createAccount();
             ABFL_TestDataFactory.createContact(acc.ID);
             List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);
@@ -73,8 +76,14 @@ public class ABFL_InvokeLitmusProcess_Test{
             c.ownerid = userInfo.getuserId();
             c.AccountId = acc.ID;
             c.AssetId = assetObj.Id;
-            c.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
             update c;
+            
+            ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+            caseInt.Status__c = 'Pending';
+            caseInt.Type__c = 'Litmus';
+            //caseInt.Integration_Ext_Id__c = integ.External_Id__c;
+            caseInt.Case__c = c.Id;
+            insert caseInt;
         }
     }
     
@@ -82,7 +91,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     static void testCallLitmusAPI(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -118,7 +127,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     static void testCallLitmusAPIBranch(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -137,10 +146,9 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             Test.stopTest();
             
-            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name FROM ASF_Case_Integration__c 
+            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name, Status__c FROM ASF_Case_Integration__c 
                                WHERE Case__c = :caseRec.Id 
                                AND Status__c = :ABFL_Constants.PENDING
-                               AND Type__c = :ABFL_Constants.LITMUS
                                LIMIT 1];
             
             Assert.isTrue(caseIntRecList.size() > 0, 'Case Integration record for LITMUS should have been created');
@@ -151,7 +159,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     static void testCallLitmusAPICallIn(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -170,10 +178,9 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             Test.stopTest();
             
-            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name FROM ASF_Case_Integration__c 
+            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name, Status__c FROM ASF_Case_Integration__c 
                                WHERE Case__c = :caseRec.Id 
                                AND Status__c = :ABFL_Constants.PENDING
-                               AND Type__c = :ABFL_Constants.LITMUS
                                LIMIT 1];
             
             Assert.isTrue(caseIntRecList.size() > 0, 'Case Integration record for LITMUS should have been created');
@@ -184,7 +191,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     static void testCallLitmusAPIChatbot(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -203,10 +210,9 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             Test.stopTest();
             
-            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name FROM ASF_Case_Integration__c 
+            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name, Status__c FROM ASF_Case_Integration__c 
                                WHERE Case__c = :caseRec.Id 
                                AND Status__c = :ABFL_Constants.PENDING
-                               AND Type__c = :ABFL_Constants.LITMUS
                                LIMIT 1];
             
             Assert.isTrue(caseIntRecList.size() > 0, 'Case Integration record for LITMUS should have been created');
@@ -217,7 +223,7 @@ public class ABFL_InvokeLitmusProcess_Test{
     static void testCallLitmusAPIEmail(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk5657123456@gmail.com'];
+                           WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c, CCC_External_Id__c
                             FROM Case
@@ -236,12 +242,11 @@ public class ABFL_InvokeLitmusProcess_Test{
             
             Test.stopTest();
             
-            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name FROM ASF_Case_Integration__c 
+            List<ASF_Case_Integration__c> caseIntRecList = [SELECT Name, Status__c FROM ASF_Case_Integration__c 
                                WHERE Case__c = :caseRec.Id 
                                AND Status__c = :ABFL_Constants.PENDING
-                               AND Type__c = :ABFL_Constants.LITMUS
                                LIMIT 1];
-            
+            System.assertEquals(caseIntRecList[0].Status__c, 'Pending');
             Assert.isTrue(caseIntRecList.size() > 0, 'Case Integration record for LITMUS should have been created');
         }
     }

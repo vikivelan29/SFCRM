@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Integration_From_LWC__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field to be set to True, if expectation is to run the integration for Technical_Source__c = LWC.</description>
+    <externalId>false</externalId>
+    <label>Run Integration From LWC</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

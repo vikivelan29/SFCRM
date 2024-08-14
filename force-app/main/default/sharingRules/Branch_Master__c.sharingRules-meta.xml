@@ -1,3 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>ABFL_Branch_Master_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABFL Branch Master Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_Branch_Master_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABHFL Branch Master Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Branch Master Share with ABSLI Service Manager and Subordinates</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

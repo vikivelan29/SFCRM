@@ -67,7 +67,7 @@ public class ASF_CaseMovementHelper_Test {
         }
         Test.startTest();
   
-        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> addlDataResult = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseList, currentStageMap);
+        Map<Id, ASF_CaseMovementHelper.CaseAdditionalData> addlDataResult = ASF_CaseMovementHelper.getCaseAdditionalDataForNextStage(caseList, currentStageMap, caseList);
         
         Test.stopTest();
 

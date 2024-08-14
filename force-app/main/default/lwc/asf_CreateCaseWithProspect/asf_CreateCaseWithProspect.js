@@ -34,7 +34,6 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 
-
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
     typingTimer;
@@ -187,7 +186,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-
         if (selected) {
             this.createCaseWithAll = true;
             this.isNotSelected = false;
