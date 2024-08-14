@@ -127,7 +127,7 @@
                         <valueListItems>
                             <value>Case.Escalate_Case_Reopen_Case</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND (4 AND 5)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -141,6 +141,11 @@
                                     <leftValue>{!Record.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>4</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ABSLI_Case_Detail__r.Escalated__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
@@ -212,11 +217,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -391,12 +391,6 @@
             <fieldInstance>
                 <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Complaint_Registration_Date__c</fieldItem>
                 <identifier>RecordABSLI_Case_Detail_rIGMS_Complaint_Registration_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.ABSLI_Case_Detail__r.New_Registration_Date__c</fieldItem>
-                <identifier>RecordABSLI_Case_Detail_rNew_Registration_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1183,10 +1177,44 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
+                    <value>Case.ABSLI_IGMS_Framework_Snapshot</value>
+                </componentInstanceProperties>
+                <componentName>console:relatedRecord</componentName>
+                <identifier>console_relatedRecord</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>createQuickActionName</name>
+                    <value>NewCase</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                    <value>SR Snapshot</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
                     <value>Case.ABSLI_Framework_Snapshot</value>
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

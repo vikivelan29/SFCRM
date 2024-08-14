@@ -194,6 +194,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.New_Registration_Date__c = System.Today();
+                        caseExt.IGMS_Complaint_Registration_Date__c = System.Today();
                         caseExt.Next_Integration_Name__c = ABSLI_Constants.IGMS_REGCOMLPAINT_NEXT_INT;
                         caseExt.IGMS_Complaint_Status__c = '1';
                         dmlRecords.add(caseExt);
