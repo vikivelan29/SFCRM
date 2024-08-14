@@ -36,6 +36,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>aSF_DynamicButtons</componentName>
+                <identifier>c_aSF_DynamicButtons</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>asf_FetchAssetsRelatedToAccount</componentName>
                 <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
             </componentInstance>
@@ -1306,6 +1312,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>aSF_DynamicButtons</componentName>
+                <identifier>c_aSF_DynamicButtons2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-dbae7fc7-072e-4ecc-83bd-e5fd20790ac6</value>
@@ -1403,6 +1415,12 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>aSF_DynamicButtons</componentName>
+                <identifier>c_aSF_DynamicButtons3</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
