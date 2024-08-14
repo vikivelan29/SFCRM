@@ -1,92 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>ABFL_Cases_to_ABFL_Users</fullName>
+        <fullName>ABSLAMC_AIF_Cases_Share_to_AIF_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABFL Cases to ABFL Users</label>
+        <label>ABSLAMC AIF Cases Share to AIF Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <group>ABSLAMC_AIF_Users</group>
         </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABFL</value>
+            <value>ABSLAMC</value>
         </criteriaItems>
         <criteriaItems>
-            <field>Business_Unit__c</field>
+            <field>Line_Of_Business__c</field>
             <operation>equals</operation>
-            <value>ABWM</value>
+            <value>AIF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLIG_Case_Sharing</fullName>
+        <fullName>ABSLAMC_MF_Case_Share_to_MF_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLIG Case Sharing</label>
+        <label>ABSLAMC MF Case Share to MF Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <group>ABSLAMC_MF_Users</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLIG</value>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
+        <fullName>ABSLAMC_PMS_Cases_Share_to_PMS_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>Share ABHFL Cases to ABHFL Users</label>
+        <label>ABSLAMC PMS Cases Share to PMS Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <group>ABSLAMC_PMS_Users</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABHFL</value>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>PMS</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Share Payment Cases to Payment Users</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-     <sharingCriteriaRules>
-        <fullName>ABSLI_Case_Sharing</fullName>
+        <fullName>ABSLAMC_RE_Cases_Share_to_RE_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLI Case Sharing</label>
+        <label>ABSLAMC RE Cases Share to RE Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+            <group>ABSLAMC_RE_Users</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLI</value>
+            <value>ABSLAMC</value>
         </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLIG_Case_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLIG Case Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
-        </sharedTo>
         <criteriaItems>
-            <field>Business_Unit__c</field>
+            <field>Line_Of_Business__c</field>
             <operation>equals</operation>
-            <value>ABSLIG</value>
+            <value>RE</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
