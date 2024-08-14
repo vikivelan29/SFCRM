@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 07-17-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseQueryHandler {
     private static List<Case> cases = null;
@@ -336,7 +336,6 @@ public without sharing class ASF_CaseQueryHandler {
     **/
     public static List<Case> getCaseRecordWithQueryFields(Set<String> queryFields, Set<Id> caseIdList) {
         if(casesWithConfigQueryFields == null || refreshRecords){
-            system.debug('queryFields--'+String.join(queryFields, ','));
             casesWithConfigQueryFields = (List<Case>) Database.query(
                 'SELECT ' +
                 String.join(queryFields, ',') +
