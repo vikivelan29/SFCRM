@@ -39,6 +39,13 @@
             <operator>equals</operator>
             <value>ABSLIG</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>EMAIL.IS_INBOUND</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>CRM Cases with Emails</name>

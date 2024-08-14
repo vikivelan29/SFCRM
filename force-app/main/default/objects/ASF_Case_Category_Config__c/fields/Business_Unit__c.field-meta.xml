@@ -25,9 +25,9 @@
                 <label>Payments</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>ABSLIG</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>ABSLIG</label>
             </value>
         </valueSetDefinition>
     </valueSet>

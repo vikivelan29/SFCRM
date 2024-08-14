@@ -2,7 +2,7 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
+ * @last modified on  : 08-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -130,7 +130,8 @@ public with sharing class ASF_Constants {
     public static final String ABFL_BU = 'ABFL';
     public static final String ABSLI_BU = 'ABSLI';
     public static final String ABSLIG_BU = 'ABSLIG';
-    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
+
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API','Email'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
@@ -156,4 +157,5 @@ public with sharing class ASF_Constants {
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
 
+    public static final string CASE_ORIGIN = 'ABSLIG Email';
 }

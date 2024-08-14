@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<<<<<<<< HEAD:force-app/main/default/objects/ABSLIG_Case_Detail__c/fields/Checker_Manager__c.field-meta.xml
     <fullName>Checker_Manager__c</fullName>
     <externalId>false</externalId>
     <label>Checker Manager</label>
+========
+    <fullName>CTST_Query_Fields__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>CTST Query Fields</label>
+>>>>>>>> SIT:force-app/main/default/objects/ASF_Bulk_Row_to_Record_Converter_Config__mdt/fields/CTST_Query_Fields__c.field-meta.xml
     <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
