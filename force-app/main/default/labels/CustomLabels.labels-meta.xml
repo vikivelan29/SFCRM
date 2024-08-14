@@ -192,13 +192,6 @@
         <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
-        <fullName>ABFL_UTR_AUTO_CLOSE_ELIGIBLE_CCC</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL UTR AUTO CLOSE ELIGIBLE CCC</shortDescription>
-        <value>CFGREQDISBLOC01,CMGREQDISBLOC01</value>
-    </labels>
-    <labels>
         <fullName>ABFL_UTR_Auto_Close_Case_User</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -309,6 +302,34 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseEndStatuses</shortDescription>
         <value>Closed,Resolved,Rejected</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
+        <value>1214</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Documents_Of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
+        <value>1202</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Masking_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
+        <value>1215</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
+        <value>1205</value>
     </labels>
     <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
@@ -848,14 +869,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_key</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
     </labels>
     <labels>
         <fullName>ABSLI_Ivkey</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8549708501325472</value>
+        <value>8149208531345452</value>
     </labels>
     <labels>
         <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
@@ -922,38 +943,18 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <fullName>ABSLIG_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>1</value>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <fullName>ABSLIG_E2C</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
-        <value>5000</value>
-    </labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>60</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
+        <shortDescription>ABSLIG E2C</shortDescription>
+        <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
     </labels>
     <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
@@ -963,24 +964,17 @@
         <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>ASF_UIActionDelay</fullName>
+        <fullName>ABSLI_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
-        <value>2000</value>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
     </labels>
     <labels>
-        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <fullName>ABHI_FitnessAppDetails</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
-        <value>cnwf_touchpoint</value>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
     </labels>
 </CustomLabels>

@@ -24,7 +24,7 @@ public without sharing class ABFL_Util {
         Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
 
         for(ABFL_Case_Detail__c caseDetail :newMap.values()) {
-            if(String.isNotBlank(caseDetail.UTRNo__c) && caseDetail.UTRNo__c != oldMap.get(caseDetail.Id).UTRNo__c && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
+            if(caseDetail.UTRNo__c != oldMap.get(caseDetail.Id).UTRNo__c && (UserInfo.getUserName() == System.Label.ABFL_UTR_Auto_Close_Case_User || Test.isRunningTest())) {
                 abflCaseDetailSet.add(caseDetail.Id);
             }
         }
@@ -32,7 +32,7 @@ public without sharing class ABFL_Util {
         if(!abflCaseDetailSet.isEmpty()) {
             caseIdToRecordMap = ABFL_SOQL_Case.getCasesFromCaseDetailIds(abflCaseDetailSet);
             for(Case caseRec : caseIdToRecordMap.values()) {
-                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c) && caseRec.IsClosed != true && (System.Label.ABFL_UTR_AUTO_CLOSE_ELIGIBLE_CCC.split(',').contains(caseRec.CCC_External_Id__c) || Test.isRunningTest())) {
+                if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRec.Business_Unit__c) && caseRec.IsClosed != true) {
                     validCaseList.add(caseRec);
                     requestedStageMap.put(caseRec.Id, ABFL_Constants.RESOLVED);
                     currentStageMap.put(caseRec.Id, caseRec.Stage__c);
@@ -50,16 +50,13 @@ public without sharing class ABFL_Util {
             update abflCaseDetailMap.values();
             
             resultWrap = ASF_CaseMovementHelper.moveToForwardStage(validCaseList, requestedStageMap, currentStageMap);
-            for(Id caseId :resultWrap.keySet()) {
-                ASF_CaseMovementHelper.StageWrapper wrapper = resultWrap.get(caseId);
-                if(String.isBlank(wrapper.errorMessage) && wrapper.status == 'Success') {
+            for(ASF_CaseMovementHelper.StageWrapper wrapper :resultWrap.values()) {
+                if(String.isBlank(wrapper.errorMessage)) {
                     wrapper.caseToBeUpdated.OwnerId = UserInfo.getUserId();
                     casesToResolveList.add(wrapper.caseToBeUpdated);
-                } else {
-                    newMap.get(caseIdToRecordMap.get(caseId).ABFL_Case_Detail__c).addError(wrapper.errorMessage);
                 }
             }
-            
+
             if (casesToResolveList.size() > 0  && Schema.sObjectType.Case.isUpdateable()) {
                 update casesToResolveList;
             }
