@@ -28,6 +28,9 @@
         <field>Case$Status</field>
     </columns>
     <columns>
+        <field>Case$Description</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
     </columns>
     <columns>

@@ -33,7 +33,7 @@ public without sharing class ASF_CaseQueryHandler {
             cases = [SELECT Id,BusinessHoursId,Status,OwnerId,CCC_External_Id__c,Stage__c,pending_clarification__c,CreatedById,
                      Previous_Stage__c,ClosedDate, PAY_Payment_Detail__c, SLA_Target_1__c, CSAT__c, DB_Hours__c,
                      has_CheckLists__c, Has_Open_Tasks__c,ABFL_Case_Detail__c,ABFL_Case_Detail__r.ABCOwner__c,Technical_Source__c,
-                     ABFL_Case_Detail__r.Resolution_Comments__c, Source__c,Nature__c,Description,
+                     ABFL_Case_Detail__r.Resolution_Comments__c, Source__c,Nature__c,Description,Feature_Skipper_Flag__c,
                      (Select Id, Checklist_External_Id__c, Status__c, Case__c from Checklists__r),
                      (Select Id, Work_Item_External_ID__c, WhatId from Tasks)
                      FROM Case
@@ -76,6 +76,7 @@ public without sharing class ASF_CaseQueryHandler {
                                 FROM ASF_Case_Approv__c
                                 WHERE SR__c = :caseIds
                                 AND Case_Stage_At_Creation__c = :caseStages
+                                AND Is_Recategorization_Request__c = false
                                 ORDER BY CreatedDate desc];
         }
         return caseApprovals;
@@ -207,7 +208,7 @@ public without sharing class ASF_CaseQueryHandler {
                 ),
                 (
                     // VIRENDRA - 13 June 2024 - ADDED Picklist_Options__c in SOQL.
-                    SELECT Id, Name, Label__c, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c, Picklist_Options__c 
+                    SELECT Id, Label__c, Name, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c, Picklist_Options__c 
                     FROM Case_Checklist_Masters__r
                 ),
                 Step_1_Approver_1__c,
