@@ -306,8 +306,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Occupation__pc</fieldItem>
-                <identifier>RecordOccupation_pcField</identifier>
+                <fieldItem>Record.Occupation__c</fieldItem>
+                <identifier>RecordOccupation_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.IsPersonAccount}</leftValue>
