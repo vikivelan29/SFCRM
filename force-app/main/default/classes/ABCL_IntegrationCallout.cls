@@ -6,8 +6,8 @@
 *Description  :  Outbound Callout Logger
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
-    public static string caseId;
-    public static string accountId;   
+    public static string caseId; 
+    public static string accountId;
 
     /****************************************************************************************************************
     * @LOB - ABHFL
@@ -37,10 +37,6 @@ public with sharing class ABCL_IntegrationCallout {
         // Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
-	if(integrationMdt.Timeout__c != null){
-            request.setTimeout(Integer.valueof(integrationMdt.Timeout__c));
-        }
-        
         //Check for Payload
         if(!String.isBlank(payload)){
             request.setBody(payload);

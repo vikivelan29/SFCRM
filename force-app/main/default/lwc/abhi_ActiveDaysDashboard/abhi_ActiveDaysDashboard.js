@@ -3,8 +3,6 @@ import getActiveDaysDashboard from '@salesforce/apex/ABHI_ActiveDaysDashboardCon
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
-import { loadStyle } from 'lightning/platformResourceLoader';
-import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 const fields = [CLIENT_CODE_FIELD];   
 export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track startDate = '';
@@ -13,9 +11,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track disabled = false; // Adjust this as needed
     @track displayTable = false;
     @track displayError = false;
-    @track displayErrorSearch = false;
     @track errorMessages = '';
-    @track errorMessageSearch ='';
     @track showChildTable = false;
     @track apiName = '';
     @track payloadInfo = '';
@@ -32,7 +28,6 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track scoresList = []; // Store the 
     customerID;
     @api recordId;
-    @track apiFailure ='';
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -51,15 +46,12 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     handleStartDateChange(event) {
         this.startDate = event.target.value;
         console.log('startdate ',this.startDate);
-        this.validateDates();
     }
-    
 
     // Event handler for the end date change
     handleEndDateChange(event) {
         this.endDate = event.target.value;
         console.log('startdate ',this.endDate);
-        this.validateDates();
 
     }
 
@@ -80,10 +72,6 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             toDate: this.endDate 
         })
         .then((result) => {
-            console.log('result----> ' + JSON.stringify(result));
-            if(result.message){
-                this.apiFailure=result.message;
-            }
             this.isLoading = false;
             this.showDataTable = true;
             if(result.serviceMessages[0].businessDesc==='Has active dayz'){
@@ -107,18 +95,13 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             //this.endDate = '';     
            })
         .catch((error) => {
-            console.log('Error----> ',JSON.stringify(error));
             this.isLoading = false;
             this.showDataTable = false;
+            this.errorDisplay = 'Error: ' + error.body.message;
+            this.showDataTable = false;
+            this.errorMessages =   error.body.message;
             this.displayError = true;
-            if ( error.body != null) {
-                this.errorMessage =   error.body.message;
-            } else if(this.apiFailure){
-                this.errorMessage = this.apiFailure;
-            }
-            else{
-                this.errorMessage = 'An unknown error occured, please contact your admin'
-            }
+           console.log('Error----> ' + JSON.stringify(error));
 
         });
     }
@@ -168,15 +151,14 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForSteps: resultsList.totalScoreForSteps,
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
-            let scoresList = resultsList.scores;
-            scoresList = scoresList.sort((a, b) => this.parseDate(a.activeDate) - this.parseDate(b.activeDate)); //PR1030924-595
+            const scoresList = resultsList.scores;
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
-                    eventDate: score.activeDate,
-                    //eventDate: new Date(score.activeDate).toISOString().split('T')[0],
+                    //eventDate: score.activeDate,
+                    eventDate: new Date(score.activeDate).toISOString().split('T')[0],
                     isScored: score.isScored === 'true' ? "True" : "False",
-                    caloriesActivity: activity.name === "Calorie Activity" ? this.formatNumber(activity.value || 0) : '',
+                    caloriesActivity: activity.name === "Calories Activity" ? this.formatNumber(activity.value || 0) : '',
                     Steps_Activity: activity.name === "Step Activity" ? this.formatNumber(activity.value || 0) : '',
                     gymActivity: activity.name === "Gym Activity" ? this.formatNumber(activity.value || 0) : '',
                     Score: this.formatNumber(activity.score || 0)
@@ -191,22 +173,6 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.error = 'No valid response from API';
         }
     }
-
-    //PR1030924-595
-    parseDate(dateString) {
-        // Check if the date string contains slashes (indicating a "dd/mm/yyyy" format)
-        if (dateString.includes('/')) {
-            let [datePart, timePart] = dateString.split(' ');
-            let [day, month, year] = datePart.split('/');
-            
-            // Manually construct the date in "yyyy-mm-ddTHH:MM:SS" format
-            return new Date(`${year}-${month}-${day}T${timePart}`);
-        }
-    
-        // If it's in a standard ISO format, use Date constructor directly
-        return new Date(dateString);
-    }
-
     handleRefresh(){
         this.handleSearch();
     }
@@ -255,30 +221,6 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
 
     get pageNumber() {
         return this.currentPage;
-    }
-    validateDates() {
-        if (this.startDate && this.endDate) {
-            const start = new Date(this.startDate);
-            const end = new Date(this.endDate);
-
-            if (end < start) {
-                this.displayErrorSearch = true;
-                this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
-            } else {
-                this.displayErrorSearch = false;
-            }
-        } else {
-            this.displayErrorSearch = false; // Hide error if one of the dates is missing
-        }
-    }
-    renderedCallback(){
-        Promise.all([
-            loadStyle(this, styles) //specified filename
-        ]).then(() => {
-            console.log('Files loaded.');
-        }).catch(error => {
-           console.log("Error " + error.body.message);
-        });
     }
 
 }
