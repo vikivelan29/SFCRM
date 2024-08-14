@@ -8,6 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   04-30-2024   udit.singhal@salesforce.com  PR970457-1404
  * 2.0   05-09-2024   udit.singhal@salesforce.com  PR970457-1404
+ * 3.0   07-12-2024   udit.singhal@salesforce.com  Prod-Bug-15 
 **/
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public without sharing class ABFL_DMSSync_Orchestrator{
@@ -93,8 +94,9 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         } catch (Exception e) {
             // Handle exceptions
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_DMSSync_Orchestrator.transferABFLCaseFilesToDMS');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
         }
     }
@@ -166,8 +168,9 @@ public without sharing class ABFL_DMSSync_Orchestrator{
         } catch (Exception e) {
             // Handle exceptions
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
+            ABCL_Logger.push('ABFL_DMSSync_Orchestrator.syncDMSFilesManually');
             ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.message(e.getStackTraceString());
             ABCL_Logger.emit();
             return new ResponseWrapper(false, ABFL_Constants.DMS_GENERIC_ERROR);
         }
@@ -229,7 +232,7 @@ public without sharing class ABFL_DMSSync_Orchestrator{
                     String tempVal;
                     switch on recIn.Relationship__c {
                         when 'Account' {
-                            tempVal = (String)(caseRecord!=null?caseRecord.getSObject('Account').get(recIn.FieldAPI__c.substringAfter('.')):dmsRec.getSObject('Case__r')?.getSObject('Account')?.get(recIn.FieldAPI__c.substringAfter('.')));
+                            tempVal = (String)(caseRecord != null && caseRecord.getSObject('Account') != null ? caseRecord.getSObject('Account').get(recIn.FieldAPI__c.substringAfter('.')) : (dmsRec != null && dmsRec.getSObject('Case__r') != null && dmsRec.getSObject('Case__r').getSObject('Account') != null ? dmsRec.getSObject('Case__r').getSObject('Account').get(recIn.FieldAPI__c.substringAfter('.')) : ''));
                         }   
                         when 'Case' {
                             tempVal = (String)(caseRecord!=null?caseRecord.get(recIn.FieldAPI__c):dmsRec?.getSObject('Case__r')?.get(recIn.FieldAPI__c));

@@ -54,15 +54,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -135,7 +135,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM Email</fullName>
+            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -211,6 +211,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>
@@ -254,6 +258,10 @@
         <picklist>Source__c</picklist>
         <values>
             <fullName>Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
             <default>false</default>
         </values>
         <values>
@@ -310,10 +318,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
