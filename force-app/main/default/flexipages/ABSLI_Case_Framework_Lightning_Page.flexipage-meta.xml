@@ -395,12 +395,6 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.ABSLI_Case_Detail__r.New_Registration_Date__c</fieldItem>
-                <identifier>RecordABSLI_Case_Detail_rNew_Registration_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldItem>Record.ABSLI_Case_Detail__r.Resolved_Date__c</fieldItem>
                 <identifier>RecordABSLI_Case_Detail_rResolved_Date_cField</identifier>
             </fieldInstance>
