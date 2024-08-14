@@ -121,8 +121,8 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
-                Date oneYearAgo = Date.today().addYears(-1);
-                if(issueDate >= oneYearAgo){
+                Date oneYearAfterIssueDate = issueDate.addYears(1);
+                if(Date.Today() >= oneYearAfterIssueDate){
                     return 'Success';
                 }else{
                     return 'Policy is not eligible for Duplicate Policy printing.';
