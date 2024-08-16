@@ -5,38 +5,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABFL_SuppressEmailHelper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABCL_EBotFeedback</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CustomerEmailInvocable</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABFL_ValidateRequireFieldOnResolvedStage</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CustomerAndProspectSearch</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_FieldSetController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABCL_CaseDeDupeCheckLWC_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -45,7 +13,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_customPicklistUtility</apexClass>
+        <apexClass>ABCL_EBotFeedback</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -54,18 +22,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_STGCustomerTriggerHandler_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseEditPageController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -81,6 +37,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABFL_SuppressEmailHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_ValidateRequireFieldOnResolvedStage</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHFL_CaseIntegrationHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -89,27 +53,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABCL_EBotFeedback</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseEditPageController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_ApprovalDetails</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -169,6 +113,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_CaseCommentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CaseDistributionBasedOnRT</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -181,11 +129,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_CaseEditPageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_CaseEmailController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseEmailController_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CaseFileUploadTriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -512,7 +468,6 @@
         <apexClass>ASF_OwnerShipChange</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    
     <classAccesses>
         <apexClass>ASF_PreFrameworkSLA</apexClass>
         <enabled>true</enabled>
@@ -630,6 +585,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_UserQueueDetails</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -721,14 +680,6 @@
         <apexClass>TriggerDispatcher</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>LeadTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LeadTriggerHelper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Customer_Notification_Config__mdt</name>
@@ -736,57 +687,7 @@
     <description>Create and Update Case record</description>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Litmus_Project__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Litmus_Trigger__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Additional_Email_Templates__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Additional_SMS_Metadata__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.PPC_Change_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.PPC_Case_Sub_TYPE__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ContentVersion.isSTP__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>PE_Logger__c.Specific_Cc_Addresses__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PE_Logger__c.is_Attachment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_Case_Approv__c.Approval_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -796,47 +697,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Approv__c.Business_Unit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ASF_Case_Approv__c.Approver_01__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Recat_Approver_01__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Recat_Approver_02__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Recat_Approver_03__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Recat_Approver_04__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Recat_Approver_05__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Is_Recategorization_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Approv__c.Requested_CCC_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -871,6 +732,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Approv__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Approv__c.Case_RejectedStageMovement__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -888,16 +754,6 @@
         <editable>true</editable>
         <field>ASF_Case_Approv__c.Is_Recategorization_Request__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Approv__c.Nature__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Approv__c.Overall_Case_Closure__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -990,6 +846,31 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Activity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Additional_Email_Templates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Additional_SMS_Metadata__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Advisor_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Allow_file_upload__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Allowed_Sources__c</field>
         <readable>true</readable>
@@ -1017,6 +898,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Documentation_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Fins_Non_Fins__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1052,6 +938,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Litmus_Project__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Litmus_Trigger__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1101,6 +997,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.PPC_Case_Sub_TYPE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.PPC_Change_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Priority__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1112,6 +1018,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Recategorisation_Email_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1171,6 +1087,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Send_Rejected_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1220,26 +1141,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Allow_file_upload__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Recategorisation_Email_Template__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Checklist_External_Id__c</field>
         <readable>true</readable>
@@ -1266,17 +1167,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_Field_Config__c.Confirmation_Required__c</field>
+        <field>ASF_Case_Email_Config__c.Canned_Response_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_Field_Config__c.Controlling_Picklist__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Field_Config__c.Confirmation_LWC__c</field>
+        <field>ASF_Case_Email_Config__c.Issue_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1291,12 +1187,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Field_Config__c.Confirmation_LWC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Field_Config__c.Confirmation_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Field_Config__c.Controlling_Experssion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Field_Config__c.Controlling_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Field_Config__c.Controlling_Picklist__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1346,6 +1257,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Field_Config__c.Multi_Picklist_Max_Allowed_Values__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Field_Config__c.ObjectAPIName__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1375,8 +1291,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Field_Config__c.Multi_Picklist_Max_Allowed_Values__c</field>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Acknowledgement__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1386,7 +1302,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Integration__c.Acknowledgement__c</field>
+        <field>ASF_Case_Integration__c.Case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Integration_Ext_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Is_Validation_Success__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1401,73 +1332,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Integration__c.Response__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Integration__c.Retry_Attempt__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Case_Integration__c.Retry__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Integration_Ext_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Is_Validation_Success__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Response__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Acknowledgement__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Error_Message__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Error_Message__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Integration_Ext_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Is_Validation_Success__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Case_Integration__c.Response__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2236,6 +2111,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Communication_Log__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ASF_Communication_Log__c.External_Template_ID__c</field>
         <readable>true</readable>
@@ -2597,17 +2477,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Integration__c.Priority__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ASF_Integration__c.C3ExternalId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Integration__c.STP_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2637,6 +2507,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Integration__c.Priority__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Integration__c.Processing_Class__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2647,12 +2522,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Integration__c.Run_Integration_From_LWC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Integration__c.STP_API_Identifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Integration__c.STP_Processing_Class__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Integration__c.STP_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2673,11 +2558,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Integration__c.When_to_Appear__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Integration__c.Run_Integration_From_LWC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2703,21 +2583,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Work_Item__c.Work_Item_External_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Supervisor_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Supervisor_Mobile_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Partner_Branch_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2757,11 +2622,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.LOB_Client_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2778,6 +2638,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Jigsaw</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.LOB_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2803,6 +2668,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.ParentId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Partner_Branch_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2837,6 +2707,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Supervisor_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Supervisor_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.TickerSymbol</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2857,17 +2737,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Policy_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.ASF_Card_or_Account_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Policy_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2952,11 +2822,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.LOB__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.LOB_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2983,6 +2848,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ManufactureDate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Partner_Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Policy_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3057,33 +2932,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Partner_Branch_Code__c</field>
+        <field>Case.ABFL_Incoming_Email_Count__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Preframework_to_Framework_FromUI__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Ageing_Number_Of_Days__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Is_Duplicate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Ageing_Business_Days__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Preferred_Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3092,32 +2942,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Full_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ABFL_Incoming_Email_Count__c</field>
+        <field>Case.ABSLAMC_Case_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ASF_Is_Clone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Issue_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ANI_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Preframework_to_Framework_FromUI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3133,6 +2963,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.AccountId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3156,6 +2991,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Am_I_Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.AssetId</field>
         <readable>true</readable>
@@ -3176,11 +3016,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.BRE_Source__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Bot_Feedback__c</field>
         <readable>true</readable>
@@ -3193,6 +3028,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Bulk_Action__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Bulk_CaseDetail_JSON__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3221,11 +3061,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Categorization_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Case_SLA_Threshold_2__c</field>
         <readable>true</readable>
@@ -3238,6 +3073,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Case_Stage_Change_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Categorization_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3263,6 +3103,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ContactId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Created_Date_Range__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3407,17 +3252,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Issue_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.LAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Lead__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.No_Auto_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3428,6 +3268,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Last_Owner_Change_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Lead__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3458,6 +3303,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.New_Stage_email_sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.No_Auto_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3496,16 +3346,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Recat_Approval__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Requested_CCC_Details__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.ParentId</field>
         <readable>true</readable>
@@ -3518,6 +3358,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Pre_framework_SLA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Preframework_to_Framework_FromUI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3552,27 +3397,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Bulk_CaseDetail_JSON__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Case.Recategorisation_Reason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Sent_to_EBOT__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Bot_Feedback__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Issue_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3629,16 +3454,6 @@
         <editable>true</editable>
         <field>Case.Requested_CCC_Details__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Requested_Recat_Json__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Resolution_Comments__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3735,7 +3550,6 @@
         <field>Case.Stage_SLA_Threshold_3__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Stage__c</field>
@@ -3744,6 +3558,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.StopStartDate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sub_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3782,11 +3601,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Type</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Type_Text__c</field>
         <readable>true</readable>
@@ -3808,11 +3622,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Allow_file_upload__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.AccountId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3830,11 +3639,6 @@
         <editable>true</editable>
         <field>Contact.Birthdate</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Business_Unit__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3869,11 +3673,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.GenderIdentity</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3960,21 +3759,6 @@
         <editable>false</editable>
         <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Voter_Id__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.Branch_Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.Branch_Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4113,6 +3897,51 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>LAN_Mapping__c.Applicant_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.Customer_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.Customer_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.Old_LAN_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.Source_System__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LAN_Mapping__c.UniqueKey__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>LOB_Master__c.BusinessUnit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4168,6 +3997,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PE_Logger__c.HTMLBody_Con_Doc_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Is_Attachment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>PE_Logger__c.LOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4217,8 +4056,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>PE_Logger__c.Specific_Cc_Addresses__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>PE_Logger__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.Subject__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4229,6 +4078,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PE_Logger__c.Subscriber_Picked_Up_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PE_Logger__c.TakeBodyFromContentDoc__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4247,18 +4101,53 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>PE_Logger__c.Subject__c</field>
+        <editable>false</editable>
+        <field>Survey_Response__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>PE_Logger__c.TakeBodyFromContentDoc__c</field>
+        <editable>false</editable>
+        <field>Survey_Response__c.Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>PE_Logger__c.HTMLBody_Con_Doc_Id__c</field>
+        <editable>false</editable>
+        <field>Survey_Response__c.Invitation_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Primary_Comment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Primary_Question_NPS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Rated_Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Rated_Medium__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Request_Datetime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Survey_Response__c.Responded_on__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4356,76 +4245,6 @@
         <field>User.managerGroupId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Winning_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Policy_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.SM_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Mode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Advisor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Plan_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Interested_Party__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Am_I_Manager__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Created_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.ABSLIG_Case_Detail__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Fins_Non_Fins__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Created_Date_Range__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Allowed_Issue_Types__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Show_FTR_Flag_on_Creation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Create Case</label>
     <objectPermissions>
@@ -4435,15 +4254,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>ASF_Case_Approv__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>PE_Logger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -4573,24 +4383,6 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>LAN_Mapping__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>Lead</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>true</allowEdit>
@@ -4608,7 +4400,7 @@
         <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-<objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
@@ -4624,6 +4416,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>DMS_Files__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>LAN_Mapping__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
