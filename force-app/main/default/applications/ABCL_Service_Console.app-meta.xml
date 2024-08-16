@@ -90,6 +90,113 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Asset</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Health_Intent_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Health_Intent_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Page</content>
+        <content>Account_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+    </actionOverrides>
+    </actionOverrides>
+    <actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Page</content>
+        <content>Account_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+    </actionOverrides>
+    </actionOverrides>
+    <actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Asset_Record_Page</content>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
+    </actionOverrides>
+    <actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Asset_Record_Page</content>
+        <content>Asset_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
         <logo>X231204_ABC_Primary_Identity_CMYK_Wh</logo>
@@ -1104,6 +1211,369 @@
         <type>Flexipage</type>
         <profile>ABSLI Base Profile</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ASF_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ASF_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    </profileActionOverrides>
+    <profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <content>ABSLI_IGMS_Document_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
+        <type>Flexipage</type>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+        <profile>ABSLI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Case_Framework_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Case_Framework_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Asset_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Asset_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Asset_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Asset_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Member</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Member</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Member</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Member</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Role</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Role</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Role</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Role</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Segment</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Segment</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Segment</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+        <recordType>Customer_Member_Mapping__c.Customer_Segment</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>    
     <tabs>standard-Account</tabs>
     <tabs>Customer_Prospect_Search</tabs>
     <tabs>standard-Case</tabs>
@@ -1113,6 +1583,10 @@
     <tabs>standard-Asset</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Health_Provider__c</tabs>
+    <tabs>Claim__c</tabs>
+    <tabs>Health_Intent__c</tabs>
+    <tabs>Customer_Member_Mapping__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -1143,6 +1617,24 @@
         </mappings>
         <mappings>
             <tab>standard-report</tab>
+        </mappings>
+        <mappings>
+        <mappings>
+            <tab>Claim__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Customer_Member_Mapping__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Customer_Prospect_Search</tab>
+            <tab>Customer_Prospect_Search</tab>
+        </mappings>
+        <mappings>
+            <tab>Health_Intent__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Health_Provider__c</tab>
+        </mappings>
         </mappings>
     </workspaceConfig>
 </CustomApplication>
