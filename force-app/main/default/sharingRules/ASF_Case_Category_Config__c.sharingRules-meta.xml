@@ -1,102 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>ABFL_CCC_Extended_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Read/Write access on CCC records</description>
-        <label>ABFL CCC Extended Sharing Rule</label>
-        <sharedTo>
-            <group>ABFL_LOB_Admins_G</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABFL_CCC_Sharing_Rule</fullName>
+        <fullName>ABHI_CCC_Sharing_Rule</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Sharing access for CCC records.</description>
-        <label>ABFL CCC Sharing Rule</label>
+        <label>ABHI CCC Sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHFL_CCC_Extended_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>ABHFL CCC Extended Sharing Rule</label>
-        <sharedTo>
-            <group>ABHFL_LOB_Admins</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHFL_CCC_Sharing_Rules</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABHFL CCC Sharing Rules</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLIG_CCC_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLIG CCC Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLIG</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Payments_CCC_Extended_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Payments CCC Extended Sharing Rule</label>
-        <sharedTo>
-            <group>Payment_LOB_Admin</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Payments_CCC_Sharing_Rules</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Payments CCC Sharing Rules</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
+            <value>ABHI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
