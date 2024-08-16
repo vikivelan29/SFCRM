@@ -715,7 +715,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName>
+            <fullName>WhatsApp</fullName> 
             <default>false</default>
         </values>
     </picklistValues>
