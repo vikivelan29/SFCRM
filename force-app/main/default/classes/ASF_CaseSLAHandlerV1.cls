@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 08-16-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -95,7 +95,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if(externalIdStageNameCaseStageConfigMap != null)
-                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                      sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA2Override') != null){
@@ -103,7 +103,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if (externalIdStageNameCaseStageConfigMap != null)
-                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                      sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA3Override') != null){
@@ -111,7 +111,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                      sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
