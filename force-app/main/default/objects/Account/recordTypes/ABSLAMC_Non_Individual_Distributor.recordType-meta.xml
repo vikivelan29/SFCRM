@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Individual</fullName>
+    <fullName>ABSLAMC_Non_Individual_Distributor</fullName>
     <active>true</active>
-    <label>Individual</label>
+    <label>ABSLAMC Non-Individual Distributor</label>
     <picklistValues>
         <picklist>AccountSource</picklist>
         <values>
@@ -10,7 +10,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Branch Ops</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Service</fullName>
             <default>false</default>
         </values>
         <values>
@@ -68,50 +76,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLAMC</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Business_Unit__pc</picklist>
-        <values>
-            <fullName>ABFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PAYMENTS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -383,6 +356,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Not Classified</fullName>
             <default>false</default>
         </values>
@@ -392,77 +369,6 @@
         </values>
         <values>
             <fullName>Wealth</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AIF</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MF</fullName>
-            <default>false</default>
-        </values>
-        
-        <values>
-            <fullName>PMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RE</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Line_of_Business__pc</picklist>
-        <values>
-            <fullName>ABFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AIF</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MF</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RE</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Maritual_Status__pc</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -595,6 +501,10 @@
         <picklist>Verticals__c</picklist>
         <values>
             <fullName>%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supply Chain</fullName>
             <default>false</default>
         </values>
     </picklistValues>
