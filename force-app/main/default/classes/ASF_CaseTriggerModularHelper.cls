@@ -2,8 +2,8 @@
 * @description       : 
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 04-24-2024
+* @last modified by  : Salesforce 
 * Modifications Log
 * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -959,7 +959,6 @@ blankSourcePresent = true;
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
                     if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
                     checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
-                }
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
