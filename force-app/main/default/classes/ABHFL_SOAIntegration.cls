@@ -337,7 +337,7 @@ public with sharing class ABHFL_SOAIntegration implements ASF_IntegrationInvocab
         public String toDate;
         public String fromDate;
         public String caseId;
-        public String souce = ABHFL_Constants.SOA_SOURCE;
+        public String source = ABHFL_Constants.SOA_SOURCE;
         public String requestType = ABHFL_Constants.SOA_REQUEST_TYPE;
         public String reportName = ABHFL_Constants.SOA_REPORT_NAME;
         public String documentType = ABHFL_Constants.SOA_DOCUMENT_TYPE;
