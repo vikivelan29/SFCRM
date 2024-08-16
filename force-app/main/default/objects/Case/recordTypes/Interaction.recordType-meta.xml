@@ -946,6 +946,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>
@@ -1057,10 +1061,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>

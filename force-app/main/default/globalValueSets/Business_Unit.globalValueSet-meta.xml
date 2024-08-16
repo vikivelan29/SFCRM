@@ -21,11 +21,6 @@
         <label>ABWM</label>
     </customValue>
     <customValue>
-        <fullName>ABSLI</fullName>
-        <default>false</default>
-        <label>ABSLI</label>
-    </customValue>
-    <customValue>
         <fullName>ABSLIG</fullName>
         <default>false</default>
         <label>ABSLIG</label>

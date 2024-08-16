@@ -315,6 +315,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
             .catch(error => {
+                console.log('ERR: ', error);
                 this.accounts = null;
                 this.isNotSelected = true;
                 this.loaded = true;
@@ -450,7 +451,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -618,7 +619,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-
+        console.log('inside updateCaseHandler: ' + this.isInputValid);
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");

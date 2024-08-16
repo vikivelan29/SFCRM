@@ -36,9 +36,7 @@ import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import NEW_STAGE from '@salesforce/schema/Case.New_Stage_email_sent__c';
 //import CASE_ORIGIN from '@salesforce/schema/Case.Origin__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
-import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
-import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
@@ -58,9 +56,6 @@ export class asf_Utility {
                 const fields = {};
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
-                }
-                if(parentJS.categoryTypeVal){
-                    fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
                 }
                 if(parentJS.policyNoValue){
                     fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
