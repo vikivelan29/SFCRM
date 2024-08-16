@@ -170,7 +170,7 @@
         <criteriaItems>
             <field>Line_of_Business__c</field>
             <operation>equals</operation>
-            <value>11</value>
+            <value>MF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -222,5 +222,4 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-    <sharingCriteriaRules>
 </SharingRules>
