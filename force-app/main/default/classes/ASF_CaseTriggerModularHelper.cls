@@ -44,12 +44,12 @@ public without sharing class ASF_CaseTriggerModularHelper {
         }
     }
     /****************************************************************************************************************
-* @Function - populateFrameworkFieldsForCase
-* @param newList -  list of cases from trigger.new.
-* @param oldMap -  map of cases from trigger.oldMap.
-* @return - void .
-* @Description - Invoked from BeforeInsert & BeforeUpdate method, this method pre-populates fields on Case from related CCC record and Asset record.
-*****************************************************************************************************************/
+    * @Function - populateFrameworkFieldsForCase
+    * @param newList -  list of cases from trigger.new.
+    * @param oldMap -  map of cases from trigger.oldMap.
+    * @return - void .
+    * @Description - Invoked from BeforeInsert & BeforeUpdate method, this method pre-populates fields on Case from related CCC record and Asset record.
+    *****************************************************************************************************************/
     public static void populateFrameworkFieldsForCase(List<Case> newList, Map<Id, Case> oldMap) {
         //1. Assuming Issue Code will be provided on Case, fetch CCC based on the Issue Code, populate case fields from CCC.
         //2. Expectation is that the caller system will create the Extension record along with Case with all required fields populated. No prepopulation required on Extension record.
@@ -105,8 +105,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 
                 //Check if any Case from API has blank Source, needs to be defaulted then.
                 /* SP  if(!blankSourcePresent && String.isBlank(caseRec.Source__c)){
-blankSourcePresent = true;
-} */
+    blankSourcePresent = true;
+    } */
                 //Collect the Asset Id, to prepopulate case fields from Asset record.
                 if(caseRec.AssetId != null){
                     caseIndexToAssetIdMap.add(caseRec.AssetId);
@@ -222,12 +222,12 @@ blankSourcePresent = true;
         }
     }
     /****************************************************************************************************************
-* @Function - populateCaseDetailFromBulk
-* @param newList -  list of cases from trigger.new.
-* @param oldMap -  map of cases from trigger.oldMap.
-* @return - void .
-* @Description - Invoked from AfterInsert & AfterUpdate method, this method populates related case detail fields during bulk csv upload
-*****************************************************************************************************************/
+    * @Function - populateCaseDetailFromBulk
+    * @param newList -  list of cases from trigger.new.
+    * @param oldMap -  map of cases from trigger.oldMap.
+    * @return - void .
+    * @Description - Invoked from AfterInsert & AfterUpdate method, this method populates related case detail fields during bulk csv upload
+    *****************************************************************************************************************/
     public static void populateCaseDetailFromBulk(Map<Id, Case> newMap, Map<Id, Case> oldMap){
         List<Case> eligibleCases = new List<Case>();
         String relObjectName;
@@ -401,8 +401,8 @@ blankSourcePresent = true;
     }
     
     /**
-* Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
-*/
+    * Validate if there is mismatch in type/subtype after recategorization from API, stop stage progression
+    */
     public static void validateRecategorizationParameters(List<Case> newList, Map<Id, Case> oldMap) {
         for(Case caseRec : newList){
             if(caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
@@ -958,7 +958,8 @@ blankSourcePresent = true;
             for(Case caseRec : casesWithPeripheralRecords){
                 for(ASF_Checklist__c checkRec : caseRec.Checklists__r){
                     if(!ASF_Constants.completeChecklistStatus.contains(checkRec.Status__c)){
-                    checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                        checklistMap.put(caseRec.Id+checkRec.Checklist_External_Id__c, true);
+                    }
                 }
                 for(Task taskRec : caseRec.Tasks){
                     taskMap.put(caseRec.Id+taskRec.Work_Item_External_ID__c, true);
@@ -1663,12 +1664,12 @@ blankSourcePresent = true;
     }
     
     /*
-Bot stamps account , type and sub type. but for given account , 
-type sub type may not be valid. we cannot block bot and STOP transaction.
-hence mark typeSubtypeInvalid = true.
-If this flag is enable , then users cannot edit case except API and Email user
-User will now be forced to go recategorize. 
-*/
+    Bot stamps account , type and sub type. but for given account , 
+    type sub type may not be valid. we cannot block bot and STOP transaction.
+    hence mark typeSubtypeInvalid = true.
+    If this flag is enable , then users cannot edit case except API and Email user
+    User will now be forced to go recategorize. 
+    */
     public static void validateCCCOnUpdate(List<Case> newList, Map<Id, Case> oldMap){  
         list<Case> modifiedCases= new List<Case>();
         List<String> cccIds= new List<String>();
