@@ -219,6 +219,19 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
+    ABHI: {
+        SELECT_PRODUCT: "Select LAN",
+        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
+        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
+        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/LAN Tagging",
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same LAN as current case",
+        CREATE_SR_WITH_FA: "Create Case with LAN",
+        FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with LAN",
+        LAN_IS_MANDATORY_FOR_CUSTOMER: "Please select the Policy to update the case."
+    },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
