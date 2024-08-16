@@ -2,8 +2,8 @@
  * @description       : Class for ABSLIG Case Detail Object Business Logic
  * @author            : Anirudh Raturi
  * @createdDate       : 14-06-2024
- * @last modified on  : 14-06-2024
- * @last modified by  : Anirudh Raturi
+ * @last modified on  : 08-16-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author           Modification
  * 1.0   14-06-2024   Anirudh Raturi   Initial Version
@@ -75,13 +75,13 @@ public with sharing class ABSLIG_CaseDetailHelperClass {
             Map<Id, ASF_Case_Category_Config__c> cccIdToCCCRecMap = new Map<Id, ASF_Case_Category_Config__c>([
                 SELECT Id, Fins_Non_Fins__c, CCC_External_Id__c
                 FROM ASF_Case_Category_Config__c
-                WHERE CCC_External_Id__c IN :mapOfCCCExtIdIdsToCase.keySet()
+                WHERE CCC_External_Id__c IN :mapOfCCCExtIdIdsToCase.keySet() WITH SECURITY_ENFORCED
             ]);
 
             Map<Id, ABSLIG_Case_Detail__c> caseDetailIdToCaseDetRecMap = new Map<Id, ABSLIG_Case_Detail__c>([
                 SELECT Id, Financial_Non_Financial__c
                 FROM ABSLIG_Case_Detail__c
-                WHERE Id IN :mapOfCsDetailIdsToCase.keySet()
+                WHERE Id IN :mapOfCsDetailIdsToCase.keySet() WITH SECURITY_ENFORCED
             ]);
 
             for (ASF_Case_Category_Config__c cccRecord : cccIdToCCCRecMap.values()) {

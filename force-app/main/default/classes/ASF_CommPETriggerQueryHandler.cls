@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 01-17-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 06-25-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
@@ -18,7 +18,8 @@ public without sharing class ASF_CommPETriggerQueryHandler {
      */
     public static List<PE_Logger__c> getPELoggerRecords(Set<Id> peIds, String status){
         //Added Is_Attachment__c field 
-        return [SELECT ID,Status__c,Is_Attachment__c,Unique_Id__c,Case__c,CustomMetadataName__c,Email_Template_Name__c,AccountId__c,ContactId__c,LOB__c,No_Auto_Communication__c,Lead__c, Send_To_Specific_Emails__c, Specific_To_Address__c,Send_To_Specific_Mobile__c, Specific_To_MobilePhone__c FROM PE_Logger__c WHERE Id =: peIds AND Status__c != :status];
+        return [SELECT ID,Status__c,RecordID__c,TakeBodyFromContentDoc__c,HTMLBody_Con_Doc_Id__c ,Is_Attachment__c,Unique_Id__c,Case__c,CustomMetadataName__c,Email_Template_Name__c,AccountId__c,ContactId__c,LOB__c,No_Auto_Communication__c,Lead__c, 
+                Send_To_Specific_Emails__c, Specific_To_Address__c,Send_To_Specific_Mobile__c, Specific_Cc_Addresses__c,Specific_To_MobilePhone__c,Subject__c,Content_Version_Ids__c FROM PE_Logger__c WHERE Id =: peIds AND Status__c != :status];
     }
 
     /**

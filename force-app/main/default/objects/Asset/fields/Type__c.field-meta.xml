@@ -8,7 +8,6 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <restricted>false</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -55,6 +54,11 @@
                 <fullName>Corporate Loans</fullName>
                 <default>false</default>
                 <label>Corporate Loans</label>
+            </value>
+            <value>
+                <fullName>ULIP</fullName>
+                <default>false</default>
+                <label>ULIP</label>
             </value>
         </valueSetDefinition>
     </valueSet>

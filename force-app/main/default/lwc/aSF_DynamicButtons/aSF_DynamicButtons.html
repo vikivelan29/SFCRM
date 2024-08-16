@@ -1,0 +1,61 @@
+<template>
+    <lightning-card>
+        <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-p-around_small intPanel">
+            <div class="slds-col slds-grid slds-wrap">
+                <template for:each={processApexReturnValue} for:item="btn">
+                    <div class="slds-col slds-m-right_small" key={btn.Id}>
+                        <lightning-button label={btn.Button_Label__c} type="neutral" onclick={handleButtonClick}
+                            data-lwc-name={btn.On_Click_Invoke_LWC__c} data-lwc-header-name={btn.Button_Label__c}
+                            data-apex-controller-name={btn.On_Click_Invoke_ApexClass__c} icon-name={btn.SLDS_Icon__c}
+                            icon-position="right"></lightning-button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+
+
+
+
+
+    <!--<div class="slds-grid slds-wrap">
+        <template for:each={processApexReturnValue} for:item="btn">
+            <div key={btn.Id}
+                class="slds-col slds-p-around_x-small slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-order_5 slds-large-order_1">
+                <lightning-button variant="brand" label={btn.Button_Label__c} type="neutral" onclick={handleButtonClick}
+                    data-lwc-name={btn.On_Click_Invoke_LWC__c} data-lwc-header-name={btn.Button_Label__c}
+                    data-apex-controller-name={btn.On_Click_Invoke_ApexClass__c}></lightning-button>
+            </div>
+        </template>
+    </div>-->
+
+
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <!--<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>-->
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{modalHeader}</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lwc:component lwc:is={componentConstructor} lwc:ref="myCmp" onclosepopup={handleClosePopup}
+                        record-id={recordId}>
+                    </lwc:component>
+                </div>
+                <!--<div class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                            onclick={handleCancel}>Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
+                    </div>-->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+</template>

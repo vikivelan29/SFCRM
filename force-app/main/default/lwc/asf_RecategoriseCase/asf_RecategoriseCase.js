@@ -65,7 +65,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     loaded = false;
     caseRelObjName;
     caseExtensionRecordId;
-    //TBD . load this 
+    //TBD . load this
     caseRecordId;
 
     //tst strt
@@ -125,7 +125,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     businessUnit = '';
 
     accountRecordType = '';
-    leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
+    leadRecordType = ''; // Virendra - Added as part of Prospect Requirement.
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
@@ -281,6 +281,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
+                    console.log('result--'+JSON.stringify(result.lstCCCrecords));
                     this.accounts = result.lstCCCrecords;
                     //this.strSource = result.strSource;
                     //this.strSource = JSON.parse(result.caseDetails).Source__c //JSON.parse(this.oldCaseDetails.caseDetails).Source__c;
@@ -777,7 +778,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId == null && this.leadId == null){
             errorMsg = 'Neither Account nor Prospect is there. But type sub type is selected which require Customer or Prospect.'
             }
-            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null){
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null
+                && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId != null)){
             errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
             }
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == false && configuredCurrentCCC.is_FA_Mandatory__c == false){

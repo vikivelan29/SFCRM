@@ -73,8 +73,10 @@ public without sharing class ASF_CaseEmailController {
         
         Pattern regex2 = Pattern.compile(regExpForSubQuery);
         Matcher matcher2 = regex2.matcher(inputText);
+        
+        String caseBusinessUnit = caseObject.Business_Unit__c;
 
-        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL')?true:false;
+        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL' || caseObject.Business_Unit__c == 'ABSLI')?true:false;
         
         List<String> dynamicFieldsToReplace = new List<String>();
         Map<String,String> resultMap = new Map<String, String>();
@@ -121,7 +123,7 @@ public without sharing class ASF_CaseEmailController {
             resultMap.put('Today',Date.today().format());
         }
 
-        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL);
+        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL,caseBusinessUnit);
         if (resultMap != null){
             for (String resKey : resultMap.keySet()) {
                 String resVal = resultMap.get(resKey);
@@ -189,6 +191,7 @@ public without sharing class ASF_CaseEmailController {
         Map<String,String> resultMap = new Map<String,String>();
 
         Map<String, String> subFieldWithQuery = ASF_CaseEmailControllerBUSpecificHandler.handleSubQueries(subQueriesToReplace);
+        System.debug('subFieldWithQuery --> '+subFieldWithQuery);
         Id recordId1 = Id.valueOf(recordId);
 
         set<String> fieldsToQueryUniqueset = new set<String>();

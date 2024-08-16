@@ -7,16 +7,13 @@
         <field>Case$Subject</field>
     </columns>
     <columns>
-        <field>Case$Customer_name_formula__c</field>
-    </columns>
-    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
-        <field>Case$Asset</field>
+        <field>Case$Source__c</field>
     </columns>
     <columns>
-        <field>Case$Source__c</field>
+        <field>Case$Origin</field>
     </columns>
     <columns>
         <field>Case$Owner</field>

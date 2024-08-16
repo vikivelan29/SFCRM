@@ -400,7 +400,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF Email Bot Feedback BU</shortDescription>
-        <value>ABHFL;ABFL</value>
+        <value>ABHFL;ABFL;ABSLI</value>
     </labels>
     <labels>
         <fullName>ASF_ErrorMessage</fullName>
@@ -624,14 +624,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_default_no_reply_email</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
-    </labels>
-    <labels>
-        <fullName>ASF_default_no_reply_email_address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
+        <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
         <fullName>DMS_File_Name</fullName>
@@ -830,6 +823,13 @@
         <value>30</value>
     </labels>
     <labels>
+        <fullName>Restrict_Email_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restrict Email Address</shortDescription>
+        <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
         <fullName>STP_Flows</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -837,32 +837,32 @@
         <value>Interest Schedule,Provisional Interest Certificate</value>
     </labels>
     <labels>
-        <fullName>Sync_Canceled</fullName>
+        <fullName>ABSLI_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Sync_Canceled</shortDescription>
-        <value>Sync Canceled</value>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
     </labels>
     <labels>
-        <fullName>Sync_Manually</fullName>
+        <fullName>ABSLIG_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Sync_Manually</shortDescription>
-        <value>Sync Manually</value>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>Synched_Already</fullName>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Synched Already</shortDescription>
-        <value>Synched already</value>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
-        <fullName>Synching_initiated</fullName>
+        <fullName>ABSLI_STATICURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Synching_initiated</shortDescription>
-        <value>Synching initiated</value>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
     </labels>
     <labels>
         <fullName>ABSLI_key</fullName>

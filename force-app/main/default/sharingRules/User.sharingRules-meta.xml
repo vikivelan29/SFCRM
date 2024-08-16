@@ -12,6 +12,17 @@
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
+        <fullName>ABSLI_User_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI User Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
         <fullName>Share_ABFL_User_with_ABFL_Users</fullName>
         <accessLevel>Read</accessLevel>
         <description>Share ABFL User with Each Other.</description>

@@ -2,8 +2,8 @@
  * @description       : ABSLI Fetch Asset LWC Controller
  * @author            : dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 08-16-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
@@ -35,7 +35,7 @@ public with sharing class ABSLI_FetchAssetController {
         String allFieldApiNameString = String.join(fieldApiNamList,',');
         String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId OR Interested_Party__c =:accountRecordId';
+        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM Asset WHERE Account.Id =:accountRecordId OR Interested_Party__c =:accountRecordId WITH SECURITY_ENFORCED';
         System.debug(LoggingLevel.INFO,'***dynamicQuery:'+dynamicQuery);
         List<Sobject> assetRecLst = Database.query(dynamicQuery);
         System.debug(LoggingLevel.INFO,'***dynamicQueryResult:'+assetRecLst);

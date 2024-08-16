@@ -26,6 +26,7 @@ public without sharing class ABFL_SuppressEmailHelper {
             ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
             output.supressEmail = false;
             output.templateName = inp.templateName;
+            output.smsTemplateName = inp.smsTemplateName;
             allOutputs.put(inp.caseId,output);
             caseIds.add(inp.caseId);
         }

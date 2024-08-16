@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 08-16-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 public with sharing class ABSLIG_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
 	public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -173,5 +183,8 @@ public with sharing class ABSLIG_BulkCreateCaseConverterUtility implements ASF_B
         }
 
         return listOfRecordsAsMap;
+    }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
     }
 }

@@ -717,7 +717,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if(this.isTransactionRelated){
             fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
         }
-
         const caseRecord = { apiName: this.caseRelObjName, fields: fields };
 
         await createRecord(caseRecord)

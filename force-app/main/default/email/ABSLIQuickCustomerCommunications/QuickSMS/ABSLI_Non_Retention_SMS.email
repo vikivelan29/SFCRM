@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.Contact_Name__c}}},<br />
+Kindly click&nbsp;{{{ASF_Communication_Log__c.Tiny_URL__c}}} to submit your request for&nbsp;{{{ASF_Communication_Log__c.Function_Name__c}}} in your&nbsp;{{{ASF_Communication_Log__c.Loan_Type__c}}} with policy no. {{{ASF_Communication_Log__c.Policy_No__c}}}.<br />
+Regards ABSLI</body>
+</html>
