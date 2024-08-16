@@ -50,9 +50,9 @@
                 <label>PMS</label>
             </value>
             <value>
-                <fullName>AIF</fullName>
+                <fullName>AIF</fullName> 
                 <default>false</default>
-                <label>AIF</label>
+                <label>AIF</label> 
             </value>
             <value>
                 <fullName>RE</fullName>

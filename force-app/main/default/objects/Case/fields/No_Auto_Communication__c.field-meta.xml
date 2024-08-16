@@ -25,7 +25,7 @@
             <value>
                 <fullName>WhatsApp</fullName>
                 <default>false</default>
-                <label>WhatsApp</label>
+                <label>WhatsApp</label> 
             </value>
         </valueSetDefinition>
     </valueSet>

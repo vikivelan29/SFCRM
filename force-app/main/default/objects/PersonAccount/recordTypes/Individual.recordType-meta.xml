@@ -403,8 +403,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>AIF</fullName>
-            <default>false</default>
+            <fullName>AIF</fullName> 
+            <default>false</default> 
         </values>
         <values>
             <fullName>MF</fullName>

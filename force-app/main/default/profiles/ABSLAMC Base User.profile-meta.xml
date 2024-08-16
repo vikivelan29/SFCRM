@@ -2637,11 +2637,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_CommnunicationLog__e.Communication_Channel__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ASF_CommnunicationLog__e.Department__c</field>
         <readable>false</readable>
     </fieldPermissions>
