@@ -8668,11 +8668,6 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Customer_Member_Mapping__c.MemberExternalId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Customer_Member_Mapping__c.Member_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8759,11 +8754,6 @@
         <fieldPermissions>
         <editable>true</editable>
         <field>Health_Intent__c.Which_phone_are_you_using__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Health_Intent__c.Member_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
         <fieldPermissions>
@@ -9033,17 +9023,7 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Policy_Nominee__c.NomineeExternalId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Policy_Nominee__c.NomineePercentage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Policy_Nominee__c.Nominee_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
         <fieldPermissions>
