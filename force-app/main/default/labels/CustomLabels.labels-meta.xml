@@ -9,6 +9,13 @@
         <value>5</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
