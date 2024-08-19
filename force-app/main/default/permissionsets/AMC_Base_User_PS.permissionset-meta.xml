@@ -858,6 +858,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Type_SubType_LOB__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Type_Synonyms__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3917,7 +3922,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Case.Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
