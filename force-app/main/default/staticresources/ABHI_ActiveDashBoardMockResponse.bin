@@ -1,0 +1,105 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVASATXSRCINF007",
+            "businessCode": "SATXSRCINF007",
+            "businessDesc": "Has active dayz",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-08-06T14:21:34.042+05:30"
+        },
+        {
+            "systemCode": "JAVASATXSRCINF001",
+            "businessCode": "SATXSRCINF001",
+            "businessDesc": "Result found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-08-06T14:21:34.042+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": {
+            "transformedEntityId": "4291889",
+            "totalScoreForPeriod": 4,
+            "totalScoreForGym": 0,
+            "totalScoreForSteps": 44777,
+            "totalScoreForCalories": 0,
+            "totalScoreForEvents": 0,
+            "scores": [
+                {
+                    "activeDate": "2024-07-23T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "13610",
+                            "score": 1,
+                            "eventDate": "2024-07-23T00:00:00.230+05:30"
+                        },
+                        {
+                            "name": "Step Activity",
+                            "value": "2139",
+                            "score": 0,
+                            "eventDate": "2024-07-23T00:00:00.230+05:30"
+                        }
+                    ]
+                },
+                {
+                    "activeDate": "2024-07-25T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "10225",
+                            "score": 1,
+                            "eventDate": "2024-07-25T00:00:00.230+05:30"
+                        },
+                        {
+                            "name": "Step Activity",
+                            "value": "9220",
+                            "score": 0,
+                            "eventDate": "2024-07-25T00:00:00.230+05:30"
+                        },
+                          {
+                            "name": "Gym Activity",
+                            "value": "9211120",
+                            "score": 0,
+                            "eventDate": "2024-07-25T00:00:00.230+05:30"
+                        }
+                    ]
+                },
+                {
+                    "activeDate": "2024-07-22T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "10388",
+                            "score": 1,
+                            "eventDate": "2024-07-22T00:00:00.230+05:30"
+                        }
+                    ]
+                },
+                {
+                    "activeDate": "2024-07-24T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "10554",
+                            "score": 0,
+                            "eventDate": "2024-07-24T00:00:00.230+05:30"
+                        },
+                        {
+                            "name": "Step Activity",
+                            "value": "10435",
+                            "score": 1,
+                            "eventDate": "2024-07-24T00:00:00.230+05:30"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "StatusCode": 1000,
+    "Message": "Success"
+}
