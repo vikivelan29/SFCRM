@@ -17,9 +17,8 @@ public with sharing class ABSLI_LoanNEFTRefNumIntegrationBatch implements Databa
 		this.strQuery =
 			'SELECT Id, ABSLI_Case_Detail__r.NEFT_Reference_Number__c ' +
 			'FROM Case WHERE ABSLI_Case_Detail__r.Voucher_Number__c != null ' +
-			'AND IsClosed = false AND CreatedDate = LAST_N_DAYS:10 ' +
-            'AND ABSLI_Case_Detail__r.Status_Valid_For_STP__c = true '+
-            'AND Sub_Type_Text__c =:subType';
+			'AND IsClosed = false AND CreatedDate = LAST_N_DAYS:10 AND Sub_Type_Text__c =:subType ' +
+            'AND ABSLI_Case_Detail__r.Status_Valid_For_STP__c = true';
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext bc) {
