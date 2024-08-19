@@ -364,4 +364,5 @@ public without sharing class ASF_CaseQueryHandler {
         
         return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds WITH SYSTEM_MODE];
     }
+
 }
