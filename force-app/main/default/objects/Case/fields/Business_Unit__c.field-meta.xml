@@ -42,6 +42,11 @@
                 <label>ABSLIG</label>
             </value>
             <value>
+                <fullName>ABSLAMC</fullName>
+                <default>false</default>
+                <label>ABSLAMC</label>
+            </value>
+            <value>
                 <fullName>Payment</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

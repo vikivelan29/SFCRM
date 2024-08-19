@@ -57,4 +57,48 @@
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_AIF_User_Share_to_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC AIF User Share to AIF Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLAMC_AIF_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLAMC_AIF_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_MF_User_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC MF User Share to MF Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLAMC_MF_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLAMC_MF_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_PMS_User_Share_to_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PMS User Share to PMS Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_RE_User_Share_to_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC RE User Share to RE Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
