@@ -87,7 +87,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
-				requestJSON.Original_IRDA_Token_Num = caseRecord.IRDAI_Token_Number__c;                
+				requestJSON.Original_IRDA_Token_Num = caseRecord.ABSLI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && 
             (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
@@ -100,7 +100,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
                 requestJSON.Others_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Others_Clsr_Additional_Info__c;
             }
                 requestJSON.Final_Resolution_Remark = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Remark__c;
-                requestJSON.Final_Resolution_Date = caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Final_Resolution_Date__c, 'dd-MM-YYYY') : null;
+                requestJSON.Final_Resolution_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             if(caseRecord.ABSLI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABSLI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
@@ -285,7 +285,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
         public String Trans_Login_Id { get; set; }
         public string Option{get;set;}
         public string Mode{get;set;}
-        public string Original_IRDA_Token_num{get;set;}
+        public string Original_IRDA_Token_Num{get;set;}
 
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
