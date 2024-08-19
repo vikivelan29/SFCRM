@@ -2,7 +2,7 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
+ * @last modified on  : 08-16-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -156,4 +156,5 @@ public with sharing class ASF_Constants {
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
 
+    public static final string CASE_ORIGIN = 'ABSLIG Email';
 }

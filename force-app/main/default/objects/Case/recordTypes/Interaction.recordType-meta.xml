@@ -822,6 +822,10 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>WhatsApp</fullName> 
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
@@ -942,6 +946,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>
@@ -963,10 +971,6 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1053,10 +1057,6 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
