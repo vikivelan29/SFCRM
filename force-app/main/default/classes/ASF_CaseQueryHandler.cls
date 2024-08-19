@@ -205,7 +205,8 @@ public without sharing class ASF_CaseQueryHandler {
                     FROM Work_Items__r
                 ),
                 (
-                    SELECT Id, Name, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c
+                    // VIRENDRA - 13 June 2024 - ADDED Picklist_Options__c in SOQL.
+                    SELECT Id, Label__c, Name, Type__c, Mandatory__c,Description__c, Checklist_External_Id__c 
                     FROM Case_Checklist_Masters__r
                 ),
                 Step_1_Approver_1__c,
@@ -262,7 +263,7 @@ public without sharing class ASF_CaseQueryHandler {
                                                           Rejection_Id__c, SLA_2_Email_Sent__c, SLA_3_Email_sent__c, 
                                                           SLA_CC__c, SLA_LOB__c, SLA_LOC__c, Stage_End_Date__c, 
                                                           Stage_Start_Date__c, Stage_Violation_Start_Date__c, 
-                                                          Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c 
+                                                          Stage__c, Status__c, Time_Taken_In_Business_Hour__c, Time_Taken__c, is_Running_Record__c
                                                           FROM ASF_Case_SLA_History__c
                                                           WHERE Case__c =: caseIds WITH SYSTEM_MODE order by Stage_End_Date__c DESC
                                                          ];
