@@ -1,0 +1,130 @@
+{
+  "AppRegDetails": {
+    "AddressLine1": "",
+    "AddressLine2": "",
+    "AddressLine3": "",
+    "AlternateMobile": "",
+    "CII_Number": "",
+    "City": "",
+    "CoreSystemId": "",
+    "CreatedAt": "",
+    "DateOfBirth": "",
+    "Education": "",
+    "Email": "",
+    "FullName": "",
+    "Gender": "",
+    "Invalid_LoginAttempts": "",
+    "IsRegistered": "No",
+    "MemberId": "",
+    "MobilePhone": "",
+    "Occupation": "",
+    "PanNo": "",
+    "PartyId": "",
+    "Pin": "",
+    "Policy_Type": "Retail",
+    "State": "",
+    "vchRelation": "",
+    "WellnessPartyId": ""
+  },
+  "HealthReturns": {
+    "Response": [
+      {
+        "MemberCode": "PT87545156",
+        "MemberName": "AKSHAY PRAKASHRAO BHULE"
+      }
+    ],
+    "PolObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE"
+      }
+    ],
+    "HealthReturnObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      }
+    ],
+    "TotalHealthReturnObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      }
+    ]
+  },
+  "StatusCode": "1000",
+  "Message": "Success"
+}
