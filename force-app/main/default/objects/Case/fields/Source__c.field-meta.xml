@@ -671,18 +671,7 @@ Portal</label>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Waiver / Refund</label>
-            </value>
-            <value>
-                <fullName>Walk-In</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Walk-In</label>
             </value> 
-            <value>
-                <fullName>Branch (walk-in / phone)</fullName>
-                <default>false</default>
-                <label>Branch (walk-in / phone)</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
