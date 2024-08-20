@@ -93,6 +93,11 @@
                 <label>Insurance Repository</label>
             </value>
             <value>
+                <fullName>Insurance Repository website</fullName>
+                <default>false</default>
+                <label>Insurance Repository website</label>
+            </value>
+            <value>
                 <fullName>Letters and Faxes</fullName>
                 <default>false</default>
                 <label>Letters and Faxes</label>
@@ -636,12 +641,6 @@ Portal</label>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Payment Portal</label>
-            </value>
-            <value>
-                <fullName>Phone Inbound</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Phone Inbound</label>
             </value>
             <value>
                 <fullName>Pre-Closure/Closure</fullName>
