@@ -343,7 +343,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     *****************************************************************************************************************/
     public class BCLRequestWrapper{
         public string caseId;
-        public string souce;
+        public string source;
         public string requestType;
         public string lan;
         public string reportName;
@@ -352,7 +352,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         
         BCLRequestWrapper(string caseNumber,string lanNo,date asOnDate){
             this.caseId = caseNumber;
-            this.souce = ABHFL_Constants.CRM;
+            this.source = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
             this.reportName = ABHFL_Constants.BKL;

@@ -999,5 +999,33 @@
         <protected>false</protected>
         <shortDescription>ABHI_FitnessAppDetails</shortDescription>
         <value>Fitness Appointment Details</value>
+      </labels>
+    <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABAMC_NonMandatoryUnresCommentsBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABAMC_NonMandatoryUnresCommentsBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>Issue Management Unit</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email,Phone</value>
     </labels>
 </CustomLabels>

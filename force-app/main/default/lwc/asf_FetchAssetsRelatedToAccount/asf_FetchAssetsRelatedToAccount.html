@@ -2,7 +2,7 @@
         <template if:true={isRenderDatatable}>
             <lightning-card>
                 <div>
-                    <lightning-datatable class="slds-resizable" key-field="id" data={recordsToDisplay} columns={columns} onrowselection={onSelectedRow}  min-column-width="155">
+                    <lightning-datatable class="slds-resizable" key-field="Id" data={recordsToDisplay} columns={columns} onrowselection={onSelectedRow}  min-column-width="155" selected-rows={preSelectedRows}>
                     </lightning-datatable>
                 </div>
             </lightning-card>
