@@ -205,14 +205,12 @@ export default class Asf_createFTRCase extends NavigationMixin(LightningElement)
 
             await getUserDetails()
                 .then(result => {
-                    console.log('getUserDetails: '+JSON.stringify(result));
                     if (result.lstChannel != null && result.lstChannel.length > 0) {
                         caseFields["Source__c"] = result.strSource;
                         caseFields["Channel__c"] = result.lstChannel[0].label;
                     }
                 })
                 .catch(error => {
-                    console.log('getUserDetails: '+JSON.stringify(error));
                     this.loading = false;
                     this.showToast('Error', this.label.errorMessage, 'Error');
                 })
