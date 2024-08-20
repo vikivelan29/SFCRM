@@ -10162,11 +10162,6 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Health_Intent__c.Member_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Health_Provider__c.Admin_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
