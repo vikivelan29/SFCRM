@@ -60,6 +60,7 @@ console.log('result' ,result);
             console.log('StatusCode', result.StatusCode);
 
             if(StatusCode == 1000) {
+                console.log('insideIf');
                 this.displayTable=true;
                 this.showRecords=true;
                 
@@ -72,11 +73,13 @@ console.log('result' ,result);
                 console.log('this.date', JSON.stringify(this.data));
             }
             else {
+                console.log('insideElse');
 
                 this.showDataTable = false;
-                this.errorMessage = this.integrationResp.Message;
+                this.errorMessages = this.result.Message;
                 this.displayError = true;
-                console.log('errormessage>>' ,this.integrationResp.Message);
+                console.log('failure result>>', this.result);
+                console.log('errorMessages>>' ,this.result.Message);
                
             }
                 
@@ -118,7 +121,7 @@ fetchColumns() {
     .catch(error => {
 
             
-            this.showNotification('Error','Error fetching data.','Error');
+            //this.showNotification('Error','Error fetching data.','Error');
             //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
