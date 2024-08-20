@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Unit__c</fullName>
-    <label>Business Unit</label>
+    <fullName>IGMS_Complaint_Status__c</fullName>
+    <description>This field is used in IRDAI to Salesforce Complaint Creation Inbound API.
+This field is used in Salesforce to IRDAI Complaint Update Outbound API.</description>
+    <externalId>false</externalId>
+    <label>IGMS Complaint Status</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Payments</fullName>
+                <fullName>1</fullName>
                 <default>false</default>
-                <label>Payments</label>
+                <label>1</label>
             </value>
             <value>
-                <fullName>ABHFL</fullName>
+                <fullName>2</fullName>
                 <default>false</default>
-                <label>ABHFL</label>
+                <label>2</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>3</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>3</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>4</fullName>
                 <default>false</default>
-                <label>ABWM</label>
+                <label>4</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>5</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>5</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>6</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>6</label>
             </value>
             <value>
-                <fullName>ABSLAMC</fullName>
+                <fullName>7</fullName>
                 <default>false</default>
-                <label>ABSLAMC</label>
-            </value>
-            <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
+                <label>7</label>
             </value>
         </valueSetDefinition>
     </valueSet>
