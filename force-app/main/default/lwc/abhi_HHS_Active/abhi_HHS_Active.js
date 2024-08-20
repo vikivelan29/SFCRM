@@ -3,7 +3,11 @@ import { LightningElement, api,track } from 'lwc';
 export default class Abhi_HHS_Active extends LightningElement {
 
 
-    errorMessages
+    
+    @track errorMessages = '';
+    @track displayError = false;
+
+
 
     @api recordId;
     @track isLoading = false;
@@ -15,10 +19,10 @@ export default class Abhi_HHS_Active extends LightningElement {
     handleUploadEnd() {
         this.isLoading = false;
     }
-    childmessage = false;
 
     updateMessage(event) {
-        this.message = event.detail.message;
+        displayError=true;
+        this.errorMessages = event.detail.message;
     }
 
 }
