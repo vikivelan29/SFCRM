@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MasterPolicyNumber__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>ABHIL</description>
+    <description>ABHI</description>
     <externalId>false</externalId>
     <label>Master Policy Number</label>
     <referenceTo>Asset</referenceTo>

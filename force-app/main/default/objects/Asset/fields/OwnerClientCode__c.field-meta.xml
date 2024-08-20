@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OwnerClientCode__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>ABHIL</description>
+    <description>ABHI</description>
     <externalId>false</externalId>
     <label>Owner Client Code</label>
     <referenceTo>Account</referenceTo>
