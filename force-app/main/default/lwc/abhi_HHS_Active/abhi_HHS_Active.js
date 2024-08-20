@@ -1,35 +1,13 @@
-import { LightningElement, api, track, wire } from 'lwc';
-import getHhsActiveAge from '@salesforce/apex/ABHI_HhsActiveAgeDetails_Controller.GetHhsActiveAge';
-import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import { getRecord, getFieldValue } from "lightning/uiRecordApi";
-import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
-const fields = [CLIENT_CODE_FIELD];
-const ATTRIBUTE_CODE_LABELS = {
-    'DIABTS': 'Fasting Blood Sugar (mg/dl)',
-    'TOTCHL': 'Total Cholesterol',
-    'SMOKER': 'Smoking Status',
-    'DIASTOLIC': 'Diastolic',
-    'BPMDIA': 'Diastolic',
-    'BPMSYS': 'Systolic',
-    'BPMSYS': 'Systolic',
-    'tierLevelName': 'Current Score',
-    'AGE': 'Age'
-};
-const ALLOWED_ATTRIBUTES = [
-    'Smoking Status',
-    'Diastolic',
-    'Systolic',
-    //'Age'
-];
-const DEFAULT_VALUES = {
-    'Fasting Blood Sugar (mg/dl)': '0',
-    'Total Cholesterol': '0',
-    'Smoking Status': '0',
-    'Diastolic': '0',
-    'Systolic': '0',
-    'Current Score': '0',
-    'Age': '0'
-};
+import { LightningElement, api,track } from 'lwc';
+
+export default class Abhi_HHS_Active extends LightningElement {
+
+
+    
+    @track errorMessages = '';
+    @track displayError = false;
+
+
 
 export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
@@ -132,18 +110,13 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         });
     }
 
-    setupColumns(apiResponse) {
-        
-        getColumns({ configName: 'ABHI_ActiveAgeDetails' })
-        .then(result => {
-            this.columns2 = result.map(column => ({
-                label: column.MasterLabel,
-                fieldName: column.Api_Name__c,
-                type: column.Data_Type__c,
-                cellAttributes: { alignment: 'left' }
-            }));
-        })
-        .catch(error => console.error('Error fetching columns:', error));
+    handleUploadEnd() {
+        this.isLoading = false;
+    }
+
+    updateMessage(event) {
+        displayError=true;
+        this.errorMessages = event.detail.message;
     }
 
     processResponse(response) {
