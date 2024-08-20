@@ -1,0 +1,160 @@
+/*********************************************************
+*Class        :  ABHI_DeviceDetailsController
+*Author       :  Amrit Preet Singh
+*Created Date :  05/08/2024
+*Last Modified:  05/08/2024
+*@description  :  ABHI_DeviceDetailsController is used as an apex controller for the abhi_FAHistoryDetails
+*@description  :  This class is used to get the Device Details calling the ABCL_IntegrationCallout callout class.
+*@description  :  The class is used to get the device details for the customerId passed.
+*********************************************************/
+public with sharing class ABHI_DeviceDetailsController {
+
+    /****************************************************************************************************************
+    * @Function - getDeviceDetails
+    * @param customerId - Customer Id for which the Device details has to be searched
+    * @return - ResponseWrapper - Wrapper including the needed device details
+    * @description - This method is used to get the Device details for the customer id passed.
+    *****************************************************************************************************************/
+    @AuraEnabled
+    public static ResponseWrapper getDeviceDetails(String customerId){
+        try {
+            String integrationName = 'ABHI_DeviceDetails';
+            ABCL_IntegrationCallout.accountId = customerId;
+            Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
+            String detailPayload =  JSON.serialize(new DeviceDetailsRequest(acc.Client_Code__c , '', ''));
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
+            deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
+            if(integrationResponse.StatusCode == 200){
+                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, deserializedIntResponse.Message, deserializedIntResponse.data.devices);
+                return returnResponse;
+            }
+            else{
+                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                return returnResponse;
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    /*********************************************************
+    *Class        :  RecommendedWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  RecommendedWrapper is a wrapper class to hold device details
+    *********************************************************/
+    public class RecommendedWrapper {
+        @AuraEnabled
+		public String logo_url;
+        @AuraEnabled
+		public String name;
+        @AuraEnabled
+		public String subname;
+        @AuraEnabled public String sync_url;
+        @AuraEnabled public String synced;
+        @AuraEnabled public String redirect_uri;
+        @AuraEnabled public GooglefitProfile googlefitProfile;
+	}
+
+    /*********************************************************
+    *Class        :  GooglefitProfile
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  GooglefitProfile is a wrapper class to hold the google profile details for a device
+    *********************************************************/
+    public class GooglefitProfile {
+        @AuraEnabled public String Display_Name;
+        @AuraEnabled public String Email;
+        @AuraEnabled public Object Family_Name;
+        @AuraEnabled public String Given_Name;
+        @AuraEnabled public String ID;
+        @AuraEnabled public String ID_Token;
+        @AuraEnabled public String Server_Auth_Code;
+        @AuraEnabled public String Photo_URL;
+	}
+
+    /*********************************************************
+    *Class        :  Data
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  Data is a wrapper class to hold device categories and details
+    *********************************************************/
+	public class Data {
+        public List<String> deviceCategories;
+        public Devices devices;
+	}
+
+    /*********************************************************
+    *Class        :  BookingHistoryWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  BookingHistoryWrapper is a wrapper class to hold Booking History Information
+    *********************************************************/
+	public class Devices {
+        @AuraEnabled public List<RecommendedWrapper> Recommended;
+        @AuraEnabled public List<RecommendedWrapper> Others;
+	}
+
+    /*********************************************************
+    *Class        :  deserilaizedResponse
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  deserilaizedResponse is a wrapper class to hold the deserialiized response from the server
+    *********************************************************/
+    public class deserilaizedResponse{
+        public Integer code;
+        public String msg;
+        public Object error;
+        public String Message;
+        public Data data;
+        public String StatusCode;
+    }
+
+    /*********************************************************
+    *Class        :  ResponseWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  ResponseWrapper is a wrapper class to hold the response needed to return to the LWC component
+    *********************************************************/
+    public class ResponseWrapper{
+        @AuraEnabled public Integer statusCode;
+        @AuraEnabled public String Message;
+        @AuraEnabled public Devices devices;
+        public ResponseWrapper(Integer code, String Message, Devices device){
+            this.statusCode = code;
+            this.Message = Message;
+            this.devices = device;
+        }
+        public ResponseWrapper(Integer code, String Message){
+            this.statusCode = code;
+            this.Message = Message;
+        }
+    }
+
+    /*********************************************************
+    *Class        :  DeviceDetailsRequest
+    *Author       :  Amrit Preet Singh
+    *Created Date :  05/08/2024
+    *Last Modified:  05/08/2024
+    *@description  :  DeviceDetailsRequest is a wrapper class to hold the payload for request
+    *********************************************************/
+    public class DeviceDetailsRequest{
+        String MemberID;
+        String OS;
+        String PolicyStartDate;
+        String WellnessID;
+        public DeviceDetailsRequest(String MemberID, String OS, String PolicyStartDate){
+            this.MemberID = MemberID;
+            this.OS = OS;
+            this.PolicyStartDate = PolicyStartDate;
+            this.WellnessID = '';
+        }
+    }
+
+}
