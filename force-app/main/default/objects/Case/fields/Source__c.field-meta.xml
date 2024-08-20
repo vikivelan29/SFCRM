@@ -677,7 +677,7 @@ Portal</label>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Walk-In</label>
-            </value>
+            </value> 
             <value>
                 <fullName>Branch (walk-in / phone)</fullName>
                 <default>false</default>
