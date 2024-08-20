@@ -24,7 +24,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
 
         ABHFL_ICAndPIC_IntegrationRequestWrapper reqBodyObj = new ABHFL_ICAndPIC_IntegrationRequestWrapper();
         reqBodyObj.caseId        = caseRecord.Id;
-        reqBodyObj.souce         = 'CRM';
+        reqBodyObj.source         = 'CRM';
         reqBodyObj.requestType   = 'View';
         reqBodyObj.lan           = lan;
         reqBodyObj.documentType = 'BinaryData';
@@ -141,7 +141,7 @@ public with sharing virtual class ABHFL_ICAndPIC_IntegrationHelper {
 *****************************************************************************************************************/
     public class ABHFL_ICAndPIC_IntegrationRequestWrapper {
         public String caseId;
-        public String souce;
+        public String source;
         public String requestType;
         public String lan;
         public String financialYear;

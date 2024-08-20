@@ -822,6 +822,10 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>WhatsApp</fullName> 
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
@@ -967,10 +971,6 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
     </picklistValues>

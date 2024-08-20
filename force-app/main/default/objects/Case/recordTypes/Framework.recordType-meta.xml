@@ -837,13 +837,17 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist>
+        <picklist>No_Auto_Communication__c</picklist> 
         <values>
             <fullName>Email</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName> 
             <default>false</default>
         </values>
     </picklistValues>
@@ -891,10 +895,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
