@@ -69,16 +69,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Member_Name__c</fieldItem>
-                <identifier>RecordMember_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Relation__c</fieldItem>
                 <identifier>RecordRelation_cField</identifier>
             </fieldInstance>
@@ -179,6 +169,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Member_Name__c</fieldItem>
+                <identifier>RecordMember_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.DOB__c</fieldItem>
                 <identifier>RecordDOB_cField</identifier>
             </fieldInstance>
@@ -200,7 +200,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Chronic_Condition__c</fieldItem>
-                <identifier>RecordChronic_Condition__cField</identifier>
+                <identifier>RecordChronic_Condition_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
