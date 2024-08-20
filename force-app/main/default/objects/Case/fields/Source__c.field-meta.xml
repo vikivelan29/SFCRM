@@ -303,6 +303,71 @@
                 <label>Others</label>
             </value>
             <value>
+                <fullName>Branch (walk-in / phone)</fullName>
+                <default>false</default>
+                <label>Branch (walk-in / phone)</label>
+            </value>
+            <value>
+                <fullName>Email - Call Centre</fullName>
+                <default>false</default>
+                <label>Email - Call Centre</label>
+            </value>
+            <value>
+                <fullName>Email - Branch</fullName>
+                <default>false</default>
+                <label>Email - Branch</label>
+            </value>
+            <value>
+                <fullName>Branch Walk-In</fullName>
+                <default>false</default>
+                <label>Branch Walk-In</label>
+            </value>
+            <value>
+                <fullName>Phone - Call Centre</fullName>
+                <default>false</default>
+                <label>Phone - Call Centre</label>
+            </value>
+            <value>
+                <fullName>Phone - Branch</fullName>
+                <default>false</default>
+                <label>Phone - Branch</label>
+            </value>
+            <value>
+                <fullName>SEBI</fullName>
+                <default>false</default>
+                <label>SEBI</label>
+            </value>
+            <value>
+                <fullName>AMFI</fullName>
+                <default>false</default>
+                <label>AMFI</label>
+            </value>
+            <value>
+                <fullName>Online Dispute Resolution (ODR)</fullName>
+                <default>false</default>
+                <label>Online Dispute Resolution (ODR)</label>
+            </value>
+            <value>
+                <fullName>Letter</fullName>
+                <default>false</default>
+                <label>Letter</label>
+            </value>
+            <value>
+                <fullName>Service2Sales</fullName>
+                <default>false</default>
+                <label>Service2Sales</label>
+            </value>
+            <value>
+                <fullName>Transaction Remediation</fullName>
+                <default>false</default>
+                <label>Transaction Remediation</label>
+            </value>
+            <value>
+                <fullName>Internal Request</fullName>
+                <default>false</default>
+                <label>Internal Request</label>
+            </value>
+            <value>
                 <fullName>Call Centre</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -417,11 +482,6 @@ Portal</label>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Walk-In</label>
-            </value>
-            <value>
-                <fullName>Branch (walk-in / phone)</fullName>
-                <default>false</default>
-                <label>Branch (walk-in / phone)</label>
             </value>
         </valueSetDefinition>
     </valueSet>
