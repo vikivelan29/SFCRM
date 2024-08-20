@@ -10,7 +10,7 @@ public with sharing class ABHI_FALevelDetails_Controller {
     
     @AuraEnabled
     Public static IntegrationResponseWrapper GetFALevelDetails(string customerId, string fromDate, string toDate){
-        
+        try{
        
         string integrationName = 'ABHI_FALevelDetails';
         ABCL_IntegrationCallout.accountId = customerId;
@@ -21,13 +21,18 @@ public with sharing class ABHI_FALevelDetails_Controller {
         urlParameters.put('startDate',fromDate);
         urlParameters.put('endDate',toDate);
         urlParameters.put('customerId', acc.Client_Code__c);
+        //urlParameters.put('customerNumber', '12345');
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp.statusCode);
-        IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+                   IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+                system.debug('deserialized resp' +deserializedIntResponse);
+            return deserializedIntResponse;
 
-        system.debug('deserialized resp' +deserializedIntResponse);
-        return deserializedIntResponse;
+        
+        }catch(Exception e){
+         throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
+        }
             
     }
         
@@ -43,14 +48,15 @@ public with sharing class ABHI_FALevelDetails_Controller {
        @AuraEnabled public String totalScore;
        @AuraEnabled public String totalCount;
        @AuraEnabled public String effectiveToDate;
-       @AuraEnabled public string StatusCode;
+       @AuraEnabled public Integer StatusCode;
        @AuraEnabled public String Message;
      
-        //public IntegrationResponseWrapper(Integer statusCode, String responseBody){
-            //this.StatusCode = statusCode;
-            //this.Message = responseBody;
+        public IntegrationResponseWrapper(Integer statusCode, String responseBody){
+            this.StatusCode = statusCode;
+            this.Message = responseBody;
         
     }
+        }
            
        
     
