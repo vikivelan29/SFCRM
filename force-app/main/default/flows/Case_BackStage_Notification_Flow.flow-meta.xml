@@ -216,7 +216,7 @@
         <connector>
             <targetReference>Get_Notification_Record</targetReference>
         </connector>
-        <filterFormula>AND( NOT(ISBLANK({!$Record.Owner:User.Id})) , ISCHANGED({!$Record.Stage__c}))</filterFormula>
+        <filterFormula>AND( NOT(ISBLANK({!$Record.Owner:User.Id})) , ISCHANGED({!$Record.Stage__c}),TEXT({!$Record.Business_Unit__c}) = &quot;ABSLAMC&quot;)</filterFormula>
         <object>Case</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
