@@ -2723,6 +2723,11 @@
         <field>Account.Supervisor_Mobile_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ParentCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Partner_Branch_Code__c</field>
