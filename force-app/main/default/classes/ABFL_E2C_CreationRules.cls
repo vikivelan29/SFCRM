@@ -22,9 +22,11 @@ public with sharing class ABFL_E2C_CreationRules {
         if(!emailMessages.isEmpty()){
             // Find eligible records
             Set<Id> caseIds = new Set<Id>();
+            Map<Id,EmailMessage> caseIdvsEmailMessage = new Map<Id,EmailMessage>();    // temporary logic added by vikas to block case creation from bounced emails.
             for (EmailMessage email : emailMessages) {
                 // Check if the email is related to a case and is incoming
                 caseIds.add(email.ParentId);
+		caseIdvsEmailMessage.put(email.ParentId,email);   // added by vikas
             }
 
             if (!caseIds.isEmpty()){
@@ -36,6 +38,9 @@ public with sharing class ABFL_E2C_CreationRules {
                     if (c.origin == 'ABFL Email' || ABFL_Constants.ABFL_ALLEMAILORIGIN.contains(c.origin)) {
                         abflCaseIds.add(c.Id);
                     }
+ 		   else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
+			abflCaseIds.add(c.Id);                                                               // added by vikas
+                }  
                 }  
 
                 if (!abflCaseIds.isEmpty()) {
