@@ -12,6 +12,7 @@ public without sharing class ASF_CaseFrameworkHelper {
      * Return the Approval Records to calling method, to b
      * e inserted
      */
+    public static Map<Id, Boolean> runIntegrationFromLwc = new Map<Id, Boolean>();
     public static Map<Id, List<ASF_Case_Approv__c>> addApprovals(List<Case> caseList, Map<Id, List<ASF_Case_Rule__c>> allCaseRules){
 
         Map<Id, List<ASF_Case_Approv__c>> approvalMap = new Map<Id, List<ASF_Case_Approv__c>>();
@@ -36,6 +37,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             caseApprovalRecord.Approval_Status__c  = 'Pending';
                             caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
                             caseApprovalRecord.SR__c = caseRec.Id;
+                            caseApprovalRecord.Line_Of_Business__c = caseRec.LOB__c;
                             approvalList.add(caseApprovalRecord);
                             break;
                         }
@@ -83,6 +85,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
                                 checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
                                 // VIRENDRA - 13 June 2024 - ENDS HERE.
+                                //PR1030924-60, for populating new Line_Of_Business__c field
+                                checklistRecord.Line_Of_Business__c = caseRec.LOB__c;
                                 checklistList.add(checklistRecord);
                             }
                             break;
@@ -356,7 +360,8 @@ public without sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c && !(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false)){
+                    if(integ.Auto_Run_on_Load__c && (!(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false) || (runIntegrationFromLwc.containsKey(caseRec.Id) && runIntegrationFromLwc.get(caseRec.Id) == true))){
+                        runIntegrationFromLwc.put(caseRec.Id, false);
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
