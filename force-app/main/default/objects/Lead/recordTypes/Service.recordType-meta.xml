@@ -41,6 +41,10 @@
             <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Employment_Type__c</picklist>
