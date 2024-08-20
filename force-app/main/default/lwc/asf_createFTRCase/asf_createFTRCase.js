@@ -4,6 +4,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, getRecord } from "lightning/uiRecordApi";
 import getCaseFieldsConfig from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseFieldsConfig';
+import getUserDetails from '@salesforce/apex/ASF_CreateCaseWithTypeController.getUserDetails';
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import LOB_FIELD from "@salesforce/schema/Account.Line_of_Business__c";
 import BUSINESS_UNIT_FIELD from "@salesforce/schema/Account.Business_Unit__c";
@@ -201,6 +202,21 @@ export default class Asf_createFTRCase extends NavigationMixin(LightningElement)
             if (this.caseRelObjName) {
                 caseFields[this.caseRelObjName] = this.caseExtensionRecordId;
             }
+
+            await getUserDetails()
+                .then(result => {
+                    console.log('getUserDetails: '+JSON.stringify(result));
+                    if (result.lstChannel != null && result.lstChannel.length > 0) {
+                        caseFields["Source__c"] = result.strSource;
+                        caseFields["Channel__c"] = result.lstChannel[0].label;
+                    }
+                })
+                .catch(error => {
+                    console.log('getUserDetails: '+JSON.stringify(error));
+                    this.loading = false;
+                    this.showToast('Error', this.label.errorMessage, 'Error');
+                })
+
             caseFields["CCC_External_Id__c"] = this.cccExternalId;
             caseFields["Technical_Source__c"] = 'LWC';
             caseFields['AccountId'] = this.recordId;
