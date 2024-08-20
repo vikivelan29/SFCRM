@@ -41,7 +41,7 @@ public with sharing class ABFL_E2C_CreationRules {
                         qualifiedCaseIds.add(c.Id);
                     }
                     else if(caseIdvsEmailMessage.get(c.Id).FromAddress.contains('microsoftexchange')){          // added by vikas
-								abflCaseIds.add(c.Id);                    // added by vikas
+								qualifiedCaseIds.add(c.Id);                    // added by vikas
                 }  
                 }  
 
@@ -84,7 +84,7 @@ public with sharing class ABFL_E2C_CreationRules {
                                     ABCL_Logger.emit();
                                     // Throw error here - This will block further processing - Check for rule level message, then header level message
                                     //emailMsg.addError(String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c);
-                                    String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
+                                    //String message = String.isNotBlank(metadata.Error_Message__c)?metadata.Error_Message__c:metadata.E2C_Creation_Scenarios__r.Error_Message__c;
                                     // Log the error
                                     ABCL_Logger.enableExceptionLogging();
                                     ABCL_Logger.push('ABFL_E2C_CreationRules: Case Generation failed');
