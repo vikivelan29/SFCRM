@@ -22,15 +22,17 @@ public with sharing class ABHI_FALevelDetails_Controller {
         
         String scoreType = 'FITNESS_ASSESSMENT';
         Map<String,String> urlParameters = new Map<String,String>();
-        urlParameters.put('eventDateFrom',fromDate);
-        urlParameters.put('eventDateTo',toDate);
-        urlParameters.put('customerNumber', acc.Client_Code__c);
-        urlParameters.put('eventCode', eventCode);
-        urlParameters.put('scoreType', scoreType);
+        urlParameters.put('startDate',fromDate);
+        urlParameters.put('endDate',toDate);
+        urlParameters.put('customerId', acc.Client_Code__c);
+        //urlParameters.put('customerNumber', '12345');
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
-                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
-                 return deserializedIntResponse;
+        system.debug('integrationResp>>' +integrationResp.statusCode);
+                   IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+                system.debug('deserialized resp' +deserializedIntResponse);
+            return deserializedIntResponse;
+
         
         }catch(Exception e){
          throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());

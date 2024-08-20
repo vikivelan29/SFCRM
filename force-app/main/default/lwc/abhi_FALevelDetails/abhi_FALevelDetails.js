@@ -20,20 +20,14 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track isLoading = false;
     @track errorMessages = '';
     @track displayError = false;
-    @track errorMessageSearch ='';
-    @track ApiFailure = '';
-    
     
 
 
     get isSearchDisabled() {
         if (!this.startDate || !this.endDate) {
             return true; // Disable if either date is empty
-        }
-        //return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
-        const start = new Date(this.startDate);
-        const end = new Date(this.endDate);
-        return end < start; 
+        }        
+        
   }
 
     showRecords = false;
@@ -103,7 +97,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 this.showDataTable = false;
                 this.errorMessages = result.Message;
                 this.displayError = true;
-                console.log('errorMessages>>' ,this.result.Message);
+                console.log('errormessage>>' ,this.integrationResp.Message);
                
             }
                 
@@ -111,18 +105,13 @@ export default class Abhil_FALevelDetails extends LightningElement {
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                //let errorDisplay = 'Error: ' + error.message;
-                //this.errorMessages = (error.body.message);
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                console.error('Error object:', error);
                 this.displayError = true;
-                if (error.body!= null) {
-                    this.errorMessages = error.body.message;
-                } else if(this.ApiFailure){
-                    this.errorMessages = this.ApiFailure;
-                }
-                else{
-                    this.errorMessages = 'An unknown error occured, please contact your system admin'
-                }
-            });         
+              
+               
+            });
 
 }
 
