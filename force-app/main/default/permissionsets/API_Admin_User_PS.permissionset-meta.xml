@@ -10427,11 +10427,6 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Policy_Nominee__c.NomineeExternalId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Policy_Nominee__c.NomineePercentage__c</field>
         <readable>true</readable>
     </fieldPermissions>
