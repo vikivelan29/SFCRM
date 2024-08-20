@@ -79,6 +79,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
             this.ApiFailure = result.Message;
 
             if(StatusCode == 1000) {
+                console.log('insideIf');
                 this.displayTable=true;
                 this.showRecords=true;
                 let data = [];
@@ -100,9 +101,12 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 this.displayError = true;
             }
             else {
+                console.log('insideElse');
+
                 this.showDataTable = false;
-                this.errorMessages = result.Message;
+                this.errorMessages = this.result.Message;
                 this.displayError = true;
+                console.log('failure result>>', this.result);
                 console.log('errorMessages>>' ,this.result.Message);
                
             }
@@ -146,6 +150,10 @@ fetchColumns() {
             console.log('coloumns', JSON.stringify(this.columns));
         })
     .catch(error => {
+
+            
+            //this.showNotification('Error','Error fetching data.','Error');
+            //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
         });
