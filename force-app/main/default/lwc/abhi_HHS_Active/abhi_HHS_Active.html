@@ -1,5 +1,5 @@
 <template>
-    <lightning-card>
+    <lightning-card title="HHS Active Age Details">
         <div class="slds-m-around_medium">
             <!-- Loading Spinner -->
             <template if:true={isLoading}>
@@ -13,45 +13,18 @@
                 <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="medium" onclick={handleRefresh}></lightning-button-icon>
             </div>
         </div>
-    <lightning-card title="Healthy Heart Score">
-        
         <br/>
         <!-- Data Tables -->
-        <template if:true={showTable}>
-            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
-                <thead>
-                    <tr >
-                        <th>Healthy Heart</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template for:each={table} for:item="item">
-                        <tr key={item.attributeCode}>
-                            <td>{item.attributeCode}</td>
-                            <td>{item.attributeValue}</td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
-        </template>
-<!-- Error Message for Healthy Heart Score -->
-<!-- Result Message for Healthy Heart Score, displayed only if no error -->
-        <template if:true={resultMessageValue}>
-            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
-                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-                <span style="font-size: 0.90rem;">{resultMessageValue}</span>
-            </div>
-        </template>
-        
-    </lightning-card>
-
-<br/>
-<br/>
-<lightning-card title="Active Age Details">
-    <template if:true={showDataTable}> 
-
-            <lightning-datatable 
+        <template if:true={showDataTable}>
+            <lightning-datatable
+                key-field="code"
+                data={recordTable}
+                columns={columns}
+                hide-checkbox-column
+            ></lightning-datatable>
+            <br/>
+            <br/>
+            <lightning-datatable
                 key-field="name"
                 data={recordTable2}
                 columns={columns2}
@@ -99,13 +72,12 @@
                 </lightning-button>
             </div>
         </template>
-    </lightning-card>
 
         <!-- Error Display -->
         <template if:true={displayError}>
             <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-                <span style="font-size: 0.90rem;">{errorMessages}</span>
+                {errorMessages}
             </div>
         </template>
     </lightning-card>

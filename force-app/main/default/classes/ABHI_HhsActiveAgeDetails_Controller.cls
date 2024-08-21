@@ -54,7 +54,13 @@ public with sharing class ABHI_HhsActiveAgeDetails_Controller {
         @AuraEnabled public responseMapWrapper responseMap;
     }
     
-    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
+    public class HHSDetailsWrapper {
+       @AuraEnabled public String operationStatus;
+       @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
+        @AuraEnabled public responseMapWrapper responseMap;
+    }
+    
+    
     public class serviceMessagesWrapper{
         
         @AuraEnabled public String systemCode;
