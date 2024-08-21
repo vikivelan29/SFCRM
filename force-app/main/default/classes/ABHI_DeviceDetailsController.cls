@@ -25,11 +25,11 @@ public with sharing class ABHI_DeviceDetailsController {
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
             deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
             if(integrationResponse.StatusCode == 200){
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, deserializedIntResponse.Message, deserializedIntResponse.data.devices);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), deserializedIntResponse.Message, deserializedIntResponse.data.devices);
                 return returnResponse;
             }
             else{
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
                 return returnResponse;
             }
         } catch (Exception e) {

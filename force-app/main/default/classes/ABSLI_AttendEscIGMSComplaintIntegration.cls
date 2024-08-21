@@ -89,7 +89,7 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c == '9'){
 				requestJSON.Original_IRDA_Token_Num = caseRecord.ABSLI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
-            if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && 
+            if(/*caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3' && */
             (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
                 requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
                 requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
