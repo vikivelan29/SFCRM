@@ -25,7 +25,11 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                         label: col.MasterLabel,
                         fieldName: col.Api_Name__c,
                         type: col.Data_Type__c,
-                        cellAttributes: { alignment: 'left' }
+                        cellAttributes: { alignment: 'left' },
+                        typeAttributes: col.Data_Type__c=='date-local'?{
+                            day: "2-digit",
+                            month: "2-digit"
+                        }:''
                     })),
                 ];
                 this.getDetails();
