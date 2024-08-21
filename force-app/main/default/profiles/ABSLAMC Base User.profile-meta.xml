@@ -5476,4 +5476,9 @@
         <enabled>true</enabled>
         <name>ViewTrustMeasures</name>
     </userPermissions>
+    <applicationVisibilities>
+        <application>ABCL_Service_Console</application>
+        <default>true</default>
+        <visible>true</visible>
+    </applicationVisibilities> 
 </Profile>
