@@ -5468,6 +5468,7 @@
         <default>true</default>
         <visible>true</visible>
     </applicationVisibilities>
+    <userPermissions>
         <enabled>false</enabled>
         <name>ViewSetup</name>
     </userPermissions>
