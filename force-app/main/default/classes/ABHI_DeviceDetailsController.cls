@@ -21,37 +21,16 @@ public with sharing class ABHI_DeviceDetailsController {
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
-            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
-            if(code == '0'){
-                return new ResponseWrapper(
-                    400,
-                    Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
-                );
-            }
-            String requestPayload = JSON.serialize(new RequestWrapper(code,'android','',''));
-            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayload,null);
-            if(integrationResponse.responseBody != ''){
-                EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
-                if(encryptedResponse.Content == null || encryptedResponse.Content == ''){
-                    String returnMessage = encryptedResponse.Message != null ? encryptedResponse.Message : Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c;
-                    return new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), returnMessage);
-                }
-                String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
-                if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
-                    String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
-                    DeserilaizedResponse deserializedIntResponse = (DeserilaizedResponse) JSON.deserialize(responseDecryptedBody, DeserilaizedResponse.class);
-                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message, deserializedIntResponse.data.devices);
-                    return returnResponse;
-                }
-                else{
-                    String returnMessage = decryptedResponse != '' ? (String) JSON.deserializeUntyped(decryptedResponse) : encryptedResponse.Message;
-                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), returnMessage);
-                    return returnResponse;
-                }
+            Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
+            String detailPayload =  JSON.serialize(new DeviceDetailsRequest(acc.Client_Code__c , '', ''));
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
+            deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
+            if(integrationResponse.StatusCode == 200){
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), deserializedIntResponse.Message, deserializedIntResponse.data.devices);
+                return returnResponse;
             }
             else{
-                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
                 return returnResponse;
             }
             
