@@ -1573,11 +1573,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_CommnunicationLog__e.Communication_Channel__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ASF_CommnunicationLog__e.Department__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4363,11 +4358,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Created_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Customer_Payload__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5302,7 +5292,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Asset</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Case</tab>
@@ -5482,4 +5472,3 @@
         <enabled>false</enabled>
         <name>ViewSetup</name>
     </userPermissions>
-</Profile>
