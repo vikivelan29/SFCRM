@@ -423,6 +423,11 @@ Portal</label>
                 <default>false</default>
                 <label>Branch (walk-in / phone)</label>
             </value>
+            <value>
+                <fullName>ABCD App</fullName>
+                <default>false</default>
+                <label>ABCD App</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
