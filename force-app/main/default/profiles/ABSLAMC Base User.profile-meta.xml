@@ -5467,10 +5467,6 @@
         <enabled>false</enabled>
         <name>ViewSetup</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewTrustMeasures</name>
-    </userPermissions>
     <applicationVisibilities>
         <application>ABCL_Service_Console</application>
         <default>true</default>
