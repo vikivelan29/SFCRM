@@ -27,7 +27,7 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
                 this.policyData = {...respBody, totalBalance : summationOfTotalBalance};
             }
             else {
-                this.apiErrorMessage = `Error: ${respBody.message}`;
+                this.apiErrorMessage = `Error: ${respBody?.Message ?? respBody?.message}`;
             }
         })
         .catch(error => {
