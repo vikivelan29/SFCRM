@@ -1239,6 +1239,10 @@
             <fullName>Welcome BOT</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABCD App</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
