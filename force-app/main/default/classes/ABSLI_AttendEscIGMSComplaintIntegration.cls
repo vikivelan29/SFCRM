@@ -93,8 +93,10 @@ public with sharing class ABSLI_AttendEscIGMSComplaintIntegration  implements AS
             (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
                 requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
                 requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Claim_Received_Amount__c);
-                requestJSON.Claim_Payment_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
-                requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                if(caseRecord.ABSLI_Case_Detail__r.Type_of_Disposal__c != '3'){
+                    requestJSON.Claim_Payment_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
+                    requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                }
                 requestJSON.Claim_Payment_Cheque_Number = caseRecord.ABSLI_Case_Detail__r.Claim_Payment_Cheque_Number__c;
                 requestJSON.Claim_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Claim_Clsr_Additional_Info__c;
                 requestJSON.Others_Clsr_Additional_Info = caseRecord.ABSLI_Case_Detail__r.Others_Clsr_Additional_Info__c;
