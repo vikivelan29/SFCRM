@@ -41,9 +41,9 @@
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
+                <fullName>ABSLAMC</fullName>
                 <default>false</default>
-                <label>ABHI</label>
+                <label>ABSLAMC</label>
             </value>
         </valueSetDefinition>
     </valueSet>
