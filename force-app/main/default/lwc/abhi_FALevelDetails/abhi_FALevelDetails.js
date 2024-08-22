@@ -23,8 +23,11 @@ export default class Abhil_FALevelDetails extends LightningElement {
     get isSearchDisabled() {
         if (!this.startDate || !this.endDate) {
             return true; // Disable if either date is empty
-        }        
-        
+        }
+        //return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+        return end < start; 
   }
 
     showRecords = false;
@@ -137,6 +140,10 @@ showNotification(title, message, variant) {
         variant: variant,
     });
     this.dispatchEvent(event);
+}
+
+get isEndDateDisabled() {
+    return !this.startDate;
 }
 
 }

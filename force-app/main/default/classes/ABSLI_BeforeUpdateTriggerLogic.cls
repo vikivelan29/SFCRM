@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-27-2024
+ * @last modified on  : 08-21-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
@@ -286,7 +286,6 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
 
         }
     }
-    
     //custom exception class
 	public class MyCustomException extends Exception {}
 }

@@ -40,37 +40,24 @@ export default class Abfl_OutstandingCharges extends LightningElement {
         if(this.customerLoanAccountNumber){
             outstandingCharges({'customerLAN':this.customerLoanAccountNumber}).then(result=>{
                 this.outstandingChargesResult = result;
-                console.log('result ==> ', result.payload);
-                console.log('result ==> ', result.statusCode);
-                if(result.payload && result.statusCode==200){
-                    this.outstandingChargesResult.payload = JSON.stringify(JSON.parse(result.payload).success[0]);
-                    //this.outstandingChargesResult.statusCode = JSON.stringify(JSON.parse(result.payload).statusCode);
-                    if (this.outstandingChargesResult) {
-                        this.showBaseViewScreen = true;
-                    }else {
-                        console.log('error ==> ');
-                        this.showToast("Error", this.label.errorMessage, 'error');
-                    }
-                    this.isLoading = false;
-                } else if (result.statusCode==400) {
+                console.log('result ==> ', result);
+                this.outstandingChargesResult.payload = JSON.stringify(JSON.parse(result.payload).success[0]);
+                //this.outstandingChargesResult.statusCode = JSON.stringify(JSON.parse(result.payload).statusCode);
+                if (this.outstandingChargesResult) {
+                    this.showBaseViewScreen = true;
+                } else {
                     console.log('error ==> ');
-                    let err = JSON.parse(result.payload);
-                    let errMsg = err.error? err.error[0].value: err.message?err.message:'Failed at Integration layer. Please contact System Admin.';
-                    this.showToast("Error", "Integration Error: "+ errMsg, 'error');
-                    this.isLoading = false;
-                }else{
-                    let errormsg = 'Integration response is not valid. Please contact System Admin';
-                    this.showToast('Error', errormsg, 'error');
-                    this.isLoading = false;
+                    this.showToast("Error", this.label.errorMessage, 'error');
                 }
+                this.isLoading = false;
             }).catch(error=>{
                 console.log('error ==> ', error);
                 let parsedjson = JSON.parse(this.outstandingChargesResult.payload);
-                let errormsg = '';
+                var errormsg = '';
                 if (Array.isArray(parsedjson.error)) {
                     errormsg =  parsedjson.error.map((e) => e.value).join(", ");
                 }else{
-                    errormsg = parsedjson?.error?.value? parsedjson.error.value : 'Something went wrong. Please contact System Admin.';
+                    errormsg = parsedjson?.error?.value? parsedjson.error.value : 'Something went wrong. Please contact System Admin.'
                 }
                 this.showToast('Error', errormsg, 'error');
                 this.isLoading = false;

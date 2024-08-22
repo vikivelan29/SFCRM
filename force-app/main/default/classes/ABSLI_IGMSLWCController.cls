@@ -23,13 +23,13 @@ public with sharing class ABSLI_IGMSLWCController {
         {
             if((caseInt.Status__c == ABSLI_Constants.PENDING && System.now() < caseInt.CreatedDate.addMinutes(60)) || caseInt.Status__c != ABSLI_Constants.PENDING){
                 for(String key : asfIntExtIdMap.keySet()){
-                    if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_RegisterIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
+                    if(String.isBlank(cls.registrationStatus) && asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_RegisterIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
                         cls.registrationStatus = caseInt.Status__c;
                     }
-                    else if(asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_AckIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
+                    else if(String.isBlank(cls.acknowledgeStatus) && asfIntExtIdMap.get(caseInt.Integration_Ext_Id__c).Processing_Class__c == 'ABSLI_AckIGMSComplaintIntegration' && key == caseInt.Integration_Ext_Id__c){
                         cls.acknowledgeStatus = caseInt.Status__c;
                     }
-                    else{
+                    else if(String.isBlank(cls.pendingStatus)){
                         cls.pendingStatus = caseInt.Status__c;
                     }
                 }
