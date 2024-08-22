@@ -86,12 +86,6 @@
                                 </lightning-checkbox-group>
                             </template>
                         </template>
-
-
-                        <template if:true={isPhoneInbound}>
-                            <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
-                                required></lightning-input>
-                        </template>
                         <div class="slds-grid slds-grid_vertical">
                             <div class="slds-col slds-size_2-of-8">
                                 <template if:true={isPhoneInbound}>
