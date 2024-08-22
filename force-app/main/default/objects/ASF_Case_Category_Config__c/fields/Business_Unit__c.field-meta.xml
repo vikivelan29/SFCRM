@@ -34,12 +34,14 @@
                 <label>ABHI</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
-                <default>false</default>
-                <label>ABSLIG</label>
                 <fullName>ABSLAMC</fullName>
                 <default>false</default>
                 <label>ABSLAMC</label>
+            </value>
+            <value>
+                <fullName>ABSLIG</fullName>
+                <default>false</default>
+                <label>ABSLIG</label>
             </value>
         </valueSetDefinition>
     </valueSet>
