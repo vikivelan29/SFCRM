@@ -1042,4 +1042,12 @@
         <shortDescription>ABHI_FitnessAppDetails</shortDescription>
         <value>Fitness Appointment Details</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <categories>ABSLAMC Business Unit</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
 </CustomLabels>

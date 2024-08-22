@@ -22,7 +22,9 @@ import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
@@ -201,7 +203,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
+            if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
