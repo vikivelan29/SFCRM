@@ -238,7 +238,8 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     }
                 }
             }
-            if(!isCustomDelete){
+            
+            if(!isCustomDelete){ 
                 for(Id caseId : caseIdToTitlesMap.keySet()){
                     for(String title : caseIdToTitlesMap.get(caseId)){
                         FeedItem feedItem = new FeedItem();
