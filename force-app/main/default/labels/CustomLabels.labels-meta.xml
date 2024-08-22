@@ -1047,17 +1047,10 @@
         <value>2000</value>
     </labels>
     <labels>
-        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
-        <value>cnwf_touchpoint</value>
+        <shortDescription>HAPP</shortDescription>
+        <value>ABHI Health Return App Reg</value>
     </labels>
 </CustomLabels>
