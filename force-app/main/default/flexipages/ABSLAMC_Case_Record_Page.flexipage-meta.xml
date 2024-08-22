@@ -391,6 +391,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
@@ -481,12 +487,6 @@
                         <rightValue>Unresolved</rightValue>
                     </criteria>
                 </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
-                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>
