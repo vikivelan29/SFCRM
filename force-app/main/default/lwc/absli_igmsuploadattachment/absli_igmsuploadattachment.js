@@ -6,18 +6,26 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import pageSize from '@salesforce/label/c.ABFL_DMSPageSize';
 import Manual_Synching from '@salesforce/label/c.Manual_Synching';
 import uploadAttachment from '@salesforce/apex/ABSLI_UploadIGMSComplaintsIntegration.uploadAttachment';
+import { NavigationMixin } from 'lightning/navigation';
 
 const columns = [
             {
                 label: DMS_File_Name,
                 fieldName: 'contentURL',
                 type: 'url',
-                typeAttributes: { label: { fieldName: 'fileName' }, target: '_blank' }
+                typeAttributes: { 
+                    label: { fieldName: 'fileName' }, 
+                    target: '_blank'
+                 }
             },
             {
                 label: 'Status',
-                fieldName: 'status',
-                type: 'test'
+                type: 'button',
+                typeAttributes: { 
+                    label: { fieldName: 'status' }, 
+                    name: 'showIGMSDocument',
+                    variant: 'base',
+                    disabled: { fieldName: 'showIGMSDocument' } }
             },
             {
                 label: Manual_Synching,
@@ -30,7 +38,7 @@ const columns = [
                 }
             }
           ];
-export default class Absli_igmsuploadattachment extends LightningElement {
+export default class Absli_igmsuploadattachment extends NavigationMixin(LightningElement) {
     isRecordPresent = false;
     noFileAvailableLabel = noFileAvailableLabel;
     isPreviousDisabled =false;
@@ -60,6 +68,11 @@ export default class Absli_igmsuploadattachment extends LightningElement {
                     this.tableData = result;
                     for(let i=0;i<this.tableData.length;i++) {
                         this.tableData[i].contentURL = '/'+this.tableData[i].contentDocumentId;
+                        if(this.tableData[i].igmsDocumentId){
+                            this.tableData[i].showIGMSDocument = false;
+                        } else {
+                            this.tableData[i].showIGMSDocument = true;
+                        }
                     }
                     this.totalNoOfRecordsInDatatable = this.tableData?.length;
                     // Set total records
@@ -178,6 +191,14 @@ export default class Absli_igmsuploadattachment extends LightningElement {
                     }
                     this.retrieveDataTable();
                 });
+        } else if(action.name === 'showIGMSDocument'){
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: row.igmsDocumentId,
+                    actionName: 'view'
+                }
+            });
         }
     }
 

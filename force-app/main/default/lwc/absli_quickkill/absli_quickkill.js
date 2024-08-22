@@ -388,12 +388,12 @@ export default class Absli_quickkill extends LightningElement {
                         message: true
                     }
                 }));
-                this.showSuccessMessage('success', 'SMS triggered successfully.', '');
+                this.showSuccessMessage('success', 'SMS & Email triggered successfully.', '');
     
             })
             .catch((error)=>{
                 console.log('error');
-                this.showError('error', 'Unable to send SMS.', error);
+                this.showError('error', 'Unable to send SMS & Email.', error);
                 debugger;
     
             })
