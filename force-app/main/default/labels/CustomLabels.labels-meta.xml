@@ -1010,7 +1010,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
-        <value>ABHI_Health_Return_App_Reg</value>
+        <value>ABHI Health Return App Reg</value>
     </labels>
     <labels>
         <fullName>ABHI_OtherDevice</fullName>
