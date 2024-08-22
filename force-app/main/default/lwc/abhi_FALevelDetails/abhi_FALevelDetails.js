@@ -22,11 +22,24 @@ export default class Abhil_FALevelDetails extends LightningElement {
     get isSearchDisabled() {
         if (!this.startDate || !this.endDate) {
             return true; // Disable if either date is empty
-        }        
-        //const start = new Date(this.startDate);
-        //const end = new Date(this.endDate);
-        //return end <= start; 
+        }
+        return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
+        
+        
   }
+
+  get DateErrorMessage() {
+    if (!this.startDate || !this.endDate) {
+        //return 'Both dates must be provided.';
+    }
+    if (new Date(this.startDate) > new Date(this.endDate)) {
+        return 'Please select a valid date range.';
+    }
+    return '';
+}
+// get isDataTableDisabled() {
+//     return !!this.DateErrorMessage; // Disable the data table if there's an error
+// }
 
     showRecords = false;
     label = {
