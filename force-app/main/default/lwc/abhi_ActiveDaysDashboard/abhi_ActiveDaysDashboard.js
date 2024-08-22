@@ -110,6 +110,9 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             console.log('Error----> ',JSON.stringify(error));
             this.isLoading = false;
             this.showDataTable = false;
+            this.errorDisplay = 'Error: ' + error.body.message;
+            this.showDataTable = false;
+            this.errorMessages =   error.body.message;
             this.displayError = true;
             if ( error.body != null) {
                 this.errorMessage =   error.body.message;
@@ -256,29 +259,8 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     get pageNumber() {
         return this.currentPage;
     }
-    validateDates() {
-        if (this.startDate && this.endDate) {
-            const start = new Date(this.startDate);
-            const end = new Date(this.endDate);
-
-            if (end < start) {
-                this.displayErrorSearch = true;
-                this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
-            } else {
-                this.displayErrorSearch = false;
-            }
-        } else {
-            this.displayErrorSearch = false; // Hide error if one of the dates is missing
-        }
-    }
-    renderedCallback(){
-        Promise.all([
-            loadStyle(this, styles) //specified filename
-        ]).then(() => {
-            console.log('Files loaded.');
-        }).catch(error => {
-           console.log("Error " + error.body.message);
-        });
+    get isEndDateDisabled() {
+        return !this.startDate;
     }
 
 }
