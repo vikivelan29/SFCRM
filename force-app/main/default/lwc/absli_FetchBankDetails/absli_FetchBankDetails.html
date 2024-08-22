@@ -20,19 +20,19 @@
                         <lightning-layout multiple-rows="true">
                                 <lightning-layout-item padding="around-small" size="12">
                                     <lightning-input type="text" label="IFSC Code" value={IFSC_Code}
-                                        required onchange={handleIFSC}></lightning-input>
+                                        disabled={showFetchResponse} required onchange={handleIFSC}></lightning-input>
                                 </lightning-layout-item>
                                 <lightning-layout-item padding="around-small" size="12">
-                                    <lightning-input type="text" label="MICR Code" value={MICR_CODE}
-                                        onchange={handleMICR}></lightning-input>
+                                    <lightning-input type="text" label="MICR Code" value='0000000000'
+                                            disabled onchange={handleMICR}></lightning-input>
                                 </lightning-layout-item>
                                  <lightning-layout-item padding="around-small" size="12">
                                         <lightning-input type="text" label="Bank Name" value={BANK_NAME}
-                                            disabled={showFetchResponse} onchange={handleBANKNAME}> </lightning-input>
+                                            disabled onchange={handleBANKNAME}> </lightning-input>
                                  </lightning-layout-item>
                                  <lightning-layout-item padding="around-small" size="12">
                                         <lightning-input type="text" label="Bank Branch" value={BANK_BRANCH}
-                                            disabled={showFetchResponse} onchange={handleBANKBRANCH}></lightning-input>
+                                            disabled onchange={handleBANKBRANCH}></lightning-input>
                                  </lightning-layout-item>
                               
                                 
@@ -54,8 +54,9 @@
                 <template if:false={showFetchResponse}>
                     <button class="slds-button slds-button_neutral" onclick={handleFetchDetails} title="Fetch Details">Fetch Details</button>
                 </template>
-
+                <template if:true={showUpdate}>
                     <button class="slds-button slds-button_neutral" onclick={handleUpdateFromFieldPopUp} title="Update">Update</button>
+                </template>
             </footer>
         </div>
     </section>

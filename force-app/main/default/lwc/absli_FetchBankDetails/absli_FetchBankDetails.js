@@ -26,7 +26,7 @@ export default class Absli_FetchBankDetails extends LightningElement {
     @track data;
     @track loaded = false;
     @track IFSC_Code = '';
-    @track MICR_CODE = '';
+    @track MICR_CODE = '0000000000';
     @track BANK_NAME = '';
     @track BANK_BRANCH = '';
     @track absliCaseExtId = '';
@@ -36,6 +36,8 @@ export default class Absli_FetchBankDetails extends LightningElement {
     @track originalTextValue = '';
     @track nsdlResponse = undefined;
     @track showSpinner = false;
+    @track showUpdate = false;
+    @track disableFields = true;
 
     @wire(CurrentPageReference) pageRef;
 
@@ -72,6 +74,8 @@ export default class Absli_FetchBankDetails extends LightningElement {
             console.log('Response:', JSON.stringify(this.processApexReturnValue));
             
             if (!this.processApexReturnValue || Object.keys(this.processApexReturnValue).length === 0) {
+                this.showUpdate = true;
+                this.disableFields = false;
                 this.showToast('Unable to fetch Bank Details, please try again later.', 'error'); 
                 return;
             } else if (this.processApexReturnValue.ReturnCode == "1") {
@@ -86,6 +90,7 @@ export default class Absli_FetchBankDetails extends LightningElement {
                 this.BANK_BRANCH = nsdlData.BANK_BRANCH;
                 this.absliCaseExtId = this.processApexReturnValue.absliCaseExtId; // Ensure this exists in the response
                 this.showFetchResponse = true;
+                this.showUpdate = true;
                 this.showToast('Bank Details Retrieved Successfully', 'success'); // Show success toast
             } else if (this.processApexReturnValue.ReturnCode == "-1") {
                 this.errorMessage = this.processApexReturnValue.ReturnMessage;
