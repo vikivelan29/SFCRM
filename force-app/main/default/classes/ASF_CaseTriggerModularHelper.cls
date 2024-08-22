@@ -27,10 +27,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
     }
     public static String relObjName = '';
     /**
-* @Function - setSkipperFlags
-* @Description - method to be invoked at the beginning and end of the BEFORE triggers
-* This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
-*/
+    * @Function - setSkipperFlags
+    * @Description - method to be invoked at the beginning and end of the BEFORE triggers
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
     public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
         skipperFlagMap = new Map<Id, Set<String>>();
         Boolean isInsert = oldMap == null ? true : false;
@@ -272,14 +272,14 @@ blankSourcePresent = true;
                 } 
                 relObjectList.add(relRec);
                 sObjectIdToCaseMap.put((String)relRec.get('Id'), caseRec);
-                Database.SaveResult[] saveResults = Database.update(relObjectList, false); 
-                //Check each SaveResult for errors and add errors to corresponding records
-                for (Integer i = 0; i < saveResults.size(); i++) {
-                    if (!saveResults.get(i).isSuccess()) {
-                        Case failedRec = sObjectIdToCaseMap.get((String)relObjectList[i].get('Id'));
-                        failedRec.addError('Error on insert: ' + saveResults.get(i).getErrors()[0].getMessage());
-                    }           
-                }
+            }
+            Database.SaveResult[] saveResults = Database.update(relObjectList, false); 
+            //Check each SaveResult for errors and add errors to corresponding records
+            for (Integer i = 0; i < saveResults.size(); i++) {
+                if (!saveResults.get(i).isSuccess()) {
+                    Case failedRec = sObjectIdToCaseMap.get((String)relObjectList[i].get('Id'));
+                    failedRec.addError('Error on update: ' + saveResults.get(i).getErrors()[0].getMessage());
+                }           
             } 
         }
     }
@@ -1730,7 +1730,8 @@ User will now be forced to go recategorize.
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
-                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU){
+                    if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null)){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  

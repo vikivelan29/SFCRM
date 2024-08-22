@@ -59,6 +59,9 @@ export class asf_Utility {
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
+                }
                 if(parentJS.categoryTypeVal){
                     fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
                 }

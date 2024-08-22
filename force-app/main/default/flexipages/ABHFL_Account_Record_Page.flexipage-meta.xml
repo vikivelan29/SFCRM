@@ -448,13 +448,10 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Stage__c|NOT_EQUAL|[&quot;Closed&quot;,&quot;Resolved&quot;]</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;,&quot;Query&quot;]</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>CASES.CLOSED|EQUALS|false</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Stage__c|NOT_EQUAL|[&quot;Resolved&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -688,9 +685,6 @@
                         <valueListItems>
                             <value>CASES.ESCALATION_STATE|EQUALS|true</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;,&quot;Query&quot;]</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -740,7 +734,7 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>OWNER_NAME</value>
+                            <value>CASES.CLOSED_DATE</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -785,10 +779,10 @@
                             <value>Nature__c|EQUALS|[&quot;Complaint&quot;]</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Stage__c|NOT_EQUAL|[&quot;Closed&quot;,&quot;Resolved&quot;]</value>
+                            <value>CASES.CLOSED|EQUALS|false</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CLOSED|EQUALS|false</value>
+                            <value>Stage__c|NOT_EQUAL|[&quot;Resolved&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -824,10 +818,13 @@
                             <value>Stage__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Nature__c</value>
+                            <value>Overall_Case_Closure_SLA__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Source__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Type_Text__c</value>
@@ -837,9 +834,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>OWNER_NAME</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Overall_Case_Closure_SLA__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

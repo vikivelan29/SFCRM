@@ -14,7 +14,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             for(ContentDocumentLink conLink : contentLinks){
                  contentDocumentIds.add(conLink.ContentDocumentId);
             }
-            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension,PathonClient
+            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension,PathonClient,ContentSize
                                                     from ContentVersion where ContentDocumentId in: contentDocumentIds];
 
             List<ABSLI_IGMS_Document__c> igmsDocuments = [Select id,ContentDocumentId__c,Status__c
@@ -28,18 +28,20 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             }
             
             for(ContentVersion content : contentVersion){
-                if(allowedFileTypeForIGMS.contains(content.FileExtension)){
-                    IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
-                    docWrapper.fileName = content.Title +'.' + content.FileExtension;
-                    docWrapper.contentDocumentId = content.ContentDocumentId;
-                    docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
-                    if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
-                        docWrapper.allowUpload = true;
-                    }
-                    docWrapper.contentVersionID = content.Id;
-                    igmsDocumentList.add(docWrapper);
+                integer fileSize = content.contentSize/1024/1024;
+                if(allowedFileTypeForIGMS.contains(content.FileExtension) && fileSize < ABSLI_Constants.IGMS_MAX_FILE_SIZE){
+                IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
+                docWrapper.fileName = content.Title +'.' + content.FileExtension;
+                docWrapper.contentDocumentId = content.ContentDocumentId;
+                docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
+                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || (clickedIds.contains(content.contentDocumentId) && docWrapper.Status != ABSLI_Constants.FAILURE)){
+                    docWrapper.allowUpload = true;
                 }
+                docWrapper.contentVersionID = content.Id;
+                docWrapper.igmsDocumentId = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Id : null;
+                igmsDocumentList.add(docWrapper);
             }
+        }
         }
         return igmsDocumentList;
     }
@@ -67,19 +69,19 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
                 igmsDocument.Attachment_Source__c = 'CRM to IRDA';
                 igmsDocument.Policy_No_Text__c = caseRecord[0].Asset.Policy_No__c;
                 igmsDocument.RecordTypeId = Schema.sObjectType.ABSLI_IGMS_Document__c.getRecordTypeInfosByDeveloperName().get('Upload').getRecordTypeId();
+                IGMSUploadDocumentWrapper downloadWrapper = new IGMSUploadDocumentWrapper();
+                downloadWrapper.caseId = caseRecord[0].CaseNumber;
+                downloadWrapper.IRDA_Token_Number = caseRecord[0].IRDAI_Token_Number__c;
+                downloadWrapper.fileName = docWrapper.fileName;
+                if(caseRecord[0].ABSLI_Case_Detail__r.Resolved_Date__c != null){
+                    downloadWrapper.isFRRDoc = true;
+                }else{
+                    downloadWrapper.isFRRDoc = false;
+                }
+                downloadWrapper.contentVersionID = docWrapper.contentVersionId;
+                igmsDocument.Request__c = JSON.serialize(downloadWrapper);
                 Database.SaveResult result = Database.insert(igmsDocument);
                 if(result.isSuccess()){
-                    IGMSUploadDocumentWrapper downloadWrapper = new IGMSUploadDocumentWrapper();
-                    downloadWrapper.caseId = caseRecord[0].CaseNumber;
-                    downloadWrapper.IRDA_Token_Number = caseRecord[0].IRDAI_Token_Number__c;
-                    downloadWrapper.fileName = docWrapper.fileName;
-                    if(caseRecord[0].ABSLI_Case_Detail__r.Resolved_Date__c != null){
-                        downloadWrapper.isFRRDoc = true;
-                    }else{
-                        downloadWrapper.isFRRDoc = false;
-                    }
-                    downloadWrapper.contentVersionID = docWrapper.contentVersionId;
-
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                     caseIntOut.Business_Unit__c = caseRecord[0].Business_Unit__c;
                     caseIntOut.Request_Payload__c = JSON.serialize(downloadWrapper);
@@ -115,6 +117,8 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
         public String uploadFileLabel;
         @AuraEnabled
         public string contentVersionID;
+        @AuraEnabled
+        public string igmsDocumentId;
         IGMSDocumentWrapper(){
             this.status = 'Not Started';
             this.allowUpload = false;

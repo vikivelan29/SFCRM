@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 07-31-2024
+ * @last modified on  : 08-09-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -62,8 +62,8 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
-    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
-    public static final String InstaIssuranceAPI = 'InstaIssuranceApi';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WhatappOptoutUpdateApi';
+    public static final String InstaIssuranceAPI = 'InstaIssuance_Shared_API';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
     public static final String AddressUpdateSrvName = 'Address Update';
@@ -79,6 +79,7 @@ public class ABSLI_Constants {
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
     public static final String UIN_API_SOURCE = '4170703233';
+    public static final String GEN_FUND_SOURCE = '4170703531';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
@@ -216,6 +217,7 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMS_OPTION = '1';
     public static final String ABSLI_IGMS_MODE_REGISTER = '1';
     public static final String ABSLI_IGMS_MODE_UPDATE = '2';
+    public static final Integer IGMS_MAX_FILE_SIZE = 10;
     /* LOAN REPAYMENTS INTEGRATION */
     public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
     public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';

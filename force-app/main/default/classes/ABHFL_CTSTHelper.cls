@@ -387,7 +387,7 @@ public without sharing class ABHFL_CTSTHelper {
         return updatedCasesMap;
     }
     //Dhinesh
-    public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
+   public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
         //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
 
@@ -396,22 +396,31 @@ public without sharing class ABHFL_CTSTHelper {
         for(Case caseRec : caseRecords){
             eligibleCases.add(caseRec);
             uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
-            
         }
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>();
+        Set<ID>activeuserlst=new set<ID>(); 
+        for(User u: [Select Id from user where Isactive=true]){
+            activeuserlst.add(u.Id);
+        }
+        Id queuewhennospoc=[Select Id,Name from Group where type='Queue' AND Name='Unassigned Queue'].Id;
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c,CRM_SPOC__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
                 caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
-                if(caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c != null){
-                    Case blankCase = new Case(Id = caseRec.Id);
-                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
+               Case blankCase = new Case(Id = caseRec.Id);
+                
+                if(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c != null && activeuserlst.contains(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c)){
+                        blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c;
+                    }
+                    else
+                    {
+                    blankCase.OwnerId=queuewhennospoc;    
+                    }
                     updatedCasesMap.put(blankCase.Id, blankCase);
-                }
                 ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
                 caseDetail.Address__c = caseIdToBranchMap.get(caseRec.Id).Address__c;
                 caseDetailsToUpdate.add(caseDetail);
@@ -534,23 +543,18 @@ public without sharing class ABHFL_CTSTHelper {
         for(Case caseRec : caseRecords){
             returnMap.put(caseRec.Id, true);//default true; // All payment records have Realization_Status__c as 'Cleared'
            String cccExternalId = system.Label.CCC_External_Id;
-            system.debug('check external id-->'+caseRec.CCC_External_Id__c + 'lable'+cccExternalId);
             
            if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
-                system.debug('paymentsMap'+paymentsMap);
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
-                    system.debug('inside ABHFL_Payment__c loop');
-                    //added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
-                   //Jira id-PR970457-1034
-                //Added By Ey-Vaishnavi
+                    
+                    /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
+                      Jira id-PR970457-2176
+                      Added By Ey-Nikhil  */
                     if((caseRec.CCC_External_Id__c == cccExternalId && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
                        ||(caseRec.CCC_External_Id__c != cccExternalId)){
-                             system.debug('caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c '+caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c );
-                             system.debug('caseRec.CCC_External_Id__c'+caseRec.CCC_External_Id__c);
-                            system.debug('cccExternalId'+cccExternalId);
                               
                            if (payment.Realization_Status__c == null) {
                                system.debug('payment.Realization_Status__c'+payment.Realization_Status__c);
@@ -705,6 +709,7 @@ public without sharing class ABHFL_CTSTHelper {
                 if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
                     applicableCases.add(cs);
                     integMap.put(cs.Id, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                    ASF_CaseFrameworkHelper.runIntegrationFromLwc.put(cs.Id, true);
                 }
             }
             if(!applicableCases.isEmpty()){

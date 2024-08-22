@@ -19,6 +19,9 @@ public with sharing class ABSLI_DownloadIGMSComplaintIntegration {
                 downloadWrapper.DocID = igmsDocument[0].Document_Id__c;
                 downloadWrapper.fileName = igmsDocument[0].File_Name__c;
 
+                igmsDocument[0].Request__c = JSON.serialize(downloadWrapper);
+                Database.SaveResult result = Database.update(igmsDocument[0]);
+
                 Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
                 caseIntOut.Business_Unit__c = igmsDocument[0].Case__r.Business_Unit__c;
                 caseIntOut.Request_Payload__c = JSON.serialize(downloadWrapper);

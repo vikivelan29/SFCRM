@@ -14,7 +14,8 @@ export default class ASF_DynamicButtons extends LightningElement {
     @track selectedButtonApexClass = '';
 
     @wire(getButtonsConfig, {
-        "objApiName": "$objectApiName"
+        "objApiName": "$objectApiName",
+        "recId":"$recordId"
     })
     async processResult(result) {
         this.processApexReturnValue = result.data;

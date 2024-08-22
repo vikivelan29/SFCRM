@@ -162,7 +162,7 @@ export default class Absli_quickkill extends LightningElement {
             return;
         }
     
-        this.searchResults = this.originalSearchResults .filter(asset => asset.LAN__c.toLowerCase().includes(this.searchTerm));
+        this.searchResults = this.originalSearchResults .filter(asset => asset.Policy_No__c.toLowerCase().includes(this.searchTerm));
         this.totalNoOfRecordsInDatatable = this.searchResults.length;
         this.paginationHelper();
     }
@@ -388,12 +388,12 @@ export default class Absli_quickkill extends LightningElement {
                         message: true
                     }
                 }));
-                this.showSuccessMessage('success', 'SMS triggered successfully.', '');
+                this.showSuccessMessage('success', 'SMS & Email triggered successfully.', '');
     
             })
             .catch((error)=>{
                 console.log('error');
-                this.showError('error', 'Unable to send SMS.', error);
+                this.showError('error', 'Unable to send SMS & Email.', error);
                 debugger;
     
             })

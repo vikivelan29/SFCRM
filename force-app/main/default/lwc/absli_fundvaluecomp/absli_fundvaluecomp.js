@@ -3,6 +3,7 @@ import getTemplateBody from "@salesforce/apex/ABSLI_FundValueCompController.getT
 import sendCommunication from "@salesforce/apex/ABSLI_FundValueCompController.sendCommunication";
 import getAllRelatedAssets from '@salesforce/apex/ABSLI_FundValueCompController.getAllRelatedAssets';
 import getPolicyColumns from '@salesforce/apex/ABSLI_FundValueCompController.getPolicyColumns';
+import deleteDraftLogs from '@salesforce/apex/ABSLI_QuickKillController.deleteDraftLogs';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 
@@ -24,6 +25,9 @@ export default class Absli_premiumpaymentlink extends LightningElement {
     totalPages; //Total no.of pages
     pageNumber = 1; //Page number    
     @track recordsToDisplay = []; //Records to be displayed on the page
+    @track showLoading = false;
+    @track bErrored = false;
+    @track cLogId='';
 
 
 
@@ -113,7 +117,7 @@ export default class Absli_premiumpaymentlink extends LightningElement {
             return;
         }
     
-        this.searchResults = this.originalSearchResults .filter(asset => asset.LAN__c.toLowerCase().includes(this.searchTerm));
+        this.searchResults = this.originalSearchResults .filter(asset => asset.Policy_No__c.toLowerCase().includes(this.searchTerm));
         this.totalNoOfRecordsInDatatable = this.searchResults.length;
         this.paginationHelper();
     }
@@ -230,14 +234,25 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         console.log('This method is to preview the SMS Content before sneding it to user.');
         console.log('What Id',this.recordId);
         console.log('Policy Id',this.selectedPolicyId);
+        this.showLoading = true;
         await getTemplateBody({whatId : this.recordId, policyId : this.selectedPolicyId})
         .then((result)=>{
-            this.templateBody = result;
+            debugger;
+            this.templateBody = result.message;
+            this.cLogId = result.cLogId;
             this.showPreview = true;
+            this.showLoading = false;
+            this.bErrored = false;
         })
         .catch((error) => {
+            debugger;
             console.log(error);
-            this.showPreview = false;
+            let errMsg = reduceErrors(error);
+            this.templateBody = errMsg;
+            this.showLoading = false;
+            this.bErrored = true;
+            this.showPreview = true;
+            
         });
 
     }
@@ -250,9 +265,13 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         console.log('Class Name --> '+parentRecordId);
         if(this.IsInputValid()){
             let unregistedPhoneNumber = null;
-            sendCommunication({accountId : parentRecordId, policyId : this.selectedPolicyId, unregisteredNumber: unregistedPhoneNumber})
+            sendCommunication({accountId : parentRecordId, policyId : this.selectedPolicyId, cLogId: this.cLogId})
             .then((result)=>{
-                this.invokeCloseModal();
+                this.dispatchEvent(new CustomEvent('closepopup', {
+                    detail: {
+                        message: true
+                    }
+                }));
                 this.showSuccessMessage('success', 'SMS triggered successfully.', '');
     
             })
@@ -281,7 +300,21 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         return isValid;
     }
 
-    invokeCloseModal(){
+    async invokeCloseModal(){
+        if(this.cLogId != null && this.cLogId != undefined && this.cLogId != ''){
+            await deleteDraftLogs({commLogId : this.cLogId})
+            .then((result)=>{
+                if(result == true){
+                    console.log('Deleted Draft Communication Log.');
+                }
+                else{
+                    this.showError('error', 'Something went Wrong ! Please contact system administrator.');
+                }
+            })
+            .catch((error)=>{
+                this.showError('error', 'Something went Wrong ! ');
+            })
+        }
         this.dispatchEvent(new CustomEvent('closepopup', {
             detail: {
                 message: true
@@ -313,6 +346,10 @@ export default class Absli_premiumpaymentlink extends LightningElement {
         this.totalNoOfRecordsInDatatable = this.searchResults.length;
         this.paginationHelper();
         this.selectedRows = [];
+    }
+    get showSendButton(){
+        debugger;
+        return this.showPreview && !this.bErrored;
     }
 
 }
