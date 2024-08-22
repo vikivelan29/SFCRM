@@ -1016,6 +1016,10 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>AMFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Advisor Portal</fullName>
             <default>false</default>
         </values>
@@ -1029,6 +1033,10 @@
         </values>
         <values>
             <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1056,10 +1064,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1077,6 +1081,14 @@
         </values>
         <values>
             <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email - Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1124,15 +1136,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insurance Repository website</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Insurance Repository</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Insurance Repository website</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Internal RM - Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1141,6 +1157,10 @@
         </values>
         <values>
             <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1164,6 +1184,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Online Dispute Resolution %28ODR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Outbound Altruist</fullName>
             <default>false</default>
         </values>
@@ -1181,6 +1205,14 @@
         </values>
         <values>
             <fullName>Payment Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone - Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1208,7 +1240,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SEBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service2Sales</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1221,6 +1261,10 @@
         </values>
         <values>
             <fullName>Telephone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transaction Remediation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1245,6 +1289,10 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>

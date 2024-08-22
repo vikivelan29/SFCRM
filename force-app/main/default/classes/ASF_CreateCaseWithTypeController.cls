@@ -17,6 +17,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     * @return  CaseDetailsWrapper
     *****************************************************************************************************************/
     
+    @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getUserDetails(){
 
         String source = '';
