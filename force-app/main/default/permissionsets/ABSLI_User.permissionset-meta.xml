@@ -240,6 +240,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Cash_Surrender_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Minimum_Withdrawal_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Withdrawal_Amount_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
         <readable>true</readable>
     </fieldPermissions>
