@@ -16,14 +16,16 @@
                 </lightning-layout-item>
                                 <lightning-layout-item size="4" class="slds-m-right_small">
                     <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange} min={startDate}
-                        label="End Date" message-when-range-underflow="Please Choose a date more than start date"
-                        class="inpFieldCheckValidity" format='YYYY-MM-dd' disabled={disabled}>
+                        label="End Date" class="inpFieldCheckValidity" format='YYYY-MM-dd' disabled={disabled}>
                     </lightning-input>
                 </lightning-layout-item>
                 <lightning-layout-item  class="slds-m-right_small" style="padding-top:19px">
                     <lightning-button variant="brand" label="Search" onclick={handleSearchClick} disabled={isSearchDisabled} ></lightning-button>
                 </lightning-layout-item>                
             </lightning-layout>
+            <template if:true={DateErrorMessage}>
+                <div class="slds-text-color_error">{DateErrorMessage}</div>
+            </template>
         </div>
 
         <div lwc:if = {displayTable}>
