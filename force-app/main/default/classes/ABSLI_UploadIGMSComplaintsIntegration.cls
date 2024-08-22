@@ -14,7 +14,7 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             for(ContentDocumentLink conLink : contentLinks){
                  contentDocumentIds.add(conLink.ContentDocumentId);
             }
-            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension,PathonClient
+            List<ContentVersion> contentVersion = [Select Id, ContentDocumentId, Title,FileExtension,PathonClient,ContentSize
                                                     from ContentVersion where ContentDocumentId in: contentDocumentIds];
 
             List<ABSLI_IGMS_Document__c> igmsDocuments = [Select id,ContentDocumentId__c,Status__c
@@ -28,15 +28,17 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
             }
             
             for(ContentVersion content : contentVersion){
-                if(allowedFileTypeForIGMS.contains(content.FileExtension)){
+                integer fileSize = content.contentSize/1024/1024;
+                if(allowedFileTypeForIGMS.contains(content.FileExtension) && fileSize < ABSLI_Constants.IGMS_MAX_FILE_SIZE){
                 IGMSDocumentWrapper docWrapper = new IGMSDocumentWrapper();
                 docWrapper.fileName = content.Title +'.' + content.FileExtension;
                 docWrapper.contentDocumentId = content.ContentDocumentId;
                 docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
-                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
+                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || (clickedIds.contains(content.contentDocumentId) && docWrapper.Status != ABSLI_Constants.FAILURE)){
                     docWrapper.allowUpload = true;
                 }
                 docWrapper.contentVersionID = content.Id;
+                docWrapper.igmsDocumentId = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Id : null;
                 igmsDocumentList.add(docWrapper);
             }
         }
@@ -115,6 +117,8 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
         public String uploadFileLabel;
         @AuraEnabled
         public string contentVersionID;
+        @AuraEnabled
+        public string igmsDocumentId;
         IGMSDocumentWrapper(){
             this.status = 'Not Started';
             this.allowUpload = false;
