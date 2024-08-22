@@ -273,6 +273,22 @@
             <valueName>Intimation</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Reimbursement:OPD claim</controllingFieldValue>
+            <valueName>Status inquiry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
+            <valueName>Inquiry of Network Hospital</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
+            <valueName>Inquiry of diagnostic centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
+            <valueName>Inquiry of Blacklisted hospital</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>General enquiry:Promo related</controllingFieldValue>
             <valueName>Marketing campaign</valueName>
         </valueSettings>
