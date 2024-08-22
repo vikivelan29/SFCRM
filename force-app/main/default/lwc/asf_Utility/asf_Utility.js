@@ -22,6 +22,7 @@ import REJECTION_REASON from '@salesforce/schema/Case.Rejection_Reason__c';
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 //import PRODUCT_FIELD from '@salesforce/schema/Case.Product__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
@@ -58,8 +59,8 @@ export class asf_Utility {
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
-                if(parentJS.categoryTypeVal){
-                    fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
                 }
                 if(parentJS.categoryTypeVal){
                     fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
@@ -121,6 +122,9 @@ export class asf_Utility {
         }
         if(parentJS.ftrValue){
             fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
+        }
+        if(parentJS.businessUnit === ABSLI_BU && parentJS.strChannelValue){
+            fields[CHANNEL_FIELD.fieldApiName] = parentJS.strChannelValue;
         }
         if(parentJS.businessUnit === ABSLI_BU && parentJS.issueTypeVal != null){
             fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;
