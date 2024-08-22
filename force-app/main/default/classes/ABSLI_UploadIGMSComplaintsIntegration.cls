@@ -33,10 +33,11 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
                 docWrapper.fileName = content.Title +'.' + content.FileExtension;
                 docWrapper.contentDocumentId = content.ContentDocumentId;
                 docWrapper.Status = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Status__c : docWrapper.Status;
-                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || clickedIds.contains(content.contentDocumentId)){
+                if(docWrapper.Status == ABSLI_Constants.SUCCESS || caseRecords[0].IsClosed || (clickedIds.contains(content.contentDocumentId) && docWrapper.Status != ABSLI_Constants.FAILURE)){
                     docWrapper.allowUpload = true;
                 }
                 docWrapper.contentVersionID = content.Id;
+                docWrapper.igmsDocumentId = contentDocumentIdIGMSDocumentMap.containsKey(content.ContentDocumentId) ? contentDocumentIdIGMSDocumentMap.get(content.ContentDocumentId).Id : null;
                 igmsDocumentList.add(docWrapper);
             }
         }
@@ -115,6 +116,8 @@ public with sharing class ABSLI_UploadIGMSComplaintsIntegration {
         public String uploadFileLabel;
         @AuraEnabled
         public string contentVersionID;
+        @AuraEnabled
+        public string igmsDocumentId;
         IGMSDocumentWrapper(){
             this.status = 'Not Started';
             this.allowUpload = false;
