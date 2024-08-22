@@ -218,7 +218,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error('Error loading record', error);
         }
-    }
+    } 
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
@@ -450,7 +450,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -618,7 +618,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-        console.log('inside updateCaseHandler: ' + this.isInputValid);
+
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");
