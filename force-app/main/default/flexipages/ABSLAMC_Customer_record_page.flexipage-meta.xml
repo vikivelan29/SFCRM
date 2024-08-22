@@ -37,8 +37,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aBSLI_FetchAssestsRelatedToAccount</componentName>
-                <identifier>c_aBSLI_FetchAssestsRelatedToAccount</identifier>
+                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
+                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</name>
