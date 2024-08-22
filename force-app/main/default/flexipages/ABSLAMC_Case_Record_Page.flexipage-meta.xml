@@ -449,6 +449,13 @@
                 </componentInstanceProperties>
                 <componentName>asf_CaseEditPage</componentName>
                 <identifier>c_asf_CaseEditPage</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IsClosed}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
