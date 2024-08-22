@@ -82,6 +82,7 @@ public with sharing class ABSLI_ClosedIGMSComplaintIntegration implements ASF_In
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
+            requestJSON.Is_Complainant_Informed = caseRecord.ABSLI_Case_Detail__r.Is_Complainant_Informed__c;
             
             string requestBody = JSON.serialize(requestJSON);
             
@@ -247,6 +248,7 @@ public with sharing class ABSLI_ClosedIGMSComplaintIntegration implements ASF_In
         public String Trans_Login_Id { get; set; }
         public string Option{get;set;}
         public string Mode{get;set;}
+        public string Is_Complainant_Informed{get;set;}
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {

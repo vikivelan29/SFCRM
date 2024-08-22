@@ -339,7 +339,6 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
 
         }
     }
-    
     //custom exception class
 	public class MyCustomException extends Exception {}
 }
