@@ -40,7 +40,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Stage__c
 			FROM Case
 			WHERE Id = :caseId
-			WITH SECURITY_ENFORCED
 			FOR UPDATE
 		];
 	}
@@ -180,8 +179,7 @@ public with sharing class ABSLI_IntegrationQueryHelper {
                                                             FROM ASF_Case_Integration__c
                                                             WHERE Case__c IN :caseIdSet
                                                             AND Status__c = :ABFL_Constants.PENDING
-                                                            AND Type__c = :type
-                                                            WITH SECURITY_ENFORCED];
+                                                            AND Type__c = :type];
 
         for(ASF_Case_Integration__c caseIntRecord :caseIntRecordsList) {
             caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
