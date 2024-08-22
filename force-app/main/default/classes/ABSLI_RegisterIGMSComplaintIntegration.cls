@@ -54,6 +54,14 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 errorMessage +='Receipt Number, ';
                 bErrorOccured = true;                
             }
+            if(String.isBlank(caseRecord.Account?.PersonMobilePhone)){
+                errorMessage = 'Customer Mobile Number is mandatory for IGMS Complaint Registration. Kindly reach out to your admin for further help., ';
+                bErrorOccured = true;
+            }
+            if(String.isBlank(caseRecord.AssetId)  && String.isBlank(caseRecord.IRDAI_Token_Number__c)){
+                errorMessage = 'IGMS Complaint Registration requires the Complaint to be tagged to a Policy., ';
+                bErrorOccured = true;
+            }
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != null){
                 errorMessage = 'Case is already sync with IGMS., ';
                 //bErrorOccured = true;
@@ -186,6 +194,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.New_Registration_Date__c = System.Today();
+                        caseExt.IGMS_Complaint_Registration_Date__c = System.Today();
                         caseExt.Next_Integration_Name__c = ABSLI_Constants.IGMS_REGCOMLPAINT_NEXT_INT;
                         caseExt.IGMS_Complaint_Status__c = '1';
                         dmlRecords.add(caseExt);

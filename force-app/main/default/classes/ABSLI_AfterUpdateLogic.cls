@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : Salesforce
 * @group             : 
-* @last modified on  : 07-25-2024
+* @last modified on  : 08-01-2024
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -13,16 +13,31 @@ public with sharing class ABSLI_AfterUpdateLogic {
     // This method is used to invoke all the ABSLI Classes to be used in AfterUpdateLogic.
     public static void executeAfterInsertLogic(List<Case> newCases, Map<Id,Case> oldCasesMap){
         List<Case> absliCases = new List<Case>();
+        Map<Id,Case> litmusInvocableCases = new Map<Id,Case>();
+        Map<Id,Case> oldMaplitmusInvocableCases = new Map<Id,Case>();
+        
         Map<Id,Case> absliOldCasesMap = new Map<Id,Case>();
         for(Case currentCase : newCases){
             if(currentCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
                 absliCases.add(currentCase);
                 absliOldCasesMap.put(currentCase.Id,oldCasesMap.get(currentCase.Id));
             }
+            if(currentCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && 
+               currentCase.IsClosed == true && (oldCasesMap.get(currentCase.Id).IsClosed != true) 
+               && ASF_Constants.RESOLVEDSTAGES.contains(currentCase.Status))
+            {
+                // THIS LOOP RUNS ADD CASES THOSE ARE RESOLVED AND ELIGIBLE FOR LITMUS CALLOUT.
+                litmusInvocableCases.put(currentCase.Id,currentCase);
+                oldMaplitmusInvocableCases.put(currentCase.Id,oldCasesMap.get(currentCase.Id));                
+                
+            }
         }
         
         if(absliCases.size()>0){
             updateTeamResolutionStatus(absliCases,absliOldCasesMap);
+        }
+        if(litmusInvocableCases.keySet().size()>0){
+            ABSLI_LitmusIntegration.evaluateCasesForLitmus(litmusInvocableCases, oldMaplitmusInvocableCases);
         }
     }
     public static void updateTeamResolutionStatus(List<Case> newCases, Map<Id,Case> oldMap){

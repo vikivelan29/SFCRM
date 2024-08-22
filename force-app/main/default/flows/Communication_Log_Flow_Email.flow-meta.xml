@@ -4,7 +4,7 @@
         <description>This apex class is for checking the BU Specific logic.</description>
         <name>Additional_Checks_for_Email_Templates</name>
         <label>Additional Checks for Email Templates</label>
-        <locationX>842</locationX>
+        <locationX>908</locationX>
         <locationY>2363</locationY>
         <actionName>ASF_CustomerEmailInvocable</actionName>
         <actionType>apex</actionType>
@@ -92,7 +92,7 @@
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
-        <locationX>2255</locationX>
+        <locationX>2494</locationX>
         <locationY>755</locationY>
         <actionName>Case.Case_creator_when_the_case_is_closed</actionName>
         <actionType>emailAlert</actionType>
@@ -112,7 +112,7 @@
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
         <label>Case owner when the case is assigned</label>
-        <locationX>2211</locationX>
+        <locationX>2450</locationX>
         <locationY>1139</locationY>
         <actionName>Case.Case_owner_when_the_case_is_assigned</actionName>
         <actionType>emailAlert</actionType>
@@ -263,6 +263,50 @@
         </connector>
     </assignments>
     <assignments>
+        <name>In_Progress_Email_Template</name>
+        <label>In Progress Email Template</label>
+        <locationX>1898</locationX>
+        <locationY>1979</locationY>
+        <assignmentItems>
+            <assignToReference>customMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.New_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTempDevName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.New_Case_Email_Template__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSCustomMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_case_config.New_Case_SMS_Metadata__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New_Case_Email_Template__c</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SMSTemplateFieldName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New_Case_SMS_Metadata__c</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Email_Template_Found</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Open_Email_Template</name>
         <label>New Email Template</label>
         <locationX>842</locationX>
@@ -353,7 +397,7 @@
     <decisions>
         <name>By_pass_flow</name>
         <label>By pass flow</label>
-        <locationX>524</locationX>
+        <locationX>584</locationX>
         <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Check_if_case_is_from_email</targetReference>
@@ -375,7 +419,7 @@
     <decisions>
         <name>Check_case_category_config</name>
         <label>Check case category config</label>
-        <locationX>1997</locationX>
+        <locationX>2211</locationX>
         <locationY>1547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -397,7 +441,7 @@
     <decisions>
         <name>Check_case_creator_if_case_closed</name>
         <label>Check case creator if case closed</label>
-        <locationX>2343</locationX>
+        <locationX>2582</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Check_Case_Owner_is_changed</targetReference>
@@ -457,7 +501,7 @@
     <decisions>
         <name>Check_Case_Owner_is_changed</name>
         <label>Check Case Owner is changed</label>
-        <locationX>2343</locationX>
+        <locationX>2582</locationX>
         <locationY>1031</locationY>
         <defaultConnector>
             <targetReference>Check_Case_status</targetReference>
@@ -510,7 +554,7 @@
     <decisions>
         <name>Check_Case_status</name>
         <label>Check Case status</label>
-        <locationX>2343</locationX>
+        <locationX>2582</locationX>
         <locationY>1331</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -630,7 +674,7 @@
     <decisions>
         <name>Check_for_contact_or_account</name>
         <label>Check for contact or account</label>
-        <locationX>974</locationX>
+        <locationX>1040</locationX>
         <locationY>2555</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -744,7 +788,7 @@
     <decisions>
         <name>Check_if_case_is_from_email</name>
         <label>Check if case is from email</label>
-        <locationX>1262</locationX>
+        <locationX>1382</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Check_case_creator_if_case_closed</targetReference>
@@ -769,7 +813,7 @@
     <decisions>
         <name>Check_if_the_Origin_is_Email</name>
         <label>Check if the Origin is Email</label>
-        <locationX>2167</locationX>
+        <locationX>2406</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Case_creator_when_the_case_is_closed</targetReference>
@@ -801,7 +845,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1568</locationX>
+        <locationX>1733</locationX>
         <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -858,7 +902,7 @@
     <decisions>
         <name>Custom_metadata_names</name>
         <label>Custom metadata names</label>
-        <locationX>1370</locationX>
+        <locationX>1502</locationX>
         <locationY>1871</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -984,11 +1028,54 @@
             </connector>
             <label>Duplicate - Status</label>
         </rules>
+        <rules>
+            <name>In_Progress_Landing_from_API</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Technical_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>API</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABSLI</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RunningUserName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>IntegrationUserName</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>In_Progress_Email_Template</targetReference>
+            </connector>
+            <label>In Progress Landing from API</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Email_Template_Found</name>
         <label>Email Template Found?</label>
-        <locationX>974</locationX>
+        <locationX>1040</locationX>
         <locationY>2255</locationY>
         <defaultConnector>
             <targetReference>Check_for_contact_or_account</targetReference>
@@ -1020,7 +1107,7 @@
     <decisions>
         <name>Is_Case_Recategorised</name>
         <label>Is Case Recategorised</label>
-        <locationX>974</locationX>
+        <locationX>1040</locationX>
         <locationY>1763</locationY>
         <defaultConnector>
             <targetReference>Custom_metadata_names</targetReference>
@@ -1063,9 +1150,19 @@ Added Regional Template Logic
 Added Condition on Decision box -Email Template Found</description>
     <environments>Default</environments>
     <formulas>
+        <name>IntegrationUserName</name>
+        <dataType>String</dataType>
+        <expression>{!$Label.ABCL_Integration_UserName}</expression>
+    </formulas>
+    <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>
         <expression>&apos;CommnunicationLog-&apos; +{!$User.Id} +&apos;-&apos;+TEXT(UNIXTIMESTAMP(NOW()))</expression>
+    </formulas>
+    <formulas>
+        <name>RunningUserName</name>
+        <dataType>String</dataType>
+        <expression>{!$User.FirstName} &amp; &quot; &quot; &amp; {!$User.LastName}</expression>
     </formulas>
     <interviewLabel>Communication Log Flow - Email {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Communication Log Flow - Email</label>
@@ -1091,7 +1188,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>842</locationX>
+        <locationX>908</locationX>
         <locationY>2663</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
@@ -1186,7 +1283,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>842</locationX>
+        <locationX>908</locationX>
         <locationY>2771</locationY>
         <connector>
             <targetReference>BU_Specific_Flow_Handler</targetReference>
@@ -1227,7 +1324,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>1997</locationX>
+        <locationX>2211</locationX>
         <locationY>1439</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1246,7 +1343,7 @@ Added Condition on Decision box -Email Template Found</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>398</locationX>
+        <locationX>458</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>By_pass_flow</targetReference>
@@ -1288,7 +1385,7 @@ Added Condition on Decision box -Email Template Found</description>
     <subflows>
         <name>BU_Specific_Flow_Handler</name>
         <label>BU Specific Flow Handler</label>
-        <locationX>842</locationX>
+        <locationX>908</locationX>
         <locationY>2879</locationY>
         <flowName>Communication_Log_Extension_Flow_BU_Specific_Handler</flowName>
         <inputAssignments>
