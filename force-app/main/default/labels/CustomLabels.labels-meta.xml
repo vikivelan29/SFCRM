@@ -1026,6 +1026,13 @@
         <value>60</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
+        <value>0 30 23 1/1 * ? *</value>
+    </labels>
+    <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1038,5 +1045,19 @@
         <protected>false</protected>
         <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
         <value>2000</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
+        <value>cnwf_touchpoint</value>
     </labels>
 </CustomLabels>

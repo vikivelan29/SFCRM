@@ -65,6 +65,9 @@ export class asf_Utility {
                 if(parentJS.categoryTypeVal){
                     fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
                 }
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
+                }
                 let cccRecToPass = {...selected};
                 cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
 

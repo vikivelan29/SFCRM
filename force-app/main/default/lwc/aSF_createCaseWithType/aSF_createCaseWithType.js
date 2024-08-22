@@ -1,5 +1,5 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData';
+import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails';
 //import fetchNatureMetadata from '@salesforce/apex/ASF_CaseUIController.fetchNatureMetadata';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -392,7 +392,13 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
             getAccountData({ keyword: this.searchKey, asssetProductType: this.cccProductType, isasset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
-                    this.accounts = result;
+                    this.accounts = result.lstCCCrecords;
+                    console.log('result---'+JSON.stringify(result));
+                    if (result.lstChannel != null && result.lstChannel.length > 0) {
+                        this.lstChannelValues = result.lstChannel;
+                        this.strDefaultChannel = this.lstChannelValues[0].label;
+                        this.strChannelValue = this.strDefaultChannel;
+                    }
                     this.isNotSelected = true;
                     this.loaded = true;
                 })
@@ -957,6 +963,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.isNotSelected = false;
         else
             this.isNotSelected = true;
+    }
+    // Method to handle the Channel Picklist
+    handleChangeChannel(event) {
+        this.strChannelValue = event.target.value;
     }
 
 
