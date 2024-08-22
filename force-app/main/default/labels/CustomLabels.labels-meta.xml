@@ -1013,9 +1013,6 @@
         <value>ABHI Health Return App Reg</value>
     </labels>
     <labels>
-        <value>ABHI_Health_Return_App_Reg</value>
-    </labels>
-    <labels>
         <fullName>ABHI_OtherDevice</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
