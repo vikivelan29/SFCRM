@@ -195,4 +195,8 @@ renderedCallback(){
     });
 }
 
+get isEndDateDisabled() {
+    return !this.startDate;
+}
+
 }
