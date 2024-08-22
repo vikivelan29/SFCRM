@@ -1005,4 +1005,36 @@
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
         <value>Email,Phone</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
 </CustomLabels>
