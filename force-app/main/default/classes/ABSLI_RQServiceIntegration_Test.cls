@@ -68,7 +68,7 @@ public class ABSLI_RQServiceIntegration_Test {
         ABSLI_RQServiceIntegration rqInt = new ABSLI_RQServiceIntegration();
         ASF_Case_Integration__c caseInteg = [SELECT Id, Status__c, Case__c FROM ASF_Case_Integration__c LIMIT 1];
         caseInteg.Status__c = 'Success';
-        caseInteg.Response__c = '{"RqRes":{"Response":{"Details":{"NETAMOUNT":"00","MEDICALREQUIREMENTS":{"MEDICALDETAILS":"medical fine"},"COIFORMS":{"FORM":["coi request form"]}}}}}';
+        caseInteg.Response__c = '{"RqRes":{"Response":{"Details":{"NETAMOUNT":"00","MEDICALREQUIREMENTS":{"MEDICALDETAILS":["medical fine"]},"COIFORMS":{"FORM":["coi request form"]}}}}}';
         ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
         update caseInteg;
         ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
