@@ -49,19 +49,67 @@ export const lanLabels = {
             initialWidth: 180
         }
         ],
-    CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Product Tagging",
-    CTST_COLS: [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ],
-    RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Product as current case",
-    CREATE_SR_WITH_FA: "Create Case with Product",
-    FA_VALIDATION_MESSAGE: "Please select Product Number to process Case type search",
-    FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
-    CREATE_CASE_WITH_FA: "Create Case with Product",
-    AUTO_COMM_BU_LIST: ['ABFL','ABHFL','ABWM','Payments']
+        ACCOUNT_COLUMNS: [{
+            label: 'Id',
+            fieldName: 'recordId',
+            type: 'text',
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
+        },
+        {
+            label: 'Customer Name',
+            fieldName: 'name',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Email ID',
+            fieldName: 'emailId',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Mobile Number',
+            fieldName: 'mobile',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Client Code',
+            fieldName: 'clientCode',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'PAN Number',
+            fieldName: 'pan',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Type',
+            fieldName: 'objectType',
+            type: 'text',
+            initialWidth: 180
+        }
+        ],
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Product Tagging",
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Product as current case",
+        CREATE_SR_WITH_FA: "Create Case with Product",
+        FA_VALIDATION_MESSAGE: "Please select Product Number to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with Product",
+        AUTO_COMM_BU_LIST: ['ABFL','ABHFL','ABWM','Payments'],
+        CREATE_CASE_WITH_NEW_PROSPECT: 'Create Case with new Prospect',
+        CREATE_SALES_PROSPECT: 'Create Sales Prospect',
+        CREATE_CASE_WITH_PROSPECT: 'Create Case with Prospect'
     },
     ABHFL: {
         SELECT_PRODUCT: "Select LAN",
@@ -106,29 +154,82 @@ export const lanLabels = {
             label: 'Name',
             fieldName: 'Name',
             type: 'text',
-            initialWidth: 180
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
         },
         {
             label: 'Policy No',
             fieldName: 'Policy_No__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Status',
             fieldName: 'Status',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Policy Type',
             fieldName: 'Type__c',
             type: 'text',
-            initialWidth: 180
+            initialWidth: 220
         },
         {
             label: 'Application No.',
             fieldName: 'Application_Number__c',
+            type: 'text',
+            initialWidth: 220
+        }
+        ],
+        ACCOUNT_COLUMNS: [{
+            label: 'Id',
+            fieldName: 'recordId',
+            type: 'text',
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
+        },
+        {
+            label: 'Customer Name',
+            fieldName: 'name',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Email ID',
+            fieldName: 'emailId',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Mobile Number',
+            fieldName: 'mobile',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Client Code',
+            fieldName: 'clientCode',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Advisor Code',
+            fieldName: 'advisorCode',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'PAN Number',
+            fieldName: 'pan',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Type',
+            fieldName: 'objectType',
             type: 'text',
             initialWidth: 180
         }
@@ -220,6 +321,13 @@ export const lanLabels = {
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
     ABHI: {
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+        
         SELECT_PRODUCT: "Select LAN",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
@@ -243,7 +351,7 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
-    }  , 
+    },
     ABSLAMC : {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -350,5 +458,6 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Policy to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Policy to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Policy"
-    }
+    } 
+     
   };
