@@ -84,14 +84,9 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 let data = [];
                 data.push(result);
                 this.data= data;
-                this.errorMessages = '';
-                this.displayError = false;
-            }else if (this.statusCode === 1001) {
-                // Handle 1001 Status Code
-                this.displayTable = false;
-                this.showRecords = false;
-                this.errorMessages = result.Message;
-                this.displayError = true;
+                
+                //this.showNotification('Success', result.Message, 'success');
+                console.log('this.date', JSON.stringify(this.data));
             }else if (this.statusCode === 204) {
                 // Handle 204 No Content
                 this.displayTable = false;
@@ -111,8 +106,9 @@ export default class Abhil_FALevelDetails extends LightningElement {
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                //let errorDisplay = 'Error: ' + error.message;
-                //this.errorMessages = (error.body.message);
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                console.error('Error object:', error);
                 this.displayError = true;
                 if (error.body!= null) {
                     this.errorMessages = error.body.message;
