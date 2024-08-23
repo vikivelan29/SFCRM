@@ -5319,10 +5319,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Configuration__c</tab>
-        <visibility>DefaultOff</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Customer_Prospect_Search</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
