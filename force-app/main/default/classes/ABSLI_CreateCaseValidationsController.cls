@@ -143,12 +143,13 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
                 }
                	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';
+                requestWrap.source = ABSLI_Constants.GEN_FUND_SOURCE;
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
                                                                                                                     null);
                 if(String.isNotBlank(genFundResponse.responseBody) && genFundResponse.statusCode == 200){
                		GenFundResponseWrapper responseWrapper = (GenFundResponseWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundResponseWrapper.class);
-                    if(responseWrapper.ProcessCode=='00'){
+                    if(responseWrapper.BFID_RESPONSE.ProcessCode=='00'){
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id=String.valueOf(jsonMap.get('ABSLI_Case_Detail__c')));
                         if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
                          	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
@@ -432,6 +433,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public class PolicyGenFundRequestWrapper{
         public String policy_id{get;set;}
         public String effective_date{get;set;}
+        public String source{get;set;}
     }
     
     public class GenFundResponseWrapper{
