@@ -1,8 +1,8 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 08-09-2024
+ * @group             :
+ * @last modified on  : 08-21-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -41,7 +41,7 @@ public class ABSLI_Constants {
          'PNFT042' => 'STPFS',
          'PPCT027' => 'STPMC'
      };
-     
+     public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
     
 
@@ -166,6 +166,11 @@ public class ABSLI_Constants {
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
+    /* MODE CHANGE INTEGRATION **/
+    public static final String MODECHANGE_SCHEDULDE_JOB = 'Mode Change Schedulde Job';
+    public static final Integer MODECHANGE_BATCH_SIZE = 10;
+    public static final String MODECHANGE_CASECATEGORYCONFIG = 'PPCT027';
+    public static final String MODECHANGE_DEFAULTSTAGE = 'Soft Resolve';
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
@@ -221,20 +226,37 @@ public class ABSLI_Constants {
     /* LOAN REPAYMENTS INTEGRATION */
     public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
     public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
-    
-    
+
+
     /* LITMUS API */
     public static final String LITMUS_SOURCE_REQ_BY = 'Customer';
     public static final String LITMUS = 'Litmus';
     public static final String COMPLAINT_NATURE = 'Complaint';
-    
+
     /* REINSTATEMENT API */
     public static final String REINSTATEMENT_EVAL_ERROR = 'ABSLI_REINSTATEMENT_EVAL_ERROR';
     public static final String KARVY_QUEUE_DEVELOPER_NAME = 'ABSLI_Auto_Processing_Queue';//ABSLI_KARVY_TEAM';
     public static final String COVID_19_QUE_STRING = 'COVID 19 Questionnaire';
     public static final String REINSTATEMENT_SERVICE_NAME = 'reinstatementApi';
-    
+
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
 
+    /* LSQLeadIntegration */
+    public static final List<String> leadLSQTypeArr = new List<String>{'Branch walk in'};
+    public static final List<String> leadD2CTypeArr = new List<String>{'Contact Centre'};
+    public static final List<String> leadOneABCLeadArr = new List<String>{'Employee Referral'};
+
+    /*Surrender & Withdrawal API */
+    public static final String ABSLI_PANUPDATE_NOT_REQUIRED_ERROR = 'ABSLI_PANUPDATE_NOT_REQUIRED_ERROR';
+    public static final String CHECKLIST_SIGNATURE_MATCHED = 'Signature Matched';
+    public static final String ABSLI_SIGNATURE_NOT_MATCHING_ERROR = 'ABSLI_SIGNATURE_NOT_MATCHING_ERROR';
+    public static final String SURRENDER_POLICY_SRV_NAME = 'policySurrender';//SurrenderUpdateApi';
+    public static final String WITHDRAWAL_POLICY_SRV_NAME = 'fundWithdrawl';//WithdrawalUpdateApi';
+    public static final String ACTION_SURRENDER = 'Surrender';
+    public static final String ACTION_WITHDRAWAL = 'Withdrawal';
+    public static final String TRANSACTION_TYPE_NEFT = 'NEFT';
+    public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
 }

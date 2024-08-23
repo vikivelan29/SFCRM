@@ -61,7 +61,8 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Resolved_Case_Email_Template__c,
 				Additional_Email_Templates__c,
 				Additional_SMS_Metadata__c,
-				Resolved_Case_SMS_Metadata__c
+				Resolved_Case_SMS_Metadata__c,
+                DMS_Folder_Id__c
 			FROM ASF_Case_Category_Config__c
 			WHERE CCC_External_Id__c = :configExternalID
 		];

@@ -439,7 +439,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public class GenFundResponseWrapper{
         public BfidResponse BFID_RESPONSE{get;set;}
         public GenFundResponseWrapper() {
-            BFID_RESPONSE = new BfidResponse();
+            this.BFID_RESPONSE = new BfidResponse();
         }
     }
     
