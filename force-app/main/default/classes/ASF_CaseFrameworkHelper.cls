@@ -36,6 +36,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             caseApprovalRecord.Approval_Status__c  = 'Pending';
                             caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
                             caseApprovalRecord.SR__c = caseRec.Id;
+                            caseApprovalRecord.Line_Of_Business__c = caseRec.LOB__c;
                             approvalList.add(caseApprovalRecord);
                             break;
                         }
@@ -83,6 +84,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
                                 checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
                                 // VIRENDRA - 13 June 2024 - ENDS HERE.
+                                //PR1030924-60, for populating new Line_Of_Business__c field
+                                checklistRecord.Line_Of_Business__c = caseRec.LOB__c;
                                 checklistList.add(checklistRecord);
                             }
                             break;
