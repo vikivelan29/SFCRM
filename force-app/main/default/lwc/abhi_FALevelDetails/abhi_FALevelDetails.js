@@ -13,6 +13,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track error;
     displayTable=false;
     @track integrationResp;
+    @track displayErrorSearch = false;
     @track data;
     @track isLoading = false;
     @track errorMessages = '';
@@ -37,10 +38,12 @@ export default class Abhil_FALevelDetails extends LightningElement {
 
     handleStartDateChange(event) {
         this.startDate = event.target.value;
+        this.validateDates();
     }
 
     handleEndDateChange(event) {
         this.endDate = event.target.value;
+        this.validateDates();
     }
 
     handleSearchClick() {
@@ -77,7 +80,6 @@ console.log('result' ,result);
                 console.log('this.date', JSON.stringify(this.data));
             }
             else {
-
                 this.showDataTable = false;
                 this.errorMessage = this.integrationResp.Message;
                 this.displayError = true;
@@ -91,9 +93,10 @@ console.log('result' ,result);
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                this.errorDisplay = 'Error: ' + error.body.message;
-                this.showDataTable = false;
-                this.errorMessages =   error.body.message;
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                this.errorMessages = this.result.StatusCode;
+                console.error('Error object:', error);
                 this.displayError = true;
                console.log('Error----> ' + JSON.stringify(error));
                
@@ -108,8 +111,7 @@ connectedCallback(){
 fetchColumns() {
     getColumns({configName:'Abhi_FAdata_view'})
     .then(result => {
-            console.log('**rec2>'+JSON.stringify(result));
-            console.log('result1', result);
+            console.log('result-->', result);
             this.columns = [
                 
                 ...result.map(col => ({
@@ -141,6 +143,26 @@ showNotification(title, message, variant) {
         variant: variant,
     });
     this.dispatchEvent(event);
+}
+
+// get isEndDateDisabled() {
+//     return !this.startDate;
+// }
+
+validateDates() {
+    if (this.startDate && this.endDate) {
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+
+        if (end < start) {
+            this.displayErrorSearch = true;
+            this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+        } else {
+            this.displayErrorSearch = false;
+        }
+    } else {
+        this.displayErrorSearch = false; // Hide error if one of the dates is missing
+    }
 }
 
 }
