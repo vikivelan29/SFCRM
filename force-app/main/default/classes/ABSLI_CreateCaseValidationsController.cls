@@ -162,7 +162,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             }else{
                                 caseExt.Min_Loan_Amount__c = Decimal.valueOf(Label.ABSLI_Min_Loan_Amount);
                             }   
-                        }/*else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008'){
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008' || String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PFTT011'){
                            	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)){
                                 caseExt.Minimum_Withdrawal_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT);
                             }
@@ -171,17 +171,22 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             }else{
                                 return 'Withdrawal amount available should be more than 0.';
                             } 
-                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY001'){
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY001' || String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PFTT010'){
                             if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
                                 caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
                             }else{
                                 return 'Case Surrender Value should be more than 0.';
                             }
-                        }*/
+                        }
+                        else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='NNOP004'){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)<=5000 || String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                                return 'Maximum loan amount should be more than 5000.';
+                            }
+                        }
                         update caseExt;
                     	return 'Success';    
                     }else{
-            			return 'Policy is not eligible for loan payout.';         	   
+            			return 'Policy is not eligible.';         	   
                     }
                 }
             }
@@ -205,7 +210,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if((!ABSLI_Constants.NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION.contains(policy.Policy_Identification__c))){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for nominee update.';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -231,7 +236,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(Date.Today() >= oneYearAfterIssueDate){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Duplicate Policy printing.';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -319,7 +324,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c=='ULIP'){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Change In Investor Profile';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -342,7 +347,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c!='ULIP'){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Interest Waiver for HO Users';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -365,7 +370,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c=='ULIP' && Decimal.valueOf(policy.Payment_Term__c)>5){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Reinstatement';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -433,6 +438,9 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     
     public class GenFundResponseWrapper{
         public BfidResponse BFID_RESPONSE{get;set;}
+        public GenFundResponseWrapper() {
+            BFID_RESPONSE = new BfidResponse();
+        }
     }
     
     public class BfidResponse{

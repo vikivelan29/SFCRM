@@ -1,0 +1,42 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-data_mapping"
+                        title="Health Returns and App Registration">
+                        <lightning-icon icon-name="standard:data_mapping" size="medium"
+                            alternative-text="Health Returns and App Registration"
+                            title="Health Returns and App Registration"></lightning-icon>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Health Returns and App Registration</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={apiErrorMessage}>
+                <div>
+                    <lightning-formatted-text class="slds-text-color_error" value={apiErrorMessage}></lightning-formatted-text>
+                </div>
+            </template>
+            <template if:true={policyData}>
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">Is Registered</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{policyData.AppRegDetails.IsRegistered}</div>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">Total Balance</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{policyData.totalBalance}</div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </article>
+</template>
