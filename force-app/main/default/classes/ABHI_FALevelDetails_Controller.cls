@@ -16,15 +16,15 @@ public with sharing class ABHI_FALevelDetails_Controller {
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT Client_Code__c from Account where Id =: customerId];
         
-        
+        String scoreType = 'FITNESS_ASSESSMENT';
         Map<String,String> urlParameters = new Map<String,String>();
-        urlParameters.put('startDate',fromDate);
-        urlParameters.put('endDate',toDate);
-        urlParameters.put('customerId', acc.Client_Code__c);
-        //urlParameters.put('customerNumber', '12345');
+        urlParameters.put('eventDateFrom',fromDate);
+        urlParameters.put('eventDateTo',toDate);
+        urlParameters.put('customerNumber', acc.Client_Code__c);
+        urlParameters.put('scoreType', scoreType);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
-        system.debug('integrationResp>>' +integrationResp.statusCode);
+        system.debug('integrationResp>>' +integrationResp);
                    IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
                 system.debug('deserialized resp' +deserializedIntResponse);
             return deserializedIntResponse;
