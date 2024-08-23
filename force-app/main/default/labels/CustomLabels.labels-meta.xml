@@ -1043,11 +1043,10 @@
         <value>Fitness Appointment Details</value>
     </labels>
     <labels>
-        <fullName>ABSLAMC_BU</fullName>
-        <categories>ABSLAMC Business Unit</categories>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLAMC_BU</shortDescription>
-        <value>ABSLAMC</value>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
     </labels>
 </CustomLabels>
