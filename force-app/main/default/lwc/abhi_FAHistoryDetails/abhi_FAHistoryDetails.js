@@ -38,10 +38,8 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
     }
 
     getDetails(){
-        console.log('In getDetails>>>');
         getFADetails({customerId: this.recordId})
         .then(result => {
-            console.log('Result>>>>', result);
             if(result.StatusCode == 1000){
                 this.displayError=false;
                 let showData = [];
@@ -51,7 +49,6 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                         ...booking
                     }))];
                 });
-                console.log('showData>>>>', JSON.stringify(showData));
                 this.data=showData;
                 this.isLoading=false;
                 this.showRecords=true;
