@@ -13,6 +13,7 @@ public with sharing class ABHI_FALevelDetails_Controller {
         try{
        
         string integrationName = 'ABHI_FALevelDetails';
+        string eventCode = 'ED-Fitnes2';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT Client_Code__c from Account where Id =: customerId];
         
@@ -21,14 +22,22 @@ public with sharing class ABHI_FALevelDetails_Controller {
         urlParameters.put('eventDateFrom',fromDate);
         urlParameters.put('eventDateTo',toDate);
         urlParameters.put('customerNumber', acc.Client_Code__c);
+        urlParameters.put('eventCode', eventCode);
         urlParameters.put('scoreType', scoreType);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp);
-                   IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+            if(integrationResp.statusCode ==200){
+                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
                 system.debug('deserialized resp' +deserializedIntResponse);
-            return deserializedIntResponse;
-
+                 return deserializedIntResponse;
+            } else if(integrationResp.statusCode ==204){
+                return new IntegrationResponseWrapper(integrationResp.statusCode, Custom_Messages__mdt.getInstance('ABHI_FALevelDetailsNotFound').Message__c);
+            }
+            else {
+                // Handle other HTTP status codes if needed
+                return new IntegrationResponseWrapper(integrationResp.statusCode, 'Unexpected response status: ' + integrationResp.statusCode);
+            }
         
         }catch(Exception e){
          throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
