@@ -631,6 +631,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
+
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");
