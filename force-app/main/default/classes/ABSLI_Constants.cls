@@ -1,7 +1,7 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
+ * @group             :
  * @last modified on  : 08-09-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
@@ -217,22 +217,23 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMS_OPTION = '1';
     public static final String ABSLI_IGMS_MODE_REGISTER = '1';
     public static final String ABSLI_IGMS_MODE_UPDATE = '2';
+    public static final Integer IGMS_MAX_FILE_SIZE = 10;
     /* LOAN REPAYMENTS INTEGRATION */
     public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
     public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
-    
-    
+
+
     /* LITMUS API */
     public static final String LITMUS_SOURCE_REQ_BY = 'Customer';
     public static final String LITMUS = 'Litmus';
     public static final String COMPLAINT_NATURE = 'Complaint';
-    
+
     /* REINSTATEMENT API */
     public static final String REINSTATEMENT_EVAL_ERROR = 'ABSLI_REINSTATEMENT_EVAL_ERROR';
     public static final String KARVY_QUEUE_DEVELOPER_NAME = 'ABSLI_Auto_Processing_Queue';//ABSLI_KARVY_TEAM';
     public static final String COVID_19_QUE_STRING = 'COVID 19 Questionnaire';
     public static final String REINSTATEMENT_SERVICE_NAME = 'reinstatementApi';
-    
+
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
 
